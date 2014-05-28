@@ -24,7 +24,8 @@ keystone.init({
 	'session': true,
 	'auth': true,
 	'user model': 'User',
-	'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"'
+	'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
+	'db name': 'chefcito'
 	
 });
 
@@ -67,5 +68,15 @@ keystone.set('email tests', require('./routes/emails'));
 keystone.set('nav', {
 	'users': 'users'
 });
+
+if (process.env.OPENSHIFT_MONGODB_DB_URL) {
+    keystone.set('mongo url', process.env.OPENSHIFT_MONGODB_DB_URL);
+}
+if (process.env.OPENSHIFT_NODEJS_IP) {
+  keystone.set('host', process.env.OPENSHIFT_NODEJS_IP);
+}
+if (process.env.OPENSHIFT_NODEJS_PORT) {
+  keystone.set('port', process.env.OPENSHIFT_NODEJS_PORT;
+}
 
 keystone.start();
