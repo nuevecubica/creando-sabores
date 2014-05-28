@@ -1,8 +1,22 @@
+var _ = require('underscore'),
+	keystone = require('keystone'),
+	middleware = require('./middleware'),
+	importRoutes = keystone.importer(__dirname);
 
-/*
- * GET home page.
- */
+// Common Middleware
+keystone.pre('routes', middleware.initLocals);
+keystone.pre('render', middleware.flashMessages);
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+// Import Route Controllers
+var routes = {
+	views: importRoutes('./views')
 };
+
+// Setup Route Bindings
+exports = module.exports = function(app) {
+	
+	// Views
+	app.get('/', routes.views.index);
+	
+	
+}
