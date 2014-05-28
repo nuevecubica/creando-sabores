@@ -6,27 +6,27 @@ require('dotenv').load();
 var keystone = require('keystone');
 
 keystone.init({
-	
+
 	'name': 'Chefcito',
 	'brand': 'Chefcito',
-	
+
 	'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
-	
+
 	'views': 'templates/views',
 	'view engine': 'jade',
-	
+
 	'emails': 'templates/emails',
-	
+
 	'auto update': true,
-	
+
 	'session': true,
 	'auth': true,
 	'user model': 'User',
 	'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
 	'db name': 'chefcito'
-	
+
 });
 
 keystone.import('models');

@@ -15,6 +15,7 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		env: grunt.option('env') || process.env.GRUNT_ENV || process.env.NODE_ENV || 'development',
 		express: {
 			options: {
 				port: config.port
