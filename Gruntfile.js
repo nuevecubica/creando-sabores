@@ -15,7 +15,6 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		env: grunt.option('env') || process.env.GRUNT_ENV || process.env.NODE_ENV || 'development',
 		express: {
 			options: {
 				port: config.port
@@ -99,6 +98,8 @@ module.exports = function(grunt) {
 		}
 	});
 
+	grunt.config('env', grunt.option('env') || process.env.GRUNT_ENV || process.env.NODE_ENV || 'development');
+
 	// load jshint
 	grunt.registerTask('lint', function(target) {
 		grunt.task.run([
@@ -114,13 +115,13 @@ module.exports = function(grunt) {
 		]);
 	});
 
-	grunt.registerTask('prod', function () {});
+	grunt.registerTask('production', function () {});
 
-	grunt.registerTask('dev', function () {
+	grunt.registerTask('development', function () {
 		grunt.task.run(['jshint']);
 	});
 
 	grunt.registerTask('default', function () {
-		grunt.task.run(['dev']);
+		grunt.task.run([grunt.config('env')]);
 	});
 };
