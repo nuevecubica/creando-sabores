@@ -10,7 +10,7 @@ keystone.init({
 	'name': 'Chefcito',
 	'brand': 'Chefcito',
 
-	'less': 'public',
+	//'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
 

@@ -77,6 +77,15 @@ module.exports = function(grunt) {
 				],
 				tasks: ['jshint:all']
 			},
+			less: {
+				files: [
+					'public/styles/**/*.less'
+				],
+				tasks : [ 'less' ],
+				options: {
+					livereload: true
+				}
+			},
 			express: {
 				files: [
 					'keystone.js',
@@ -95,6 +104,17 @@ module.exports = function(grunt) {
 					livereload: true
 				}
 			}
+		},
+
+		less: {
+			development: {
+				options: {
+					paths: [ 'public' ],
+					cleancss: true
+				},
+				files: { 'public/styles/site.min.css': 'public/styles/site.less' }
+			} 
+			
 		}
 	});
 
@@ -119,6 +139,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('development', function () {
 		grunt.task.run(['jshint']);
+		grunt.task.run([ 'less' ]);
 	});
 
 	grunt.registerTask('default', function () {
