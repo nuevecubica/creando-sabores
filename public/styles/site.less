@@ -7,7 +7,56 @@
 //
 // Bootstrap can be removed entirely by deleting this line.
 
-@import "bootstrap/bootstrap.less";
+//@import "bootstrap/bootstrap.less";
+
+@semantic-ui-path: "../packages/semantic-ui/build/less/";
+ 
+/* Collections */
+@import "@{semantic-ui-path}collections/breadcrumb.less";
+@import "@{semantic-ui-path}collections/form.less";
+@import "@{semantic-ui-path}collections/grid.less";
+@import "@{semantic-ui-path}collections/menu.less";
+@import "@{semantic-ui-path}collections/message.less";
+@import "@{semantic-ui-path}collections/table.less";
+ 
+/* Elements */
+@import "@{semantic-ui-path}elements/basic.icon.less";
+@import "@{semantic-ui-path}elements/button.less";
+@import "@{semantic-ui-path}elements/divider.less";
+@import "@{semantic-ui-path}elements/header.less";
+@import "@{semantic-ui-path}elements/icon.less";
+@import "@{semantic-ui-path}elements/image.less";
+@import "@{semantic-ui-path}elements/input.less";
+@import "@{semantic-ui-path}elements/label.less";
+@import "@{semantic-ui-path}elements/loader.less";
+@import "@{semantic-ui-path}elements/progress.less";
+@import "@{semantic-ui-path}elements/reveal.less";
+@import "@{semantic-ui-path}elements/segment.less";
+@import "@{semantic-ui-path}elements/step.less";
+ 
+/* Modules */
+@import "@{semantic-ui-path}modules/accordion.less";
+@import "@{semantic-ui-path}modules/chatroom.less";
+@import "@{semantic-ui-path}modules/checkbox.less";
+@import "@{semantic-ui-path}modules/dimmer.less";
+@import "@{semantic-ui-path}modules/dropdown.less";
+@import "@{semantic-ui-path}modules/modal.less";
+@import "@{semantic-ui-path}modules/nag.less";
+@import "@{semantic-ui-path}modules/popup.less";
+@import "@{semantic-ui-path}modules/rating.less";
+@import "@{semantic-ui-path}modules/search.less";
+@import "@{semantic-ui-path}modules/shape.less";
+@import "@{semantic-ui-path}modules/sidebar.less";
+@import "@{semantic-ui-path}modules/tab.less";
+@import "@{semantic-ui-path}modules/transition.less";
+@import "@{semantic-ui-path}modules/video.less";
+ 
+/* Views */
+@import "@{semantic-ui-path}views/comment.less";
+@import "@{semantic-ui-path}views/feed.less";
+@import "@{semantic-ui-path}views/item.less";
+@import "@{semantic-ui-path}views/list.less";
+@import "@{semantic-ui-path}views/statistic.less";
 
 // The easiest way to customise Bootstrap variables while
 // being able to easily override the source files with new
@@ -23,4 +72,5 @@
 // ===========
 
 // Add your own site style includes here
-@import "site/layout.less";
+// @import "site/layout.less";
+

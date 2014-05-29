@@ -1,5 +1,8 @@
 {
-  "name": "My App",
+  "name": "Chefcito",
   "version": "0.0.1",
-  "dependencies": {}
+  "dependencies": {
+    "jquery-address": "*",
+    "semantic-ui": "~0.17.0"
+  }
 }

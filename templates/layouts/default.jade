@@ -43,26 +43,24 @@ html
 			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
 			//- ... or completely change this header to suit your design.
 
-			div(role="navigation").navbar.navbar-default
-				.container-fluid
-					.navbar-header
-						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-							span.sr-only Toggle navigation
-							span.icon-bar
-							span.icon-bar
-							span.icon-bar
-						a.navbar-brand(href='/') Chefcito
-					.collapse.navbar-collapse
-						ul.nav.navbar-nav.navbar-left
-							each link in navLinks
-								li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-						ul.nav.navbar-nav.navbar-right
-							if user
-								if user.canAccessKeystone
-									li: a(href='/keystone') Open Keystone
-								li: a(href='/keystone/signout') Sign Out
-							else
-								li: a(href='/keystone/signin') Sign In
+			.ui.menu
+				h3.header.item Chefcito
+				each link in navLinks
+					a.item(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+
+				.right.menu
+					if user
+						if user.canAccessKeystone
+							a.ui.item(href='/keystone')
+								i.home.icon
+								| Open Keystone
+						a.ui.item(href='/keystone/signout')
+							i.sign.out.icon
+							| Sign Out
+					else
+						a.ui.item(href='/keystone/signin') 
+							i.sign.in.icon
+							| Sign In
 
 		//- BODY
 		#body
@@ -94,11 +92,18 @@ html
 		//- jQuery 1.11.0 is included by default, and required by both Bootstrap
 		//- and the KeystoneJS Content Editor. If you are not targeting IE8,
 		//- you can upgrade to 2.1.0 (also bundled) for better performance.
-		script(src='/js/lib/jquery/jquery-1.11.0.min.js')
+		//- script(src='/js/lib/jquery/jquery-1.11.0.min.js')
+		script(src='/packages/jquery/dist/jquery.min.js')
+
 
 		//- Customise which Bootstrap javascript files are served by including
 		//- them specifically here, instead of bootstrap-3.1.0.min.js
-		script(src='/js/lib/bootstrap/bootstrap-3.1.0.min.js')
+		//- script(src='/js/lib/bootstrap/bootstrap-3.1.0.min.js')
+		script(src='/packages/jquery-address/src/jquery.address.js')
+		script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
+
+		script
+			$(document).ready(function() { $('.menu .item').tab(); });
 
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone
