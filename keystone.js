@@ -76,7 +76,7 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
   keystone.set('host', process.env.OPENSHIFT_NODEJS_IP);
 }
 if (process.env.OPENSHIFT_NODEJS_PORT) {
-  keystone.set('port', process.env.OPENSHIFT_NODEJS_PORT;
+  keystone.set('port', process.env.OPENSHIFT_NODEJS_PORT);
 }
 
 keystone.start();
