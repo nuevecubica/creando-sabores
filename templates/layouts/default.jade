@@ -46,13 +46,15 @@ html
 			.ui.menu
 				h3.header.item Chefcito
 				each link in navLinks
-					a.item(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+					a(class = ((section == link.key) ? 'item active' : 'item'), href = link.href)
+						i.home.icon
+						= link.label
 
 				.right.menu
 					if user
 						if user.canAccessKeystone
 							a.ui.item(href='/keystone')
-								i.home.icon
+								i.setting.icon
 								| Open Keystone
 						a.ui.item(href='/keystone/signout')
 							i.sign.out.icon
@@ -103,7 +105,7 @@ html
 		script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
 
 		script
-			$(document).ready(function() { $('.menu .item').tab(); });
+			$(document).ready(function() { $('.demo.menu .item').tab(); });
 
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone
