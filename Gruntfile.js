@@ -113,8 +113,8 @@ module.exports = function(grunt) {
 					cleancss: true
 				},
 				files: { 'public/styles/site.min.css': 'public/styles/site.less' }
-			} 
-			
+			}
+
 		}
 	});
 
