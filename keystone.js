@@ -93,6 +93,4 @@ if (!process.env.NODE_ENV) {
 	console.warn("Warning: Environment variable NODE_ENV not defined.");
 }
 
-console.log(process.env);
-
 keystone.start();
