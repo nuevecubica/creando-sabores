@@ -25,7 +25,7 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 	'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
-	'db name': 'chefcito'
+	'db name': process.env.MONGODB_DATABASE
 
 });
 
@@ -69,14 +69,30 @@ keystone.set('nav', {
 	'users': 'users'
 });
 
-if (process.env.OPENSHIFT_MONGODB_DB_URL) {
-    keystone.set('mongo url', process.env.OPENSHIFT_MONGODB_DB_URL);
+/*
+MongoDB Environment:
+	MONGODB_DATABASE
+	MONGODB_HOST
+	MONGODB_PORT
+	MONGODB_USERNAME
+	MONGODB_PASSWORD
+	MONGO_URL
+*/
+
+if (process.env.MONGO_URL) {
+    keystone.set('mongo url', process.env.MONGO_URL);
 }
-if (process.env.OPENSHIFT_NODEJS_IP) {
-  keystone.set('host', process.env.OPENSHIFT_NODEJS_IP);
+
+keystone.set('host', '0.0.0.0');
+
+if (process.env.PORT) {
+   keystone.set('port', process.env.PORT);
 }
-if (process.env.OPENSHIFT_NODEJS_PORT) {
-  keystone.set('port', process.env.OPENSHIFT_NODEJS_PORT);
+
+if (!process.env.NODE_ENV) {
+	console.warn("Warning: Environment variable NODE_ENV not defined.");
 }
+
+console.log(process.env);
 
 keystone.start();
