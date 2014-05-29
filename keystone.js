@@ -78,7 +78,6 @@ MongoDB Environment:
 	MONGODB_PASSWORD
 	MONGO_URL
 */
-
 if (process.env.MONGO_URL) {
     keystone.set('mongo url', process.env.MONGO_URL);
 }
