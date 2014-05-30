@@ -128,8 +128,7 @@ module.exports = function(grunt) {
 		less: {
 			development: {
 				options: {
-					paths: [ 'public' ],
-					cleancss: true
+					paths: [ 'public' ]
 				},
 				files: { 'public/frontend/styles/site.min.css': 'public/frontend/styles/site.less' }
 			}
