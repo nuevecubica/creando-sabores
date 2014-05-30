@@ -27,12 +27,12 @@ User.schema.virtual('canAccessKeystone').get(function() {
 
 // Rights to publish
 User.schema.virtual('canPublish').get(function() {
-	return this.isAdmin || this.isConfirmed || this.isChef;
+	return !this.isBanned && (this.isAdmin || this.isConfirmed || this.isChef);
 });
 
 // Rights to admin
 User.schema.virtual('canAdmin').get(function() {
-	return this.isAdmin || this.isChef;
+	return !this.isBanned && (this.isAdmin || this.isChef);
 });
 
 // Rights to login
@@ -44,5 +44,5 @@ User.schema.virtual('canLogin').get(function() {
  * Registration
  */
 
-User.defaultColumns = 'name, email, isAdmin, isChef, canPublish';
+User.defaultColumns = 'name, email, isAdmin, isChef, isConfirmed, isBanned';
 User.register();
