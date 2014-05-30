@@ -165,4 +165,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', function () {
 		grunt.task.run([grunt.config('env')]);
 	});
+
+	grunt.registerTask('build', function () {
+		grunt.task.run([grunt.config('env')]);
+	});
 };
