@@ -57,15 +57,31 @@ html
 						if user
 							if user.canAccessKeystone
 								a.ui.item(href='/keystone')
-									i.setting.icon
-									| Open Keystone
+									.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
+									| Alberto Chicote
 
 						else
+<<<<<<< HEAD
 							.item
 								.ui.button Entra
 								.ui.button Regístrate
 
 						#menu(role="navigation").ui.item
+=======
+							//- .item
+								//- .iu.input
+									//- input(placeholder = 'Nombre de usuario')
+
+							//- .item
+								//- .iu.input
+									//- input(placeholder = 'Contraseña')
+
+							.item
+								.ui.button Entrar
+								.ui.button Registrate
+						
+						a.ui.item
+>>>>>>> refs/heads/home
 							i.reorder.icon
 
 		//- NOTE:
