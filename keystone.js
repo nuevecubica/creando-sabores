@@ -10,7 +10,7 @@ keystone.init({
 	'name': 'Chefcito',
 	'brand': 'Chefcito',
 
-	//'less': 'public',
+	// 'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
 
@@ -25,7 +25,8 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 	'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
-	'db name': process.env.MONGODB_DATABASE
+	'db name': process.env.MONGODB_DATABASE,
+	'trust proxy': true
 
 });
 
