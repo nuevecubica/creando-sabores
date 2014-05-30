@@ -52,20 +52,22 @@ html
 
 						else
 							.item
-								.iu.input
-									input(placeholder = 'Nombre de usuario')
+								.ui.button Entra
+								.ui.button Regístrate
 
-							.item
-								.iu.input
-									input(placeholder = 'Contraseña')
-
-							.item
-								.ui.button Entrar
-								.ui.button Registrate
-						
-						a.ui.item
+						#menu(role="navigation").ui.item
 							i.reorder.icon
-							| menú
+							#menu-box
+								ul
+									each link in navLinks
+										li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+									if user
+										if user.canAccessKeystone
+											li: a(href='/keystone') Open Keystone
+										li: a(href='/keystone/signout') Sign Out
+									else
+										li: a(href='/keystone/signin') Sign In
+
 
 		//- NOTE:
 		//- There is no .container wrapping class around body blocks to allow more flexibility in design.
@@ -149,7 +151,7 @@ html
 		script(src='/packages/jquery-address/src/jquery.address.js')
 		script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
 
-		script
+		script.
 			$(document).ready(function() { $('.demo.menu .item').tab() });
 
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
