@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 				force: true
 			},
 			all: [ 'routes/**/*.js',
-						 'models/**/*.js'
+					'models/**/*.js'
 			],
 			server: [
 				'./keystone.js'
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 
 		concurrent: {
 			dev: {
-				tasks: ['nodemon', 'node-inspector', 'watch'],
+				tasks: [ 'nodemon', 'node-inspector', 'watch' ],
 				options: {
 					logConcurrentOutput: true
 				}
@@ -79,7 +79,8 @@ module.exports = function(grunt) {
 			},
 			less: {
 				files: [
-					'public/styles/**/*.less'
+					'public/frontend/styles/*.less',
+					'public/frontend/styles/**/*.less'
 				],
 				tasks : [ 'less' ],
 				options: {
@@ -91,12 +92,12 @@ module.exports = function(grunt) {
 					'keystone.js',
 					'public/js/lib/**/*.{js,json}'
 				],
-				tasks: ['jshint:server', 'concurrent:dev']
+				tasks: [ 'jshint:server', 'concurrent:dev' ]
 			},
 			livereload: {
 				files: [
-					'public/styles/**/*.css',
-					'public/styles/**/*.less',
+					'public/frontend/styles/**/*.css',
+					'public/frontend/styles/**/*.less',
 					'templates/**/*.jade',
 					'node_modules/keystone/templates/**/*.jade'
 				],
@@ -106,15 +107,32 @@ module.exports = function(grunt) {
 			}
 		},
 
+		clean: {
+			build: {
+				src: [ 'public/frontend/fonts/**' ]
+			}
+		},
+
+		copy: {
+			build: {
+				files: [{
+					expand: true,
+    				cwd: 'public/packages/semantic-ui/build/less/fonts/',
+					src: [ '**' ],
+					dest: 'public/frontend/fonts/',
+					filter: 'isFile',
+				}]
+			}
+		},
+
 		less: {
 			development: {
 				options: {
 					paths: [ 'public' ],
 					cleancss: true
 				},
-				files: { 'public/styles/site.min.css': 'public/styles/site.less' }
+				files: { 'public/frontend/styles/site.min.css': 'public/frontend/styles/site.less' }
 			}
-
 		}
 	});
 
@@ -135,12 +153,14 @@ module.exports = function(grunt) {
 		]);
 	});
 
-	grunt.registerTask('production', function () {});
-
 	grunt.registerTask('development', function () {
-		grunt.task.run(['jshint']);
+		grunt.task.run([ 'jshint' ]);
 		grunt.task.run([ 'less' ]);
+		grunt.task.run([ 'clean' ]);
+		grunt.task.run([ 'copy' ]);
 	});
+
+	grunt.registerTask('production', function () { });
 
 	grunt.registerTask('default', function () {
 		grunt.task.run([grunt.config('env')]);
