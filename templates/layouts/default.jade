@@ -35,58 +35,103 @@ html
 		block head
 
 	//- HTML BODY
-	body
+	body.ui.grid
 
 		//- HEADER
-		#header: .container
+		#header.ui.page.grid.segment
+			.sixteen.wide.column
+				//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
+				//- ... or completely change this header to suit your design.
+				.ui.menu
+					.right.menu
+						if user
+							if user.canAccessKeystone
+								a.ui.item(href='/keystone')
+									i.setting.icon
+									| Open Keystone
 
-			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
-			//- ... or completely change this header to suit your design.
+						else
+							.item
+								.iu.input
+									input(placeholder = 'Nombre de usuario')
 
-			.ui.menu
-				h3.header.item Chefcito
-				each link in navLinks
-					a(class = ((section == link.key) ? 'item active' : 'item'), href = link.href)
-						i.home.icon
-						= link.label
+							.item
+								.iu.input
+									input(placeholder = 'Contraseña')
 
-				.right.menu
-					if user
-						if user.canAccessKeystone
-							a.ui.item(href='/keystone')
-								i.setting.icon
-								| Open Keystone
-						a.ui.item(href='/keystone/signout')
-							i.sign.out.icon
-							| Sign Out
-					else
-						a.ui.item(href='/keystone/signin')
-							i.sign.in.icon
-							| Sign In
+							.item
+								.ui.button Entrar
+								.ui.button Registrate
+						
+						a.ui.item
+							i.reorder.icon
+							| menú
 
-		//- BODY
-		#body
+		//- NOTE:
+		//- There is no .container wrapping class around body blocks to allow more flexibility in design.
+		//- Remember to include it in your templates when you override the intro and content blocks!
 
-			//- NOTE:
-			//- There is no .container wrapping class around body blocks to allow more flexibility in design.
-			//- Remember to include it in your templates when you override the intro and content blocks!
+		//- The Intro block appears above flash messages (used for temporary information display)
+		block intro
 
-			//- The Intro block appears above flash messages (used for temporary information display)
-			block intro
+		//- Flash messages allow you to display once-off status messages to users, e.g. form
+		//- validation errors, success messages, etc.
+		+flash-messages(messages)
 
-			//- Flash messages allow you to display once-off status messages to users, e.g. form
-			//- validation errors, success messages, etc.
-			+flash-messages(messages)
-
-			//- The content block should contain the body of your template's content
-			block content
+		//- The content block should contain the body of your template's content
+		block content
 
 
 		//- FOOTER
-		.container: #footer
+		#footer.ui.page.grid.segment
+			.row
+				.four.wide.column
+				.eight.wide.column
+					.ui.five.column.center.aligned.grid
+						.column
+							a.ui.item(href='http://facebook.com')
+								.ui.icon
+									i.facebook.big.icon
+						.column
+							a.ui.item(href='http://twitter.com')
+								.ui.icon
+									i.twitter.big.icon
+						.column
+							a.ui.item(href='http://plus.google.es')
+								.ui.icon
+									i.google.plus.big.icon
+						.column
+							a.ui.item(href='http://youtube.es')
+								.ui.icon
+									i.youtube.big.icon
+						.column
+							a.ui.item(href='http://pinterest.es')
+								.ui.icon
+									i.pinterest.big.icon
 
-			//- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-			p Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
+			.row
+				.two.wide.column
+				.twelve.wide.column
+					.ui.three.column.center.aligned.stackable.divided.grid
+						.column
+							.ui.header Jesus Gibaja
+							//- .ui.inverted.link.list
+							.ui.link.list
+								a.item Biografía
+								a.item Medio de comunicación
+
+						.column
+							.ui.header CLUB
+							.ui.header GIBAJA
+
+						.column
+							.ui.header Ayuda
+							//- .ui.inverted.link.list
+							.ui.link.list
+								a.item Contacto
+								a.item Términos y condiciones
+								a.item Privacidad
+
 
 
 		//- JAVASCRIPT
