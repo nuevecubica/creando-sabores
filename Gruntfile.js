@@ -160,7 +160,11 @@ module.exports = function(grunt) {
 		grunt.task.run([ 'copy' ]);
 	});
 
-	grunt.registerTask('production', function () { });
+	grunt.registerTask('production', function () {
+		grunt.task.run([ 'less' ]);
+		grunt.task.run([ 'clean' ]);
+		grunt.task.run([ 'copy' ]);
+	});
 
 	grunt.registerTask('default', function () {
 		grunt.task.run([grunt.config('env')]);
