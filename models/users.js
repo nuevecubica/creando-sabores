@@ -13,6 +13,11 @@ User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, initial: true, required: true, index: true },
 	password: { type: Types.Password, initial: true, required: false }
+}, 'Media', {
+	media: {
+		avatar: { type: Types.CloudinaryImage },
+		header: { type: Types.CloudinaryImage }
+	}
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Superadmin', note: 'Can access Keystone.' },
 	isConfirmed: { type: Boolean, label: 'Confirmed', note: 'Has confirmed email address. Can publish.' },
