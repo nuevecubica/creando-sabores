@@ -40,8 +40,8 @@ body {
 
     i.icon {
       font-size: 22px;
-      color: white;
-      background-color: @pink;
+      color: @chef-color-white;
+      background-color: @chef-color-pink-bg;
       opacity: 1;
       border-radius: 0
     }
@@ -79,8 +79,8 @@ body {
   z-index: 1000;
 
   .button {
-    background-color: @green;
-    color: @white;
+    background-color: @chef-color-green-bg;
+    color: @chef-color-white;
     padding: 10px 30px;
     font-weight: normal;
   }
@@ -96,7 +96,7 @@ body {
 
   #menu i:before {
     font-size: 30px;
-    color: @white;
+    color: @chef-color-white;
   }
 }
 
@@ -131,11 +131,11 @@ body {
     .social {
       padding-top: 130px;
       text-align: center;
-      color: @white;
+      color: @chef-color-white;
       font-size: 16px;
 
       a {
-        color: @white;
+        color: @chef-color-white;
       }
     }
 
@@ -144,4 +144,39 @@ body {
     }
   }
 }
+
+/****************
+  Social Bar Styles 
+****************/
+#social {
+  padding: 30px 0;
+
+  a {
+    color: @chef-color-black;
+  }
+}
+
+/****************
+  Footer
+****************/
+#footer {
+
+  color: @chef-color-white;
+
+  img {
+    margin: 0 auto;
+    width: 70%;
+  }
+
+  .wide.column {
+    background-color: @chef-color-green-bg;
+    padding: 30px 0;
+  }
+
+  .ui.header {
+    text-transform: uppercase;
+  }
+}
+
+
 
