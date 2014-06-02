@@ -11,8 +11,8 @@
   z-index: 1000;
 
   .button {
-    background-color: @green;
-    color: @white;
+    background-color: @chef-color-green-bg;
+    color: @chef-color-white;
     padding: 10px 30px;
     font-weight: normal;
   }
@@ -79,9 +79,7 @@
 
   &.open {
     visibility: visible;
-    -webkit-transform: translateY(0%);
     transform: translateY(0%);
-    -webkit-transition: -webkit-transform 0.4s ease-in-out;
     transition: transform 0.4s ease-in-out;
   }
 }
