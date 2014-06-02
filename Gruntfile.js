@@ -30,13 +30,15 @@ module.exports = function(grunt) {
 		jshint: {
 			options: {
 				reporter: require('jshint-stylish'),
-				force: true
+				force: true,
+				jshintrc: '.jshintrc'
 			},
 			all: [ 'routes/**/*.js',
-					'models/**/*.js'
+					'models/**/*.js',
+					'public/frontend/js/**/*,js'
 			],
 			server: [
-				'./keystone.js'
+				'./*.js'
 			]
 		},
 
@@ -117,7 +119,7 @@ module.exports = function(grunt) {
 			build: {
 				files: [{
 					expand: true,
-    				cwd: 'public/packages/semantic-ui/build/less/fonts/',
+					cwd: 'public/packages/semantic-ui/build/less/fonts/',
 					src: [ '**' ],
 					dest: 'public/frontend/fonts/',
 					filter: 'isFile',
