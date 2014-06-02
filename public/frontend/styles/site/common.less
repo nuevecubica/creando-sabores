@@ -48,7 +48,7 @@ body {
 
     i.icon {
       font-size: 22px;
-      color: white;
+      color: @chef-color-white;
       background-color: @chef-color-pink-bg;
       opacity: 1;
       border-radius: 0
@@ -59,6 +59,52 @@ body {
       animation: border 0.3s ease-out forwards;
       cursor: pointer;
     }
+  }
+}
+
+/****************
+	Menu
+****************/
+
+#menu:hover {
+	cursor: pointer;
+}
+
+#menu-box {
+	position: absolute;
+	right:0;
+	top:0;
+	text-align: center;
+	width: 100%;
+
+	ul {
+		list-style: none;
+	}
+}
+
+#menu-wrapper {
+  position: relative;
+  z-index: 1000;
+
+  .button {
+    background-color: @chef-color-green-bg;
+    color: @chef-color-white;
+    padding: 10px 30px;
+    font-weight: normal;
+  }
+
+  .menu {
+    box-shadow: none;
+    background-color: transparent;
+
+    :before {
+      background-image: none;
+    }
+  }
+
+  #menu i:before {
+    font-size: 30px;
+    color: @chef-color-white;
   }
 }
 
@@ -106,4 +152,39 @@ body {
     }
   }
 }
+
+/****************
+  Social Bar Styles 
+****************/
+#social {
+  padding: 30px 0;
+
+  a {
+    color: @chef-color-black;
+  }
+}
+
+/****************
+  Footer
+****************/
+#footer {
+
+  color: @chef-color-white;
+
+  img {
+    margin: 0 auto;
+    width: 70%;
+  }
+
+  .wide.column {
+    background-color: @chef-color-green-bg;
+    padding: 30px 0;
+  }
+
+  .ui.header {
+    text-transform: uppercase;
+  }
+}
+
+
 
