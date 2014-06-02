@@ -2,26 +2,82 @@ extends ../layouts/default
 
 block content
 	#recipe-of-day.ui.page.grid.segment
-		.sixteen.wide.column
+		.row
+			.sixteen.wide.column
+				.ui.grid.segment(style = "background: transparent url(../frontend/images/test_recipe_bg.png) no-repeat")
+
+					.row
+						.six.wide.column
+
+						.four.wide.column
+							img.ui.rounded.image(src = '../frontend/images/test_title.png')
+
+					.row
+						.four.wide.column
+							| Síguenos en redes sociales
+							.ui.four.column.center.aligned.grid
+								.column
+									a.ui.item(href='http://twitter.com')
+										.ui.icon
+											i.twitter.big.icon
+								.column
+									a.ui.item(href='http://youtube.es')
+										.ui.icon
+											i.youtube.big.icon
+								.column
+									a.ui.item(href='http://facebook.com')
+										.ui.icon
+											i.facebook.big.icon
+								.column
+									a.ui.item(href='http://pinterest.es')
+										.ui.icon
+											i.pinterest.big.icon
+
+						.six.wide.column
+
+						.six.wide.column
+							img.ui.rounded.image(src = '../frontend/images/test_recipe.png')
+
 
 	#search-bar.ui.page.grid.segment
-		.sixteen.wide.column
-			.ui.form
-				.field
-					.ui.icon.input
-						input(type='text', placeholder='Escribe aquí lo que buscas')
-						i.search.icon
+		.row
+			.sixteen.wide.column
+				.ui.form
+					.field
+						.ui.icon.input
+							input(type='text', placeholder='Escribe aquí lo que buscas')
+							i.search.icon
 
-	#grid.ui.page.grid.segment
-		.sixteen.wide.column
+	//- #grid.ui.page.grid.segment
+
 
 	#video.ui.page.grid.segment
 		.row 
 			.sixteen.wide.column
-				iframe(width = '100%', height = 'auto', src='//www.youtube.com/embed/50fY8bhEzY0', frameborder='0')
+				iframe(width = '100%', height = '620px', src='//www.youtube.com/embed/50fY8bhEzY0', frameborder='0')
 
 
 	#video-recipes.ui.page.grid.segment
+		.row
+			.four.wide.column
+				img.ui.rounded.image(src = 'http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg')
+
+			.twelve.wide.column
+				.ui.twelve.column
+					| Valoración
+					.ui.header Masa de pizza crujiente
+					| But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
+
+		.row
+			.four.wide.column
+				img.ui.rounded.image(src = 'http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg')
+
+			.twelve.wide.column
+				.ui.twelve.column
+					| Valoración
+					.ui.header Masa de pizza crujiente
+					| But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
+
 		.row
 			.four.wide.column
 				img.ui.rounded.image(src = 'http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg')

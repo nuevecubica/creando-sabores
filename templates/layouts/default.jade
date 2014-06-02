@@ -39,33 +39,34 @@ html
 
 		//- HEADER
 		#header.ui.page.grid.segment
-			.sixteen.wide.column
-				//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
-				//- ... or completely change this header to suit your design.
-				.ui.menu
-					.right.menu
-						if user
-							if user.canAccessKeystone
-								a.ui.item(href='/keystone')
-									.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
-									| Alberto Chicote
+			.row
+				.sixteen.wide.column
+					//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
+					//- ... or completely change this header to suit your design.
+					.ui.menu
+						.right.menu
+							if user
+								if user.canAccessKeystone
+									a.ui.item(href='/keystone')
+										.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
+										| Alberto Chicote
 
-						else
-							//- .item
-								//- .iu.input
-									//- input(placeholder = 'Nombre de usuario')
+							else
+								//- .item
+									//- .iu.input
+										//- input(placeholder = 'Nombre de usuario')
 
-							//- .item
-								//- .iu.input
-									//- input(placeholder = 'Contraseña')
+								//- .item
+									//- .iu.input
+										//- input(placeholder = 'Contraseña')
 
-							.item
-								.ui.button Entrar
-								.ui.button Registrate
-						
-						a.ui.item
-							i.reorder.icon
-							| menú
+								.item
+									.ui.button Entrar
+									.ui.button Registrate
+							
+							a.ui.item
+								i.reorder.icon
+								| menú
 
 		//- NOTE:
 		//- There is no .container wrapping class around body blocks to allow more flexibility in design.
