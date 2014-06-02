@@ -55,7 +55,6 @@ body {
     }
 
     i.icon:hover {
-      -webkit-animation: border 0.3s ease-out forwards;
       animation: border 0.3s ease-out forwards;
       cursor: pointer;
     }
@@ -110,8 +109,57 @@ body {
 /****************
   Social Bar Styles
 ****************/
+#video-recipes {
+
+  .row {
+    margin-top: 4px;
+    padding-top: 0; 
+  }
+
+  .row:first-child {
+    margin-top: 0px; 
+  }
+
+  .row:nth-child(odd) {
+    background-color: lighten(@chef-color-black, 75%);
+  }
+
+  .row:nth-child(even) {
+    background-color: lighten(@chef-color-black, 85%);
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 185px;
+    background-image: url(http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg);
+    background-size: contain;
+
+    > .row:first-child {
+      height: 70%;
+       background-color: transparent;
+    }
+
+    .row {
+      height: 30%;
+      background-color: fade(@chef-color-white, 70%);
+      color: @chef-color-black;
+
+      .span {
+        display: inline;
+        font-weight: bold;
+        font-size: 16px;
+        opacity: 0.75;
+      }
+    }
+  }
+}
+
+/****************
+  Social Bar Styles
+****************/
 #social {
-  padding: 30px 0;
+  padding-top: 30px;
+  padding-bottom: 30px;
 
   a {
     color: @chef-color-black;
@@ -132,7 +180,8 @@ body {
 
   .wide.column {
     background-color: @chef-color-green-bg;
-    padding: 30px 0;
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 
   .ui.header {
