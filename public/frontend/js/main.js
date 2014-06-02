@@ -3,7 +3,4 @@ $(document).ready(function() {
 	$('#menu').on('click', function(){
 		$('#menu-box').toggleClass('open');
 	});
-	$('#menu').on('mousein', function(){
-		$('#menu-box').addClass('open');
-	});
 });

@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 					'public/frontend/styles/*.less',
 					'public/frontend/styles/**/*.less'
 				],
-				tasks : [ 'less', 'autoprefixer', 'cssmin' ],
+				tasks : [ 'less:build', 'autoprefixer:build', 'cssmin:build' ],
 				options: {
 					livereload: true
 				}
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 					'keystone.js',
 					'public/js/lib/**/*.{js,json}'
 				],
-				tasks: [ 'jshint:server', 'concurrent:dev' ]
+				tasks: [ 'jshint:server', 'concurrent:development' ]
 			},
 			livereload: {
 				files: [
@@ -167,7 +167,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('serve', function(target) {
 		grunt.task.run([
 			'jshint',
-			'concurrent:dev'
+			'concurrent:development'
 		]);
 	});
 
