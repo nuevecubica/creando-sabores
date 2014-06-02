@@ -43,6 +43,16 @@ html
 				.sixteen.wide.column
 					//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
 					//- ... or completely change this header to suit your design.
+					#menu-box
+						ul.menu
+							each link in navLinks
+								li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+							if user
+								if user.canAccessKeystone
+									li: a(href='/keystone') Open Keystone
+								li: a(href='/keystone/signout') Sign Out
+							else
+								li: a(href='/keystone/signin') Sign In
 					.ui.menu
 						.right.menu
 							if user
@@ -52,21 +62,12 @@ html
 										| Alberto Chicote
 
 							else
-								//- .item
-									//- .iu.input
-										//- input(placeholder = 'Nombre de usuario')
-
-								//- .item
-									//- .iu.input
-										//- input(placeholder = 'Contraseña')
-
 								.item
-									.ui.button Entrar
-									.ui.button Registrate
-							
-							a.ui.item
+									.ui.button Entra
+									.ui.button Regístrate
+
+							#menu(role="navigation").ui.item
 								i.reorder.icon
-								| menú
 
 		//- NOTE:
 		//- There is no .container wrapping class around body blocks to allow more flexibility in design.
