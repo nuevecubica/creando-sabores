@@ -22,6 +22,37 @@ body {
   font-family: 'Source Sans Pro', "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+#search-bar {
+  .field {
+    margin: 0;
+
+    input[type="text"] {
+      border: none;
+      height: 3em;
+      font-size: 20px;
+      font-weight: lighter;
+    }
+
+    input[type="text"]::-webkit-input-placeholder {
+       font-size: 20px;
+       font-weight: lighter;
+    }
+
+    i.icon {
+      font-size: 22px;
+      color: white;
+      background-color: @pink;
+      opacity: 1;
+      border-radius: 0
+    }
+
+    i.icon:hover {
+      -webkit-animation: border 0.4s ease-out forwards;
+      animation: border 0.4s ease-out forwards;
+    }
+  }
+}
+
 /****************
 	Menu
 ****************/
@@ -29,6 +60,7 @@ body {
 #menu:hover {
 	cursor: pointer;
 }
+
 #menu-box {
 	position: absolute;
 	right:0;
