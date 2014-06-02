@@ -3,142 +3,94 @@ extends ../layouts/default
 block content
 	#recipe-of-day.ui.grid.segment
 		.row
-			.sixteen.wide.column
-				#recipe.ui.grid.segment
-					.row
+			#recipe.ui.grid.segment
+				.row
 
-					.row
-						.five.wide.column
+				.row
+					.five.wide.column
 
-						.logo.six.wide.column
-							img.ui.image(src = '../frontend/images/test_title.png')
+					.logo.six.wide.column
+						img.ui.image(src = '../frontend/images/test_title.png')
 
-					.row
-						.one.wide.column
+				.row
+					.one.wide.column
 
-						.social.four.wide.column
-							| Síguenos en redes sociales
-							.ui.four.column.center.aligned.grid
-								.column
-									a.ui.item(href='http://twitter.com')
-										.ui.icon
-											i.twitter.big.icon
-								.column
-									a.ui.item(href='http://youtube.es')
-										.ui.icon
-											i.youtube.big.icon
-								.column
-									a.ui.item(href='http://facebook.com')
-										.ui.icon
-											i.facebook.big.icon
-								.column
-									a.ui.item(href='http://pinterest.es')
-										.ui.icon
-											i.pinterest.big.icon
+					.social.four.wide.column
+						| Síguenos en redes sociales
+						.ui.four.column.center.aligned.grid
+							.column
+								a.ui.item(href='http://twitter.com')
+									.ui.icon
+										i.twitter.big.icon
+							.column
+								a.ui.item(href='http://youtube.es')
+									.ui.icon
+										i.youtube.big.icon
+							.column
+								a.ui.item(href='http://facebook.com')
+									.ui.icon
+										i.facebook.big.icon
+							.column
+								a.ui.item(href='http://pinterest.es')
+									.ui.icon
+										i.pinterest.big.icon
 
-						.three.wide.column
+					.three.wide.column
 
-						.title.eight.wide.column
-							img.ui.image(src = '../frontend/images/test_recipe.png')
+					.title.eight.wide.column
+						img.ui.image(src = '../frontend/images/test_recipe.png')
 
 
 	#search-bar.ui.grid.segment
 		.row
-			.sixteen.wide.column
-				.ui.form
-					.field
-						.ui.icon.input
-							input(type='text', placeholder='Escribe aquí lo que buscas')
-							i.search.icon
+			.ui.form
+				.field
+					.ui.icon.input
+						input(type='text', placeholder='Escribe aquí lo que buscas')
+						i.search.icon
 
 	//- #grid.ui.page.grid.segment
 
 
 	#video.ui.grid.segment
 		.row 
-			.sixteen.wide.column
-				iframe(width = '100%', height = '620px', src='//www.youtube.com/embed/50fY8bhEzY0', frameborder='0')
+			iframe(width = '100%', height = '620px', src='//www.youtube.com/embed/50fY8bhEzY0', frameborder='0')
 
 
 	#video-recipes.ui.grid.segment
-		.row
-			.four.wide.column
-				.thumbnail
-					.row
+		- for (var row = 0; row < 4; row++)
+			.row
+				.four.wide.column
+					.thumbnail
+						.row
 
-					.row
-						.ui.three.column.center.aligned.grid
-							.column
+						.row
+							.ui.three.column.center.aligned.grid
+								.column
+									.ui.icon
+										i.time.large.icon
+										.span 2 h
+
+								.column
+									.ui.icon
+										i.food.large.icon
+										.span 4
+
+								.column
+									.ui.icon
+										i.exclamation.large.icon
+
+				.twelve.wide.column
+					.ui.twelve.column
+						.pre-header
+							.strong Valoración: 
+							.span
 								.ui.icon
-									i.time.large.icon
-									.span 2 h
+									i.star.large.icon.on
+									i.star.large.icon.on
+									i.star.large.icon.off
+									i.star.large.icon.off
+									i.star.large.icon.off
 
-							.column
-								.ui.icon
-									i.food.large.icon
-									.span 4
-
-							.column
-								.ui.icon
-									i.exclamation.large.icon
-
-			.twelve.wide.column
-				.ui.twelve.column
-					| Valoración
-					.ui.header Masa de pizza crujiente
-					| But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
-
-		.row
-			.four.wide.column
-				.thumbnail
-					.row
-						
-					.row
-						.ui.three.column.center.aligned.grid
-							.column
-								.ui.icon
-									i.time.large.icon
-									.span 2 h
-
-							.column
-								.ui.icon
-									i.food.large.icon
-									.span 4
-
-							.column
-								.ui.icon
-									i.exclamation.large.icon
-
-			.twelve.wide.column
-				.ui.twelve.column
-					| Valoración
-
-					.ui.header Masa de pizza crujiente
-					| But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
-
-		.row
-			.four.wide.column
-				.thumbnail
-					.row
-						
-					.row
-						.ui.three.column.center.aligned.grid
-							.column
-								.ui.icon
-									i.time.large.icon
-									.span 2 h
-
-							.column
-								.ui.icon
-									i.food.large.icon
-									.span 4
-
-							.column
-								.ui.icon
-									i.exclamation.large.icon
-
-			.twelve.wide.column
-				.ui.twelve.column
-					| Valoración
-					.ui.header Masa de pizza crujiente
-					| But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
+						.ui.header Masa de pizza crujiente
+						.ui.content But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness

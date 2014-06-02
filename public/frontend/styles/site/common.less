@@ -39,6 +39,7 @@ body {
       height: 3em;
       font-size: 20px;
       font-weight: lighter;
+      border-radius: 0;
     }
 
     input[type="text"]::-webkit-input-placeholder {
@@ -113,19 +114,12 @@ body {
 
   .row {
     margin-top: 4px;
-    padding-top: 0; 
+    padding-top: 0;
+    background-color: lighten(@chef-color-black, 80%);
   }
-
-  .row:first-child {
-    margin-top: 0px; 
-  }
-
+  
   .row:nth-child(odd) {
     background-color: lighten(@chef-color-black, 75%);
-  }
-
-  .row:nth-child(even) {
-    background-color: lighten(@chef-color-black, 85%);
   }
 
   .thumbnail {
@@ -151,6 +145,38 @@ body {
         opacity: 0.75;
       }
     }
+  }
+
+  .pre-header {
+
+    .strong {
+      padding-top: 2px;
+      font-size: 18px;
+      display: inline-block;
+    }
+    
+    .span {
+      display: inline-block;
+
+      i.icon {
+
+        &.off {
+          color: @chef-color-gray-bg;
+        }
+
+        &.on {
+          color: @chef-color-yellow-bg;
+        }
+      }
+    }
+  }
+
+  .header {
+  margin-top: 0; 
+  }
+
+  .content {
+
   }
 }
 
