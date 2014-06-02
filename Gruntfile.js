@@ -82,7 +82,7 @@ module.exports = function(grunt) {
 					'public/frontend/styles/*.less',
 					'public/frontend/styles/**/*.less'
 				],
-				tasks : [ 'less' ],
+				tasks : [ 'less', 'autoprefixer', 'cssmin' ],
 				options: {
 					livereload: true
 				}
