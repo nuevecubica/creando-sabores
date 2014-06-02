@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 			options: {
 				port: config.port
 			},
-			dev: {
+			development: {
 				options: {
 					script: 'keystone.js',
 					debug: true
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 		},
 
 		concurrent: {
-			dev: {
+			development: {
 				tasks: [ 'nodemon', 'node-inspector', 'watch' ],
 				options: {
 					logConcurrentOutput: true
@@ -126,11 +126,28 @@ module.exports = function(grunt) {
 		},
 
 		less: {
-			development: {
+			build: {
 				options: {
 					paths: [ 'public' ]
 				},
-				files: { 'public/frontend/styles/site.min.css': 'public/frontend/styles/site.less' }
+				files: { 'public/frontend/styles/site.css': 'public/frontend/styles/site.less' }
+			}
+		},
+
+		autoprefixer: {
+			build: {
+				options: {},
+				src: 'public/frontend/styles/site.css'
+			},
+		},
+
+		cssmin: {
+			build: {
+				files: { 'public/frontend/styles/site.min.css': ['public/frontend/styles/site.css'] },
+				options: {
+					keepSpecialComments: 0,
+					banner: '/* Chefcito CSS */'
+				}
 			}
 		}
 	});
@@ -154,13 +171,17 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('development', function () {
 		grunt.task.run([ 'jshint' ]);
-		grunt.task.run([ 'less' ]);
+		grunt.task.run([ 'less:build' ]);
+		grunt.task.run([ 'autoprefixer:build' ]);
+		grunt.task.run([ 'cssmin:build' ]);
 		grunt.task.run([ 'clean' ]);
 		grunt.task.run([ 'copy' ]);
 	});
 
 	grunt.registerTask('production', function () {
-		grunt.task.run([ 'less' ]);
+		grunt.task.run([ 'less:build' ]);
+		grunt.task.run([ 'autoprefixer:build' ]);
+		grunt.task.run([ 'cssmin:build' ]);
 		grunt.task.run([ 'clean' ]);
 		grunt.task.run([ 'copy' ]);
 	});
