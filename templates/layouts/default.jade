@@ -35,10 +35,10 @@ html
 		block head
 
 	//- HTML BODY
-	body.ui.grid
+	body.ui.page.grid
 
 		//- HEADER
-		#header.ui.page.grid.segment
+		#header.ui.grid.segment
 			.row
 				.sixteen.wide.column
 					//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
@@ -53,21 +53,22 @@ html
 								li: a(href='/keystone/signout') Sign Out
 							else
 								li: a(href='/keystone/signin') Sign In
-					.ui.menu
-						.right.menu
-							if user
-								if user.canAccessKeystone
-									a.ui.item(href='/keystone')
-										.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
-										| Alberto Chicote
+					#menu-wrapper
+						.ui.menu
+							.right.menu
+								if user
+									if user.canAccessKeystone
+										a.ui.item(href='/keystone')
+											.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
+											| Alberto Chicote
 
-							else
-								.item
-									.ui.button Entra
-									.ui.button Regístrate
+								else
+									.item
+										.ui.button Entrar
+										.ui.button Registrarse
 
-							#menu(role="navigation").ui.item
-								i.reorder.icon
+								#menu(role="navigation").ui.item
+									i.reorder.icon
 
 		//- NOTE:
 		//- There is no .container wrapping class around body blocks to allow more flexibility in design.
@@ -85,7 +86,7 @@ html
 
 
 		//- FOOTER
-		#footer.ui.page.grid.segment
+		#footer.ui.grid.segment
 			.row
 				.four.wide.column
 				.eight.wide.column
