@@ -41,18 +41,6 @@ html
 		#header.ui.page.grid.segment
 			.row
 				.sixteen.wide.column
-					//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
-					//- ... or completely change this header to suit your design.
-					#menu-box
-						ul.menu
-							each link in navLinks
-								li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-							if user
-								if user.canAccessKeystone
-									li: a(href='/keystone') Open Keystone
-								li: a(href='/keystone/signout') Sign Out
-							else
-								li: a(href='/keystone/signin') Sign In
 					.ui.menu
 						.right.menu
 							if user
@@ -134,20 +122,21 @@ html
 								a.item Términos y condiciones
 								a.item Privacidad
 
-
+		#menu-box
+			nav
+				//- navLinks Array in ./routes/middleware.js
+				ul.menu
+					each link in navLinks
+						li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+					if user
+						if user.canAccessKeystone
+							li: a(href='/keystone') Open Keystone
+						li: a(href='/keystone/signout') Sign Out
+					else
+						li: a(href='/keystone/signin') Sign In
 
 		//- JAVASCRIPT
-
-		//- jQuery 1.11.0 is included by default, and required by both Bootstrap
-		//- and the KeystoneJS Content Editor. If you are not targeting IE8,
-		//- you can upgrade to 2.1.0 (also bundled) for better performance.
-		//- script(src='/js/lib/jquery/jquery-1.11.0.min.js')
 		script(src='/packages/jquery/dist/jquery.min.js')
-
-
-		//- Customise which Bootstrap javascript files are served by including
-		//- them specifically here, instead of bootstrap-3.1.0.min.js
-		//- script(src='/js/lib/bootstrap/bootstrap-3.1.0.min.js')
 		script(src='/packages/jquery-address/src/jquery.address.js')
 		script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
 

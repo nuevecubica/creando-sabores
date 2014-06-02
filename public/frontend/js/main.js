@@ -1,9 +1,9 @@
 $(document).ready(function() {
 	$('.demo.menu .item').tab();
 	$('#menu').on('click', function(){
-		$('#menu-box').toggle();
+		$('#menu-box').toggleClass('open');
 	});
 	$('#menu').on('mousein', function(){
-		$('#menu-box').toggle(true);
+		$('#menu-box').addClass('open');
 	});
 });

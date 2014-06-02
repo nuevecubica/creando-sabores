@@ -1,0 +1,75 @@
+/****************
+	Menu
+****************/
+
+#menu:hover {
+	cursor: pointer;
+}
+
+@media screen and (max-height: 30.5em) {
+	#menu-box {
+		nav {
+			height: 70%;
+			font-size: 34px;
+		}
+		ul {
+			li {
+				min-height: 34px;
+			}
+		}
+	}
+}
+
+#menu-box {
+  .overlay;
+
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease-in-out, visibility 0s 0.4s;
+
+  nav {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    height: 60%;
+    transform: translateY(-50%);
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      display: inline-block;
+      height: 100%;
+      position: relative;
+
+      li {
+        display: block;
+        height: 20%;
+        height: calc(100% / 5);
+        min-height: 54px;
+        backface-visibility: hidden;
+
+        a {
+          font-size: 34px;
+          font-weight: 300;
+          display: block;
+          color: #fff;
+          transition: color 0.2s;
+        }
+      }
+    }
+  }
+
+  background: @chef-color-green-bg;
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease-in-out, visibility 0s 0.4s;
+
+  &.open {
+    visibility: visible;
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+    -webkit-transition: -webkit-transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+  }
+}
