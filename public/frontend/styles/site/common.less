@@ -29,3 +29,81 @@ body {
   top:  0;
   left: 0;
 }
+
+#search-bar {
+  .field {
+    margin: 0;
+
+    input[type="text"] {
+      border: none;
+      height: 3em;
+      font-size: 20px;
+      font-weight: lighter;
+    }
+
+    input[type="text"]::-webkit-input-placeholder {
+       font-size: 20px;
+       font-weight: lighter;
+    }
+
+    i.icon {
+      font-size: 22px;
+      color: white;
+      background-color: @pink;
+      opacity: 1;
+      border-radius: 0
+    }
+
+    i.icon:hover {
+      -webkit-animation: border 0.3s ease-out forwards;
+      animation: border 0.3s ease-out forwards;
+      cursor: pointer;
+    }
+  }
+}
+
+/****************
+  Recipes
+****************/
+
+#recipe-of-day {
+  margin-top: -52px;
+
+  #recipe {
+    background-color: transparent;
+    background-image: url(../images/test_recipe_bg.png);
+    background-size: cover;
+    height: 600px;
+
+    > .row:first-child {
+      height: 20%;
+    }
+
+    > .row {
+      margin: 0;
+      padding: 0;
+      height: 40%;
+    }
+
+    .logo img {
+      width: 100%;
+      max-width: none;
+    }
+
+    .social {
+      padding-top: 130px;
+      text-align: center;
+      color: @white;
+      font-size: 16px;
+
+      a {
+        color: @white;
+      }
+    }
+
+    .title {
+      padding-top: 60px;
+    }
+  }
+}
+
