@@ -1,0 +1,26 @@
+
+.button(@color) {
+	padding: 10px 30px;
+	color: @chef-color-white;
+    font-weight: normal;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0;
+    background-color: @color;
+    box-shadow: 0px -4px 0px darken(@color, 10%) inset;
+    animation: buttons-out 0.3s ease-out alternate forwards;
+
+    @keyframes buttons-in {
+		0% { box-shadow: 0px -4px 0px darken(@color, 10%) inset; }
+    	100% { box-shadow: 0px -100px 0px darken(@color, 10%) inset; }
+	}
+
+    @keyframes buttons-out {
+    	0% { box-shadow: 0px -100px 0px darken(@color, 10%) inset; }
+    	100% { box-shadow: 0px -4px 0px darken(@color, 10%) inset; }
+	}
+
+    &:hover {
+    	animation: buttons-in 0.3s ease-out alternate forwards;
+    }
+}
