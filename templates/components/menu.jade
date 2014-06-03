@@ -6,7 +6,8 @@
 		//- navLinks Array in ./routes/middleware.js
 		ul.menu
 			li.item.main(class=(section == 'home' ? 'active' : null))
-				a(href='/') Home
+				a(href='/',rel='home')
+					i.icon-chef-logo
 			if user || true
 				li.item.section
 					span.title Mi recetario

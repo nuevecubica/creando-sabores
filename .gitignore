@@ -13,7 +13,6 @@ results
 npm-debug.log
 node_modules
 public/packages
-public/frontend/fonts
 site.min.css
 
 .DS_Store
