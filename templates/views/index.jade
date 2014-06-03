@@ -28,113 +28,114 @@ block js
 		script(src='/keystone/js/content/editor.js')
 
 block content
-	#recipe-of-day.ui.grid.segment
-		.row
-			#recipe.ui.grid.segment
-				.row
+	#recipe.ui.grid.segment
+		.ui.page.grid
+			.row
+				include ../components/header
 
-				.row
-					.four.wide.column
-
-					.logo.eight.wide.column
-						img.ui.image(src = '../frontend/images/test_title.png')
-
-				.row
-					.one.wide.column
-
-					.social.four.wide.column
-						| Síguenos en redes sociales
-						.ui.four.column.center.aligned.grid
-							.column
-								a.ui.item(href='http://twitter.com')
-									.ui.icon
-										i.twitter.big.icon
-							.column
-								a.ui.item(href='http://youtube.es')
-									.ui.icon
-										i.youtube.big.icon
-							.column
-								a.ui.item(href='http://facebook.com')
-									.ui.icon
-										i.facebook.big.icon
-							.column
-								a.ui.item(href='http://pinterest.es')
-									.ui.icon
-										i.pinterest.big.icon
-
-					.three.wide.column
-
-					.title.eight.wide.column
-						img.ui.image(src = '../frontend/images/test_recipe.png')
-
-
-	#search-bar.ui.grid.segment
-		.row
-			.ui.form
-				.field
-					.ui.icon.input
-						input(type='text', placeholder='Escribe aquí lo que buscas')
-						i.search.icon
-
-	//- #grid.ui.page.grid.segment
-
-
-	#video.ui.grid.segment
-		.row
-
-		.row
-			.six.wide.column
-			.logo.four.wide.column
-				img.ui.image.play(src = '../frontend/images/test_play.png')
-
-		.row
-			.nine.wide.column
-			.title.seven.wide.column
-				img.ui.image(src = '../frontend/images/test_video_recipe.png')
-
-
-
-	#video-recipes.ui.grid.segment
-		- for (var row = 0; row < 4; row++)
 			.row
 				.four.wide.column
-					.thumbnail
-						.row
-							
-						.row
-							.ui.three.column.center.aligned.grid
-								.column
-								.column
-									img.ui.image.play(src = '../frontend/images/test_play.png')
-								.column
 
-						.row
-							.ui.three.column.center.aligned.grid
-								.column
-									.ui.icon
-										i.time.large.icon
-										.span 2 h
+				.logo.eight.wide.column
+					img.ui.image(src = '../frontend/images/test_title.png')
 
-								.column
-									.ui.icon
-										i.food.large.icon
-										.span 4
+			.row
+				.one.wide.column
 
-								.column
-									.ui.icon
-										i.exclamation.large.icon
-
-				.twelve.wide.column
-					.ui.twelve.column
-						.pre-header
-							.strong Valoración: 
-							.span
+				.social.four.wide.column
+					| Síguenos en redes sociales
+					.ui.four.column.center.aligned.grid
+						.column
+							a.ui.item(href='http://twitter.com')
 								.ui.icon
-									i.star.large.icon.on
-									i.star.large.icon.on
-									i.star.large.icon.off
-									i.star.large.icon.off
-									i.star.large.icon.off
+									i.twitter.big.icon
+						.column
+							a.ui.item(href='http://youtube.es')
+								.ui.icon
+									i.youtube.big.icon
+						.column
+							a.ui.item(href='http://facebook.com')
+								.ui.icon
+									i.facebook.big.icon
+						.column
+							a.ui.item(href='http://pinterest.es')
+								.ui.icon
+									i.pinterest.big.icon
 
-						.ui.header Masa de pizza crujiente
-						.ui.content But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
+				.three.wide.column
+
+				.title.eight.wide.column
+					img.ui.image(src = '../frontend/images/test_recipe.png')
+
+	.ui.page.grid
+
+		#search-bar.ui.grid.segment
+			.row
+				.ui.form
+					.field
+						.ui.icon.input
+							input(type='text', placeholder='Escribe aquí lo que buscas')
+							i.search.icon
+
+		//- #grid.ui.page.grid.segment
+
+
+		#video.ui.grid.segment
+			.row
+
+			.row
+				.six.wide.column
+				.logo.four.wide.column
+					img.ui.image.play(src = '../frontend/images/test_play.png')
+
+			.row
+				.nine.wide.column
+				.title.seven.wide.column
+					img.ui.image(src = '../frontend/images/test_video_recipe.png')
+
+
+
+		#video-recipes.ui.grid.segment
+			- for (var row = 0; row < 4; row++)
+				.row
+					.four.wide.column
+						.thumbnail
+							.row
+
+							.row
+								.ui.three.column.center.aligned.grid
+									.column
+									.column
+										img.ui.image.play(src = '../frontend/images/test_play.png')
+									.column
+
+							.row
+								.ui.three.column.center.aligned.grid
+									.column
+										.ui.icon
+											i.time.large.icon
+											.span 2 h
+
+									.column
+										.ui.icon
+											i.food.large.icon
+											.span 4
+
+									.column
+										.ui.icon
+											i.exclamation.large.icon
+
+					.twelve.wide.column
+						.ui.twelve.column
+							.pre-header
+								.strong Valoración: 
+								.span
+									.ui.icon
+										i.star.large.icon.on
+										i.star.large.icon.on
+										i.star.large.icon.off
+										i.star.large.icon.off
+										i.star.large.icon.off
+
+							.ui.header Masa de pizza crujiente
+							.ui.content But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness

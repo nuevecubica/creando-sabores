@@ -2,14 +2,14 @@
   Recipes
 ****************/
 
-#recipe-of-day {
-  margin-top: -52px;
+#recipe {
+  background-color: transparent;
+  background-image: url(../images/test_recipe_bg.png);
+  background-size: cover;
+  height: 600px;
 
-  #recipe {
-    background-color: transparent;
-    background-image: url(../images/test_recipe_bg.png);
-    background-size: cover;
-    height: 600px;
+  .ui.page.grid {
+    height: 100%;
 
     > .row:first-child {
       height: 20%;
@@ -75,7 +75,7 @@
     padding-top: 0;
     background-color: lighten(@chef-color-black, 80%);
   }
-  
+
   > .row:nth-child(odd) {
     background-color: lighten(@chef-color-black, 75%);
   }
