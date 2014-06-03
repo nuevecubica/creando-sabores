@@ -1,0 +1,145 @@
+/****************
+  Recipes
+****************/
+
+#recipe-of-day {
+  margin-top: -52px;
+
+  #recipe {
+    background-color: transparent;
+    background-image: url(../images/test_recipe_bg.png);
+    background-size: cover;
+    height: 600px;
+
+    > .row:first-child {
+      height: 20%;
+    }
+
+    > .row {
+      margin: 0;
+      padding: 0;
+      height: 40%;
+    }
+
+    .logo img {
+      .action_overlay();
+    }
+
+    .social {
+      padding-top: 130px;
+      text-align: center;
+      color: @chef-color-white;
+      font-size: 16px;
+
+      a {
+        color: @chef-color-white;
+      }
+    }
+
+    .title {
+      padding-top: 60px;
+    }
+  }
+}
+
+/****************
+  Video Styles
+****************/
+#video {
+  height: 600px;
+  background: url(http://img.youtube.com/vi/50fY8bhEzY0/hqdefault.jpg) no-repeat center center;
+  background-size: cover;
+
+  > .row:first-child {
+    height: 30%;
+  }
+
+  > .row:last-child {
+    height: 30%;
+  }
+
+  > .row {
+    margin: 0;
+    padding: 0;
+    height: 40%;
+  }
+}
+
+/****************
+  Video recipes Styles
+****************/
+#video-recipes {
+
+  > .row {
+    margin-top: 4px;
+    padding-top: 0;
+    background-color: lighten(@chef-color-black, 80%);
+  }
+  
+  > .row:nth-child(odd) {
+    background-color: lighten(@chef-color-black, 75%);
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 185px;
+    background-image: url(http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg);
+    background-size: contain;
+
+    > .row:first-child {
+      height: 25%;
+      background-color: transparent;
+    }
+
+    > .row {
+       height: 50%;
+    }
+
+    > .row:last-child {
+      height: 25%;
+      background-color: fade(@chef-color-white, 70%);
+      color: @chef-color-black;
+
+      .span {
+        display: inline;
+        font-weight: bold;
+        font-size: 16px;
+        opacity: 0.75;
+      }
+    }
+  }
+
+  .pre-header {
+
+    padding-top: 10px;
+
+    .strong {
+      font-size: 18px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    .span {
+      display: inline-block;
+
+      i.icon {
+
+        &.off {
+          color: @chef-color-gray-bg;
+        }
+
+        &.on {
+          color: @chef-color-yellow-bg;
+        }
+      }
+    }
+  }
+
+  .header {
+    margin-top: 0; 
+  }
+
+  .content {
+
+  }
+}

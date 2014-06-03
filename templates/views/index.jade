@@ -7,9 +7,9 @@ block content
 				.row
 
 				.row
-					.five.wide.column
+					.four.wide.column
 
-					.logo.six.wide.column
+					.logo.eight.wide.column
 						img.ui.image(src = '../frontend/images/test_title.png')
 
 				.row
@@ -53,8 +53,18 @@ block content
 
 
 	#video.ui.grid.segment
-		.row 
-			iframe(width = '100%', height = '620px', src='//www.youtube.com/embed/50fY8bhEzY0', frameborder='0')
+		.row
+
+		.row
+			.six.wide.column
+			.logo.four.wide.column
+				img.ui.image.play(src = '../frontend/images/test_play.png')
+
+		.row
+			.nine.wide.column
+			.title.seven.wide.column
+				img.ui.image(src = '../frontend/images/test_video_recipe.png')
+
 
 
 	#video-recipes.ui.grid.segment
@@ -63,6 +73,13 @@ block content
 				.four.wide.column
 					.thumbnail
 						.row
+							
+						.row
+							.ui.three.column.center.aligned.grid
+								.column
+								.column
+									img.ui.image.play(src = '../frontend/images/test_play.png')
+								.column
 
 						.row
 							.ui.three.column.center.aligned.grid

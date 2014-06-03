@@ -30,6 +30,26 @@ body {
   left: 0;
 }
 
+.action_overlay {
+  cursor: pointer;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.play {
+  .action_overlay();
+
+  opacity: 0.75;
+
+  &:hover {
+    animation: play 0.1s ease-out forwards;
+  }
+}
+
+
+/****************
+  Search bar Styles
+****************/
 #search-bar {
   .field {
     margin: 0;
@@ -63,124 +83,6 @@ body {
 }
 
 /****************
-  Recipes
-****************/
-
-#recipe-of-day {
-  margin-top: -52px;
-
-  #recipe {
-    background-color: transparent;
-    background-image: url(../images/test_recipe_bg.png);
-    background-size: cover;
-    height: 600px;
-
-    > .row:first-child {
-      height: 20%;
-    }
-
-    > .row {
-      margin: 0;
-      padding: 0;
-      height: 40%;
-    }
-
-    .logo img {
-      width: 100%;
-      max-width: none;
-    }
-
-    .social {
-      padding-top: 130px;
-      text-align: center;
-      color: @chef-color-white;
-      font-size: 16px;
-
-      a {
-        color: @chef-color-white;
-      }
-    }
-
-    .title {
-      padding-top: 60px;
-    }
-  }
-}
-
-/****************
-  Social Bar Styles
-****************/
-#video-recipes {
-
-  .row {
-    margin-top: 4px;
-    padding-top: 0;
-    background-color: lighten(@chef-color-black, 80%);
-  }
-  
-  .row:nth-child(odd) {
-    background-color: lighten(@chef-color-black, 75%);
-  }
-
-  .thumbnail {
-    width: 100%;
-    height: 185px;
-    background-image: url(http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg);
-    background-size: contain;
-
-    > .row:first-child {
-      height: 70%;
-       background-color: transparent;
-    }
-
-    .row {
-      height: 30%;
-      background-color: fade(@chef-color-white, 70%);
-      color: @chef-color-black;
-
-      .span {
-        display: inline;
-        font-weight: bold;
-        font-size: 16px;
-        opacity: 0.75;
-      }
-    }
-  }
-
-  .pre-header {
-
-    .strong {
-      padding-top: 2px;
-      font-size: 18px;
-      display: inline-block;
-    }
-    
-    .span {
-      display: inline-block;
-
-      i.icon {
-
-        &.off {
-          color: @chef-color-gray-bg;
-        }
-
-        &.on {
-          color: @chef-color-yellow-bg;
-        }
-      }
-    }
-  }
-
-  .header {
-  margin-top: 0; 
-  }
-
-  .content {
-
-  }
-}
-
-/****************
   Social Bar Styles
 ****************/
 #social {
@@ -196,18 +98,14 @@ body {
   Footer
 ****************/
 #footer {
-
+  background-color: @chef-color-green-bg;
+  padding-top: 30px;
+  padding-bottom: 30px;
   color: @chef-color-white;
 
   img {
     margin: 0 auto;
     width: 70%;
-  }
-
-  .wide.column {
-    background-color: @chef-color-green-bg;
-    padding-top: 30px;
-    padding-bottom: 30px;
   }
 
   .ui.header {
