@@ -9,8 +9,23 @@ var _ = require('underscore'),
 exports.initLocals = function(req, res, next) {
 	var locals = res.locals;
 	locals.navLinks = [
-		{ label: 'Home',		key: 'home',		href: '/' }
+		{ label: 'Videorecetas', key: 'videorecetas', href: '/' },
+		{ label: 'Menús', key: 'menus', href: '/' },
+		{ label: 'Tips', key: 'tips', href: '/' },
+		{ label: 'Preguntas y respuestas', key: 'preguntas-y-respuestas', href: '/' },
+		{ label: 'Concursos', key: 'concursos', href: '/' },
+		{ label: 'Acerca del chef', key: 'acerca-del-chef', href: '/' },
+		{ label: 'Contacto', key: 'contacto', href: '/' }
 	];
+
+	locals.navLinksPrivate = [
+		{ label: 'Mi perfil', key: 'perfil', href: '/' },
+		{ label: 'Lista del super', key: 'lista-del-super', href: '/' },
+		{ label: 'Mis recetas', key: 'mis-recetas', href: '/' },
+		{ label: 'Mis menús', key: 'mis-menus', href: '/' },
+		{ label: 'Mis tips', key: 'mis-tips', href: '/' }
+	];
+
 	locals.user = req.user;
 	next();
 };

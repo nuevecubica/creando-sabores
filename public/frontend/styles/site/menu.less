@@ -6,160 +6,195 @@
 @chef-menu-buttons-background: 	@chef-color-brick-bg;
 @chef-menu-text: 				@chef-color-white;
 @chef-menu-background: 	@chef-color-brick-bg;
+@chef-menu-section: 	@chef-color-brick;
 @chef-menu-text-size: 	24px;
 
 //====================================
 
 #menu-wrapper {
-  position: relative;
-  min-height: 52px;
-  vertical-align: middle;
-  z-index: 20;
+	position: relative;
+	min-height: 52px;
+	vertical-align: middle;
+	z-index: 20;
 
-  .button {
-    .button(@chef-menu-buttons-text, @chef-menu-buttons-background);
-  }
+	.button {
+		.button(@chef-menu-buttons-text, @chef-menu-buttons-background);
+	}
 
-  .menu {
-    box-shadow: none;
-    background-color: transparent;
+	.menu {
+		box-shadow: none;
+		background-color: transparent;
 
-    :before {
-      background-image: none;
-    }
-  }
+		:before {
+			background-image: none;
+		}
+	}
 
-  #menu {
-  	position: relative;
-  	top: 4px;
+	#menu {
+		position: relative;
+		top: 4px;
 
-  	i:before {
-    	font-size: 30px;
-    	color: @chef-menu-buttons-text;
-  	}
+		i:before {
+			font-size: 30px;
+			color: @chef-menu-buttons-text;
+		}
 
 		cursor: pointer;
-  }
+	}
 }
 
 @keyframes menubounce {
-  0% {
-    transform: translateY(-100%);
-    visibility: visible;
-  }
-  25% {
-  	transform: translateY(-50%);
-  }
-  50%, 80% {
-  	transform: translateY(0%);
-  }
-  70% {
-    transform: translateY(-30px);
-  }
-  90% {
-    transform: translateY(-15px);
-  }
-  100% {
-  	transform: translateY(0%);
-  	visibility: visible;
-  }
+	0% {
+		transform: translateY(-100%);
+		visibility: visible;
+	}
+	25% {
+		transform: translateY(-50%);
+	}
+	50%, 80% {
+		transform: translateY(0%);
+	}
+	70% {
+		transform: translateY(-30px);
+	}
+	90% {
+		transform: translateY(-15px);
+	}
+	100% {
+		transform: translateY(0%);
+		visibility: visible;
+	}
 }
 
 @keyframes menuunbounce {
-  0% {
-    transform: translateY(0%);
-    visibility: visible;
-  }
-  100% {
-  	transform: translateY(-100%);
-  	visibility: hidden;
-  }
+	0% {
+		transform: translateY(0%);
+		visibility: visible;
+	}
+	100% {
+		transform: translateY(-100%);
+		visibility: hidden;
+	}
 }
 
 #menu-box {
-  .overlay;
+	.overlay;
 
-  z-index: 999;
+	z-index: 999;
 
-  visibility: hidden;
-  animation-name: menuunbounce;
+	visibility: hidden;
+	animation-name: menuunbounce;
 	animation-duration: 200ms;
 	animation-timing-function: ease-in;
 	animation-fill-mode: forwards;
+	overflow: hidden;
 
-  nav {
-    text-align: center;
-    position: relative;
-    padding-top: 10%;
-    height: 60%;
-    //transform: translateY(-50%);
-    max-width: 1440px;
+	nav {
+		text-align: center;
+		position: relative;
+		padding-top: 5%;
+		height: 90%;
+		padding-bottom: 5%;
+		//transform: translateY(-50%);
+		max-width: 1440px;
 		margin: 0 auto;
+		overflow: hidden;
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 auto;
-      display: inline-block;
-      height: 100%;
-      position: relative;
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0 auto;
+			display: inline-block;
+			height: 90%;
+			min-width: 70%;
+			position: relative;
+			overflow-y: auto;
 
-      li {
-        display: block;
-        backface-visibility: hidden;
+			scrollbar-face-color: @chef-menu-section;
+			scrollbar-highlight-color: @chef-menu-section;
+			scrollbar-shadow-color: @chef-menu-section;
+			scrollbar-3dlight-color: @chef-menu-section;
+			scrollbar-arrow-color: @chef-menu-section;
+			scrollbar-track-color: @chef-menu-background;
+			scrollbar-drakshadow-color: @chef-menu-section;
 
-        a {
-          font-size: @chef-menu-text-size;
-          font-weight: 300;
-          display: block;
-          color: @chef-menu-text;
-          transition: color 0.2s;
-          text-decoration: none;
-      	  min-height: calc(@chef-menu-text-size + 10);
+			&::-webkit-scrollbar {
+				height: 12px;
+				width: 12px;
+				background: darken(@chef-menu-background, 10%);
+				-webkit-border-radius: 1ex;
+			}
 
-          &:hover {
-          	text-decoration: underline;
-          }
-        }
-      }
-    }
-  }
+			&::-webkit-scrollbar-thumb {
+				background: darken(@chef-menu-background, 20%);
+				-webkit-border-radius: 1ex;
+			}
 
-  background: fade(@chef-menu-background, 90%);
+			&::-webkit-scrollbar-corner {
+				background: @chef-menu-section;
+			}
 
-  &.open {
-  	visibility: visible;
+			li {
+				display: block;
+				backface-visibility: hidden;
+				font-size: @chef-menu-text-size;
+
+				&.main {
+					font-weight: 700;
+				}
+
+				&.user {
+					font-weight: 200;
+				}
+
+				&.section {
+					font-weight: 700;
+					color: @chef-menu-section;
+				}
+
+				a {
+					display: block;
+					color: @chef-menu-text;
+					transition: color 0.2s;
+					text-decoration: none;
+					min-height: (@chef-menu-text-size + 10);
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+	}
+
+	background: fade(@chef-menu-background, 90%);
+
+	&.open {
+		visibility: visible;
 		animation-name: menubounce;
 		animation-duration: 400ms;
-  	animation-timing-function: linear;
- 		animation-fill-mode: forwards;
-  }
+		animation-timing-function: linear;
+		animation-fill-mode: forwards;
+	}
 
-  #menu-close {
-  	position: absolute;
+	#menu-close {
+		position: absolute;
 		padding: .83em .95em;
 		right: 12%;
 		top: 15px;
 
-  	i:before {
-    	font-size: 30px;
-    	color: @chef-menu-text;
-  	}
+		i:before {
+			font-size: 30px;
+			color: @chef-menu-text;
+		}
 
 		cursor: pointer;
-  }
+	}
 }
 
 @media screen and (max-height: 30.5em) {
-	#menu-box {
-		nav {
-			height: 70%;
-			font-size: @chef-menu-text-size;
-		}
-		ul {
-			li {
-				min-height: @chef-menu-text-size;
-			}
-		}
+	#menu-box nav ul li {
+		font-size: (@chef-menu-text-size * 0.8);
+		min-height: (@chef-menu-text-size * 0.8);
 	}
 }

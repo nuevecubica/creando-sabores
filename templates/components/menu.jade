@@ -5,11 +5,13 @@
 
 		//- navLinks Array in ./routes/middleware.js
 		ul.menu
+			li.item.main(class=(section == 'home' ? 'active' : null))
+				a(href='/') Home
+			if user || true
+				li.item.section
+					span.title Mi recetario
+				each link in navLinksPrivate
+					li.item.user(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+
 			each link in navLinks
-				li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-			if user
-				if user.canAccessKeystone
-					li: a(href='/keystone') Open Keystone
-				li: a(href='/keystone/signout') Sign Out
-			else
-				li: a(href='/keystone/signin') Sign In
+				li.item.main(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
