@@ -111,12 +111,12 @@
 			overflow-y: auto;
 
 			scrollbar-face-color: @chef-menu-section;
-			scrollbar-highlight-color: @chef-menu-section;
-			scrollbar-shadow-color: @chef-menu-section;
-			scrollbar-3dlight-color: @chef-menu-section;
+			scrollbar-highlight-color: lighten(@chef-menu-section, 10%);
+			scrollbar-shadow-color: darken(@chef-menu-section, 10%);
+			scrollbar-3dlight-color: lighten(@chef-menu-section, 10%);
 			scrollbar-arrow-color: @chef-menu-section;
-			scrollbar-track-color: @chef-menu-background;
-			scrollbar-drakshadow-color: @chef-menu-section;
+			scrollbar-track-color: darken(@chef-menu-section, 10%);
+			scrollbar-darkshadow-color: darken(@chef-menu-section, 10%);
 
 			&::-webkit-scrollbar {
 				height: 12px;
