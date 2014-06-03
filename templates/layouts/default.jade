@@ -102,6 +102,9 @@ html
 		
 		#menu-box
 			nav(role="navigation")
+				#menu-close.ui.item
+					i.close.icon
+
 				//- navLinks Array in ./routes/middleware.js
 				ul.menu
 					each link in navLinks
@@ -112,9 +115,6 @@ html
 						li: a(href='/keystone/signout') Sign Out
 					else
 						li: a(href='/keystone/signin') Sign In
-
-			#menu-close.ui.item
-				i.close.icon
 
 		//- JAVASCRIPT
 		script(src='/packages/jquery/dist/jquery.min.js')
