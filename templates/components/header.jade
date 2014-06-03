@@ -1,0 +1,19 @@
+#header.ui.grid.segment
+	.row
+		.sixteen.wide.column
+			#menu-wrapper
+				.ui.menu
+					.right.menu
+						if user
+							if user.canAccessKeystone
+								a.ui.item(href='/keystone')
+									.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
+									| Alberto Chicote
+
+						else
+							.item
+								.ui.button Entrar
+								.ui.button Registrarse
+
+						#menu.ui.item
+							i.reorder.icon

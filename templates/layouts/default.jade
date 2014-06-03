@@ -12,22 +12,6 @@ html
 		title= title || 'Chefcito'
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
-		//- Customise the stylesheet for your site by editing /public/styles/site.less
-		//- All .less files will be automatically compiled and minified in production.
-
-		link(href="frontend/styles/site.min.css", rel="stylesheet")
-
-		//- This file provides the default styling for the KeystoneJS Content Editor
-		if user && user.canAccessKeystone
-			link(href="/keystone/styles/content/editor.min.css", rel="stylesheet")
-
-		//- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
-		//- Safely remove this block if you are not targeting IE8
-		//-[if lt IE 9]
-			script(src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js")
-			script(src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js")
-		//-[endif]
-
 		//- Include template-specific stylesheets by extending the css block
 		block css
 
@@ -38,32 +22,7 @@ html
 	body.ui.page.grid
 
 		//- HEADER
-		#header.ui.grid.segment
-			.row
-				.sixteen.wide.column
-					#menu-wrapper
-						.ui.menu
-							.right.menu
-								if user
-									if user.canAccessKeystone
-										a.ui.item(href='/keystone')
-											.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
-											| Alberto Chicote
-
-								else
-									.item
-										.ui.button Entrar
-										.ui.button Registrarse
-
-								#menu.ui.item
-									i.reorder.icon
-
-		//- NOTE:
-		//- There is no .container wrapping class around body blocks to allow more flexibility in design.
-		//- Remember to include it in your templates when you override the intro and content blocks!
-
-		//- The Intro block appears above flash messages (used for temporary information display)
-		block intro
+		include ../components/header
 
 		//- Flash messages allow you to display once-off status messages to users, e.g. form
 		//- validation errors, success messages, etc.
@@ -72,63 +31,11 @@ html
 		//- The content block should contain the body of your template's content
 		block content
 
-		#social.ui.grid.segment
-			.row
-				.five.wide.column
-				.six.wide.column
-					.ui.five.column.center.aligned.grid
-						.column
-							a.ui.item(href='http://facebook.com')
-								.ui.icon
-									i.facebook.big.icon
-						.column
-							a.ui.item(href='http://twitter.com')
-								.ui.icon
-									i.twitter.big.icon
-						.column
-							a.ui.item(href='http://plus.google.es')
-								.ui.icon
-									i.google.plus.big.icon
-						.column
-							a.ui.item(href='http://youtube.es')
-								.ui.icon
-									i.youtube.big.icon
-						.column
-							a.ui.item(href='http://pinterest.es')
-								.ui.icon
-									i.pinterest.big.icon
+		include ../components/social
 
 		include ../components/footer
 		
-		#menu-box
-			nav(role="navigation")
-				#menu-close.ui.item
-					i.close.icon
-
-				//- navLinks Array in ./routes/middleware.js
-				ul.menu
-					each link in navLinks
-						li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-					if user
-						if user.canAccessKeystone
-							li: a(href='/keystone') Open Keystone
-						li: a(href='/keystone/signout') Sign Out
-					else
-						li: a(href='/keystone/signin') Sign In
-
-		//- JAVASCRIPT
-		script(src='/packages/jquery/dist/jquery.min.js')
-		script(src='/packages/jquery-address/src/jquery.address.js')
-		script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
-
-		script(src='/frontend/js/main.js')
-
-		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
-		//- which generate links to edit content for users who can access Keystone
-		if user && user.canAccessKeystone
-			script(src='/keystone/js/content/editor.js')
-
-		//- Add scripts that are globally required by your site here.
+		include ../components/menu
 
 		//- Include template-specific javascript files by extending the js block
 		block js

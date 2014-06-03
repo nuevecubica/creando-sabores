@@ -1,0 +1,15 @@
+#menu-box
+	nav(role="navigation")
+		#menu-close.ui.item
+			i.close.icon
+
+		//- navLinks Array in ./routes/middleware.js
+		ul.menu
+			each link in navLinks
+				li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+			if user
+				if user.canAccessKeystone
+					li: a(href='/keystone') Open Keystone
+				li: a(href='/keystone/signout') Sign Out
+			else
+				li: a(href='/keystone/signin') Sign In
