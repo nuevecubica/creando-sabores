@@ -3,4 +3,7 @@ $(document).ready(function() {
 	$('#menu').on('click', function(){
 		$('#menu-box').toggleClass('open');
 	});
+	$('#menu-close').on('click', function(){
+		$('#menu-box').removeClass('open');
+	});
 });

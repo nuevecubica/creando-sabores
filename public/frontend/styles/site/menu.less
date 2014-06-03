@@ -2,18 +2,25 @@
 	Menu
 ****************/
 
-#menu:hover {
-	cursor: pointer;
-}
+@chef-menu-buttons-text: 				@chef-color-white;
+@chef-menu-buttons-background: 	@chef-color-green-bg;
+@chef-menu-text: 				@chef-color-white;
+@chef-menu-background: 	@chef-color-green-bg;
+@chef-menu-text-size: 	24px;
+
+//====================================
 
 #menu-wrapper {
   position: relative;
-  z-index: 1000;
+  min-height: 52px;
+  vertical-align: middle;
+  z-index: 20;
 
   .button {
-    background-color: @chef-color-green-bg;
-    color: @chef-color-white;
+    background-color: @chef-menu-buttons-background;
+    color: @chef-menu-buttons-text;
     padding: 10px 30px;
+    margin-top: 2px;
     font-weight: normal;
   }
 
@@ -26,9 +33,16 @@
     }
   }
 
-  #menu i:before {
-    font-size: 30px;
-    color: @chef-color-white;
+  #menu {
+  	position: relative;
+  	top: 4px;
+
+  	i:before {
+    	font-size: 30px;
+    	color: @chef-menu-buttons-text;
+  	}
+
+		cursor: pointer;
   }
 }
 
@@ -40,7 +54,7 @@
   25% {
   	transform: translateY(-50%);
   }
-  50%, 80%, 100% {
+  50%, 80% {
   	transform: translateY(0%);
   }
   70% {
@@ -49,11 +63,16 @@
   90% {
     transform: translateY(-15px);
   }
+  100% {
+  	transform: translateY(0%);
+  	visibility: visible;
+  }
 }
 
 @keyframes menuunbounce {
   0% {
     transform: translateY(0%);
+    visibility: visible;
   }
   100% {
   	transform: translateY(-100%);
@@ -64,6 +83,9 @@
 #menu-box {
   .overlay;
 
+  z-index: 999;
+
+  visibility: hidden;
   animation-name: menuunbounce;
 	animation-duration: 200ms;
 	animation-timing-function: ease-in;
@@ -88,13 +110,13 @@
         display: block;
         backface-visibility: hidden;
         a {
-          font-size: 34px;
+          font-size: @chef-menu-text-size;
           font-weight: 300;
           display: block;
-          color: @chef-color-white;
+          color: @chef-menu-text;
           transition: color 0.2s;
           text-decoration: none;
-      	  min-height: 50px;
+      	  min-height: calc(@chef-menu-text-size + 10);
 
           &:hover {
           	text-decoration: underline;
@@ -104,13 +126,28 @@
     }
   }
 
-  background: @chef-color-green-bg;
+  background: @chef-menu-background;
 
   &.open {
+  	visibility: visible;
 		animation-name: menubounce;
 		animation-duration: 400ms;
   	animation-timing-function: linear;
  		animation-fill-mode: forwards;
+  }
+
+  #menu-close {
+  	position: absolute;
+		padding: .83em .95em;
+  	top: 22px;
+  	right: 84px;
+
+  	i:before {
+    	font-size: 30px;
+    	color: @chef-menu-text;
+  	}
+
+		cursor: pointer;
   }
 }
 
@@ -118,11 +155,11 @@
 	#menu-box {
 		nav {
 			height: 70%;
-			font-size: 34px;
+			font-size: @chef-menu-text-size;
 		}
 		ul {
 			li {
-				min-height: 34px;
+				min-height: @chef-menu-text-size;
 			}
 		}
 	}

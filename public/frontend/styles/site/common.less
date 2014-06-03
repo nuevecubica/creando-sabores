@@ -30,6 +30,14 @@ body {
   left: 0;
 }
 
+/****************
+  Animations
+****************/
+@keyframes border {
+    0% { box-shadow: 0px 0px 0px darken(@chef-color-pink-bg, @chef-darken) inset; }
+    100% { box-shadow: 6px 0px 0px darken(@chef-color-pink-bg, @chef-darken) inset; }
+}
+
 #search-bar {
   .field {
     margin: 0;
