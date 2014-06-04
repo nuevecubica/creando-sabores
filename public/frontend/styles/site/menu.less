@@ -2,12 +2,15 @@
 	Menu
 ****************/
 
-@chef-menu-buttons-text: 				@chef-color-white;
-@chef-menu-buttons-background: 	@chef-color-brick-bg;
-@chef-menu-text: 				@chef-color-white;
-@chef-menu-background: 	@chef-color-brick-bg;
-@chef-menu-section: 	@chef-color-brick;
-@chef-menu-text-size: 	24px;
+@chef-menu-buttons-text: @chef-color-white;
+@chef-menu-buttons-background: @chef-color-brick-bg;
+
+@chef-menu-text: @chef-color-white;
+@chef-menu-section: @chef-color-brick;
+@chef-menu-text-size: 24px;
+
+@chef-menu-background: @chef-color-brick-bg;
+@chef-menu-background-hover: lighten(@chef-color-brick-bg, 5%);
 
 //====================================
 
@@ -90,48 +93,52 @@
 	overflow: hidden;
 
 	nav {
+		box-sizing: border-box;
 		text-align: center;
 		position: relative;
 		padding-top: 5%;
-		height: 90%;
-		padding-bottom: 5%;
+		height: 100%;
+		padding-bottom: 1em;
 		//transform: translateY(-50%);
 		max-width: 1440px;
 		margin: 0 auto;
 		overflow: hidden;
 
-		ul {
+		ul.menu {
 			list-style: none;
 			padding: 0;
 			margin: 0 auto;
 			display: inline-block;
-			height: 90%;
 			min-width: 70%;
-			position: relative;
-			overflow-y: auto;
 
-			scrollbar-face-color: @chef-menu-section;
-			scrollbar-highlight-color: lighten(@chef-menu-section, 10%);
-			scrollbar-shadow-color: darken(@chef-menu-section, 10%);
-			scrollbar-3dlight-color: lighten(@chef-menu-section, 10%);
-			scrollbar-arrow-color: @chef-menu-section;
-			scrollbar-track-color: darken(@chef-menu-section, 10%);
-			scrollbar-darkshadow-color: darken(@chef-menu-section, 10%);
+			&.scroll {
+				height: 90%;
+				overflow-x: hidden;
+				overflow-y: auto;
 
-			&::-webkit-scrollbar {
-				height: 12px;
-				width: 12px;
-				background: darken(@chef-menu-background, 10%);
-				-webkit-border-radius: 1ex;
-			}
+				scrollbar-face-color: @chef-menu-section;
+				scrollbar-highlight-color: lighten(@chef-menu-section, 10%);
+				scrollbar-shadow-color: darken(@chef-menu-section, 10%);
+				scrollbar-3dlight-color: lighten(@chef-menu-section, 10%);
+				scrollbar-arrow-color: @chef-menu-section;
+				scrollbar-track-color: darken(@chef-menu-section, 10%);
+				scrollbar-darkshadow-color: darken(@chef-menu-section, 10%);
 
-			&::-webkit-scrollbar-thumb {
-				background: darken(@chef-menu-background, 20%);
-				-webkit-border-radius: 1ex;
-			}
+				&::-webkit-scrollbar {
+					height: 10px;
+					width: 10px;
+					background: darken(@chef-menu-background, 10%);
+					-webkit-border-radius: 1ex;
+				}
 
-			&::-webkit-scrollbar-corner {
-				background: @chef-menu-section;
+				&::-webkit-scrollbar-thumb {
+					background: darken(@chef-menu-background, 20%);
+					-webkit-border-radius: 1ex;
+				}
+
+				&::-webkit-scrollbar-corner {
+					background: @chef-menu-section;
+				}
 			}
 
 			li {
@@ -155,16 +162,17 @@
 				a {
 					display: block;
 					color: @chef-menu-text;
-					transition: color 0.2s;
+					transition: background-color 50ms;
 					text-decoration: none;
-					min-height: (@chef-menu-text-size + 10);
+					min-height: (@chef-menu-text-size * 1.3);
+					border-bottom: 1px solid transparent;
 
 					&:hover {
-						text-decoration: underline;
+						background-color: @chef-menu-background-hover;
 					}
 
 					i.icon-chef-logo {
-						font-size: 200px;
+						font-size: 8em;
 					}
 				}
 			}
@@ -184,8 +192,8 @@
 	#menu-close {
 		position: absolute;
 		padding: .83em .95em;
-		right: 12%;
-		top: 15px;
+		right: 10%;
+		top: 12px;
 
 		i:before {
 			font-size: 30px;
@@ -196,9 +204,22 @@
 	}
 }
 
-@media screen and (max-height: 30.5em) {
-	#menu-box nav ul li {
+@media screen and (max-height: 40em) {
+	#menu-box nav ul.menu li {
 		font-size: (@chef-menu-text-size * 0.8);
-		min-height: (@chef-menu-text-size * 0.8);
+		a {
+			min-height: (@chef-menu-text-size * 0.8);
+		}
 	}
+}
+
+@media screen and (max-height: 55em) {
+		#menu-box nav ul.menu li a i.icon-chef-logo {
+			font-size: 5em;
+		}
+}
+@media screen and (max-height: 40em) {
+		#menu-box nav ul.menu li a i.icon-chef-logo {
+			font-size: 4em;
+		}
 }

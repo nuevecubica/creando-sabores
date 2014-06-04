@@ -1,10 +1,10 @@
 #menu-box
 	nav(role="navigation")
 		#menu-close.ui.item
-			i.close.icon
+			i.icon-chef-menuquit
 
 		//- navLinks Array in ./routes/middleware.js
-		ul.menu
+		ul.menu.scroll
 			li.item.main(class=(section == 'home' ? 'active' : null))
 				a(href='/',rel='home')
 					i.icon-chef-logo
