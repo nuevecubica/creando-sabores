@@ -23,6 +23,9 @@ body {
   //margin-top: -52px !important;
 //}
 
+/****************
+  Header
+****************/
 #header {
   font-family: 'Source Sans Pro', "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   background-color: transparent;
@@ -59,53 +62,6 @@ body {
 @keyframes border {
     0% { box-shadow: 0px 0px 0px darken(@chef-color-pink-bg, @chef-darken) inset; }
     100% { box-shadow: 6px 0px 0px darken(@chef-color-pink-bg, @chef-darken) inset; }
-}
-
-/****************
-  Search bar Styles
-****************/
-#search-bar {
-  .field {
-    margin: 0;
-
-    input[type="text"] {
-      border: none; 
-      height: 3em;
-      font-size: 20px;
-      font-weight: lighter;
-      border-radius: 0;
-    }
-
-    input[type="text"]::-webkit-input-placeholder {
-       font-size: 20px;
-       font-weight: lighter;
-    }
-
-    i.icon {
-      font-size: 22px;
-      color: @chef-color-white;
-      background-color: @chef-color-pink-bg;
-      opacity: 1;
-      border-radius: 0
-    }
-
-    i.icon:hover {
-      animation: border 0.3s ease-out forwards;
-      cursor: pointer;
-    }
-  }
-}
-
-/****************
-  Social Bar Styles
-****************/
-#social {
-  padding-top: 30px;
-  padding-bottom: 30px;
-
-  a {
-    color: @chef-color-black;
-  }
 }
 
 /****************

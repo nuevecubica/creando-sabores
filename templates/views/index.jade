@@ -40,32 +40,32 @@ block content
 					img.ui.image(src = '../frontend/images/test_title.png')
 
 			.row
-				.one.wide.column
-
-				.social.four.wide.column
+				.social.five.wide.column
 					| Síguenos en redes sociales
 					.ui.four.column.center.aligned.grid
 						.column
 							a.ui.item(href='http://twitter.com')
 								.ui.icon
-									i.twitter.big.icon
+									i.icon-chef-twitter.huge.icon
 						.column
 							a.ui.item(href='http://youtube.es')
 								.ui.icon
-									i.youtube.big.icon
+									i.icon-chef-google.huge.icon
 						.column
 							a.ui.item(href='http://facebook.com')
 								.ui.icon
-									i.facebook.big.icon
+									i.icon-chef-facebook.huge.icon
 						.column
 							a.ui.item(href='http://pinterest.es')
 								.ui.icon
-									i.pinterest.big.icon
+									i.icon-chef-pinterest.huge.icon
 
 				.three.wide.column
 
 				.title.eight.wide.column
 					img.ui.image(src = '../frontend/images/test_recipe.png')
+					.text
+						.span Lasagna del chef
 
 	.ui.page.grid
 
@@ -75,7 +75,7 @@ block content
 					.field
 						.ui.icon.input
 							input(type='text', placeholder='Escribe aquí lo que buscas')
-							i.search.icon
+							i.icon-chef-lupa.icon
 
 		//- #grid.ui.page.grid.segment
 
@@ -89,9 +89,13 @@ block content
 					img.ui.image.play(src = '../frontend/images/test_play.png')
 
 			.row
-				.nine.wide.column
-				.title.seven.wide.column
+				.eight.wide.column
+				.title.eight.wide.column
 					img.ui.image(src = '../frontend/images/test_video_recipe.png')
+					.text
+						.span Lasagna del chef
+					.date
+						.span 13 Mayo de 2014
 
 
 
@@ -113,17 +117,18 @@ block content
 								.ui.three.column.center.aligned.grid
 									.column
 										.ui.icon
-											i.time.large.icon
+											i.icon-chef-time.big.icon
 											.span 2 h
 
 									.column
 										.ui.icon
-											i.food.large.icon
+											i.icon-chef-porciones.big.icon
 											.span 4
 
 									.column
 										.ui.icon
-											i.exclamation.large.icon
+											i.icon-chef-tenedor.big.icon
+											.span 2
 
 					.twelve.wide.column
 						.ui.twelve.column
@@ -137,5 +142,5 @@ block content
 										i.star.large.icon.off
 										i.star.large.icon.off
 
-							.ui.header Masa de pizza crujiente
+							h2.ui.header Masa de pizza crujiente
 							.ui.content But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
