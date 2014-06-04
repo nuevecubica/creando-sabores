@@ -1,3 +1,11 @@
+
+// Colors
+@search-bar-input: @chef-color-gray;
+@search-button-text-color: @chef-color-white;
+@search-button-background-color: @chef-color-pink-bg;
+
+@social-icon-color: @chef-color-black;
+
 /****************
   Search bar Styles
 ****************/
@@ -12,7 +20,7 @@
       font-family: BrandonGrotesque-Regular;
       font-weight: lighter;
       border-radius: 0;
-      background-color: lighten(@chef-color-gray, 78%);
+      background-color: lighten(@search-bar-input, 78%);
     }
 
     input[type="text"]::-webkit-input-placeholder {
@@ -27,7 +35,7 @@
       cursor: pointer;
       padding-top: 0.20em;
 
-      .buttonAnimatedLeft(@chef-color-white, @chef-color-pink-bg);
+      .buttonAnimatedLeft(@search-button-text-color, @search-button-background-color);
     }
   }
 }
@@ -40,7 +48,7 @@
   padding-bottom: 30px;
 
   a {
-    color: @chef-color-black;
+    color: @social-icon-color;
 
     .icon {
       font-size: 60px;
