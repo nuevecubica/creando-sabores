@@ -1,3 +1,19 @@
+
+@recipes-color-title: @chef-color-white;
+@recipes-color-date: @chef-color-white;
+
+@recipes-thumbnail-color: @chef-color-black;
+@recipes-thumbnail-background: fade(@chef-color-white, 70%);
+
+@recipes-thumbnail-ranking-off: darken(@chef-color-gray-bg, 15%);
+@recipes-thumbnail-ranking-on: darken(@chef-color-gray-bg, 65%);
+
+@recipes-list-odd: lighten(@chef-color-black, 75%);
+@recipes-list-even: lighten(@chef-color-black, 80%);
+
+@recipes-stars-on: @chef-color-yellow-bg;
+@recipes-stars-off: @chef-color-gray-bg;
+
 /****************
   Video Styles
 ****************/
@@ -40,7 +56,7 @@
 
         .span {
           font-size: 56px;
-          color: @chef-color-white;
+          color: @recipes-color-title;
           text-align: left;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -64,7 +80,7 @@
 
         .span {
           font-size: 20px;
-          color: @chef-color-white;
+          color: @recipes-color-date;
           text-align: left;
           text-transform: uppercase;
 
@@ -85,11 +101,11 @@
   > .row {
     margin-top: 4px;
     padding-top: 0;
-    background-color: lighten(@chef-color-black, 80%);
+    background-color: @recipes-list-even;
   }
 
   > .row:nth-child(odd) {
-    background-color: lighten(@chef-color-black, 75%);
+    background-color: @recipes-list-odd;
   }
 
   .thumbnail {
@@ -113,8 +129,8 @@
 
     > .row:last-child {
       height: 25%;
-      background-color: fade(@chef-color-white, 70%);
-      color: @chef-color-black;
+      background-color: @recipes-thumbnail-background;
+      color: @recipes-thumbnail-color;
 
       .icon {
         font-size: 20px;
@@ -131,11 +147,11 @@
       .ranking.column {
         .icon {
           &.off {
-            color: darken(@chef-color-gray-bg, 15%);
+            color: @recipes-thumbnail-ranking-off;
           }
 
           &.on {
-            color: darken(@chef-color-gray-bg, 65%);
+            color: @recipes-thumbnail-ranking-on;
           }
 
           &:before {
@@ -162,11 +178,11 @@
       i.icon {
 
         &.off {
-          color: @chef-color-gray-bg;
+          color: @recipes-stars-off;
         }
 
         &.on {
-          color: @chef-color-yellow-bg;
+          color: @recipes-stars-on;
         }
       }
     }
