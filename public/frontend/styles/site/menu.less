@@ -7,7 +7,7 @@
 
 @chef-menu-text: @chef-color-white;
 @chef-menu-section: @chef-color-brick;
-@chef-menu-text-size: 24px;
+@chef-menu-text-size: 28px;
 
 @chef-menu-background: @chef-color-brick-bg;
 @chef-menu-background-hover: lighten(@chef-color-brick-bg, 5%);
@@ -81,6 +81,9 @@
 }
 
 #menu-box {
+
+	font-family: @brandon-fonts;
+
 	.overlay;
 
 	z-index: 999;
@@ -164,15 +167,20 @@
 					color: @chef-menu-text;
 					transition: background-color 50ms;
 					text-decoration: none;
-					min-height: (@chef-menu-text-size * 1.3);
+					min-height: (@chef-menu-text-size * 1.2);
 					border-bottom: 1px solid transparent;
 
 					&:hover {
 						background-color: @chef-menu-background-hover;
 					}
 
+					&.home:hover {
+						background-color: transparent;
+					}
+
 					i.icon-chef-logo {
-						font-size: 8em;
+						font-size: 6em;
+						line-height: 1.2em;
 					}
 				}
 			}
@@ -204,7 +212,7 @@
 	}
 }
 
-@media screen and (max-height: 40em) {
+@media screen and (max-height: 55em) {
 	#menu-box nav ul.menu li {
 		font-size: (@chef-menu-text-size * 0.8);
 		a {
@@ -213,13 +221,13 @@
 	}
 }
 
-@media screen and (max-height: 55em) {
-		#menu-box nav ul.menu li a i.icon-chef-logo {
-			font-size: 5em;
-		}
-}
-@media screen and (max-height: 40em) {
+@media screen and (max-height: 45em) {
 		#menu-box nav ul.menu li a i.icon-chef-logo {
 			font-size: 4em;
+		}
+}
+@media screen and (max-height: 30em) {
+		#menu-box nav ul.menu li a i.icon-chef-logo {
+			font-size: 3em;
 		}
 }
