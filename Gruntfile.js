@@ -111,7 +111,10 @@ module.exports = function(grunt) {
 
 		clean: {
 			build: {
-				src: [ 'public/frontend/fonts/**' ]
+				src: [
+					'public/frontend/fonts/basic*',
+					'public/frontend/fonts/icons.*'
+				]
 			}
 		},
 
