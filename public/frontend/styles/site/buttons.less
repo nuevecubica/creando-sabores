@@ -1,16 +1,19 @@
 
-.button(@color, @background) {
+.ui.menu:not(.vertical) .item>.button {
     padding: 10px 30px;
-    color: @color;
+}
+
+.ui.button.chef {
     font-weight: normal;
     text-transform: uppercase;
     border: none;
     border-radius: 0;
-    background-color: @background;
+    padding: 10px 30px;
 }
 
-.bottom-button(@color, @background) {
-	.button(@color, @background);
+.buttonAnimatedBottom(@color, @background) {
+    color: @color;
+    background-color: @background;
     box-shadow: 0px -4px 0px darken(@background, 10%) inset;
     animation: buttons-out 0.3s ease-out alternate forwards;
 
@@ -29,18 +32,19 @@
     }
 }
 
-.left-button(@color, @background) {
-    .button(@color, @background);
+.buttonAnimatedLeft(@color, @background) {
+    color: @color;
+    background-color: @background;
     box-shadow: 4px 0px 0px darken(@background, 10%) inset;
     animation: buttons-left-out 0.3s ease-out alternate forwards;
 
     @keyframes buttons-left-in {
         0% { box-shadow: 4px 0px 0px darken(@background, 10%) inset; }
-        100% { box-shadow: 100px 0px 0px darken(@background, 10%) inset; }
+        100% { box-shadow: 200px 0px 0px darken(@background, 10%) inset; }
     }
 
     @keyframes buttons-left-out {
-        0% { box-shadow: 100px 0px 0px darken(@background, 10%) inset; }
+        0% { box-shadow: 200px 0px 0px darken(@background, 10%) inset; }
         100% { box-shadow: 4px 0px 0px darken(@background, 10%) inset; }
     }
 
@@ -48,3 +52,7 @@
         animation: buttons-left-in 0.3s ease-out alternate forwards;
     }
 }
+
+// .ani-left-pink {
+//     .buttonAnimatedLeft();
+// }
