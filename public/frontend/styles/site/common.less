@@ -9,7 +9,7 @@ body {
 }
 
 body {
-  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "BrandonGrotesque-Regular", "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   background: #FFFFFF;
   margin: 0px;
   padding: 0px;
@@ -18,67 +18,24 @@ body {
   min-width: 320px;
 }
 
-/* I've heard there that I have to make a dossier to justify an "!important" on a style file, just say they started before  ;) */
-//body > div:nth-child(2) {
-  //margin-top: -52px !important;
-//}
-
-/****************
-  Header
-****************/
-#header {
-  font-family: 'Source Sans Pro', "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  background-color: transparent;
+h2 {
+  font-family: BrandonGrotesque-Bold;
+  text-transform: uppercase;
 }
 
-.overlay {
-  position: fixed;
-  width:  100%;
-  height: 100%;
-  top:  0;
-  left: 0;
-}
+.logo {
+  text-align: center !important;
 
-.action-overlay {
-  cursor: pointer;
-  width: 70%;
-  margin: 0 auto;
-  animation: play-out 0.1s ease-out forwards;
-}
-
-.play {
-  .action-overlay();
-
-  opacity: 0.75;
-
-  &:hover {
-    animation: play-in 0.1s ease-out forwards;
+  .icon {
+    color: @chef-color-white;
+    font-size: 200px;
   }
 }
 
-/****************
-  Animations
-****************/
-@keyframes border {
-    0% { box-shadow: 0px 0px 0px darken(@chef-color-pink-bg, @chef-darken) inset; }
-    100% { box-shadow: 6px 0px 0px darken(@chef-color-pink-bg, @chef-darken) inset; }
-}
+.content {
+  font-size: 18px;
 
-/****************
-  Footer
-****************/
-#footer {
-  background-color: @chef-color-green-bg;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  color: @chef-color-white;
+  p {
 
-  img {
-    margin: 0 auto;
-    width: 70%;
-  }
-
-  .ui.header {
-    text-transform: uppercase;
   }
 }
