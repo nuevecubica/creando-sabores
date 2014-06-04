@@ -37,7 +37,36 @@
     }
 
     .title {
-      padding-top: 60px;
+      height: 100%;
+      position: relative;
+
+      img {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        max-width: none;
+      }
+
+      .text {
+        bottom: 30px;
+        position: absolute;
+        width: 82%;
+        left: 30px;
+
+        .span {
+          font-family: Pinto;
+          font-size: 56px;
+          color: @chef-color-white;
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+
+          @media(max-width: 992px) {
+              font-size: 40px;
+          }
+        }
+      }
     }
   }
 }
@@ -93,6 +122,10 @@
 
     > .row {
        height: 50%;
+
+      .column:not(.grid) {
+        margin-top: 0.7rem;
+      }
     }
 
     > .row:last-child {
@@ -118,7 +151,7 @@
       display: inline-block;
       vertical-align: middle;
     }
-    
+
     .span {
       display: inline-block;
 
