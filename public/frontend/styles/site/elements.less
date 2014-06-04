@@ -1,12 +1,16 @@
 
 .button(@color, @background) {
-	padding: 10px 30px;
-	color: @color;
+    padding: 10px 30px;
+    color: @color;
     font-weight: normal;
     text-transform: uppercase;
     border: none;
     border-radius: 0;
     background-color: @background;
+}
+
+.bottom-button(@color, @background) {
+	.button(@color, @background);
     box-shadow: 0px -4px 0px darken(@background, 10%) inset;
     animation: buttons-out 0.3s ease-out alternate forwards;
 
@@ -22,5 +26,25 @@
 
     &:hover {
     	animation: buttons-in 0.3s ease-out alternate forwards;
+    }
+}
+
+.left-button(@color, @background) {
+    .button(@color, @background);
+    box-shadow: 4px 0px 0px darken(@background, 10%) inset;
+    animation: buttons-left-out 0.3s ease-out alternate forwards;
+
+    @keyframes buttons-left-in {
+        0% { box-shadow: 4px 0px 0px darken(@background, 10%) inset; }
+        100% { box-shadow: 100px 0px 0px darken(@background, 10%) inset; }
+    }
+
+    @keyframes buttons-left-out {
+        0% { box-shadow: 100px 0px 0px darken(@background, 10%) inset; }
+        100% { box-shadow: 4px 0px 0px darken(@background, 10%) inset; }
+    }
+
+    &:hover {
+        animation: buttons-left-in 0.3s ease-out alternate forwards;
     }
 }
