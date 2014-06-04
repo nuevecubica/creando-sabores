@@ -1,14 +1,8 @@
-// Bootstrap
-// =========
+/* Fonts first */
+@import "site/fonts.less";
+@import "site/iconsgibaja.less";
 
-// You can include less bootstrap components if you like by
-// importing the .less files you want directly, instead of
-// the main bootstrap/bootstrap.less file.
-//
-// Bootstrap can be removed entirely by deleting this line.
-
-//@import "bootstrap/bootstrap.less";
-
+/* Semantic UI stuff */
 @semantic-ui-path: "../../packages/semantic-ui/build/less/";
 
 /* Collections */
@@ -58,22 +52,12 @@
 @import "@{semantic-ui-path}views/list.less";
 @import "@{semantic-ui-path}views/statistic.less";
 
-// The easiest way to customise Bootstrap variables while
-// being able to easily override the source files with new
-// versions is to override the ones you want in another file.
-//
-// You can also add your own custom variables to this file for
-// use in your site stylesheets.
-
+/* Variables*/
 @import "site/variables.less";
 
-// Site Styles
-// ===========
+/* Site Styles */
 @import "site/common.less";
 @import "site/buttons.less";
 @import "site/menu.less";
 @import "site/bars.less";
 @import "site/recipes.less";
-@import "site/fonts.less";
-
-@import "site/iconsgibaja.less";

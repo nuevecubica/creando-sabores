@@ -1,24 +1,38 @@
-
-@font-face {
-	font-family: 'Pinto';
-	src: url('../fonts/Pinto-NO_01.eot?') format('eot'),
-	     url('../fonts/Pinto-NO_01.otf')  format('opentype'),
-	     url('../fonts/Pinto-NO_01.woff') format('woff'),
-	     url('../fonts/Pinto-NO_01.ttf')  format('truetype');
+.generateFont(@name, @font) {
+	font-family: @name;
+	src: url('../fonts/@{font}.eot?') format('eot'),
+	     url('../fonts/@{font}.woff') format('woff'),
+	     url('../fonts/@{font}.ttf')  format('truetype');
 }
 
 @font-face {
-	font-family: 'BrandonGrotesque-Bold';
-	src: url('../fonts/BrandonGrotesque-Bold.eot?') format('eot'),
-	     url('../fonts/BrandonGrotesque-Bold.otf')  format('opentype'),
-	     url('../fonts/BrandonGrotesque-Bold.woff') format('woff'),
-	     url('../fonts/BrandonGrotesque-Bold.ttf')  format('truetype');
+	.generateFont('Pinto', 'pinto-no_01-es-uc-webfont')
 }
 
 @font-face {
-	font-family: 'BrandonGrotesque-Regular';
-	src: url('../fonts/BrandonGrotesque-Regular.eot?') format('eot'),
-	     url('../fonts/BrandonGrotesque-Regular.otf')  format('opentype'),
-	     url('../fonts/BrandonGrotesque-Regular.woff') format('woff'),
-	     url('../fonts/BrandonGrotesque-Regular.ttf')  format('truetype');
+	.generateFont('BrandonGrotesque-Bold', 'brandongrotesque-bold-es-lc-uc-webfont')
 }
+
+@font-face {
+	.generateFont('BrandonGrotesque-Regular', 'brandongrotesque-regular-es-lc-uc-webfont');
+}
+
+/*
+
+Subsets made with http://www.fontsquirrel.com/tools/webfont-generator
+
+Options:
+
+	ttf, woff, eot
+	Font Squirrel hinting
+	Fix Vertical Metrics
+	Fix GASP Table
+	Spaces
+	Hyphens
+
+	Uppercase subsetting:
+	!"#$%&'()*+,-./0123456789=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_¡¿ÁÇÉÍÑÓÚÜ
+
+	Complete Subsetting:
+	!"#$%&'()*+,-./0123456789=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnojklmnopqrstuvwxyzz¡¿ÁÇÉÍÑÓÚÜáçéíñóúü
+*/
