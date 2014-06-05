@@ -28,4 +28,96 @@ block js
 		script(src='/keystone/js/content/editor.js')
 
 block content
-	| HELLO WORLD
+	#recipe.ui.grid.segment
+		.ui.page.grid
+			.row
+				include ../components/header
+
+			.row
+				.four.wide.column
+
+				.logo.eight.wide.column
+					i.icon-chef-logo.icon
+
+					.span Recetas
+
+			.row
+				.social.five.wide.column
+					| Síguenos en redes sociales
+					.ui.four.column.center.aligned.grid
+						.column
+							a.ui.item(href='http://twitter.com')
+								.ui.icon
+									i.icon-chef-twitter.icon
+						.column
+							a.ui.item(href='http://youtube.es')
+								.ui.icon
+									i.icon-chef-google.icon
+						.column
+							a.ui.item(href='http://facebook.com')
+								.ui.icon
+									i.icon-chef-facebook.icon
+						.column
+							a.ui.item(href='http://pinterest.es')
+								.ui.icon
+									i.icon-chef-pinterest.icon
+
+				.three.wide.column
+
+				.title.eight.wide.column
+					img.ui.image(src = '../frontend/images/test_recipe.png')
+					.text
+						.span Lasagna del chef
+
+	.ui.page.grid
+
+		include ../components/search
+
+		#add-new-bar.ui.grid.segment
+			.row
+				.ui.form
+					.field
+						.ui.icon.input
+							input(type='text', placeholder='Escribe aquí lo que buscas')
+							i.icon-chef-lupa.icon
+
+		#recipes.list.ui.grid.segment
+			- for (var row = 0; row < 5; row++)
+				.row
+					.five.wide.column
+						.thumbnail
+							.row
+
+							.row
+
+							.row
+								.ui.three.column.center.aligned.grid
+									.column
+										i.icon-chef-time.icon
+										.span 2 h
+
+									.column
+										i.icon-chef-porciones.icon
+										.span 4
+
+									.ranking.column
+										i.icon-chef-tenedor.icon.on
+										i.icon-chef-tenedor.icon.on
+										i.icon-chef-tenedor.icon.off
+										i.icon-chef-tenedor.icon.off
+										i.icon-chef-tenedor.icon.off
+
+					.eleven.wide.column
+						.ui.twelve.column
+							.pre-header
+								.strong Valoración:
+								.span
+									.ui.icon
+										i.icon-chef-star.icon.on
+										i.icon-chef-star.icon.on
+										i.icon-chef-star.icon.off
+										i.icon-chef-star.icon.off
+										i.icon-chef-star.icon.off
+
+							h2.ui.header Masa de pizza crujiente
+							.ui.content But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
