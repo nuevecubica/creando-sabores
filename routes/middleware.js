@@ -9,6 +9,7 @@ var _ = require('underscore'),
 exports.initLocals = function(req, res, next) {
 	var locals = res.locals;
 	locals.navLinks = [
+		{ label: 'Recetas', key: 'recetas', href: '/recipes' },
 		{ label: 'Videorecetas', key: 'videorecetas', href: '/' },
 		{ label: 'Menús', key: 'menus', href: '/' },
 		{ label: 'Tips', key: 'tips', href: '/' },
