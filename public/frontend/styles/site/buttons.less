@@ -41,8 +41,16 @@
     	100% { box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset; }
 	}
 
-    &:hover {
-    	animation: buttons-in 0.3s ease-out alternate forwards;
+    &:not(.off) {
+        &:hover {
+            animation: buttons-in 0.3s ease-out alternate forwards;
+        }
+    }
+
+    &.off {
+        background-color: lighten(@background, 30%);
+        box-shadow: none;
+        animation: none;
     }
 }
 
