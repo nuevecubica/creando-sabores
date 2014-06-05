@@ -82,14 +82,14 @@ MongoDB Environment:
 */
 
 // console.log("MongoDB Connection:\n\
-// 	DB: " 	+ process.env.MONGODB_DATABASE + "\n\
-// 	HOST: " + process.env.MONGODB_HOST + "\n\
-// 	PORT: " + process.env.MONGODB_PORT + "\n\
-// 	USER: " + process.env.MONGODB_USERNAME + "\n\
-// 	URL:  " + process.env.MONGO_URL);
+//	DB: " + process.env.MONGODB_DATABASE + "\n\
+//	HOST: " + process.env.MONGODB_HOST + "\n\
+//	PORT: " + process.env.MONGODB_PORT + "\n\
+//	USER: " + process.env.MONGODB_USERNAME + "\n\
+//	URL:  " + process.env.MONGO_URL);
 
 if (process.env.MONGO_URL) {
-    keystone.set('mongo url', process.env.MONGO_URL);
+	keystone.set('mongo url', process.env.MONGO_URL);
 }
 
 keystone.set('host', '0.0.0.0');
