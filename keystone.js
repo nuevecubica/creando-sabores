@@ -67,7 +67,8 @@ keystone.set('email rules', [{
 keystone.set('email tests', require('./routes/emails'));
 
 keystone.set('nav', {
-	'users': 'users'
+	'users': 'users',
+	'recipes': 'recipes'
 });
 
 /*
