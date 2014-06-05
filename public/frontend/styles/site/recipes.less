@@ -1,6 +1,9 @@
 
 @recipes-color-text: @chef-color-white;
 
+@recipes-tab-button-color: @chef-color-white;
+@recipes-tab-button-background: @chef-color-green-bg;
+
 /****************
   Recipes
 ****************/
@@ -85,5 +88,29 @@
   Video recipes Styles
 ****************/
 #recipes {
-  .list
+  .row {
+    margin-top: 0;
+    padding-top: 0;
+
+    &.tab {
+      .button {
+        .buttonAnimatedBottom(@recipes-tab-button-color, @recipes-tab-button-background);
+
+        width: 50%;
+      }
+    }
+
+    &.loader {
+      text-align: center;
+      font-size: 30px;
+      text-transform: uppercase;
+      padding: 15px 0;
+    }
+
+    .list {
+
+      .list
+    }
+  }
+
 }
