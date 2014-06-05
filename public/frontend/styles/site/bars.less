@@ -4,7 +4,17 @@
 @search-button-text-color: @chef-color-white;
 @search-button-background-color: @chef-color-pink-bg;
 
+@add-new-button-text-color: @chef-color-white;
+@add-new-button-background: @chef-color-brick-bg;
+
 @social-icon-color: @chef-color-black;
+
+@bars-padding: 30px;
+
+.bar {
+  padding-top: @bars-padding;
+  padding-bottom: @bars-padding;
+}
 
 /****************
   Search bar Styles
@@ -39,12 +49,27 @@
   }
 }
 
+#add-new-bar {
+  .bar;
+
+  .span {
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: center;
+
+    .button {
+      .buttonAnimatedBottom(@add-new-button-text-color, @add-new-button-background);
+
+      margin: 0 30px
+    }
+  }
+}
+
 /****************
   Social Bar Styles
 ****************/
 #social {
-  padding-top: 30px;
-  padding-bottom: 30px;
+  .bar;
 
   a {
     color: @social-icon-color;
