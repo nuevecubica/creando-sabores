@@ -80,6 +80,16 @@ MongoDB Environment:
 	MONGODB_PASSWORD
 	MONGO_URL
 */
+
+	console.log("MongoDB Connection:\n\
+		DB: " 	+ process.env.MONGODB_DATABASE + "\n\
+		HOST: " + process.env.MONGODB_HOST + "\n\
+		PORT: " + process.env.MONGODB_PORT + "\n\
+		USER: " + process.env.MONGODB_USERNAME + "\n\
+		PASS: " + process.env.MONGODB_PASSWORD + "\n\
+		URL:  " + process.env.MONGO_URL);
+
+
 if (process.env.MONGO_URL) {
     keystone.set('mongo url', process.env.MONGO_URL);
 }
