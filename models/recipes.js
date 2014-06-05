@@ -21,7 +21,7 @@ Recipe.add({
 		type: Types.Relationship,
 		ref: 'User',
 		index: true
-	},
+	}
 },
 
 'Media',
@@ -36,7 +36,7 @@ Recipe.add({
 		numeric: true,
 		options: [
 			{ value: 0, label: 'draft' },
-			{ value: 1, label: 'published' },
+			{ value: 1, label: 'published' }
 		],
 		default: 0
 	},
@@ -54,7 +54,7 @@ Recipe.add({
 		type: Types.Boolean,
 		label: 'Ban',
 		note: 'This recipe contains something evil'
-	},
+	}
 },
 
 'Procedure',
