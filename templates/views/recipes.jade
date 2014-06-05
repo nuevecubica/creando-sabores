@@ -75,11 +75,12 @@ block content
 
 		#add-new-bar.ui.grid.segment
 			.row
-				.ui.form
-					.field
-						.ui.icon.input
-							input(type='text', placeholder='Escribe aquí lo que buscas')
-							i.icon-chef-lupa.icon
+				.two.wide.column
+				.twelve.wide.column
+					.span ¿ Tienes una receta en mente?
+						.ui.button.chef
+							a(href='/') Crear receta
+
 
 		#recipes.list.ui.grid.segment
 			- for (var row = 0; row < 5; row++)
