@@ -82,7 +82,7 @@ Recipe.add({
 // Recipe can be shown
 Recipe.schema.virtual('canBeShown').get(function() {
 	return !this.isBanned;
-})
+});
 
 /**
  * Registration
