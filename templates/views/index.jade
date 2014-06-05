@@ -69,13 +69,7 @@ block content
 
 	.ui.page.grid
 
-		#search-bar.ui.grid.segment
-			.row
-				.ui.form
-					.field
-						.ui.icon.input
-							input(type='text', placeholder='Escribe aquí lo que buscas')
-							i.icon-chef-lupa.icon
+		include ../components/search
 
 		//- #grid.ui.page.grid.segment
 
@@ -99,10 +93,10 @@ block content
 
 
 
-		#video-recipes.ui.grid.segment
-			- for (var row = 0; row < 4; row++)
+		#video-recipes.list.ui.grid.segment
+			- for (var row = 0; row < 5; row++)
 				.row
-					.four.wide.column
+					.five.wide.column
 						.thumbnail
 							.row
 
@@ -130,7 +124,7 @@ block content
 										i.icon-chef-tenedor.icon.off
 										i.icon-chef-tenedor.icon.off
 
-					.twelve.wide.column
+					.eleven.wide.column
 						.ui.twelve.column
 							.pre-header
 								.strong Valoración:
