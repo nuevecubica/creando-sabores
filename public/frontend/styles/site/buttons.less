@@ -21,29 +21,30 @@
     }
 }
 
-.buttonAnimatedBottom(@color, @background) {
+.buttonAnimatedBottom(@name-in, @name-out, @color, @background) {
+
     color: @color;
     background-color: @background;
     box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset;
-    animation: buttons-out 0.3s ease-out alternate forwards;
+    animation: @name-out 0.3s ease-out alternate forwards;
 
     a {
         color: @color;
     }
 
-    @keyframes buttons-in {
+    @keyframes @name-in {
 		0% { box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset; }
     	100% { box-shadow: 0px -100px 0px darken(@background, 10%) inset; }
 	}
 
-    @keyframes buttons-out {
+    @keyframes @name-out {
     	0% { box-shadow: 0px -100px 0px darken(@background, 10%) inset; }
     	100% { box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset; }
 	}
 
     &:not(.off) {
         &:hover {
-            animation: buttons-in 0.3s ease-out alternate forwards;
+            animation: @name-in 0.3s ease-out alternate forwards;
         }
     }
 
@@ -54,27 +55,27 @@
     }
 }
 
-.buttonAnimatedLeft(@color, @background) {
+.buttonAnimatedLeft(@name-in, @name-out, @color, @background) {
     color: @color;
     background-color: @background;
     box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset;
-    animation: buttons-left-out 0.3s ease-out alternate forwards;
+    animation: @name-out 0.3s ease-out alternate forwards;
 
     a {
         color: @color;
     }
 
-    @keyframes buttons-left-in {
+    @keyframes @name-in {
         0% { box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset; }
         100% { box-shadow: 200px 0px 0px darken(@background, 10%) inset; }
     }
 
-    @keyframes buttons-left-out {
+    @keyframes @name-out {
         0% { box-shadow: 200px 0px 0px darken(@background, 10%) inset; }
         100% { box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset; }
     }
 
     &:hover {
-        animation: buttons-left-in 0.3s ease-out alternate forwards;
+        animation: @name-in 0.3s ease-out alternate forwards;
     }
 }
