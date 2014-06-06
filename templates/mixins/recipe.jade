@@ -1,0 +1,42 @@
+mixin recipe(recipe)
+	.five.wide.column
+		.thumbnail
+			.row
+
+			.row
+
+			.row
+				.ui.three.column.center.aligned.grid
+					.column
+						i.icon-chef-time.icon
+						.span= recipe.time + ' h'
+
+					.column
+						i.icon-chef-porciones.icon
+						.span= recipe.portions
+
+					.ranking.column
+						- var difficulty = recipe.difficulty
+						- for(var x = 0; x < 5; x++)
+							if(difficulty == 0)
+								i.icon-chef-tenedor.icon.off
+							else
+								i.icon-chef-tenedor.icon.on
+								- difficulty = difficulty - 1;
+
+	.eleven.wide.column
+		.ui.twelve.column
+			.pre-header
+				.strong Valoración:
+				.span
+					.ui.icon
+						- var difficulty = recipe.difficulty
+						- for(var x = 0; x < 5; x++)
+							if(difficulty == 0)
+								i.icon-chef-star.icon.off
+							else
+								i.icon-chef-star.icon.on
+								- difficulty = difficulty - 1;
+
+			h2.ui.header= recipe.title
+			.ui.content= recipe.description
