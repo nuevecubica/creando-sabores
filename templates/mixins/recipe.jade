@@ -38,5 +38,5 @@ mixin recipe(recipe)
 								i.icon-chef-star.icon.on
 								- rating = rating - 1;
 
-			h2.ui.header= recipe.title
-			.ui.content= recipe.description
+			h2.ui.header!= recipe.title
+			.ui.content!= recipe.description
