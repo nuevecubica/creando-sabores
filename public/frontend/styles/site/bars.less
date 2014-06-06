@@ -44,7 +44,7 @@
       cursor: pointer;
       padding-top: 0.10em;
 
-      .buttonAnimatedLeft(@search-button-text-color, @search-button-background-color);
+      .buttonAnimatedLeft('pink-button-left-in', 'pink-button-left-out', @search-button-text-color, @search-button-background-color);
     }
   }
 }
@@ -58,7 +58,7 @@
     text-align: center;
 
     .button {
-      .buttonAnimatedBottom(@add-new-button-text-color, @add-new-button-background);
+      .buttonAnimatedBottom('red-button-in', 'red-button-out', @add-new-button-text-color, @add-new-button-background);
 
       margin: 0 30px
     }
