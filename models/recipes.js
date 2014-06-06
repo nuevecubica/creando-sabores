@@ -21,6 +21,11 @@ Recipe.add({
 		type: Types.Relationship,
 		ref: 'User',
 		index: true
+	},
+
+	rating: {
+		type: Types.Number,
+		noedit: true
 	}
 },
 
@@ -48,12 +53,21 @@ Recipe.add({
 		}
 	},
 
-	editDate: { type: Types.Date },
+	editDate: {
+		type: Types.Date,
+		dependsOn: {
+			state: 1
+		}
+	},
 
 	isBanned: {
 		type: Types.Boolean,
 		label: 'Ban',
-		note: 'This recipe contains something evil'
+		note: 'This recipe contains something evil',
+		dependsOn: {
+			state: 1
+		},
+		default: false
 	}
 },
 
@@ -84,9 +98,19 @@ Recipe.schema.virtual('canBeShown').get(function() {
 	return !this.isBanned;
 });
 
+// Schema for ranking
+var Rating = new keystone.mongoose.Schema({
+	user: String,
+	rating: Number
+});
+
+Recipe.schema.add({
+	review: [ Rating ]
+});
+
 /**
  * Registration
  * ============
  */
-Recipe.defaultColumns = 'title, author, isBanned';
+Recipe.defaultColumns = 'title, author, publishedDate, rate, isBanned';
 Recipe.register();

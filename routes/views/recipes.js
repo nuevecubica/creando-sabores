@@ -20,6 +20,7 @@ exports = module.exports = function(req, res) {
 				perPage: 5
 			})
 			.where('state', 1)
+			.where('isBanned', false)
 			.sort('-publishedDate');
 
 		q.exec(function(err, results) {
