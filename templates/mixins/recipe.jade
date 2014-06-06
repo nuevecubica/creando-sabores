@@ -15,7 +15,7 @@ mixin recipe(recipe)
 						i.icon-chef-porciones.icon
 						.span= recipe.portions
 
-					.ranking.column
+					.difficulty.column
 						- var difficulty = recipe.difficulty
 						- for(var x = 0; x < 5; x++)
 							if(difficulty == 0)
@@ -26,7 +26,7 @@ mixin recipe(recipe)
 
 	.eleven.wide.column
 		.ui.twelve.column
-			.pre-header
+			.rating
 				.strong Valoración:
 				.span
 					.ui.icon
