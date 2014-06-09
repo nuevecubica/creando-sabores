@@ -17,4 +17,5 @@ exports = module.exports = function(app) {
 	// Views
 	app.get('/', routes.views.index);
 	app.get('/recetas', routes.views.recipes);
+	app.get('/registro', routes.views.signup);
 };
