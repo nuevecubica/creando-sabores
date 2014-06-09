@@ -2,9 +2,6 @@
 	Menu
 ****************/
 
-@chef-menu-buttons-text: @chef-color-white;
-@chef-menu-buttons-background: @chef-color-brick-bg;
-
 @chef-menu-text: @chef-color-white;
 @chef-menu-section: @chef-color-brick;
 @chef-menu-text-size: 28px;
@@ -14,15 +11,16 @@
 
 //====================================
 
+.preload #menu-box {
+	transform: translateY(-100%) !important;
+	visibility: hidden !important;
+}
+
 #menu-wrapper {
 	position: relative;
 	min-height: 52px;
 	vertical-align: middle;
 	z-index: 20;
-
-	.button {
-		.buttonAnimatedBottom('red-button-in', 'red-button-out', @chef-menu-buttons-text, @chef-menu-buttons-background);
-	}
 
 	.menu {
 		box-shadow: none;
@@ -39,7 +37,7 @@
 
 		i:before {
 			font-size: 30px;
-			color: @chef-menu-buttons-text;
+			color: @chef-menu-text;
 		}
 
 		cursor: pointer;
@@ -70,11 +68,11 @@
 }
 
 @keyframes menuunbounce {
-	0% {
+	from {
 		transform: translateY(0%);
 		visibility: visible;
 	}
-	100% {
+	to {
 		transform: translateY(-100%);
 		visibility: hidden;
 	}
@@ -84,13 +82,40 @@
 	.overlay;
 
 	z-index: 999;
-
+	transform: translateY(-100%);
 	visibility: hidden;
-	animation-name: menuunbounce;
-	animation-duration: 200ms;
-	animation-timing-function: ease-in;
-	animation-fill-mode: forwards;
+
+	&.close {
+		animation-name: menuunbounce;
+		animation-duration: 200ms;
+		animation-timing-function: ease-in;
+		animation-fill-mode: both;
+	}
+
+	&.open {
+		animation-name: menubounce;
+		animation-duration: 400ms;
+		animation-timing-function: linear;
+		animation-fill-mode: both;
+	}
+
 	overflow: hidden;
+
+	background: fade(@chef-menu-background, 90%);
+
+	#menu-close {
+		position: absolute;
+		padding: .83em .95em;
+		right: 10%;
+		top: 12px;
+
+		i:before {
+			font-size: 30px;
+			color: @chef-menu-text;
+		}
+
+		cursor: pointer;
+	}
 
 	nav {
 		box-sizing: border-box;
@@ -182,30 +207,6 @@
 				}
 			}
 		}
-	}
-
-	background: fade(@chef-menu-background, 90%);
-
-	&.open {
-		visibility: visible;
-		animation-name: menubounce;
-		animation-duration: 400ms;
-		animation-timing-function: linear;
-		animation-fill-mode: forwards;
-	}
-
-	#menu-close {
-		position: absolute;
-		padding: .83em .95em;
-		right: 10%;
-		top: 12px;
-
-		i:before {
-			font-size: 30px;
-			color: @chef-menu-text;
-		}
-
-		cursor: pointer;
 	}
 }
 

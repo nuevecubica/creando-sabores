@@ -39,7 +39,7 @@ block content
 				.four.wide.column
 
 				.logo.eight.wide.column
-					i.icon-chef-logo.icon
+					a.icon-chef-logo.icon(href="/")
 
 					.span Recetas
 
@@ -79,15 +79,15 @@ block content
 			.row
 				.sixteen.wide.column
 					.span ¿ Tienes una receta en mente?
-						.ui.button.chef
+						.ui.button.chef.button-brick
 							a(href='/') Crear receta
 
 
 		#recipes.ui.grid.segment
 			.row.tab
-				.ui.button.chef
+				.ui.button.chef.button-green
 					a(href='/') Populares
-				.ui.button.chef.off
+				.ui.button.chef.button-green.disabled
 					a(href='/') Temporada
 
 			.row
