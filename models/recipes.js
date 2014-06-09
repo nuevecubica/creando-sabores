@@ -38,7 +38,7 @@ Recipe.add({
 		value: function() {
 			var average = 0;
 
-			if(this.review.length <= 0) return 0.00
+			if(this.review.length <= 0) { return 0.00; }
 
 			for(var rev = 0; rev < this.review.length; rev++) {
 				average += this.review[rev].rating;
@@ -133,11 +133,11 @@ Recipe.schema.virtual('canBeShown').get(function() {
 
 // Check if time and portions values
 Recipe.schema.path('time').set(function(value) {
-	return changeNatural(value);
+	return (value < 0) ? value * (-1) : value;
 });
 
 Recipe.schema.path('portions').set(function(value){
-	return changeNatural(value);
+	return (value < 0) ? value * (-1) : value;
 });
 
 // Check params before save
@@ -172,14 +172,9 @@ Recipe.schema.add({
 	review: [ Rating ]
 });
 
-// Auxiliar functions
-var changeNatural = function(value){
-	return (value < 0) ? value * (-1) : value;
-}
-
 /**
  * Registration
  * ============
  */
-Recipe.defaultColumns = 'title, author, publishedDate, rate, isBanned';
+Recipe.defaultColumns = 'title, author, publishedDate, rating, official, isBanned';
 Recipe.register();
