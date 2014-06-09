@@ -23,15 +23,12 @@ Recipe.add({
 		ref: 'User',
 		required: true,
 		initial: true,
-		index: true,
-		noedit: true,
+		index: true
 	},
 
 	official: {
 		type: Types.Boolean,
-		label: 'Official recipe',
-		note: 'Indicates that this recipe will be official',
-		noedit: true,
+		hide: true
 	},
 
 	rating: {
@@ -135,13 +132,9 @@ Recipe.schema.virtual('canBeShown').get(function() {
 });
 
 // Check if time and portions values
-Recipe.schema.path('time').set(function(value) {
-	return (value < 0) ? value * (-1) : value;
-});
+Recipe.schema.path('time').set(changeNatural(value));
 
-Recipe.schema.path('portions').set(function(value) {
-	return (value < 0) ? value * (-1) : value;
-});
+Recipe.schema.path('portions').set(changeNatural(value));
 
 // Check params before save
 Recipe.schema.pre('save', function(next) {
@@ -174,6 +167,11 @@ var Rating = new keystone.mongoose.Schema({
 Recipe.schema.add({
 	review: [ Rating ]
 });
+
+// Auxiliar functions
+var changeNatural = function (value){
+	return (value < 0) ? value * (-1) : value;
+}
 
 /**
  * Registration
