@@ -28,7 +28,7 @@ Recipe.add({
 
 	official: {
 		type: Types.Boolean,
-		hide: true
+		hidden: true
 	},
 
 	rating: {
@@ -132,9 +132,13 @@ Recipe.schema.virtual('canBeShown').get(function() {
 });
 
 // Check if time and portions values
-Recipe.schema.path('time').set(changeNatural(value));
+Recipe.schema.path('time').set(function(value) {
+	return changeNatural(value);
+});
 
-Recipe.schema.path('portions').set(changeNatural(value));
+Recipe.schema.path('portions').set(function(value){
+	return changeNatural(value);
+});
 
 // Check params before save
 Recipe.schema.pre('save', function(next) {
@@ -169,7 +173,7 @@ Recipe.schema.add({
 });
 
 // Auxiliar functions
-var changeNatural = function (value){
+var changeNatural = function(value){
 	return (value < 0) ? value * (-1) : value;
 }
 
