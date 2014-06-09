@@ -1,6 +1,7 @@
 var _ = require('underscore'),
 	keystone = require('keystone'),
-	Types = keystone.Field.Types;
+	Types = keystone.Field.Types,
+	async = require('async');
 
 /**
  * Recipe
@@ -20,12 +21,31 @@ Recipe.add({
 	author: {
 		type: Types.Relationship,
 		ref: 'User',
+		required: true,
+		initial: true,
 		index: true
+	},
+
+	official: {
+		type: Types.Boolean,
+		hidden: true
 	},
 
 	rating: {
 		type: Types.Number,
-		noedit: true
+		noedit: true,
+		watch: true,
+		value: function() {
+			var average = 0;
+
+			if(this.review.length <= 0) return 0.00
+
+			for(var rev = 0; rev < this.review.length; rev++) {
+				average += this.review[rev].rating;
+			}
+
+			return (average / this.review.length).toFixed(2);
+		}
 	}
 },
 
@@ -86,9 +106,22 @@ Recipe.add({
 		default: 0
 	},
 
+	time: {
+		type: Types.Number,
+		note: 'In minutes',
+		required: true,
+		initial: false,
+		default: 0
+	},
+
+	portions: {
+		type: Types.Number,
+		required: true,
+		initial: false,
+		default: 0
+	},
+
 	description: { type: Types.Html, wysiwyg: true, height: 100 },
-	time: { type: Types.Number, note: 'In minutes' },
-	portions: { type: Types.Number },
 	ingredients: { type: Types.Html, wysiwyg: true, height: 50 },
 	procedure: { type: Types.Html, wysiwyg: true, height: 200 }
 });
@@ -96,6 +129,37 @@ Recipe.add({
 // Recipe can be shown
 Recipe.schema.virtual('canBeShown').get(function() {
 	return !this.isBanned;
+});
+
+// Check if time and portions values
+Recipe.schema.path('time').set(function(value) {
+	return changeNatural(value);
+});
+
+Recipe.schema.path('portions').set(function(value){
+	return changeNatural(value);
+});
+
+// Check params before save
+Recipe.schema.pre('save', function(next) {
+
+	var me = this;
+
+	async.parallel({
+		// Check if user isChef, for official recipe.
+		official: function(callback) {
+			keystone.list('User').model.findById(me.author).exec(function(err, user) {
+				callback(null, (user.isChef) ? user.isChef : false);
+			});
+		}
+
+		// Adds some check and test here
+	},
+	function(err, results) {
+		me.official = results.official;
+		next();
+	});
+
 });
 
 // Schema for ranking
@@ -107,6 +171,11 @@ var Rating = new keystone.mongoose.Schema({
 Recipe.schema.add({
 	review: [ Rating ]
 });
+
+// Auxiliar functions
+var changeNatural = function(value){
+	return (value < 0) ? value * (-1) : value;
+}
 
 /**
  * Registration
