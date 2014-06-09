@@ -176,5 +176,5 @@ Recipe.schema.add({
  * Registration
  * ============
  */
-Recipe.defaultColumns = 'title, author, publishedDate, rating, official, isBanned';
+Recipe.defaultColumns = 'title, author, publishedDate, official, isBanned';
 Recipe.register();
