@@ -2,6 +2,11 @@
 // customising the .env file in your project's root folder.
 require('dotenv').load();
 
+if (!process.env.NODE_ENV) {
+	console.warn("Warning: Environment variable NODE_ENV not defined.");
+	process.env.NODE_ENV = 'development';
+}
+
 // Require keystone
 var keystone = require('keystone');
 
@@ -96,10 +101,6 @@ keystone.set('host', '0.0.0.0');
 
 if (process.env.PORT) {
    keystone.set('port', process.env.PORT);
-}
-
-if (!process.env.NODE_ENV) {
-	console.warn("Warning: Environment variable NODE_ENV not defined.");
 }
 
 keystone.start();

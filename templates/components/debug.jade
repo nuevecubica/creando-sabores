@@ -1,0 +1,37 @@
+style.
+	#debug {
+		position:fixed;
+		bottom:0; left:0;
+		width:100%; font-size:16px;
+		padding: 5px 0;
+		background: rgb(0,0,0);
+		opacity: .55;
+		text-align: center;
+		color: white;
+	}
+	#debug span { display: inline-block; margin: 0 6.5px; }
+	#debug .debug { text-transform: uppercase; }
+	#debugClose {
+		cursor: pointer;
+		position: absolute;
+		right: 0;
+	}
+
+#debug
+	span.debug=env.NODE_ENV
+	span.version.chefcito Chefcito #{version}
+	| +
+	span.version.keystone Keystone #{ksversion}
+	| +
+	span.version.nodejs NodeJS #{process.version.substr(1)}
+	span#debugClose &times;
+
+script.
+	$('#debugClose').click(function(){
+		$('#debug').animate({
+			height: 0,
+			padding: 0,
+			margin: 0,
+			display: 'none'
+		}, 100);
+	});
