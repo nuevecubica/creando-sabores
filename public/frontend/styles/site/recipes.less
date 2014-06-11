@@ -1,6 +1,12 @@
 
 @recipes-color-text: @chef-color-white;
 
+@ingredients-color-check-enabled: @chef-color-brick-bg;
+@ingredients-color-check-disabled: @chef-color-gray-bg;
+@ingredients-border-check-enabled: @chef-color-black;
+@ingredients-border-check-disabled: @chef-color-gray-bg;
+
+
 /****************
   Recipes
 ****************/
@@ -110,14 +116,47 @@
 /****************
   Recipe Styles
 ****************/
+
 #recipe-content {
+  .checks {
+    color: @ingredients-color-check-disabled;
+    border: 1px solid @ingredients-border-check-disabled;
+    opacity: 1;
+    display: inline;
+    padding: 4px;
+    font-size: 24px;
+    line-height: 48px;
+    cursor: pointer;
+    margin-right: 10px;
+
+    // Fix pixel font
+    &.icon-chef-cesta:before {
+      text-indent: 1px;
+    }
+
+    &.activated {
+      color: @ingredients-color-check-enabled;
+      border: 1px solid @ingredients-border-check-enabled;
+
+      &:hover {
+        color: @ingredients-color-check-disabled;
+        //border: 1px solid @ingredients-border-check-disabled;
+      }
+    }
+
+    &:hover {
+      color: @ingredients-color-check-enabled;
+      border: 1px solid @ingredients-border-check-enabled;
+    }
+  }
 
   .ingredients {
 
     .ingredient {
 
-      .icon-chef-cesta:before {
-        color: red;
+      .span {
+        display: inline;
+        text-transform: capitalize;
       }
     }
   }
@@ -125,9 +164,8 @@
   .steps {
 
     .step {
-
-      .icon-chef-tick:before {
-        color: red;
+      .ui.header {
+        display: inline;
       }
     }
   }
