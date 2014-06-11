@@ -55,20 +55,21 @@ block content
 								a(href='') Google
 
 						.column
-							form(action='signup')
+							form(action='registro', method='post')
 								.ui.form.segment
 									.field
 										label Correo electrónico
 										.ui.left.labeled.input
-											input(id='signup_email', name='signup_email', type='text', placeholder='Correo electrónico')
+											input(id='signup_email', type='text', name='signup_email', placeholder='Correo electrónico')
 									.field
 										label Nombre de usuario
 										.ui.left.labeled.input
-											input(id='signup_name', name='signup_name', type='text', placeholder='Nombre de usuario')
+											input(id='signup_name', type='text', name='signup_name', placeholder='Nombre de usuario')
 									.field
 										label Contraseña
 										.ui.left.labeled.input
 											input(id='signup_password', name='signup_password', type='password')
 
-									.ui.button.chef.button-green
-										input(type='submit', value='Registro')
+									input(type='hidden', name='action', value='signup')
+
+									button.ui.button.chef.button-green(type='submit') Registro
