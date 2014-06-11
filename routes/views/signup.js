@@ -18,29 +18,53 @@ exports = module.exports = function(req, res) {
 
 	view.on('post', { action: 'signup' }, function(next) {
 		async.series([
+			// Check automatic login or duplicated.
+			function(cb) {
+				// Mail and password
+				if (req.body.signup_email && req.body.signup_password) {
+					// User exists
+					keystone.list('User').model.findOne({ email: req.body.signup_email }, function(err, user) {
+						if (err || user) {
+							// Try to signin
+							var onSuccess = function() {
+								// Logged in
+								return res.redirect(userHome);
+							};
+							var onFail = function(e) {
+								// Duplicated
+								console.error('SIGNUP: Email exists');
+								req.flash('error', 'User already exists with that email address.');
+								return cb(true);
+							};
+							keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);
+						}
+						else {
+							// User doesn't exist
+							return cb(false);
+						}
+					});
+				}
+				else {
+					// Missing data
+					return cb(true);
+				}
+			},
+
+			// Check missing data
 			function(cb) {
 				if (!req.body.signup_name || !req.body.signup_email || !req.body.signup_password) {
 					console.error('SIGNUP: Missing data');
-					req.flash('error', 'Please enter a name, email and password.');
+					req.flash('error', 'Please enter an email, username and password.');
 					return cb(true);
 				}
 				return cb(false);
 			},
 
-			function(cb) {
-				keystone.list('User').model.findOne({ email: req.body.signup_email }, function(err, user) {
-					if (err || user) {
-						console.error('SIGNUP: User exists');
-						req.flash('error', 'User already exists with that email address.');
-						return cb(true);
-					}
-					return cb();
-				});
-			},
-
+			// Save to database
 			function(cb) {
 				var userData = {
 					name: req.body.signup_name,
+					username: req.body.signup_name,
 					email: req.body.signup_email,
 					password: req.body.signup_password
 				};
@@ -59,6 +83,8 @@ exports = module.exports = function(req, res) {
 			if (err) {
 				return next();
 			}
+
+			// Login on signup success
 			var onSuccess = function() {
 				return res.redirect(userHome);
 			};
