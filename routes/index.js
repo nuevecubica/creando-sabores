@@ -33,6 +33,6 @@ exports = module.exports = function(app) {
 	// Views
 	app.get('/', routes.views.index);
 	app.get('/recetas', routes.views.recipes);
-	app.all('/registro', routes.views.signup);
+	app.all('/:mode(registro|acceso)', routes.views.signup);
 	app.get('/salir', routes.views.signout);
 };

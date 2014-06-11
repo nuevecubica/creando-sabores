@@ -13,7 +13,7 @@ block content
 				.logo.eight.wide.column
 					a.icon-chef-logo.icon(href="/")
 
-					.span Registro
+					.span Acceso
 					.span Fácil y rápido
 
 			.row
@@ -31,18 +31,14 @@ block content
 							form(action='registro', method='post')
 								.ui.form.segment
 									.field
-										label Correo electrónico
+										label(for='login_email') Correo electrónico
 										.ui.left.labeled.input
-											input(id='signup_email', type='email', name='signup_email', placeholder='Correo electrónico')
+											input(id='login_email', type='email', name='login_email', placeholder='Correo electrónico')
 									.field
-										label Nombre de usuario
+										label(for='login_password') Contraseña
 										.ui.left.labeled.input
-											input(id='signup_name', type='text', name='signup_name', placeholder='Nombre de usuario')
-									.field
-										label Contraseña
-										.ui.left.labeled.input
-											input(id='signup_password', name='signup_password', type='password')
+											input(id='login_password', name='login_password', type='password')
 
-									input(type='hidden', name='action', value='signup')
+									input(type='hidden', name='action', value='login')
 
-									button.ui.button.chef.button-green(type='submit') Continuar
+									button.ui.button.chef.button-green(type='submit') Acceder

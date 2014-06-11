@@ -13,7 +13,7 @@ exports = module.exports = function(req, res) {
 		view = new keystone.View(req, res);
 
 	// Set locals
-	locals.section = 'signup';
+	locals.section = 'session';
 	locals.form = req.body;
 
 	view.on('post', { action: 'signup' }, function(next) {
@@ -98,6 +98,33 @@ exports = module.exports = function(req, res) {
 
 	});
 
+	view.on('post', { action: 'login' }, function(next) {
+		// Mail and password
+		if (req.body.login_email && req.body.login_password) {
+			// Try to signin
+			var onSuccess = function() {
+				// Logged in
+				return res.redirect(userHome);
+			};
+			var onFail = function(e) {
+				// Duplicated
+				console.error('SIGNUP: Login failed');
+				req.flash('error', 'Invalid credentials.');
+				return next();
+			};
+			keystone.session.signin({ email: req.body.login_email, password: req.body.login_password }, req, res, onSuccess, onFail);
+		}
+		else {
+			// Missing data
+			return next();
+		}
+	});
+
 	// Render the view
-	view.render('signup');
+	if (req.params.mode === 'acceso') {
+		view.render('login');
+	}
+	else {
+		view.render('signup');
+	}
 };
