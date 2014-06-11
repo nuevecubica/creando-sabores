@@ -6,12 +6,12 @@ var _ = require('underscore'),
  * Users
  * =====
  */
-
 var User = new keystone.List('User');
 
 User.add({
-	name: { type: Types.Name, initial: true, required: true, index: true },
-	email: { type: Types.Email, initial: true, required: true, index: true },
+	name: { type: Types.Text, initial: true, required: true, index: false },
+	username: { type: Types.Text, index: true, unique: true },
+	email: { type: Types.Email, initial: true, required: true, index: true, unique: true },
 	password: { type: Types.Password, initial: true, required: false },
 	about: { type: Types.Textarea }
 }, 'Media', {
@@ -49,6 +49,5 @@ User.schema.virtual('canLogin').get(function() {
 /**
  * Registration
  */
-
 User.defaultColumns = 'name, email, isAdmin, isChef, isConfirmed, isBanned';
 User.register();
