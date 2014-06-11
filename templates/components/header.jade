@@ -5,10 +5,12 @@
 				.ui.menu
 					.right.menu
 						if user
+							a.ui.item(href='/')
+								.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
+								| #{user.name}
 							if user.canAccessKeystone
-								a.ui.item(href='/')
-									.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
-									| Alberto Chicote
+								.ui.item
+									a.ui.button.chef.button-brick(href="/keystone") Admin
 
 						else
 							.ui.item
