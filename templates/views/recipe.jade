@@ -108,12 +108,12 @@ block content
 
 			.row
 				.sixteen.wide.column
-					!= data.recipe.description
+					.ui.content!= data.recipe.description
 
 			.row
 				.sixteen.wide.column
 					h2.ui.header Ingedientes
-					p En caso de que te falte algún ingrediente pulsa sobre la cesta de la compra y será añadido automáticamente a tu lista de la compra.
+					.ui.content En caso de que te falte algún ingrediente pulsa sobre la cesta de la compra y será añadido automáticamente a tu lista de la compra.
 
 					.ui.button.chef.button-green
 						a Añadir a la lista de la compra
@@ -122,9 +122,11 @@ block content
 						- var array = data.recipe.ingredients.split('<p>')
 						- for(var j = 1; j < array.length; j++)
 							.ingredient
-								.span.icon-chef-cesta!= array[j]
-
-						.span.icon-chef-cesta.ingredient Marcar todos
+								.icon-chef-cesta.checks
+								.span!= array[j]
+						.ingredient
+							.icon-chef-cesta.checks
+							.span Marcar todos
 
 			.row
 				.sixteen.wide.column
@@ -133,6 +135,7 @@ block content
 						- var array = data.recipe.procedure.split('<p>')
 						- for(var j = 1; j < array.length; j++)
 							.step
-								.ui.header.icon-chef-tick= 'Paso ' + j
+								.icon-chef-tick.checks
+								.ui.header= 'Paso ' + j
 								.ui.content!= array[j]
 

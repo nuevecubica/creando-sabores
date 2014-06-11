@@ -23,7 +23,6 @@ exports = module.exports = function(req, res) {
 		}).populate('author');
 
 		q.exec(function(err, result) {
-			console.log(result);
 			locals.data.recipe = result;
 			next(err);
 		});
