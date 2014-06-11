@@ -55,22 +55,20 @@ block content
 								a(href='') Google
 
 						.column
-							.ui.form.segment
-								.field
-									label Correo electrónico
-									.ui.left.labeled.input
-										input(type="text", placeholder="Correo electrónico")
-								.field
-									label Nombre de usuario
-									.ui.left.labeled.input
-										input(type="text", placeholder="Nombre de usuario")
-								.field
-									label Contraseña
-									.ui.left.labeled.input
-										input(type="password")
+							form(action='signup')
+								.ui.form.segment
+									.field
+										label Correo electrónico
+										.ui.left.labeled.input
+											input(id='signup_email', name='signup_email', type='text', placeholder='Correo electrónico')
+									.field
+										label Nombre de usuario
+										.ui.left.labeled.input
+											input(id='signup_name', name='signup_name', type='text', placeholder='Nombre de usuario')
+									.field
+										label Contraseña
+										.ui.left.labeled.input
+											input(id='signup_password', name='signup_password', type='password')
 
-									.ui.error.message
-										.header We noticed some issues
-
-								.ui.button.chef.button-green
-									a(href='') Registro
+									.ui.button.chef.button-green
+										input(type='submit', value='Registro')
