@@ -34,4 +34,5 @@ exports = module.exports = function(app) {
 	app.get('/', routes.views.index);
 	app.get('/recetas', routes.views.recipes);
 	app.all('/registro', routes.views.signup);
+	app.get('/salir', routes.views.signout);
 };

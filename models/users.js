@@ -9,10 +9,11 @@ var _ = require('underscore'),
 var User = new keystone.List('User');
 
 User.add({
-	name: { type: Types.Text, initial: true, required: true, index: false },
-	username: { type: Types.Text, index: true, unique: true },
 	email: { type: Types.Email, initial: true, required: true, index: true, unique: true },
-	password: { type: Types.Password, initial: true, required: false },
+	username: { type: Types.Text, initial: true, required: true, index: true, unique: true },
+	password: { type: Types.Password, initial: true, required: false }
+}, 'Personal', {
+	name: { type: Types.Text },
 	about: { type: Types.Textarea }
 }, 'Media', {
 	media: {
