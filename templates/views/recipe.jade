@@ -23,6 +23,7 @@ block js
 	script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
 
 	script(src='/frontend/js/main.js')
+	script(src='/frontend/js/recipe.js')
 
 	//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 	//- which generate links to edit content for users who can access Keystone
@@ -70,37 +71,43 @@ block content
 	.ui.page.grid
 		#recipe-content.ui.grid.segment
 			.row
-				.eleven.wide.column
+				#info.eleven.wide.column
 					.ui.four.column.grid
-						.column
-							i.icon-chef-time.icon
-							.span= (data.recipe.time < 60) ? data.recipe.time + ' min' : (data.recipe.time / 60).toFixed(2) + ' h'
-
-						.column
+						.portions.column
 							i.icon-chef-porciones.icon
 							.span= data.recipe.portions
 
 						.difficulty.column
+							- var categories = [ 'dummy', 'Muy bajo' , 'Bajo', 'Medio', 'Alto', 'Muy Alto' ]
 							- var difficulty = data.recipe.difficulty
+							- var category = categories[difficulty]
+
 							- for(var i = 0; i < 5; i++)
 								if(difficulty == 0)
 									i.icon-chef-tenedor.icon.off
 								else
 									i.icon-chef-tenedor.icon.on
 									- difficulty = difficulty - 1;
-						.column
-							.rating
-								.span
-									.ui.icon
-										- var rating = Math.floor(data.recipe.rating) || 0
-										- for(var x = 0; x < 5; x++)
-											if(rating == 0)
-												i.icon-chef-star.icon.off
-											else
-												i.icon-chef-star.icon.on
-												- rating = rating - 1;
 
-				.five.wide.column.right.aligned
+							.span= category
+
+						.time.column
+							i.icon-chef-time.icon
+							.span= (data.recipe.time < 60) ? data.recipe.time + ' min' : (data.recipe.time / 60).toFixed(2) + ' h'
+
+						.rating.column
+							- var rating = Math.floor(data.recipe.rating) || 0
+							- var r = rating
+							- for(var x = 0; x < 5; x++)
+								if(r == 0)
+									i.icon-chef-star.icon.off
+								else
+									i.icon-chef-star.icon.on
+									- r = r - 1;
+
+							.span= rating
+
+				#actions.five.wide.column.right.aligned
 					.ui.button.chef.button-yellow
 						a Favorito
 					.ui.button.chef.button-brick
@@ -108,30 +115,32 @@ block content
 
 			.row
 				.sixteen.wide.column
-					.ui.content!= data.recipe.description
+					.explain
+						.ui.content!= data.recipe.description
 
 			.row
 				.sixteen.wide.column
 					h2.ui.header Ingedientes
-					.ui.content En caso de que te falte algún ingrediente pulsa sobre la cesta de la compra y será añadido automáticamente a tu lista de la compra.
+					.explain
+						.ui.content En caso de que te falte algún ingrediente pulsa sobre la cesta de la compra y será añadido automáticamente a tu lista de la compra.
 
 					.ui.button.chef.button-green
 						a Añadir a la lista de la compra
 
-					.ingredients
+					#ingredients
 						- var array = data.recipe.ingredients.split('<p>')
 						- for(var j = 1; j < array.length; j++)
 							.ingredient
 								.icon-chef-cesta.checks
 								.span!= array[j]
 						.ingredient
-							.icon-chef-cesta.checks
+							.icon-chef-cesta.checks.all
 							.span Marcar todos
 
 			.row
 				.sixteen.wide.column
 					h2.ui.header Procedimiento
-					.steps
+					#steps
 						- var array = data.recipe.procedure.split('<p>')
 						- for(var j = 1; j < array.length; j++)
 							.step

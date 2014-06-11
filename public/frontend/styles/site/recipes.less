@@ -6,6 +6,8 @@
 @ingredients-border-check-enabled: @chef-color-black;
 @ingredients-border-check-disabled: @chef-color-gray-bg;
 
+@icons-font-size: 28px;
+
 
 /****************
   Recipes
@@ -118,6 +120,55 @@
 ****************/
 
 #recipe-content {
+
+  margin-top: 10px;
+
+  #actions {
+    padding-top: 10px;
+  }
+
+  .icon {
+    font-size: @icons-font-size;
+  }
+
+  .span {
+    display: inline;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 4px;
+    text-transform: capitalize;
+  }
+
+  .time, .portions, .difficulty, .rating {
+    .span {
+      margin-left: 10px;
+    }
+  }
+
+  .difficulty, .rating {
+    font-size: @icons-font-size;
+
+    .off {
+      opacity: 0.3;
+    }
+
+    .on {
+      color: @recipes-thumbnail-ranking-on;
+    }
+
+    .icon-chef-tenedor:before {
+      width: 4px;
+    }
+
+    .icon-chef-star:before {
+      width: 18px;
+    }
+  }
+
+  .explain {
+    margin-bottom: 20px;
+  }
+
   .checks {
     color: @ingredients-color-check-disabled;
     border: 1px solid @ingredients-border-check-disabled;
@@ -138,30 +189,31 @@
       color: @ingredients-color-check-enabled;
       border: 1px solid @ingredients-border-check-enabled;
 
-      &:hover {
-        color: @ingredients-color-check-disabled;
-        //border: 1px solid @ingredients-border-check-disabled;
-      }
+      // &:hover {
+      //   color: @ingredients-color-check-disabled;
+      // }
     }
 
-    &:hover {
-      color: @ingredients-color-check-enabled;
-      border: 1px solid @ingredients-border-check-enabled;
-    }
+    // &:hover {
+    //   color: @ingredients-color-check-enabled;
+    //   border: 1px solid @ingredients-border-check-enabled;
+    // }
   }
 
-  .ingredients {
+  #ingredients {
+    margin: 20px 0;
 
     .ingredient {
+      display: inline-block;
+      width: 33%;
 
-      .span {
-        display: inline;
-        text-transform: capitalize;
+      &:last-child {
+        width: 100%;
       }
     }
   }
 
-  .steps {
+  #steps {
 
     .step {
       .ui.header {
