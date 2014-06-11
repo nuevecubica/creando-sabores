@@ -2,6 +2,14 @@
             Global
 *******************************/
 
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
 html,
 body {
   font-size: 15px;
@@ -31,6 +39,8 @@ h2 {
   .icon {
     font-size: 200px;
     line-height: 230px;
+    color: white;
+    text-decoration: none;
   }
 
   .span {
@@ -42,10 +52,14 @@ h2 {
 
 .content {
   font-size: 20px;
+}
 
-  p {
-
-  }
+.overlay {
+  position: fixed;
+  width:  100%;
+  height: 100%;
+  top:  0;
+  left: 0;
 }
 
 .list {

@@ -8,7 +8,10 @@ var _ = require('underscore'),
  * ======
  */
 
-var Recipe = new keystone.List('Recipe');
+var Recipe = new keystone.List('Recipe', {
+	map: { name: 'title' },
+	autokey: { path: 'slug', from: 'title', unique: true }
+});
 
 Recipe.add({
 	title: {

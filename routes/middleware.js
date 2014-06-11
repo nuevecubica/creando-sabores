@@ -1,6 +1,7 @@
 var _ = require('underscore'),
 	querystring = require('querystring'),
-	keystone = require('keystone');
+	keystone = require('keystone'),
+	pkg = require(__dirname + '/../package.json');
 
 
 /**
@@ -28,6 +29,10 @@ exports.initLocals = function(req, res, next) {
 	];
 
 	locals.user = req.user;
+
+	locals.version = pkg.version + (pkg.versionName ? ('-' + pkg.versionName) : '');
+	locals.ksversion = keystone.version;
+	locals.env = process.env;
 	next();
 };
 

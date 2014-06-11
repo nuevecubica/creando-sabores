@@ -19,7 +19,7 @@ html
 		block head
 
 	//- HTML BODY
-	body.ui.segment.grid
+	body.preload.ui.segment.grid
 
 		//- Flash messages allow you to display once-off status messages to users, e.g. form
 		//- validation errors, success messages, etc.
@@ -36,3 +36,6 @@ html
 
 		//- Include template-specific javascript files by extending the js block
 		block js
+
+		if env.NODE_ENV == 'development'
+			include ../components/debug

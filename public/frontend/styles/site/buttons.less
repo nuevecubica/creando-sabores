@@ -5,77 +5,67 @@
 
 @buttons-border: 4px;
 
-.ui.menu:not(.vertical) .item>.button {
+.ui.menu:not(.vertical) .item > .button, .ui.button.chef {
     padding: @buttons-padding-top @buttons-padding-left;
 }
 
-.ui.button.chef {
+.ui.button.chef, .ui.icon.input > .icon.chef {
     font-weight: normal;
     text-transform: uppercase;
     border: none;
     border-radius: 0;
-    padding: @buttons-padding-top @buttons-padding-left;
+    transition: box-shadow 300ms ease-out;
 
     a {
         text-decoration: none;
     }
+
+    &:hover {
+        transition-timing-function: ease-out;
+    }
+
+    &.disabled {
+        box-shadow: none!important;
+        transition: none!important;
+    }
+
+    &.button-brick {
+        .buttonAnimatedBottom(@chef-color-white, @chef-color-brick-bg);
+    }
+
+    &.button-pink-side {
+        .buttonAnimatedLeft(@chef-color-white, @chef-color-pink-bg);
+    }
+
+    &.button-green {
+        .buttonAnimatedBottom(@chef-color-white, @chef-color-green-bg);
+    }
 }
 
-.buttonAnimatedBottom(@name-in, @name-out, @color, @background) {
-
+.buttonAnimatedBottom(@color, @background) {
     color: @color;
-    background-color: @background;
+    background-color: @background !important;
     box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset;
-    animation: @name-out 0.3s ease-out alternate forwards;
 
     a {
         color: @color;
-    }
-
-    @keyframes @name-in {
-		0% { box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset; }
-    	100% { box-shadow: 0px -100px 0px darken(@background, 10%) inset; }
-	}
-
-    @keyframes @name-out {
-    	0% { box-shadow: 0px -100px 0px darken(@background, 10%) inset; }
-    	100% { box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset; }
-	}
-
-    &:not(.off) {
-        &:hover {
-            animation: @name-in 0.3s ease-out alternate forwards;
-        }
-    }
-
-    &.off {
-        background-color: lighten(@background, 30%);
-        box-shadow: none;
-        animation: none;
-    }
-}
-
-.buttonAnimatedLeft(@name-in, @name-out, @color, @background) {
-    color: @color;
-    background-color: @background;
-    box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset;
-    animation: @name-out 0.3s ease-out alternate forwards;
-
-    a {
-        color: @color;
-    }
-
-    @keyframes @name-in {
-        0% { box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset; }
-        100% { box-shadow: 200px 0px 0px darken(@background, 10%) inset; }
-    }
-
-    @keyframes @name-out {
-        0% { box-shadow: 200px 0px 0px darken(@background, 10%) inset; }
-        100% { box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset; }
     }
 
     &:hover {
-        animation: @name-in 0.3s ease-out alternate forwards;
+        box-shadow: 0px -100px 0px darken(@background, 10%) inset;
+    }
+}
+
+.buttonAnimatedLeft(@color, @background) {
+    color: @color;
+    background-color: @background !important;
+    box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset;
+
+    a {
+        color: @color;
+    }
+
+    &:hover {
+        box-shadow: 200px 0px 0px darken(@background, 10%) inset;
     }
 }
