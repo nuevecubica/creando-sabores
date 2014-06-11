@@ -23,6 +23,7 @@ block js
 	script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
 
 	script(src='/frontend/js/main.js')
+	script(src='/frontend/js/signup.js')
 
 	//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 	//- which generate links to edit content for users who can access Keystone
@@ -40,36 +41,63 @@ block content
 				.logo.eight.wide.column
 					a.icon-chef-logo.icon(href="/")
 
-					.span Registro
-					.span Fácil y rápido
+					.span.title Registro
+					.span.subtitle Fácil y rápido
 
 			.row
 				.sixteen.wide.column
 
 					.ui.two.column.grid
 						.column.center.aligned
-							.ui.button.chef.button-green
-								a(href='') Facebook
+							.explain
+								.span Registrate con tus redes sociales...
 
-							.ui.button.chef.button-green
-								a(href='') Google
+							.actions
+								.ui.button.chef.button-fb
+									a(href='') Registro con Facebook
+									i.icon-chef-facebook
+
+								.ui.button.chef.button-g
+									a(href='') Registro con Google
+									i.icon-chef-google
 
 						.column
+							.explain
+								.span ...o con tu correo electrónico
 							form(action='registro', method='post')
-								.ui.form.segment
-									.field
-										label Correo electrónico
-										.ui.left.labeled.input
-											input(id='signup_email', type='email', name='signup_email', placeholder='Correo electrónico')
-									.field
+								.ui.form
+									#username.field
 										label Nombre de usuario
 										.ui.left.labeled.input
 											input(id='signup_name', type='text', name='signup_name', placeholder='Nombre de usuario')
-									.field
-										label Contraseña
+											.indicator.hidden
+												.icon-chef-error
+										.ui.error.message
+											.header We noticed some issues
+
+									#email.field
+										label Correo electrónico
 										.ui.left.labeled.input
-											input(id='signup_password', name='signup_password', type='password')
+											input(id='signup_email', type='email', name='signup_email', placeholder='Correo electrónico')
+											.indicator.hidden
+												.icon-chef-error
+										.ui.error.message
+											.header We noticed some issues
+
+									#password.field
+										label Contraseña
+										#wrapper-password.ui.left.labeled.input
+											input(id='signup_password', type='password', name='signup_password', autocomplete='off')
+											.indicator.hidden
+												.icon-chef-error
+
+											#wrapper-show-password.ui.labeled.checkbox
+												input(id='show_password', type='checkbox', name='show_password')
+												label Mostrar
+
+										.ui.error.message
+												.header We noticed some issues
 
 									input(type='hidden', name='action', value='signup')
 
-									button.ui.button.chef.button-green(type='submit') Registro
+									button.ui.button.chef.button-blue(type='submit') Registro

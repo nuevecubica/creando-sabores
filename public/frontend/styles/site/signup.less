@@ -1,0 +1,107 @@
+
+@icon-logo: @chef-color-black;
+@separator-color: @chef-color-black;
+@title-color: @chef-color-blue-bg;
+@subtitle-color: @chef-color-black;
+@error-indicator-color: @chef-color-brick-bg;
+
+#signup {
+	.icon-chef-logo {
+		color: @icon-logo;
+		text-shadow: none;
+	}
+
+	.actions {
+		margin-top: 40px;
+		border-right: 4px dotted @separator-color;
+
+		> .button {
+			width: 56%;
+			height: 70px;
+			margin: 5px;
+			text-align: left;
+			position: relative;
+
+			a {
+				position: absolute;
+				top: 30px;
+			}
+
+			i {
+				display: inline;
+				font-size: 40px;
+				font-weight: lighter;
+				position: absolute;
+				right: 10px;
+			}
+		}
+	}
+
+	.span {
+		font-size: 24px;
+		margin-bottom: 20px;
+		text-align: center;
+
+		&.title {
+			color: @title-color;
+			text-shadow: none;
+			font-size: 30px;
+		}
+
+		&.subtitle {
+			color: @subtitle-color;
+			font-weight: lighter;
+			text-transform: none;
+			text-shadow: none;
+		}
+	}
+
+	.explain {
+		.span {
+			font-weight: bolder;
+		}
+	}
+
+	form {
+
+		width: 75%;
+		margin: 0 auto;
+
+		label {
+			font-size: 15px;
+			text-transform: uppercase;
+			font-weight: bolder;
+		}
+
+		input {
+			border-radius: 0;
+			box-shadow: 0px 2px 4px -2px #000;
+		}
+
+		.indicator {
+			position: absolute;
+			right: 4px;
+			top: 4px;
+			color: @error-indicator-color;
+			font-size: 22px;
+
+			&.hidden {
+				display: none;
+			}
+		}
+
+		#wrapper-password {
+			position: relative;
+
+			input {
+				padding-right: 40% !important;
+			}
+
+			#wrapper-show-password {
+				position: absolute;
+				top: 12px;
+				right: 40px;
+			}
+		}
+	}
+}
