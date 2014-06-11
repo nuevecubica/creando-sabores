@@ -24,6 +24,7 @@
     "keystone": "~0.2.15",
     "load-grunt-tasks": "~0.4.0",
     "open": "0.0.5",
+    "passport": "^0.2.0",
     "time-grunt": "~0.3.1",
     "underscore": "~1.6.0"
   },
