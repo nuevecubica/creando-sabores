@@ -23,7 +23,9 @@ exports = module.exports = function(req, res) {
 				// Mail and password
 				if (req.body.signup_email && req.body.signup_password) {
 					// User exists
-					keystone.list('User').model.findOne({ email: req.body.signup_email }, function(err, user) {
+					keystone.list('User').model.findOne({
+						email: req.body.signup_email
+					}, function(err, user) {
 						if (err || user) {
 							// Try to signin
 							var onSuccess = function() {
@@ -34,12 +36,15 @@ exports = module.exports = function(req, res) {
 								// Duplicated
 								if (req.body.signup_name) {
 									console.error('SIGNUP: Email exists');
-									req.flash('error', 'User already exists with that email address');
+									req.flash('error',
+										'User already exists with that email address');
 									return cb(true);
 								}
 								return cb(false);
 							};
-							keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);
+							keystone.session.signin({
+								email: req.body.signup_email, password: req.body.signup_password
+							}, req, res, onSuccess, onFail);
 						}
 						else {
 							// User doesn't exist
@@ -57,7 +62,11 @@ exports = module.exports = function(req, res) {
 
 			// Check missing data
 			function(cb) {
-				if (!req.body.signup_name || !req.body.signup_email || !req.body.signup_password) {
+				if (
+					!req.body.signup_name ||
+					!req.body.signup_email ||
+					!req.body.signup_password
+				) {
 					console.error('SIGNUP: Missing data');
 					req.flash('error', 'Please enter an username, email and password');
 					return cb(true);
@@ -67,7 +76,9 @@ exports = module.exports = function(req, res) {
 
 			// Check duplicated username.
 			function(cb) {
-				keystone.list('User').model.findOne({ username: req.body.signup_name }, function(err, user) {
+				keystone.list('User').model.findOne({
+					username: req.body.signup_name
+				}, function(err, user) {
 					if (err || user) {
 						console.error('SIGNUP: Username exists');
 						req.flash('error', 'User already exists with that username');
@@ -110,10 +121,13 @@ exports = module.exports = function(req, res) {
 			};
 			var onFail = function(e) {
 				console.log('SIGNIN: Fail after register');
-				req.flash('error', 'There was a problem signing you in, please try again');
+				req.flash('error',
+					'There was a problem signing you in, please try again');
 				return next();
 			};
-			keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);
+			keystone.session.signin({
+				email: req.body.signup_email, password: req.body.signup_password
+			}, req, res, onSuccess, onFail);
 		});
 
 	});
@@ -132,7 +146,9 @@ exports = module.exports = function(req, res) {
 				req.flash('error', 'Invalid credentials.');
 				return next();
 			};
-			keystone.session.signin({ email: req.body.login_email, password: req.body.login_password }, req, res, onSuccess, onFail);
+			keystone.session.signin({
+				email: req.body.login_email, password: req.body.login_password
+			}, req, res, onSuccess, onFail);
 		}
 		else {
 			// Missing data
