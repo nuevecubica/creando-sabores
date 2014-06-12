@@ -43,16 +43,16 @@ block content
 							#form
 								form(action='acceso', method='post', novalidate)
 									.ui.form
-										#email.field
+										#email.field(class=(errors.fields.email ? "error-here" : ""))
 											label(for='login-email') Correo electrónico
 											.ui.left.labeled.input
-												input(id='login-email', type='email', name='login_email', placeholder='Correo electrónico')
+												input(id='login-email', type='email', name='login_email', value='#{form.signup_email||""}', placeholder='Correo electrónico')
 												//- .indicator.hidden
 													.icon-chef-error
 											.error-message
 												.span Tiene que tener formato de correo electrónico.
 
-										#password.field
+										#password.field(class=(errors.fields.password ? "error-here" : ""))
 											label(for='login-password') Contraseña
 											#wrapper-password.ui.left.labeled.input
 												input(id='login-password', type='password', name='login_password')
