@@ -7,6 +7,8 @@
 @error-message-color: @chef-color-brick-bg;
 @error-input-border: @chef-color-brick-bg;
 
+@terms-color: @chef-color-black;
+
 .signin {
 
 	.ui.page.grid {
@@ -143,6 +145,16 @@
 
 			#signup-password-label {
 				float: left;
+			}
+
+			#terms {
+				label {
+					text-transform: none;
+
+					a {
+						color: @terms-color;
+					}
+				}
 			}
 
 			button {
