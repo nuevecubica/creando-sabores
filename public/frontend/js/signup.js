@@ -17,10 +17,11 @@ $(window).load(function() {
 		var email = checkEmail($('#signup-email').val());
 		var password = checkPassword($('#signup-password').val());
 
-		if(!name || !email || !password) {
-			if(!name) { $('#name').addClass('error-here').transition('bounce'); }
-			if(!email) { $('#email').addClass('error-here').transition('bounce'); }
-			if(!password) { $('#password').addClass('error-here').transition('bounce'); }
+		// if(!name || !email || !password) {
+		if(!email || !password) {
+			if(!name) { $('#name').addClass('error-here').transition('bounce'); } else { $('#name').removeClass('error-here'); };
+			if(!email) { $('#email').addClass('error-here').transition('bounce'); } else { $('#email').removeClass('error-here'); };
+			if(!password) { $('#password').addClass('error-here').transition('bounce'); } else { $('#password').removeClass('error-here'); };
 
 			e.preventDefault();
 		}
@@ -32,8 +33,8 @@ $(window).load(function() {
 		var password = checkPassword($('#login-password').val());
 
 		if(!email || !password) {
-			if(!email) { $('#email').addClass('error-here').transition('bounce'); }
-			if(!password) { $('#password').addClass('error-here').transition('bounce'); }
+			if(!email) { $('#email').addClass('error-here').transition('bounce'); } else { $('#email').removeClass('error-here'); };
+			if(!password) { $('#password').addClass('error-here').transition('bounce'); } else { $('#password').removeClass('error-here'); };
 
 			e.preventDefault();
 		}
