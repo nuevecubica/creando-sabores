@@ -1,6 +1,6 @@
 $(window).load(function() {
 	$('body').removeClass('preload');
-	$('.error-here').transition('bounce');
+	$('.error-here:visible').transition('bounce');
 });
 
 $(document).ready(function() {
@@ -10,5 +10,8 @@ $(document).ready(function() {
 	});
 	$('#menu-close').on('click', function(){
 		$('#menu-box').removeClass('open').addClass('close');
+	});
+	$('.messages-close').on('click', function(){
+		$('#messages').transition('fade down');
 	});
 });
