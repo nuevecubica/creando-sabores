@@ -16,12 +16,16 @@ $(window).load(function() {
 		var name = checkUsername($('#signup-name').val());
 		var email = checkEmail($('#signup-email').val());
 		var password = checkPassword($('#signup-password').val());
+		var terms = $('#signup-terms').is(':checked');
+
+		console.log(terms);
 
 		// if(!name || !email || !password) {
-		if(!email || !password) {
+		if(!email || !password || !terms) {
 			if(!name) { $('#name').addClass('error-here').transition('bounce'); } else { $('#name').removeClass('error-here'); };
 			if(!email) { $('#email').addClass('error-here').transition('bounce'); } else { $('#email').removeClass('error-here'); };
 			if(!password) { $('#password').addClass('error-here').transition('bounce'); } else { $('#password').removeClass('error-here'); };
+			if(!terms) { $('#terms').addClass('error-here').transition('bounce'); } else { $('#terms').removeClass('error-here'); };
 
 			e.preventDefault();
 		}

@@ -27,11 +27,11 @@
 	}
 
 	.actions {
-		width: 75%;
+		width: 80%;
 		float: right;
 
 		> .button {
-			width: 70%;
+			width: 75%;
 			margin: 5px;
 			text-align: left;
 			position: relative;
@@ -64,6 +64,13 @@
 			font-weight: lighter;
 			text-transform: none;
 			text-shadow: none;
+		}
+
+		&.alert {
+			a {
+				text-transform: uppercase;
+				color: @title-color;
+			}
 		}
 	}
 
@@ -128,8 +135,22 @@
 					border-color: @error-input-border;
 				}
 
+
+
 				.error-message {
 					display: block;
+				}
+
+				&#terms {
+					label {
+						a {
+							color: @error-message-color;
+						}
+
+						&:before {
+							box-shadow: 0em 0em 0em 1px @error-input-border;
+						}
+					}
 				}
 			}
 
