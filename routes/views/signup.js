@@ -18,7 +18,7 @@ exports = module.exports = function(req, res) {
 
 	view.on('post', { action: 'signup' }, function(next) {
 		async.series([
-			// Check automatic login or duplicated.
+			// Check automatic login or duplicated email.
 			function(cb) {
 				// Mail and password
 				if (req.body.signup_email && req.body.signup_password) {
@@ -32,9 +32,12 @@ exports = module.exports = function(req, res) {
 							};
 							var onFail = function(e) {
 								// Duplicated
-								console.error('SIGNUP: Email exists');
-								req.flash('error', 'User already exists with that email address.');
-								return cb(true);
+								if (req.body.signup_name) {
+									console.error('SIGNUP: Email exists');
+									req.flash('error', 'User already exists with that email address');
+									return cb(true);
+								}
+								return cb(false);
 							};
 							keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);
 						}
@@ -47,7 +50,7 @@ exports = module.exports = function(req, res) {
 				else {
 					// Missing data
 					console.error('SIGNUP: Missing data');
-					req.flash('error', 'Please enter an email, username and password.');
+					req.flash('error', 'Please enter an username, email and password');
 					return cb(true);
 				}
 			},
@@ -56,10 +59,25 @@ exports = module.exports = function(req, res) {
 			function(cb) {
 				if (!req.body.signup_name || !req.body.signup_email || !req.body.signup_password) {
 					console.error('SIGNUP: Missing data');
-					req.flash('error', 'Please enter an email, username and password.');
+					req.flash('error', 'Please enter an username, email and password');
 					return cb(true);
 				}
 				return cb(false);
+			},
+
+			// Check duplicated username.
+			function(cb) {
+				keystone.list('User').model.findOne({ username: req.body.signup_username }, function(err, user) {
+					if (err || user) {
+						console.error('SIGNUP: Username exists');
+						req.flash('error', 'User already exists with that username');
+						return cb(true);
+					}
+					else {
+						// User doesn't exist
+						return cb(false);
+					}
+				});
 			},
 
 			// Save to database
@@ -92,7 +110,7 @@ exports = module.exports = function(req, res) {
 			};
 			var onFail = function(e) {
 				console.log('SIGNIN: Fail after register');
-				req.flash('error', 'There was a problem signing you in, please try again.');
+				req.flash('error', 'There was a problem signing you in, please try again');
 				return next();
 			};
 			keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);

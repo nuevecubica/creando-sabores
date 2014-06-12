@@ -15,7 +15,6 @@ mixin flash-messages(messages)
 
 mixin flash-message(message, type)
 	.ui.message.error-here(class=type)
-		i.icon.icon-chef-cross
 
 		if utils.isObject(message)
 			if message.title
@@ -28,3 +27,5 @@ mixin flash-message(message, type)
 						li= item
 		else
 			= message
+
+		i.icon.icon-chef-cross.messages-close
