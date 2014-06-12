@@ -46,6 +46,8 @@ exports = module.exports = function(req, res) {
 				}
 				else {
 					// Missing data
+					console.error('SIGNUP: Missing data');
+					req.flash('error', 'Please enter an email, username and password.');
 					return cb(true);
 				}
 			},
@@ -108,7 +110,7 @@ exports = module.exports = function(req, res) {
 			};
 			var onFail = function(e) {
 				// Duplicated
-				console.error('SIGNUP: Login failed');
+				console.error('LOGIN: Login failed');
 				req.flash('error', 'Invalid credentials.');
 				return next();
 			};
@@ -116,6 +118,8 @@ exports = module.exports = function(req, res) {
 		}
 		else {
 			// Missing data
+			console.error('LOGIN: Invalid data');
+			req.flash('error', 'Missing credentials.');
 			return next();
 		}
 	});
