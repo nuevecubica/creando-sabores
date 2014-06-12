@@ -21,7 +21,7 @@ block content
 
 					.ui.two.column.grid
 						.column.center.aligned
-							.explain
+							.explain.right
 								.span Accede con tus redes sociales...
 
 							.actions
@@ -37,30 +37,31 @@ block content
 										span.social-reg Acceder con
 										| Google
 
-						.column
-							.explain
+						.column.dashed
+							.explain.left
 								.span ...o con tu correo electrónico
-							form(action='registro', method='post')
-								.ui.form
-									#email.field
-										label(for='login-email') Correo electrónico
-										.ui.left.labeled.input
-											input(id='login-email', type='email', name='login_email', placeholder='Correo electrónico')
-											.indicator.hidden
-												.icon-chef-error
-										.ui.error.message
-											.header We noticed some issues
-
-									#password.field
-										label(for='login-password') Contraseña
-										#wrapper-password.ui.left.labeled.input
-											input(id='login-password', type='password', name='login_password', autocomplete='off')
-											.indicator.hidden
-												.icon-chef-error
-
-										.ui.error.message
+							#form
+								form(action='registro', method='post')
+									.ui.form
+										#email.field
+											label(for='login-email') Correo electrónico
+											.ui.left.labeled.input
+												input(id='login-email', type='email', name='login_email', placeholder='Correo electrónico')
+												.indicator.hidden
+													.icon-chef-error
+											.ui.error.message
 												.header We noticed some issues
 
-									input(type='hidden', name='action', value='login')
+										#password.field
+											label(for='login-password') Contraseña
+											#wrapper-password.ui.left.labeled.input
+												input(id='login-password', type='password', name='login_password', autocomplete='off')
+												.indicator.hidden
+													.icon-chef-error
 
-									button.ui.button.chef.button-blue(type='submit') Acceder
+											.ui.error.message
+													.header We noticed some issues
+
+										input(type='hidden', name='action', value='login')
+
+										button.ui.button.chef.button-blue(type='submit') Acceder
