@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 				if (req.body.signup_email && req.body.signup_password) {
 					// User exists
 					keystone.list('User').model.findOne({ email: req.body.signup_email }, function(err, user) {
-						if (err || user) {
+						if (err || user) {
 							// Try to signin
 							var onSuccess = function() {
 								// Logged in
@@ -67,7 +67,7 @@ exports = module.exports = function(req, res) {
 
 			// Check duplicated username.
 			function(cb) {
-				keystone.list('User').model.findOne({ username: req.body.signup_username }, function(err, user) {
+				keystone.list('User').model.findOne({ username: req.body.signup_name }, function(err, user) {
 					if (err || user) {
 						console.error('SIGNUP: Username exists');
 						req.flash('error', 'User already exists with that username');
