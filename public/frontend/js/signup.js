@@ -25,7 +25,7 @@ $(window).load(function() {
 			if(!name) { $('#name').addClass('error-here').transition('bounce'); } else { $('#name').removeClass('error-here'); };
 			if(!email) { $('#email').addClass('error-here').transition('bounce'); } else { $('#email').removeClass('error-here'); };
 			if(!password) { $('#password').addClass('error-here').transition('bounce'); } else { $('#password').removeClass('error-here'); };
-			if(!terms) { $('#terms').addClass('error-here').transition('bounce'); } else { $('#terms').removeClass('error-here'); };
+			//if(!terms) { $('#terms').addClass('error-here').transition('bounce'); } else { $('#terms').removeClass('error-here'); };
 
 			e.preventDefault();
 		}
