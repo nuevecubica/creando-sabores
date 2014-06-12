@@ -4,7 +4,8 @@
 @title-color: @chef-color-blue-bg;
 @subtitle-color: @chef-color-black;
 @error-indicator-color: @chef-color-brick-bg;
-@error-message-color: @chef-color-gray;
+@error-message-color: @chef-color-brick-bg;
+@error-input-border: @chef-color-brick-bg;
 
 .signin {
 
@@ -102,10 +103,6 @@
 				height: 45px;
 			}
 
-			.hidden {
-				display: none;
-			}
-
 			.indicator {
 				position: absolute;
 				right: 4px;
@@ -115,10 +112,22 @@
 			}
 
 			.error-message {
+				display: none;
+
 				.span {
 					text-align: left;
 					font-size: 16px;
 					color: @error-message-color;
+				}
+			}
+
+			.error-here {
+				input {
+					border-color: @error-input-border;
+				}
+
+				.error-message {
+					display: block;
 				}
 			}
 
@@ -136,6 +145,10 @@
 
 			#signup-password-label {
 				float: left;
+			}
+
+			button {
+				width: 100%;
 			}
 		}
 	}

@@ -41,26 +41,26 @@ block content
 							.explain.left
 								.span ...o con tu correo electrónico
 							#form
-								form(action='registro', method='post')
+								form(action='registro', method='post', novalidate)
 									.ui.form
 										#email.field
 											label(for='login-email') Correo electrónico
 											.ui.left.labeled.input
-												input(id='login-email', type='email', name='login_email', placeholder='Correo electrónico')
-												.indicator.hidden
+												input(id='login-email', type='email', name='login_email', placeholder='Correo electrónico', autocomplete='off')
+												//- .indicator.hidden
 													.icon-chef-error
-											.error-here.hidden
-												.span Recuerda tiene que tener formato de correo electrónico
+											.error-message
+												.span Tiene que tener formato de correo electrónico.
 
 										#password.field
 											label(for='login-password') Contraseña
 											#wrapper-password.ui.left.labeled.input
-												input(id='login-password', type='password', name='login_password', autocomplete='off')
-												.indicator.hidden
+												input(id='login-password', type='password', name='login_password')
+												//- .indicator.hidden
 													.icon-chef-error
 
-											.error-here.hidden
-												.span Recuerda tiene que tener mas de 8 caracteres, mayusculas o simbolos
+											.error-message
+												.span Mínimo 8 caracteres, letras, números, símbolos.
 
 										input(type='hidden', name='action', value='login')
 
