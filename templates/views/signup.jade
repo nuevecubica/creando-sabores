@@ -26,13 +26,13 @@ block content
 									i.social.icon-chef-facebook
 									a(href='')
 										span.social-reg Registro con
-										| Facebook
+										|#{' '}Facebook
 
 								.ui.button.chef.button-g
 									i.social.icon-chef-google
 									a(href='')
 										span.social-reg Registro con
-										| Google
+										|#{' '}Google
 
 						.column.dashed
 							.explain.left
@@ -47,7 +47,7 @@ block content
 												//- .indicator.hidden
 													//- .icon-chef-error
 											.error-message.hidden
-												.span Mínimo 6 caracteres, letras o números
+												.span Mínimo 6 caracteres, letras o números.
 
 										#email.field(class=(errors.fields.email ? "error-here" : ""))
 											label(for='signup-email') Correo electrónico
@@ -56,7 +56,7 @@ block content
 												//- .indicator.hidden
 													//- .icon-chef-error
 											.error-message.hidden
-												.span Tiene que tener formato de correo electrónico.
+												.span Correo electrónico incorrecto o en uso.
 
 										#password.field(class=(errors.fields.password ? "error-here" : ""))
 											label(for='signup-password', id='signup-password-label') Contraseña
@@ -69,18 +69,23 @@ block content
 													//- .icon-chef-error
 
 											.error-message.hidden
-												.span Mínimo 8 caracteres, letras, números, símbolos.
+												.span Mínimo 8 caracteres.
 
-										#terms.field
+										//- #terms.field
 
-											.ui.left.labeled.checkbox
-												input(id='signup-terms', type='checkbox', name='signup_terms')
-												label(for='signup-terms') Acepto los <a href='/terminos'>términos y condiciones</a>
+										//- 	.ui.left.labeled.checkbox
+										//- 		input(id='signup-terms', type='checkbox', name='signup_terms')
+										//- 		label(for='signup-terms') Acepto los <a href='/terminos'>términos y condiciones</a>
 
 										input(type='hidden', name='action', value='signup')
 
 										button.ui.button.chef.button-blue(type='submit', tabindex='4') Continuar
 
+										#terms.field
+											.span.info-terms Al continuar aceptas los términos y condiciones.
+
 			.row
 				.sixteen.wide.column
-					.span.alert ¿Ya estás registrado? <a href='/acceso'>Entra!</a>
+					.span.link
+						| ¿Ya estás registrado? 
+						a(href='/acceso') Entra

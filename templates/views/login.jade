@@ -50,7 +50,7 @@ block content
 												//- .indicator.hidden
 													.icon-chef-error
 											.error-message
-												.span Tiene que tener formato de correo electrónico.
+												.span Correo electrónico incorrecto o en uso.
 
 										#password.field(class=(errors.fields.password ? "error-here" : ""))
 											label(for='login-password') Contraseña
@@ -60,11 +60,13 @@ block content
 													.icon-chef-error
 
 											.error-message
-												.span Mínimo 8 caracteres, letras, números, símbolos.
+												.span Mínimo 8 caracteres.
 
 										input(type='hidden', name='action', value='login')
 
 										button.ui.button.chef.button-blue(type='submit') Acceder
 			.row
 				.sixteen.wide.column
-					.span.alert ¿Todavía no tienes cuenta? <a href='/acceso'>Regístrate!</a>
+					.span.link
+						| ¿Todavía no tienes cuenta? 
+						a(href='/registro') Regístrate

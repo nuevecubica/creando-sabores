@@ -50,13 +50,13 @@
 	}
 
 	.span {
-		font-size: 22px;
+		.font-large;
 		text-align: center;
 
 		&.title {
+			.font-larger.uppercase;
 			color: @title-color;
 			text-shadow: none;
-			font-size: 30px;
 		}
 
 		&.subtitle {
@@ -66,11 +66,14 @@
 			text-shadow: none;
 		}
 
-		&.alert {
+		&.link {
 			a {
-				text-transform: uppercase;
 				color: @title-color;
 			}
+		}
+
+		&.info-terms {
+			.font-smaller;
 		}
 	}
 
@@ -100,10 +103,8 @@
 			margin: 0 auto;
 
 			label {
-				font-size: 16px;
-				text-transform: uppercase;
+				.font-small.uppercase;
 				font-weight: bolder;
-				line-height: 15px;
 			}
 
 			input {
@@ -124,8 +125,8 @@
 				display: none;
 
 				.span {
+					.font-small;
 					text-align: left;
-					font-size: 16px;
 					color: @error-message-color;
 				}
 			}
@@ -140,26 +141,14 @@
 				.error-message {
 					display: block;
 				}
-
-				&#terms {
-					label {
-						a {
-							color: @error-message-color;
-						}
-
-						&:before {
-							box-shadow: 0em 0em 0em 1px @error-input-border;
-						}
-					}
-				}
 			}
 
 			#wrapper-show-password {
 				float: right;
 
 				label {
+					.font-small.uppercase;
 					display: block;
-					font-size: 0.875em;
 					margin-left: -8px;
 				}
 			}
@@ -174,6 +163,18 @@
 
 					a {
 						color: @terms-color;
+					}
+				}
+
+				.error-here {
+					label {
+						a {
+							color: @error-message-color;
+						}
+
+						&:before {
+							box-shadow: 0em 0em 0em 1px @error-input-border;
+						}
 					}
 				}
 			}
