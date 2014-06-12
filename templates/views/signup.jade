@@ -44,19 +44,19 @@ block content
 											label(for='signup-name') Nombre de usuario
 											.ui.left.labeled.input
 												input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario')
-												.indicator.hidden
-													.icon-chef-error
-											.error-message
-												.span * Recuerda sólo letras y/o numeros
+												//- .indicator.hidden
+													//- .icon-chef-error
+											.error-message.hidden
+												.span Recuerda sólo letras o numeros
 
 										#email.field
 											label(for='signup-email') Correo electrónico
 											.ui.left.labeled.input
 												input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico')
-												.indicator.hidden
-													.icon-chef-error
-											.error-message
-												.span * Recuerda tiene que tener formato de correo electrónico.
+												//- .indicator.hidden
+													//- .icon-chef-error
+											.error-message.hidden
+												.span Recuerda tiene que tener formato de correo electrónico.
 
 										#password.field
 											label(for='signup-password', id='signup-password-label') Contraseña
@@ -65,11 +65,11 @@ block content
 												label(for='show-password') Mostrar
 											#wrapper-password.ui.left.labeled.input
 												input(id='signup-password', type='password', name='signup_password', autocomplete='off', min='8')
-												.indicator.hidden
-													.icon-chef-error
+												//- .indicator.hidden
+													//- .icon-chef-error
 
-											.error-message
-												.span * Recuerda tiene que tener más de 8 caracteres.
+											.error-message.hidden
+												.span Recuerda tiene que tener más de 8 caracteres.
 
 										input(type='hidden', name='action', value='signup')
 

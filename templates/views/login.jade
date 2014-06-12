@@ -49,8 +49,8 @@ block content
 												input(id='login-email', type='email', name='login_email', placeholder='Correo electrónico')
 												.indicator.hidden
 													.icon-chef-error
-											.error-message
-												.span Algo pasa con el correo electrónico, recuerda tiene que tener formato de correo electrónico
+											.error-here.hidden
+												.span Recuerda tiene que tener formato de correo electrónico
 
 										#password.field
 											label(for='login-password') Contraseña
@@ -59,8 +59,8 @@ block content
 												.indicator.hidden
 													.icon-chef-error
 
-											.error-message
-												.span Algo pasa con la contraseña, recuerda tiene que tener mas de 8 caracteres, mayusculas y/o simbolos
+											.error-here.hidden
+												.span Recuerda tiene que tener mas de 8 caracteres, mayusculas o simbolos
 
 										input(type='hidden', name='action', value='login')
 

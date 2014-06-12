@@ -4,6 +4,7 @@
 @title-color: @chef-color-blue-bg;
 @subtitle-color: @chef-color-black;
 @error-indicator-color: @chef-color-brick-bg;
+@error-message-color: @chef-color-gray;
 
 .signin {
 
@@ -101,23 +102,23 @@
 				height: 45px;
 			}
 
+			.hidden {
+				display: none;
+			}
+
 			.indicator {
 				position: absolute;
 				right: 4px;
 				top: 4px;
 				color: @error-indicator-color;
 				font-size: 22px;
-
-				&.hidden {
-					display: none;
-				}
 			}
 
 			.error-message {
 				.span {
 					text-align: left;
 					font-size: 16px;
-					color: @error-indicator-color;
+					color: @error-message-color;
 				}
 			}
 
