@@ -46,8 +46,8 @@ block content
 												input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario')
 												.indicator.hidden
 													.icon-chef-error
-											.ui.error.message
-												.header We noticed some issues
+											.error-message
+												.span * Recuerda sólo letras y/o numeros
 
 										#email.field
 											label(for='signup-email') Correo electrónico
@@ -55,8 +55,8 @@ block content
 												input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico')
 												.indicator.hidden
 													.icon-chef-error
-											.ui.error.message
-												.header We noticed some issues
+											.error-message
+												.span * Recuerda tiene que tener formato de correo electrónico.
 
 										#password.field
 											label(for='signup-password', id='signup-password-label') Contraseña
@@ -68,8 +68,8 @@ block content
 												.indicator.hidden
 													.icon-chef-error
 
-											.ui.error.message
-													.header We noticed some issues
+											.error-message
+												.span * Recuerda tiene que tener más de 8 caracteres.
 
 										input(type='hidden', name='action', value='signup')
 

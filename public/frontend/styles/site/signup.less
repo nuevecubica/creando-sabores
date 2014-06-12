@@ -84,53 +84,58 @@
 		width: 80%;
 		float: left;
 
-		.field {
-			margin: 0em 0em 2em;
-		}
-	}
-
-	form {
-		width: 75%;
-		margin: 0 auto;
-
-		label {
-			font-size: 16px;
-			text-transform: uppercase;
-			font-weight: bolder;
-		}
-
-		input {
-			border-radius: 0 !important;
-			box-shadow: 0px 2px 4px -2px #000 !important;
-			height: 45px;
-		}
-
-		.indicator {
-			position: absolute;
-			right: 4px;
-			top: 4px;
-			color: @error-indicator-color;
-			font-size: 22px;
-
-			&.hidden {
-				display: none;
-			}
-		}
-
-		#wrapper-show-password {
-			float: right;
-			position: relative;
-			top: 3px;
+		form {
+			width: 75%;
+			margin: 0 auto;
 
 			label {
-				display: block;
-				font-size: 0.875em;
-				margin-left: -8px;
+				font-size: 16px;
+				text-transform: uppercase;
+				font-weight: bolder;
+				line-height: 15px;
 			}
-		}
 
-		#signup-password-label {
-			float: left;
+			input {
+				border-radius: 0 !important;
+				box-shadow: 0px 2px 4px -2px #000 !important;
+				height: 45px;
+			}
+
+			.indicator {
+				position: absolute;
+				right: 4px;
+				top: 4px;
+				color: @error-indicator-color;
+				font-size: 22px;
+
+				&.hidden {
+					display: none;
+				}
+			}
+
+			.error-message {
+				.span {
+					text-align: left;
+					font-size: 16px;
+					color: @error-indicator-color;
+				}
+			}
+
+			#wrapper-show-password {
+				float: right;
+				position: relative;
+				top: 3px;
+
+				label {
+					display: block;
+					font-size: 0.875em;
+					margin-left: -8px;
+				}
+			}
+
+			#signup-password-label {
+				float: left;
+			}
 		}
 	}
 }
