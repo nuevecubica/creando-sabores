@@ -40,25 +40,25 @@ block content
 							#form
 								form(action='registro', method='post', novalidate)
 									.ui.form
-										#name.field
+										#name.field(class=(errors.fields.name ? "error-here" : ""))
 											label(for='signup-name') Nombre de usuario
 											.ui.left.labeled.input
-												input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario', tabindex='1')
+												input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario', value='#{form.signup_name||""}', tabindex='1')
 												//- .indicator.hidden
 													//- .icon-chef-error
 											.error-message.hidden
 												.span Mínimo 6 caracteres, letras o números
 
-										#email.field
+										#email.field(class=(errors.fields.email ? "error-here" : ""))
 											label(for='signup-email') Correo electrónico
 											.ui.left.labeled.input
-												input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico', tabindex='2')
+												input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico', value='#{form.signup_email||""}', tabindex='2')
 												//- .indicator.hidden
 													//- .icon-chef-error
 											.error-message.hidden
 												.span Tiene que tener formato de correo electrónico.
 
-										#password.field
+										#password.field(class=(errors.fields.password ? "error-here" : ""))
 											label(for='signup-password', id='signup-password-label') Contraseña
 											#wrapper-show-password.ui.labeled.checkbox
 												input(id='show-password', type='checkbox', name='show_password')

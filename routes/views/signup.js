@@ -15,6 +15,13 @@ exports = module.exports = function(req, res) {
 	// Set locals
 	locals.section = 'session';
 	locals.form = req.body;
+	locals.errors = {
+		fields: {
+			name: false,
+			email: false,
+			password: false
+		}
+	};
 
 	view.on('post', { action: 'signup' }, function(next) {
 		async.series([
@@ -38,6 +45,7 @@ exports = module.exports = function(req, res) {
 									console.error('SIGNUP: Email exists');
 									req.flash('error',
 										'User already exists with that email address');
+									locals.errors.fields.email = true;
 									return cb(true);
 								}
 								return cb(false);
@@ -56,6 +64,11 @@ exports = module.exports = function(req, res) {
 					// Missing data
 					console.error('SIGNUP: Missing data');
 					req.flash('error', 'Please enter an username, email and password');
+
+					locals.errors.fields.email = !req.body.signup_email;
+					locals.errors.fields.name = !req.body.signup_name;
+					locals.errors.fields.password = !req.body.signup_password;
+
 					return cb(true);
 				}
 			},
@@ -69,6 +82,11 @@ exports = module.exports = function(req, res) {
 				) {
 					console.error('SIGNUP: Missing data');
 					req.flash('error', 'Please enter an username, email and password');
+
+					locals.errors.fields.email = !req.body.signup_email;
+					locals.errors.fields.name = !req.body.signup_name;
+					locals.errors.fields.password = !req.body.signup_password;
+
 					return cb(true);
 				}
 				return cb(false);
@@ -82,6 +100,9 @@ exports = module.exports = function(req, res) {
 					if (err || user) {
 						console.error('SIGNUP: Username exists');
 						req.flash('error', 'User already exists with that username');
+
+						locals.errors.fields.name = !req.body.signup_name;
+
 						return cb(true);
 					}
 					else {
@@ -120,7 +141,7 @@ exports = module.exports = function(req, res) {
 				return res.redirect(userHome);
 			};
 			var onFail = function(e) {
-				console.log('SIGNIN: Fail after register');
+				console.error('SIGNIN: Fail after register');
 				req.flash('error',
 					'There was a problem signing you in, please try again');
 				return next();
@@ -129,7 +150,6 @@ exports = module.exports = function(req, res) {
 				email: req.body.signup_email, password: req.body.signup_password
 			}, req, res, onSuccess, onFail);
 		});
-
 	});
 
 	view.on('post', { action: 'login' }, function(next) {
