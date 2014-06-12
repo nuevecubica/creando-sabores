@@ -1,3 +1,6 @@
+@recipes-list-odd: @chef-color-white-bg;
+@recipes-list-even: @chef-color-light-bg;
+
 /*******************************
             Global
 *******************************/
@@ -19,12 +22,11 @@ body {
 body {
   font-family: @brandon-fonts;
   font-weight: lighter;
-  background: #FFFFFF;
+  background: @chef-color-lighter-bg;
   margin: 0px;
   padding: 0px;
-  color: #555555;
+  color: @chef-color-black;
   text-rendering: optimizeLegibility;
-  min-width: 320px;
 }
 
 h2 {

@@ -6,23 +6,20 @@ block content
 	#signup.signin.ui.grid.segment
 		.ui.page.grid
 			.row
-
-			.row
 				.four.wide.column
 
 				.logo.eight.wide.column
 					a.icon-chef-logo.icon(href="/")
 
 					.span.title Registro
-					.span.subtitle Fácil y rápido
+					.span.subtitle Es fácil y rápido
 
 			.row
 				.sixteen.wide.column
-
 					.ui.two.column.grid
 						.column.center.aligned
-							.explain
-								.span Regístrate con tus redes sociales...
+							.explain.right
+								.span Registrate con tus redes sociales
 
 							.actions
 								.ui.button.chef.button-fb
@@ -35,44 +32,45 @@ block content
 									i.social.icon-chef-google
 									a(href='')
 										span.social-reg Registro con
-										| Google
+										| Google
 
-						.column
-							.explain
+						.column.dashed
+							.explain.left
 								.span ...o con tu correo electrónico
-							form(action='registro', method='post')
-								.ui.form
-									#username.field
-										label(for='signup-name') Nombre de usuario
-										.ui.left.labeled.input
-											input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario')
-											.indicator.hidden
-												.icon-chef-error
-										.ui.error.message
-											.header We noticed some issues
+							#form
+								form(action='registro', method='post')
+									.ui.form
+										#username.field
+											label(for='signup-name') Nombre de usuario
+											.ui.left.labeled.input
+												input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario')
+												//- .indicator.hidden
+													//- .icon-chef-error
+											.error-message.hidden
+												.span Recuerda sólo letras o numeros
 
-									#email.field
-										label(for='signup-email') Correo electrónico
-										.ui.left.labeled.input
-											input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico')
-											.indicator.hidden
-												.icon-chef-error
-										.ui.error.message
-											.header We noticed some issues
+										#email.field
+											label(for='signup-email') Correo electrónico
+											.ui.left.labeled.input
+												input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico')
+												//- .indicator.hidden
+													//- .icon-chef-error
+											.error-message.hidden
+												.span Recuerda tiene que tener formato de correo electrónico.
 
-									#password.field
-										label(for='signup-password', id='signup-password-label') Contraseña
-										#wrapper-show-password.ui.labeled.checkbox
-											input(id='show-password', type='checkbox', name='show_password')
-											label(for='show-password') Mostrar
-										#wrapper-password.ui.left.labeled.input
-											input(id='signup-password', type='password', name='signup_password', autocomplete='off')
-											.indicator.hidden
-												.icon-chef-error
+										#password.field
+											label(for='signup-password', id='signup-password-label') Contraseña
+											#wrapper-show-password.ui.labeled.checkbox
+												input(id='show-password', type='checkbox', name='show_password')
+												label(for='show-password') Mostrar
+											#wrapper-password.ui.left.labeled.input
+												input(id='signup-password', type='password', name='signup_password', autocomplete='off', min='8')
+												//- .indicator.hidden
+													//- .icon-chef-error
 
-										.ui.error.message
-												.header We noticed some issues
+											.error-message.hidden
+												.span Recuerda tiene que tener más de 8 caracteres.
 
-									input(type='hidden', name='action', value='signup')
+										input(type='hidden', name='action', value='signup')
 
-									button.ui.button.chef.button-blue(type='submit') Continuar
+										button.ui.button.chef.button-blue(type='submit') Continuar

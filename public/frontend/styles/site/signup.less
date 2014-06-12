@@ -4,23 +4,39 @@
 @title-color: @chef-color-blue-bg;
 @subtitle-color: @chef-color-black;
 @error-indicator-color: @chef-color-brick-bg;
+@error-message-color: @chef-color-gray;
 
 .signin {
+
+	.ui.page.grid {
+		.row {
+			margin-top: 0;
+		}
+	}
+
 	.icon-chef-logo {
 		color: @icon-logo;
 		text-shadow: none;
 	}
 
+	.dashed {
+		border-left: 2px dashed @separator-color;
+	}
+
 	.actions {
-		margin-top: 40px;
-		border-right: 4px dotted @separator-color;
+		width: 75%;
+		float: right;
 
 		> .button {
-			width: 56%;
+			width: 70%;
 			margin: 5px;
 			text-align: left;
 			position: relative;
 			padding-left: 10px;
+
+			a {
+				padding-left: 10px;
+			}
 		}
 
 		i.social {
@@ -31,8 +47,7 @@
 	}
 
 	.span {
-		font-size: 24px;
-		margin-bottom: 20px;
+		font-size: 22px;
 		text-align: center;
 
 		&.title {
@@ -50,61 +65,87 @@
 	}
 
 	.explain {
+		width: 75%;
+
+		&.right {
+			float: right;
+		}
+
+		&.left {
+			float: left;
+		}
+
 		.span {
 			font-weight: bolder;
+			margin-bottom: 20px;
 		}
 	}
 
-	form {
+	#form {
+		width: 80%;
+		float: left;
 
-		width: 75%;
-		margin: 0 auto;
+		form {
+			width: 75%;
+			margin: 0 auto;
 
-		label {
-			font-size: 15px;
-			text-transform: uppercase;
-			font-weight: bolder;
-		}
+			label {
+				font-size: 16px;
+				text-transform: uppercase;
+				font-weight: bolder;
+				line-height: 15px;
+			}
 
-		input {
-			border-radius: 0 !important;
-			box-shadow: 0px 2px 4px -2px #000 !important;
-		}
+			input {
+				border-radius: 0 !important;
+				box-shadow: 0px 2px 4px -2px #000 !important;
+				height: 45px;
+			}
 
-		.indicator {
-			position: absolute;
-			right: 4px;
-			top: 4px;
-			color: @error-indicator-color;
-			font-size: 22px;
-
-			&.hidden {
+			.hidden {
 				display: none;
 			}
-		}
 
-		#wrapper-show-password {
-			float: right;
-			position: relative;
-			top: 3px;
-			label {
-				margin: 0em 0em 0.3em;
-				display: block;
-				font-size: 0.875em;
+			.indicator {
+				position: absolute;
+				right: 4px;
+				top: 4px;
+				color: @error-indicator-color;
+				font-size: 22px;
 			}
-		}
 
-		#signup-password-label {
-			float: left;
+			.error-message {
+				.span {
+					text-align: left;
+					font-size: 16px;
+					color: @error-message-color;
+				}
+			}
+
+			#wrapper-show-password {
+				float: right;
+				position: relative;
+				top: 3px;
+
+				label {
+					display: block;
+					font-size: 0.875em;
+					margin-left: -8px;
+				}
+			}
+
+			#signup-password-label {
+				float: left;
+			}
 		}
 	}
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1270px) {
 	.social-reg {
 		display: none;
 	}
 	.actions .social {
-		font-size: 20px !important;
+		font-size: 26px !important;
 	}
 }
