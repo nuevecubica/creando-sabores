@@ -15,6 +15,13 @@ exports = module.exports = function(req, res) {
 	// Set locals
 	locals.section = 'session';
 	locals.form = req.body;
+	locals.errors = {
+		fields: {
+			name: false,
+			email: false,
+			password: false
+		}
+	};
 
 	view.on('post', { action: 'signup' }, function(next) {
 		async.series([
@@ -23,8 +30,10 @@ exports = module.exports = function(req, res) {
 				// Mail and password
 				if (req.body.signup_email && req.body.signup_password) {
 					// User exists
-					keystone.list('User').model.findOne({ email: req.body.signup_email }, function(err, user) {
-						if (err || user) {
+					keystone.list('User').model.findOne({
+						email: req.body.signup_email
+					}, function(err, user) {
+						if (err || user) {
 							// Try to signin
 							var onSuccess = function() {
 								// Logged in
@@ -34,12 +43,16 @@ exports = module.exports = function(req, res) {
 								// Duplicated
 								if (req.body.signup_name) {
 									console.error('SIGNUP: Email exists');
-									req.flash('error', 'User already exists with that email address');
+									req.flash('error',
+										'User already exists with that email address');
+									locals.errors.fields.email = true;
 									return cb(true);
 								}
 								return cb(false);
 							};
-							keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);
+							keystone.session.signin({
+								email: req.body.signup_email, password: req.body.signup_password
+							}, req, res, onSuccess, onFail);
 						}
 						else {
 							// User doesn't exist
@@ -51,15 +64,29 @@ exports = module.exports = function(req, res) {
 					// Missing data
 					console.error('SIGNUP: Missing data');
 					req.flash('error', 'Please enter an username, email and password');
+
+					locals.errors.fields.email = !req.body.signup_email;
+					locals.errors.fields.name = !req.body.signup_name;
+					locals.errors.fields.password = !req.body.signup_password;
+
 					return cb(true);
 				}
 			},
 
 			// Check missing data
 			function(cb) {
-				if (!req.body.signup_name || !req.body.signup_email || !req.body.signup_password) {
+				if (
+					!req.body.signup_name ||
+					!req.body.signup_email ||
+					!req.body.signup_password
+				) {
 					console.error('SIGNUP: Missing data');
 					req.flash('error', 'Please enter an username, email and password');
+
+					locals.errors.fields.name = !req.body.signup_name;
+					locals.errors.fields.email = !req.body.signup_email;
+					locals.errors.fields.password = !req.body.signup_password;
+
 					return cb(true);
 				}
 				return cb(false);
@@ -67,10 +94,15 @@ exports = module.exports = function(req, res) {
 
 			// Check duplicated username.
 			function(cb) {
-				keystone.list('User').model.findOne({ username: req.body.signup_username }, function(err, user) {
+				keystone.list('User').model.findOne({
+					username: req.body.signup_name
+				}, function(err, user) {
 					if (err || user) {
 						console.error('SIGNUP: Username exists');
 						req.flash('error', 'User already exists with that username');
+
+						locals.errors.fields.name = !req.body.signup_name;
+
 						return cb(true);
 					}
 					else {
@@ -109,13 +141,15 @@ exports = module.exports = function(req, res) {
 				return res.redirect(userHome);
 			};
 			var onFail = function(e) {
-				console.log('SIGNIN: Fail after register');
-				req.flash('error', 'There was a problem signing you in, please try again');
+				console.error('SIGNIN: Fail after register');
+				req.flash('error',
+					'There was a problem signing you in, please try again');
 				return next();
 			};
-			keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);
+			keystone.session.signin({
+				email: req.body.signup_email, password: req.body.signup_password
+			}, req, res, onSuccess, onFail);
 		});
-
 	});
 
 	view.on('post', { action: 'login' }, function(next) {
@@ -130,14 +164,24 @@ exports = module.exports = function(req, res) {
 				// Duplicated
 				console.error('LOGIN: Login failed');
 				req.flash('error', 'Invalid credentials.');
+
+				locals.errors.fields.email = !req.body.signup_email;
+				locals.errors.fields.password = !req.body.signup_password;
+
 				return next();
 			};
-			keystone.session.signin({ email: req.body.login_email, password: req.body.login_password }, req, res, onSuccess, onFail);
+			keystone.session.signin({
+				email: req.body.login_email, password: req.body.login_password
+			}, req, res, onSuccess, onFail);
 		}
 		else {
 			// Missing data
 			console.error('LOGIN: Invalid data');
 			req.flash('error', 'Missing credentials.');
+
+			locals.errors.fields.email = !req.body.signup_email;
+			locals.errors.fields.password = !req.body.signup_password;
+
 			return next();
 		}
 	});
