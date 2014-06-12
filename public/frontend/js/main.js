@@ -1,5 +1,6 @@
 $(window).load(function() {
-  $('body').removeClass('preload');
+	$('body').removeClass('preload');
+	$('.error-here').transition('bounce');
 });
 
 $(document).ready(function() {
