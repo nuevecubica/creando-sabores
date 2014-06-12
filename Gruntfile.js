@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 
 		concurrent: {
 			development: {
-				tasks: [ 'nodemon', 'node-inspector', 'watch' ],
+				tasks: [ 'nodemon', 'watch' ],
 				options: {
 					logConcurrentOutput: true
 				}
@@ -85,16 +85,16 @@ module.exports = function(grunt) {
 				],
 				tasks : [ 'less:build', 'autoprefixer:build', 'cssmin:build' ],
 				options: {
-					livereload: true
+					livereload: false
 				}
 			},
-			express: {
-				files: [
-					'keystone.js',
-					'public/js/lib/**/*.{js,json}'
-				],
-				tasks: [ 'jshint:server', 'concurrent:development' ]
-			},
+			// express: {
+			// 	files: [
+			// 		'keystone.js',
+			// 		'public/js/lib/**/*.{js,json}'
+			// 	],
+			// 	tasks: [ 'jshint:server', 'concurrent:development' ]
+			// },
 			livereload: {
 				files: [
 					'public/frontend/styles/**/*.css',
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
 					'node_modules/keystone/templates/**/*.jade'
 				],
 				options: {
-					livereload: true
+					livereload: false
 				}
 			}
 		},
@@ -183,6 +183,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('production', function () {
+		grunt.task.run([ 'jshint' ]);
 		grunt.task.run([ 'less:build' ]);
 		grunt.task.run([ 'autoprefixer:build' ]);
 		grunt.task.run([ 'cssmin:build' ]);
