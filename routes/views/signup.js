@@ -32,9 +32,12 @@ exports = module.exports = function(req, res) {
 							};
 							var onFail = function(e) {
 								// Duplicated
-								console.error('SIGNUP: Email exists');
-								req.flash('error', 'User already exists with that email address.');
-								return cb(true);
+								if (req.body.signup_name) {
+									console.error('SIGNUP: Email exists');
+									req.flash('error', 'User already exists with that email address.');
+									return cb(true);
+								}
+								return cb(false);
 							};
 							keystone.session.signin({ email: req.body.signup_email, password: req.body.signup_password }, req, res, onSuccess, onFail);
 						}
@@ -47,7 +50,7 @@ exports = module.exports = function(req, res) {
 				else {
 					// Missing data
 					console.error('SIGNUP: Missing data');
-					req.flash('error', 'Please enter an email, username and password.');
+					req.flash('error', 'Please enter an username, email and password.');
 					return cb(true);
 				}
 			},
@@ -56,7 +59,7 @@ exports = module.exports = function(req, res) {
 			function(cb) {
 				if (!req.body.signup_name || !req.body.signup_email || !req.body.signup_password) {
 					console.error('SIGNUP: Missing data');
-					req.flash('error', 'Please enter an email, username and password.');
+					req.flash('error', 'Please enter an username, email and password.');
 					return cb(true);
 				}
 				return cb(false);
