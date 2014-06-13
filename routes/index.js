@@ -25,7 +25,8 @@ keystone.set('500', function(err, req, res, next) {
 
 // Import Route Controllers
 var routes = {
-	views: importRoutes('./views')
+	views: importRoutes('./views'),
+	api: importRoutes('./api')
 };
 
 // Setup Route Bindings
@@ -35,4 +36,8 @@ exports = module.exports = function(app) {
 	app.get('/recetas', routes.views.recipes);
 	app.all('/:mode(registro|acceso)', routes.views.signup);
 	app.get('/salir', routes.views.signout);
+
+	// API
+	app.all('/api/v1*', keystone.initAPI);
+	app.all('/api/v1/signin/checkUsername', routes.api.v1.signin.checkUsername);
 };
