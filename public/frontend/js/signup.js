@@ -21,7 +21,7 @@ $(window).load(function() {
 		console.log(terms);
 
 		// if(!name || !email || !password) {
-		if(!email || !password || !terms) {
+		if(!email || !password) {
 			if(!name) { $('#name').addClass('error-here').transition('bounce'); } else { $('#name').removeClass('error-here'); };
 			if(!email) { $('#email').addClass('error-here').transition('bounce'); } else { $('#email').removeClass('error-here'); };
 			if(!password) { $('#password').addClass('error-here').transition('bounce'); } else { $('#password').removeClass('error-here'); };

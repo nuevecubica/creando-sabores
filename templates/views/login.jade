@@ -4,27 +4,22 @@ include ../mixins/recipe
 
 block content
 	#login.signin.ui.grid.segment
-		.ui.page.grid
-			.row
+		.ui.page.grid.head
+			.row.logo
+				a.icon-chef-logo.icon(href="/")
 
-			.row
-				.four.wide.column
+			.row.section
+				.title Acceso
+				.subtitle Entra y disfruta
 
-				.logo.eight.wide.column
-					a.icon-chef-logo.icon(href="/")
-
-					.span.title Acceso
-					.span.subtitle Fácil y rápido
-
+		.ui.page.grid.body
 			.row
 				.sixteen.wide.column
-
 					.ui.two.column.grid
-						.column.center.aligned
-							.explain.right
-								.span Accede con tus redes sociales...
+						.column.center.aligned.group
+							.explain.right Accede con tus redes sociales...
 
-							.actions
+							.buttons-social
 								.ui.button.chef.button-fb
 									i.social.icon-chef-facebook
 									a(href='')
@@ -37,10 +32,9 @@ block content
 										span.social-reg Acceder con
 										| Google
 
-						.column.dashed
-							.explain.left
-								.span ...o con tu correo electrónico
-							#form
+						.column.dashed.group
+							.explain.left ...o con tu correo electrónico
+							.form-signin
 								form(action='acceso', method='post', novalidate)
 									.ui.form
 										#email.field(class=(errors.fields.email ? "error-here" : ""))
@@ -49,8 +43,7 @@ block content
 												input(id='login-email', type='email', name='login_email', value='#{form.signup_email||""}', placeholder='Correo electrónico')
 												//- .indicator.hidden
 													.icon-chef-error
-											.error-message
-												.span Correo electrónico incorrecto o en uso.
+											.error-message Correo electrónico incorrecto o en uso.
 
 										#password.field(class=(errors.fields.password ? "error-here" : ""))
 											label(for='login-password') Contraseña
@@ -59,14 +52,14 @@ block content
 												//- .indicator.hidden
 													.icon-chef-error
 
-											.error-message
-												.span Mínimo 8 caracteres.
+											.error-message Mínimo 8 caracteres.
 
 										input(type='hidden', name='action', value='login')
 
 										button.ui.button.chef.button-blue(type='submit') Acceder
-			.row
+		.ui.page.grid.body
+			.row.tail
 				.sixteen.wide.column
-					.span.link
+					.link
 						| ¿Todavía no tienes cuenta? 
 						a(href='/registro') Regístrate

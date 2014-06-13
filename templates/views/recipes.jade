@@ -4,17 +4,15 @@ include ../mixins/recipe
 
 block content
 	#recipe.ui.grid.segment
-		.ui.page.grid
+		.ui.page.grid.head
 			.row
 				include ../components/header
 
-			.row
-				.four.wide.column
+			.row.logo.shadow
+				a.icon-chef-logo.icon(href="/")
 
-				.logo.eight.wide.column
-					a.icon-chef-logo.icon(href="/")
-
-					.span Recetas
+			.row.section
+				.title.shadow Recetas
 
 			.row
 				.social.five.wide.column
@@ -39,12 +37,12 @@ block content
 
 				.three.wide.column
 
-				.title.eight.wide.column
+				.img-title.eight.wide.column
 					img.ui.image(src = '../frontend/images/test_recipe.png')
 					.text
 						.span Lasagna del chef
 
-	.ui.page.grid
+	.ui.page.grid.body
 
 		include ../components/search
 
@@ -70,7 +68,7 @@ block content
 							.row
 								+recipe(recipe)
 					else
-						.span No recipes yet.
+						| No recipes yet.
 
 			.row.loader
 				.sixteen.wide.column

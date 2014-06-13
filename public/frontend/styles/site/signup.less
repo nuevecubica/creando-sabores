@@ -11,68 +11,155 @@
 
 .signin {
 
-	.ui.page.grid {
+	.head {
+
 		.row {
 			margin-top: 0;
-		}
-	}
-
-	.icon-chef-logo {
-		color: @icon-logo;
-		text-shadow: none;
-	}
-
-	.dashed {
-		border-left: 2px dashed @separator-color;
-	}
-
-	.actions {
-		width: 80%;
-		float: right;
-
-		> .button {
-			width: 75%;
-			margin: 5px;
-			text-align: left;
-			position: relative;
-			padding-left: 10px;
-
-			a {
-				padding-left: 10px;
-			}
+			padding-top: 0;
 		}
 
-		i.social {
-			display: inline-block;
-			font-size: 40px;
-			vertical-align: middle;
+		.icon-chef-logo {
+			color: @icon-logo;
+			text-shadow: none;
 		}
-	}
 
-	.span {
-		.font-large;
-		text-align: center;
-
-		&.title {
-			.font-larger.uppercase;
+		.title {
 			color: @title-color;
 			text-shadow: none;
 		}
 
-		&.subtitle {
+		.subtitle {
 			color: @subtitle-color;
 			font-weight: lighter;
-			text-transform: none;
 			text-shadow: none;
 		}
+	}
 
-		&.link {
-			a {
-				color: @title-color;
+	.body {
+		.group {
+			width: 80%;
+
+			.explain {
+				.font-large;
+				width: 75%;
+				font-weight: bolder;
+				margin-bottom: 20px;
+				text-align: center;
+
+				&.right {
+					float: right;
+				}
+
+				&.left {
+					float: left;
+				}
+			}
+
+			.buttons-social {
+				width: 80%;
+				float: right;
+
+				> .button {
+					width: 75%;
+					margin: 5px;
+					text-align: left;
+					position: relative;
+					padding-left: 10px;
+
+					a {
+						padding-left: 10px;
+					}
+				}
+
+				i.social {
+					display: inline-block;
+					font-size: 40px;
+					vertical-align: middle;
+				}
+			}
+
+			.form-signin {
+				width: 80%;
+				float: left;
+
+				form {
+					width: 75%;
+					margin: 0 auto;
+
+					label {
+						.font-small.uppercase;
+						font-weight: bolder;
+					}
+
+					input {
+						border-radius: 0 !important;
+						box-shadow: 0px 2px 4px -2px #000 !important;
+						height: 45px;
+					}
+
+					.error-message {
+						display: none;
+						.font-smaller;
+						text-align: left;
+						color: @error-message-color;
+					}
+
+					.error-here {
+						input {
+							border-color: @error-input-border;
+						}
+
+						.error-message {
+							display: block;
+						}
+					}
+
+					#wrapper-show-password {
+						float: right;
+						position: relative;
+						top: 3px;
+
+						label {
+							.font-small.uppercase;
+							display: block;
+							margin-left: -8px;
+						}
+					}
+
+					#signup-password-label {
+						float: left;
+					}
+
+					// #terms {
+					// 	label {
+					// 		text-transform: none;
+
+					// 		a {
+					// 			color: @terms-color;
+					// 		}
+					// 	}
+
+					// 	.error-here {
+					// 		label {
+					// 			a {
+					// 				color: @error-message-color;
+					// 			}
+
+					// 			&:before {
+					// 				box-shadow: 0em 0em 0em 1px @error-input-border;
+					// 			}
+					// 		}
+					// 	}
+					// }
+
+					button {
+						width: 100%;
+					}
+				}
 			}
 		}
 
-		&.info-terms {
+		.info-terms {
 			.font-smaller;
 			text-align: left;
 
@@ -82,114 +169,19 @@
 		}
 	}
 
-	.explain {
-		width: 75%;
+	.tail {
+		.link {
+			.font-large;
+			text-align: center;
 
-		&.right {
-			float: right;
-		}
-
-		&.left {
-			float: left;
-		}
-
-		.span {
-			font-weight: bolder;
-			margin-bottom: 20px;
+			a {
+				color: @title-color;
+			}
 		}
 	}
 
-	#form {
-		width: 80%;
-		float: left;
-
-		form {
-			width: 75%;
-			margin: 0 auto;
-
-			label {
-				.font-small.uppercase;
-				font-weight: bolder;
-			}
-
-			input {
-				border-radius: 0 !important;
-				box-shadow: 0px 2px 4px -2px #000 !important;
-				height: 45px;
-			}
-
-			.indicator {
-				position: absolute;
-				right: 4px;
-				top: 4px;
-				color: @error-indicator-color;
-				font-size: 22px;
-			}
-
-			.error-message {
-				display: none;
-
-				.span {
-					.font-small;
-					text-align: left;
-					color: @error-message-color;
-				}
-			}
-
-			.error-here {
-				input {
-					border-color: @error-input-border;
-				}
-
-
-
-				.error-message {
-					display: block;
-				}
-			}
-
-			#wrapper-show-password {
-				float: right;
-				position: relative;
-				top: 3px;
-
-				label {
-					.font-small.uppercase;
-					display: block;
-					margin-left: -8px;
-				}
-			}
-
-			#signup-password-label {
-				float: left;
-			}
-
-			#terms {
-				label {
-					text-transform: none;
-
-					a {
-						color: @terms-color;
-					}
-				}
-
-				.error-here {
-					label {
-						a {
-							color: @error-message-color;
-						}
-
-						&:before {
-							box-shadow: 0em 0em 0em 1px @error-input-border;
-						}
-					}
-				}
-			}
-
-			button {
-				width: 100%;
-			}
-		}
+	.dashed {
+		border-left: 2px dashed @separator-color;
 	}
 }
 

@@ -4,24 +4,22 @@ include ../mixins/recipe
 
 block content
 	#signup.signin.ui.grid.segment
-		.ui.page.grid
-			.row
-				.four.wide.column
+		.ui.page.grid.head
+			.row.logo
+				a.icon-chef-logo.icon(href="/")
 
-				.logo.eight.wide.column
-					a.icon-chef-logo.icon(href="/")
+			.row.section
+				.title Registro
+				.subtitle Es fácil y rápido
 
-					.span.title Registro
-					.span.subtitle Es fácil y rápido
-
+		.ui.page.grid.body
 			.row
 				.sixteen.wide.column
 					.ui.two.column.grid
-						.column.center.aligned
-							.explain.right
-								.span Regístrate con tus redes sociales
+						.column.center.aligned.group
+							.explain.right Regístrate con tus redes sociales
 
-							.actions
+							.buttons-social
 								.ui.button.chef.button-fb
 									i.social.icon-chef-facebook
 									a(href='')
@@ -34,10 +32,9 @@ block content
 										span.social-reg Registro con
 										|#{' '}Google
 
-						.column.dashed
-							.explain.left
-								.span ...o con tu correo electrónico
-							#form
+						.column.group.dashed
+							.explain.left ...o con tu correo electrónico
+							.form-signin
 								form(action='registro', method='post', novalidate)
 									.ui.form
 										#name.field(class=(errors.fields.name ? "error-here" : ""))
@@ -46,8 +43,7 @@ block content
 												input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario', value='#{form.signup_name||""}', tabindex='1')
 												//- .indicator.hidden
 													//- .icon-chef-error
-											.error-message.hidden
-												.span Mínimo 6 caracteres, letras o números.
+											.error-message.hidden Mínimo 6 caracteres, letras o números.
 
 										#email.field(class=(errors.fields.email ? "error-here" : ""))
 											label(for='signup-email') Correo electrónico
@@ -55,8 +51,7 @@ block content
 												input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico', value='#{form.signup_email||""}', tabindex='2')
 												//- .indicator.hidden
 													//- .icon-chef-error
-											.error-message.hidden
-												.span Correo electrónico incorrecto o en uso.
+											.error-message.hidden Correo electrónico incorrecto o en uso.
 
 										#password.field(class=(errors.fields.password ? "error-here" : ""))
 											label(for='signup-password', id='signup-password-label') Contraseña
@@ -68,8 +63,7 @@ block content
 												//- .indicator.hidden
 													//- .icon-chef-error
 
-											.error-message.hidden
-												.span Mínimo 8 caracteres.
+											.error-message.hidden Mínimo 8 caracteres.
 
 										//- #terms.field
 
@@ -82,11 +76,11 @@ block content
 										button.ui.button.chef.button-blue(type='submit', tabindex='4') Continuar
 
 										#terms.field
-											.span.info-terms Al continuar aceptas los 
+											.info-terms Al continuar aceptas los 
 												a(href='/terminos') términos y condiciones.
-
+		.ui.page.grid.tail
 			.row
 				.sixteen.wide.column
-					.span.link
+					.link
 						| ¿Ya estás registrado? 
 						a(href='/acceso') Entra

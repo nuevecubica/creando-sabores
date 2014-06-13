@@ -36,24 +36,43 @@ h2 {
 .logo {
   text-align: center !important;
   color: @chef-color-white;
-  text-shadow: 1px 2px 4px #000;
+
+  &.shadow {
+    text-shadow: 1px 2px 4px #000;
+  }
 
   .icon {
     font-size: 200px;
-    line-height: 230px;
     color: white;
     text-decoration: none;
   }
+}
 
-  .span {
-    font-size: 40px;
+.section {
+  text-align: center !important;
+
+  .title {
+    .font-extra-large.uppercase;
     font-weight: bold;
-    text-transform: uppercase;
+    text-align: center;
+
+    &.shadow {
+      text-shadow: 1px 2px 4px #000;
+    }
+  }
+
+  .subtitle {
+    .font-larger;
+    text-align: center;
+
+    &.shadow {
+      text-shadow: 1px 2px 4px #000;
+    }
   }
 }
 
 .content {
-  font-size: 20px;
+  .font-large;
 }
 
 .overlay {
