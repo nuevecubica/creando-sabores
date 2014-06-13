@@ -43,9 +43,9 @@ exports = module.exports = function(req, res) {
 								// Duplicated
 								if (req.body.signup_name) {
 									console.error('SIGNUP: Email exists');
-									req.flash('error',
-										'User already exists with that email address');
-									locals.errors.fields.email = true;
+
+									locals.errors.fields.email = 'User already exists with that email address';
+
 									return cb(true);
 								}
 								return cb(false);
@@ -63,8 +63,8 @@ exports = module.exports = function(req, res) {
 				else {
 					// Missing data
 					console.error('SIGNUP: Missing data');
-					req.flash('error', 'Please enter an username, email and password');
 
+					locals.errors.form = 'Missing data';
 					locals.errors.fields.email = !req.body.signup_email;
 					locals.errors.fields.name = !req.body.signup_name;
 					locals.errors.fields.password = !req.body.signup_password;
@@ -81,8 +81,8 @@ exports = module.exports = function(req, res) {
 					!req.body.signup_password
 				) {
 					console.error('SIGNUP: Missing data');
-					req.flash('error', 'Please enter an username, email and password');
 
+					locals.errors.form = 'Missing data';
 					locals.errors.fields.name = !req.body.signup_name;
 					locals.errors.fields.email = !req.body.signup_email;
 					locals.errors.fields.password = !req.body.signup_password;
@@ -99,9 +99,8 @@ exports = module.exports = function(req, res) {
 				}, function(err, user) {
 					if (err || user) {
 						console.error('SIGNUP: Username exists');
-						req.flash('error', 'User already exists with that username');
 
-						locals.errors.fields.name = !req.body.signup_name;
+						locals.errors.fields.name = 'User already exists with that username';
 
 						return cb(true);
 					}
@@ -163,8 +162,8 @@ exports = module.exports = function(req, res) {
 			var onFail = function(e) {
 				// Duplicated
 				console.error('LOGIN: Login failed');
-				req.flash('error', 'Invalid credentials.');
 
+				locals.errors.form = 'Invalid credentials.';
 				locals.errors.fields.email = !req.body.signup_email;
 				locals.errors.fields.password = !req.body.signup_password;
 
@@ -177,8 +176,8 @@ exports = module.exports = function(req, res) {
 		else {
 			// Missing data
 			console.error('LOGIN: Invalid data');
-			req.flash('error', 'Missing credentials.');
 
+			locals.errors.form = 'Invalid credentials.';
 			locals.errors.fields.email = !req.body.signup_email;
 			locals.errors.fields.password = !req.body.signup_password;
 
