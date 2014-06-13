@@ -39,5 +39,10 @@ exports = module.exports = function(app) {
 
 	// API
 	app.all('/api/v1*', keystone.initAPI);
-	app.all('/api/v1/signin/checkUsername', routes.api.v1.signin.checkUsername);
+	//-- Me
+	app.post('/api/v1/me/login', routes.api.v1.me.login);
+	app.get('/api/v1/me/logout', routes.api.v1.me.logout);
+	//-- Users
+	app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
+	//-- Recipes
 };

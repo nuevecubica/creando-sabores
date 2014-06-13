@@ -4,12 +4,11 @@ var async = require('async'),
 exports = module.exports = function(req, res) {
 	var Users = keystone.list('User'),
 			query = {
-				username: req.query['username'] || req.body.username || null
+				username: req.params['username']
 			},
 			answer = {
 				success: false,
-				error: false,
-				query: query
+				error: false
 			};
 
 	async.series([
