@@ -1,8 +1,7 @@
-var should = require('should'),
-		assert = require('assert'),
+var must = require('must'),
 		request = require('supertest');
 
-var config = require(__dirname + '/../../../../config-development-test.js');
+var config = require(__dirname + '/../../../config-development-test.js');
 
 request = request(config.url);
 

@@ -1,12 +1,14 @@
-// Simulate config options from your production environment by
-// customising the .env file in your project's root folder.
+/****************************************************
+									TEST ENVIRONMENT
+****************************************************/
 require('dotenv').load();
+
 if (!process.env.NODE_ENV) {
 	console.warn("Warning: Environment variable NODE_ENV not defined.");
 	process.env.NODE_ENV = 'development';
 }
 
-var config = require('./config-' + process.env.NODE_ENV + '.js'),
+var config = require('./config-' + process.env.NODE_ENV + '-test.js'),
 		keystone = require('keystone');
 
 keystone.init(config.keystone.init);
@@ -31,23 +33,10 @@ keystone.set('nav', {
 	'recipes': 'recipes'
 });
 
-/*
-MongoDB Environment:
-	MONGODB_DATABASE
-	MONGODB_HOST
-	MONGODB_PORT
-	MONGODB_USERNAME
-	MONGODB_PASSWORD
-	MONGO_URL
-*/
-
-// console.log("MongoDB Connection:\n\
-//	DB: " + process.env.MONGODB_DATABASE + "\n\
-//	HOST: " + process.env.MONGODB_HOST + "\n\
-//	PORT: " + process.env.MONGODB_PORT + "\n\
-//	USER: " + process.env.MONGODB_USERNAME + "\n\
-//	URL:  " + process.env.MONGO_URL);
-
-keystone.start();
+keystone.testStart = function(done) {
+	keystone.start(function(e){
+		return done();
+	});
+};
 
 exports = module.exports = keystone;
