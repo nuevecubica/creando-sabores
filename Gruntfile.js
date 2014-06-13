@@ -6,8 +6,19 @@ var config= {
 
 module.exports = function(grunt) {
 
-	// Load grunt tasks automatically
-	require('load-grunt-tasks')(grunt);
+	grunt.loadNpmTasks('grunt-autoprefixer');
+	grunt.loadNpmTasks('grunt-concurrent');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-express-server');
+	grunt.loadNpmTasks('grunt-node-inspector');
+	grunt.loadNpmTasks('grunt-nodemon');
+
+	grunt.loadNpmTasks('grunt-mocha-test');
 
 	// Time how long tasks take. Can help when optimizing build times
 	require('time-grunt')(grunt);
@@ -153,6 +164,14 @@ module.exports = function(grunt) {
 					banner: '/* Chefcito CSS */'
 				}
 			}
+		},
+		mochaTest: {
+			test: {
+				options: {
+					reporter: 'spec'
+				},
+				src: ['test/**/*.js']
+			}
 		}
 	});
 
@@ -175,6 +194,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('development', function () {
 		grunt.task.run([ 'jshint' ]);
+		grunt.task.run([ 'mochaTest' ]);
 		grunt.task.run([ 'less:build' ]);
 		grunt.task.run([ 'autoprefixer:build' ]);
 		grunt.task.run([ 'cssmin:build' ]);
