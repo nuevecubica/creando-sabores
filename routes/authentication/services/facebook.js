@@ -78,7 +78,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.facebookUser.profile.emails).value : null,
-			username: data.facebookUser.profile.username || tools.createUsername(data.facebookUser.profile.name.givenName, data.facebookUser.profile.name.familyName, data.facebookUser.profile.id),
+			username: data.facebookUser.profile.username || tools.createUsername(data.facebookUser),
 			name: {
 				first: data.facebookUser.profile.name.givenName,
 				last: data.facebookUser.profile.name.familyName

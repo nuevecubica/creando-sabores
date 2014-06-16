@@ -2,7 +2,7 @@
 
 // Function to generate an username.
 // First character of name, last name and random number between 0 and 4 last digits of user id.
-exports.createUsername = function(name, lastname, id) {
+exports.createUsername = function(data) {
 	var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
 	to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
 	mapping = {};
@@ -11,7 +11,9 @@ exports.createUsername = function(name, lastname, id) {
 		mapping[ from.charAt( i ) ] = to.charAt( i );
 	}
 
-	var str = name[0] + lastname + Math.floor((Math.random() * parseInt(id.substr(id.length - 4, id.length))) + 1);
+	var str =	data.profile.name.givenName[0] +
+				data.profile.name.familyName +
+				Math.floor((Math.random() * parseInt(data.profile.id.substr(data.profile.id.length - 4, data.profile.id.length))) + 1);
 
 	var ret = [];
 	for(var x = 0, y = str.length; x < y; x++) {

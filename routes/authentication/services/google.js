@@ -28,6 +28,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 	// Initalise Google credentials
 	var googleStrategy = new passportGoogleStrategy(credentials, function(accessToken, profile, done) {
+		console.log(JSON.stringify(profile));
 		done(null, {
 			accessToken: accessToken,
 			profile: profile
@@ -182,9 +183,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 	} else {
 		console.log('[social.google] - Authentication workflow detected, attempting to request access');
 
-		passport.authenticate('google', {
-			scope: [ 'email' ]
-		})(req, res, next);
+		passport.authenticate('google')(req, res, next);
 	}
 
 };
