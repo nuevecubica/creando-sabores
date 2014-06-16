@@ -18,7 +18,8 @@ describe 'API v1: /me/', ->
       userM.email    = user.email
       userM.password = user.password
       userM.save()
-    done()
+
+    request.get('/').expect 200, done
 
   #*---------- LOGIN ----------*
   describe 'POST /me/login', ->
@@ -47,7 +48,7 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(401, done)
         .expect (res) ->
-          return 'error' if res.body.success or res.body.error;
+          return 'error' if res.body.success or res.body.error
 
     describe 'with valid credentials', ->
       it 'respond with success', (done) ->

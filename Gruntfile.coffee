@@ -5,6 +5,7 @@ config =
 
 module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-autoprefixer"
+  grunt.loadNpmTasks "grunt-coffeelint"
   grunt.loadNpmTasks "grunt-concurrent"
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-copy"
@@ -43,6 +44,16 @@ module.exports = (grunt) ->
         "public/frontend/js/**/*,js"
       ]
       server: ["./*.js"]
+
+    coffeelint:
+      # options:
+      #   configFile: 'coffeelint.json'
+
+      all: [
+        "./*.coffee"
+        "test/**/*.coffee"
+      ]
+      test: ["test/**/*.coffee"]
 
     concurrent:
       development:
@@ -83,6 +94,12 @@ module.exports = (grunt) ->
           "routes/**/*.js"
         ]
         tasks: ["jshint:all"]
+
+      coffee:
+        files: [
+          "**/*.coffee"
+        ]
+        tasks: ["coffeelint:all"]
 
       less:
         files: [
@@ -140,35 +157,43 @@ module.exports = (grunt) ->
     cssmin:
       build:
         files:
-          "public/frontend/styles/site.min.css": ["public/frontend/styles/site.css"]
+          "public/frontend/styles/site.min.css": [
+            "public/frontend/styles/site.css"
+          ]
 
         options:
           keepSpecialComments: 0
           banner: "/* Chefcito CSS */"
 
     mochaTest:
-      test:
+      development:
         options:
           reporter: "spec"
 
         src: ["test/**/*.coffee"]
 
-  grunt.config "env", grunt.option("env") or process.env.GRUNT_ENV or process.env.NODE_ENV or "development"
+  grunt.config "env",
+    (
+      grunt.option("env") or
+      process.env.GRUNT_ENV or
+      process.env.NODE_ENV or
+      "development"
+    )
 
-  # load jshint
+  # load linters
   grunt.registerTask "lint", (target) ->
-    grunt.task.run ["jshint"]
+    grunt.task.run ["jshint:all"]
+    grunt.task.run ["coffeelint:all"]
 
   # default option to connect server
   grunt.registerTask "serve", (target) ->
     grunt.task.run [
-      "jshint"
+      "lint"
       "concurrent:development"
     ]
 
   grunt.registerTask "development", ->
-    grunt.task.run ["jshint"]
-    grunt.task.run ["mochaTest"]
+    grunt.task.run ["lint"]
     grunt.task.run ["less:build"]
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
@@ -182,6 +207,9 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
     grunt.task.run ["copy"]
+
+  grunt.registerTask "test", ->
+    grunt.task.run ["lint", "mochaTest:development"]
 
   grunt.registerTask "default", ->
     grunt.task.run [grunt.config("env")]

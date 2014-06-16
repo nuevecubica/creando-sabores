@@ -18,10 +18,19 @@ describe 'API v1: /user', ->
       userM.email    = user.email
       userM.password = user.password
       userM.save()
-    done()
+
+    request.get('/').expect 200, done
 
   describe 'GET /user/:username/check', ->
-    describe 'Request valid user', ->
+    describe 'on request invalid user', ->
+      it 'respond with not found', (done) ->
+        request
+        .get('/api/v1/user/testUserXXX/check')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/).expect 404, done
+
+  describe 'GET /user/:username/check', ->
+    describe 'on request valid user', ->
       it 'respond with success', (done) ->
         request
         .get('/api/v1/user/testUser1/check')
