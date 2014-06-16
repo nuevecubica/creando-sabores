@@ -40,6 +40,7 @@ exports = module.exports = function(app) {
 
 	// Authentication
 	app.get('/authentication/facebook', routes.authentication.facebook);
+	app.get('/authentication/google', routes.authentication.google);
 
 	// API
 	app.all('/api/v1*', keystone.initAPI);
