@@ -1,3 +1,6 @@
+/*
+	DEVELOPMENT TEST CONFIGURATION
+*/
 var answer = {};
 
 answer.keystone = {
@@ -24,7 +27,7 @@ answer.keystone = {
 		'trust proxy': true,
 
 		'host': '0.0.0.0',
-		'port': process.env.PORT || null,
+		'port': '7357',
 		'mongo url': process.env.MONGO_URL || null
 	},
 	'email locals': {
@@ -44,14 +47,25 @@ answer.keystone = {
 	'email rules': [
 		{
 			find: '/images/',
-			replace: 'http://localhost:3000/images/'
+			replace: 'http://localhost:7357/images/'
 		}, {
 			find: '/keystone/',
-			replace: 'http://localhost:3000/keystone/'
+			replace: 'http://localhost:7357/keystone/'
 		}
 	]
 };
 
-answer.url = 'http://localhost:3000';
+answer.lists = {
+	users: [
+		{
+			name: 'Test User1',
+			email: 'testUser1@glue.gl',
+			password: 'testUser1',
+			username: 'testUser1'
+		}
+	]
+};
+
+answer.url = 'http://' + answer.keystone.init['host'] + ':' + answer.keystone.init['port'];
 
 exports = module.exports = answer;

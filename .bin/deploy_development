@@ -27,6 +27,7 @@ color_icon=$'\360\237\215\213'
 
 check_dir
 echo "${color_icon}  ${color_1}===> ${color_2}Update${color_no}"
+git checkout $app_branch || exit 1
 git pull $app_repository || exit 1
 echo "${color_icon}  ${color_1}===> ${color_2}Build${color_no}"
 grunt $app_gluerokku_env || exit 1

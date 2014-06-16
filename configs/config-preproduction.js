@@ -1,3 +1,6 @@
+/*
+	PREPRODUCTION CONFIGURATION
+*/
 exports = module.exports = {
 	keystone: {
 		init: {
@@ -23,7 +26,7 @@ exports = module.exports = {
 			'trust proxy': true,
 
 			'host': '0.0.0.0',
-			'port': process.env.PORT || null,
+			'port': process.env.PORT || 3000,
 			'mongo url': process.env.MONGO_URL || null
 		},
 		'email locals': {

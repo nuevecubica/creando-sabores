@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
 				};
 				var onFail = function(e) {
 					// Failed
-					answer.success = false;
+					res.status(401);
 					return next(true);
 				};
 
@@ -35,11 +35,16 @@ exports = module.exports = function(req, res) {
 			else {
 				// Missing data
 				answer.error = true;
+				res.status(401);
 				return next(true);
 			}
 		}
 	], function(err) {
-		return res.apiResponse(answer);
+		if (err) {
+			return res.apiResponse(answer);
+		} else {
+			return res.apiResponse(answer);
+		}
 	});
 
 };
