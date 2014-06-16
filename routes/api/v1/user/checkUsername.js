@@ -24,7 +24,8 @@ exports = module.exports = function(req, res) {
 			Users.model.findOne({
 						username: query.username
 					}, function(err, user) {
-						if (err) {
+						if (err || !user) {
+							res.status(404);
 							answer.error = true;
 						}
 						else if (user) {
