@@ -1,10 +1,15 @@
 /****************************************************
 									TEST ENVIRONMENT
 ****************************************************/
+
+/*
+	Test environment
+*/
+
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
-	console.warn("Warning: Environment variable NODE_ENV not defined.");
+	console.warn('Warning: Environment variable NODE_ENV not defined.');
 	process.env.NODE_ENV = 'development';
 }
 

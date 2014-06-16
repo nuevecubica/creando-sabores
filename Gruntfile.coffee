@@ -1,5 +1,8 @@
 "use strict()"
-config = port: 3000
+config =
+  port: 3000
+  portTest: 7357
+
 module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-autoprefixer"
   grunt.loadNpmTasks "grunt-concurrent"
@@ -26,7 +29,7 @@ module.exports = (grunt) ->
 
       development:
         options:
-          script: "keystone.js"
+          script: "app.js"
           debug: true
 
     jshint:
@@ -57,11 +60,21 @@ module.exports = (grunt) ->
 
     nodemon:
       debug:
-        script: "keystone.js"
+        script: "app.js"
         options:
           nodeArgs: ["--debug"]
           env:
             port: config.port
+      server:
+        script: "app.js"
+        options:
+          env:
+            port: config.port
+      test:
+        script: "app-test.js"
+        options:
+          env:
+            test: true
 
     watch:
       js:
@@ -84,13 +97,6 @@ module.exports = (grunt) ->
         options:
           livereload: false
 
-      # express: {
-      # 	files: [
-      # 		'keystone.js',
-      # 		'public/js/lib/**/*.{js,json}'
-      # 	],
-      # 	tasks: [ 'jshint:server', 'concurrent:development' ]
-      # },
       livereload:
         files: [
           "public/frontend/styles/**/*.css"
@@ -145,7 +151,7 @@ module.exports = (grunt) ->
         options:
           reporter: "spec"
 
-        src: ["test/**/*.js", "test/**/*.coffee"]
+        src: ["test/**/*.coffee"]
 
   grunt.config "env", grunt.option("env") or process.env.GRUNT_ENV or process.env.NODE_ENV or "development"
 

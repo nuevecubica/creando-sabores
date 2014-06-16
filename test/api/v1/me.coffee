@@ -7,17 +7,18 @@ request = require('supertest') config.url
 describe 'API v1: /me/', ->
   before (done) ->
     this.timeout 10000
-    keystone = require __dirname + '/../../../keystone-test.js'
-    keystone.testStart ->
-      Users = keystone.list 'User'
-      for user in config.lists.users
-        userM = new Users.model()
-        userM.name     = user.name
-        userM.username = user.username
-        userM.email    = user.email
-        userM.password = user.password
-        userM.save()
-      done()
+
+    keystone = require __dirname + '/../../../app-test-init.js'
+
+    Users = keystone.list 'User'
+    for user in config.lists.users
+      userM = new Users.model()
+      userM.name     = user.name
+      userM.username = user.username
+      userM.email    = user.email
+      userM.password = user.password
+      userM.save()
+    done()
 
   #*---------- LOGIN ----------*
   describe 'POST /me/login', ->
