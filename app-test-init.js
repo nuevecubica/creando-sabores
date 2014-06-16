@@ -9,11 +9,12 @@
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
-	console.warn('Warning: Environment variable NODE_ENV not defined.');
-	process.env.NODE_ENV = 'development';
+	console.error("Warning: Environment variable NODE_ENV not defined.");
+	return 1
+	// process.env.NODE_ENV = 'development';
 }
 
-var config = require('./config-' + process.env.NODE_ENV + '-test.js'),
+var config = require('./config-test.js'),
 		keystone = require('keystone');
 
 keystone.init(config.keystone.init);

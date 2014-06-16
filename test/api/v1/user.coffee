@@ -1,8 +1,8 @@
-must = require('must')
+must = require 'must'
 keystone = null
-config = require(__dirname + '/../../../config-development-test.js')
+config = require __dirname + '/../../../config-test.js'
 
-request = require('supertest')(config.url)
+request = require('supertest') config.url
 
 describe 'API v1: /user', ->
   before (done) ->

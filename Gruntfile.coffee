@@ -4,26 +4,16 @@ config =
   portTest: 7357
 
 module.exports = (grunt) ->
-  grunt.loadNpmTasks "grunt-autoprefixer"
-  grunt.loadNpmTasks "grunt-coffeelint"
-  grunt.loadNpmTasks "grunt-concurrent"
-  grunt.loadNpmTasks "grunt-contrib-clean"
-  grunt.loadNpmTasks "grunt-contrib-copy"
-  grunt.loadNpmTasks "grunt-contrib-cssmin"
-  grunt.loadNpmTasks "grunt-contrib-jshint"
-  grunt.loadNpmTasks "grunt-contrib-less"
-  grunt.loadNpmTasks "grunt-contrib-watch"
-  grunt.loadNpmTasks "grunt-express-server"
-  grunt.loadNpmTasks "grunt-node-inspector"
-  grunt.loadNpmTasks "grunt-nodemon"
-  grunt.loadNpmTasks "grunt-mocha-test"
-
-  # Time how long tasks take. Can help when optimizing build times
-  require("time-grunt") grunt
 
   # Project configuration.
   grunt.initConfig
     pkg: grunt.file.readJSON("package.json")
+    env: (
+      grunt.option("env") or
+      process.env.GRUNT_ENV or
+      process.env.NODE_ENV or
+      "development"
+    )
     express:
       options:
         port: config.port
@@ -131,16 +121,6 @@ module.exports = (grunt) ->
           "public/frontend/fonts/icons.*"
         ]
 
-    copy:
-      build:
-        files: [
-          expand: true
-          cwd: "public/packages/semantic-ui/build/less/fonts/"
-          src: ["**"]
-          dest: "public/frontend/fonts/"
-          filter: "isFile"
-        ]
-
     less:
       build:
         options:
@@ -172,13 +152,51 @@ module.exports = (grunt) ->
 
         src: ["test/**/*.coffee"]
 
-  grunt.config "env",
-    (
-      grunt.option("env") or
-      process.env.GRUNT_ENV or
-      process.env.NODE_ENV or
-      "development"
-    )
+
+  grunt.config 'copy',
+    build:
+      files: [
+        {
+          expand: true
+          cwd: "public/packages/semantic-ui/build/less/fonts/"
+          src: ["**"]
+          dest: "public/frontend/fonts/"
+          filter: "isFile"
+        }
+        {
+          src: ["configs/config-" + grunt.config("env") + ".js"]
+          dest: "config.js"
+          filter: "isFile"
+        }
+        {
+          src: ["configs/config-" + grunt.config("env") + "-test.js"]
+          dest: "config-test.js"
+          filter: "isFile"
+        }
+        {
+          src: ["configs/" + grunt.config("env") + ".env"]
+          dest: ".env"
+          filter: "isFile"
+        }
+      ]
+
+
+  grunt.loadNpmTasks "grunt-autoprefixer"
+  grunt.loadNpmTasks "grunt-coffeelint"
+  grunt.loadNpmTasks "grunt-concurrent"
+  grunt.loadNpmTasks "grunt-contrib-clean"
+  grunt.loadNpmTasks "grunt-contrib-copy"
+  grunt.loadNpmTasks "grunt-contrib-cssmin"
+  grunt.loadNpmTasks "grunt-contrib-jshint"
+  grunt.loadNpmTasks "grunt-contrib-less"
+  grunt.loadNpmTasks "grunt-contrib-watch"
+  grunt.loadNpmTasks "grunt-express-server"
+  grunt.loadNpmTasks "grunt-node-inspector"
+  grunt.loadNpmTasks "grunt-nodemon"
+  grunt.loadNpmTasks "grunt-mocha-test"
+
+  # Time how long tasks take. Can help when optimizing build times
+  require("time-grunt") grunt
 
   # load linters
   grunt.registerTask "lint", (target) ->
@@ -193,6 +211,14 @@ module.exports = (grunt) ->
     ]
 
   grunt.registerTask "development", ->
+    grunt.task.run ["lint"]
+    grunt.task.run ["less:build"]
+    grunt.task.run ["autoprefixer:build"]
+    grunt.task.run ["cssmin:build"]
+    grunt.task.run ["clean"]
+    grunt.task.run ["copy"]
+
+  grunt.registerTask "preproduction", ->
     grunt.task.run ["lint"]
     grunt.task.run ["less:build"]
     grunt.task.run ["autoprefixer:build"]

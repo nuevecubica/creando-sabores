@@ -1,3 +1,6 @@
+/*
+	DEVELOPMENT TEST CONFIGURATION
+*/
 var answer = {};
 
 answer.keystone = {

@@ -1,12 +1,13 @@
-// Simulate config options from your production environment by
-// customising the .env file in your project's root folder.
+/* APP */
 require('dotenv').load();
+
 if (!process.env.NODE_ENV) {
-	console.warn("Warning: Environment variable NODE_ENV not defined.");
-	process.env.NODE_ENV = 'development';
+	console.error("Warning: Environment variable NODE_ENV not defined.");
+	return 1
+	// process.env.NODE_ENV = 'development';
 }
 
-var config = require('./config-' + process.env.NODE_ENV + '.js'),
+var config = require('./config.js'),
 		keystone = require('keystone');
 
 keystone.init(config.keystone.init);
