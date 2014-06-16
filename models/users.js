@@ -9,11 +9,14 @@ var _ = require('underscore'),
 var User = new keystone.List('User');
 
 User.add({
-	email: { type: Types.Email, initial: true, required: true, index: true, unique: true },
+	email: { type: Types.Email, initial: true, required: false, index: true, unique: true },
 	username: { type: Types.Text, initial: true, required: true, index: true, unique: true },
 	password: { type: Types.Password, initial: true, required: false }
 }, 'Personal', {
-	name: { type: Types.Text },
+	name: {
+		first: { type: Types.Text },
+		last: { type: Types.Text }
+	},
 	about: { type: Types.Textarea }
 }, 'Media', {
 	media: {
@@ -25,6 +28,21 @@ User.add({
 	isConfirmed: { type: Boolean, label: 'Confirmed', note: 'Has confirmed email address. Can publish.' },
 	isChef: { type: Boolean, label: 'Chef', note: 'An official chef. Admin role.' },
 	isBanned: { type: Boolean, label: 'Banned', note: 'Cannot login.' }
+}, 'Social', {
+	social: {
+		facebook: {
+			isConfigured: { type: Boolean, label: 'Facebook', note: 'Faceebok is configured', noedit: true },
+			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured },
+			profileUrl: { type: Types.Url, label: 'Url profile', noedit: true, dependsOn: this.isConfigured },
+			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }
+		},
+		google: {
+			isConfigured: { type: Boolean, label: 'Facebook', note: 'Faceebok is configured', noedit: true },
+			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured },
+			profileUrl: { type: Types.Url, label: 'Url profile', noedit: true, dependsOn: this.isConfigured },
+			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }
+		}
+	}
 });
 
 // Provide access to Keystone

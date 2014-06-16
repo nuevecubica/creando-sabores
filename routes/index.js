@@ -26,7 +26,8 @@ keystone.set('500', function(err, req, res, next) {
 // Import Route Controllers
 var routes = {
 	views: importRoutes('./views'),
-	api: importRoutes('./api')
+	api: importRoutes('./api'),
+	authentication: importRoutes('./authentication')
 };
 
 // Setup Route Bindings
@@ -36,6 +37,9 @@ exports = module.exports = function(app) {
 	app.get('/recetas', routes.views.recipes);
 	app.all('/:mode(registro|acceso)', routes.views.signup);
 	app.get('/salir', routes.views.signout);
+
+	// Authentication
+	app.get('/authentication/facebook', routes.authentication.facebook);
 
 	// API
 	app.all('/api/v1*', keystone.initAPI);
