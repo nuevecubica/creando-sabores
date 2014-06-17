@@ -4,7 +4,7 @@
 			#email.field(class=(errors.fields.email ? "error-here" : ""))
 				label(for='login-email') Correo electrónico
 				.ui.left.labeled.input
-					input(id='login-email', type='email', name='login_email', value='#{form.signup_email||""}', placeholder='Correo electrónico')
+					input(id='login-email', type='email', name='login_email', value='#{form.login_email||""}', placeholder='Correo electrónico')
 					//- .indicator.hidden
 						.icon-chef-error
 				.error-message Correo electrónico incorrecto o en uso.
