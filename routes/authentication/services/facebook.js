@@ -43,7 +43,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 		data.facebookUser = facebookUser;
 
-		console.log('[social.facebook] - No user signed in, attempting to match via email');
+		console.log('[social.facebook] - No user signed in, attempting to match via social id');
 
 		var email = data.facebookUser.profile.emails;
 
@@ -53,17 +53,62 @@ exports.authenticateUser = function(req, res, next, callback) {
 			return createUser();
 		}
 
-		User.model.findOne({ 'email': _.first(data.facebookUser.profile.emails).value, 'social.facebook.isConfigured': true, 'social.facebook.profileId': data.facebookUser.profile.id }, function(err, user) {
+		async.series({
+			existsId: function(cb) {
+				User.model.findOne({ 'social.facebook.isConfigured': true, 'social.facebook.profileId': data.facebookUser.profile.id }, function(err, user) {
 
-			if (err || !user) {
-				console.log('[social.facebook] - No matching user found via email, creating new user');
-				return createUser();
+					if (err || !user) {
+						console.log('[social.facebook] - No matching user found via social id, attempting to match via email');
+						return cb(err, false);
+					}
+
+					console.log('[social.facebook] - Matched user via social id, signin user');
+					data.user = user;
+
+					return cb(null, true);
+				});
+			},
+			existsEmail: function(cb) {
+				User.model.findOne({ 'email': _.first(data.facebookUser.profile.emails).value }, function(err, user) {
+
+					if (err || !user) {
+						console.log('[social.facebook] - No matching user found via email, creating new user');
+						return cb(err, false);
+					}
+
+					console.log('[social.facebook] - Matched user via email, updating user');
+
+					// Update name, lastname and picture
+					user.set({
+						name: {
+							first: data.facebookUser.profile.name.givenName,
+							last: data.facebookUser.profile.name.familyName
+						},
+						media: {
+							avatar: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large',
+						}
+					});
+
+					data.user = user;
+
+					return cb(null, true);
+				});
+			}
+		},
+		function(err, fn) {
+			if(err) {
+				return callback(false);
 			}
 
-			console.log('[social.facebook] - Matched user via email, updating user');
-			data.user = user;
-
-			return signinUser();
+			if(fn.existsId) {
+				return signinUser();
+			} else {
+				if(fn.existsEmail) {
+					return saveUser();
+				} else {
+					return createUser();
+				}
+			}
 		});
 	};
 

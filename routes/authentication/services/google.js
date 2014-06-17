@@ -55,17 +55,61 @@ exports.authenticateUser = function(req, res, next, callback) {
 			return createUser();
 		}
 
-		User.model.findOne({ 'email': _.first(data.googleUser.profile.emails).value, 'social.google.isConfigured': true, 'social.google.profileId': data.googleUser.profile.id }, function(err, user) {
+		async.series({
+			existsId: function(cb) {
+				User.model.findOne({ 'social.google.isConfigured': true, 'social.google.profileId': data.googleUser.profile.id }, function(err, user) {
 
-			if (err || !user) {
-				console.log('[social.google] - No matching user found via email, creating new user');
-				return createUser();
+					if (err || !user) {
+						console.log('[social.google] - No matching user found via social id, attempting to match via email');
+						return cb(err, false);
+					}
+
+					console.log('[social.google] - Matched user via email, updating user');
+					data.user = user;
+
+					return cb(null, true);
+				});
+			},
+			existsEmail: function(cb) {
+				User.model.findOne({ 'email': _.first(data.googleUser.profile.emails).value }, function(err, user) {
+					if(err || !user) {
+						console.log('[social.google] - No matching user found via email, creating new user');
+						return cb(err, false);
+					}
+
+					console.log('[social.google] - Matched user via email, updating user');
+
+					// Update name, lastname and picture
+					user.set({
+						name: {
+							first: data.googleUser.profile.name.givenName,
+							last: data.googleUser.profile.name.familyName
+						},
+						media: {
+							avatar: data.googleUser.profile._json.picture,
+						}
+					});
+
+					data.user = user;
+
+					return cb(null, true);
+				});
+			}
+		},
+		function(err, fn) {
+			if(err) {
+				return callback(false);
 			}
 
-			console.log('[social.google] - Matched user via email, updating user');
-			data.user = user;
-
-			return signinUser();
+			if(fn.existsId) {
+				return signinUser();
+			} else {
+				if(fn.existsEmail) {
+					return saveUser();
+				} else {
+					return createUser();
+				}
+			}
 		});
 	};
 
