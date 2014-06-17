@@ -37,7 +37,7 @@ User.add({
 			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }
 		},
 		google: {
-			isConfigured: { type: Boolean, label: 'Facebook', note: 'Faceebok is configured', noedit: true },
+			isConfigured: { type: Boolean, label: 'Google', note: 'Google is configured', noedit: true },
 			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured },
 			profileUrl: { type: Types.Url, label: 'Url profile', noedit: true, dependsOn: this.isConfigured },
 			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }
