@@ -114,3 +114,30 @@ describe 'API v1: /user', ->
           (res) -> return true if getErrors res.text isnt 2
         )
         .end(done)
+
+    describe 'on valid user credentials', ->
+      it 'grants access', (done) ->
+        request
+        .post('/acceso')
+        .send({
+          'action': 'login'
+          'login_email': config.lists.users[0].email
+          'login_password': config.lists.users[0].password
+        })
+        .expect(302)
+        .end(done)
+
+    describe 'on password received for an user without password', ->
+      it 'responds with an error', (done) ->
+        request
+        .post('/acceso')
+        .send({
+          'action': 'login'
+          'login_email': config.lists.users[1].email
+          'login_password': 'TestDummyPassword'
+        })
+        .expect(200)
+        .expect(
+          (res) -> return true if getErrors res.text isnt 1
+        )
+        .end(done)

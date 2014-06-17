@@ -103,5 +103,26 @@ describe 'API v1: /user', ->
         .end(done)
 
     describe 'on valid login credentials', ->
-      it 'login success'
+      it 'login success without username', (done) ->
+        request
+        .post('/registro')
+        .send({
+          'action': 'signup'
+          'signup_email': config.lists.users[0].email
+          'signup_password': config.lists.users[0].password
+        })
+        .expect(302)
+        .end(done)
+
+      it 'login success with dummy username', (done) ->
+        request
+        .post('/registro')
+        .send({
+          'action': 'signup'
+          'signup_name': 'TestDummyName'
+          'signup_email': config.lists.users[0].email
+          'signup_password': config.lists.users[0].password
+        })
+        .expect(302)
+        .end(done)
 

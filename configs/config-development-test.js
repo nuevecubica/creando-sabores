@@ -62,6 +62,11 @@ answer.lists = {
 			email: 'testUser1@glue.gl',
 			password: 'testUser1',
 			username: 'testUser1'
+		},
+		{
+			name: 'Test User2',
+			email: 'testUser2@glue.gl',
+			username: 'testUser2'
 		}
 	]
 };
