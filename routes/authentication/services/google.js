@@ -2,7 +2,7 @@ var async = require('async'),
 	_ = require('underscore');
 
 var passport = require('passport'),
-	passportGoogleStrategy = require('passport-google').Strategy;
+	passportGoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var keystone = require('keystone'),
 	User = keystone.list('User');
@@ -11,8 +11,9 @@ var tools = require('../tools');
 
 // Credentials
 var credentials = {
-	returnURL: process.env.GOOGLE_CALLBACK_URL,
-    realm: process.env.GOOGLE_URL
+	clientID: process.env.GOOGLE_CONSUMER_KEY,
+    clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
 };
 
 // Authenticate User
@@ -27,8 +28,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 	};
 
 	// Initalise Google credentials
-	var googleStrategy = new passportGoogleStrategy(credentials, function(accessToken, profile, done) {
-		console.log(JSON.stringify(profile));
+	var googleStrategy = new passportGoogleStrategy(credentials, function(accessToken, refreshToken, profile, done) {
 		done(null, {
 			accessToken: accessToken,
 			profile: profile
@@ -49,7 +49,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 		var email = data.googleUser.profile.emails;
 
-		/*if ( !email.length ) {
+		if ( !email.length ) {
 			console.log('[social.google] - No email address detected, creating new user');
 
 			return createUser();
@@ -66,7 +66,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 			data.user = user;
 
 			return signinUser();
-		});*/
+		});
 	};
 
 	// Function to create user
@@ -80,13 +80,13 @@ exports.authenticateUser = function(req, res, next, callback) {
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.googleUser.profile.emails).value : null,
-			username: data.googleUser.profile.username || tools.createUsername(),
+			username: data.googleUser.profile.username || tools.createUsername(data.googleUser),
 			name: {
 				first: data.googleUser.profile.name.givenName,
 				last: data.googleUser.profile.name.familyName
 			},
 			media: {
-				avatar: 'https://graph.google.com/' + data.googleUser.profile.id + '/picture?type=large',
+				avatar: data.googleUser.profile._json.picture,
 			}
 		};
 
@@ -111,7 +111,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 					isConfigured: true,
 
 					profileId: data.googleUser.profile.id,
-					profileUrl: data.googleUser.profile.profileUrl,
+					profileUrl: data.googleUser.profile._json.link,
 					accessToken: data.googleUser.accessToken
 				}
 			}
@@ -183,7 +183,9 @@ exports.authenticateUser = function(req, res, next, callback) {
 	} else {
 		console.log('[social.google] - Authentication workflow detected, attempting to request access');
 
-		passport.authenticate('google')(req, res, next);
+		passport.authenticate('google',
+			{ scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'] }
+		)(req, res, next);
 	}
 
 };
