@@ -12,6 +12,14 @@ getErrors = (text) ->
 
   return matches
 
+antiRegExp = (text, regexp) ->
+  antiRE = new RegExp regexp, 'ig'
+  matches = 0
+  while match = antiRE.exec(text) isnt null
+    matches++
+
+  return true if matches is 0
+
 describe 'API v1: /user', ->
   before (done) ->
     this.timeout 10000
@@ -29,20 +37,21 @@ describe 'API v1: /user', ->
 
     request.get('/').expect 200, done
 
-  describe 'GET /registro', ->
+  describe 'GET /acceso', ->
     it 'responds with the form', (done) ->
       request
-      .get('/registro')
+      .get('/acceso')
       .expect('Content-Type', /html/)
       .expect(200)
-      .expect(/Nombre de usuario/)
-      .expect(/Correo electrónico/, done)
+      .expect(/Correo electrónico/)
+      .expect(/Contraseña/)
+      .end(done)
 
-  describe 'POST /registro', ->
+  describe 'POST /acceso', ->
     describe 'on empty action', ->
       it 'responds with the form, no errors', (done) ->
         request
-        .post('/registro')
+        .post('/acceso')
         .send({
           'action': ''
         })
@@ -51,57 +60,57 @@ describe 'API v1: /user', ->
         .expect(
           (res) -> return true if getErrors res.text isnt 0
         )
-        .expect(/Nombre de usuario/)
         .expect(/Correo electrónico/)
+        .expect(/Contraseña/)
+        .end(done)
+
+    describe 'on signup fields received', ->
+      it 'ignores them and shout 2 errors'
+      , (done) ->
+        request
+        .post('/acceso')
+        .send({
+          'action': 'login'
+          'signup_email': 'TestDummyEmail'
+          'signup_password': ''
+        })
+        .expect(200)
+        .expect(
+          (res) ->
+            return true if getErrors res.text isnt 2
+        )
+        .expect(
+          (res) ->
+            return true if !antiRegExp res.text, 'TestDummyEmail'
+        )
         .end(done)
 
     describe 'on some fields missing', ->
-      it 'responds with 1 error for 1 field & 2 pre-filled fields', (done) ->
+      it 'responds with error for missing password & pre-filled email'
+      , (done) ->
         request
-        .post('/registro')
+        .post('/acceso')
         .send({
-          'action': 'signup'
-          'signup_name': 'TestDummyName'
-          'signup_email': 'TestDummyEmail'
-          'signup_password': ''
+          'action': 'login'
+          'login_email': 'TestDummyEmail'
+          'login_password': ''
         })
         .expect(200)
         .expect(
           (res) -> return true if getErrors res.text isnt 1
         )
-        .expect(/TestDummyName/)
         .expect(/TestDummyEmail/)
         .end(done)
-      it 'responds with 2 errors for 2 fields & 1 pre-filled field', (done) ->
+      it 'responds with 2 errors for 2 empty fields', (done) ->
         request
-        .post('/registro')
+        .post('/acceso')
         .send({
-          'action': 'signup'
-          'signup_name': ''
-          'signup_email': 'TestDummyEmail'
-          'signup_password': ''
+          'action': 'login'
+          'login_email': ''
+          'login_password': ''
         })
-        .expect(/TestDummyEmail/)
         .expect(200)
         .expect(
           (res) -> return true if getErrors res.text isnt 2
         )
         .end(done)
-      it 'responds with 3 errors for 3 fields', (done) ->
-        request
-        .post('/registro')
-        .send({
-          'action': 'signup'
-          'signup_name': ''
-          'signup_email': ''
-          'signup_password': ''
-        })
-        .expect(200)
-        .expect(
-          (res) -> return true if getErrors res.text isnt 3
-        )
-        .end(done)
-
-    describe 'on valid login credentials', ->
-      it 'login success'
-
