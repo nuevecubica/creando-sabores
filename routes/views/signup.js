@@ -163,11 +163,21 @@ exports = module.exports = function(req, res) {
 				// Duplicated
 				console.error('LOGIN: Login failed');
 
-				locals.errors.form = 'Invalid credentials.';
-				locals.errors.fields.email = !req.body.login_email;
-				locals.errors.fields.password = !req.body.login_password;
+				keystone.list('User').model.findOne({
+					email: req.body.login_email
+				}, function(err, user) {
+					if (user && !user.password) {
+						locals.errors.fields.password = 'Password is not available, try Facebook or Google login';
+					}
+					else {
+						locals.errors.fields.password = !req.body.login_password;
+					}
 
-				return next();
+					locals.errors.form = 'Invalid credentials.';
+					locals.errors.fields.email = !req.body.login_email;
+
+					return next();
+				});
 			};
 			keystone.session.signin({
 				email: req.body.login_email, password: req.body.login_password

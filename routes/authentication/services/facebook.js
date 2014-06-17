@@ -105,7 +105,8 @@ exports.authenticateUser = function(req, res, next, callback) {
 			} else {
 				if(fn.existsEmail) {
 					return saveUser();
-				} else {
+				}
+				else {
 					return createUser();
 				}
 			}

@@ -45,8 +45,6 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 		console.log('[social.google] - No user signed in, attempting to match via email');
 
-		console.log(JSON.stringify(googleUser));
-
 		var email = data.googleUser.profile.emails;
 
 		if ( !email.length ) {
@@ -178,7 +176,8 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 				if ( req.user ) {
 					return callback();
-				} else {
+				}
+				else {
 					return signinUser();
 				}
 			}
@@ -224,7 +223,8 @@ exports.authenticateUser = function(req, res, next, callback) {
 			return processGUser(data);
 
 		})(req, res, next);
-	} else {
+	}
+	else {
 		console.log('[social.google] - Authentication workflow detected, attempting to request access');
 
 		passport.authenticate('google',
