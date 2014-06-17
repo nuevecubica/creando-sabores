@@ -164,8 +164,8 @@ exports = module.exports = function(req, res) {
 				console.error('LOGIN: Login failed');
 
 				locals.errors.form = 'Invalid credentials.';
-				locals.errors.fields.email = !req.body.signup_email;
-				locals.errors.fields.password = !req.body.signup_password;
+				locals.errors.fields.email = !req.body.login_email;
+				locals.errors.fields.password = !req.body.login_password;
 
 				return next();
 			};
@@ -178,8 +178,8 @@ exports = module.exports = function(req, res) {
 			console.error('LOGIN: Invalid data');
 
 			locals.errors.form = 'Invalid credentials.';
-			locals.errors.fields.email = !req.body.signup_email;
-			locals.errors.fields.password = !req.body.signup_password;
+			locals.errors.fields.email = !req.body.login_email;
+			locals.errors.fields.password = !req.body.login_password;
 
 			return next();
 		}

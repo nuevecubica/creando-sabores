@@ -25,7 +25,7 @@ describe 'API v1: /me/', ->
   describe 'POST /me/login', ->
 
     describe 'with no data', ->
-      it 'respond with error', (done) ->
+      it 'responds with error', (done) ->
         request
         .post('/api/v1/me/login')
         .send({})
@@ -37,7 +37,7 @@ describe 'API v1: /me/', ->
             return 'error'
 
     describe 'with invalid credentials', ->
-      it 'respond with unsuccess', (done) ->
+      it 'responds with unsuccess', (done) ->
         request
         .post('/api/v1/me/login')
         .send({
@@ -51,7 +51,7 @@ describe 'API v1: /me/', ->
           return 'error' if res.body.success or res.body.error
 
     describe 'with valid credentials', ->
-      it 'respond with success', (done) ->
+      it 'responds with success', (done) ->
         request
         .post('/api/v1/me/login')
         .send({

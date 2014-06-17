@@ -23,7 +23,7 @@ describe 'API v1: /user', ->
 
   describe 'GET /user/:username/check', ->
     describe 'on request invalid user', ->
-      it 'respond with not found', (done) ->
+      it 'responds with not found', (done) ->
         request
         .get('/api/v1/user/testUserXXX/check')
         .set('Accept', 'application/json')
@@ -31,7 +31,7 @@ describe 'API v1: /user', ->
 
   describe 'GET /user/:username/check', ->
     describe 'on request valid user', ->
-      it 'respond with success', (done) ->
+      it 'responds with success', (done) ->
         request
         .get('/api/v1/user/testUser1/check')
         .set('Accept', 'application/json')
