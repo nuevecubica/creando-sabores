@@ -6,8 +6,12 @@
 					.right.menu
 						if user
 							a.ui.item(href='/')
-								.ui.image(href = 'http://s01.s3c.es/imag/_v3/Ecoteuve/presentadores/alberto-chicote.jpg')
-								| #{user.name.first} #{user.name.last}
+								if user.media.avatar.url
+									img.ui.image.avatar(src="#{user.media.avatar.url}")
+								if user.name
+									| #{user.name}
+								else
+									| #{user.username}
 							if user.canAccessKeystone
 								.ui.item
 									a.ui.button.chef.button-brick(href="/keystone") Admin
