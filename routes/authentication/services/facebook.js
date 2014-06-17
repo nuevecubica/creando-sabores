@@ -7,6 +7,8 @@ var passport = require('passport'),
 var keystone = require('keystone'),
 	User = keystone.list('User');
 
+var tools = require('../tools');
+
 // Credentials
 var credentials = {
 	clientID: process.env.FACEBOOK_CLIENT_ID,
@@ -76,7 +78,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.facebookUser.profile.emails).value : null,
-			username: data.facebookUser.profile.username || createUsername(),
+			username: data.facebookUser.profile.username || tools.createUsername(data.facebookUser),
 			name: {
 				first: data.facebookUser.profile.name.givenName,
 				last: data.facebookUser.profile.name.familyName
@@ -156,34 +158,6 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 	};
 
-	// Function to generate an username.
-	// First character of name, last name and random number between 0 and 4 last digits of facebook user id.
-	var createUsername = function() {
-		var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
-	      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
-	      mapping = {};
-
-		for(var i = 0, j = from.length; i < j; i++ ) {
-			mapping[ from.charAt( i ) ] = to.charAt( i );
-		}
-
-		var str =	data.facebookUser.profile.name.givenName[0] +
-					data.facebookUser.profile.name.familyName +
-					Math.floor((Math.random() * parseInt(data.facebookUser.profile.id.substr(data.facebookUser.profile.id.length - 4, data.facebookUser.profile.id.length))) + 1);
-
-		var ret = [];
-		for(var x = 0, y = str.length; x < y; x++) {
-			var c = str.charAt(x);
-			if(mapping.hasOwnProperty( str.charAt(x))) {
-				ret.push(mapping[c]);
-			 } else {
-				ret.push(c);
-			}
-		}
-
-		return ret.join('').toLowerCase();
-	};
-
 	// Facebook passport requires two URLs, authenticate and callback.
 	// First time, in authenticate flow we call to facebook request access
 	// if request has code params, means callback flow.
@@ -191,8 +165,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 		console.log('[social.facebook] - Callback workflow detected, attempting to process data');
 
 		passport.authenticate('facebook', {
-			successRedirect: '/',
-			failureRedirect: '/error'
+
 		}, function(err, data, info) {
 
 			if (err || !data) {
