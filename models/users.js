@@ -13,10 +13,7 @@ User.add({
 	username: { type: Types.Text, initial: true, required: true, index: true, unique: true },
 	password: { type: Types.Password, initial: true, required: false }
 }, 'Personal', {
-	name: {
-		first: { type: Types.Text },
-		last: { type: Types.Text }
-	},
+	name: { type: Types.Text },
 	about: { type: Types.Textarea }
 }, 'Media', {
 	media: {
