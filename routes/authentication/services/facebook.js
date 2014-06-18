@@ -80,10 +80,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 					// Update name, lastname and picture
 					user.set({
-						name: {
-							first: data.facebookUser.profile.name.givenName,
-							last: data.facebookUser.profile.name.familyName
-						},
+						name: data.facebookUser.profile.name.givenName + ' ' + data.facebookUser.profile.name.familyName,
 						media: {
 							avatar: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large',
 						}
@@ -120,15 +117,13 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 		// Define data
 		var email = data.facebookUser.profile.emails;
+		var name = data.facebookUser.profile.name;
 
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.facebookUser.profile.emails).value : null,
 			username: data.facebookUser.profile.username || tools.createUsername(data.facebookUser),
-			name: {
-				first: data.facebookUser.profile.name.givenName,
-				last: data.facebookUser.profile.name.familyName
-			},
+			name: (name.givenName || name.familyName) ? name.givenName + ' ' + name.familyName : null,
 			media: {
 				avatar: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large',
 			}

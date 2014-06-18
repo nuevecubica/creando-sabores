@@ -79,10 +79,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 					// Update name, lastname and picture
 					user.set({
-						name: {
-							first: data.googleUser.profile.name.givenName,
-							last: data.googleUser.profile.name.familyName
-						},
+						name: data.googleUser.profile.name.givenName + ' ' + data.googleUser.profile.name.familyName,
 						media: {
 							avatar: data.googleUser.profile._json.picture,
 						}
@@ -118,15 +115,13 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 		// Define data
 		var email = data.googleUser.profile.emails;
+		var name = data.facebookUser.profile.name;
 
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.googleUser.profile.emails).value : null,
 			username: data.googleUser.profile.username || tools.createUsername(data.googleUser),
-			name: {
-				first: data.googleUser.profile.name.givenName,
-				last: data.googleUser.profile.name.familyName
-			},
+			name: (name.givenName || name.familyName) ? name.givenName + ' ' + name.familyName : null,
 			media: {
 				avatar: data.googleUser.profile._json.picture,
 			}
