@@ -9,7 +9,7 @@ getFormErrors = (text, expected) ->
   matches = text.match(errorDetector)
   count = if matches then matches.length else 0
   if count isnt expected
-    return "invalid number of errors: #{count}"
+    return "invalid number of errors, expected #{expected} found #{count}"
 
 antiRegExp = (text, regexp) ->
   antiRE = new RegExp regexp
@@ -40,7 +40,8 @@ describe 'SIGNUP', ->
       .expect('Content-Type', /html/)
       .expect(200)
       .expect(/Nombre de usuario/)
-      .expect(/Correo electrónico/, done)
+      .expect(/Correo electrónico/)
+      .end(done)
 
   describe 'POST /registro', ->
     describe 'on empty action', ->
@@ -76,6 +77,7 @@ describe 'SIGNUP', ->
         .expect(/TestDummyName/)
         .expect(/TestDummyEmail/)
         .end(done)
+
       it 'responds with 2 errors for 2 fields & 1 pre-filled field', (done) ->
         request
         .post('/registro')
@@ -91,6 +93,7 @@ describe 'SIGNUP', ->
           (res) -> return getFormErrors res.text, 2
         )
         .end(done)
+
       it 'responds with 3 errors for 3 fields', (done) ->
         request
         .post('/registro')

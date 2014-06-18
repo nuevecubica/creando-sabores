@@ -9,10 +9,10 @@ getFormErrors = (text, expected) ->
   matches = text.match(errorDetector)
   count = if matches then matches.length else 0
   if count isnt expected
-    return "invalid number of errors: #{count}"
+    return "invalid number of errors, expected #{expected} found #{count}"
 
 antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp, 'ig'
+  antiRE = new RegExp regexp
   if text.match(antiRE) isnt null
     return "text found: #{text}"
 
@@ -95,6 +95,7 @@ describe 'LOGIN', ->
         )
         .expect(/TestDummyEmail/)
         .end(done)
+
       it 'responds with 2 errors for 2 empty fields', (done) ->
         request
         .post('/acceso')
