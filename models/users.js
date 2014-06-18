@@ -11,6 +11,7 @@ var User = new keystone.List('User');
 User.add({
 	email: { type: Types.Email, initial: true, required: false, index: true, unique: true },
 	username: { type: Types.Text, initial: true, required: true, index: true, unique: true },
+	schemaVersion: { type: Types.Number, noedit: true, default: process.env.USERS_SCHEMA_VERSION }
 	password: { type: Types.Password, initial: true, required: false }
 }, 'Personal', {
 	name: { type: Types.Text },
