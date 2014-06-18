@@ -77,14 +77,13 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 					console.log('[social.google] - Matched user via email, updating user');
 
+					var name = data.googleUser.profile.displayName;
+
 					// Update name, lastname and picture
 					user.set({
-						name: {
-							first: data.googleUser.profile.name.givenName,
-							last: data.googleUser.profile.name.familyName
-						},
+						name: (name) ? name : null,
 						media: {
-							avatar: data.googleUser.profile._json.picture,
+							social: data.googleUser.profile._json.picture
 						}
 					});
 
@@ -118,17 +117,15 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 		// Define data
 		var email = data.googleUser.profile.emails;
+		var name = data.googleUser.profile.displayName;
 
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.googleUser.profile.emails).value : null,
 			username: data.googleUser.profile.username || tools.createUsername(data.googleUser),
-			name: {
-				first: data.googleUser.profile.name.givenName,
-				last: data.googleUser.profile.name.familyName
-			},
+			name: (name) ? name : null,
 			media: {
-				avatar: data.googleUser.profile._json.picture,
+				social: data.googleUser.profile._json.picture
 			}
 		};
 
@@ -151,7 +148,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 			social: {
 				google: {
 					isConfigured: true,
-
+					avatar: data.googleUser.profile._json.picture,
 					profileId: data.googleUser.profile.id,
 					profileUrl: data.googleUser.profile._json.link,
 					accessToken: data.googleUser.accessToken

@@ -78,14 +78,13 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 					console.log('[social.facebook] - Matched user via email, updating user');
 
+					var name = data.facebookUser.profile.displayName;
+
 					// Update name, lastname and picture
 					user.set({
-						name: {
-							first: data.facebookUser.profile.name.givenName,
-							last: data.facebookUser.profile.name.familyName
-						},
+						name: (name) ? name : null,
 						media: {
-							avatar: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large',
+							social: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large'
 						}
 					});
 
@@ -120,17 +119,15 @@ exports.authenticateUser = function(req, res, next, callback) {
 
 		// Define data
 		var email = data.facebookUser.profile.emails;
+		var name = data.facebookUser.profile.displayName;
 
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.facebookUser.profile.emails).value : null,
 			username: data.facebookUser.profile.username || tools.createUsername(data.facebookUser),
-			name: {
-				first: data.facebookUser.profile.name.givenName,
-				last: data.facebookUser.profile.name.familyName
-			},
+			name: (name) ? name : null,
 			media: {
-				avatar: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large',
+				social: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large'
 			}
 		};
 
@@ -153,7 +150,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 			social: {
 				facebook: {
 					isConfigured: true,
-
+					avatar: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large',
 					profileId: data.facebookUser.profile.id,
 					profileUrl: data.facebookUser.profile.profileUrl,
 					accessToken: data.facebookUser.accessToken

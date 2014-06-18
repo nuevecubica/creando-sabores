@@ -18,6 +18,7 @@ User.add({
 }, 'Media', {
 	media: {
 		avatar: { type: Types.CloudinaryImage },
+		social: { type: Types.Text, label: 'Social', noedit: true },
 		header: { type: Types.CloudinaryImage }
 	}
 }, 'Permissions', {
@@ -29,12 +30,14 @@ User.add({
 	social: {
 		facebook: {
 			isConfigured: { type: Boolean, label: 'Facebook', note: 'Faceebok is configured', noedit: true },
+			avatar: { type: Types.Text, label: 'Avatar', noedit: true, dependsOn: this.isConfigured },
 			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured },
 			profileUrl: { type: Types.Url, label: 'Url profile', noedit: true, dependsOn: this.isConfigured },
 			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }
 		},
 		google: {
 			isConfigured: { type: Boolean, label: 'Google', note: 'Google is configured', noedit: true },
+			avatar: { type: Types.Text, label: 'Avatar', noedit: true, dependsOn: this.isConfigured },
 			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured },
 			profileUrl: { type: Types.Url, label: 'Url profile', noedit: true, dependsOn: this.isConfigured },
 			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }

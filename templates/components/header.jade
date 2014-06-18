@@ -8,6 +8,9 @@
 							a.ui.item(href='/')
 								if user.media.avatar.url
 									img.ui.image.avatar(src="#{user.media.avatar.url}")
+								else
+									if user.media.social
+										img.ui.image.avatar(src="#{user.media.social}")
 								if user.name
 									| #{user.name}
 								else
