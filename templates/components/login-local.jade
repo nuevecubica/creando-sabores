@@ -7,7 +7,7 @@
 					input(id='login-email', type='email', name='login_email', value='#{form.login_email||""}', placeholder='Correo electrónico')
 					//- .indicator.hidden
 						.icon-chef-error
-				.error-message Correo electrónico incorrecto o en uso.
+				.error-message= (errors.fields.email ? errors.fields.email : "Correo electrónico incorrecto o en uso.")
 
 			#password.field(class=(errors.fields.password ? "error-here" : ""))
 				label(for='login-password') Contraseña
@@ -16,7 +16,7 @@
 					//- .indicator.hidden
 						.icon-chef-error
 
-				.error-message Mínimo 8 caracteres.
+				.error-message= (errors.fields.password ? errors.fields.password : "Mínimo 8 caracteres.")
 
 			input(type='hidden', name='action', value='login')
 

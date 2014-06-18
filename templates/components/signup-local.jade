@@ -6,14 +6,14 @@
 				.ui.left.labeled.input
 					input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario', value='#{form.signup_name||""}', tabindex='1')
 
-				.error-message.hidden Mínimo 6 caracteres, letras o números.
+				.error-message.hidden= (errors.fields.name ? errors.fields.name : "Mínimo 6 caracteres, letras o números.")
 
 			#email.field(class=(errors.fields.email ? "error-here" : ""))
 				label(for='signup-email') Correo electrónico
 				.ui.left.labeled.input
 					input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico', value='#{form.signup_email||""}', tabindex='2')
 
-				.error-message.hidden Correo electrónico incorrecto o en uso.
+				.error-message.hidden= (errors.fields.email ? errors.fields.email : "Correo electrónico incorrecto o en uso.")
 
 			#password.field(class=(errors.fields.password ? "error-here" : ""))
 				label(for='signup-password', id='signup-password-label') Contraseña
@@ -25,7 +25,7 @@
 					//- .indicator.hidden
 						//- .icon-chef-error
 
-				.error-message.hidden Mínimo 8 caracteres.
+				.error-message.hidden= (errors.fields.password ? errors.fields.password : "Mínimo 8 caracteres.")
 
 			//- #terms.field
 
