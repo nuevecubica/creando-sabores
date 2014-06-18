@@ -13,8 +13,11 @@ results
 npm-debug.log
 node_modules
 public/packages
-site.min.css
 
 .DS_Store
+
 site.css
+site.min.css
 .env
+config.js
+config-test.js
