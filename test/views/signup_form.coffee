@@ -4,15 +4,19 @@ config = require __dirname + '/../../config-test.js'
 
 request = require('supertest') config.url
 
-getErrors = (text) ->
-  errorDetector = new RegExp 'field error-here', 'ig'
-  matches = 0
-  while match = errorDetector.exec(text) isnt null
-    matches++
+getFormErrors = (text, expected) ->
+  errorDetector = new RegExp 'field error\-here', 'ig'
+  matches = text.match(errorDetector)
+  count = if matches then matches.length else 0
+  if count isnt expected
+    return "invalid number of errors, expected #{expected} found #{count}"
 
-  return matches
+antiRegExp = (text, regexp) ->
+  antiRE = new RegExp regexp
+  if text.match(antiRE) isnt null
+    return "text found: #{text}"
 
-describe 'API v1: /user', ->
+describe 'SIGNUP', ->
   before (done) ->
     this.timeout 10000
 
@@ -36,7 +40,8 @@ describe 'API v1: /user', ->
       .expect('Content-Type', /html/)
       .expect(200)
       .expect(/Nombre de usuario/)
-      .expect(/Correo electrónico/, done)
+      .expect(/Correo electrónico/)
+      .end(done)
 
   describe 'POST /registro', ->
     describe 'on empty action', ->
@@ -49,7 +54,7 @@ describe 'API v1: /user', ->
         .expect('Content-Type', /html/)
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 0
+          (res) -> return getFormErrors res.text, 0
         )
         .expect(/Nombre de usuario/)
         .expect(/Correo electrónico/)
@@ -67,11 +72,12 @@ describe 'API v1: /user', ->
         })
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 1
+          (res) -> return getFormErrors res.text, 1
         )
         .expect(/TestDummyName/)
         .expect(/TestDummyEmail/)
         .end(done)
+
       it 'responds with 2 errors for 2 fields & 1 pre-filled field', (done) ->
         request
         .post('/registro')
@@ -84,9 +90,10 @@ describe 'API v1: /user', ->
         .expect(/TestDummyEmail/)
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 2
+          (res) -> return getFormErrors res.text, 2
         )
         .end(done)
+
       it 'responds with 3 errors for 3 fields', (done) ->
         request
         .post('/registro')
@@ -98,7 +105,7 @@ describe 'API v1: /user', ->
         })
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 3
+          (res) -> return getFormErrors res.text, 3
         )
         .end(done)
 

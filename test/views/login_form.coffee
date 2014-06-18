@@ -4,23 +4,19 @@ config = require __dirname + '/../../config-test.js'
 
 request = require('supertest') config.url
 
-getErrors = (text) ->
-  errorDetector = new RegExp 'field error-here', 'ig'
-  matches = 0
-  while match = errorDetector.exec(text) isnt null
-    matches++
-
-  return matches
+getFormErrors = (text, expected) ->
+  errorDetector = new RegExp 'field error\-here', 'ig'
+  matches = text.match(errorDetector)
+  count = if matches then matches.length else 0
+  if count isnt expected
+    return "invalid number of errors, expected #{expected} found #{count}"
 
 antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp, 'ig'
-  matches = 0
-  while match = antiRE.exec(text) isnt null
-    matches++
+  antiRE = new RegExp regexp
+  if text.match(antiRE) isnt null
+    return "text found: #{text}"
 
-  return true if matches is 0
-
-describe 'API v1: /user', ->
+describe 'LOGIN', ->
   before (done) ->
     this.timeout 10000
 
@@ -58,14 +54,14 @@ describe 'API v1: /user', ->
         .expect('Content-Type', /html/)
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 0
+          (res) -> return getFormErrors res.text, 0
         )
         .expect(/Correo electrónico/)
         .expect(/Contraseña/)
         .end(done)
 
     describe 'on signup fields received', ->
-      it 'ignores them and shout 2 errors'
+      it 'ignores them and shouts 2 errors'
       , (done) ->
         request
         .post('/acceso')
@@ -76,17 +72,15 @@ describe 'API v1: /user', ->
         })
         .expect(200)
         .expect(
-          (res) ->
-            return true if getErrors res.text isnt 2
+          (res) -> return getFormErrors res.text, 2
         )
         .expect(
-          (res) ->
-            return true if !antiRegExp res.text, 'TestDummyEmail'
+          (res) -> return antiRegExp res.text, 'TestDummyEmail'
         )
         .end(done)
 
     describe 'on some fields missing', ->
-      it 'responds with error for missing password & pre-filled email'
+      it 'responds with 1 error for missing password & pre-filled email'
       , (done) ->
         request
         .post('/acceso')
@@ -97,10 +91,11 @@ describe 'API v1: /user', ->
         })
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 1
+          (res) -> return getFormErrors res.text, 1
         )
         .expect(/TestDummyEmail/)
         .end(done)
+
       it 'responds with 2 errors for 2 empty fields', (done) ->
         request
         .post('/acceso')
@@ -111,7 +106,7 @@ describe 'API v1: /user', ->
         })
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 2
+          (res) -> return getFormErrors res.text, 2
         )
         .end(done)
 
@@ -127,8 +122,23 @@ describe 'API v1: /user', ->
         .expect(302)
         .end(done)
 
+    describe 'on invalid password', ->
+      it 'responds with 2 errors', (done) ->
+        request
+        .post('/acceso')
+        .send({
+          'action': 'login'
+          'login_email': config.lists.users[0].email
+          'login_password': 'TestDummyPassword'
+        })
+        .expect(200)
+        .expect(
+          (res) -> return getFormErrors res.text, 2
+        )
+        .end(done)
+
     describe 'on password received for an user without password', ->
-      it 'responds with an error', (done) ->
+      it 'responds with 1 error', (done) ->
         request
         .post('/acceso')
         .send({
@@ -138,6 +148,6 @@ describe 'API v1: /user', ->
         })
         .expect(200)
         .expect(
-          (res) -> return true if getErrors res.text isnt 1
+          (res) -> return getFormErrors res.text, 1
         )
         .end(done)
