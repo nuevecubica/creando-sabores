@@ -33,21 +33,22 @@ var routes = {
 // Setup Route Bindings
 exports = module.exports = function(app) {
 	// Views
-	app.get('/', routes.views.index);
-	app.get('/recetas', routes.views.recipes);
-	app.all('/:mode(registro|acceso)', routes.views.signup);
-	app.get('/salir', routes.views.signout);
+	app.get  ('/', routes.views.index);
+	app.get  ('/recetas', routes.views.recipes);
+	app.all  ('/:mode(registro|acceso)', routes.views.signup);
+	app.get  ('/salir', routes.views.signout);
 
 	// Authentication
-	app.get('/authentication/facebook', routes.authentication.facebook);
-	app.get('/authentication/google', routes.authentication.google);
+	app.get  ('/authentication/facebook', routes.authentication.facebook);
+	app.get  ('/authentication/google'	, routes.authentication.google);
 
 	// API
-	app.all('/api/v1*', keystone.initAPI);
+	app.all  ('/api/v1*', keystone.initAPI);
 	//-- Me
-	app.post('/api/v1/me/login', routes.api.v1.me.login);
-	app.get('/api/v1/me/logout', routes.api.v1.me.logout);
+	app.get  ('/api/v1/me'				, routes.api.v1.me.me);
+	app.post ('/api/v1/me/login'	, routes.api.v1.me.login);
+	app.get  ('/api/v1/me/logout'	, routes.api.v1.me.logout);
 	//-- Users
-	app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
+	app.get  ('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
 	//-- Recipes
 };
