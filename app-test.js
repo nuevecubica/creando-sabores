@@ -14,7 +14,6 @@ keystone.start(function() {
   Users = keystone.list('User');
 
   _ref = config.lists.users;
-  _results = [];
 
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     user = _ref[_i];
@@ -23,8 +22,6 @@ keystone.start(function() {
     userM.username = user.username;
     userM.email = user.email;
     userM.password = user.password;
-    _results.push(userM.save());
+    userM.save();
   }
-
-  return _results;
 });

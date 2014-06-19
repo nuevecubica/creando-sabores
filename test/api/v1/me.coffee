@@ -150,10 +150,8 @@ describe 'API v1: /me/', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
-              console.log cookie
-              console.log res.headers['set-cookie']
-              cookie = res.headers['set-cookie']
 
+              cookie = res.headers['set-cookie']
               return 'error' if not res.body.success or res.body.error
 
               request
@@ -161,5 +159,9 @@ describe 'API v1: /me/', ->
               .set('Accept', 'application/json')
               .set('cookie', cookie)
               .expect('Content-Type', /json/)
+              .expect(
+                (res) ->
+                  return 'user logged in' if res.body.user
+              )
               .expect(401)
               .end(done)
