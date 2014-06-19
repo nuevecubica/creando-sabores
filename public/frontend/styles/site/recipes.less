@@ -1,11 +1,19 @@
 
 @recipes-color-text: @chef-color-white;
 
+@ingredients-color-check-enabled: @chef-color-brick-bg;
+@ingredients-color-check-disabled: @chef-color-gray-bg;
+@ingredients-border-check-enabled: @chef-color-black;
+@ingredients-border-check-disabled: @chef-color-gray-bg;
+
+@icons-font-size: 28px;
+
+
 /****************
   Recipes
 ****************/
 
-#recipe {
+#recipe, #recipe-single {
   background-color: transparent;
   background-image: url(../images/test_recipe_bg.png);
   background-size: cover;
@@ -85,7 +93,7 @@
 }
 
 /****************
-  Video recipes Styles
+  Recipes Styles
 ****************/
 #recipes {
   .row {
@@ -109,6 +117,114 @@
 
     .list {
       .list
+    }
+  }
+}
+
+/****************
+  Recipe Styles
+****************/
+
+#recipe-content {
+
+  margin-top: 10px;
+
+  #actions {
+    padding-top: 10px;
+  }
+
+  .icon {
+    font-size: @icons-font-size;
+  }
+
+  .span {
+    display: inline;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 4px;
+    text-transform: capitalize;
+  }
+
+  .time, .portions, .difficulty, .rating {
+    .span {
+      margin-left: 10px;
+    }
+  }
+
+  .difficulty, .rating {
+    font-size: @icons-font-size;
+
+    .off {
+      opacity: 0.3;
+    }
+
+    .on {
+      color: @recipes-thumbnail-ranking-on;
+    }
+
+    .icon-chef-tenedor:before {
+      width: 4px;
+    }
+
+    .icon-chef-star:before {
+      width: 18px;
+    }
+  }
+
+  .explain {
+    margin-bottom: 20px;
+  }
+
+  .checks {
+    color: @ingredients-color-check-disabled;
+    border: 1px solid @ingredients-border-check-disabled;
+    opacity: 1;
+    display: inline;
+    padding: 4px;
+    font-size: 24px;
+    line-height: 48px;
+    cursor: pointer;
+    margin-right: 10px;
+
+    // Fix pixel font
+    &.icon-chef-cesta:before {
+      text-indent: 1px;
+    }
+
+    &.activated {
+      color: @ingredients-color-check-enabled;
+      border: 1px solid @ingredients-border-check-enabled;
+
+      // &:hover {
+      //   color: @ingredients-color-check-disabled;
+      // }
+    }
+
+    // &:hover {
+    //   color: @ingredients-color-check-enabled;
+    //   border: 1px solid @ingredients-border-check-enabled;
+    // }
+  }
+
+  #ingredients {
+    margin: 20px 0;
+
+    .ingredient {
+      display: inline-block;
+      width: 33%;
+
+      &:last-child {
+        width: 100%;
+      }
+    }
+  }
+
+  #steps {
+
+    .step {
+      .ui.header {
+        display: inline;
+      }
     }
   }
 }

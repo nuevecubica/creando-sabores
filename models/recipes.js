@@ -106,11 +106,11 @@ Recipe.add({
 		type: Types.Select,
 		numeric: true,
 		options: [
-			{ value: 1, label: 'Bajo' },
-			{ value: 2, label: 'Medio Bajo' },
+			{ value: 1, label: 'Muy Bajo' },
+			{ value: 2, label: 'Bajo' },
 			{ value: 3, label: 'Medio' },
-			{ value: 4, label: 'Medio Alto' },
-			{ value: 5, label: 'Alto' }
+			{ value: 4, label: 'Alto' },
+			{ value: 5, label: 'Muy Alto' }
 		],
 		default: 0
 	},
