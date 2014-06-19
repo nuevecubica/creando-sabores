@@ -58,7 +58,7 @@ User.add({
           value: 'google',
           label: 'Google'
         }],
-        default: 0
+        default: ''
       }
     },
     header: {
