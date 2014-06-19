@@ -18,8 +18,18 @@ User.add({
 	about: { type: Types.Textarea }
 }, 'Media', {
 	media: {
-		avatar: { type: Types.CloudinaryImage },
-		social: { type: Types.Text, label: 'Social', noedit: true },
+		avatar: {
+			origin: {
+				type: Types.Select,
+				options: [
+					{ value: '', label: 'None' },
+					{ value: 'local', label: 'Local' },
+					{ value: 'facebook', label: 'Facebook' },
+					{ value: 'google', label: 'Google' }
+				],
+				default: 0
+			}
+		},
 		header: { type: Types.CloudinaryImage }
 	}
 }, 'Permissions', {
@@ -27,20 +37,22 @@ User.add({
 	isConfirmed: { type: Boolean, label: 'Confirmed', note: 'Has confirmed email address. Can publish.' },
 	isChef: { type: Boolean, label: 'Chef', note: 'An official chef. Admin role.' },
 	isBanned: { type: Boolean, label: 'Banned', note: 'Cannot login.' }
+}, 'Avatars', {
+	avatars: {
+		local: { type: Types.CloudinaryImage },
+		facebook: { type: Types.Text, label: 'Facebook', noedit: true },
+		google: { type: Types.Text, label: 'Google', noedit: true }
+	}
 }, 'Social', {
 	social: {
 		facebook: {
 			isConfigured: { type: Boolean, label: 'Facebook', note: 'Faceebok is configured', noedit: true },
-			avatar: { type: Types.Text, label: 'Avatar', noedit: true, dependsOn: this.isConfigured },
-			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured },
-			profileUrl: { type: Types.Url, label: 'Url profile', noedit: true, dependsOn: this.isConfigured },
+			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured, index: true },
 			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }
 		},
 		google: {
 			isConfigured: { type: Boolean, label: 'Google', note: 'Google is configured', noedit: true },
-			avatar: { type: Types.Text, label: 'Avatar', noedit: true, dependsOn: this.isConfigured },
-			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured },
-			profileUrl: { type: Types.Url, label: 'Url profile', noedit: true, dependsOn: this.isConfigured },
+			profileId: { type: Types.Text, label: 'Id', noedit: true, dependsOn: this.isConfigured, index: true },
 			accessToken: { type: Types.Text, label: 'Access token', noedit: true, dependsOn: this.isConfigured }
 		}
 	}

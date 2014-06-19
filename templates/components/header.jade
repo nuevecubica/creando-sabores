@@ -6,11 +6,9 @@
 					.right.menu
 						if user
 							a.ui.item(href='/')
-								if user.media.avatar.url
-									img.ui.image.avatar(src="#{user.media.avatar.url}")
-								else
-									if user.media.social
-										img.ui.image.avatar(src="#{user.media.social}")
+								- user.avatars.local = '../frontend/images/test_user.png'
+								img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
+
 								if user.name
 									| #{user.name}
 								else
