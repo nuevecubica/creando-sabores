@@ -49,6 +49,12 @@ Recipe.add({
 
 			return (average / this.review.length).toFixed(2);
 		}
+	},
+
+	schemaVersion: {
+		type: Types.Number,
+		noedit: true,
+		default: process.env.RECIPES_SCHEMA_VERSION
 	}
 },
 

@@ -53,59 +53,37 @@ exports.authenticateUser = function(req, res, next, callback) {
 			return createUser();
 		}
 
-		async.series({
-			existsId: function(cb) {
-				User.model.findOne({ 'social.google.isConfigured': true, 'social.google.profileId': data.googleUser.profile.id }, function(err, user) {
+		User.model.findOne({ 'social.google.isConfigured': true, 'social.google.profileId': data.googleUser.profile.id }, function(err, user) {
+			if (err || !user) {
+				if(err) {
+					return callback(false);
+				}
 
-					if (err || !user) {
-						console.log('[social.google] - No matching user found via social id, attempting to match via email');
-						return cb(err, false);
-					}
+				console.log('[social.google] - No matching user found via social id, attempting to match via email');
 
-					console.log('[social.google] - Matched user via email, updating user');
-					data.user = user;
-
-					return cb(null, true);
-				});
-			},
-			existsEmail: function(cb) {
 				User.model.findOne({ 'email': _.first(data.googleUser.profile.emails).value }, function(err, user) {
 					if(err || !user) {
-						console.log('[social.google] - No matching user found via email, creating new user');
-						return cb(err, false);
-					}
-
-					console.log('[social.google] - Matched user via email, updating user');
-
-					var name = data.googleUser.profile.displayName;
-
-					// Update name, lastname and picture
-					user.set({
-						name: (name) ? name : null,
-						media: {
-							social: data.googleUser.profile._json.picture
+						if(err) {
+							return callback(false);
 						}
-					});
 
-					data.user = user;
+						console.log('[social.google] - No matching user found via email, creating new user');
+						return createUser();
+					}
+					else {
+						console.log('[social.google] - Matched user via email, updating user');
 
-					return cb(null, true);
+						data.user = user;
+
+						return saveUser();
+					}
 				});
 			}
-		},
-		function(err, fn) {
-			if(err) {
-				return callback(false);
-			}
+			else {
+				console.log('[social.google] - Matched user via email, updating user');
+				data.user = user;
 
-			if(fn.existsId) {
 				return signinUser();
-			} else {
-				if(fn.existsEmail) {
-					return saveUser();
-				} else {
-					return createUser();
-				}
 			}
 		});
 	};
@@ -118,14 +96,20 @@ exports.authenticateUser = function(req, res, next, callback) {
 		// Define data
 		var email = data.googleUser.profile.emails;
 		var name = data.googleUser.profile.displayName;
+		var id = data.googleUser.profile.id;
 
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.googleUser.profile.emails).value : null,
-			username: data.googleUser.profile.username || tools.createUsername(data.googleUser),
+			username: data.googleUser.profile.username || tools.createUsername(name, id),
 			name: (name) ? name : null,
 			media: {
-				social: data.googleUser.profile._json.picture
+				avatar: {
+					origin: 'google'
+				}
+			},
+			avatars: {
+				google: data.googleUser.profile._json.picture
 			}
 		};
 
@@ -148,9 +132,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 			social: {
 				google: {
 					isConfigured: true,
-					avatar: data.googleUser.profile._json.picture,
 					profileId: data.googleUser.profile.id,
-					profileUrl: data.googleUser.profile._json.link,
 					accessToken: data.googleUser.accessToken
 				}
 			}
@@ -166,9 +148,8 @@ exports.authenticateUser = function(req, res, next, callback) {
 				console.log(err);
 				console.log("[social.google] - Error saving user");
 				return callback(err);
-
-			} else {
-
+			}
+			else {
 				console.log("[social.google] - Saved user");
 
 				if ( req.user ) {

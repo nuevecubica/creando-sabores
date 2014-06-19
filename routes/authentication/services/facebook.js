@@ -53,61 +53,40 @@ exports.authenticateUser = function(req, res, next, callback) {
 			return createUser();
 		}
 
-		async.series({
-			existsId: function(cb) {
-				User.model.findOne({ 'social.facebook.isConfigured': true, 'social.facebook.profileId': data.facebookUser.profile.id }, function(err, user) {
+		User.model.findOne({ 'social.facebook.isConfigured': true, 'social.facebook.profileId': data.facebookUser.profile.id }, function(err, user) {
+			if (err || !user) {
+				if(err) {
+					return callback(false);
+				}
 
-					if (err || !user) {
-						console.log('[social.facebook] - No matching user found via social id, attempting to match via email');
-						return cb(err, false);
-					}
+				console.log('[social.facebook] - No matching user found via social id, attempting to match via email');
 
-					console.log('[social.facebook] - Matched user via social id, signin user');
-					data.user = user;
-
-					return cb(null, true);
-				});
-			},
-			existsEmail: function(cb) {
 				User.model.findOne({ 'email': _.first(data.facebookUser.profile.emails).value }, function(err, user) {
 
 					if (err || !user) {
-						console.log('[social.facebook] - No matching user found via email, creating new user');
-						return cb(err, false);
-					}
-
-					console.log('[social.facebook] - Matched user via email, updating user');
-
-					var name = data.facebookUser.profile.displayName;
-
-					// Update name, lastname and picture
-					user.set({
-						name: (name) ? name : null,
-						media: {
-							social: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large'
+						if(err) {
+							return callback(false);
 						}
-					});
 
-					data.user = user;
+						console.log('[social.facebook] - No matching user found via email, creating new user');
 
-					return cb(null, true);
+						return createUser();
+					}
+					else {
+
+						console.log('[social.facebook] - Matched user via email, updating user');
+
+						data.user = user;
+
+						return saveUser();
+					}
 				});
 			}
-		},
-		function(err, fn) {
-			if(err) {
-				return callback(false);
-			}
+			else {
+				console.log('[social.facebook] - Matched user via social id, signin user');
+				data.user = user;
 
-			if(fn.existsId) {
 				return signinUser();
-			} else {
-				if(fn.existsEmail) {
-					return saveUser();
-				}
-				else {
-					return createUser();
-				}
 			}
 		});
 	};
@@ -120,14 +99,20 @@ exports.authenticateUser = function(req, res, next, callback) {
 		// Define data
 		var email = data.facebookUser.profile.emails;
 		var name = data.facebookUser.profile.displayName;
+		var id = data.facebookUser.profile.id;
 
 		// Structure data
 		var userData = {
 			email: email.length ? _.first(data.facebookUser.profile.emails).value : null,
-			username: data.facebookUser.profile.username || tools.createUsername(data.facebookUser),
+			username: data.facebookUser.profile.username || tools.createUsername(name, id),
 			name: (name) ? name : null,
 			media: {
-				social: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large'
+				avatar: {
+					origin: 'facebook'
+				}
+			},
+			avatars: {
+				facebook: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large'
 			}
 		};
 
@@ -150,9 +135,7 @@ exports.authenticateUser = function(req, res, next, callback) {
 			social: {
 				facebook: {
 					isConfigured: true,
-					avatar: 'https://graph.facebook.com/' + data.facebookUser.profile.id + '/picture?type=large',
 					profileId: data.facebookUser.profile.id,
-					profileUrl: data.facebookUser.profile.profileUrl,
 					accessToken: data.facebookUser.accessToken
 				}
 			}
@@ -169,13 +152,15 @@ exports.authenticateUser = function(req, res, next, callback) {
 				console.log("[social.facebook] - Error saving user");
 				return callback(err);
 
-			} else {
+			}
+			else {
 
 				console.log("[social.facebook] - Saved user");
 
 				if ( req.user ) {
 					return callback();
-				} else {
+				}
+				else {
 					return signinUser();
 				}
 			}
@@ -221,7 +206,8 @@ exports.authenticateUser = function(req, res, next, callback) {
 			return processFBUser(data);
 
 		})(req, res, next);
-	} else {
+	}
+	else {
 		console.log('[social.facebook] - Authentication workflow detected, attempting to request access');
 
 		passport.authenticate('facebook', {
