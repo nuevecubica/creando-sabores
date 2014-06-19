@@ -1,35 +1,35 @@
 var keystone = require('keystone'),
-	async = require('async');
+  async = require('async');
 
 exports = module.exports = function(req, res) {
 
-	var locals = res.locals,
-		view = new keystone.View(req, res);
+  var locals = res.locals,
+    view = new keystone.View(req, res);
 
-	// Set locals
-	locals.section = 'recipes';
-	locals.data = {
-		recipes: []
-	};
+  // Set locals
+  locals.section = 'recipes';
+  locals.data = {
+    recipes: []
+  };
 
-	// load recipes
-	view.on('init', function(next) {
+  // load recipes
+  view.on('init', function(next) {
 
-		var q = keystone.list('Recipe').paginate({
-				page: req.query.page || 1,
-				perPage: 5
-			})
-			.where('state', 1)
-			.where('isBanned', false)
-			.sort('-publishedDate');
+    var q = keystone.list('Recipe').paginate({
+        page: req.query.page || 1,
+        perPage: 5
+      })
+      .where('state', 1)
+      .where('isBanned', false)
+      .sort('-publishedDate');
 
-		q.exec(function(err, results) {
-			locals.data.recipes = results;
-			next(err);
-		});
+    q.exec(function(err, results) {
+      locals.data.recipes = results;
+      next(err);
+    });
 
-	});
+  });
 
-	// Render the view
-	view.render('recipes');
+  // Render the view
+  view.render('recipes');
 };

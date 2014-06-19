@@ -1,42 +1,43 @@
 var async = require('async'),
-	keystone = require('keystone');
+  keystone = require('keystone');
 
 exports = module.exports = function(req, res) {
-	var Users = keystone.list('User'),
-			query = {
-				username: req.params['username']
-			},
-			answer = {
-				success: false,
-				error: false
-			};
+  var Users = keystone.list('User'),
+    query = {
+      username: req.params['username']
+    },
+    answer = {
+      success: false,
+      error: false
+    };
 
-	async.series([
-		function(next) {
-			if(!query.username) {
-				answer.error = true;
-				return next(true);
-			}
-			return next();
-		},
+  async.series([
 
-		function(next) {
-			Users.model.findOne({
-						username: query.username
-					}, function(err, user) {
-						if (err || !user) {
-							res.status(404);
-							answer.error = true;
-						}
-						else if (user) {
-							answer.success = true;
-							answer.username = user.username;
-						}
-						return next();
-					});
-		}
-	], function(err) {
-		return res.apiResponse(answer);
-	});
+    function(next) {
+      if (!query.username) {
+        answer.error = true;
+        return next(true);
+      }
+      return next();
+    },
+
+    function(next) {
+      Users.model.findOne({
+        username: query.username
+      }, function(err, user) {
+        if (err || !user) {
+          res.status(404);
+          answer.error = true;
+        }
+        else if (user) {
+          answer.success = true;
+          answer.username = user.username;
+        }
+        return next();
+      });
+    }
+  ], function(err) {
+    return res.apiResponse(answer);
+  });
 
 };

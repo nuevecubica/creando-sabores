@@ -6,7 +6,7 @@
 	It starts a server for testing.
 */
 var keystone = require('./app-test-init.js'),
-		config = require('./config-test.js');
+  config = require('./config-test.js');
 
 keystone.start(function() {
   var Users, user, userM, _i, _len, _ref, _results;

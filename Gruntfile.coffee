@@ -152,6 +152,19 @@ module.exports = (grunt) ->
 
         src: ["test/**/*.coffee"]
 
+    jsbeautifier:
+      build:
+        src: [
+          "*.js"
+          "configs/**/*.js"
+          "models/**/*.js"
+          "routes/**/*.js"
+          "updates/**/*.js"
+          "public/frontend/**/*.js"
+        ]
+        options: {
+          config: '.jsbeautifyrc'
+        }
 
   grunt.config 'copy',
     build:
@@ -180,7 +193,6 @@ module.exports = (grunt) ->
         }
       ]
 
-
   grunt.loadNpmTasks "grunt-autoprefixer"
   grunt.loadNpmTasks "grunt-coffeelint"
   grunt.loadNpmTasks "grunt-concurrent"
@@ -191,6 +203,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-less"
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-express-server"
+  grunt.loadNpmTasks "grunt-jsbeautifier"
   grunt.loadNpmTasks "grunt-node-inspector"
   grunt.loadNpmTasks "grunt-nodemon"
   grunt.loadNpmTasks "grunt-mocha-test"
@@ -211,6 +224,8 @@ module.exports = (grunt) ->
     ]
 
   grunt.registerTask "development", ->
+    grunt.task.run ["lint"]
+    grunt.task.run ["jsbeautifier:build"]
     grunt.task.run ["lint"]
     grunt.task.run ["less:build"]
     grunt.task.run ["autoprefixer:build"]

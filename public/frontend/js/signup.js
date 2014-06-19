@@ -1,61 +1,87 @@
 $(window).load(function() {
-	$('.ui.checkbox').checkbox();
+  $('.ui.checkbox').checkbox();
 
-	$('#show-password').change(function(event){
-	if ($(this).is(':checked')) {
-		$('#signup-password').attr('type', 'text');
-	} else {
-		$('#signup-password').attr('type', 'password');
-	}
-	});
+  $('#show-password').change(function(event) {
+    if ($(this).is(':checked')) {
+      $('#signup-password').attr('type', 'text');
+    }
+    else {
+      $('#signup-password').attr('type', 'password');
+    }
+  });
 
-	$('#signup form').submit(function(e) {
+  $('#signup form').submit(function(e) {
 
-		console.log('submit');
+    console.log('submit');
 
-		var name = checkUsername($('#signup-name').val());
-		var email = checkEmail($('#signup-email').val());
-		var password = checkPassword($('#signup-password').val());
-		var terms = $('#signup-terms').is(':checked');
+    var name = checkUsername($('#signup-name').val());
+    var email = checkEmail($('#signup-email').val());
+    var password = checkPassword($('#signup-password').val());
+    var terms = $('#signup-terms').is(':checked');
 
-		console.log(terms);
+    console.log(terms);
 
-		// if(!name || !email || !password) {
-		if(!email || !password) {
-			if(!name) { $('#name').addClass('error-here').transition('bounce'); } else { $('#name').removeClass('error-here'); };
-			if(!email) { $('#email').addClass('error-here').transition('bounce'); } else { $('#email').removeClass('error-here'); };
-			if(!password) { $('#password').addClass('error-here').transition('bounce'); } else { $('#password').removeClass('error-here'); };
-			//if(!terms) { $('#terms').addClass('error-here').transition('bounce'); } else { $('#terms').removeClass('error-here'); };
+    // if(!name || !email || !password) {
+    if (!email || !password) {
+      if (!name) {
+        $('#name').addClass('error-here').transition('bounce');
+      }
+      else {
+        $('#name').removeClass('error-here');
+      };
+      if (!email) {
+        $('#email').addClass('error-here').transition('bounce');
+      }
+      else {
+        $('#email').removeClass('error-here');
+      };
+      if (!password) {
+        $('#password').addClass('error-here').transition('bounce');
+      }
+      else {
+        $('#password').removeClass('error-here');
+      };
+      //if(!terms) { $('#terms').addClass('error-here').transition('bounce'); } else { $('#terms').removeClass('error-here'); };
 
-			e.preventDefault();
-		}
-	});
+      e.preventDefault();
+    }
+  });
 
-	$('#login form').submit(function(e) {
+  $('#login form').submit(function(e) {
 
-		var email = checkEmail($('#login-email').val());
-		var password = checkPassword($('#login-password').val());
+    var email = checkEmail($('#login-email').val());
+    var password = checkPassword($('#login-password').val());
 
-		if(!email || !password) {
-			if(!email) { $('#email').addClass('error-here').transition('bounce'); } else { $('#email').removeClass('error-here'); };
-			if(!password) { $('#password').addClass('error-here').transition('bounce'); } else { $('#password').removeClass('error-here'); };
+    if (!email || !password) {
+      if (!email) {
+        $('#email').addClass('error-here').transition('bounce');
+      }
+      else {
+        $('#email').removeClass('error-here');
+      };
+      if (!password) {
+        $('#password').addClass('error-here').transition('bounce');
+      }
+      else {
+        $('#password').removeClass('error-here');
+      };
 
-			e.preventDefault();
-		}
-	});
+      e.preventDefault();
+    }
+  });
 
-	var checkUsername = function(username) {
-		var re = /^[A-Za-z0-9_]{6,20}$/;
-    	return re.test(username);
-	}
+  var checkUsername = function(username) {
+    var re = /^[A-Za-z0-9_]{6,20}$/;
+    return re.test(username);
+  }
 
-	var checkEmail = function(email) {
-		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    	return re.test(email);
-	}
+  var checkEmail = function(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 
-	var checkPassword = function(password) {
-		var re = /^[A-Za-z0-9!@#$%^&*()_]{8,20}$/;
-    	return re.test(password);
-	}
+  var checkPassword = function(password) {
+    var re = /^[A-Za-z0-9!@#$%^&*()_]{8,20}$/;
+    return re.test(password);
+  }
 });
