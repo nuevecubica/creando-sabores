@@ -35,6 +35,7 @@ exports = module.exports = function(app) {
 	// Views
 	app.get  ('/', routes.views.index);
 	app.get  ('/recetas', routes.views.recipes);
+	app.get  ('/receta/:recipe', routes.views.recipe);
 	app.all  ('/:mode(registro|acceso)', routes.views.signup);
 	app.get  ('/salir', routes.views.signout);
 
@@ -51,4 +52,5 @@ exports = module.exports = function(app) {
 	//-- Users
 	app.get  ('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
 	//-- Recipes
+	app.get('/recetas', routes.views.recipes);
 };
