@@ -36,7 +36,7 @@
 			input(type='hidden', name='action', value='signup')
 
 			button.ui.button.chef.button-blue(type='submit', tabindex='4')= __('Send register form')
-
 			#terms.field
-				.info-terms= __('If you continue, you accept ')
-					a(href='/terminos')= __('our terms and conditions')
+				.info-terms
+					- var terms = __('If you continue, you accept {{{link}}}our terms and conditions{{{/link}}}', {'link': '<a href="/terminos">', '/link': '</a>'})
+					| !{terms}
