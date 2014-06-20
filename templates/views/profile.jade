@@ -3,7 +3,7 @@ extends ../layouts/default
 include ../mixins/recipe
 
 block content
-	#profile.ui.grid.segment
+	#profile.ui.grid.segment(style="background-image: url(#{user.media.header.url}) ")
 		.ui.page.grid
 			.row
 				include ../components/header
