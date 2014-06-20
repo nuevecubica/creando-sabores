@@ -1,6 +1,7 @@
 var _ = require('underscore'),
   querystring = require('querystring'),
   keystone = require('keystone'),
+  i18n = require('i18n'),
   pkg = require(__dirname + '/../package.json');
 
 
@@ -14,53 +15,53 @@ exports.initLocals = function(req, res, next) {
     key: 'recetas',
     href: '/recetas'
   }, {
-    label: 'Videorecetas',
+    label: res.__('Videorecipes'),
     key: 'videorecetas',
     href: '/'
   }, {
-    label: 'Menús',
+    label: res.__('Menus'),
     key: 'menus',
     href: '/'
   }, {
-    label: 'Tips',
+    label: res.__('Tips'),
     key: 'tips',
     href: '/'
   }, {
-    label: 'Preguntas y respuestas',
+    label: res.__('Questions and Answers'),
     key: 'preguntas-y-respuestas',
     href: '/'
   }, {
-    label: 'Concursos',
+    label: res.__('Contests'),
     key: 'concursos',
     href: '/'
   }, {
-    label: 'Acerca del chef',
+    label: res.__('About the chef'),
     key: 'acerca-del-chef',
     href: '/'
   }, {
-    label: 'Contacto',
+    label: res.__('Contact'),
     key: 'contacto',
     href: '/'
   }];
 
   locals.navLinksPrivate = [{
-    label: 'Mi perfil',
+    label: res.__('My profile'),
     key: 'perfil',
     href: '/'
   }, {
-    label: 'Lista del super',
+    label: res.__('Shopping list'),
     key: 'lista-del-super',
     href: '/'
   }, {
-    label: 'Mis recetas',
+    label: res.__('My recipes'),
     key: 'mis-recetas',
     href: '/'
   }, {
-    label: 'Mis menús',
+    label: res.__('My menus'),
     key: 'mis-menus',
     href: '/'
   }, {
-    label: 'Mis tips',
+    label: res.__('My tips'),
     key: 'mis-tips',
     href: '/'
   }];
@@ -118,7 +119,7 @@ exports.flashMessages = function(req, res, next) {
  */
 exports.requireUser = function(req, res, next) {
   if (!req.user) {
-    req.flash('error', 'Please sign in to access this page.');
+    req.flash('error', res.__('Please sign in to access this page.'));
     res.redirect('/keystone/signin');
   }
   else {

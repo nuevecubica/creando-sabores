@@ -12,11 +12,10 @@ block content
 				a.icon-chef-logo.icon(href="/")
 
 			.row.section
-				.title.shadow Recetas
+				.title.shadow= __('Recipes')
 
 			.row
-				.social.five.wide.column
-					| Síguenos en redes sociales
+				.social.five.wide.column= __('Follow us on social networks')
 					.ui.four.column.center.aligned.grid
 						.column
 							a.ui.item(href='http://twitter.com')
@@ -49,17 +48,17 @@ block content
 		#add-new-bar.ui.grid.segment
 			.row
 				.sixteen.wide.column
-					.span ¿ Tienes una receta en mente?
+					.span= __('Do you have a new recipe?')
 						.ui.button.chef.button-brick
-							a(href='/') Crear receta
+							a(href='/')= __('Create recipe')
 
 
 		#recipes.ui.grid.segment
 			.row.tab
 				.ui.button.chef.button-green
-					a(href='/recetas') Populares
+					a(href='/recetas')= __('Popular')
 				.ui.button.chef.button-green.disabled
-					a Temporada
+					a= __('Season')
 
 			.row
 				.ui.grid.segment.list
@@ -68,8 +67,8 @@ block content
 							.row
 								+recipe(recipe)
 					else
-						| No recipes yet.
+						| #{__('No recipes yet')}
 
 			.row.loader
 				.sixteen.wide.column
-					.span Cargando más recetas...
+					.span= __('Loading more recipes')

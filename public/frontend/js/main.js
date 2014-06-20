@@ -1,3 +1,12 @@
+// Everything globally available goes inside this object!
+window.chef = {};
+
+window.chef.errorMessages = {};
+window.chef.errorMessage = function(errorId) {
+  if (!chef.errorMessages) return 'Error';
+  else return chef.errorMessages[errorId] ||  'Error';
+};
+
 $(window).load(function() {
   $('body').removeClass('preload');
   $('.error-here:visible').transition('bounce');

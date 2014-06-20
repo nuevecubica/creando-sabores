@@ -27,7 +27,7 @@ mixin recipe(recipe)
 	.eleven.wide.column
 		.ui.twelve.column
 			.rating
-				.strong Valoración:
+				.strong= __('Rating')
 				.span
 					.ui.icon
 						- var rating = Math.floor(recipe.rating) || 0
@@ -40,7 +40,7 @@ mixin recipe(recipe)
 
 			h2.ui.header
 				if(recipe.official)
-					!= recipe.title + ' (Oficial)'
+					!= recipe.title + ' ' + __('Official')
 				else
 					!= recipe.title
 			.ui.content!= recipe.description

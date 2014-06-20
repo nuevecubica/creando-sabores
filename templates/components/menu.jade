@@ -10,7 +10,7 @@
 					i.icon-chef-logo
 			if user || true
 				li.item.section
-					span.title Mi recetario
+					span.title= __('My recipe book')
 				each link in navLinksPrivate
 					li.item.user(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
 

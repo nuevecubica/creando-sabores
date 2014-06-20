@@ -15,15 +15,15 @@
 									| #{user.username}
 							if user.canAccessKeystone
 								.ui.item
-									a.ui.button.chef.button-brick(href="/keystone") Admin
+									a.ui.button.chef.button-brick(href="/keystone")= __('Admin')
 							.ui.item
-								a.ui.button.chef.button-brick(href="/salir") Salir
+								a.ui.button.chef.button-brick(href="/salir")= __('Logout')
 
 						else
 							.ui.item
-								a.ui.button.chef.button-brick(href="/acceso") Entrar
+								a.ui.button.chef.button-brick(href="/acceso")= __('Access')
 							.ui.item
-								a.ui.button.chef.button-brick(href="/registro") Registrarse
+								a.ui.button.chef.button-brick(href="/registro")= __('Register')
 
 						#menu.ui.item
 							i.icon-chef-menu
