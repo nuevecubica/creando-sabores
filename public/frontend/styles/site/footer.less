@@ -18,20 +18,32 @@
   }
 
   .block {
-  	padding: 5%;
+    padding: 5%;
   }
 
   .ui.header {
-  	font-family: @pinto-fonts;
-  	font-size: 26px;
+    font-family: @pinto-fonts;
+    font-size: 26px;
     text-transform: uppercase;
   }
 
   .ui.list .item {
-	font-size: 18px;
+    font-size: 18px;
   }
 
   .icon {
-  	color: @footer-color;
+    color: @footer-color;
+  }
+
+  &.mini {
+    padding: 10px;
+    margin-top: 20px;
+
+    .block {
+      padding: 0 5%;
+    }
+    .ui.header {
+      font-size: 16px;
+    }
   }
 }

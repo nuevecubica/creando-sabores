@@ -22,6 +22,9 @@ exports = module.exports = function(req, res) {
       password: false
     }
   };
+  locals.footerType = 'mini';
+  locals.hideMenu = true;
+  locals.hideSocial = true;
 
   view.on('post', {
     action: 'signup'
