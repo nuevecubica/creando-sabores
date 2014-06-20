@@ -16,7 +16,7 @@
 BUILD_NPM=0
 
 # Execute bower install & update
-BUILD_BOWER=0
+BUILD_BOWER=1
 
 # Execute grunt build
 BUILD_GRUNT=1
