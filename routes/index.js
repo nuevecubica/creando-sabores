@@ -36,6 +36,9 @@ var routes = {
 
 // Setup Route Bindings
 exports = module.exports = function(app) {
+  // Static
+  app.get('/terminos', routes.views.terms);
+
   // Views
   app.get('/', routes.views.index);
   app.get('/recetas', routes.views.recipes);
