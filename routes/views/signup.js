@@ -172,7 +172,18 @@ exports = module.exports = function(req, res) {
           email: req.body.login_email
         }, function(err, user) {
           if (user && !user.password) {
-            locals.errors.fields.password = res.__('Password is not available');
+            var methods = [];
+            if (user.social.facebook.isConfigured) {
+              methods.push('Facebook');
+            }
+            if (user.social.google.isConfigured) {
+              methods.push('Google');
+            }
+            if (methods.length === 0) {
+              methods.push(res.__('Unknown social site'));
+            }
+
+            locals.errors.fields.password = res.__('Password is not available {{social}}', {'social': methods.join(res.__(' o '))});
           }
           else {
             locals.errors.fields.email = res.__('Invalid credentials');
