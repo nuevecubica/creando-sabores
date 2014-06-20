@@ -23,7 +23,12 @@ exports = module.exports = function(req, res) {
     }).populate('author');
 
     q.exec(function(err, result) {
-      locals.data.recipe = result;
+      if (!err) {
+        locals.data.recipe = result;
+        if (result) {
+          locals.title = result.name + ' - ' + res.__('Recipe');
+        }
+      }
       next(err);
     });
   });

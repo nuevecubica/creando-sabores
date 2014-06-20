@@ -11,6 +11,7 @@ exports = module.exports = function(req, res) {
   locals.data = {
     recipes: []
   };
+  locals.title = res.__('Recipes');
 
   // load recipes
   view.on('init', function(next) {

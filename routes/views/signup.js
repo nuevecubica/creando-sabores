@@ -219,9 +219,11 @@ exports = module.exports = function(req, res) {
 
   // Render the view
   if (req.params.mode === 'acceso') {
+    locals.title = res.__('Login');
     view.render('login');
   }
   else {
+    locals.title = res.__('Register');
     view.render('signup');
   }
 };
