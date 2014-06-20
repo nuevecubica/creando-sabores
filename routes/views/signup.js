@@ -183,7 +183,9 @@ exports = module.exports = function(req, res) {
               methods.push(res.__('Unknown social site'));
             }
 
-            locals.errors.fields.password = res.__('Password is not available {{social}}', {'social': methods.join(res.__(' o '))});
+            locals.errors.fields.password = res.__('Password is not available {{social}}', {
+              'social': methods.join(res.__(' o '))
+            });
           }
           else {
             locals.errors.fields.email = res.__('Invalid credentials');
