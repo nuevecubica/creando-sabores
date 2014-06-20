@@ -1,0 +1,23 @@
+extends ../layouts/default
+
+include ../mixins/recipe
+
+block content
+	#profile.ui.grid.segment
+		.ui.page.grid
+			.row
+				include ../components/header
+
+			.row.logo.shadow
+				a.icon-chef-logo.icon(href="/")
+
+			.row.section
+				.title.shadow Mi recetario
+
+			.row
+				.twelve.wide.column
+
+				.social.four.wide.column
+					.ui.button.chef.button-gray
+						i.social.icon-chef-camera
+						a(href='/') Cambiar imagen
