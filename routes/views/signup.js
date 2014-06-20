@@ -46,7 +46,7 @@ exports = module.exports = function(req, res) {
                 if (req.body.signup_name) {
                   console.error('SIGNUP: Email exists');
 
-                  locals.errors.fields.email = 'User already exists with that email address';
+                  locals.errors.fields.email = res.__('User already exists with that email address');
 
                   return cb(true);
                 }
@@ -67,10 +67,10 @@ exports = module.exports = function(req, res) {
           // Missing data
           console.error('SIGNUP: Missing data');
 
-          locals.errors.form = 'Missing data';
-          locals.errors.fields.name = !req.body.signup_name ? 'Required' : false;
-          locals.errors.fields.email = !req.body.signup_email ? 'Required' : false;
-          locals.errors.fields.password = !req.body.signup_password ? 'Required' : false;
+          locals.errors.form = res.__('Missing data');
+          locals.errors.fields.name = !req.body.signup_name ? res.__('Required') : false;
+          locals.errors.fields.email = !req.body.signup_email ? res.__('Required') : false;
+          locals.errors.fields.password = !req.body.signup_password ? res.__('Required') : false;
 
           return cb(true);
         }
@@ -84,10 +84,10 @@ exports = module.exports = function(req, res) {
         ) {
           console.error('SIGNUP: Missing data');
 
-          locals.errors.form = 'Missing data';
-          locals.errors.fields.name = !req.body.signup_name ? 'Required' : false;
-          locals.errors.fields.email = !req.body.signup_email ? 'Required' : false;
-          locals.errors.fields.password = !req.body.signup_password ? 'Required' : false;
+          locals.errors.form = res.__('Missing data');
+          locals.errors.fields.name = !req.body.signup_name ? res.__('Required') : false;
+          locals.errors.fields.email = !req.body.signup_email ? res.__('Required') : false;
+          locals.errors.fields.password = !req.body.signup_password ? res.__('Required') : false;
 
           return cb(true);
         }
@@ -102,7 +102,7 @@ exports = module.exports = function(req, res) {
           if (err || user) {
             console.error('SIGNUP: Username exists');
 
-            locals.errors.fields.name = 'User already exists with that username';
+            locals.errors.fields.name = res.__('User already exists with that username');
 
             return cb(true);
           }
@@ -144,7 +144,7 @@ exports = module.exports = function(req, res) {
       var onFail = function(e) {
         console.error('SIGNIN: Fail after register');
         req.flash('error',
-          'There was a problem signing you in, please try again');
+          res.__('Error signing in'));
         return next();
       };
       keystone.session.signin({
@@ -172,14 +172,14 @@ exports = module.exports = function(req, res) {
           email: req.body.login_email
         }, function(err, user) {
           if (user && !user.password) {
-            locals.errors.fields.password = 'Password is not available, try Facebook or Google login';
+            locals.errors.fields.password = res.__('Password is not available');
           }
           else {
-            locals.errors.fields.email = 'Invalid credentials.';
-            locals.errors.fields.password = 'Invalid credentials.';
+            locals.errors.fields.email = res.__('Invalid credentials');
+            locals.errors.fields.password = res.__('Invalid credentials');
           }
 
-          locals.errors.form = 'Invalid credentials.';
+          locals.errors.form = res.__('Invalid credentials');
 
           return next();
         });
@@ -193,9 +193,9 @@ exports = module.exports = function(req, res) {
       // Missing data
       console.error('LOGIN: Invalid data');
 
-      locals.errors.form = 'Invalid credentials.';
-      locals.errors.fields.email = !req.body.login_email ? 'Invalid credentials.' : false;
-      locals.errors.fields.password = !req.body.login_password ? 'Invalid credentials.' : false;
+      locals.errors.form = res.__('Invalid credentials');
+      locals.errors.fields.email = !req.body.login_email ? res.__('Invalid credentials') : false;
+      locals.errors.fields.password = !req.body.login_password ? res.__('Invalid credentials') : false;
 
       return next();
     }

@@ -17,7 +17,6 @@
 	"Error: Username format": "Sólo letras y números.",
 	"Follow us on social networks": "Síguenos en las redes sociales",
 	"If you continue, you accept ": "Si continuas, estás aceptando ",
-	"Invalid password.": "Contraseña no válida. Mínimo 8 caracteres.",
 	"Loading more recipes": "Cargando más recetas...",
 	"Login": "Acceso",
 	"Menus": "Menús",
@@ -45,5 +44,7 @@
 	"Videorecipes": "Videorecetas",
 	"Wrong email or in use.": "Incorrecto o en uso.",
 	"or register with email": "...o con tu correo electrónico",
-	"our terms and conditions": "nuestros términos y condiciones."
+	"our terms and conditions": "nuestros términos y condiciones.",
+	"Admin": "Administrador",
+	"Logout": "Salir"
 }
