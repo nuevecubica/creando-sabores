@@ -1,7 +1,11 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
+  i18n = require("i18n"),
   middleware = require('./middleware'),
   importRoutes = keystone.importer(__dirname);
+
+// i18n support
+keystone.pre('routes', i18n.init);
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);

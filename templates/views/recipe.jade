@@ -49,7 +49,7 @@ block content
 				.twelve.wide.column
 
 				.social.four.wide.column
-					| Compartir en
+					| #{__('Share on')}
 					.ui.four.column.center.aligned.grid
 						.column
 							a.ui.item(href='http://twitter.com')
@@ -78,7 +78,7 @@ block content
 							.span= data.recipe.portions
 
 						.difficulty.column
-							- var categories = [ 'dummy', 'Muy bajo' , 'Bajo', 'Medio', 'Alto', 'Muy Alto' ]
+							- var categories = [ __('Dummy'), __('Very easy') , __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
 							- var difficulty = data.recipe.difficulty
 							- var category = categories[difficulty]
 
@@ -93,7 +93,7 @@ block content
 
 						.time.column
 							i.icon-chef-time.icon
-							.span= (data.recipe.time < 60) ? data.recipe.time + ' min' : (data.recipe.time / 60).toFixed(2) + ' h'
+							.span= (data.recipe.time < 60) ? data.recipe.time + ' ' + __('min (minutes)') : (data.recipe.time / 60).toFixed(2) + ' ' + __('h (hours)')
 
 						.rating.column
 							- var rating = Math.floor(data.recipe.rating) || 0
@@ -109,9 +109,9 @@ block content
 
 				#actions.five.wide.column.right.aligned
 					.ui.button.chef.button-yellow
-						a Favorito
+						a= __('Favorite')
 					.ui.button.chef.button-brick
-						a Añadir a menú
+						a= __('Add to menu')
 
 			.row
 				.sixteen.wide.column
@@ -120,12 +120,12 @@ block content
 
 			.row
 				.sixteen.wide.column
-					h2.ui.header Ingedientes
+					h2.ui.header= __('Ingredients')
 					.explain
-						.ui.content En caso de que te falte algún ingrediente pulsa sobre la cesta de la compra y será añadido automáticamente a tu lista de la compra.
+						.ui.content= __('In case that you don\'t have enough ingredients [...]')
 
 					.ui.button.chef.button-green
-						a Añadir a la lista de la compra
+						a= __('Add to shopping basket')
 
 					#ingredients
 						- var array = data.recipe.ingredients.split('<p>')
@@ -135,16 +135,16 @@ block content
 								.span!= array[j]
 						.ingredient
 							.icon-chef-cesta.checks.all
-							.span Marcar todos
+							.span= __('Select all')
 
 			.row
 				.sixteen.wide.column
-					h2.ui.header Procedimiento
+					h2.ui.header= __('Procedure')
 					#steps
 						- var array = data.recipe.procedure.split('<p>')
 						- for(var j = 1; j < array.length; j++)
 							.step
 								.icon-chef-tick.checks
-								.ui.header= 'Paso ' + j
+								.ui.header= __('Step') + ' ' + j
 								.ui.content!= array[j]
 

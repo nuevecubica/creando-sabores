@@ -2,30 +2,30 @@
 	form(action='registro', method='post', novalidate)
 		.ui.form
 			#name.field(class=(errors.fields.name ? "error-here" : ""))
-				label(for='signup-name') Nombre de usuario
+				label(for='signup-name')= __('Username')
 				.ui.left.labeled.input
-					input(id='signup-name', type='text', name='signup_name', placeholder='Nombre de usuario', value='#{form.signup_name||""}', tabindex='1')
+					input(id='signup-name', type='text', name='signup_name', placeholder=__('Username'), value='#{form.signup_name||""}', tabindex='1')
 
-				.error-message.hidden= (errors.fields.name ? errors.fields.name : "Mínimo 6 caracteres, letras o números.")
+				.error-message.hidden= (errors.fields.name ? errors.fields.name : __('Wrong email or in use.'))
 
 			#email.field(class=(errors.fields.email ? "error-here" : ""))
-				label(for='signup-email') Correo electrónico
+				label(for='signup-email')= __('Email')
 				.ui.left.labeled.input
-					input(id='signup-email', type='email', name='signup_email', placeholder='Correo electrónico', value='#{form.signup_email||""}', tabindex='2')
+					input(id='signup-email', type='email', name='signup_email', placeholder=__('Email'), value='#{form.signup_email||""}', tabindex='2')
 
-				.error-message.hidden= (errors.fields.email ? errors.fields.email : "Correo electrónico incorrecto o en uso.")
+				.error-message.hidden= (errors.fields.email ? errors.fields.email : '')
 
 			#password.field(class=(errors.fields.password ? "error-here" : ""))
-				label(for='signup-password', id='signup-password-label') Contraseña
+				label(for='signup-password', id='signup-password-label')= __('Password')
 				#wrapper-show-password.ui.labeled.checkbox
 					input(id='show-password', type='checkbox', name='show_password')
-					label(for='show-password') Mostrar
+					label(for='show-password')= __('Show password')
 				#wrapper-password.ui.left.labeled.input
-					input(id='signup-password', type='password', name='signup_password', tabindex='3')
+					input(id='signup-password', type='password', name='signup_password', placeholder=__('Password'), tabindex='3')
 					//- .indicator.hidden
 						//- .icon-chef-error
 
-				.error-message.hidden= (errors.fields.password ? errors.fields.password : "Mínimo 8 caracteres.")
+				.error-message.hidden= (errors.fields.password ? errors.fields.password : '')
 
 			//- #terms.field
 
@@ -35,8 +35,8 @@
 
 			input(type='hidden', name='action', value='signup')
 
-			button.ui.button.chef.button-blue(type='submit', tabindex='4') Continuar
+			button.ui.button.chef.button-blue(type='submit', tabindex='4')= __('Send register form')
 
 			#terms.field
-				.info-terms Al continuar aceptas los 
-					a(href='/terminos') términos y condiciones.
+				.info-terms= __('If you continue, you accept ')
+					a(href='/terminos')= __('our terms and conditions')

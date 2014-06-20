@@ -24,19 +24,19 @@ $(window).load(function() {
     // if(!name || !email || !password) {
     if (!email || !password) {
       if (!name) {
-        $('#name').addClass('error-here').transition('bounce');
+        $('#name').children('.error-message').text(chef.errorMessage('Username format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#name').removeClass('error-here');
       };
       if (!email) {
-        $('#email').addClass('error-here').transition('bounce');
+        $('#email').children('.error-message').text(chef.errorMessage('Email format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#email').removeClass('error-here');
       };
       if (!password) {
-        $('#password').addClass('error-here').transition('bounce');
+        $('#password').children('.error-message').text(chef.errorMessage('Password format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#password').removeClass('error-here');
@@ -54,13 +54,13 @@ $(window).load(function() {
 
     if (!email || !password) {
       if (!email) {
-        $('#email').addClass('error-here').transition('bounce');
+        $('#email').children('.error-message').text(chef.errorMessage('Email format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#email').removeClass('error-here');
       };
       if (!password) {
-        $('#password').addClass('error-here').transition('bounce');
+        $('#password').children('.error-message').text(chef.errorMessage('Password format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#password').removeClass('error-here');

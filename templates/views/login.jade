@@ -9,25 +9,32 @@ block content
 				a.icon-chef-logo.icon(href="/")
 
 			.row.section
-				.title Acceso
-				.subtitle Entra y disfruta
+				.title= __('Access')
+				.subtitle= __('Come and enjoy')
 
 		.ui.page.grid.body
 			.row
 				.sixteen.wide.column
 					.ui.two.column.grid
 						.column.center.aligned.group
-							.explain.right Accede con tus redes sociales...
+							.explain.right= __('Register with social networks')
 
 							include ../components/signin-social
 
 						.column.dashed.group
-							.explain.left ...o con tu correo electrónico
+							.explain.left= __('or register with email')
 
 							include ../components/login-local
 		.ui.page.grid.body
 			.row.tail
 				.sixteen.wide.column
 					.link
-						| ¿Todavía no tienes cuenta? 
-						a(href='/registro') Regístrate
+						| #{__('Don\'t have an account?') + ''} 
+						a(href='/registro')= __('Register')
+
+block js
+	| <script>
+	|	chef.errorMessages = chef.errorMessages || {}
+	|	chef.errorMessages['Email format'] = "#{__('Error: Email format')}"
+	|	chef.errorMessages['Password format'] = "#{__('Error: Password format')}"
+	| </script>

@@ -8,7 +8,8 @@ if (!process.env.NODE_ENV) {
 }
 
 var config = require('./config.js'),
-  keystone = require('keystone');
+  keystone = require('keystone'),
+  i18n = require('i18n');
 
 keystone.init(config.keystone.init);
 
@@ -27,6 +28,14 @@ keystone.set('email locals', config.keystone['email locals']);
 keystone.set('email rules', config.keystone['email rules']);
 keystone.set('email tests', require('./routes/emails'));
 
+// Configure i18n
+i18n.configure({
+  locales: ['es'],
+  defaultLocale: 'es',
+  directory: __dirname + '/locales'
+});
+
+// Configure the navigation bar in Admin UI
 keystone.set('nav', {
   'users': 'users',
   'recipes': 'recipes'
