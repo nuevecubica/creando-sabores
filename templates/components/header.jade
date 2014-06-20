@@ -5,14 +5,15 @@
 				.ui.menu
 					.right.menu
 						if user
-							a.ui.item(href='/')
+							a.ui.item.profile(href='/perfil')
 								- user.avatars.local = '../frontend/images/test_user.png'
 								img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
 
 								if user.name
-									| #{user.name}
+									strong #{user.name}
 								else
-									| #{user.username}
+									strong #{user.username}
+
 							if user.canAccessKeystone
 								.ui.item
 									a.ui.button.chef.button-brick(href="/keystone") Admin
