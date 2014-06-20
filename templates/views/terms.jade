@@ -1,11 +1,20 @@
 extends ../layouts/default
 
+block head
+	meta(name='robots',content='noindex')
+
 block content
-	#terms.ui.grid.segment
+	#terms.signin.ui.grid.segment
+		.ui.page.grid.head.basic
+			.row.logo
+				a.icon-chef-logo.icon(href="/")
+
+			.row.section
+				.title= __('Terms and conditions')
+
 		.ui.page.grid.body
 			.row
 				.column
-					h1 Términos y condiciones
 					p You broke it. Wow, look at him go. Of course not, Biff, now I wouldn't want that to happen. Now, uh, I'll finish those reports up tonight, and I'll run em them on over first thing tomorrow, alright? I think you got the wrong car, McFly. David, watch your mouth. You come here and kiss your mother before you go, come here. It's taken me almost thirty years and my entire family fortune to realize the vision of that day, my god has it been that long. Things have certainly changed around here. I remember when this was all farmland as far as the eye could see. Old man Peabody, owned all of this. He had this crazy idea about breeding pine trees.
 
 					p I haven't Okay, but I don't know what to say. Listen, I gotta go but I wanted to tell you that it's been educational. This is for all you lovers out there. Doc, Doc, it's me, Marty.
