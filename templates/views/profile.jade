@@ -1,10 +1,10 @@
 extends ../layouts/default
 
-include ../mixins/recipe
+include ../mixins/about
 
 block content
 	#profile.ui.grid.segment(style="background-image: url(#{user.media.header.url}) ")
-		.ui.page.grid
+		.ui.page.grid.head
 			.row
 				include ../components/header
 
@@ -21,3 +21,9 @@ block content
 					.ui.button.chef.button-gray
 						i.social.icon-chef-camera
 						a(href='/') Cambiar imagen
+
+	#profile-content.ui.page.grid.body
+
+		#about-bar.ui.grid.segment
+			.row
+				+about(user)

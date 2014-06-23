@@ -31,39 +31,16 @@
         color: @profile-section-color-text;
       }
     }
+  }
+}
 
-    .img-title {
-      height: 100%;
-      position: relative;
-      overflow: hidden;
+#profile-content {
+  .avatar {
+    width: 200px;
+    height: 200px;
+  }
 
-      img {
-        position: absolute;
-        bottom: 20px;
-        width: 97%;
-      }
-
-      .text {
-        bottom: 30px;
-        position: absolute;
-        width: 82%;
-        left: 30px;
-        font-family: @pinto-fonts;
-        text-transform: uppercase;
-
-        .span {
-          font-size: 56px;
-          color: @recipes-color-text;
-          text-align: center;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-
-          @media(max-width: 992px) {
-            .font-extra-larger;
-          }
-        }
-      }
-    }
+  .header {
+    font-weight: normal;
   }
 }
