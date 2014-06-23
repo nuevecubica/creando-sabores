@@ -3,34 +3,35 @@ extends ../layouts/default
 include ../mixins/recipe
 
 block content
-	#login.signin.ui.grid.segment
-		.ui.page.grid.head.basic
-			.row.logo
-				a.icon-chef-logo.icon(href="/")
+	#login.signin
+		.ui.page.grid.segment.head.basic
+			.column
+				.row.logo
+					a.icon-chef-logo.icon(href="/")
 
-			.row.section
-				.title= __('Access')
-				.subtitle= __('Come and enjoy')
+				.row.section
+					.title= __('Access')
+					.subtitle= __('Come and enjoy')
 
-		.ui.page.grid.body
-			.row
-				.sixteen.wide.column
-					.ui.two.column.grid
-						.column.center.aligned.group
-							.explain.right= __('Register with social networks')
+		.ui.page.stackable.grid.segment.body
+			.row.equal.height
+				.one.column.wide
+				.six.column.wide
+					.explain.right= __('Register with social networks')
+					include ../components/signin-social
+				.one.column.wide.space
 
-							include ../components/signin-social
-
-						.column.dashed.group
+				.one.column.wide.space.dashed
+				.six.column.wide
 							.explain.left= __('or register with email')
-
 							include ../components/login-local
-		.ui.page.grid.body
-			.row.tail
-				.sixteen.wide.column
-					.link
-						| #{__('Don\'t have an account?') + ''} 
-						a(href='/registro')= __('Register')
+				.one.column.wide
+
+		.ui.page.grid.segemnt.tail
+			.column
+				.link
+					| #{__('Don\'t have an account?') + ''} 
+					a(href='/registro')= __('Register')
 
 block js
 	| <script>
