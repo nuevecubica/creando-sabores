@@ -13,6 +13,7 @@ exports = module.exports = {
 
       'views': 'templates/views',
       'view engine': 'jade',
+      'view cache': true,
 
       'emails': 'templates/emails',
 
