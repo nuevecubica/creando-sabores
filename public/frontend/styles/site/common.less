@@ -107,7 +107,6 @@ body {
 }
 
 .list {
-
   > .row {
     margin-top: 4px;
     padding-top: 0;
@@ -205,6 +204,71 @@ body {
   .header {
     margin-top: 0;
   }
+}
+
+
+.tabs {
+
+  .tab {
+    display: inline-block;
+
+    .button {
+        width: 100%;
+    }
+  }
+
+  .mixin(@items) {
+    .tab {
+      width: 100% / @items;
+    }
+  }
+
+  &.two {
+    .mixin(2);
+  }
+
+  &.three {
+    .mixin(3);
+  }
+
+  &.four {
+    .mixin(4);
+  }
+
+  &.five {
+    .mixin(5);
+  }
+}
+
+.checks {
+  color: @ingredients-color-check-disabled;
+  border: 1px solid @ingredients-border-check-disabled;
+  opacity: 1;
+  display: inline;
+  padding: 4px;
+  font-size: 24px;
+  line-height: 48px;
+  cursor: pointer;
+  margin-right: 10px;
+
+  // Fix pixel font
+  &.icon-chef-cesta:before {
+    text-indent: 1px;
+  }
+
+  &.activated {
+    color: @ingredients-color-check-enabled;
+    border: 1px solid @ingredients-border-check-enabled;
+
+    // &:hover {
+    //   color: @ingredients-color-check-disabled;
+    // }
+  }
+
+  // &:hover {
+  //   color: @ingredients-color-check-enabled;
+  //   border: 1px solid @ingredients-border-check-enabled;
+  // }
 }
 
 /********************************

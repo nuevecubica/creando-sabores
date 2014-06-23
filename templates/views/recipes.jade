@@ -54,12 +54,14 @@ block content
 							a(href='/') Crear receta
 
 
-		#recipes.ui.grid.segment
-			.row.tab
-				.ui.button.chef.button-green
-					a(href='/recetas') Populares
-				.ui.button.chef.button-green.disabled
-					a Temporada
+		#recipes.ui.grid.segment.two.tabs
+			.row
+				.tab
+					.ui.button.chef.button-green
+						a(href='/recetas') Populares
+				.tab
+					.ui.button.chef.button-green.disabled
+						a Temporada
 
 			.row
 				.ui.grid.segment.list
