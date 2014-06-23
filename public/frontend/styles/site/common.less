@@ -1,6 +1,8 @@
 @recipes-list-odd: @chef-color-white-bg;
 @recipes-list-even: @chef-color-light-bg;
 
+@bars-padding: 30px;
+
 /*******************************
             Global
 *******************************/
@@ -37,6 +39,7 @@ body {
   }
 }
 
+
 .logo {
   text-align: center !important;
   color: @chef-color-white;
@@ -52,38 +55,47 @@ body {
   }
 }
 
-.section {
-  text-align: center !important;
+.head {
+  .section {
+    text-align: center !important;
 
-  .title {
-    .font-extra-large.uppercase;
-    font-weight: bold;
-    text-align: center;
+    .title {
+      .font-extra-large.uppercase;
+      font-weight: bold;
+      text-align: center;
 
-    &.shadow {
-      text-shadow: 1px 2px 4px #000;
-    }
-  }
-
-  .subtitle {
-    .font-larger;
-    text-align: center;
-
-    &.shadow {
-      text-shadow: 1px 2px 4px #000;
-      text-transform: uppercase;
+      &.shadow {
+        text-shadow: 1px 2px 4px #000;
+      }
     }
 
-    &.author {
-      font-size: 40px;
-      font-weight: normal;
-      text-transform: none;
+    .subtitle {
+      .font-larger;
+      text-align: center;
+
+      &.shadow {
+        text-shadow: 1px 2px 4px #000;
+        text-transform: uppercase;
+      }
+
+      &.author {
+        font-size: 40px;
+        font-weight: normal;
+        text-transform: none;
+      }
     }
   }
 }
 
-.content {
-  .font-large;
+.body {
+  .content {
+    .font-large;
+  }
+}
+
+.bar {
+  padding-top: @bars-padding;
+  padding-bottom: @bars-padding;
 }
 
 .overlay {
