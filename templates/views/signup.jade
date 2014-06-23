@@ -11,24 +11,21 @@ block content
 				.subtitle= __('Easy and fast')
 
 		.ui.page.grid.body
-			.row
-				.sixteen.wide.column
-					.ui.two.column.grid
-						.column.center.aligned.group
-							.explain.right= __('Register with social networks')
+			.ui.two.column.stackable.grid
+				.column.center.aligned.group
+					.explain.right= __('Register with social networks')
 
-							include ../components/signin-social
+					include ../components/signin-social
 
-						.column.group.dashed
-							.explain.left= __('or register with email')
+				.column.group.dashed
+					.explain.left= __('or register with email')
 
-							include ../components/signup-local
+					include ../components/signup-local
 		.ui.page.grid.tail
-			.row
-				.sixteen.wide.column
-					.link
-						| #{__('Already registered?') + ' '}
-						a(href='/acceso')= __('Login')
+			.column
+				.link
+					| #{__('Already registered?') + ' '}
+					a(href='/acceso')= __('Login')
 
 block js
 	| <script>
