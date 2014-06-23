@@ -52,13 +52,14 @@ block content
 						.ui.button.chef.button-brick
 							a(href='/')= __('Create recipe')
 
-
-		#recipes.ui.grid.segment
-			.row.tab
-				.ui.button.chef.button-green
-					a(href='/recetas')= __('Popular')
-				.ui.button.chef.button-green.disabled
-					a= __('Season')
+		#recipes.ui.grid.segment.two.tabs
+			.row
+				.tab
+					.ui.button.chef.button-green
+						a(href='/recetas')= __('Popular')
+				.tab
+					.ui.button.chef.button-green.disabled
+						a= __('Season')
 
 			.row
 				.ui.grid.segment.list

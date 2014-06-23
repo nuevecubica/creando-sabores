@@ -1,0 +1,12 @@
+mixin about(user)
+	//- if user privacy settings
+	.four.wide.column.picture-wrapper
+		.picture
+			img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
+			a.icon-chef-camera.rounded(href="/")
+
+	.twelve.wide.column.info
+		h2.ui.header ¡Hola 
+			strong!= user.name
+			|!
+		.ui.content!= user.about

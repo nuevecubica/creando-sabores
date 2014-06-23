@@ -1,6 +1,8 @@
 @recipes-list-odd: @chef-color-white-bg;
 @recipes-list-even: @chef-color-light-bg;
 
+@bars-padding: 30px;
+
 /*******************************
             Global
 *******************************/
@@ -29,9 +31,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h2 {
-  text-transform: uppercase;
+.header {
+  .font-extra-large.uppercase;
+
+  strong {
+    font-weight: bold;
+  }
 }
+
 
 .logo {
   text-align: center !important;
@@ -48,38 +55,56 @@ h2 {
   }
 }
 
-.section {
-  text-align: center !important;
-
-  .title {
-    .font-extra-large.uppercase;
-    font-weight: bold;
-    text-align: center;
-
-    &.shadow {
-      text-shadow: 1px 2px 4px #000;
-    }
+.head {
+  > .column:only-child {
+    height: 100%;
   }
 
-  .subtitle {
-    .font-larger;
-    text-align: center;
+  .section {
+    text-align: center !important;
 
-    &.shadow {
-      text-shadow: 1px 2px 4px #000;
-      text-transform: uppercase;
+    .title {
+      .font-extra-large.uppercase;
+      font-weight: bold;
+      text-align: center;
+
+      &.shadow {
+        text-shadow: 1px 2px 4px #000;
+      }
     }
 
-    &.author {
-      font-size: 40px;
-      font-weight: normal;
-      text-transform: none;
+    .subtitle {
+      .font-larger;
+      text-align: center;
+
+      &.shadow {
+        text-shadow: 1px 2px 4px #000;
+        text-transform: uppercase;
+      }
+
+      &.author {
+        font-size: 40px;
+        font-weight: normal;
+        text-transform: none;
+      }
     }
   }
 }
 
-.content {
-  .font-large;
+.body {
+  .content {
+    .font-large;
+  }
+
+  .explain {
+    .font-large;
+    font-weight: bolder;
+  }
+}
+
+.bar {
+  padding-top: @bars-padding;
+  padding-bottom: @bars-padding;
 }
 
 .overlay {
@@ -91,7 +116,6 @@ h2 {
 }
 
 .list {
-
   > .row {
     margin-top: 4px;
     padding-top: 0;
@@ -213,6 +237,69 @@ h2 {
     font-weight: lighter;
     text-shadow: none;
   }
+
+.tabs {
+
+  .tab {
+    display: inline-block;
+
+    .button {
+        width: 100%;
+    }
+  }
+
+  .mixin(@items) {
+    .tab {
+      width: 100% / @items;
+    }
+  }
+
+  &.two {
+    .mixin(2);
+  }
+
+  &.three {
+    .mixin(3);
+  }
+
+  &.four {
+    .mixin(4);
+  }
+
+  &.five {
+    .mixin(5);
+  }
+}
+
+.checks {
+  color: @ingredients-color-check-disabled;
+  border: 1px solid @ingredients-border-check-disabled;
+  opacity: 1;
+  display: inline;
+  padding: 4px;
+  font-size: 24px;
+  line-height: 48px;
+  cursor: pointer;
+  margin-right: 10px;
+
+  // Fix pixel font
+  &.icon-chef-cesta:before {
+    text-indent: 1px;
+  }
+
+  &.activated {
+    color: @ingredients-color-check-enabled;
+    border: 1px solid @ingredients-border-check-enabled;
+
+    // &:hover {
+    //   color: @ingredients-color-check-disabled;
+    // }
+  }
+
+  // &:hover {
+  //   color: @ingredients-color-check-enabled;
+  //   border: 1px solid @ingredients-border-check-enabled;
+  // }
 }
 
 /********************************

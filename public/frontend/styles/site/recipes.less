@@ -100,12 +100,6 @@
     margin-top: 0;
     padding-top: 0;
 
-    &.tab {
-      .button {
-        width: 50%;
-      }
-    }
-
     &.loader {
       .span {
         .font-extra-large;
@@ -173,37 +167,6 @@
 
   .explain {
     margin-bottom: 20px;
-  }
-
-  .checks {
-    color: @ingredients-color-check-disabled;
-    border: 1px solid @ingredients-border-check-disabled;
-    opacity: 1;
-    display: inline;
-    padding: 4px;
-    font-size: 24px;
-    line-height: 48px;
-    cursor: pointer;
-    margin-right: 10px;
-
-    // Fix pixel font
-    &.icon-chef-cesta:before {
-      text-indent: 1px;
-    }
-
-    &.activated {
-      color: @ingredients-color-check-enabled;
-      border: 1px solid @ingredients-border-check-enabled;
-
-      // &:hover {
-      //   color: @ingredients-color-check-disabled;
-      // }
-    }
-
-    // &:hover {
-    //   color: @ingredients-color-check-enabled;
-    //   border: 1px solid @ingredients-border-check-enabled;
-    // }
   }
 
   #ingredients {

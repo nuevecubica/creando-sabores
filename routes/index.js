@@ -41,10 +41,12 @@ exports = module.exports = function(app) {
 
   // Views
   app.get('/', routes.views.index);
+  app.get('/perfil', routes.views.profile);
   app.get('/recetas', routes.views.recipes);
   app.get('/receta/:recipe', routes.views.recipe);
   app.all('/:mode(registro|acceso)', routes.views.signup);
   app.get('/salir', routes.views.signout);
+  // app.get('/usuario/:user', routes.views.user);
 
   // Authentication
   app.get('/authentication/facebook', routes.authentication.facebook);
