@@ -13,7 +13,7 @@
 #   Sourced on build time. Handle with care.
 
 # Force update of npm packages
-BUILD_NPM=0
+BUILD_NPM=1
 
 # Execute bower install & update
 BUILD_BOWER=1

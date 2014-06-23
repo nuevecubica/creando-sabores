@@ -19,6 +19,7 @@ exports = module.exports = {
       'auto update': true,
 
       'session': true,
+      'session store': 'mongo',
       'auth': true,
       'user model': 'User',
       'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
