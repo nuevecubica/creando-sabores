@@ -14,3 +14,10 @@
 	color: @chef-color-brick;
 	background-color: lighten(@chef-color-brick-bg, 30%);
 }
+
+// Horizontal space invisible when verticalized
+@media screen and (max-width: 767px) {
+	.ui.stackable.grid > .row > .column.space {
+		display: none !important;
+	}
+}

@@ -12,6 +12,9 @@
 .signin {
 	.body {
 
+			margin-top: 20px;
+			margin-bottom: 20px;
+
 			.explain {
 				.font-large;
 				font-weight: bolder;
@@ -20,7 +23,6 @@
 			}
 
 			.buttons-social {
-
 
 				> .ui.button {
 					display: block;
@@ -43,7 +45,6 @@
 
 			.form-signin {
 				form {
-					margin: 0 auto;
 
 					label {
 						.font-small.uppercase;
@@ -89,28 +90,6 @@
 						float: left;
 					}
 
-					// #terms {
-					// 	label {
-					// 		text-transform: none;
-
-					// 		a {
-					// 			color: @terms-color;
-					// 		}
-					// 	}
-
-					// 	.error-here {
-					// 		label {
-					// 			a {
-					// 				color: @error-message-color;
-					// 			}
-
-					// 			&:before {
-					// 				box-shadow: 0em 0em 0em 1px @error-input-border;
-					// 			}
-					// 		}
-					// 	}
-					// }
-
 					button {
 						width: 100%;
 					}
@@ -140,15 +119,11 @@
 
 	.dashed {
 		border-left: 2px dashed @separator-color;
-		height: 400px;
 	}
 }
 
-@media screen and (max-width: 1270px) {
+@media screen and (max-width: 980px) and (min-width: 768px) {
 	.social-reg {
 		display: none;
-	}
-	.actions .social {
-		font-size: 26px !important;
 	}
 }
