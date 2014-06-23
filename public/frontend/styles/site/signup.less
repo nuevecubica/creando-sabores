@@ -11,32 +11,20 @@
 
 .signin {
 	.body {
-		.group {
-			width: 80%;
 
 			.explain {
 				.font-large;
-				width: 75%;
 				font-weight: bolder;
 				margin-bottom: 20px;
 				text-align: center;
-
-				&.right {
-					float: right;
-				}
-
-				&.left {
-					float: left;
-				}
 			}
 
 			.buttons-social {
-				width: 80%;
-				float: right;
 
-				> .button {
-					width: 75%;
-					margin: 5px;
+
+				> .ui.button {
+					display: block;
+					margin-bottom: 5px;
 					text-align: left;
 					position: relative;
 					padding-left: 10px;
@@ -54,11 +42,7 @@
 			}
 
 			.form-signin {
-				width: 80%;
-				float: left;
-
 				form {
-					width: 75%;
 					margin: 0 auto;
 
 					label {
@@ -132,7 +116,6 @@
 					}
 				}
 			}
-		}
 
 		.info-terms {
 			.font-smaller;
@@ -157,6 +140,7 @@
 
 	.dashed {
 		border-left: 2px dashed @separator-color;
+		height: 400px;
 	}
 }
 
