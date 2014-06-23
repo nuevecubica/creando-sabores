@@ -6,8 +6,10 @@
 					.right.menu
 						if user
 							a.ui.item.profile(href='/perfil')
-								- user.avatars.local = '../frontend/images/test_user.png'
-								img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
+								if user.media.avatar.origin == 'local'
+									img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin].url}")
+								else
+									img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
 
 								if user.name
 									strong #{user.name}

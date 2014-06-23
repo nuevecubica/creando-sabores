@@ -2,7 +2,10 @@ mixin about(user)
 	//- if user privacy settings
 	.four.wide.column.picture-wrapper
 		.picture
-			img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
+			if user.media.avatar.origin == 'local'
+				img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin].url}")
+			else
+				img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
 			a.icon-chef-camera.rounded(href="/")
 
 	.twelve.wide.column.info
