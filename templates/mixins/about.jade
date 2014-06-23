@@ -1,10 +1,11 @@
 mixin about(user)
 	//- if user privacy settings
-	.four.wide.column
-		img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
-		i.social.icon-chef-camera
+	.picture-wrapper.four.wide.column
+		.picture
+			img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
+			a.icon-chef-camera.rounded(href="/")
 
-	.twelve.wide.column
+	.info.twelve.wide.column
 		h2.ui.header ¡Hola 
 			strong!= user.name
 			|!

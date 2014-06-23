@@ -3,7 +3,7 @@ extends ../layouts/default
 include ../mixins/about
 
 block content
-	#profile.ui.grid.segment(style="background-image: url(#{user.media.header.url}) ")
+	.user-profile.ui.grid.segment(style="background-image: url(#{user.media.header.url}); background-size: cover;")
 		.ui.page.grid.head
 			.row
 				include ../components/header
@@ -22,8 +22,8 @@ block content
 						i.social.icon-chef-camera
 						a(href='/') Cambiar imagen
 
-	#profile-content.ui.page.grid.body
+	.user-profile-content.ui.page.grid.body
 
-		#about-bar.ui.grid.segment
+		.about.ui.grid.segment
 			.row
 				+about(user)
