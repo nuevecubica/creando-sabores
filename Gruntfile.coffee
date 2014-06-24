@@ -258,3 +258,6 @@ module.exports = (grunt) ->
   grunt.registerTask "build", ->
     grunt.task.run [grunt.config("env")]
 
+  grunt.registerTask "env", ->
+    console.log process.env.NODE_ENV
+    console.log grunt.config "env"
