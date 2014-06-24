@@ -1,7 +1,7 @@
 var keystone = require('keystone'),
   async = require('async'),
-  User = keystone.list('User')
-tools = require('../routes/authentication/tools');
+  User = keystone.list('User'),
+  tools = require('../routes/authentication/tools');
 
 function updateUser(user, done) {
   // update user
