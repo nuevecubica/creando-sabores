@@ -50,7 +50,7 @@ function updateUser(user, done) {
 exports = module.exports = function(done) {
   User.model.find({}, function(err, users) {
 
-    if (err || !user) {
+    if (err || !users) {
       done(false);
     }
     else {
