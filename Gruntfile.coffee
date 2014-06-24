@@ -119,6 +119,9 @@ module.exports = (grunt) ->
         src: [
           "public/frontend/fonts/basic*"
           "public/frontend/fonts/icons.*"
+          "config.js"
+          "config-test.js"
+          ".env"
         ]
 
     less:
@@ -274,6 +277,8 @@ module.exports = (grunt) ->
     grunt.task.run [grunt.config("env")]
 
   grunt.registerTask "build", ->
+    console.log("----------------------------------------->>> " + process.env.NODE_ENV)
+    console.log("----------------------------------------->>> " + grunt.config("env"))
     grunt.task.run [grunt.config("env")]
 
   grunt.registerTask "env", ->
