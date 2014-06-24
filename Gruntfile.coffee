@@ -12,7 +12,7 @@ module.exports = (grunt) ->
       grunt.option("env") or
       process.env.GRUNT_ENV or
       process.env.NODE_ENV or
-      "development"
+      "preproduction"
     )
     express:
       options:
@@ -179,34 +179,18 @@ module.exports = (grunt) ->
           dest: "public/frontend/fonts/"
           filter: "isFile"
         }
-      ],
-    development:
-      files: [
         {
-          src: ["configs/config-development.js"]
+          src: ["configs/config-" + grunt.config("env") + ".js"]
           dest: "config.js"
           filter: "isFile"
         }
         {
-          src: ["configs/config-development-test.js"]
+          src: ["configs/config-" + grunt.config("env") + "-test.js"]
           dest: "config-test.js"
           filter: "isFile"
         }
         {
-          src: ["configs/development.env"]
-          dest: ".env"
-          filter: "isFile"
-        }
-      ],
-    preproduction:
-      files: [
-        {
-          src: ["configs/config-preproduction.js"]
-          dest: "config.js"
-          filter: "isFile"
-        }
-        {
-          src: ["configs/preproduction.env"]
+          src: ["configs/" + grunt.config("env") + ".env"]
           dest: ".env"
           filter: "isFile"
         }
@@ -250,8 +234,7 @@ module.exports = (grunt) ->
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy:build"]
-    grunt.task.run ["copy:development"]
+    grunt.task.run ["copy"]
 
   grunt.registerTask "preproduction", ->
     grunt.task.run ["lint"]
@@ -259,8 +242,7 @@ module.exports = (grunt) ->
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy:build"]
-    grunt.task.run ["copy:preproduction"]
+    grunt.task.run ["copy"]
 
   grunt.registerTask "production", ->
     grunt.task.run ["jshint"]
@@ -268,7 +250,7 @@ module.exports = (grunt) ->
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy:build"]
+    grunt.task.run ["copy"]
 
   grunt.registerTask "test", ->
     grunt.task.run ["lint", "mochaTest:development"]
@@ -277,8 +259,8 @@ module.exports = (grunt) ->
     grunt.task.run [grunt.config("env")]
 
   grunt.registerTask "build", ->
-    console.log("----------------------------------------->>> " + process.env.NODE_ENV)
-    console.log("----------------------------------------->>> " + grunt.config("env"))
+    console.log("--------------------------------->>> " + process.env.NODE_ENV)
+    console.log("--------------------------------->>> " + grunt.config("env"))
     grunt.task.run [grunt.config("env")]
 
   grunt.registerTask "env", ->
