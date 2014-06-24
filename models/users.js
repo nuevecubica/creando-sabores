@@ -40,6 +40,23 @@ User.add({
   about: {
     type: Types.Textarea
   }
+}, 'Avatars', {
+  avatars: {
+    local: {
+      type: Types.CloudinaryImage,
+      label: 'Local'
+    },
+    facebook: {
+      type: Types.Text,
+      label: 'Facebook',
+      noedit: true
+    },
+    google: {
+      type: Types.Text,
+      label: 'Google',
+      noedit: true
+    }
+  }
 }, 'Media', {
   media: {
     avatar: {
@@ -90,22 +107,6 @@ User.add({
     type: Boolean,
     label: 'Banned',
     note: 'Cannot login.'
-  }
-}, 'Avatars', {
-  avatars: {
-    local: {
-      type: Types.CloudinaryImage
-    },
-    facebook: {
-      type: Types.Text,
-      label: 'Facebook',
-      noedit: true
-    },
-    google: {
-      type: Types.Text,
-      label: 'Google',
-      noedit: true
-    }
   }
 }, 'Social', {
   social: {
