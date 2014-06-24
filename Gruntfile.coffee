@@ -176,18 +176,34 @@ module.exports = (grunt) ->
           dest: "public/frontend/fonts/"
           filter: "isFile"
         }
+      ],
+    development:
+      files: [
         {
-          src: ["configs/config-" + grunt.config("env") + ".js"]
+          src: ["configs/config-development.js"]
           dest: "config.js"
           filter: "isFile"
         }
         {
-          src: ["configs/config-" + grunt.config("env") + "-test.js"]
+          src: ["configs/config-development-test.js"]
           dest: "config-test.js"
           filter: "isFile"
         }
         {
-          src: ["configs/" + grunt.config("env") + ".env"]
+          src: ["configs/development.env"]
+          dest: ".env"
+          filter: "isFile"
+        }
+      ],
+    preproduction:
+      files: [
+        {
+          src: ["configs/config-preproduction.js"]
+          dest: "config.js"
+          filter: "isFile"
+        }
+        {
+          src: ["configs/preproduction.env"]
           dest: ".env"
           filter: "isFile"
         }
@@ -231,7 +247,8 @@ module.exports = (grunt) ->
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["copy:build"]
+    grunt.task.run ["copy:development"]
 
   grunt.registerTask "preproduction", ->
     grunt.task.run ["lint"]
@@ -239,7 +256,8 @@ module.exports = (grunt) ->
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["copy:build"]
+    grunt.task.run ["copy:preproduction"]
 
   grunt.registerTask "production", ->
     grunt.task.run ["jshint"]
@@ -247,7 +265,7 @@ module.exports = (grunt) ->
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["copy:build"]
 
   grunt.registerTask "test", ->
     grunt.task.run ["lint", "mochaTest:development"]
