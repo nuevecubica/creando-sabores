@@ -1,10 +1,28 @@
+0.0.2-alpha2
+--------------------------------------------------
++ Register user via email (no check)
++ Register user via Facebbok and Google
++ Login user via email
++ Login user via Facebook and Google
++ API calls:
+		me
+		me/login
+		me/logout
+		user/check
+
+Internal:
++ BDD Testing
++ Configuration by environment
++ Code beautifier
 
 0.0.1-alpha1
 --------------------------------------------------
 + User roles
-+ DEV server
-+ PRE server
 + Define base stylesheet
 + Navigation menu
 + New recipe from backend
 + Homepage
+
+Internal:
++ DEV server
++ PRE server

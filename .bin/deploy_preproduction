@@ -50,5 +50,5 @@ git pull "$app_repository" || exit 1
 echo "${color_icon}  ${color_1}===> ${color_2}Build${color_no}"
 grunt "$app_gluerokku_env" || exit 1
 echo "${color_icon}  ${color_1}===> ${color_2}Deploy${color_no}"
-git push "$app_gluerokku_repository" "$app_branch:master" || exit 1
+git push -v "$app_gluerokku_repository" "$app_branch:master" || exit 1
 echo "${color_icon}  ${color_1}===> ${color_2}Done!${color_no}"
