@@ -17,9 +17,9 @@
 # Execute bower install & update?	BUILD_BOWER
 
 if [ "preproduction" == NODE_ENV ]; then
-	BUILD_NPM=1
+	BUILD_NPM=0
 elif [ "development" == NODE_ENV ]; then
-	BUILD_NPM=1
+	BUILD_NPM=0
 else
 	BUILD_NPM=1
 fi
