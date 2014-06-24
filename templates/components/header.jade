@@ -6,10 +6,11 @@
 					.right.menu
 						if user
 							a.ui.item.profile(href='/perfil')
-								if user.media.avatar.origin == 'local'
-									img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin].url}")
-								else
-									img.ui.image.avatar(src="#{user.avatars[user.media.avatar.origin]}")
+
+								if !user.media.avatar.url
+									- user.media.avatar.url = '../frontend/images/test_user.png'
+
+								img.ui.image.avatar(src="#{user.media.avatar.url}")
 
 								if user.name
 									strong #{user.name}
@@ -18,15 +19,15 @@
 
 							if user.canAccessKeystone
 								.ui.item
-									a.ui.button.chef.button-brick(href="/keystone")= __('Admin')
+									a.ui.button.chef.button-brick(href="/keystone") Admin
 							.ui.item
-								a.ui.button.chef.button-brick(href="/salir")= __('Logout')
+								a.ui.button.chef.button-brick(href="/salir") Salir
 
 						else
 							.ui.item
-								a.ui.button.chef.button-brick(href="/acceso")= __('Access')
+								a.ui.button.chef.button-brick(href="/acceso") Entrar
 							.ui.item
-								a.ui.button.chef.button-brick(href="/registro")= __('Register')
+								a.ui.button.chef.button-brick(href="/registro") Registrarse
 
 						#menu.ui.item
 							i.icon-chef-menu

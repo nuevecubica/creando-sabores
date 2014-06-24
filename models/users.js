@@ -43,10 +43,15 @@ User.add({
 }, 'Media', {
   media: {
     avatar: {
+      url: {
+        type: Types.Text,
+        label: 'URL',
+        noedit: true
+      },
       origin: {
         type: Types.Select,
         options: [{
-          value: '',
+          value: 'none',
           label: 'None'
         }, {
           value: 'local',
@@ -58,7 +63,7 @@ User.add({
           value: 'google',
           label: 'Google'
         }],
-        default: ''
+        default: 'none'
       }
     },
     header: {
@@ -167,6 +172,18 @@ User.schema.virtual('canAdmin').get(function() {
 // Rights to login
 User.schema.virtual('canLogin').get(function() {
   return !this.isBanned;
+});
+
+User.schema.pre('save', function(next) {
+  if(this.media.avatar.origin !== 'none') {
+    if(this.media.avatar.origin === 'local') {
+      this.media.avatar.url = this.avatars[this.media.avatar.origin].url;
+    } else {
+      this.media.avatar.url = this.avatars[this.media.avatar.origin];
+    }
+  }
+
+  next();
 });
 
 /**
