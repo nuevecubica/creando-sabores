@@ -175,10 +175,11 @@ User.schema.virtual('canLogin').get(function() {
 });
 
 User.schema.pre('save', function(next) {
-  if(this.media.avatar.origin !== 'none') {
-    if(this.media.avatar.origin === 'local') {
+  if (this.media.avatar.origin !== 'none') {
+    if (this.media.avatar.origin === 'local') {
       this.media.avatar.url = this.avatars[this.media.avatar.origin].url;
-    } else {
+    }
+    else {
       this.media.avatar.url = this.avatars[this.media.avatar.origin];
     }
   }
