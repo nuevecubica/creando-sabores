@@ -1,0 +1,31 @@
+/****************
+  Header
+****************/
+@header-color-text: @chef-color-white;
+@avatar-size: 48px;
+
+#header {
+  background-color: transparent;
+}
+
+#header {
+	.profile {
+
+		&:hover {
+			background-color: transparent;
+		}
+
+		strong {
+			.font-large.uppercase;
+			color: @header-color-text;
+
+		}
+
+		.avatar {
+			display: inline-block;
+			margin-right: 0.5em !important;
+			position: relative;
+			top: -4px;
+		}
+	}
+}

@@ -1,0 +1,44 @@
+.generateFont(@name, @font) {
+	font-family: @name;
+	src: url('../fonts/@{font}.eot?') format('eot'),
+	     url('../fonts/@{font}.woff') format('woff'),
+	     url('../fonts/@{font}.ttf')  format('truetype');
+}
+
+@font-face {
+	.generateFont('Pinto', 'pinto-no_01-es-uc-webfont');
+}
+
+@font-face {
+	.generateFont('Brandon Grotesque', 'brandongrotesque-regular-es-lc-uc-webfont');
+}
+
+@font-face {
+	.generateFont('Brandon Grotesque', 'brandongrotesque-light-es-lc-uc-webfont');
+	font-weight: lighter;
+}
+
+@font-face {
+	.generateFont('Brandon Grotesque', 'brandongrotesque-bold-es-lc-uc-webfont');
+	font-weight: bold;
+}
+
+/*
+
+Subsets made with http://www.fontsquirrel.com/tools/webfont-generator
+
+Options:
+
+	ttf, woff, eot
+	Font Squirrel hinting
+	Fix Vertical Metrics
+	Fix GASP Table
+	Spaces
+	Hyphens
+
+	Uppercase subsetting:
+	!"#$%&'()*+,-./0123456789=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_¡¿ÁÇÉÍÑÓÚÜ
+
+	Complete Subsetting:
+	!"#$%&'()*+,-./0123456789=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnojklmnopqrstuvwxyzz¡¿ÁÇÉÍÑÓÚÜáçéíñóúü
+*/

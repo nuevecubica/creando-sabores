@@ -1,0 +1,46 @@
+mixin recipe(recipe)
+	.five.wide.column
+		.thumbnail(style = 'background-image: url(' + recipe.header.url + ')')
+			.row
+
+			.row
+
+			.row
+				.ui.three.column.center.aligned.grid
+					.column
+						i.icon-chef-time.icon
+						.span= (recipe.time < 60) ? recipe.time + ' min' : (recipe.time / 60).toFixed(2) + ' h'
+
+					.column
+						i.icon-chef-porciones.icon
+						.span= recipe.portions
+
+					.difficulty.column
+						- var difficulty = recipe.difficulty
+						- for(var x = 0; x < 5; x++)
+							if(difficulty == 0)
+								i.icon-chef-tenedor.icon.off
+							else
+								i.icon-chef-tenedor.icon.on
+								- difficulty = difficulty - 1;
+
+	.eleven.wide.column
+		.ui.twelve.column
+			.rating
+				.strong= __('Rating')
+				.span
+					.ui.icon
+						- var rating = Math.floor(recipe.rating) || 0
+						- for(var x = 0; x < 5; x++)
+							if(rating == 0)
+								i.icon-chef-star.icon.off
+							else
+								i.icon-chef-star.icon.on
+								- rating = rating - 1;
+
+			h2.ui.header
+				if(recipe.official)
+					!= recipe.title + ' ' + __('Official')
+				else
+					!= recipe.title
+			.ui.content!= recipe.description

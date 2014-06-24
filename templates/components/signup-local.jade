@@ -1,0 +1,42 @@
+.form-signin
+	form(action='registro', method='post', novalidate)
+		.ui.form
+			#name.field(class=(errors.fields.name ? "error-here" : ""))
+				label(for='signup-name')= __('Username')
+				.ui.left.labeled.input
+					input(id='signup-name', type='text', name='signup_name', placeholder=__('Username'), value='#{form.signup_name||""}', tabindex='1')
+
+				.error-message.hidden= (errors.fields.name ? errors.fields.name : __('Wrong email or in use.'))
+
+			#email.field(class=(errors.fields.email ? "error-here" : ""))
+				label(for='signup-email')= __('Email')
+				.ui.left.labeled.input
+					input(id='signup-email', type='email', name='signup_email', placeholder=__('Email'), value='#{form.signup_email||""}', tabindex='2')
+
+				.error-message.hidden= (errors.fields.email ? errors.fields.email : '')
+
+			#password.field(class=(errors.fields.password ? "error-here" : ""))
+				label(for='signup-password', id='signup-password-label')= __('Password')
+				#wrapper-show-password.ui.labeled.checkbox
+					input(id='show-password', type='checkbox', name='show_password')
+					label(for='show-password')= __('Show password')
+				#wrapper-password.ui.left.labeled.input
+					input(id='signup-password', type='password', name='signup_password', placeholder=__('Password'), tabindex='3')
+					//- .indicator.hidden
+						//- .icon-chef-error
+
+				.error-message.hidden= (errors.fields.password ? errors.fields.password : '')
+
+			//- #terms.field
+
+			//- 	.ui.left.labeled.checkbox
+			//- 		input(id='signup-terms', type='checkbox', name='signup_terms')
+			//- 		label(for='signup-terms') Acepto los <a href='/terminos'>términos y condiciones</a>
+
+			input(type='hidden', name='action', value='signup')
+
+			button.ui.button.chef.button-blue(type='submit', tabindex='4')= __('Send register form')
+			#terms.field
+				.info-terms
+					- var terms = __('If you continue, you accept {{{link}}}our terms and conditions{{{/link}}}', {'link': '<a href="/terminos" target="_blank">', '/link': '</a>'})
+					| !{terms}

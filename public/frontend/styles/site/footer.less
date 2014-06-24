@@ -1,0 +1,49 @@
+
+// Colors
+@footer-background: @chef-color-green-bg;
+@footer-color: @chef-color-white;
+
+/****************
+  Footer
+****************/
+#footer {
+  .bar;
+
+  background-color: @footer-background;
+  color: @footer-color;
+
+  img {
+    margin: 0 auto;
+    width: 70%;
+  }
+
+  .block {
+    padding: 5%;
+  }
+
+  .ui.header {
+    font-family: @pinto-fonts;
+    font-size: 26px;
+    text-transform: uppercase;
+  }
+
+  .ui.list .item {
+    font-size: 18px;
+  }
+
+  .icon {
+    color: @footer-color;
+  }
+
+  &.mini {
+    padding: 10px;
+    margin-top: 20px;
+
+    .block {
+      padding: 0 5%;
+    }
+    .ui.header {
+      font-size: 16px;
+    }
+  }
+}

@@ -1,0 +1,334 @@
+@recipes-list-odd: @chef-color-white-bg;
+@recipes-list-even: @chef-color-light-bg;
+
+@bars-padding: 30px;
+
+/*******************************
+            Global
+*******************************/
+
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+html,
+body {
+  font-size: 18px;
+  height: 100%;
+}
+
+body {
+  font-family: @brandon-fonts;
+  font-weight: lighter;
+  background: @chef-color-lighter-bg;
+  margin: 0px;
+  padding: 0px;
+  color: @chef-color-black;
+  text-rendering: optimizeLegibility;
+}
+
+.header {
+  .font-extra-large.uppercase;
+
+  strong {
+    font-weight: bold;
+  }
+}
+
+
+.logo {
+  text-align: center !important;
+  color: @chef-color-white;
+
+  &.shadow {
+    text-shadow: 1px 2px 4px #000;
+  }
+
+  .icon {
+    font-size: 200px;
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.head {
+  > .column:only-child {
+    height: 100%;
+  }
+
+  .section {
+    text-align: center !important;
+
+    .title {
+      .font-extra-large.uppercase;
+      font-weight: bold;
+      text-align: center;
+
+      &.shadow {
+        text-shadow: 1px 2px 4px #000;
+      }
+    }
+
+    .subtitle {
+      .font-larger;
+      text-align: center;
+
+      &.shadow {
+        text-shadow: 1px 2px 4px #000;
+        text-transform: uppercase;
+      }
+
+      &.author {
+        font-size: 40px;
+        font-weight: normal;
+        text-transform: none;
+      }
+    }
+  }
+}
+
+.body {
+  .content {
+    .font-large;
+  }
+
+  .explain {
+    .font-large;
+    font-weight: bolder;
+  }
+}
+
+.bar {
+  padding-top: @bars-padding;
+  padding-bottom: @bars-padding;
+}
+
+.overlay {
+  position: fixed;
+  width:  100%;
+  height: 100%;
+  top:  0;
+  left: 0;
+}
+
+.list {
+  > .row {
+    margin-top: 4px;
+    padding-top: 0;
+    background-color: @recipes-list-even;
+  }
+
+  > .row:nth-child(odd) {
+    background-color: @recipes-list-odd;
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 196px;
+    background-image: url(http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg);
+    background-size: cover;
+    // Fix row pading left
+    margin-left: -15px;
+
+    > .row:first-child {
+      height: 25%;
+      background-color: transparent;
+    }
+
+    > .row {
+       height: 50%;
+
+      .column:not(.grid) {
+        margin-top: 0.7rem;
+      }
+    }
+
+    > .row:last-child {
+      height: 25%;
+      background-color: @recipes-thumbnail-background;
+      color: @recipes-thumbnail-color;
+
+      .icon {
+        font-size: 24px;
+      }
+
+      .span {
+        display: inline;
+        font-weight: bold;
+        font-size: 18px;
+        opacity: 0.75;
+        vertical-align: text-bottom;
+      }
+
+      .difficulty.column {
+        .icon {
+          &.off {
+            opacity: 0.3;
+          }
+
+          &.on {
+            color: @recipes-thumbnail-ranking-on;
+          }
+
+          &:before {
+            width: 1px;
+          }
+        }
+      }
+    }
+  }
+
+  .rating {
+
+    padding-top: 10px;
+
+    .strong {
+      font-size: 18px;
+      display: inline-block;
+      vertical-align: baseline;
+    }
+
+    .span {
+      display: inline-block;
+
+      i.icon {
+
+        font-size: 20px;
+
+        &.off {
+          color: @recipes-stars-off;
+        }
+
+        &.on {
+          color: @recipes-stars-on;
+        }
+      }
+    }
+  }
+
+  .header {
+    margin-top: 0;
+  }
+}
+
+.head.basic {
+
+  .row {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .icon-chef-logo {
+    color: @icon-logo;
+    text-shadow: none;
+  }
+
+  .title {
+    color: @title-color;
+    text-shadow: none;
+  }
+
+  .subtitle {
+    color: @subtitle-color;
+    font-weight: lighter;
+    text-shadow: none;
+  }
+}
+
+.tabs {
+
+  .tab {
+    display: inline-block;
+
+    .button {
+        width: 100%;
+    }
+  }
+
+  .mixin(@items) {
+    .tab {
+      width: 100% / @items;
+    }
+  }
+
+  &.two {
+    .mixin(2);
+  }
+
+  &.three {
+    .mixin(3);
+  }
+
+  &.four {
+    .mixin(4);
+  }
+
+  &.five {
+    .mixin(5);
+  }
+}
+
+.checks {
+  color: @ingredients-color-check-disabled;
+  border: 1px solid @ingredients-border-check-disabled;
+  opacity: 1;
+  display: inline;
+  padding: 4px;
+  font-size: 24px;
+  line-height: 48px;
+  cursor: pointer;
+  margin-right: 10px;
+
+  // Fix pixel font
+  &.icon-chef-cesta:before {
+    text-indent: 1px;
+  }
+
+  &.activated {
+    color: @ingredients-color-check-enabled;
+    border: 1px solid @ingredients-border-check-enabled;
+
+    // &:hover {
+    //   color: @ingredients-color-check-disabled;
+    // }
+  }
+
+  // &:hover {
+  //   color: @ingredients-color-check-enabled;
+  //   border: 1px solid @ingredients-border-check-enabled;
+  // }
+}
+
+/********************************
+        New media queries
+********************************/
+
+@media only screen and (max-width : 991px) {
+  .ui.page.grid {
+    padding: 0%;
+  }
+}
+@media only screen and (min-width : 992px) {
+  .ui.page.grid {
+    padding: 0%;
+  }
+}
+@media only screen and (min-width : 1500px) {
+  .ui.page.grid {
+    padding: 0% 13%;
+  }
+}
+@media only screen and (min-width : 1750px) {
+  .ui.page.grid {
+    padding: 0% 18%;
+  }
+}
+@media only screen and (min-width : 2000px) {
+  .ui.page.grid {
+    padding: 0% 23%;
+  }
+}

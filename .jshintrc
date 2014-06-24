@@ -1,0 +1,16 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "immed": true,
+  "latedef": true,
+  "laxcomma": true,
+  "newcap": true,
+  "noarg": true,
+  "smarttabs": true,
+  "sub": true,
+  "undef": true,
+  "eqnull": true,
+  "node": true,
+  "undef": true
+}

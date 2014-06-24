@@ -1,0 +1,16 @@
+## Tests
+
+### 1. Run test server
+Two options:
+*Static*
+```
+npm test
+```
+*Watch*
+```
+grunt nodemon:test
+```
+### 2. Run tests
+```
+grunt test
+```

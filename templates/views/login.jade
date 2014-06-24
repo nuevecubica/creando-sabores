@@ -1,0 +1,41 @@
+extends ../layouts/default
+
+include ../mixins/recipe
+
+block content
+	#login.signin
+		.ui.page.grid.segment.head.basic
+			.column
+				.row.logo
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section
+					.title= __('Access')
+					.subtitle= __('Come and enjoy')
+
+		.ui.page.stackable.grid.segment.body
+			.row.equal.height
+				.one.column.wide
+				.six.column.wide
+					.explain.right= __('Access with social networks')
+					include ../components/signin-social
+				.one.column.wide.space
+
+				.one.column.wide.space.dashed
+				.six.column.wide
+							.explain.left= __('or register with email')
+							include ../components/login-local
+				.one.column.wide
+
+		.ui.page.grid.segemnt.tail
+			.column
+				.link
+					| #{__('Don\'t have an account?') + ''} 
+					a(href='/registro')= __('Register')
+
+block js
+	| <script>
+	|	chef.errorMessages = chef.errorMessages || {}
+	|	chef.errorMessages['Email format'] = "#{__('Error: Email format')}"
+	|	chef.errorMessages['Password format'] = "#{__('Error: Password format')}"
+	| </script>

@@ -1,0 +1,94 @@
+var must = require('must'),
+		request = require('supertest'),
+		keystone = null,
+		Users = null;
+
+var config = require(__dirname + '/../../../config-development-test.js');
+
+request = request(config.url);
+
+describe('API v1: /me/', function(){
+
+	/*---------- LOGIN ----------*/
+	describe('POST /me/login', function (){
+
+		before(function(done){
+			this.timeout(10000);
+			keystone = require(__dirname + '/../../../keystone-test.js');
+			keystone.testStart(function() {
+				Users = keystone.list('User');
+				for (var i = 0, l = config.lists.users.length; i < l; i++) {
+					var u = config.lists.users[i],
+							user = new Users.model();
+					user.name 		= u.name;
+					user.username = u.username;
+					user.email 		= u.email;
+					user.password = u.password;
+					user.save();
+				}
+	      done();
+	    });
+		});
+
+		describe('No data', function (){
+			it('respond with error', function (done) {
+				request
+				.post('/api/v1/me/login')
+				.send({})
+				.set('Accept', 'application/json')
+				.expect('Content-Type', /json/)
+				.expect(401, done)
+				.expect(function (res) {
+					if (!res.body.error || res.body.success) {
+						return 'error';
+					}
+				});
+			})
+		});
+
+		describe('Invalid credentials', function (){
+			it('respond with unsuccess', function (done) {
+				request
+				.post('/api/v1/me/login')
+				.send({
+					email: config.lists.users[0].email,
+					password: 'garbage'
+				})
+				.set('Accept', 'application/json')
+				.expect('Content-Type', /json/)
+				.expect(401, done)
+				.expect(function (res) {
+					if (res.body.success || res.body.error) {
+						return 'error';
+					}
+				});
+			})
+		});
+
+		describe('Valid credentials', function (){
+			it('respond with success', function (done) {
+				request
+				.post('/api/v1/me/login')
+				.send({
+					email: config.lists.users[0].email,
+					password: config.lists.users[0].password
+				})
+				.set('Accept', 'application/json')
+				.expect('Content-Type', /json/)
+				.expect(200, done)
+				.expect(function (res) {
+					if (!res.body.success || res.body.error) {
+						return 'error';
+					}
+				});
+			})
+		});
+	});
+
+	/*---------- LOGOUT ----------*/
+	describe('GET /me/logout', function(){
+		describe('Request to logout', function(){
+			it('should destroy user session');
+		})
+	});
+});

@@ -1,0 +1,23 @@
+.form-signin
+	form(action='acceso', method='post', novalidate)
+		.ui.form
+			#email.field(class=(errors.fields.email ? "error-here" : ""))
+				label(for='login-email')= __('Email')
+				.ui.left.labeled.input
+					input(id='login-email', type='email', name='login_email', value='#{form.login_email||""}', placeholder="#{__('Email')}")
+					//- .indicator.hidden
+						.icon-chef-error
+				.error-message= (errors.fields.email ? errors.fields.email : '')
+
+			#password.field(class=(errors.fields.password ? "error-here" : ""))
+				label(for='login-password')= __('Password')
+				#wrapper-password.ui.left.labeled.input
+					input(id='login-password', type='password', name='login_password', placeholder="#{__('Password')}")
+					//- .indicator.hidden
+						.icon-chef-error
+
+				.error-message= (errors.fields.password ? errors.fields.password : '')
+
+			input(type='hidden', name='action', value='login')
+
+			button.ui.button.chef.button-blue(type='submit')= __('Access')

@@ -1,58 +1,128 @@
 var _ = require('underscore'),
-	querystring = require('querystring'),
-	keystone = require('keystone');
+  querystring = require('querystring'),
+  keystone = require('keystone'),
+  i18n = require('i18n'),
+  pkg = require(__dirname + '/../package.json');
 
 
 /**
 	Initialises the standard view locals
 */
-
 exports.initLocals = function(req, res, next) {
-	
-	var locals = res.locals;
-	
-	locals.navLinks = [
-		{ label: 'Home',		key: 'home',		href: '/' }
-	];
-	
-	locals.user = req.user;
-	
-	next();
-	
+  var locals = res.locals;
+  locals.navLinks = [{
+    label: 'Recetas',
+    key: 'recetas',
+    href: '/recetas'
+  }, {
+    label: res.__('Videorecipes'),
+    key: 'videorecetas',
+    href: '/'
+  }, {
+    label: res.__('Menus'),
+    key: 'menus',
+    href: '/'
+  }, {
+    label: res.__('Tips'),
+    key: 'tips',
+    href: '/'
+  }, {
+    label: res.__('Questions and Answers'),
+    key: 'preguntas-y-respuestas',
+    href: '/'
+  }, {
+    label: res.__('Contests'),
+    key: 'concursos',
+    href: '/'
+  }, {
+    label: res.__('About the chef'),
+    key: 'acerca-del-chef',
+    href: '/'
+  }, {
+    label: res.__('Contact'),
+    key: 'contacto',
+    href: '/'
+  }];
+
+  locals.navLinksPrivate = [{
+    label: res.__('My profile'),
+    key: 'perfil',
+    href: '/'
+  }, {
+    label: res.__('Shopping list'),
+    key: 'lista-del-super',
+    href: '/'
+  }, {
+    label: res.__('My recipes'),
+    key: 'mis-recetas',
+    href: '/'
+  }, {
+    label: res.__('My menus'),
+    key: 'mis-menus',
+    href: '/'
+  }, {
+    label: res.__('My tips'),
+    key: 'mis-tips',
+    href: '/'
+  }];
+
+  locals.user = req.user;
+
+  locals.version = pkg.version + (pkg.versionName ? ('-' + pkg.versionName) : '');
+  locals.ksversion = keystone.version;
+  locals.env = process.env;
+  next();
+};
+
+/**
+	Inits the error handler functions into `req`
+*/
+exports.initErrorHandlers = function(req, res, next) {
+  res.err = function(err, title, message) {
+    res.status(500).render('errors/500', {
+      err: err,
+      errorTitle: title,
+      errorMsg: message
+    });
+  };
+
+  res.notfound = function(title, message) {
+    res.status(404).render('errors/404', {
+      errorTitle: title,
+      errorMsg: message
+    });
+  };
+
+  next();
 };
 
 
 /**
 	Fetches and clears the flashMessages before a view is rendered
 */
-
 exports.flashMessages = function(req, res, next) {
-	
-	var flashMessages = {
-		info: req.flash('info'),
-		success: req.flash('success'),
-		warning: req.flash('warning'),
-		error: req.flash('error')
-	};
-	
-	res.locals.messages = _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false;
-	
-	next();
-	
+  var flashMessages = {
+    info: req.flash('info'),
+    success: req.flash('success'),
+    warning: req.flash('warning'),
+    error: req.flash('error')
+  };
+  res.locals.messages = _.any(flashMessages, function(msgs) {
+    return msgs.length;
+  }) ? flashMessages : false;
+  next();
 };
 
 
 /**
 	Prevents people from accessing protected pages when they're not signed in
  */
-
 exports.requireUser = function(req, res, next) {
-	
-	if (!req.user) {
-		req.flash('error', 'Please sign in to access this page.');
-		res.redirect('/keystone/signin');
-	} else {
-		next();
-	}
-	
-}
+  if (!req.user) {
+    req.flash('error', res.__('Please sign in to access this page.'));
+    res.redirect('/keystone/signin');
+  }
+  else {
+    next();
+  }
+};

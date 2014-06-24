@@ -1,0 +1,40 @@
+extends ../layouts/default
+
+block content
+	#signup.signin
+		.ui.page.grid.segment.head.basic
+			.column
+				.row.logo
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section
+					.title= __('Register')
+					.subtitle= __('Easy and fast')
+
+		.ui.page.stackable.grid.segment.body
+			.row.equal.height
+				.one.column.wide
+				.six.column.wide
+					.explain= __('Register with social networks')
+					include ../components/signin-social
+				.one.column.wide.space
+
+				.one.column.wide.space.dashed
+				.six.column.wide
+					.explain= __('or register with email')
+					include ../components/signup-local
+				.one.column.wide
+
+		.ui.page.grid.segment.tail
+			.column
+				.link
+					| #{__('Already registered?') + ' '}
+					a(href='/acceso')= __('Login')
+
+block js
+	| <script>
+	|	chef.errorMessages = chef.errorMessages || {}
+	|	chef.errorMessages['Email format'] = "#{__('Error: Email format')}"
+	|	chef.errorMessages['Password format'] = "#{__('Error: Password format')}"
+	|	chef.errorMessages['Username format'] = "#{__('Error: Username format')}"
+	| </script>
