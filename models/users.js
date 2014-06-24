@@ -60,11 +60,6 @@ User.add({
 }, 'Media', {
   media: {
     avatar: {
-      url: {
-        type: Types.Text,
-        label: 'URL',
-        noedit: true
-      },
       origin: {
         type: Types.Select,
         options: [{
@@ -81,6 +76,10 @@ User.add({
           label: 'Google'
         }],
         default: 'none'
+      },
+      url: {
+        type: Types.Text,
+        noedit: true
       }
     },
     header: {
@@ -182,6 +181,12 @@ User.schema.pre('save', function(next) {
     }
     else {
       this.media.avatar.url = this.avatars[this.media.avatar.origin];
+    }
+
+    // If url not set, revert to none
+    if (!this.avatars[this.media.avatar.origin]) {
+      this.media.avatar.origin = 'none';
+      this.media.avatar.url = null;
     }
   }
 
