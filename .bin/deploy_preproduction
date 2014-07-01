@@ -19,8 +19,8 @@ app_release="$1"
 app_branch="release/$1"
 
 app_gluerokku_name='chefcito-pre'
-app_gluerokku_env='production'
-app_gluerokku_repository='preproduction'
+app_gluerokku_env='preproduction'
+app_gluerokku_repository='PRE'
 
 check_dir() {
 	current_dir="$(pwd | awk -F/ '{ print $NF }')"

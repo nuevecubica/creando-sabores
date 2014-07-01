@@ -10,7 +10,7 @@ app_branch='development'
 
 app_gluerokku_name='chefcito'
 app_gluerokku_env='development'
-app_gluerokku_repository='deploy'
+app_gluerokku_repository='DEV'
 
 check_dir() {
 	current_dir="$(pwd | awk -F/ '{ print $NF }')"
