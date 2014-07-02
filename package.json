@@ -1,7 +1,7 @@
 {
   "name": "chefcito",
-  "version": "0.0.2",
-  "versionName": "alpha2",
+  "version": "0.0.3",
+  "versionName": "alpha3",
   "private": true,
   "dependencies": {
     "async": "~0.8.0",
