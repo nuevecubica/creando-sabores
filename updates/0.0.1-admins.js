@@ -3,12 +3,10 @@ var keystone = require('keystone'),
   User = keystone.list('User');
 
 var admins = [{
+  username: 'admin',
   email: 'user@keystonejs.com',
   password: 'admin',
-  name: {
-    first: 'Admin',
-    last: 'User'
-  }
+  name: 'Admin User'
 }];
 
 function createAdmin(admin, done) {
