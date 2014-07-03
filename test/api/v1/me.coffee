@@ -165,3 +165,14 @@ describe 'API v1: /me/', ->
               )
               .expect(401)
               .end(done)
+
+  #*---------- SAVE PROFILE ----------*
+  describe 'PUT /me/save', ->
+    describe 'on not logged in user', ->
+      it 'should refuse changes'
+    describe 'on invalid user', ->
+      it 'should refuse changes'
+    describe 'on valid user with invalid values', ->
+      it 'should refuse changes'
+    describe 'on valid user', ->
+      it 'should save changes'
