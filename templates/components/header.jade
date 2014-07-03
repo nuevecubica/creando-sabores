@@ -1,33 +1,42 @@
-#header.ui.grid.segment
-	.row
-		.sixteen.wide.column
-			#menu-wrapper
-				.ui.menu
-					.right.menu
-						if user
-							a.ui.item.profile(href='/perfil')
+.six.wide.column
+	#manage-wrapper
+		#edit.ui.button.chef.button-manage
+			a Editar
+		//- .ui.button.chef.button-manage
+		//- 	a Borrar
+		//- .ui.button.chef.button-manage
+		//- 	a Guardar
+		//- .ui.button.chef.button-manage
+		//- 	a Publicar
 
-								if !user.media.avatar.url
-									- user.media.avatar.url = '../frontend/images/test_user.png'
+.ten.wide.column
+	#menu-wrapper
+		.ui.menu
+			.right.menu
+				if user
+					a.ui.item.profile(href='/perfil')
 
-								img.ui.image.avatar(src="#{user.media.avatar.url}")
+						if !user.media.avatar.url
+							- user.media.avatar.url = '../frontend/images/test_user.png'
 
-								if user.name
-									strong #{user.name}
-								else
-									strong #{user.username}
+						img.ui.image.avatar(src="#{user.media.avatar.url}")
 
-							if user.canAccessKeystone
-								.ui.item
-									a.ui.button.chef.button-brick(href="/keystone") Admin
-							.ui.item
-								a.ui.button.chef.button-brick(href="/salir") Salir
-
+						if user.name
+							strong #{user.name}
 						else
-							.ui.item
-								a.ui.button.chef.button-brick(href="/acceso") Entrar
-							.ui.item
-								a.ui.button.chef.button-brick(href="/registro") Registrarse
+							strong #{user.username}
 
-						#menu.ui.item
-							i.icon-chef-menu
+					if user.canAccessKeystone
+						.ui.item
+							a.ui.button.chef.button-brick(href="/keystone") Admin
+					.ui.item
+						a.ui.button.chef.button-brick(href="/salir") Salir
+
+				else
+					.ui.item
+						a.ui.button.chef.button-brick(href="/acceso") Entrar
+					.ui.item
+						a.ui.button.chef.button-brick(href="/registro") Registrarse
+
+				#menu.ui.item
+					i.icon-chef-menu
