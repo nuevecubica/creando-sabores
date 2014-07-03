@@ -21,7 +21,7 @@
 	"Error: Password format": "Mínimo 8 caracteres.",
 	"Error: Username format": "Sólo letras y números.",
 	"Follow us on social networks": "Síguenos en las redes sociales",
-	"If you continue, you accept {{{link}}}our terms and conditions{{{/link}}}": "Si continúas, estás aceptando {{{link}}}nuestros términos y condiciones{{{/link}}}.",
+	"If you continue, you accept {{{link}}}": "Si continúas, estás aceptando {{{link}}}.",
 	"Invalid credentials": "Credenciales no válidas",
 	"Loading more recipes": "Cargando más recetas...",
 	"Login": "Acceso",
@@ -58,5 +58,6 @@
 	"Username": "Nombre de usuario",
 	"Videorecipes": "Videorecetas",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"or register with email": "...o con tu correo electrónico"
+	"or register with email": "...o con tu correo electrónico",
+	"our terms and conditions": "nuestros términos y condiciones"
 }
