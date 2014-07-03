@@ -6,10 +6,10 @@ mixin about(user)
 				- user.media.avatar.url = '../frontend/images/test_user.png'
 
 			img.ui.image.avatar(src="#{user.media.avatar.url}")
-			a.icon-chef-camera.rounded(href="/")
+			a.icon-chef-camera.rounded.show-editable(href="/")
 
 	.twelve.wide.column.info
-		h2.ui.header ¡Hola 
-			strong!= user.name
+		h2.ui.header ¡ Hola 
+			strong.set-editable!= user.name
 			|!
-		.ui.content!= user.about
+		.ui.content.set-editable!= user.about

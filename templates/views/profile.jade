@@ -4,25 +4,23 @@ include ../mixins/about
 
 block content
 	.ui.grid.segment.user-profile(style="background-image: url(#{user.media.header.url}); background-size: cover;")
-		.ui.page.grid.head
-			.column
-				.row
-					include ../components/header
+		.ui.page.grid.head.with-title
+			#header.row
+				include ../components/header
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+			.row.logo.shadow
+				a.icon-chef-logo.icon(href="/")
 
-				.row.section
-					.title.shadow Mi recetario
+			.row.section
+				.title.shadow Mi recetario
 
-				.row
-					.ui.grid.stackable.right.aligned
-						.ten.wide.column
+			.row
+				.ten.wide.column
 
-						.six.wide.column.social
-							.ui.button.chef.button-gray
-								i.social.icon-chef-camera
-								a(href='/') Cambiar imagen
+				.six.wide.column.social.right.aligned
+					.ui.button.chef.button-gray.show-editable
+						i.social.icon-chef-camera
+						a(href='/') Cambiar imagen
 
 	.ui.page.grid.segment.body.about
 		.column
@@ -35,7 +33,7 @@ block content
 				.row
 					.tab
 						.ui.button.chef.button-green
-							a(href='/') Mi perfil
+							a(href='/') Mi cuenta
 					.tab
 						.ui.button.chef.button-green.disabled
 							a Lista del super
@@ -51,19 +49,6 @@ block content
 
 		.row
 			#profile.column.tab-content
-				.row.mobile.only
-					.header Mi perfil
-
-				.row
-					.two.column.stackable.ui.grid
-						.column
-							#name.field
-								.explain Nombre
-								.input!= user.name.split(' ')[0]
-						.column
-							#last-name.field
-								.explain Apellidos
-								.input!= user.name.split(' ')[1]
 
 				.row
 					.two.column.stackable.ui.grid
@@ -82,12 +67,6 @@ block content
 						#password.field
 							.ui.button.chef.button-brick
 								a(href='/') Cambiar password
-
-				.row
-					.column
-						#about.field
-						.explain Cuentanos un poco de ti
-						p.input!= user.about
 
 				.row
 					.column
