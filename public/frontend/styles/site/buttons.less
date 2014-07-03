@@ -5,6 +5,8 @@
 
 @buttons-border: 4px;
 
+@buttons-manage-color: @chef-color-white;
+
 .ui.menu:not(.vertical) .item > .button, .ui.button.chef {
     padding: @buttons-padding-top @buttons-padding-left;
 }
@@ -63,6 +65,21 @@
 
     &.button-yellow {
         .buttonAnimatedBottom(@chef-color-white, @chef-color-yellow-bg);
+    }
+
+    &.button-manage {
+        box-shadow: 0px 0px 0px 4px white;
+        background-color: transparent;
+        transition: box-shadow 300ms ease-out, text-shadow 300ms ease-out;
+
+        a {
+            color: @buttons-manage-color;
+        }
+
+        &:hover {
+            box-shadow: 0px 0px 0px 4px white, 0px 2px 3px 3px black, 0px 3px 6px -3px black inset;
+            text-shadow: 0px 0px 4px black;
+        }
     }
 }
 
