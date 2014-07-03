@@ -31,7 +31,7 @@ module.exports = (grunt) ->
       all: [
         "routes/**/*.js"
         "models/**/*.js"
-        "public/frontend/js/**/*,js"
+        "public/frontend/js/**/*.js"
       ]
       server: ["./*.js"]
 
