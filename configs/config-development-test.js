@@ -67,6 +67,6 @@ answer.lists = {
   }]
 };
 
-answer.url = 'http://' + answer.keystone.init['host'] + ':' + answer.keystone.init['port'];
+answer.url = 'http://' + answer.keystone.init.host + ':' + answer.keystone.init.port;
 
 exports = module.exports = answer;

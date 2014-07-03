@@ -4,7 +4,7 @@ var async = require('async'),
 exports = module.exports = function(req, res) {
   var Users = keystone.list('User'),
     query = {
-      username: req.params['username']
+      username: req.params.username
     },
     answer = {
       success: false,
