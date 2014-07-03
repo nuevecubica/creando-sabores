@@ -55,11 +55,11 @@ exports = module.exports = function(app) {
   // API
   app.all('/api/v1*', keystone.initAPI);
   //-- Me
-  app.get('/api/v1/me', routes.api.v1.me.me);
+  app.get('/api/v1/me', middleware.requireUserApi, routes.api.v1.me.me);
   app.post('/api/v1/me/login', routes.api.v1.me.login);
-  app.get('/api/v1/me/logout', routes.api.v1.me.logout);
-  app.put('/api/v1/me/save', routes.api.v1.me.save);
+  app.get('/api/v1/me/logout', middleware.requireUserApi, routes.api.v1.me.logout);
+  app.put('/api/v1/me/save', middleware.requireUserApi, routes.api.v1.me.save);
   //-- Users
-  app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
+  app.get('/api/v1/user/:username/check', middleware.requireUserApi, routes.api.v1.user.checkUsername);
   //-- Recipes
 };
