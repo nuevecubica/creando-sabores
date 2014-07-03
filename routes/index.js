@@ -1,7 +1,7 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   i18n = require("i18n"),
-  middleware = require('./middleware'),
+  middleware = require('../middlewares'),
   importRoutes = keystone.importer(__dirname);
 
 // i18n support
@@ -58,6 +58,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me', routes.api.v1.me.me);
   app.post('/api/v1/me/login', routes.api.v1.me.login);
   app.get('/api/v1/me/logout', routes.api.v1.me.logout);
+  app.put('/api/v1/me/save', routes.api.v1.me.save);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   //-- Recipes
