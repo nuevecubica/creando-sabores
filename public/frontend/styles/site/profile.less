@@ -2,7 +2,32 @@
 @profile-section-color-text: @chef-color-white;
 @profile-border-color: @chef-color-white;
 @profile-border-size: 4px;
+@profile-editable-border: @chef-color-gray;
+@profile-editable-border-focus: @chef-color-black;
 @profile-icon-color: @chef-color-white;
+
+.show-editable {
+  visibility: hidden;
+}
+
+.mode-editable {
+  .show-editable {
+    visibility: visible;
+  }
+
+  .set-editable {
+    outline: 1px solid @profile-editable-border;
+    outline-offset: 10px;
+
+    .focus {
+      outline: 2px solid @profile-editable-border-focus;
+    }
+  }
+
+  strong.set-editable {
+    outline-offset: 3px;
+  }
+}
 
 .user-profile {
   background-color: transparent;
@@ -74,12 +99,18 @@
     }
   }
 
+
   .info {
 
   }
 
   .header {
     font-weight: normal;
+
+    strong {
+      padding-right: 4px;
+      margin-right: 4px;
+    }
   }
 }
 
