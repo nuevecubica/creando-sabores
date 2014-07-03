@@ -11,12 +11,18 @@
 #
 # Notes:
 #   Sourced on build time. Handle with care.
+#
+# Execute grunt build? 						BUILD_GRUNT
+# Force update of npm packages?		BUILD_NPM
+# Execute bower install & update?	BUILD_BOWER
 
-# Force update of npm packages
-BUILD_NPM=1
+if [ "preproduction" == NODE_ENV ]; then
+	BUILD_NPM=0
+elif [ "development" == NODE_ENV ]; then
+	BUILD_NPM=0
+else
+	BUILD_NPM=1
+fi
 
-# Execute bower install & update
 BUILD_BOWER=1
-
-# Execute grunt build
 BUILD_GRUNT=1

@@ -40,14 +40,26 @@ User.add({
   about: {
     type: Types.Textarea
   }
+}, 'Avatars', {
+  avatars: {
+    local: {
+      type: Types.CloudinaryImage,
+      label: 'Local'
+    },
+    facebook: {
+      type: Types.Text,
+      label: 'Facebook',
+      noedit: true
+    },
+    google: {
+      type: Types.Text,
+      label: 'Google',
+      noedit: true
+    }
+  }
 }, 'Media', {
   media: {
     avatar: {
-      url: {
-        type: Types.Text,
-        label: 'URL',
-        noedit: true
-      },
       origin: {
         type: Types.Select,
         options: [{
@@ -64,6 +76,10 @@ User.add({
           label: 'Google'
         }],
         default: 'none'
+      },
+      url: {
+        type: Types.Text,
+        noedit: true
       }
     },
     header: {
@@ -90,22 +106,6 @@ User.add({
     type: Boolean,
     label: 'Banned',
     note: 'Cannot login.'
-  }
-}, 'Avatars', {
-  avatars: {
-    local: {
-      type: Types.CloudinaryImage
-    },
-    facebook: {
-      type: Types.Text,
-      label: 'Facebook',
-      noedit: true
-    },
-    google: {
-      type: Types.Text,
-      label: 'Google',
-      noedit: true
-    }
   }
 }, 'Social', {
   social: {
@@ -175,11 +175,18 @@ User.schema.virtual('canLogin').get(function() {
 });
 
 User.schema.pre('save', function(next) {
-  if(this.media.avatar.origin !== 'none') {
-    if(this.media.avatar.origin === 'local') {
+  if (this.media.avatar.origin !== 'none') {
+    if (this.media.avatar.origin === 'local') {
       this.media.avatar.url = this.avatars[this.media.avatar.origin].url;
-    } else {
+    }
+    else {
       this.media.avatar.url = this.avatars[this.media.avatar.origin];
+    }
+
+    // If url not set, revert to none
+    if (!this.avatars[this.media.avatar.origin]) {
+      this.media.avatar.origin = 'none';
+      this.media.avatar.url = null;
     }
   }
 

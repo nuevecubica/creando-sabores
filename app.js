@@ -3,8 +3,8 @@ require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
   console.error("Warning: Environment variable NODE_ENV not defined.");
-  return 1
-    // process.env.NODE_ENV = 'development';
+  return 1;
+  // process.env.NODE_ENV = 'development';
 }
 
 var config = require('./config.js'),
