@@ -1,4 +1,6 @@
 $(window).load(function() {
+  var chef = window.chef;
+
   $('.ui.checkbox').checkbox();
 
   $('#show-password').change(function(event) {
@@ -28,19 +30,22 @@ $(window).load(function() {
       }
       else {
         $('#name').removeClass('error-here');
-      };
+      }
+
       if (!email) {
         $('#email').children('.error-message').text(chef.errorMessage('Email format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#email').removeClass('error-here');
-      };
+      }
+
       if (!password) {
         $('#password').children('.error-message').text(chef.errorMessage('Password format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#password').removeClass('error-here');
-      };
+      }
+
       //if(!terms) { $('#terms').addClass('error-here').transition('bounce'); } else { $('#terms').removeClass('error-here'); };
 
       e.preventDefault();
@@ -58,13 +63,14 @@ $(window).load(function() {
       }
       else {
         $('#email').removeClass('error-here');
-      };
+      }
+
       if (!password) {
         $('#password').children('.error-message').text(chef.errorMessage('Password format')).end().addClass('error-here').transition('bounce');
       }
       else {
         $('#password').removeClass('error-here');
-      };
+      }
 
       e.preventDefault();
     }
@@ -73,15 +79,15 @@ $(window).load(function() {
   var checkUsername = function(username) {
     var re = /^[A-Za-z0-9_]{6,20}$/;
     return re.test(username);
-  }
+  };
 
   var checkEmail = function(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-  }
+  };
 
   var checkPassword = function(password) {
     var re = /^[A-Za-z0-9!@#$%^&*()_]{8,20}$/;
     return re.test(password);
-  }
+  };
 });
