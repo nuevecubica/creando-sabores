@@ -14,58 +14,6 @@ describe 'API v1: /me/', ->
     this.timeout 10000
     request.get('/').expect 200, done
 
-  #*---------- LOGIN ----------*
-  describe 'POST /me/login', ->
-
-    describe 'with no data', ->
-      it 'responds with error', (done) ->
-        request
-        .post('/api/v1/me/login')
-        .send({})
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(401)
-        .expect (res) ->
-          return 'error' if !res.body.error or res.body.success
-        .end(done)
-
-    describe 'with invalid credentials', ->
-      it 'responds with unsuccess', (done) ->
-        request
-        .post('/api/v1/me/login')
-        .send({
-          email: config.lists.users[0].email,
-          password: 'garbage'
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(401)
-        .expect (res) ->
-          return 'error' if res.body.success or res.body.error
-        .end(done)
-
-    describe 'with valid credentials', ->
-      it 'responds with success', (done) ->
-        request
-        .post('/api/v1/me/login')
-        .send({
-          email: config.lists.users[0].email,
-          password: config.lists.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return 'error' if !res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-
-          request
-          .get('/')
-          .set('cookie', cookie)
-          .expect(200)
-          .expect(new RegExp(config.lists.users[0].name))
-          .end(done)
-
   #*---------- ME ----------*
   describe 'GET /me', ->
     describe 'on not logged in', ->
@@ -83,7 +31,7 @@ describe 'API v1: /me/', ->
         this.timeout 5000
 
         request
-        .post('/api/v1/me/login')
+        .post('/api/v1/login')
         .send({
           email: config.lists.users[0].email,
           password: config.lists.users[0].password
@@ -118,7 +66,7 @@ describe 'API v1: /me/', ->
         this.timeout = 5000
 
         request
-        .post('/api/v1/me/login')
+        .post('/api/v1/login')
         .send({
           email: config.lists.users[0].email,
           password: config.lists.users[0].password
