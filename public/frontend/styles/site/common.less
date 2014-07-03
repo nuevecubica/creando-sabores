@@ -60,6 +60,34 @@ body {
     height: 100%;
   }
 
+  //- Only title
+  &.with-title {
+    height: 100%;
+
+    > .row:first-child {
+      height: 10%;
+    }
+
+    > .row:last-child {
+      height: 12%;
+    }
+
+    > .row {
+      margin: 0;
+      padding: 0;
+      height: 28%;
+
+      &.logo {
+        height: 50%;
+      }
+    }
+  }
+
+  //- With title and subtitle
+  &.with-subtitle {
+
+  }
+
   .section {
     text-align: center !important;
 
