@@ -6,6 +6,7 @@
 @profile-editable-border: @chef-color-gray;
 @profile-editable-border-focus: @chef-color-black;
 @profile-icon-color: @chef-color-white;
+@profile-font-normal:@font-size-normal;
 
 .show-editable {
   visibility: hidden;
@@ -29,6 +30,10 @@
   strong.set-editable {
     padding: 5px;
   }
+
+}
+.set-editable {
+  transition: box-shadow 150ms ease-in, padding 150ms ease-in;
 }
 
 .user-profile {
@@ -76,35 +81,36 @@
     }
   }
 
-
   .info {
 
   }
 
   .header {
     font-weight: normal;
-
-    strong {
-      padding-right: 4px;
-      margin-right: 4px;
-    }
   }
 }
 
-.user-profile-content {
 
-  .tab-content {
+.tab-content {
 
-    #profile {
+  &#profile {
 
-      label {
-        .font-normal;
-        font-weight: bold;
-      }
-
-      .field {
-        .font-larger;
+    label {
+      .font-larger;
+      font-weight: bold; 
+    }
+    .field {
+      input {
+        border-radius: 0px !important;
+        box-shadow: 0px 2px 4px -2px #000 !important;
+        height: 40px;
+        width: 100%;
+        padding:0 0 0 10px;
+        .font-large;
       }
     }
+    #password{
+      margin-top: 35px;
+    } 
   }
 }
