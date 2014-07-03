@@ -1,13 +1,17 @@
 .six.wide.column
 	#manage-wrapper
-		#edit.ui.button.chef.button-manage
-			a Editar
-		//- .ui.button.chef.button-manage
-		//- 	a Borrar
-		//- .ui.button.chef.button-manage
-		//- 	a Guardar
-		//- .ui.button.chef.button-manage
-		//- 	a Publicar
+		.ui.menu
+			.left.menu
+				if section == 'profile'
+					#edit.ui.button.chef.button-manage
+						a(href='#') Editar
+
+				//- #delete.ui.button.chef.button-manage
+				//-	a Borrar
+				//- .ui.button.chef.button-manage
+				//- 	a Guardar
+				//- .ui.button.chef.button-manage
+				//- 	a Publicar
 
 .ten.wide.column
 	#menu-wrapper
