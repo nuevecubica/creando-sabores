@@ -10,6 +10,6 @@ mixin about(user)
 
 	.twelve.wide.column.info
 		h2.ui.header ¡Hola 
-			strong.set-editable!= user.name
+			strong.set-editable.one-line(data-length="20")!= user.name
 			|!
-		.ui.content.set-editable!= user.about
+		.ui.content.set-editable(spellcheck="false")!= user.about
