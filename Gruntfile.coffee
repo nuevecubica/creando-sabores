@@ -102,11 +102,11 @@ module.exports = (grunt) ->
     watch:
       server:
         files: paths.js.server
-        tasks: ["jshint:server"]
+        tasks: ["jshint:server", "jsbeautifier:server"]
 
       client:
         files: paths.js.client
-        tasks: ["jshint:client"]
+        tasks: ["jshint:client", "jsbeautifier:client"]
 
       coffee:
         files: [
