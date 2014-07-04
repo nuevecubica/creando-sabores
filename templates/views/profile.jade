@@ -17,8 +17,8 @@ block content
 			.row
 				.ten.wide.column
 
-				.six.wide.column.social.right.aligned
-					.ui.button.chef.button-gray.show-editable
+				.six.wide.column.social.right.aligned.show-editable
+					.ui.button.chef.button-gray
 						i.social.icon-chef-camera
 						a(href='/') Cambiar imagen
 
@@ -65,9 +65,28 @@ block content
 							#password.field
 								.ui.button.chef.button-brick
 									a(href='/') Cambiar password
-
 				.row
 					.column
+						label.explain Privacidad
 						#private.field
 							.icon-chef-tick.checks
-							label.explain ¿Quieres que tu perfil sea privado?
+							| ¿Quieres que tu perfil sea privado? (solo lo verás tú)
+				.row
+					.column.grid
+						#save.field
+							.ui.button.chef.button-blue
+								a(href='/') Guardar Cambios
+				.row
+					.colum.grid.ui
+						.three.wide.column
+							.delete.field
+								a(href='/') Eliminar Cuenta
+						.six.wide.column
+							.arrow-left
+							.delete.message.ui
+								span ¿Seguro que quieres eliminar tu cuenta?
+								p Perderás todas tus recetas y actividad reciente.
+								.ui.button.chef.button-brick
+									a(href='/') Eliminar
+						.seven.wide.column
+							
