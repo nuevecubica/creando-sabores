@@ -17,7 +17,7 @@ paths =
       "public/frontend/js/**/*.js"
     ]
 
-paths.all = paths.js.server.concat paths.js.client
+paths.js.all = paths.js.server.concat paths.js.client
 
 module.exports = (grunt) ->
 
