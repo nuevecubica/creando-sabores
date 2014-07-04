@@ -81,11 +81,6 @@ module.exports = (grunt) ->
         options:
           logConcurrentOutput: true
 
-    "node-inspector":
-      custom:
-        options:
-          "web-host": "localhost"
-
     nodemon:
       debug:
         script: "app.js"
@@ -221,7 +216,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-less"
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-jsbeautifier"
-  grunt.loadNpmTasks "grunt-node-inspector"
   grunt.loadNpmTasks "grunt-nodemon"
   grunt.loadNpmTasks "grunt-mocha-test"
 
