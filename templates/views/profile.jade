@@ -62,17 +62,16 @@ block content
 								label.explain Correo electrónico
 								input(value="#{user.email}")
 						.column
-							#save.field
-								.ui.button.chef.button-brick
-									a(href='/') Guardar Cambios
-				.row
-					.column.grid
 							#password.field
 								.ui.button.chef.button-brick
 									a(href='/') Cambiar password
-
 				.row
 					.column
 						#private.field
 							.icon-chef-tick.checks
 							label.explain ¿Quieres que tu perfil sea privado?
+				.row
+					.column.grid
+							#save.field
+								.ui.button.chef.button-brick
+									a(href='/') Guardar Cambios
