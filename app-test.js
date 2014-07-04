@@ -5,6 +5,7 @@
 /*
 	It starts a server for testing.
 */
+
 var keystone = require('./app-test-init.js'),
   config = require('./config-test.js');
 
@@ -21,7 +22,10 @@ keystone.start(function() {
     userM.name = user.name;
     userM.username = user.username;
     userM.email = user.email;
-    userM.password = user.password;
+    if (user.password) {
+      userM.password = user.password;
+    }
+    userM.media = user.media;
     userM.save();
   }
 });

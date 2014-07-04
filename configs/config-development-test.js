@@ -1,6 +1,9 @@
 /*
 	DEVELOPMENT TEST CONFIGURATION
 */
+/* APP */
+require('dotenv').load();
+
 var answer = {};
 
 answer.keystone = {
@@ -59,11 +62,21 @@ answer.lists = {
     name: 'Test User1',
     email: 'testUser1@glue.gl',
     password: 'testUser1',
-    username: 'testUser1'
+    username: 'testUser1',
+    media: {
+      avatar: {
+        origin: 'none'
+      }
+    }
   }, {
     name: 'Test User2',
     email: 'testUser2@glue.gl',
-    username: 'testUser2'
+    username: 'testUser2',
+    media: {
+      avatar: {
+        origin: 'none'
+      }
+    }
   }]
 };
 

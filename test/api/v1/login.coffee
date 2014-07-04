@@ -1,5 +1,6 @@
 must = require 'must'
 config = require __dirname + '/../../../config-test.js'
+utils = require __dirname + '/../../utils.js'
 
 supertest = require('supertest')
 request = supertest.agent config.url
@@ -12,7 +13,12 @@ antiRegExp = (text, regexp) ->
 describe 'API v1: /login', ->
   before (done) ->
     this.timeout 10000
-    request.get('/').expect 200, done
+    request.get('/').expect 200, ->
+      utils.revertUsers done
+
+  after (done) ->
+    this.timeout 10000
+    utils.revertUsers done
 
   #*---------- LOGIN ----------*
 

@@ -4,44 +4,46 @@ var async = require('async'),
 exports = module.exports = function(req, res) {
   var Users = keystone.list('User'),
     query = {
-      _name: req.body.name || null
+      _id: req.user._id
+    },
+    update = {},
+    options = {
+      multi: false
     },
     answer = {
       success: false,
       error: false
     };
 
+  if (req.body.name) {
+    update.name = req.body.name;
+  }
+  if (req.body.about) {
+    update.about = req.body.about;
+  }
+  if (req.body.avatar) {
+    update.avatars.local = req.body.avatar;
+  }
+  if (req.body.header) {
+    update.media.header = req.body.header;
+  }
+
   async.series([
 
-    function(next) {
-      if (query._name) {
-
-        var onSuccess = function() {
-          // Logged in
-          answer.success = true;
-          return next(false);
+      function(next) {
+        var cb = function(err, numAffected) {
+          if (err) {
+            answer.error = true;
+          }
+          else {
+            answer.success = true;
+          }
+          return next(!answer.success);
         };
-        var onFail = function(e) {
-          // Failed
-          res.status(401);
-          return next(true);
-        };
-
-        next();
+        Users.model.update(query, update, options, cb);
       }
-      else {
-        // Missing data
-        answer.error = true;
-        res.status(401);
-        return next(true);
-      }
-    }
-  ], function(err) {
-    if (err) {
+    ],
+    function(err) {
       return res.apiResponse(answer);
-    }
-    else {
-      return res.apiResponse(answer);
-    }
-  });
+    });
 };
