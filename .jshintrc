@@ -10,6 +10,5 @@
   "smarttabs": true,
   "sub": true,
   "undef": true,
-  "eqnull": true,
-  "undef": true
+  "eqnull": true
 }
