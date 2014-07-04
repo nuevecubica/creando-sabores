@@ -16,8 +16,11 @@ jshint = require 'gulp-jshint-cached'
 less = require 'gulp-less'
 minifycss = require 'gulp-minify-css'
 nodemon = require 'gulp-nodemon'
+plumber = require 'gulp-plumber'
 rename = require 'gulp-rename'
 rimraf = require 'gulp-rimraf'
+util = require 'gulp-util'
+watch = require 'gulp-watch'
 
 mocha = if env.NODE_ENV is 'development' then require 'gulp-mocha' else ->
 
@@ -56,7 +59,9 @@ paths = {
     '.env'
     ]
 
-  base: './'
+  base:
+    server: './'
+    client: 'public/frontend/js/'
 
   fonts:
     src: 'public/packages/semantic-ui/build/less/fonts/*'
@@ -109,34 +114,22 @@ paths.scripts.all = paths.scripts.server.concat paths.scripts.client
 ###------------------------------ BASIC TASKS -------------------------------###
 
 gulp.task 'beautify', ->
-  gulp.src paths.scripts.all, paths.base
-    .pipe changed paths.base
+  gulp.src paths.scripts.all, { base: paths.base.server }
     .pipe beautify configs.beautify
-    .pipe gulp.dest paths.base
+    .pipe gulp.dest paths.base.server
 
-gulp.task 'watch', ->
-  gulp.watch paths.scripts.all, ['lint','beautify']
-  gulp.watch paths.less, ['less']
-  gulp.watch paths.coffee, ['lint']
-
-gulp.task 'demon', ->
-  nodemon configs.nodemon
-    .on 'start', ['watch']
-    .on 'change', ['watch']
-
-gulp.task 'lint', ->
+gulp.task 'lint_js', ->
   gulp.src paths.scripts.server
-    .pipe changed paths.base
     .pipe jshint configs.lint.server
     .pipe jshint.reporter 'jshint-stylish'
     .pipe jshint.reporter 'fail'
 
   gulp.src paths.scripts.client
-    .pipe changed paths.base
     .pipe jshint configs.lint.client
     .pipe jshint.reporter 'jshint-stylish'
     .pipe jshint.reporter 'fail'
 
+gulp.task 'lint_coffee', ->
   gulp.src paths.coffee
     .pipe coffeelint()
     .pipe coffeelint.reporter 'default'
@@ -172,7 +165,32 @@ gulp.task 'test', ->
   gulp.src paths.tests
     .pipe mocha configs.mocha
 
+gulp.task 'watch', ->
+  watch { glob: paths.scripts.server, base: paths.base.server }
+  .pipe jshint configs.lint.server
+  .pipe jshint.reporter 'jshint-stylish'
+  .pipe beautify configs.beautify
+  .pipe gulp.dest paths.base.server
+
+  watch { glob: paths.scripts.client, base: paths.base.client }
+  .pipe jshint configs.lint.client
+  .pipe jshint.reporter 'jshint-stylish'
+  .pipe beautify configs.beautify
+  .pipe gulp.dest paths.base.client
+
+  watch { glob: paths.coffee }
+  .pipe coffeelint()
+  .pipe coffeelint.reporter 'default'
+
+  gulp.watch paths.less, ['less']
+
+gulp.task 'demon', ->
+  nodemon configs.nodemon
+    .on 'start', ['watch']
+
 ###--------------------------------- TASKS ----------------------------------###
+
+gulp.task 'lint', ['lint_js', 'lint_coffee']
 
 gulp.task 'development', ['beautify', 'lint', 'clean', 'copy']
 gulp.task 'preproduction', ['lint', 'clean', 'copy']
