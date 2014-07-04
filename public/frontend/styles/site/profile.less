@@ -10,11 +10,14 @@
 
 .show-editable {
   visibility: hidden;
+  opacity:0;
+  transition:opacity 300ms ease-in;
 }
 
 .mode-editable {
   .show-editable {
     visibility: visible;
+    opacity: 1;
   }
 
   .set-editable {
