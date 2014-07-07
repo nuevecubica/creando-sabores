@@ -3,7 +3,7 @@ extends ../layouts/default
 include ../mixins/about
 
 block content
-	.ui.grid.segment.user-profile(style="background-image: url(#{user.media.header.url}); background-size: cover;")
+	.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
 		.ui.page.grid.head.with-title
 			#header.row
 				include ../components/header
@@ -16,11 +16,13 @@ block content
 
 			.row
 				.ten.wide.column
-
 				.six.wide.column.social.right.aligned.show-editable
 					.ui.button.chef.button-gray
+						input#profile-header-select(type="file" name="media.header_upload")
 						i.social.icon-chef-camera
-						a(href='/') Cambiar imagen
+						span
+						|Cambiar imagen
+						
 
 	.ui.page.grid.segment.body.about
 		.column

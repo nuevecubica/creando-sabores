@@ -17,13 +17,27 @@
   .section {
     color: @profile-section-color-text;
   }
+  .ui.button.chef.button-gray{
+      overflow: hidden;
+      position: relative;
+    input#profile-header-select{
+      position: absolute;
+      opacity: 0;
+      height: 70px;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+    input[type="file"]::-webkit-file-upload-button {
+      cursor: pointer;
+    }
+  }
 }
 
 .about {
   .bar;
 
   .picture-wrapper {
-
     .picture {
       position: relative;
       width: 160px;
@@ -35,18 +49,29 @@
         height: 100%;
         border: @profile-border-size solid @profile-border-color;
       }
-
-      a {
-        text-decoration: none;
+      
+      .show-editable{
         color: @profile-icon-color;
         position: absolute;
         bottom: 0;
+        overflow: hidden;
 
         &.rounded {
           border-radius: 100%;
           background-color: @chef-color-gray-bg;
           padding: 10px;
           border: @profile-border-size solid white;
+        }
+        input#profile-img-select{
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          left: 0;
+          cursor: pointer;
+          height: 70px;
+        }
+        input[type="file"]::-webkit-file-upload-button {
+          cursor: pointer;
         }
       }
     }

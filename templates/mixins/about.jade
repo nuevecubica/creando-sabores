@@ -5,8 +5,9 @@ mixin about(user)
 			if !user.media.avatar.url
 				- user.media.avatar.url = '../frontend/images/test_user.png'
 
-			img.ui.image.avatar(src="#{user.media.avatar.url}")
-			a.icon-chef-camera.rounded.show-editable(href="/")
+			img#profile-img.ui.image.avatar(src="#{user.media.avatar.url}")
+			.icon-chef-camera.rounded.show-editable
+				input#profile-img-select(type="file" name="avatars.local_upload")
 
 	.twelve.wide.column.info
 		h2.ui.header ¡Hola 
