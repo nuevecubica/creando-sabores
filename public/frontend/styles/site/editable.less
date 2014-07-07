@@ -1,0 +1,71 @@
+@profile-editable-border-shadow: @chef-color-black;
+@profile-editable-border: @chef-color-gray;
+@profile-editable-border-focus: @chef-color-black;
+
+.show-editable {
+  visibility: hidden;
+}
+
+.set-editable {
+  transition: box-shadow 300ms ease-in, padding 300ms ease-in;
+}
+
+#manage-wrapper {
+  visibility: visible;
+  opacity: 1;
+  transition: all 300ms ease-in;
+}
+
+#actions-wrapper {
+  top: -100px;
+  right: 20px;
+  position: absolute;
+  transition: top 300ms ease-in;
+}
+
+#menu-wrapper {
+  visibility: visible;
+  opacity: 1;
+  transition: all 150ms ease-in;
+  transition-delay: 150ms;
+}
+
+.mode-editable {
+
+  #manage-wrapper {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  #actions-wrapper {
+    top: 0px;
+    right: 20px;
+    position: absolute;
+  }
+
+  #menu-wrapper {
+    //display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .show-editable {
+    visibility: visible;
+  }
+
+  .set-editable {
+    border: 1px solid lighten(@profile-editable-border, 60%);
+    box-shadow: 0px 2px 4px -2px @profile-editable-border-shadow !important;
+    padding: 15px;
+    outline:none;
+
+    &.focus {
+      border: 1px solid lighten(@profile-editable-border, 30%);
+    }
+  }
+
+  strong.set-editable {
+    padding: 5px;
+  }
+
+}

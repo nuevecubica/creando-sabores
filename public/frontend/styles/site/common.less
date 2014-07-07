@@ -56,8 +56,92 @@ body {
 }
 
 .head {
+  height: 100%;
+
+  > .row:first-child {
+    height: 10% !important;
+  }
+
   > .column:only-child {
     height: 100%;
+  }
+
+  //- Without title and subtitle
+  &.simple {
+
+    > .row {
+      margin: 0;
+      padding: 0;
+      height: 30%;
+
+      &.logo {
+        height: 60%;
+      }
+    }
+  }
+
+  //- Only title
+  &.with-title {
+
+    > .row:last-child {
+      height: 12%;
+    }
+
+    > .row {
+      margin: 0;
+      padding: 0;
+      height: 28%;
+
+      &.logo {
+        height: 50%;
+      }
+    }
+  }
+
+
+  //- With title and subtitle
+  &.with-subtitle {
+
+  }
+
+  &.with-social {
+    > .row:last-child {
+      height: 30% !important;
+    }
+
+    //- Without title and subtitle
+    &.simple {
+
+      > .row {
+        margin: 0;
+        padding: 0;
+        height: 0%;
+
+        &.logo {
+          height: 60%;
+        }
+      }
+    }
+
+    //- Only title
+    &.with-title {
+
+      > .row {
+        margin: 0;
+        padding: 0;
+        height: 18%;
+
+        &.logo {
+          height: 42%;
+        }
+      }
+    }
+
+
+    //- With title and subtitle
+    &.with-subtitle {
+
+    }
   }
 
   .section {
@@ -271,6 +355,43 @@ body {
     .mixin(5);
   }
 }
+  // Arrows
+  .arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid;
+  border-bottom-color: @chef-color-gray-bg;
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid;
+  border-top-color: @chef-color-gray-bg;
+}
+
+.arrow-right {
+  width: 0; 
+  height: 0; 
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid;
+  border-left-color: @chef-color-gray-bg;
+}
+
+.arrow-left {
+  width: 0; 
+  height: 0; 
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent; 
+  border-right:20px solid;
+  border-right-color: @chef-color-light-bg;
+}
+    // End Arrows
 
 .checks {
   color: @ingredients-color-check-disabled;

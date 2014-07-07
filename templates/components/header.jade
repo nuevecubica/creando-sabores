@@ -1,33 +1,56 @@
-#header.ui.grid.segment
-	.row
-		.sixteen.wide.column
-			#menu-wrapper
-				.ui.menu
-					.right.menu
-						if user
-							a.ui.item.profile(href='/perfil')
+.six.wide.column
+	#manage-wrapper
+		.ui.menu
+			.left.menu
+				if section == 'profile'
+					#edit.ui.button.chef.button-manage
+						a(href='#') Editar
 
-								if !user.media.avatar.url
-									- user.media.avatar.url = '../frontend/images/test_user.png'
+.ten.wide.column
+	#actions-wrapper
+		.ui.menu
+			.right.menu
+				#cancel.ui.button.chef.button-manage
+					a Cancelar
+				#update.ui.button.chef.button-manage
+					a Guardar
 
-								img.ui.image.avatar(src="#{user.media.avatar.url}")
-
-								if user.name
-									strong #{user.name}
-								else
-									strong #{user.username}
-
-							if user.canAccessKeystone
-								.ui.item
-									a.ui.button.chef.button-brick(href="/keystone") Admin
-							.ui.item
-								a.ui.button.chef.button-brick(href="/salir") Salir
-
+				if (section == 'recipe')
+					#delete.ui.button.chef.button-manage
+						a Borrar
+					#publish.ui.button.chef.button-manage
+						if recipe && recipe.state == 0
+							a Publicar
 						else
-							.ui.item
-								a.ui.button.chef.button-brick(href="/acceso") Entrar
-							.ui.item
-								a.ui.button.chef.button-brick(href="/registro") Registrarse
+							a Borrador
 
-						#menu.ui.item
-							i.icon-chef-menu
+	#menu-wrapper
+		.ui.menu
+			.right.menu
+				if user
+					a.ui.item.profile(href='/perfil')
+
+						if !user.media.avatar.url
+							- user.media.avatar.url = '../frontend/images/test_user.png'
+
+						img.ui.image.avatar(src="#{user.media.avatar.url}")
+
+						if user.name
+							strong #{user.name}
+						else
+							strong #{user.username}
+
+					if user.canAccessKeystone
+						.ui.item
+							a.ui.button.chef.button-brick(href="/keystone") Admin
+					.ui.item
+						a.ui.button.chef.button-brick(href="/salir") Salir
+
+				else
+					.ui.item
+						a.ui.button.chef.button-brick(href="/acceso") Entrar
+					.ui.item
+						a.ui.button.chef.button-brick(href="/registro") Registrarse
+
+				#menu.ui.item
+					i.icon-chef-menu
