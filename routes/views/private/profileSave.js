@@ -29,7 +29,7 @@ exports = module.exports = function(req, res) {
           }, function(err) {
             // Error ocurred
             if (err) {
-    					req.flash('error', res.__('Error saving avatar.'));
+              req.flash('error', res.__('Error saving avatar.'));
             }
             // Update success
             else {}
