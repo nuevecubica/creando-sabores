@@ -172,7 +172,9 @@ describe 'API v1: /me/', ->
             .expect(
               (res) ->
                 if res.body.user.username isnt config.lists.users[0].username
-                  return 'Save failed'
+                  return "Save failed.
+                   Expected username '#{config.lists.users[0].username}'
+                   and got '#{res.body.user.username}'"
             )
             .end(done)
 
@@ -181,7 +183,7 @@ describe 'API v1: /me/', ->
           request
           .put('/api/v1/me/save')
           .send({
-            name: ''
+            name: '      '
           })
           .set('Accept', 'application/json')
           .set('cookie', cookie)
@@ -204,7 +206,9 @@ describe 'API v1: /me/', ->
             .expect(
               (res) ->
                 if res.body.user.name isnt config.lists.users[0].name
-                  return 'Save failed'
+                  return "Save failed.
+                   Expected name '#{config.lists.users[0].name}'
+                   and got '#{res.body.user.name}'"
             )
             .end(done)
 

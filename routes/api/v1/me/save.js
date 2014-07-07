@@ -15,35 +15,40 @@ exports = module.exports = function(req, res) {
       error: false
     };
 
-  if (req.body.name) {
-    update.name = req.body.name;
-  }
-  if (req.body.about) {
-    update.about = req.body.about;
-  }
-  if (req.body.avatar) {
-    update.avatars.local = req.body.avatar;
-  }
-  if (req.body.header) {
-    update.media.header = req.body.header;
-  }
+  var handler = req.user.getUpdateHandler(req);
 
-  async.series([
-
-      function(next) {
-        var cb = function(err, numAffected) {
+  handler.process(req.body, {
+    fields: 'name,about,avatars.local,media.avatar.origin,media.header'
+  }, function(err) {
+    // Error ocurred
+    if (err) {
+      answer.error = true;
+      return res.apiResponse(answer);
+    }
+    else {
+      // New avatar uploaded? Change avatar
+      if (req.body['avatars.local_upload']) {
+        handler.process({
+          'media.avatar.origin': 'local'
+        }, {
+          fields: 'media.avatar.origin'
+        }, function(err) {
+          // Error ocurred
           if (err) {
             answer.error = true;
           }
+          // Update success
           else {
             answer.success = true;
           }
-          return next(!answer.success);
-        };
-        Users.model.update(query, update, options, cb);
+          return res.apiResponse(answer);
+        });
       }
-    ],
-    function(err) {
-      return res.apiResponse(answer);
-    });
+      // Same avatar found
+      else {
+        answer.success = true;
+        return res.apiResponse(answer);
+      }
+    }
+  });
 };
