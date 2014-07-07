@@ -28,7 +28,9 @@ exports = module.exports = function(req, res) {
             fields: 'media.avatar.origin'
           }, function(err) {
             // Error ocurred
-            if (err) {}
+            if (err) {
+    					req.flash('error', res.__('Error saving avatar.'));
+            }
             // Update success
             else {}
             return res.redirect(userPrivateProfile);
