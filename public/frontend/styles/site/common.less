@@ -60,6 +60,25 @@ body {
     height: 100%;
   }
 
+  //- Without title and subtitle
+  &.simple {
+    height: 100%;
+
+    > .row:first-child {
+      height: 10%;
+    }
+
+    > .row {
+      margin: 0;
+      padding: 0;
+      height: 40%;
+
+      &.logo {
+        height: 50%;
+      }
+    }
+  }
+
   //- Only title
   &.with-title {
     height: 100%;
