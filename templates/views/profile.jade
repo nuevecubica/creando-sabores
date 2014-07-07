@@ -3,26 +3,26 @@ extends ../layouts/default
 include ../mixins/about
 
 block content
-	.ui.grid.segment.user-profile(style="background-image: url(#{user.media.header.url}); background-size: cover;")
-		.ui.page.grid.head
-			.column
-				.row
-					include ../components/header
+	.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
+		.ui.page.grid.head.with-title
+			#header.row
+				include ../components/header
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+			.row.logo.shadow
+				a.icon-chef-logo.icon(href="/")
 
-				.row.section
-					.title.shadow Mi recetario
+			.row.section
+				.title.shadow Mi recetario
 
-				.row
-					.ui.grid.stackable.right.aligned
-						.ten.wide.column
-
-						.six.wide.column.social
-							.ui.button.chef.button-gray
-								i.social.icon-chef-camera
-								a(href='/') Cambiar imagen
+			.row
+				.ten.wide.column
+				.six.wide.column.social.right.aligned.show-editable
+					.ui.button.chef.button-gray
+						input#profile-header-select(type="file" name="media.header_upload")
+						i.social.icon-chef-camera
+						span
+						|Cambiar imagen
+						
 
 	.ui.page.grid.segment.body.about
 		.column
@@ -35,7 +35,7 @@ block content
 				.row
 					.tab
 						.ui.button.chef.button-green
-							a(href='/') Mi perfil
+							a(href='/') Mi cuenta
 					.tab
 						.ui.button.chef.button-green.disabled
 							a Lista del super
@@ -51,46 +51,44 @@ block content
 
 		.row
 			#profile.column.tab-content
-				.row.mobile.only
-					.header Mi perfil
 
 				.row
-					.two.column.stackable.ui.grid
-						.column
-							#name.field
-								.explain Nombre
-								.input!= user.name.split(' ')[0]
-						.column
-							#last-name.field
-								.explain Apellidos
-								.input!= user.name.split(' ')[1]
-
-				.row
-					.two.column.stackable.ui.grid
+					.three.column.stackable.ui.grid
 						.column
 							#user-name.field
-								.explain Nombre de usuario
-								.input!= user.username
+								label.explain Nombre de usuario
+								input(value="#{user.username}")
 
 						.column
 							#email.field
-								.explain Correo electrónico
-								.input!= user.email
-
+								label.explain Correo electrónico
+								input(value="#{user.email}")
+						.column
+							#password.field
+								.ui.button.chef.button-brick
+									a(href='/') Cambiar password
 				.row
 					.column
-						#password.field
-							.ui.button.chef.button-brick
-								a(href='/') Cambiar password
-
-				.row
-					.column
-						#about.field
-						.explain Cuentanos un poco de ti
-						p.input!= user.about
-
-				.row
-					.column
+						label.explain Privacidad
 						#private.field
 							.icon-chef-tick.checks
-							label.explain ¿Quieres que tu perfil sea privado?
+							| ¿Quieres que tu perfil sea privado? (solo lo verás tú)
+				.row
+					.column.grid
+						#save.field
+							.ui.button.chef.button-blue
+								a(href='/') Guardar Cambios
+				.row
+					.colum.grid.ui
+						.three.wide.column
+							.delete.field
+								a(href='/') Eliminar Cuenta
+						.six.wide.column
+							.arrow-left
+							.delete.message.ui
+								span ¿Seguro que quieres eliminar tu cuenta?
+								p Perderás todas tus recetas y actividad reciente.
+								.ui.button.chef.button-brick
+									a(href='/') Eliminar
+						.seven.wide.column
+							
