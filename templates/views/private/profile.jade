@@ -1,12 +1,12 @@
-extends ../layouts/default
+extends ../../layouts/default
 
-include ../mixins/about
+include ../../mixins/about
 
 block content
 	.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
 		.ui.page.grid.head.with-title
 			#header.row
-				include ../components/header
+				include ../../components/header
 
 			.row.logo.shadow
 				a.icon-chef-logo.icon(href="/")
