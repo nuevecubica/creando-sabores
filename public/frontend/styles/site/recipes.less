@@ -72,12 +72,116 @@
       }
     }
   }
-
   .section {
     color: @profile-section-color-text;
   }
 }
+.ui.page.grid.body{
 
+  #grid-recipes{
+    display: block;
+    margin: auto;
+    .recipe{
+      display: inline-block;
+      float: left;
+      border:1px solid #fff;
+      background-color: #eee;
+      cursor: pointer;
+      span {
+        vertical-align: middle;
+        color: #fff;
+        text-transform: uppercase;
+        width: 90%;
+        display: block;
+        margin: 100px auto;
+        opacity: 0;
+      }
+    }
+    .recipe:hover{
+      background-color: @chef-color-green-bg;
+      opacity: 0.8;
+      transition: background-color 300ms ease-out;
+      span {
+        opacity: 1;
+      }
+    }
+    .computer.only{
+      .recipe{
+        &.uno,
+        &.dos,
+        &.tres,
+        &.seis,
+        &.siete,
+        &.ocho,
+        &.diez{
+          width: 19.7%;
+          height: 240px;
+        }
+        &.cuatro,
+        &.nueve{
+          width: 39.6%;
+          height: 240px;
+        }
+        &.cinco{
+          width: 39.6%;
+          height: 483px;
+        }
+      }
+    }
+    .tablet.only{
+      .recipe{
+        background-image: url('../images/recipe_view.png');
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        &.uno,
+        &.dos,
+        &.tres,
+        &.seis,
+        &.siete,
+        &.ocho,
+        &.diez{
+          width: 33%;
+          height: 240px;
+        }
+        &.cuatro,
+        &.nueve{
+          width: 66%;
+          height: 240px;
+        }
+        &.cinco{
+          width: 66%;
+          height: 480px;
+        }
+      }
+    }
+    .mobile.only{
+      .recipe{
+        background-image: url('../images/recipe_view.png');
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        &.uno,
+        &.dos,
+        &.tres,
+        &.seis,
+        &.siete,
+        &.ocho{
+          width: 48.8%;
+          height: 200px;
+        }
+        &.cuatro,
+        &.nueve{
+          width: 98%;
+          height: 200px;
+        }
+        &.cinco{
+          width: 98%;
+          height: 400px;
+        }
+      }
+    }
+  }  
+}
+  
 /****************
   Recipes Styles
 ****************/
