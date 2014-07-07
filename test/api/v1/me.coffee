@@ -15,13 +15,10 @@ describe 'API v1: /me/', ->
   this.timeout 5000
 
   before (done) ->
-    this.timeout 10000
-    request.get('/').expect 200, ->
-      utils.revertUsers done
+    request.get('/').expect 200, done
 
-  after (done) ->
-    this.timeout 10000
-    utils.revertUsers done
+  afterEach (done) ->
+    utils.revertTestUsers done
 
   #*---------- ME ----------*
   describe 'GET /me', ->
@@ -121,9 +118,6 @@ describe 'API v1: /me/', ->
 
   #*---------- SAVE PROFILE ----------*
   describe 'PUT /me/save', ->
-    after (done) ->
-      utils.revertUsers(done)
-
     describe 'on not logged in user', ->
       it 'should refuse changes', (done) ->
         request

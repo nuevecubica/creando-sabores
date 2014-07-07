@@ -11,14 +11,12 @@ antiRegExp = (text, regexp) ->
     return "text found: #{regexp}"
 
 describe 'API v1: /login', ->
-  before (done) ->
-    this.timeout 10000
-    request.get('/').expect 200, ->
-      utils.revertUsers done
 
-  after (done) ->
-    this.timeout 10000
-    utils.revertUsers done
+  before (done) ->
+    request.get('/').expect 200, done
+
+  afterEach (done) ->
+    utils.revertTestUsers done
 
   #*---------- LOGIN ----------*
 

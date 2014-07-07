@@ -3,47 +3,57 @@ var config = require(__dirname + '/../config-test.js');
 var async = require('async');
 var Users = null;
 
-function revertUsers() {
-  if (!keystone.mongoose.connection.readyState) {
-    keystone.mongoose.connect('127.0.0.1', 'chefcito');
-    keystone.mongoose.connection.on('open', update);
-  }
-  else {
-    update();
-  }
-}
-
-function update() {
-  Users = keystone.list('Users');
-  async.forEach(config.lists.users, revertUser, done);
-}
-
-function revertUser(user, done) {
+function updateUser(user, done) {
+  var fields = ['name', 'email', 'password', 'media'];
   Users.model.findOne({
       username: user.username
     },
     function(err, doc) {
       if (err) {
-        console.log('revertUsers ERROR: ', err);
+        console.log('updateUser find ERROR: ', err, user);
+        done(true);
       }
-
-      doc.name = user.name;
-      doc.email = user.email;
-
-      if (user.password) {
-        doc.password = user.password;
-      }
-      console.log('reverting ' + user.username + ' to ' + user.name);
-      doc.save(function(err) {
-        if (err) {
-          console.log('revertUsers ERROR: ', err);
+      else {
+        for (var i = 0, l = fields.length; i < l; i++)  {
+          if (user[fields[i]]) {
+            doc[fields[i]] = user[fields[i]];
+          }
         }
-        done();
-      });
+
+        doc.save(function(err) {
+          if (err) {
+            console.log('updateUser save ERROR: ', err, doc);
+          }
+          done();
+        });
+      }
     }
   );
 }
 
-exports.revertUsers = revertUsers;
+function __updateUsers(users, done) {
+  Users = keystone.list('User');
+  async.forEach(users, updateUser, done);
+}
 
-// revertUsers(function(){});
+function updateUsers(users, done) {
+  if (!keystone.mongoose.connection.readyState) {
+    keystone.mongoose.connect(config.keystone.init['mongo url']);
+    keystone.mongoose.connection.on('open', function() {
+      return __updateUsers(users, done);
+    });
+  }
+  else {
+    __updateUsers(users, done);
+  }
+}
+
+function revertTestUsers(done) {
+  updateUsers(config.lists.users, done);
+}
+
+exports.updateUser = module.exports.updateUser = updateUser;
+exports.updateUsers = module.exports.updateUsers = updateUsers;
+exports.revertTestUsers = module.exports.revertTestUsers = revertTestUsers;
+
+// return revertTestUsers(function() {});

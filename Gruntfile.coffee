@@ -12,6 +12,7 @@ paths =
       "routes/**/*.js"
       "models/**/*.js"
       "updates/**/*.js"
+      "test/**/*.js"
     ]
     client: [
       "public/frontend/js/**/*.js"
@@ -75,7 +76,15 @@ module.exports = (grunt) ->
     concurrent:
       development:
         tasks: [
-          "nodemon"
+          "nodemon:debug"
+          "watch"
+        ]
+        options:
+          logConcurrentOutput: true
+
+      test:
+        tasks: [
+          "nodemon:test"
           "watch"
         ]
         options:

@@ -6,14 +6,12 @@ utils = require __dirname + '/../../utils.js'
 request = require('supertest') config.url
 
 describe 'API v1: /user', ->
-  before (done) ->
-    this.timeout 10000
-    request.get('/').expect 200, ->
-      utils.revertUsers done
 
-  after (done) ->
-    this.timeout 10000
-    utils.revertUsers done
+  before (done) ->
+    request.get('/').expect 200, done
+
+  afterEach (done) ->
+    utils.revertTestUsers done
 
   describe 'GET /user/:username/check', ->
     describe 'on request invalid user', ->
