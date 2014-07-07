@@ -27,12 +27,12 @@ answer.keystone = {
     'auth': true,
     'user model': 'User',
     'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
-    'db name': process.env.MONGODB_DATABASE,
+    'db name': process.env.MONGODB_DATABASE ||  'chefcito',
     'trust proxy': true,
 
     'host': '0.0.0.0',
     'port': '7357',
-    'mongo url': process.env.MONGO_URL ||  null
+    'mongo url': process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/chefcito'
   },
   'email locals': {
     logo_src: '/images/logo-email.gif',
