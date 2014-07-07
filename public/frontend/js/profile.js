@@ -36,42 +36,31 @@ $(document).ready(function() {
     $('body').removeClass('mode-editable');
     $('.set-editable').attr('contenteditable', false);
   })
-  
-  $('#profile-header-select').on('change', function(e) {
-    var $target = $('#profile-header');
-    if (e.target.files.length == 0) {
-      if ($target.attr('origsrc')) {
-        $target.css('background-image', $target.attr('origsrc'));
-      }
-    } else {
-      if (!$target.attr('origsrc')) {
-        $target.attr('origsrc', $target.css('background-image'));
-      }
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        $('#profile-header').css('background-image', 'url(' + event.target.result + ')'); 
-      }
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  })
-  
-  $('#profile-img-select').on('change', function(e) {
-    var $target = $('#profile-img');
-    if (e.target.files.length == 0) {
-      if ($target.attr('origsrc')) {
-        $target.attr('src', $target.attr('origsrc'));
-      }
-    } else {
-      if (!$target.attr('origsrc')) {
-        $target.attr('origsrc', $target.attr('src'));
-      }
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        $('#profile-img').attr('src', event.target.result); 
-      }
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  })
-  
-});
 
+  $('#profile-header-select').on('change', function(e) {
+    setPreview(e.target, $('#profile-header'));
+  })
+
+  $('#profile-img-select').on('change', function(e) {
+    setPreview(e.target, $('#profile-img'));
+  })
+
+  var setPreview = function(input, $target) {
+    if (input.files.length == 0) {
+      if ($target.data('origsrc')) {
+        $target.css('background-image', $target.data('origsrc'));
+      }
+    }
+    else {
+      if (!$target.data('origsrc')) {
+        $target.data('origsrc', $target.css('background-image'));
+      }
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        $target.css('background-image', 'url(' + event.target.result + ')');
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+});
