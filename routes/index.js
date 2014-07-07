@@ -39,6 +39,10 @@ exports = module.exports = function(app) {
   // Static
   app.get('/terminos', routes.views.terms);
 
+  // Private
+  app.get('/perfil', middleware.requireUser, routes.views['private'].profile);
+  app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
+
   // Public
   app.get('/', routes.views.index);
   app.all('/:mode(registro|acceso)', routes.views.signup);
@@ -46,10 +50,6 @@ exports = module.exports = function(app) {
   app.get('/receta/:recipe', routes.views.recipe);
   app.get('/salir', routes.views.signout);
   //app.get('/cocinero/:user', routes.views.profile);
-
-  // Private
-  app.get('/perfil', middleware.requireUser, routes.views.private.profile);
-  app.post('/perfil/save', middleware.requireUser, routes.views.private.profileSave);
 
   // Authentication
   app.get('/authentication/facebook', routes.authentication.facebook);
