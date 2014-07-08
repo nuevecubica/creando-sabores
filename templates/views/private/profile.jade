@@ -63,9 +63,22 @@ block content
 									label.explain Correo electrónico
 									input(name="email" value="#{user.email}")
 							.column
-								#password.field
+								.password.field
 									.ui.button.chef.button-brick
 										a(href='/') Cambiar password
+					#pass-row.row
+						.three.column.stackable.ui.grid
+							.column
+								.password.field
+									label.explain Contraseña vieja
+									input(name="old-pass" type="password" autocomplete="off")
+							.column
+								.password.field
+									label.explain Contraseña nueva
+									input(name="new-pass" type="password" autocomplete="off")
+							.column
+								
+
 					.row
 						.column
 							label.explain Privacidad
