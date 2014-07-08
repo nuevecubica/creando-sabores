@@ -39,9 +39,9 @@ mixin recipe(recipe)
 								- rating = rating - 1;
 
 			h2.ui.header
-				!= recipe.title		
+				!= recipe.title
 			.ui.content!= recipe.description
 
-			if (recipe.official)
+			if (recipe.isOfficial)
 				.official
 					img(src='/frontend/images/ribbon.png')
