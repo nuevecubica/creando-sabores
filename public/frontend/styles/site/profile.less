@@ -13,7 +13,9 @@
   background-image: url(../images/test_recipe_bg.png);
   background-size: cover;
   height: 600px;
-
+  input{
+    font-family: @brandon-fonts;
+  }
   .section {
     color: @profile-section-color-text;
   }
@@ -131,7 +133,15 @@
         font-weight: bold;
       }
     }
-
+    #delete-confirm{
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 300ms ease-out;
+    }
+    #delete-confirm.visible{
+      visibility: visible;
+      opacity: 1;
+    }
     .arrow-left{
       position: relative;
       z-index: 10;
