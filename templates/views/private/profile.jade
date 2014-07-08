@@ -2,6 +2,9 @@ extends ../../layouts/default
 
 include ../../mixins/about
 
+block js
+	script(src='/frontend/js/profile.js')
+
 block content
 	.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
 		.ui.page.grid.head.with-title
