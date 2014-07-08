@@ -51,28 +51,10 @@ $(document).ready(function() {
     }).get().join('\n');
 
     // FormData not available in IE9, so we have to post a form
-    var $form = $($.parseHTML('<form></form>'))
-      .hide()
-      .attr({
-        action: '/perfil/save',
-        method: 'POST',
-        enctype: 'multipart/form-data'
-      })
-      .append($($.parseHTML('<input type="hidden">'))
-        .attr({
-          name: 'name',
-          value: $('#profile-name').text()
-        })
-      )
-      .append($($.parseHTML('<input type="hidden">'))
-        .attr({
-          name: 'about',
-          value: about
-        })
-      )
-      .append($('#profile-img-select'))
-      .append($('#profile-header-select'))
-      .submit();
+    $('#hidden-name').attr('value', $('#profile-name').text());
+    $('#hidden-about').attr('value', about);
+    $('#profile-form').submit();
+
   });
 
   $('#cancel.button-manage').on('click', function() {

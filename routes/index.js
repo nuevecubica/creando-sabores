@@ -2,10 +2,14 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   i18n = require("i18n"),
   middleware = require('../middlewares'),
+  csrf = require('csurf'),
   importRoutes = keystone.importer(__dirname);
 
 // i18n support
 keystone.pre('routes', i18n.init);
+
+// CSRF Protection
+keystone.pre('routes', csrf());
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
@@ -45,6 +49,7 @@ exports = module.exports = function(app) {
   // Private
   app.get('/perfil', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
+  app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Public
@@ -61,6 +66,7 @@ exports = module.exports = function(app) {
   //app.get('/cocinero/:user', routes.views.profile);
 
   // API
+  // These aren't working because of CSRF protection.
   app.all('/api/v1*', keystone.initAPI);
   //-- Login
   app.post('/api/v1/login', routes.api.v1.login);

@@ -6,30 +6,34 @@ block js
 	script(src='/frontend/js/profile.js')
 
 block content
-	.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
-		.ui.page.grid.head.with-title
-			#header.row
-				include ../../components/header
+	form#profile-form(action="/perfil/save" method="POST" enctype="multipart/form-data")
+		input#hidden-name(type="hidden" name="name")
+		input#hidden-about(type="hidden" name="about")
+		input(type="hidden" name="_csrf" value="#{csrftoken}")
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
+			.ui.page.grid.head.with-title
+				#header.row
+					include ../../components/header
 
-			.row.logo.shadow
-				a.icon-chef-logo.icon(href="/")
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
 
-			.row.section
-				.title.shadow Mi recetario
+				.row.section
+					.title.shadow Mi recetario
 
-			.row
-				.ten.wide.column
-				.six.wide.column.social.right.aligned.show-editable
-					.ui.button.chef.button-gray
-						input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
-						i.social.icon-chef-camera
-						span
-						|Cambiar imagen
+				.row
+					.ten.wide.column
+					.six.wide.column.social.right.aligned.show-editable
+						.ui.button.chef.button-gray
+							input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
+							i.social.icon-chef-camera
+							span
+							|Cambiar imagen
 
-	.ui.page.grid.segment.body.about
-		.column
-			.ui.stackable.grid
-				+about(user)
+		.ui.page.grid.segment.body.about
+			.column
+				.ui.stackable.grid
+					+about(user)
 
 	.ui.page.grid.segment.body
 		.row.tablet.computer.only
@@ -54,7 +58,8 @@ block content
 		.row
 			#profile.column.tab-content
 
-				form(method="POST" action="/perfil/update")
+				form(method="POST" action="/perfil/change")
+					input(type="hidden" name="_csrf" value="#{csrftoken}")
 					.row
 						.three.column.stackable.ui.grid
 							.column
@@ -66,9 +71,22 @@ block content
 									label.explain Correo electrónico
 									input(name="email" value="#{user.email}")
 							.column
-								#password.field
+								.password.field
 									.ui.button.chef.button-brick
 										a(href='/') Cambiar password
+					#pass-row.row
+						.three.column.stackable.ui.grid
+							.column
+								.password.field
+									label.explain Contraseña vieja
+									input(name="old-pass" type="password" autocomplete="off")
+							.column
+								.password.field
+									label.explain Contraseña nueva
+									input(name="new-pass" type="password" autocomplete="off")
+							.column
+								
+
 					.row
 						.column
 							label.explain Privacidad
@@ -92,5 +110,6 @@ block content
 								span ¿Seguro que quieres eliminar tu cuenta?
 								p Perderás todas tus recetas y actividad reciente.
 								form(method="POST" action="/perfil/remove")
+									input(type="hidden" name="_csrf" value="#{csrftoken}")
 									input.ui.button.chef.button-brick(type="submit" value="Eliminar")
 						.seven.wide.column

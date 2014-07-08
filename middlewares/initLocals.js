@@ -64,6 +64,7 @@ exports.initLocals = function(req, res, next) {
   }];
 
   locals.user = req.user;
+  locals.csrftoken = req.csrfToken();
 
   locals.version = pkg.version + (pkg.versionName ? ('-' + pkg.versionName) : '');
   locals.ksversion = keystone.version;
