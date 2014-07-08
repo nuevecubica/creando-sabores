@@ -2,10 +2,14 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   i18n = require("i18n"),
   middleware = require('../middlewares'),
+  csrf = require('csurf'),
   importRoutes = keystone.importer(__dirname);
 
 // i18n support
 keystone.pre('routes', i18n.init);
+
+// CSRF Protection
+keystone.pre('routes', csrf());
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
