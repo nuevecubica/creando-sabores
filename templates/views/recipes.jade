@@ -1,6 +1,7 @@
 extends ../layouts/default
 
 include ../mixins/recipe
+include ../mixins/grid
 
 block content
 	#recipe.ui.grid.segment
@@ -44,6 +45,16 @@ block content
 	.ui.page.grid.body
 
 		include ../components/search
+
+		#recipe-grid.ui.grid.segment
+			.row
+				+grid(data.grid, data.order.grid_order_desktop_recipes, data.sizes.grid_size_desktop_recipes)
+
+			.row
+				+grid(data.grid, data.order.grid_order_tablet_recipes, data.sizes.grid_size_tablet_recipes)
+
+			.row
+				+grid(data.grid, data.order.grid_order_mobile_recipes, data.sizes.grid_size_mobile_recipes)
 
 		#add-new-bar.ui.grid.segment
 			.row

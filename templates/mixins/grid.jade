@@ -1,0 +1,12 @@
+mixin grid(recipes, gridPositions, gridSizes)
+
+	- var positions = gridPositions.split(', ');
+	- var sizes = gridSizes.split(', ');
+
+	if recipes.length && positions.length
+		- for (var i = 0, l = positions.length; i < l; i++)
+			- var recipe = recipes[positions[i] - 1]
+			if recipe
+				span= recipe.title + ' - ' + sizes[i]
+			else
+				span= '[empty]' + ' - ' + sizes[i]
