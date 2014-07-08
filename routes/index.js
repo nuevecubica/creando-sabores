@@ -8,9 +8,6 @@ var _ = require('underscore'),
 // i18n support
 keystone.pre('routes', i18n.init);
 
-// CSRF Protection
-keystone.pre('routes', csrf());
-
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
 keystone.pre('routes', middleware.initLocals);
@@ -40,6 +37,14 @@ var routes = {
 
 // Setup Route Bindings
 exports = module.exports = function(app) {
+
+  // CSRF Protection
+  app.all(/^\/(^keystone|api)/, csrf(), function(req, res, next) {
+    console.log('CSRF: Activated');
+    res.locals.csrftoken = req.csrfToken();
+    next();
+  });
+
   // Security, nobody banned or deactivated
   app.all('/(perfil|receta)*', middleware.antiBadUsers);
 
@@ -66,7 +71,6 @@ exports = module.exports = function(app) {
   //app.get('/cocinero/:user', routes.views.profile);
 
   // API
-  // These aren't working because of CSRF protection.
   app.all('/api/v1*', keystone.initAPI);
   //-- Login
   app.post('/api/v1/login', routes.api.v1.login);
