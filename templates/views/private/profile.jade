@@ -3,30 +3,33 @@ extends ../../layouts/default
 include ../../mixins/about
 
 block content
-	.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
-		.ui.page.grid.head.with-title
-			#header.row
-				include ../../components/header
+	form#profile-form(action="/perfil/save" method="POST" enctype="multipart/form-data")
+		input#hidden-name(type="hidden" name="name")
+		input#hidden-about(type="hidden" name="about")
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
+			.ui.page.grid.head.with-title
+				#header.row
+					include ../../components/header
 
-			.row.logo.shadow
-				a.icon-chef-logo.icon(href="/")
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
 
-			.row.section
-				.title.shadow Mi recetario
+				.row.section
+					.title.shadow Mi recetario
 
-			.row
-				.ten.wide.column
-				.six.wide.column.social.right.aligned.show-editable
-					.ui.button.chef.button-gray
-						input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
-						i.social.icon-chef-camera
-						span
-						|Cambiar imagen
+				.row
+					.ten.wide.column
+					.six.wide.column.social.right.aligned.show-editable
+						.ui.button.chef.button-gray
+							input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
+							i.social.icon-chef-camera
+							span
+							|Cambiar imagen
 
-	.ui.page.grid.segment.body.about
-		.column
-			.ui.stackable.grid
-				+about(user)
+		.ui.page.grid.segment.body.about
+			.column
+				.ui.stackable.grid
+					+about(user)
 
 	.ui.page.grid.segment.body
 		.row.tablet.computer.only
@@ -51,7 +54,7 @@ block content
 		.row
 			#profile.column.tab-content
 
-				form(method="POST" action="/perfil/update")
+				form(method="POST" action="/perfil/change")
 					.row
 						.three.column.stackable.ui.grid
 							.column
