@@ -45,6 +45,7 @@ exports = module.exports = function(app) {
   // Private
   app.get('/perfil', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
+  app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Public
