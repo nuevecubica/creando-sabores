@@ -12,5 +12,5 @@ mixin grid(recipes, gridPositions, gridSizes)
 				- title = recipe.title
 				- image = recipe.header.url
 
-			div(class="recipe #{sizes[i]}", style="background-image: url(#{image})")
+			div(class="recipe #{sizes[i]}", style="background-image: url(#{image}); background-position:center; background-size:cover;")
 				span= title
