@@ -30,6 +30,14 @@ $(document).ready(function() {
   $('#edit.button-manage').on('click', function() {
     $('body').addClass('mode-editable');
     $('.set-editable').attr('contenteditable', true);
+    var $name = $('#profile-name');
+    var $about = $('#profile-about');
+    if (!$name.data('origvalue')) {
+      $name.data('origvalue', $name.html());
+    }
+    if (!$about.data('origvalue')) {
+      $about.data('origvalue', $about.html());
+    }
   });
 
   $('#update.button-manage').on('click', function() {
@@ -51,13 +59,13 @@ $(document).ready(function() {
       })
       .append($($.parseHTML('<input type="hidden">'))
         .attr({
-          name: 'user.name',
+          name: 'name',
           value: $('#profile-name').text()
         })
       )
       .append($($.parseHTML('<input type="hidden">'))
         .attr({
-          name: 'user.about',
+          name: 'about',
           value: about
         })
       )
@@ -69,6 +77,16 @@ $(document).ready(function() {
   $('#cancel.button-manage').on('click', function() {
     $('body').removeClass('mode-editable');
     $('.set-editable').attr('contenteditable', false);
+    var $name = $('#profile-name');
+    var $about = $('#profile-about');
+    var $header = $('#profile-header-select');
+    var $img = $('#profile-img-select');
+    $name.html($name.data('origvalue'));
+    $about.html($about.data('origvalue'));
+    clearFile($header.get(0));
+    $header.trigger('change');
+    clearFile($img.get(0));
+    $img.trigger('change');
   });
 
   $('#profile-header-select').on('change', function(e) {
@@ -94,6 +112,16 @@ $(document).ready(function() {
         $target.css('background-image', 'url(' + event.target.result + ')');
       };
       reader.readAsDataURL(input.files[0]);
+    }
+  };
+
+  var clearFile = function(input) {
+    try {
+      input.value = null;
+    }
+    catch (ex) {}
+    if (input.value) {
+      input.parentNode.replaceChild(input.cloneNode(true), input);
     }
   };
 
