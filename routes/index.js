@@ -65,6 +65,7 @@ exports = module.exports = function(app) {
   //app.get('/cocinero/:user', routes.views.profile);
 
   // API
+  // These aren't working because of CSRF protection.
   app.all('/api/v1*', keystone.initAPI);
   //-- Login
   app.post('/api/v1/login', routes.api.v1.login);
