@@ -11,7 +11,7 @@ exports = module.exports = function(req, res) {
   var locals = res.locals,
     view = new keystone.View(req, res);
 
-  locals.section = 'profile';
+  locals.section = 'privateProfile';
 
   // Render the view
   view.render('private/profile');
