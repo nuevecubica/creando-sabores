@@ -8,20 +8,24 @@ var _ = require('underscore'),
  */
 var User = new keystone.List('User');
 
+//#------------------ SCHEMA
+
 User.add({
   email: {
     type: Types.Email,
     initial: true,
     required: false,
     index: true,
-    unique: true
+    unique: true,
+    trim: true
   },
   username: {
     type: Types.Text,
     initial: true,
     required: true,
     index: true,
-    unique: true
+    unique: true,
+    trim: true
   },
   password: {
     type: Types.Password,
@@ -35,10 +39,13 @@ User.add({
   }
 }, 'Personal', {
   name: {
-    type: Types.Text
+    type: Types.Text,
+    required: true,
+    trim: true
   },
   about: {
-    type: Types.Textarea
+    type: Types.Textarea,
+    trim: true
   }
 }, 'Avatars', {
   avatars: {
@@ -154,6 +161,45 @@ User.add({
   }
 });
 
+//#------------------ VALUES AND VALIDATION
+
+// user.name defaults to user.username
+User.fields.name.default = User.fields.username;
+// user.name should has something
+User.schema.path('name').validate(function(value, done) {
+  if (!value) {
+    return done(true);
+  }
+  value = value.trim();
+  if (value.length === 0) {
+    return done(true);
+  }
+  var re = /^[a-zA-Z0-9]+$/;
+  if (re.test(value) === null) {
+    console.log('-------> INVALID USER NAME');
+    return done('Invalid username, only letters and numbers are allowed.');
+  }
+  return done();
+});
+
+// user.username
+User.schema.path('username').validate(function(value, done) {
+  if (!value) {
+    return done('Invalid empty username.');
+  }
+  var re = /^[a-zA-Z0-9]+$/;
+  if (re.test(value) === null) {
+    return done('Invalid username, only letters and numbers are allowed.');
+  }
+  value = value.trim();
+  if (value.length === 0) {
+    return done('Invalid empty username.');
+  }
+  return done();
+});
+
+//#------------------ VIRTUALS
+
 // Provide access to Keystone
 User.schema.virtual('canAccessKeystone').get(function() {
   return this.isAdmin;
@@ -174,7 +220,9 @@ User.schema.virtual('canLogin').get(function() {
   return !this.isBanned;
 });
 
-User.schema.pre('save', function(next) {
+//#------------------ PRESAVE
+
+User.schema.pre('save', function(done) {
   if (this.media.avatar.origin !== 'none') {
     if (this.media.avatar.origin === 'local') {
       this.media.avatar.url = this.avatars[this.media.avatar.origin].url;
@@ -190,7 +238,7 @@ User.schema.pre('save', function(next) {
     }
   }
 
-  next();
+  done();
 });
 
 /**
