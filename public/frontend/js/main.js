@@ -51,24 +51,3 @@ $(document).ready(function() {
     }
   }
 }());
-
-
-$(document).ready(function() {
-
-  var gridResizer = function() {
-    $('#grid-recipes .recipe').each(function() {
-      if ($(this).hasClass('cuatro') || $(this).hasClass('nueve')) {
-        $(this).height($(this).width() / 2);
-      }
-      else {
-        $(this).height($(this).width());
-      }
-    });
-  };
-
-  if ($('#grid-recipes')) {
-    gridResizer();
-    $(window).resize(gridResizer);
-  }
-
-});
