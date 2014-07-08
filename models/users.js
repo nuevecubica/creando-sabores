@@ -119,6 +119,11 @@ User.add({
     type: Boolean,
     label: 'Deactivated',
     note: 'Cannot login.'
+  },
+  isPrivate: {
+    type: Boolean,
+    label: 'Private',
+    note: 'Profile is visible only for himself.'
   }
 }, 'Social', {
   social: {
