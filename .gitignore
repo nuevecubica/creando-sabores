@@ -19,5 +19,5 @@ public/packages
 site.css
 site.min.css
 .env
-config.js
-config-test.js
+/config.js
+/config-test.js

@@ -38,7 +38,8 @@ i18n.configure({
 // Configure the navigation bar in Admin UI
 keystone.set('nav', {
   'users': 'users',
-  'recipes': 'recipes'
+  'recipes': 'recipes',
+  'configs': 'configs'
 });
 
 /*
