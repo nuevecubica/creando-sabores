@@ -97,8 +97,9 @@ $(document).ready(function() {
     setPreview(e.target, $('#profile-img'));
   });
 
-  $('#delete-first').on('click', function() {
+  $('#delete-first').on('click', function(e) {
     $('#delete-confirm').toggleClass('visible');
+    e.preventDefault();
   });
 
 
