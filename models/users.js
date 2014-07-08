@@ -44,7 +44,8 @@ User.add({
     trim: true
   },
   about: {
-    type: Types.Textarea,
+    type: Types.Html,
+    wysiwyg: true,
     trim: true
   }
 }, 'Avatars', {
