@@ -4,7 +4,7 @@ var async = require('async'),
 
 exports = module.exports = function(req, res, next) {
 
-  var userPrivateProfile = '/perfil';
+  var back = '/perfil';
 
   if (req.method === 'POST') {
 
@@ -22,8 +22,9 @@ exports = module.exports = function(req, res, next) {
     }, function(err) {
       // Error ocurred
       if (err) {
-        console.log('profielSave: Error saving profile');
-        return res.redirect(userPrivateProfile);
+        console.log('profileSave: Error saving profile');
+        req.flash('error', res.__('Error saving profile'));
+        return res.redirect(back);
       }
       else {
         // New avatar uploaded? Change avatar
@@ -36,19 +37,23 @@ exports = module.exports = function(req, res, next) {
             // Error ocurred
             if (err) {
               console.log('profielSave: Error saving avatar');
-              req.flash('error', res.__('Error saving avatar.'));
+              req.flash('error', res.__('Error saving profile'));
             }
-            return res.redirect(userPrivateProfile);
+            else {
+              req.flash('success', res.__('Profile saved'));
+            }
+            return res.redirect(back);
           });
         }
         // Same avatar found
         else {
-          return res.redirect(userPrivateProfile);
+          req.flash('success', res.__('Profile saved'));
+          return res.redirect(back);
         }
       }
     });
   }
   else {
-    return res.redirect(userPrivateProfile);
+    return res.redirect(back);
   }
 };

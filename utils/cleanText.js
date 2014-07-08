@@ -16,7 +16,7 @@ var cleaners = {
   },
 
   paragraphs: function(str) {
-    return "<p>" + String(str).split("\n").join("</p><p>") + "</p>";
+    return "<p>" + str.split("\n").join("</p><p>") + "</p>";
   },
 
   maxlength: function(str, len) {

@@ -114,6 +114,11 @@ User.add({
     type: Boolean,
     label: 'Banned',
     note: 'Cannot login.'
+  },
+  isDeactivated: {
+    type: Boolean,
+    label: 'Deactivated',
+    note: 'Cannot login.'
   }
 }, 'Social', {
   social: {
