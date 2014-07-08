@@ -81,12 +81,12 @@ block content
 					.colum.grid.ui
 						.three.wide.column
 							.delete.field
-								a(href='/') Eliminar Cuenta
-						.six.wide.column
+								a#delete-first(href='/') Eliminar Cuenta
+						#delete-confirm.six.wide.column
 							.arrow-left
 							.delete.message.ui
 								span ¿Seguro que quieres eliminar tu cuenta?
 								p Perderás todas tus recetas y actividad reciente.
-								.ui.button.chef.button-brick
-									a(href='/') Eliminar
+								form(method="POST" action="/perfil/remove")
+									input.ui.button.chef.button-brick(type="submit" value="Eliminar")
 						.seven.wide.column

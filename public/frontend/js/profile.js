@@ -97,6 +97,11 @@ $(document).ready(function() {
     setPreview(e.target, $('#profile-img'));
   });
 
+  $('#delete-first').on('click', function() {
+    $('#delete-confirm').toggleClass('visible');
+  });
+
+
   var setPreview = function(input, $target) {
     if (input.files.length === 0) {
       if ($target.data('origsrc')) {
