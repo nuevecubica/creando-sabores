@@ -7,7 +7,7 @@
 @ingredients-border-check-disabled: @chef-color-gray-bg;
 
 @icons-font-size: 28px;
-@font-uppercase-size-larger: @recipe-font-text;
+@recipe-font-text: @font-uppercase-size-larger;
 
 /****************
   Recipes
@@ -76,13 +76,13 @@
     color: @profile-section-color-text;
   }
 }
-.ui.page.grid.body{
+.ui.page.grid.body {
 
-  #grid-recipes{
+  #grid-recipes {
     display: block;
     margin: 20px auto;
 
-    .recipe{
+    .recipe {
       display: table;
       float: left;
       border:1px solid #fff;
@@ -94,8 +94,8 @@
         vertical-align: middle;
         text-align: center;
         opacity: 0;
-        @recipe-font-text;
-        @chef-color-white;
+        font-size: @recipe-font-text;
+        color: @chef-color-white;
       }
     }
     .recipe:hover{
@@ -187,6 +187,7 @@
   Recipes Styles
 ****************/
 #recipes {
+
   .row {
     margin-top: 0;
     padding-top: 0;
@@ -199,7 +200,9 @@
         padding: 15px 0;
       }
     }
-
+    .row.position {
+      position: relative;
+    }
     .list {
       .list
     }
@@ -209,6 +212,7 @@
     top: 10px;
     right: 0;
   }
+  
 }
 
 /****************
