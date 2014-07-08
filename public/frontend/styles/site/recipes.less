@@ -7,7 +7,7 @@
 @ingredients-border-check-disabled: @chef-color-gray-bg;
 
 @icons-font-size: 28px;
-
+@font-uppercase-size-larger: @recipe-font-text;
 
 /****************
   Recipes
@@ -80,26 +80,27 @@
 
   #grid-recipes{
     display: block;
-    margin: auto;
+    margin: 20px auto;
+
     .recipe{
-      display: inline-block;
+      display: table;
       float: left;
       border:1px solid #fff;
       background-color: #eee;
       cursor: pointer;
+
       span {
+        display: table-cell;
         vertical-align: middle;
-        color: #fff;
-        text-transform: uppercase;
-        width: 90%;
-        display: block;
-        margin: 100px auto;
+        text-align: center;
         opacity: 0;
+        @recipe-font-text;
+        @chef-color-white;
       }
     }
     .recipe:hover{
       background-color: @chef-color-green-bg;
-      opacity: 0.8;
+      fade:80%;
       transition: background-color 300ms ease-out;
       span {
         opacity: 1;
