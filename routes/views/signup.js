@@ -38,7 +38,16 @@ exports = module.exports = function(req, res) {
           keystone.list('User').model.findOne({
             email: req.body.signup_email
           }, function(err, user) {
-            if (err ||  user) {
+            if (user) {
+
+              // If user is banned, signout
+              if (user.isBanned) {
+                keystone.session.signout(req, res, function() {
+                  req.flash('error', res.__('Access disallowed'));
+                  return res.redirect('/');
+                });
+              }
+
               // Try to signin
               var onSuccess = function() {
                 // Logged in
@@ -59,6 +68,7 @@ exports = module.exports = function(req, res) {
                 email: req.body.signup_email,
                 password: req.body.signup_password
               }, req, res, onSuccess, onFail);
+
             }
             else {
               // User doesn't exist
@@ -162,10 +172,20 @@ exports = module.exports = function(req, res) {
   }, function(next) {
     // Mail and password
     if (req.body.login_email && req.body.login_password) {
+
       // Try to signin
-      var onSuccess = function() {
-        // Logged in
-        return res.redirect(userHome);
+      var onSuccess = function(user) {
+        // If user is banned, signout
+        if (user.isBanned) {
+          keystone.session.signout(req, res, function() {
+            req.flash('error', res.__('Access disallowed'));
+            return res.redirect('/');
+          });
+        }
+        else {
+          // Logged in
+          return res.redirect(userHome);
+        }
       };
       var onFail = function(e) {
         // Duplicated

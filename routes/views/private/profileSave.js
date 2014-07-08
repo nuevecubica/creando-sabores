@@ -1,23 +1,30 @@
 var async = require('async'),
-  keystone = require('keystone');
+  keystone = require('keystone'),
+  clean = require('../../../utils/cleanText.js');
 
-exports = module.exports = function(req, res) {
+exports = module.exports = function(req, res, next) {
 
-  var userPrivateProfile = '/perfil';
+  var back = '/perfil';
 
-  var view = new keystone.View(req, res);
+  if (req.method === 'POST') {
 
-  view.on('post', {
-    action: 'save'
-  }, function(next) {
+    if ("string" === typeof req.body.name && req.body.name) {
+      req.body.name = clean(req.body.name, ['plaintext', 'oneline', ['maxlength', 20]]);
+    }
+
+    if ("string" === typeof req.body.about && req.body.about) {
+      req.body.about = clean(req.body.about, ['escape', 'textarea', 'paragraphs']);
+    }
+
     var handler = req.user.getUpdateHandler(req);
-
     handler.process(req.body, {
       fields: 'name,about,avatars.local,media.avatar.origin,media.header'
     }, function(err) {
       // Error ocurred
       if (err) {
-        return res.redirect(userPrivateProfile);
+        console.log('profileSave: Error saving profile');
+        req.flash('error', res.__('Error saving profile'));
+        return res.redirect(back);
       }
       else {
         // New avatar uploaded? Change avatar
@@ -29,18 +36,24 @@ exports = module.exports = function(req, res) {
           }, function(err) {
             // Error ocurred
             if (err) {
-              req.flash('error', res.__('Error saving avatar.'));
+              console.log('profielSave: Error saving avatar');
+              req.flash('error', res.__('Error saving profile'));
             }
-            // Update success
-            else {}
-            return res.redirect(userPrivateProfile);
+            else {
+              req.flash('success', res.__('Profile saved'));
+            }
+            return res.redirect(back);
           });
         }
         // Same avatar found
         else {
-          return res.redirect(userPrivateProfile);
+          req.flash('success', res.__('Profile saved'));
+          return res.redirect(back);
         }
       }
     });
-  });
+  }
+  else {
+    return res.redirect(back);
+  }
 };

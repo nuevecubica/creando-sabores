@@ -9,7 +9,7 @@ $(document).ready(function() {
     // If not return or arrow keys
     if (e.which !== 8 && e.which !== 37 && e.which !== 38 && e.which !== 39 && e.which !== 40) {
       // Limit name text size
-      if ($(this).data('length') && $(this).text().length > $(this).data('length')) {
+      if ($(this).data('length') && $(this).text().length >= $(this).data('length')) {
         e.preventDefault();
       }
     }
@@ -96,6 +96,12 @@ $(document).ready(function() {
   $('#profile-img-select').on('change', function(e) {
     setPreview(e.target, $('#profile-img'));
   });
+
+  $('#delete-first').on('click', function(e) {
+    $('#delete-confirm').toggleClass('visible');
+    e.preventDefault();
+  });
+
 
   var setPreview = function(input, $target) {
     if (input.files.length === 0) {

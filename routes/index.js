@@ -36,24 +36,29 @@ var routes = {
 
 // Setup Route Bindings
 exports = module.exports = function(app) {
+  // Security, nobody banned or deactivated
+  app.all('/(perfil|receta)*', middleware.antiBadUsers);
+
   // Static
   app.get('/terminos', routes.views.terms);
 
   // Private
   app.get('/perfil', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
+  app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Public
   app.get('/', routes.views.index);
-  app.all('/:mode(registro|acceso)', routes.views.signup);
   app.get('/recetas', routes.views.recipes);
   app.get('/receta/:recipe', routes.views.recipe);
-  app.get('/salir', routes.views.signout);
-  //app.get('/cocinero/:user', routes.views.profile);
 
+  // Login, Register
+  app.all('/:mode(registro|acceso)', routes.views.signup);
+  app.get('/salir', routes.views.signout);
   // Authentication
   app.get('/authentication/facebook', routes.authentication.facebook);
   app.get('/authentication/google', routes.authentication.google);
+  //app.get('/cocinero/:user', routes.views.profile);
 
   // API
   app.all('/api/v1*', keystone.initAPI);

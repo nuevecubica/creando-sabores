@@ -44,7 +44,8 @@ User.add({
     trim: true
   },
   about: {
-    type: Types.Textarea,
+    type: Types.Html,
+    wysiwyg: true,
     trim: true
   }
 }, 'Avatars', {
@@ -112,6 +113,11 @@ User.add({
   isBanned: {
     type: Boolean,
     label: 'Banned',
+    note: 'Cannot login.'
+  },
+  isDeactivated: {
+    type: Boolean,
+    label: 'Deactivated',
     note: 'Cannot login.'
   }
 }, 'Social', {

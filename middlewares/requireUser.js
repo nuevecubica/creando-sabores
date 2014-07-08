@@ -4,7 +4,7 @@ var i18n = require('i18n');
   Prevents people from accessing protected pages when they're not signed in
  */
 exports.requireUser = function(req, res, next) {
-  if (!req.user) {
+  if (!req.user || (req.user && req.user.isBanned)) {
     req.flash('error', res.__('Please sign in to access this page.'));
     res.redirect('/');
   }
@@ -22,7 +22,7 @@ exports.requireUserApi = function(req, res, next) {
     error: false
   };
 
-  if (!req.user) {
+  if (!req.user || (req.user && req.user.isBanned)) {
     res.status(401);
     res.apiResponse(answer);
   }
