@@ -51,32 +51,33 @@ block content
 		.row
 			#profile.column.tab-content
 
-				.row
-					.three.column.stackable.ui.grid
+				form(method="POST" action="/perfil/update")
+					.row
+						.three.column.stackable.ui.grid
+							.column
+								#user-name.field
+									label.explain Nombre de usuario
+									input(name="username" value="#{user.username}")
+							.column
+								#email.field
+									label.explain Correo electrónico
+									input(name="email" value="#{user.email}")
+							.column
+								#password.field
+									.ui.button.chef.button-brick
+										a(href='/') Cambiar password
+					.row
 						.column
-							#user-name.field
-								label.explain Nombre de usuario
-								input(value="#{user.username}")
+							label.explain Privacidad
+							#private.field
+								label
+									input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
+									span.icon-chef-tick ¿Quieres que tu perfil sea privado? (solo lo verás tú)
+					.row
+						.column.grid
+							#save
+								input.ui.button.chef.button-blue(type="submit" value="Guardar Cambios")
 
-						.column
-							#email.field
-								label.explain Correo electrónico
-								input(value="#{user.email}")
-						.column
-							#password.field
-								.ui.button.chef.button-brick
-									a(href='/') Cambiar password
-				.row
-					.column
-						label.explain Privacidad
-						#private.field
-							.icon-chef-tick.checks
-							| ¿Quieres que tu perfil sea privado? (solo lo verás tú)
-				.row
-					.column.grid
-						#save.field
-							.ui.button.chef.button-blue
-								a(href='/') Guardar Cambios
 				.row
 					.colum.grid.ui
 						.three.wide.column
