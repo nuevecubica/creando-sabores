@@ -6,7 +6,11 @@ mixin grid(recipes, gridPositions, gridSizes)
 	if recipes.length && positions.length
 		- for (var i = 0, l = positions.length; i < l; i++)
 			- var recipe = recipes[positions[i] - 1]
+			- var title = 'Vacio'
+			- var image = 'default_recipe.jpg'
 			if recipe
-				span= recipe.title + ' - ' + sizes[i]
-			else
-				span= '[empty]' + ' - ' + sizes[i]
+				- title = recipe.title
+				- image = recipe.header.url
+
+			div(class="recipe #{sizes[i]}", style="background-image: url(#{image})")
+				span= title
