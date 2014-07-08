@@ -28,7 +28,7 @@ exports = module.exports = function(req, res, next) {
       }
       else {
         // New avatar uploaded? Change avatar
-        if (req.body['avatars.local_upload']) {
+        if (req.files['avatars.local_upload'] && req.files['avatars.local_upload'].name !== '') {
           handler.process({
             'media.avatar.origin': 'local'
           }, {
