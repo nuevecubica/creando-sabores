@@ -71,8 +71,8 @@ block content
 							label.explain Privacidad
 							#private.field
 								label
-									input.icon-chef-tick.checks(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
-									| ¿Quieres que tu perfil sea privado? (solo lo verás tú)
+									input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
+									span.icon-chef-tick ¿Quieres que tu perfil sea privado? (solo lo verás tú)
 					.row
 						.column.grid
 							#save
