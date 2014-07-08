@@ -1,46 +1,54 @@
 var async = require('async'),
   keystone = require('keystone');
 
-exports = module.exports = function(req, res) {
+exports = module.exports = function(req, res, next) {
 
   var userPrivateProfile = '/perfil';
 
-  var view = new keystone.View(req, res);
+  if (req.method === 'GET') {
+    return res.redirect(userPrivateProfile);
+  }
 
-  view.on('post', {
-    action: 'save'
-  }, function(next) {
-    var handler = req.user.getUpdateHandler(req);
+  console.log('profileSave: Post request');
 
-    handler.process(req.body, {
-      fields: 'name,about,avatars.local,media.avatar.origin,media.header'
-    }, function(err) {
-      // Error ocurred
-      if (err) {
+  var handler = req.user.getUpdateHandler(req);
+
+  handler.process(req.body, {
+    fields: 'name,about,avatars.local,media.avatar.origin,media.header'
+  }, function(err) {
+    // Error ocurred
+    if (err) {
+      console.log('profielSave: Error saving profile');
+      return res.redirect(userPrivateProfile);
+    }
+    else {
+      // New avatar uploaded? Change avatar
+      if (req.body['avatars.local_upload']) {
+        console.log('profielSave: Saving avatar');
+        handler.process({
+          'media.avatar.origin': 'local'
+        }, {
+          fields: 'media.avatar.origin'
+        }, function(err) {
+          // Error ocurred
+          if (err) {
+            console.log('profielSave: Error saving avatar');
+            req.flash('error', res.__('Error saving avatar.'));
+          }
+          // Update success
+          else {
+            console.log('profielSave: Avatar saved');
+          }
+          return res.redirect(userPrivateProfile);
+        });
+      }
+      // Same avatar found
+      else {
+        console.log('profielSave: Profile saved');
         return res.redirect(userPrivateProfile);
       }
-      else {
-        // New avatar uploaded? Change avatar
-        if (req.body['avatars.local_upload']) {
-          handler.process({
-            'media.avatar.origin': 'local'
-          }, {
-            fields: 'media.avatar.origin'
-          }, function(err) {
-            // Error ocurred
-            if (err) {
-              req.flash('error', res.__('Error saving avatar.'));
-            }
-            // Update success
-            else {}
-            return res.redirect(userPrivateProfile);
-          });
-        }
-        // Same avatar found
-        else {
-          return res.redirect(userPrivateProfile);
-        }
-      }
-    });
+    }
   });
+
+  next();
 };

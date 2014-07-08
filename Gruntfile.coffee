@@ -12,6 +12,7 @@ paths =
       "routes/**/*.js"
       "models/**/*.js"
       "updates/**/*.js"
+      "utils/**/*.js"
       "test/**/*.js"
     ]
     client: [
@@ -69,6 +70,7 @@ module.exports = (grunt) ->
 
       all: [
         "./*.coffee"
+        "utils/**/*.coffee"
         "test/**/*.coffee"
       ]
       test: ["test/**/*.coffee"]
