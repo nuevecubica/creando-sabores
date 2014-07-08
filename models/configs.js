@@ -3,7 +3,7 @@ var _ = require('underscore'),
   Types = keystone.Field.Types,
   async = require('async');
 
-  /**
+/**
  * Config
  * =====
  */
