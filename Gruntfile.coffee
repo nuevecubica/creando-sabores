@@ -3,6 +3,24 @@ config =
   port: 3000
   portTest: 7357
 
+paths =
+  js:
+    server: [
+      "./*.js"
+      "configs/**/*.js"
+      "middlewares/**/*.js"
+      "routes/**/*.js"
+      "models/**/*.js"
+      "updates/**/*.js"
+      "utils/**/*.js"
+      "test/**/*.js"
+    ]
+    client: [
+      "public/frontend/js/**/*.js"
+    ]
+
+paths.js.all = paths.js.server.concat paths.js.client
+
 module.exports = (grunt) ->
 
   # Project configuration.
@@ -14,26 +32,37 @@ module.exports = (grunt) ->
       process.env.NODE_ENV or
       "preproduction"
     )
-    express:
-      options:
-        port: config.port
-
-      development:
-        options:
-          script: "app.js"
-          debug: true
 
     jshint:
       options:
         reporter: require("jshint-stylish")
-        jshintrc: ".jshintrc"
+        curly: true
+        eqeqeq: true
+        forin: true
+        immed: true
+        latedef: true
+        laxcomma: true
+        newcap: true
+        noarg: true
+        smarttabs: true
+        sub: true
+        undef: true
+        eqnull: true
 
-      all: [
-        "routes/**/*.js"
-        "models/**/*.js"
-        "public/frontend/js/**/*,js"
-      ]
-      server: ["./*.js"]
+      server:
+        options:
+          devel: true
+          node: true
+        files:
+          src: paths.js.server
+
+      client:
+        options:
+          devel: true
+          jquery: true
+          browser: true
+        files:
+          src: paths.js.client
 
     coffeelint:
       # options:
@@ -41,6 +70,7 @@ module.exports = (grunt) ->
 
       all: [
         "./*.coffee"
+        "utils/**/*.coffee"
         "test/**/*.coffee"
       ]
       test: ["test/**/*.coffee"]
@@ -48,16 +78,19 @@ module.exports = (grunt) ->
     concurrent:
       development:
         tasks: [
-          "nodemon"
+          "nodemon:debug"
           "watch"
         ]
         options:
           logConcurrentOutput: true
 
-    "node-inspector":
-      custom:
+      test:
+        tasks: [
+          "nodemon:test"
+          "watch"
+        ]
         options:
-          "web-host": "localhost"
+          logConcurrentOutput: true
 
     nodemon:
       debug:
@@ -78,12 +111,13 @@ module.exports = (grunt) ->
             test: true
 
     watch:
-      js:
-        files: [
-          "model/**/*.js"
-          "routes/**/*.js"
-        ]
-        tasks: ["jshint:all"]
+      server:
+        files: paths.js.server
+        tasks: ["jshint:server", "jsbeautifier:server"]
+
+      client:
+        files: paths.js.client
+        tasks: ["jshint:client", "jsbeautifier:client"]
 
       coffee:
         files: [
@@ -101,18 +135,6 @@ module.exports = (grunt) ->
           "autoprefixer:build"
           "cssmin:build"
         ]
-        options:
-          livereload: false
-
-      livereload:
-        files: [
-          "public/frontend/styles/**/*.css"
-          "public/frontend/styles/**/*.less"
-          "templates/**/*.jade"
-          "node_modules/keystone/templates/**/*.jade"
-        ]
-        options:
-          livereload: false
 
     clean:
       build:
@@ -156,18 +178,17 @@ module.exports = (grunt) ->
         src: ["test/**/*.coffee"]
 
     jsbeautifier:
+      options:
+        config: '.jsbeautifyrc'
+      server:
+        src: paths.js.server
+
+      client:
+        src: paths.js.client
+
       build:
-        src: [
-          "*.js"
-          "configs/**/*.js"
-          "models/**/*.js"
-          "routes/**/*.js"
-          "updates/**/*.js"
-          "public/frontend/**/*.js"
-        ]
-        options: {
-          config: '.jsbeautifyrc'
-        }
+        src: paths.js.all
+
 
   grunt.config 'copy',
     build:
@@ -205,9 +226,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-jshint"
   grunt.loadNpmTasks "grunt-contrib-less"
   grunt.loadNpmTasks "grunt-contrib-watch"
-  grunt.loadNpmTasks "grunt-express-server"
   grunt.loadNpmTasks "grunt-jsbeautifier"
-  grunt.loadNpmTasks "grunt-node-inspector"
   grunt.loadNpmTasks "grunt-nodemon"
   grunt.loadNpmTasks "grunt-mocha-test"
 
@@ -216,15 +235,9 @@ module.exports = (grunt) ->
 
   # load linters
   grunt.registerTask "lint", (target) ->
-    grunt.task.run ["jshint:all"]
+    grunt.task.run ["jshint:server"]
+    grunt.task.run ["jshint:client"]
     grunt.task.run ["coffeelint:all"]
-
-  # default option to connect server
-  grunt.registerTask "serve", (target) ->
-    grunt.task.run [
-      "lint"
-      "concurrent:development"
-    ]
 
   grunt.registerTask "development", ->
     grunt.task.run ["lint"]

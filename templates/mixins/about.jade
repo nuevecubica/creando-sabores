@@ -5,11 +5,12 @@ mixin about(user)
 			if !user.media.avatar.url
 				- user.media.avatar.url = '../frontend/images/test_user.png'
 
-			img.ui.image.avatar(src="#{user.media.avatar.url}")
-			a.icon-chef-camera.rounded.show-editable(href="/")
+			#profile-img.ui.image.avatar(style="background-image: url(#{user.media.avatar.url}); background-size: cover; background-position:center; ")
+			.icon-chef-camera.rounded.show-editable
+				input#profile-img-select(type="file" name="avatars.local_upload" accept="image/*")
 
 	.twelve.wide.column.info
 		h2.ui.header ¡Hola 
-			strong.set-editable.one-line(data-length="20")!= user.name
+			strong#profile-name.set-editable.one-line(data-length="20")= user.name
 			|!
-		.ui.content.set-editable(spellcheck="false")!= user.about
+		#profile-about.ui.content.set-editable(spellcheck="false")!= user.about

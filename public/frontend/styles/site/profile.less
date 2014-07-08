@@ -13,9 +13,26 @@
   background-image: url(../images/test_recipe_bg.png);
   background-size: cover;
   height: 600px;
-
+  input{
+    font-family: @brandon-fonts;
+  }
   .section {
     color: @profile-section-color-text;
+  }
+  .ui.button.chef.button-gray{
+      overflow: hidden;
+      position: relative;
+    input#profile-header-select{
+      position: absolute;
+      opacity: 0;
+      height: 70px;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+    input[type="file"]::-webkit-file-upload-button {
+      cursor: pointer;
+    }
   }
 }
 
@@ -23,7 +40,6 @@
   .bar;
 
   .picture-wrapper {
-
     .picture {
       position: relative;
       width: 160px;
@@ -35,18 +51,29 @@
         height: 100%;
         border: @profile-border-size solid @profile-border-color;
       }
-
-      a {
-        text-decoration: none;
+      
+      .show-editable{
         color: @profile-icon-color;
         position: absolute;
         bottom: 0;
+        overflow: hidden;
 
         &.rounded {
           border-radius: 100%;
           background-color: @chef-color-gray-bg;
           padding: 10px;
           border: @profile-border-size solid white;
+        }
+        input#profile-img-select{
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          left: 0;
+          cursor: pointer;
+          height: 70px;
+        }
+        input[type="file"]::-webkit-file-upload-button {
+          cursor: pointer;
         }
       }
     }
@@ -89,7 +116,17 @@
     }
     #private{
       .font-large;
+      input {
+        display: none;
+      }
+      input + span:before {
+        .checks;
+      }
+      input:not(:checked) + span:before {
+        color: transparent;
+      }
     }
+
     .delete.field{
       .font-larger;
       margin-top: 30px;
@@ -106,7 +143,15 @@
         font-weight: bold;
       }
     }
-
+    #delete-confirm{
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 300ms ease-out;
+    }
+    #delete-confirm.visible{
+      visibility: visible;
+      opacity: 1;
+    }
     .arrow-left{
       position: relative;
       z-index: 10;

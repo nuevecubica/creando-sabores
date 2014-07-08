@@ -1,6 +1,9 @@
 /*
 	DEVELOPMENT TEST CONFIGURATION
 */
+/* APP */
+require('dotenv').load();
+
 var answer = {};
 
 answer.keystone = {
@@ -24,12 +27,12 @@ answer.keystone = {
     'auth': true,
     'user model': 'User',
     'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
-    'db name': process.env.MONGODB_DATABASE,
+    'db name': process.env.MONGODB_DATABASE ||  'chefcito',
     'trust proxy': true,
 
     'host': '0.0.0.0',
     'port': '7357',
-    'mongo url': process.env.MONGO_URL ||  null
+    'mongo url': process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/chefcito'
   },
   'email locals': {
     logo_src: '/images/logo-email.gif',
@@ -59,14 +62,24 @@ answer.lists = {
     name: 'Test User1',
     email: 'testUser1@glue.gl',
     password: 'testUser1',
-    username: 'testUser1'
+    username: 'testUser1',
+    media: {
+      avatar: {
+        origin: 'none'
+      }
+    }
   }, {
     name: 'Test User2',
     email: 'testUser2@glue.gl',
-    username: 'testUser2'
+    username: 'testUser2',
+    media: {
+      avatar: {
+        origin: 'none'
+      }
+    }
   }]
 };
 
-answer.url = 'http://' + answer.keystone.init['host'] + ':' + answer.keystone.init['port'];
+answer.url = 'http://' + answer.keystone.init.host + ':' + answer.keystone.init.port;
 
 exports = module.exports = answer;

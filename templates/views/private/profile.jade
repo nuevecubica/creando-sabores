@@ -1,0 +1,93 @@
+extends ../../layouts/default
+
+include ../../mixins/about
+
+block content
+	.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
+		.ui.page.grid.head.with-title
+			#header.row
+				include ../../components/header
+
+			.row.logo.shadow
+				a.icon-chef-logo.icon(href="/")
+
+			.row.section
+				.title.shadow Mi recetario
+
+			.row
+				.ten.wide.column
+				.six.wide.column.social.right.aligned.show-editable
+					.ui.button.chef.button-gray
+						input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
+						i.social.icon-chef-camera
+						span
+						|Cambiar imagen
+
+	.ui.page.grid.segment.body.about
+		.column
+			.ui.stackable.grid
+				+about(user)
+
+	.ui.page.grid.segment.body
+		.row.tablet.computer.only
+			.five.tabs
+				.row
+					.tab
+						.ui.button.chef.button-green
+							a(href='/') Mi cuenta
+					.tab
+						.ui.button.chef.button-green.disabled
+							a Lista del super
+					.tab
+						.ui.button.chef.button-green.disabled
+							a Mis recetas
+					.tab
+						.ui.button.chef.button-green.disabled
+							a Mis menús
+					.tab
+						.ui.button.chef.button-green.disabled
+							a Mis tips
+
+		.row
+			#profile.column.tab-content
+
+				form(method="POST" action="/perfil/update")
+					.row
+						.three.column.stackable.ui.grid
+							.column
+								#user-name.field
+									label.explain Nombre de usuario
+									input(name="username" value="#{user.username}")
+							.column
+								#email.field
+									label.explain Correo electrónico
+									input(name="email" value="#{user.email}")
+							.column
+								#password.field
+									.ui.button.chef.button-brick
+										a(href='/') Cambiar password
+					.row
+						.column
+							label.explain Privacidad
+							#private.field
+								label
+									input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
+									span.icon-chef-tick ¿Quieres que tu perfil sea privado? (solo lo verás tú)
+					.row
+						.column.grid
+							#save
+								input.ui.button.chef.button-blue(type="submit" value="Guardar Cambios")
+
+				.row
+					.colum.grid.ui
+						.three.wide.column
+							.delete.field
+								a#delete-first(href='#') Eliminar Cuenta
+						#delete-confirm.six.wide.column
+							.arrow-left
+							.delete.message.ui
+								span ¿Seguro que quieres eliminar tu cuenta?
+								p Perderás todas tus recetas y actividad reciente.
+								form(method="POST" action="/perfil/remove")
+									input.ui.button.chef.button-brick(type="submit" value="Eliminar")
+						.seven.wide.column

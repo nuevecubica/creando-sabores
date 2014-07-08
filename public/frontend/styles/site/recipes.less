@@ -7,7 +7,7 @@
 @ingredients-border-check-disabled: @chef-color-gray-bg;
 
 @icons-font-size: 28px;
-
+@recipe-font-text: @font-uppercase-size-larger;
 
 /****************
   Recipes
@@ -72,16 +72,122 @@
       }
     }
   }
-
   .section {
     color: @profile-section-color-text;
   }
 }
+.ui.page.grid.body {
 
+  #grid-recipes {
+    display: block;
+    margin: auto;
+
+    .recipe {
+      display: table;
+      float: left;
+      border:1px solid #fff;
+      background-color: #eee;
+      cursor: pointer;
+
+      span {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        opacity: 0;
+        font-size: @recipe-font-text;
+        color: @chef-color-white;
+      }
+    }
+    .recipe:hover{
+      background-color: @chef-color-green-bg;
+      fade:80%;
+      transition: background-color 300ms ease-out;
+      span {
+        opacity: 1;
+      }
+    }
+    .computer.only{
+      .recipe{
+        &.uno,
+        &.dos,
+        &.tres,
+        &.seis,
+        &.siete,
+        &.ocho,
+        &.diez{
+          width: 19.7%;
+          height: 240px;
+        }
+        &.cuatro,
+        &.nueve{
+          width: 39.6%;
+          height: 240px;
+        }
+        &.cinco{
+          width: 39.6%;
+          height: 483px;
+        }
+      }
+    }
+    .tablet.only{
+      .recipe{
+        background-image: url('../images/recipe_view.png');
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        &.uno,
+        &.dos,
+        &.tres,
+        &.seis,
+        &.siete,
+        &.ocho,
+        &.diez{
+          width: 33%;
+          height: 240px;
+        }
+        &.cuatro,
+        &.nueve{
+          width: 66%;
+          height: 240px;
+        }
+        &.cinco{
+          width: 66%;
+          height: 480px;
+        }
+      }
+    }
+    .mobile.only{
+      .recipe{
+        background-image: url('../images/recipe_view.png');
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        &.uno,
+        &.dos,
+        &.tres,
+        &.seis,
+        &.siete,
+        &.ocho{
+          width: 48.8%;
+          height: 200px;
+        }
+        &.cuatro,
+        &.nueve{
+          width: 98%;
+          height: 200px;
+        }
+        &.cinco{
+          width: 98%;
+          height: 400px;
+        }
+      }
+    }
+  }  
+}
+  
 /****************
   Recipes Styles
 ****************/
 #recipes {
+
   .row {
     margin-top: 0;
     padding-top: 0;
@@ -94,7 +200,9 @@
         padding: 15px 0;
       }
     }
-
+    .row.position {
+      position: relative;
+    }
     .list {
       .list
     }
@@ -104,6 +212,13 @@
     top: 10px;
     right: 0;
   }
+  a{
+    text-decoration: none;
+    h2{
+      color: @chef-color-black;
+    }
+  } 
+    
 }
 
 /****************
