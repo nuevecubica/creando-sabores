@@ -6,6 +6,7 @@ block content
 	form#profile-form(action="/perfil/save" method="POST" enctype="multipart/form-data")
 		input#hidden-name(type="hidden" name="name")
 		input#hidden-about(type="hidden" name="about")
+		input(type="hidden" name="_csrf" value="#{csrftoken}")
 		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
 			.ui.page.grid.head.with-title
 				#header.row
@@ -55,6 +56,7 @@ block content
 			#profile.column.tab-content
 
 				form(method="POST" action="/perfil/change")
+					input(type="hidden" name="_csrf" value="#{csrftoken}")
 					.row
 						.three.column.stackable.ui.grid
 							.column
@@ -105,5 +107,6 @@ block content
 								span ¿Seguro que quieres eliminar tu cuenta?
 								p Perderás todas tus recetas y actividad reciente.
 								form(method="POST" action="/perfil/remove")
+									input(type="hidden" name="_csrf" value="#{csrftoken}")
 									input.ui.button.chef.button-brick(type="submit" value="Eliminar")
 						.seven.wide.column
