@@ -5,7 +5,7 @@ var keystone = require('keystone'),
  * Prevents access from banned accounts
  */
 exports.csrf = function(req, res, next) {
-  if (keystone.security.csrf) {
+  if (keystone.options().security.csrf) {
     csrf()(req, res, function() {
       res.locals.csrftoken = req.csrfToken();
       next();
