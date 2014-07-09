@@ -306,10 +306,20 @@ body {
     margin-top: 4px;
     padding-top: 0;
     background-color: @recipes-list-even;
+    .content {
+      &::after { 
+        background: linear-gradient(to bottom, fade(@recipes-list-even, 0%), @recipes-list-even 57%); 
+      }
+    }
   }
 
   > .row:nth-child(odd) {
     background-color: @recipes-list-odd;
+    .content {
+      &::after { 
+        background: linear-gradient(to bottom, fade(@recipes-list-odd, 0%), @recipes-list-odd 57%); 
+      }
+    }
   }
 
   .thumbnail {
@@ -406,12 +416,22 @@ body {
   }
 
   .content {
-    white-space: nowrap;
-    overflow: hidden;
 
+    height: 122px;
+    overflow: hidden;
+    position: relative;
+
+    &::after { 
+      content:'';
+      position: absolute;
+      width: 100%;
+      height: 47px;
+      top: 90px;
+      right: 0; 
+    }
     p {
-      margin: 0;
-      text-overflow: ellipsis;
+      margin-top: 10px;
+      text-align: justify;
     }
   }
 }
