@@ -81,6 +81,21 @@ $(document).ready(function() {
     setPreview(e.target, $('#profile-img'));
   });
 
+  $('.password .button').on('click', function(e) {
+    var $passrow = $('#pass-row');
+    if ($passrow.data('toggle')) {
+      $passrow
+        .slideUp()
+        .data('toggle', false);
+    }
+    else {
+      $passrow
+        .slideDown()
+        .data('toggle', true);
+    }
+    e.preventDefault();
+  });
+
   $('#delete-first').on('click', function(e) {
     $('#delete-confirm').toggleClass('visible');
     e.preventDefault();
