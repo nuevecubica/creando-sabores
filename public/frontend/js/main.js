@@ -51,3 +51,25 @@ $(document).ready(function() {
     }
   }
 }());
+
+$(document).ready(function() {
+
+  var height = $('.wall .recipe.small').eq(0).width();
+
+  var gridResizer = function() {
+    $('.wall .recipe').each(function() {
+      if ($(this).hasClass('large')) {
+        $(this).height(height * 2);
+      }
+      else {
+        $(this).height(height);
+      }
+    });
+  };
+
+  if ($('.wall')) {
+    gridResizer();
+    $(window).resize(gridResizer);
+  }
+
+});
