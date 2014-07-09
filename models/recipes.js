@@ -219,7 +219,7 @@ Recipe.add({
         dependsOn: {
           'isIndexGridPromoted.value': true
         },
-        default: 1
+        default: 0
       }
     },
     isRecipesGridPromoted: {
@@ -236,7 +236,7 @@ Recipe.add({
         dependsOn: {
           'isRecipesGridPromoted.value': true
         },
-        default: 1
+        default: 0
       }
     }
   });
@@ -276,7 +276,7 @@ Recipe.schema.pre('save', function(next) {
       // Adds some check and test here
     },
     function(err, results) {
-      me.official = results.official;
+      me.isOfficial = results.official;
 
       // Set isPromoted
       if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value) {
