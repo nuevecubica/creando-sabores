@@ -1,8 +1,16 @@
 exports.initLocals = require('./initLocals').initLocals;
+
 exports.initErrorHandlers = require('./initErrorHandlers').initErrorHandlers;
+
 exports.flashMessages = require('./flashMessages').flashMessages;
-exports.requireUser = require('./requireUser').requireUser;
-exports.requireUserApi = require('./requireUser').requireUserApi;
-exports.antiBanned = require('./antiBadUsers').antiBanned;
-exports.antiDeactivated = require('./antiBadUsers').antiDeactivated;
-exports.antiBadUsers = require('./antiBadUsers').antiBadUsers;
+
+var requireUser = require('./requireUser');
+exports.requireUser = requireUser.requireUser;
+exports.requireUserApi = requireUser.requireUserApi;
+exports.requireAdmin = requireUser.requireAdmin;
+exports.requireAdminApi = requireUser.requireAdminApi;
+
+var antiBadUsers = require('./antiBadUsers');
+exports.antiBanned = antiBadUsers.antiBanned;
+exports.antiDeactivated = antiBadUsers.antiDeactivated;
+exports.antiBadUsers = antiBadUsers.antiBadUsers;
