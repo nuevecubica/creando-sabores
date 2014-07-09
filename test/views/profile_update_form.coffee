@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.url
 cookie = null
 
-describe 'PRIVATE PROFILE - SAVE', ->
+describe 'PRIVATE PROFILE - CHANGE', ->
   
   before (done) ->
     this.timeout 10000
@@ -33,17 +33,18 @@ describe 'PRIVATE PROFILE - SAVE', ->
       .set('cookie', cookie)
       .expect('Content-Type', /html/)
       .expect(200)
-      .expect(/profile-about/)
-      .expect(/profile-name/)
-      .expect(/profile-img-select/)
-      .expect(/profile-header-select/)
+      .expect(/username/)
+      .expect(/email/)
+      .expect(/old-pass/)
+      .expect(/new-pass/)
+      .expect(/isPrivate/)
       .end(done)
 
-  describe 'POST /perfil/save', ->
+  describe 'POST /perfil/change', ->
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
-        .post('/perfil/save')
+        .post('/perfil/change')
         .set('cookie', cookie)
         .send({})
         .expect(302)
@@ -54,16 +55,14 @@ describe 'PRIVATE PROFILE - SAVE', ->
         )
         .end(done)
           
-  describe 'POST /perfil/save', ->
     describe 'on modified data', ->
-      it 'updates user profile', (done) ->
-        # This doesn't check the image upload.
+      it 'updates user data', (done) ->
         request
-        .post('/perfil/save')
+        .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'about': 'demo-about',
-          'name': 'demo-name'
+          'username': 'demo-username',
+          'email': 'demo@email.com'
         })
         .expect(302)
         .expect(
@@ -80,18 +79,18 @@ describe 'PRIVATE PROFILE - SAVE', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.about isnt '<p>demo-about</p>' or
-                    res.body.user.name isnt 'demo-name'
+                if res.body.user.username isnt 'demo-username' or
+                    res.body.user.email isnt 'demo@email.com'
                   return 'Edit failed'
             )
             .end(done)
 
       it 'preserves missing fields', (done) ->
         request
-        .post('/perfil/save')
+        .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'about': 'demo-about'
+          'username': config.lists.users[0].username
         })
         .expect(302)
         .expect(
@@ -108,21 +107,44 @@ describe 'PRIVATE PROFILE - SAVE', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.about isnt '<p>demo-about</p>'
-                  return 'Edit failed'
-                if res.body.user.name isnt config.lists.users[0].name
+                if res.body.user.email isnt config.lists.users[0].email
                   return 'Edit changed unmodified fields'
             )
             .end(done)
 
-    describe 'on invalid values', ->
-      it 'escapes and removes html', (done) ->
+      it 'changes the password', (done) ->
         request
-        .post('/perfil/save')
+        .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'about': '12<html>34&56',
-          'name': '12<html>34&56'
+          'old-pass': config.lists.users[0].password,
+          'new-pass': 'demo-pass'
+        })
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt '/perfil'
+              return 'Redirection failed'
+        )
+        .end (err, res) ->
+          request
+            .post('/api/v1/login')
+            .send({
+              email: config.lists.users[0].email,
+              password: 'demo-pass'
+            })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(done)
+
+    describe 'on invalid values', ->
+      it 'rejects repeated username', (done) ->
+        request
+        .post('/perfil/change')
+        .set('cookie', cookie)
+        .send({
+          'username': config.lists.users[1].username
         })
         .expect(302)
         .expect(
@@ -139,18 +161,17 @@ describe 'PRIVATE PROFILE - SAVE', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.about isnt '<p>12&lt;html&gt;34&amp;56</p>' or
-                    res.body.user.name isnt '1234&amp;56'
-                  return 'HTML escape failed'
+                if res.body.user.username isnt config.lists.users[0].username
+                  return 'Username changed on collision'
             )
             .end(done)
 
-      it 'truncates long name', (done) ->
+      it 'rejects repeated email', (done) ->
         request
-        .post('/perfil/save')
+        .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'name': '123456789012345678901'
+          'email': config.lists.users[1].email
         })
         .expect(302)
         .expect(
@@ -167,7 +188,33 @@ describe 'PRIVATE PROFILE - SAVE', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.name isnt '12345678901234567890'
-                  return 'Truncate failed'
+                if res.body.user.email isnt config.lists.users[0].email
+                  return 'Email changed on collision'
             )
+            .end(done)
+
+      it 'rejects bad password', (done) ->
+        request
+        .post('/perfil/change')
+        .set('cookie', cookie)
+        .send({
+          'old-pass': 'bad-password',
+          'new-pass': 'demo-password'
+        })
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt '/perfil'
+              return 'Redirection failed'
+        )
+        .end (err, res) ->
+          request
+            .post('/api/v1/login')
+            .send({
+              email: config.lists.users[0].email,
+              password: config.lists.users[0].password
+            })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
             .end(done)
