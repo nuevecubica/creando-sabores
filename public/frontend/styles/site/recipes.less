@@ -77,94 +77,6 @@
     color: @profile-section-color-text;
   }
 }
-.ui.page.grid.body {
-
-  #recipes-grid {
-    display: block;
-    margin: auto;
-
-    .recipe {
-      display: table;
-      float: left;
-      box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
-      background-color: #eee;
-      cursor: pointer;
-
-      span {
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-        opacity: 0;
-        font-size: @recipe-font-text;
-        color: @chef-color-white;
-      }
-    }
-
-    .recipe:hover{
-   
-      span {
-        background-color: rgba(108, 179, 63, 0.7);
-        opacity: 1;
-      }
-    }
-
-    .computer.only{
-      .recipe{
-        &.small {
-          width: 100% / 5;
-        }
-
-        &.medium {
-          width: (100% / 5) * 2;
-        }
-
-        &.large {
-          width: (100% / 5) * 2;
-        }
-      }
-    }
-
-    .tablet.only{
-      .recipe{
-        background-image: url('../images/recipe_view.png');
-        background-position: right bottom;
-        background-repeat: no-repeat;
-        &.small {
-          width: 100% / 3;
-        }
-
-        &.medium {
-          width: (100% / 3) * 2;
-        }
-
-        &.large {
-          width: (100% / 3) * 2;
-        }
-      }
-    }
-    .mobile.only{
-      .recipe{
-        background-image: url('../images/recipe_view.png');
-        background-position: right bottom;
-        background-repeat: no-repeat;
-        &.small {
-          width: 50%;
-          height: 200px;
-        }
-
-        &.medium {
-          width: 100%;
-          height: 200px;
-        }
-
-        &.large {
-          width: 100%;
-          height: 400px;
-        }
-      }
-    }
-  }
-}
 
 /****************
   Recipes Styles
@@ -190,16 +102,22 @@
       .list
     }
   }
+
   .official{
     position: absolute;
     top: 10px;
     right: 0;
   }
+
   a{
     text-decoration: none;
     h2{
       color: @chef-color-black;
     }
+  }
+
+  #recipes-grid {
+
   }
 }
 
