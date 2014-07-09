@@ -2,6 +2,7 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   i18n = require("i18n"),
   middleware = require('../middlewares'),
+  csrf = require('csurf'),
   importRoutes = keystone.importer(__dirname);
 
 // i18n support
@@ -38,7 +39,12 @@ var routes = {
 exports = module.exports = function(app) {
 
   // CSRF Protection
-  app.all(/^\/(?!api)/, middleware.csrf);
+  if (keystone.options().security.csrf) {
+    app.all(/^\/(?!api)/, csrf(), function(req, res, next) {
+      res.locals.csrftoken = req.csrfToken();
+      next();
+    });
+  }
 
   // Security, nobody banned or deactivated
   app.all('/(perfil|receta)*', middleware.antiBadUsers);

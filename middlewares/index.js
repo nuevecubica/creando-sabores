@@ -6,4 +6,3 @@ exports.requireUserApi = require('./requireUser').requireUserApi;
 exports.antiBanned = require('./antiBadUsers').antiBanned;
 exports.antiDeactivated = require('./antiBadUsers').antiDeactivated;
 exports.antiBadUsers = require('./antiBadUsers').antiBadUsers;
-exports.csrf = require('./csrf').csrf;
