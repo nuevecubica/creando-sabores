@@ -54,7 +54,10 @@ answer.keystone = {
   }, {
     find: '/keystone/',
     replace: 'http://localhost:7357/keystone/'
-  }]
+  }],
+  'security': {
+    'csrf': false
+  }
 };
 
 answer.lists = {

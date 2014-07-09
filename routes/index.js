@@ -1,7 +1,6 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   i18n = require("i18n"),
-  csrf = require('csurf'),
   middleware = require('../middlewares'),
   importRoutes = keystone.importer(__dirname);
 
@@ -39,10 +38,7 @@ var routes = {
 exports = module.exports = function(app) {
 
   // CSRF Protection
-  app.all(/^\/(?!api)/, csrf(), function(req, res, next) {
-    res.locals.csrftoken = req.csrfToken();
-    next();
-  });
+  app.all(/^\/(?!api)/, middleware.csrf);
 
   // Security, nobody banned or deactivated
   app.all('/(perfil|receta)*', middleware.antiBadUsers);

@@ -50,6 +50,9 @@ exports = module.exports = {
     }, {
       find: '/keystone/',
       replace: 'http://localhost:3000/keystone/'
-    }]
+    }],
+    'security': {
+      'csrf': true
+    }
   }
 };
