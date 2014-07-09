@@ -37,11 +37,13 @@ mixin recipe(recipe)
 							else
 								i.icon-chef-star.icon.on
 								- rating = rating - 1;
+
 			a(href="/receta/#{recipe.slug}")
 				h2.ui.header
-					!= recipe.title	
-				.ui.content!= recipe.description
+					!= recipe.title
 
-			if (recipe.official)
+			.ui.content!= recipe.description
+
+			if (recipe.isOfficial)
 				.official
 					img(src='/frontend/images/ribbon.png')

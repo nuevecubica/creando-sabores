@@ -52,21 +52,22 @@ $(document).ready(function() {
   }
 }());
 
-
 $(document).ready(function() {
 
+  var height = $('.wall .recipe.small').eq(0).width();
+
   var gridResizer = function() {
-    $('#grid-recipes .recipe').each(function() {
-      if ($(this).hasClass('cuatro') || $(this).hasClass('nueve')) {
-        $(this).height($(this).width() / 2);
+    $('.wall .recipe').each(function() {
+      if ($(this).hasClass('large')) {
+        $(this).height(height * 2);
       }
       else {
-        $(this).height($(this).width());
+        $(this).height(height);
       }
     });
   };
 
-  if ($('#grid-recipes')) {
+  if ($('.wall')) {
     gridResizer();
     $(window).resize(gridResizer);
   }

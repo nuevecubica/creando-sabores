@@ -30,6 +30,7 @@ $(document).ready(function() {
   $('#edit.button-manage').on('click', function() {
     $('body').addClass('mode-editable');
     $('.set-editable').attr('contenteditable', true);
+
     var $name = $('#profile-name');
     var $about = $('#profile-about');
     if (!$name.data('origvalue')) {
@@ -59,6 +60,7 @@ $(document).ready(function() {
   $('#cancel.button-manage').on('click', function() {
     $('body').removeClass('mode-editable');
     $('.set-editable').attr('contenteditable', false);
+
     var $name = $('#profile-name');
     var $about = $('#profile-about');
     var $header = $('#profile-header-select');
@@ -112,5 +114,4 @@ $(document).ready(function() {
       input.parentNode.replaceChild(input.cloneNode(true), input);
     }
   };
-
 });

@@ -9,6 +9,9 @@ var _ = require('underscore'),
 keystone.pre('routes', i18n.init);
 
 // CSRF Protection
+/*
+  BREAKS KEYSTONE CONTROL PANEL!! SHOULD BE FIXED
+*/
 keystone.pre('routes', csrf());
 
 // Common Middleware
