@@ -40,8 +40,8 @@ mixin recipe(recipe)
 
 			a(href="/receta/#{recipe.slug}")
 				h2.ui.header
-					!= recipe.title		
-				.ui.content!= recipe.description
+					!= recipe.title
+			.ui.content!= recipe.description
 
 			if (recipe.isOfficial)
 				.official
