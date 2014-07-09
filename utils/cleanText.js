@@ -21,6 +21,10 @@ var cleaners = {
 
   maxlength: function(str, len) {
     return str.substr(0, len);
+  },
+
+  username: function(str) {
+    return str.replace(/(^[a-z0-9_\-])/gi, '');
   }
 };
 
