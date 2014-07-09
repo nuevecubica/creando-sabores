@@ -39,7 +39,7 @@ mixin recipe(recipe)
 								- rating = rating - 1;
 			a(href="/receta/#{recipe.slug}")
 				h2.ui.header
-					!= recipe.title		
+					!= recipe.title	
 				.ui.content!= recipe.description
 
 			if (recipe.official)
