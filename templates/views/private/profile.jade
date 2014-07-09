@@ -19,7 +19,7 @@ block content
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section
-					.title.shadow Mi recetario
+					.title.shadow= __('My recipe book')
 
 				.row
 					.ten.wide.column
@@ -28,7 +28,7 @@ block content
 							input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
 							i.social.icon-chef-camera
 							span
-							|Cambiar imagen
+							|#{__('Change image')}
 
 		.ui.page.grid.segment.body.about
 			.column
@@ -41,59 +41,58 @@ block content
 				.row
 					.tab
 						.ui.button.chef.button-green
-							a(href='/') Mi cuenta
+							a(href='/')= __('My account')
 					.tab
 						.ui.button.chef.button-green.disabled
-							a Lista del super
+							a= __('Shopping list')
 					.tab
 						.ui.button.chef.button-green.disabled
-							a Mis recetas
+							a= __('My recipes')
 					.tab
 						.ui.button.chef.button-green.disabled
-							a Mis menús
+							a= __('My menus')
 					.tab
 						.ui.button.chef.button-green.disabled
-							a Mis tips
+							a= __('My tips')
 
 		.row
 			#profile.column.tab-content
 
-				form(method="POST" action="/perfil/change")
+				form(method="post" action="/perfil/change")
 					input(type="hidden" name="_csrf" value="#{csrftoken}")
 					.row
 						.three.column.stackable.ui.grid
 							.column
 								#user-name.field
-									label.explain Nombre de usuario
+									label.explain= __('Username')
 									input(name="username" value="#{user.username}")
 							.column
 								#email.field
-									label.explain Correo electrónico
+									label.explain= __('Email')
 									input(name="email" value="#{user.email}")
 							.column
 								.password.field
 									.ui.button.chef.button-brick
-										a(href='/') Cambiar password
+										a(href='/')= __('Change password')
 					#pass-row.row
 						.three.column.stackable.ui.grid
 							.column
 								.password.field
-									label.explain Contraseña vieja
+									label.explain= __('Actual password')
 									input(name="old-pass" type="password" autocomplete="off")
 							.column
 								.password.field
-									label.explain Contraseña nueva
+									label.explain= __('New password')
 									input(name="new-pass" type="password" autocomplete="off")
 							.column
-								
 
 					.row
 						.column
-							label.explain Privacidad
+							label.explain= __('Privacy')
 							#private.field
 								label
 									input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
-									span.icon-chef-tick ¿Quieres que tu perfil sea privado? (solo lo verás tú)
+									span.icon-chef-tick= __('Private profile?')
 					.row
 						.column.grid
 							#save
@@ -103,13 +102,13 @@ block content
 					.colum.grid.ui
 						.three.wide.column
 							.delete.field
-								a#delete-first(href='#') Eliminar Cuenta
+								a#delete-first(href='#')= __('Remove account')
 						#delete-confirm.six.wide.column
 							.arrow-left
 							.delete.message.ui
-								span ¿Seguro que quieres eliminar tu cuenta?
-								p Perderás todas tus recetas y actividad reciente.
-								form(method="POST" action="/perfil/remove")
+								span= __('Are you sure remove account?')
+								p= __('Content will be removed')
+								form(method="post" action="/perfil/remove")
 									input(type="hidden" name="_csrf" value="#{csrftoken}")
 									input.ui.button.chef.button-brick(type="submit" value="Eliminar")
 						.seven.wide.column
