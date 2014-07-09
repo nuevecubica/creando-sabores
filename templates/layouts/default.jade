@@ -50,16 +50,14 @@ html
 		script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
 
 		script(src='/frontend/js/main.js')
-		script(src='/frontend/js/signup.js')
-		script(src='/frontend/js/profile.js')
+
+		//- Include template-specific javascript files by extending the js block
+		block js
 
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone
 		if user && user.canAccessKeystone
 			script(src='/keystone/js/content/editor.js')
-
-		//- Include template-specific javascript files by extending the js block
-		block js
 
 		if env.NODE_ENV == 'development'
 			include ../components/debug

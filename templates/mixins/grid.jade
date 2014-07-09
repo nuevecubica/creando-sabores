@@ -1,0 +1,21 @@
+mixin grid(recipes, gridPositions, gridSizes)
+
+	- var positions = gridPositions.split(', ');
+	- var sizes = gridSizes.split(', ');
+
+	if recipes.length && positions.length
+		- for (var i = 0, l = positions.length; i < l; i++)
+			- var recipe = recipes[positions[i] - 1]
+			- var title = 'Vacio'
+			- var image = 'default_recipe.jpg'
+			- var slug = '/'
+
+			if recipe
+				- title = recipe.title
+				- image = recipe.header.url
+				- slug = '/receta/' + recipe.slug
+
+			div(class="recipe #{sizes[i]}", style="background-image: url(#{image}); background-position:center; background-size:cover;")
+				a(href="#{slug}")
+					.content
+						span= title

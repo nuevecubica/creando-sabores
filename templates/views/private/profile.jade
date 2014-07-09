@@ -2,6 +2,9 @@ extends ../../layouts/default
 
 include ../../mixins/about
 
+block js
+	script(src='/frontend/js/profile.js')
+
 block content
 	form#profile-form(action="/perfil/save" method="POST" enctype="multipart/form-data")
 		input#hidden-name(type="hidden" name="name")
