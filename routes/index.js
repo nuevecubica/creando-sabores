@@ -83,4 +83,5 @@ exports = module.exports = function(app) {
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   //-- Recipes
+  app.get('/api/v1/recipes', routes.api.v1.recipes);
 };
