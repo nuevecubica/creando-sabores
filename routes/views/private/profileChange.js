@@ -5,7 +5,11 @@ var async = require('async'),
 
 exports = module.exports = function(req, res, next) {
 
-  var back = '/perfil';
+  var back = '..',
+    answer = {
+      error: false,
+      success: false
+    };
 
   if (req.method === 'POST') {
 
@@ -21,11 +25,15 @@ exports = module.exports = function(req, res, next) {
           if ("string" === typeof req.body.email && req.body.email) {
             if (!valid(req.body.email, ['email'])) {
               console.log('profileChange: Error saving profile, invalid email');
-              req.flash('error', res.__('Error: Email format'));
-              return next(true);
+              return next(res.__('Error: Email format'));
             }
             return next(false);
           }
+          return next(true);
+        },
+        function(next) {
+          req.body.isPrivate = (req.body.isPrivate && req.body.isPrivate === 'on');
+          return next();
         },
         function(next) {
           if (req.body.password) {
@@ -40,22 +48,21 @@ exports = module.exports = function(req, res, next) {
               }
               else {
                 console.log('profileChange: Error saving profile, invalid password', err);
-                req.flash('error', res.__('Error: Password not match'));
-                return next(true);
+                return next(res.__('Error: Password not match'));
               }
             });
           }
+          return next();
         },
         function(next) {
           var handler = req.user.getUpdateHandler(req);
           handler.process(req.body, {
-            fields: 'username,password,email'
+            fields: 'username,password,email,isPrivate'
           }, function(err) {
             // Error ocurred
             if (err) {
               console.log('profileChange: Error processing profile', err);
-              req.flash('error', res.__('Error saving profile'));
-              return next(true);
+              return next(res.__('Error saving profile'));
             }
             else {
               return next();
@@ -66,11 +73,21 @@ exports = module.exports = function(req, res, next) {
       function(err) {
         if (err) {
           console.log('profileChange: Error saving profile', err);
-          req.flash('error', res.__('Error saving profile'));
+          if ("string" === typeof err) {
+            answer.error = true;
+            req.flash('error', err);
+          }
+          else {
+            answer.error = err;
+            req.flash('error', res.__('Error saving profile'));
+          }
         }
         else {
+          answer.success = true;
           req.flash('success', res.__('Profile saved'));
         }
+        res.set('Api-Response-Error', answer.error);
+        res.set('Api-Response-Success', answer.success);
         return res.redirect(back);
       });
   }
