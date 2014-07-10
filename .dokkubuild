@@ -25,4 +25,5 @@ else
 fi
 
 BUILD_BOWER=1
+BUILD_BOWER_COMPONENTS="public/packages"
 BUILD_GRUNT=1
