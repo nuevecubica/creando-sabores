@@ -292,6 +292,7 @@ body {
           font-size: @recipe-font-text;
           color: @chef-color-white;
           transition: background-color 300ms ease-out;
+          text-transform: capitalize;
         }
 
         &:hover {
@@ -467,15 +468,17 @@ body {
     }
   }
 
-  a {
+  a{
     text-decoration: none;
     color: @chef-color-black;
-  }
 
-  .header {
-    margin-top: 0;
+    h2.header{
+      margin-top: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    } 
   }
-
   .content {
 
     height: 122px;

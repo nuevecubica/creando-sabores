@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isBanned', false)
-      .sort('-publishedDate');
+      .sort('-rating');
 
     // Query for get header promoted recipe
     var queryHeader = keystone.list('Recipe')
