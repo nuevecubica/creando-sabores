@@ -7,8 +7,8 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.url
 cookie = null
 
-describe.only 'PRIVATE PROFILE - CHANGE', ->
-  
+describe 'PRIVATE PROFILE - CHANGE', ->
+
   before (done) ->
     this.timeout 10000
     utils.revertTestUsers ->
@@ -23,7 +23,7 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
         .end (err, res) ->
           cookie = res.headers['set-cookie']
           done()
-  
+
   afterEach (done) ->
     utils.revertTestUsers done
 
@@ -57,7 +57,7 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
               return 'Wrong status headers'
         )
         .end(done)
-          
+
     describe 'on modified data', ->
       it 'updates user data', (done) ->
         request
@@ -211,8 +211,7 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end(done)
-            
-            
+
       it 'rejects invalid email', (done) ->
         request
         .post('/perfil/change')
@@ -226,11 +225,13 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
           (res) ->
             if res.header['location'] isnt '/perfil/change/..' or
                 res.header['api-response-success'] isnt 'false' or
-                res.header['api-response-error'] isnt
-                'Error: Email format'
+                res.header['api-response-error'] isnt 'Error: Email format'
               return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
