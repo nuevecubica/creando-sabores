@@ -16,13 +16,18 @@ exports = module.exports = function(req, res, next) {
     async.series([
 
         function(next) {
-          if ("string" === typeof req.body.username && req.body.username) {
-            req.body.username = clean(req.body.username, ['username', ['maxlength', 20]]);
+          if (req.body.username) {
+            req.body.username = clean(String(req.body.username), ['username', ['maxlength', 20]]);
+            if (req.body.username === req.user.username) {
+              req.body.username = null;
+              delete req.body.username;
+            }
           }
           next();
         },
         function(next) {
-          if ("string" === typeof req.body.email && req.body.email) {
+          if (req.body.email) {
+            req.body.email = String(req.body.email);
             if (!valid(req.body.email, ['email'])) {
               console.log('profileChange: Error saving profile, invalid email');
               return next(res.__('Error: Email format'));
