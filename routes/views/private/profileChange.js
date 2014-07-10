@@ -33,23 +33,27 @@ exports = module.exports = function(req, res, next) {
               console.log('profileChange: Error saving profile, invalid email');
               return next(res.__('Error: Email format'));
             }
-            return next(false);
+            else {
+              return next(false);
+            }
           }
-          return next(true);
+          else {
+            return next(true);
+          }
         },
         function(next) {
           req.body.isPrivate = (req.body.isPrivate && req.body.isPrivate === 'on');
           return next();
         },
         function(next) {
-          if (req.body.password) {
-            req.body.password = null;
-          }
+          req.body.password = null;
+          req.body.password_confirm = null;
 
-          if ("string" === typeof req.body['old-pass'] && req.body['old-pass'] && "string" === typeof req.body['new-pass'] && req.body['new-pass']) {
-            req.user._.password.compare(req.body['old-pass'], function(err, isMatch) {
+          if (req.body['old-pass'] && req.body['new-pass']) {
+            req.user._.password.compare(String(req.body['old-pass']), function(err, isMatch) {
               if (!err && isMatch) {
-                req.body.password = req.body['new-pass'];
+                req.body['password'] = String(req.body['new-pass']);
+                req.body['password_confirm'] = req.body.password;
                 return next();
               }
               else {
@@ -58,11 +62,12 @@ exports = module.exports = function(req, res, next) {
               }
             });
           }
-          return next();
+          else {
+            return next();
+          }
         },
         function(next) {
-          var handler = req.user.getUpdateHandler(req);
-          handler.process(req.body, {
+          req.user.getUpdateHandler(req).process(req.body, {
             fields: 'username,password,email,isPrivate'
           }, function(err) {
             // Error ocurred
@@ -71,6 +76,7 @@ exports = module.exports = function(req, res, next) {
               return next(res.__('Error saving profile'));
             }
             else {
+              console.log('Password change:', req.body.password, req.user.password);
               return next();
             }
           });
