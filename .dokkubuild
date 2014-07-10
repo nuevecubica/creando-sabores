@@ -1,28 +1,13 @@
-# Example config file
-#
-# Usage:
-#   Put this file in your app's root folder.
-#
-# Source:
-#   https://github.com/ignlg/dokku-bower-grunt-build-plugin/blob/master/.dokkubuild
-#
-# Author:
-#   https://github.com/ignlg
-#
-# Notes:
-#   Sourced on build time. Handle with care.
-#
-# Execute grunt build? 						BUILD_GRUNT
-# Force update of npm packages?		BUILD_NPM
-# Execute bower install & update?	BUILD_BOWER
+# from https://github.com/ignlg/dokku-bower-grunt-build-plugin/blob/master/.dokkubuild
 
-if [ "preproduction" == NODE_ENV ]; then
-	BUILD_NPM=0
-elif [ "development" == NODE_ENV ]; then
-	BUILD_NPM=0
-else
-	BUILD_NPM=1
-fi
+BUILD_NPM_UPDATE=0
 
 BUILD_BOWER=1
+BUILD_BOWER_PRUNE=1
+BUILD_BOWER_INSTALL=1
+BUILD_BOWER_UPDATE=0
+BUILD_BOWER_CACHE=1
+BUILD_BOWER_COMPONENTS="public/packages"
+
 BUILD_GRUNT=1
+BUILD_GULP=0

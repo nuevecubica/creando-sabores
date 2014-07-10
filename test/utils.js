@@ -4,7 +4,7 @@ var async = require('async');
 var Users = null;
 
 function updateUser(user, done) {
-  var fields = ['name', 'email', 'password', 'media'];
+  var fields = ['name', 'email', 'about', 'password', 'media', 'isPrivate', 'isDeactivated'];
   Users.model.findOne({
       username: user.username
     },
@@ -15,7 +15,7 @@ function updateUser(user, done) {
       }
       else {
         for (var i = 0, l = fields.length; i < l; i++)  {
-          if (user[fields[i]]) {
+          if (fields[i] in user) {
             doc[fields[i]] = user[fields[i]];
           }
         }
