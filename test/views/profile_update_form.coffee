@@ -53,7 +53,7 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
           (res) ->
             if res.header['location'] isnt '/perfil/change/..' or
                 res.header['api-response-success'] isnt 'false' or
-                res.header['api-response-error'] isnt 'Error guardando perfil.'
+                res.header['api-response-error'] isnt 'Error saving profile'
               return 'Wrong status headers'
         )
         .end(done)
@@ -67,6 +67,8 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
           'username': config.lists.users[0].username,
           'email': 'demo@email.com',
           'isPrivate': 'on'
+          'old-pass': '',
+          'new-pass': ''
         })
         .expect(302)
         .expect(
@@ -154,7 +156,7 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
         .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'username': config.lists.users[0].username
+          'username': config.lists.users[0].username,
           'email': config.lists.users[1].email
         })
         .expect(302)
@@ -162,7 +164,7 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
           (res) ->
             if res.header['location'] isnt '/perfil/change/..' or
                 res.header['api-response-success'] isnt 'false' or
-                res.header['api-response-error'] isnt 'TODO'
+                res.header['api-response-error'] isnt 'Error saving profile'
               return 'Wrong status headers'
         )
         .end (err, res) ->
@@ -194,7 +196,8 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
           (res) ->
             if res.header['location'] isnt '/perfil/change/..' or
                 res.header['api-response-success'] isnt 'false' or
-                res.header['api-response-error'] isnt 'Password erróneo.'
+                res.header['api-response-error'] isnt
+                'Error: Password not match'
               return 'Wrong status headers'
         )
         .end (err, res) ->
@@ -207,4 +210,36 @@ describe.only 'PRIVATE PROFILE - CHANGE', ->
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
+            .end(done)
+            
+            
+      it 'rejects invalid email', (done) ->
+        request
+        .post('/perfil/change')
+        .set('cookie', cookie)
+        .send({
+          'username': config.lists.users[0].username,
+          'email': 'dummyEmail'
+        })
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt '/perfil/change/..' or
+                res.header['api-response-success'] isnt 'false' or
+                res.header['api-response-error'] isnt
+                'Error: Email format'
+              return 'Wrong status headers'
+        )
+        .end (err, res) ->
+          request
+            .get('/api/v1/me')
+            .set('Accept', 'application/json')
+            .set('cookie', cookie)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(
+              (res) ->
+                if res.body.user.email isnt config.lists.users[0].email
+                  return 'Email changed on invalid format'
+            )
             .end(done)
