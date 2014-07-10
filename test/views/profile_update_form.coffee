@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.url
 cookie = null
 
-describe 'PRIVATE PROFILE - CHANGE', ->
+describe.only 'PRIVATE PROFILE - CHANGE', ->
 
   before (done) ->
     this.timeout 10000
@@ -21,6 +21,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         })
         .expect(302)
         .end (err, res) ->
+          if err
+            return done err, res
           cookie = res.headers['set-cookie']
           done()
 
@@ -74,11 +76,13 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .expect(
           (res) ->
             if res.header['location'] isnt '/perfil/change/..' or
-                res.header['api-response-success'] isnt 'true' or
+                res.header['api-response-success'] isnt 'Profile saved' or
                 res.header['api-response-error'] isnt 'false'
               return 'Edit Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -92,6 +96,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
                   return 'Edit failed'
             )
             .end (err, res) ->
+              if err
+                return done err, res
               request
                 .post('/perfil/change')
                 .set('cookie', cookie)
@@ -103,11 +109,14 @@ describe 'PRIVATE PROFILE - CHANGE', ->
                 .expect(
                   (res) ->
                     if res.header['location'] isnt '/perfil/change/..' or
-                        res.header['api-response-success'] isnt 'true' or
+                        res.header['api-response-success'] isnt
+                        'Profile saved' or
                         res.header['api-response-error'] isnt 'false'
                       return 'Revert private Wrong status headers'
                 )
                 .end (err, res) ->
+                  if err
+                    return done err, res
                   request
                     .get('/api/v1/me')
                     .set('Accept', 'application/json')
@@ -135,11 +144,13 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .expect(
           (res) ->
             if res.header['location'] isnt '/perfil/change/..' or
-                res.header['api-response-success'] isnt 'true' or
+                res.header['api-response-success'] isnt 'Profile saved' or
                 res.header['api-response-error'] isnt 'false'
               return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .post('/api/v1/login')
             .send({
@@ -168,6 +179,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -201,6 +214,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .post('/api/v1/login')
             .send({
@@ -231,7 +246,6 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .end (err, res) ->
           if err
             return done err, res
-
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
