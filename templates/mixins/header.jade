@@ -1,0 +1,59 @@
+mixin header(recipe)
+	- var image = '/images/defaul_image.jpg'
+	- var title = 'Sin recomendación'
+
+	if recipe[0]
+		- image = recipe[0].header.url
+		- title = recipe[0].title
+
+	.promoted.ui.grid.segment(style="background: transparent url('#{image}')")
+		.ui.page.grid.head.with-title.with-social
+			#header.row
+				include ../components/header
+
+			.row.logo.shadow
+				a.icon-chef-logo.icon(href="/")
+
+			.row.section
+				.title.shadow= __('Recipes')
+
+			.row.computer.only
+				.social.four.wide.column= __('Follow us on social networks')
+					include ../components/share
+
+				.four.wide.column
+
+				.img-title.eight.wide.column
+					p HOY DESTACAMOS:
+					.tabla1
+						img.ui.image(src = '../frontend/images/tabla1.png')
+					.tabla2
+						.text
+							.span= title
+					.tabla3
+						img.ui.image(src = '../frontend/images/tabla3.png')
+
+			.row.tablet.only
+				.social.seven.wide.column= __('Follow us on social networks')
+					include ../components/share
+
+				.img-title.eight.wide.column
+					p HOY DESTACAMOS:
+					.tabla1
+						img.ui.image(src = '../frontend/images/tabla1.png')
+					.tabla2
+						.text
+							.span= title
+					.tabla3
+						img.ui.image(src = '../frontend/images/tabla3.png')
+
+			.row.mobile.only
+				.img-title.sixteen.wide.column
+					p HOY DESTACAMOS:
+					.tabla1
+						img.ui.image(src = '../frontend/images/tabla1.png')
+					.tabla2
+						.text
+							.span= title
+					.tabla3
+						img.ui.image(src = '../frontend/images/tabla3.png')

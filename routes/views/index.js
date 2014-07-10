@@ -24,6 +24,17 @@ exports = module.exports = function(req, res) {
       .where('isIndexGridPromoted.value', true)
       .sort('isIndexGridPromoted.position');
 
+    // Query for get header promoted recipe
+    var queryHeader = keystone.list('Recipe')
+      .paginate({
+        page: 1,
+        perPage: 1
+      })
+      .where('state', 1)
+      .where('isBanned', false)
+      .where('isIndexHeaderPromoted', true)
+      .sort('-publishedDate');
+
     // Query for get order of grid
     var queryGridOrder = keystone.list('Config')
       .paginate()
@@ -58,6 +69,13 @@ exports = module.exports = function(req, res) {
 
     async.series([
 
+        function(callback) {
+          queryHeader.exec(function(err, results) {
+
+            locals.data.header = results.results;
+            callback(err);
+          });
+        },
         // Function for get recipes grid
         function(callback) {
           queryGrid.exec(function(err, resultsG) {

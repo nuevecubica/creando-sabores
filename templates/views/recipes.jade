@@ -1,5 +1,6 @@
 extends ../layouts/default
 
+include ../mixins/header
 include ../mixins/recipe
 include ../mixins/grid
 
@@ -7,43 +8,7 @@ block js
 	script(src='/frontend/js/recipes.js')
 
 block content
-	#recipe.ui.grid.segment
-		.ui.page.grid.head.with-title.with-social
-			#header.row
-				include ../components/header
-
-			.row.logo.shadow
-				a.icon-chef-logo.icon(href="/")
-
-			.row.section
-				.title.shadow= __('Recipes')
-
-			.row
-				.social.five.wide.column= __('Follow us on social networks')
-					.ui.four.column.center.aligned.grid
-						.column
-							a.ui.item(href='http://twitter.com')
-								.ui.icon
-									i.icon-chef-twitter.icon
-						.column
-							a.ui.item(href='http://youtube.es')
-								.ui.icon
-									i.icon-chef-google.icon
-						.column
-							a.ui.item(href='http://facebook.com')
-								.ui.icon
-									i.icon-chef-facebook.icon
-						.column
-							a.ui.item(href='http://pinterest.es')
-								.ui.icon
-									i.icon-chef-pinterest.icon
-
-				.three.wide.column
-
-				.img-title.eight.wide.column
-					img.ui.image(src = '../frontend/images/test_recipe.png')
-					.text
-						.span Lasagna del chef
+	+header(data.header)
 
 	.ui.page.grid.body
 
