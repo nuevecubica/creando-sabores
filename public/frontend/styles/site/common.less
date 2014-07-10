@@ -57,6 +57,12 @@ body {
   }
 }
 
+.promoted {
+  background-color: transparent;
+  background-size: cover !important;
+  height: 600px;
+}
+
 .head {
   height: 100%;
 
@@ -139,10 +145,43 @@ body {
       }
     }
 
-
     //- With title and subtitle
     &.with-subtitle {
 
+    }
+
+    .img-title {
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+
+      img {
+        position: absolute;
+        bottom: 20px;
+        width: 97%;
+      }
+
+      .text {
+        bottom: 30px;
+        position: absolute;
+        width: 82%;
+        left: 30px;
+        font-family: @pinto-fonts;
+        text-transform: uppercase;
+
+        .span {
+          font-size: 56px;
+          color: @recipes-color-text;
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+
+          @media(max-width: 992px) {
+            .font-extra-larger;
+          }
+        }
+      }
     }
   }
 
@@ -172,6 +211,22 @@ body {
         font-size: 40px;
         font-weight: normal;
         text-transform: none;
+      }
+    }
+  }
+
+  .social {
+    .font-large;
+    padding-top: 50px;
+    text-align: center;
+    color: @recipes-color-text;
+    line-height: 18px;
+
+    a {
+      color: @recipes-color-text;
+
+      .icon {
+        .font-extra-larger;
       }
     }
   }
@@ -208,6 +263,11 @@ body {
 // GRID STYLES
 .wall {
   display: block;
+
+  .row {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
   .recipe {
     float: left;
