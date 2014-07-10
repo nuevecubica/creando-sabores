@@ -1,63 +1,82 @@
 var async = require('async'),
   keystone = require('keystone'),
   clean = require('../../../utils/cleanText.js'),
-  valid = require('../../../utils/validateText.js');
+  valid = require('../../../utils/validateText.js'),
+  formResponse = require('../../../utils/formResponse.js');
 
 exports = module.exports = function(req, res, next) {
 
-  var back = '/perfil';
+  var back = '..',
+    answer = {
+      error: false,
+      success: false
+    };
 
   if (req.method === 'POST') {
 
     async.series([
 
         function(next) {
-          if ("string" === typeof req.body.username && req.body.username) {
-            req.body.username = clean(req.body.username, ['username', ['maxlength', 20]]);
+          if (req.body.username) {
+            req.body.username = clean(String(req.body.username), ['username', ['maxlength', 20]]);
+            if (req.body.username === req.user.username) {
+              req.body.username = null;
+              delete req.body.username;
+            }
           }
           next();
         },
         function(next) {
-          if ("string" === typeof req.body.email && req.body.email) {
+          if (req.body.email) {
+            req.body.email = String(req.body.email);
             if (!valid(req.body.email, ['email'])) {
               console.log('profileChange: Error saving profile, invalid email');
-              req.flash('error', res.__('Error: Email format'));
-              return next(true);
+              return next('Error: Email format');
             }
-            return next(false);
+            else {
+              return next(false);
+            }
+          }
+          else {
+            return next(true);
           }
         },
         function(next) {
-          if (req.body.password) {
-            req.body.password = null;
-          }
+          req.body.isPrivate = (req.body.isPrivate && req.body.isPrivate === 'on');
+          return next();
+        },
+        function(next) {
+          req.body.password = null;
+          req.body.password_confirm = null;
 
-          if ("string" === typeof req.body['old-pass'] && req.body['old-pass'] && "string" === typeof req.body['new-pass'] && req.body['new-pass']) {
-            req.user._.password.compare(req.body['old-pass'], function(err, isMatch) {
+          if (req.body['old-pass'] && req.body['new-pass']) {
+            req.user._.password.compare(String(req.body['old-pass']), function(err, isMatch) {
               if (!err && isMatch) {
-                req.body.password = req.body['new-pass'];
+                req.body['password'] = String(req.body['new-pass']);
+                req.body['password_confirm'] = req.body.password;
                 return next();
               }
               else {
                 console.log('profileChange: Error saving profile, invalid password', err);
-                req.flash('error', res.__('Error: Password not match'));
-                return next(true);
+                return next('Error: Password not match');
               }
             });
           }
+          else {
+            return next();
+          }
         },
         function(next) {
-          var handler = req.user.getUpdateHandler(req);
-          handler.process(req.body, {
-            fields: 'username,password,email'
+          req.user.getUpdateHandler(req).process(req.body, {
+            fields: 'username,password,email,isPrivate'
           }, function(err) {
             // Error ocurred
             if (err) {
               console.log('profileChange: Error processing profile', err);
-              req.flash('error', res.__('Error saving profile'));
-              return next(true);
+              return next('Error saving profile');
             }
             else {
+              console.log('Password change:', req.body.password, req.user.password);
               return next();
             }
           });
@@ -66,12 +85,17 @@ exports = module.exports = function(req, res, next) {
       function(err) {
         if (err) {
           console.log('profileChange: Error saving profile', err);
-          req.flash('error', res.__('Error saving profile'));
+          if ("string" === typeof err) {
+            answer.error = err;
+          }
+          else {
+            answer.error = 'Error saving profile';
+          }
         }
         else {
-          req.flash('success', res.__('Profile saved'));
+          answer.success = 'Profile saved';
         }
-        return res.redirect(back);
+        return formResponse(res, req, back, answer.error, answer.success);
       });
   }
 };
