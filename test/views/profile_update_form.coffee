@@ -11,20 +11,19 @@ describe 'PRIVATE PROFILE - CHANGE', ->
 
   before (done) ->
     this.timeout 10000
-    utils.revertTestUsers ->
-      request
-        .post('/acceso')
-        .send({
-          'action': 'login'
-          'login_email': config.lists.users[0].email
-          'login_password': config.lists.users[0].password
-        })
-        .expect(302)
-        .end (err, res) ->
-          if err
-            return done err, res
-          cookie = res.headers['set-cookie']
-          done()
+    request
+      .post('/acceso')
+      .send({
+        'action': 'login'
+        'login_email': config.lists.users[0].email
+        'login_password': config.lists.users[0].password
+      })
+      .expect(302)
+      .end (err, res) ->
+        if err
+          return done err, res
+        cookie = res.headers['set-cookie']
+        done()
 
   afterEach (done) ->
     utils.revertTestUsers done

@@ -49,8 +49,10 @@ describe 'PRIVATE PROFILE - SAVE', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/perfil'
-              return 'Redirection failed'
+            if res.header['location'] isnt '/perfil/save/..' or
+                res.header['api-response-success'] isnt 'Profile saved' or
+                res.header['api-response-error'] isnt 'false'
+              return 'Wrong status headers'
         )
         .end(done)
           
@@ -68,10 +70,14 @@ describe 'PRIVATE PROFILE - SAVE', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/perfil'
-              return 'Redirection failed'
+            if res.header['location'] isnt '/perfil/save/..' or
+                res.header['api-response-success'] isnt 'Profile saved' or
+                res.header['api-response-error'] isnt 'false'
+              return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -96,10 +102,14 @@ describe 'PRIVATE PROFILE - SAVE', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/perfil'
-              return 'Redirection failed'
+            if res.header['location'] isnt '/perfil/save/..' or
+                res.header['api-response-success'] isnt 'Profile saved' or
+                res.header['api-response-error'] isnt 'false'
+              return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -127,10 +137,14 @@ describe 'PRIVATE PROFILE - SAVE', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/perfil'
-              return 'Redirection failed'
+            if res.header['location'] isnt '/perfil/save/..' or
+                res.header['api-response-success'] isnt 'Profile saved' or
+                res.header['api-response-error'] isnt 'false'
+              return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -155,10 +169,14 @@ describe 'PRIVATE PROFILE - SAVE', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/perfil'
-              return 'Redirection failed'
+            if res.header['location'] isnt '/perfil/save/..' or
+                res.header['api-response-success'] isnt 'Profile saved' or
+                res.header['api-response-error'] isnt 'false'
+              return 'Wrong status headers'
         )
         .end (err, res) ->
+          if err
+            return done err, res
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
