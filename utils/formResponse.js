@@ -1,9 +1,9 @@
 var formResponse = function(res, req, url, error, success) {
   if ('string' === typeof error) {
-    req.flash('error', error);
+    req.flash('error', res.__(error));
   }
   else if ('string' === typeof success) {
-    req.flash('success', success);
+    req.flash('success', res.__(success));
   }
 
   if (null === url) {

@@ -15,18 +15,18 @@ exports = module.exports = function(req, res, next) {
       // Error ocurred
       if (err || !user) {
         console.error('profileRemove: Error removing profile', err, user);
-        return formResponse(res, req, backError, res.__('Error removing profile'), false);
+        return formResponse(res, req, backError, 'Error removing profile', false);
       }
 
       user.isDeactivated = true;
       user.save(function(err) {
         if (err)  {
           console.error('profileRemove: Error removing profile', err);
-          return formResponse(res, req, backError, res.__('Error removing profile'), false);
+          return formResponse(res, req, backError, 'Error removing profile', false);
         }
 
         keystone.session.signout(req, res, function() {
-          return formResponse(res, req, backDone, false, res.__('Profile removed'));
+          return formResponse(res, req, backDone, false, 'Profile removed');
         });
       });
 

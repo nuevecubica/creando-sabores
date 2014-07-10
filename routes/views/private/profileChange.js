@@ -31,7 +31,7 @@ exports = module.exports = function(req, res, next) {
             req.body.email = String(req.body.email);
             if (!valid(req.body.email, ['email'])) {
               console.log('profileChange: Error saving profile, invalid email');
-              return next(res.__('Error: Email format'));
+              return next('Error: Email format');
             }
             else {
               return next(false);
@@ -58,7 +58,7 @@ exports = module.exports = function(req, res, next) {
               }
               else {
                 console.log('profileChange: Error saving profile, invalid password', err);
-                return next(res.__('Error: Password not match'));
+                return next('Error: Password not match');
               }
             });
           }
@@ -73,7 +73,7 @@ exports = module.exports = function(req, res, next) {
             // Error ocurred
             if (err) {
               console.log('profileChange: Error processing profile', err);
-              return next(res.__('Error saving profile'));
+              return next('Error saving profile');
             }
             else {
               console.log('Password change:', req.body.password, req.user.password);
@@ -89,11 +89,11 @@ exports = module.exports = function(req, res, next) {
             answer.error = err;
           }
           else {
-            answer.error = res.__('Error saving profile');
+            answer.error = 'Error saving profile';
           }
         }
         else {
-          answer.success = res.__('Profile saved');
+          answer.success = 'Profile saved';
         }
         return formResponse(res, req, back, answer.error, answer.success);
       });
