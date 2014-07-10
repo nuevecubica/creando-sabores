@@ -23,7 +23,7 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isBanned', false)
-      .sort('-publishedDate');
+      .sort('-rating');
 
     // Query for get recipes for grid
     var queryGrid = keystone.list('Recipe').paginate({
