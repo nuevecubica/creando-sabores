@@ -17,7 +17,8 @@ exports = module.exports = function(req, res) {
   view.on('init', function(next) {
 
     // Query for get recipes for list
-    var queryRecipes = keystone.list('Recipe').paginate({
+    var queryRecipes = keystone.list('Recipe')
+      .paginate({
         page: req.query.page || 1,
         perPage: 5
       })
@@ -25,8 +26,20 @@ exports = module.exports = function(req, res) {
       .where('isBanned', false)
       .sort('-publishedDate');
 
+    // Query for get header promoted recipe
+    var queryHeader = keystone.list('Recipe')
+      .paginate({
+        page: 1,
+        perPage: 1
+      })
+      .where('state', 1)
+      .where('isBanned', false)
+      .where('isRecipesHeaderPromoted', true)
+      .sort('-publishedDate');
+
     // Query for get recipes for grid
-    var queryGrid = keystone.list('Recipe').paginate({
+    var queryGrid = keystone.list('Recipe')
+      .paginate({
         page: 1,
         perPage: 10
       })
@@ -36,7 +49,8 @@ exports = module.exports = function(req, res) {
       .sort('isRecipesGridPromoted.position');
 
     // Query for get chef official recipes for grid
-    var queryChef = keystone.list('Recipe').paginate({
+    var queryChef = keystone.list('Recipe')
+      .paginate({
         page: 1,
         perPage: 10
       })
@@ -68,11 +82,19 @@ exports = module.exports = function(req, res) {
       }]);
 
     async.series([
-        // Function for get ripes
+        // Function for get recipes
         function(callback) {
           queryRecipes.exec(function(err, results) {
 
             locals.data.recipes = results.results;
+            callback(err);
+          });
+        },
+        // Function for get header recipe
+        function(callback) {
+          queryHeader.exec(function(err, results) {
+
+            locals.data.header = results.results;
             callback(err);
           });
         },
