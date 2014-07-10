@@ -156,23 +156,20 @@ body {
       overflow: hidden;
 
       img {
-        position: absolute;
-        bottom: 20px;
-        width: 97%;
+      height: 120px;
       }
 
       .text {
-        bottom: 30px;
         position: absolute;
-        width: 82%;
-        left: 30px;
+        width: 75%;
+        top: 40px;
+        left: 34px;
         font-family: @pinto-fonts;
         text-transform: uppercase;
 
         .span {
           font-size: 56px;
           color: @recipes-color-text;
-          text-align: center;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
@@ -217,7 +214,7 @@ body {
 
   .social {
     .font-large;
-    padding-top: 50px;
+    padding-top: 30px;
     text-align: center;
     color: @recipes-color-text;
     line-height: 18px;
@@ -230,6 +227,108 @@ body {
       }
     }
   }
+  .computer.only{
+    .img-title.wide.column{
+      overflow: inherit;
+      margin-top: 10px;
+      p{
+       margin-left: 10%;
+       position: absolute;
+       top: -5px;
+      }
+      .tabla1{
+        height: 120px;
+        float: left;
+        width: auto;
+      }
+      .tabla2{
+        float: left;
+        height: 120px;
+        width: 75%;
+        background-image: url('../images/tabla2.png');
+        background-size: contain;
+      }
+      .tabla3{
+        margin-left: -1px;
+        height: 120px;
+        float: left;
+        width: auto;
+      }
+    }
+  }
+
+  .tablet.only{
+    .img-title.wide.column{
+      overflow: inherit;
+      margin-top: 10px;
+      p{
+       margin-left: 10%;
+       position: absolute;
+       top: -5px;
+      }
+
+      .text {
+        position: absolute;
+        width: 65%;
+        top: 50px;
+        left: 34px;
+      }
+      .tabla1{
+        height: 120px;
+        float: left;
+        width: auto;
+      }
+      .tabla2{
+        float: left;
+        height: 120px;
+        width: 67%;
+        background-image: url('../images/tabla2.png');
+        background-size: contain;
+      }
+      .tabla3{
+        margin-left: -1px;
+        height: 120px;
+        float: left;
+        width: auto;
+      }
+    }
+  }
+  .mobile.only{
+    .img-title.wide.column{
+      overflow: inherit;
+      margin-top: 10px;
+      p{
+       margin-left: 10%;
+       position: absolute;
+       top: -5px;
+      }
+
+      .text {
+        position: absolute;
+        width: 70%;
+        top: 50px;
+        left: 34px;
+      }
+      .tabla1{
+        height: 120px;
+        float: left;
+        width: auto;
+      }
+      .tabla2{
+        float: left;
+        height: 120px;
+        width: 70%;
+        background-image: url('../images/tabla2.png');
+        background-size: contain;
+      }
+      .tabla3{
+        margin-left: -1px;
+        height: 120px;
+        float: left;
+        width: auto;
+      }
+    }
+  }  
 }
 
 .body {
