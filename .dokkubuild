@@ -13,17 +13,22 @@
 #   Sourced on build time. Handle with care.
 #
 # Execute grunt build? 						BUILD_GRUNT
-# Force update of npm packages?		BUILD_NPM
+# Force update of npm packages?		BUILD_NPM_UPDATE
 # Execute bower install & update?	BUILD_BOWER
 
 if [ "preproduction" == NODE_ENV ]; then
-	BUILD_NPM=0
+	BUILD_NPM_UPDATE=0
 elif [ "development" == NODE_ENV ]; then
-	BUILD_NPM=0
+	BUILD_NPM_UPDATE=0
 else
-	BUILD_NPM=1
+	BUILD_NPM_UPDATE=1
 fi
 
 BUILD_BOWER=1
+BUILD_BOWER_PRUNE=1
+BUILD_BOWER_INSTALL=1
+BUILD_BOWER_UPDATE=1
+BUILD_BOWER_CACHE=1
 BUILD_BOWER_COMPONENTS="public/packages"
+
 BUILD_GRUNT=1
