@@ -66,6 +66,9 @@ answer.lists = {
     email: 'testUser1@glue.gl',
     password: 'testUser1',
     username: 'testUser1',
+    about: 'Test User 1',
+    isPrivate: false,
+    isDeactivated: false,
     media: {
       avatar: {
         origin: 'none'
