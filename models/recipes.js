@@ -186,11 +186,13 @@ Recipe.add({
       wysiwyg: true,
       height: 100
     },
+
     ingredients: {
       type: Types.Html,
       wysiwyg: true,
       height: 50
     },
+
     procedure: {
       type: Types.Html,
       wysiwyg: true,
@@ -205,12 +207,20 @@ Recipe.add({
       hidden: true,
       default: false
     },
+
+    isIndexHeaderPromoted: {
+      type: Types.Boolean,
+      label: 'Index header promoted',
+      default: false
+    },
+
     isIndexGridPromoted: {
       value: {
         type: Types.Boolean,
         label: 'Index Grid',
         default: false
       },
+
       position: {
         type: Types.Select,
         numeric: true,
@@ -222,12 +232,20 @@ Recipe.add({
         default: 0
       }
     },
+
+    isRecipesHeaderPromoted: {
+      type: Types.Boolean,
+      label: 'Recipes header promoted',
+      default: false
+    },
+
     isRecipesGridPromoted: {
       value: {
         type: Types.Boolean,
         label: 'Recipes Grid',
         default: false
       },
+
       position: {
         type: Types.Select,
         numeric: true,
@@ -278,8 +296,8 @@ Recipe.schema.pre('save', function(next) {
     function(err, results) {
       me.isOfficial = results.official;
 
-      // Set isPromoted
-      if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value) {
+      // Set isPromoted if recipes is promoted in grids or headers
+      if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
         me.isPromoted = true;
       }
 
