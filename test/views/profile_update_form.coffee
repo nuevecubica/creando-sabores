@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.url
 cookie = null
 
-describe.only 'PRIVATE PROFILE - CHANGE', ->
+describe 'PRIVATE PROFILE - CHANGE', ->
 
   before (done) ->
     this.timeout 10000
