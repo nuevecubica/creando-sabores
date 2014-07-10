@@ -1,10 +1,11 @@
 var async = require('async'),
   keystone = require('keystone'),
-  clean = require('../../../utils/cleanText.js');
+  clean = require('../../../utils/cleanText.js'),
+  formResponse = require('../../../utils/formResponse.js');
 
 exports = module.exports = function(req, res, next) {
 
-  var back = '/perfil';
+  var back = '..';
 
   if (req.method === 'POST') {
 
@@ -23,8 +24,7 @@ exports = module.exports = function(req, res, next) {
       // Error ocurred
       if (err) {
         console.log('profileSave: Error saving profile');
-        req.flash('error', res.__('Error saving profile'));
-        return res.redirect(back);
+        return formResponse(res, req, back, res.__('Error saving profile'), false);
       }
       else {
         // New avatar uploaded? Change avatar
@@ -36,24 +36,22 @@ exports = module.exports = function(req, res, next) {
           }, function(err) {
             // Error ocurred
             if (err) {
-              console.log('profielSave: Error saving avatar');
-              req.flash('error', res.__('Error saving profile'));
+              console.log('profileSave: Error saving avatar');
+              return formResponse(res, req, back, res.__('Error saving profile'), false);
             }
             else {
-              req.flash('success', res.__('Profile saved'));
+              return formResponse(res, req, back, false, res.__('Profile saved'));
             }
-            return res.redirect(back);
           });
         }
         // Same avatar found
         else {
-          req.flash('success', res.__('Profile saved'));
-          return res.redirect(back);
+          return formResponse(res, req, back, false, res.__('Profile saved'));
         }
       }
     });
   }
   else {
-    return res.redirect(back);
+    return formResponse(res, req, back, false, false);
   }
 };

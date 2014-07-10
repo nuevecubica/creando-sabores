@@ -1,7 +1,8 @@
 var async = require('async'),
   keystone = require('keystone'),
   clean = require('../../../utils/cleanText.js'),
-  valid = require('../../../utils/validateText.js');
+  valid = require('../../../utils/validateText.js'),
+  formResponse = require('../../../utils/formResponse.js');
 
 exports = module.exports = function(req, res, next) {
 
@@ -79,21 +80,16 @@ exports = module.exports = function(req, res, next) {
         if (err) {
           console.log('profileChange: Error saving profile', err);
           if ("string" === typeof err) {
-            answer.error = true;
-            req.flash('error', err);
+            answer.error = err;
           }
           else {
-            answer.error = err;
-            req.flash('error', res.__('Error saving profile'));
+            answer.error = res.__('Error saving profile');
           }
         }
         else {
-          answer.success = true;
-          req.flash('success', res.__('Profile saved'));
+          answer.success = res.__('Profile saved');
         }
-        res.set('Api-Response-Error', answer.error);
-        res.set('Api-Response-Success', answer.success);
-        return res.redirect(back);
+        return formResponse(res, req, back, answer.error, answer.success);
       });
   }
 };
