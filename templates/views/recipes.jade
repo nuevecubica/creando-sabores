@@ -78,8 +78,8 @@ block content
 
 			.row
 				.ui.grid.segment.list
-					if data.recipes.results.length
-						each recipe in data.recipes.results
+					if data.recipes.length
+						each recipe in data.recipes
 							.row.position
 								+recipe(recipe)
 					else

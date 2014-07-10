@@ -54,9 +54,9 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-  var height = $('.wall .recipe.small').eq(0).width();
-
   var gridResizer = function() {
+    var height = $('.wall .recipe.small:visible').eq(0).width();
+
     $('.wall .recipe').each(function() {
       if ($(this).hasClass('large')) {
         $(this).height(height * 2);
@@ -70,6 +70,7 @@ $(document).ready(function() {
   if ($('.wall')) {
     gridResizer();
     $(window).resize(gridResizer);
+    $(window).load(gridResizer);
   }
 
 });
