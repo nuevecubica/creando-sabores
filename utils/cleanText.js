@@ -24,7 +24,7 @@ var cleaners = {
   },
 
   username: function(str) {
-    return str.replace(/(^[a-z0-9_\-])/gi, '');
+    return str.replace(/([^a-z0-9_\-])/gi, '');
   }
 };
 
