@@ -8,8 +8,57 @@ mixin header(recipe, section)
 
 	.promoted.ui.grid.segment(style="background: transparent url('#{image}')")
 		
+		if section === 'home'
 
-		if section === 'recipes'
+			.ui.page.grid.head.simple.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.computer.only
+					.social.four.wide.column= __('Follow us on social networks')
+						include ../components/share
+
+					.four.wide.column
+
+					.img-title.eight.wide.column
+						p= __('Today promoted')
+						.tabla1
+							img.ui.image(src = '../frontend/images/tabla1.png')
+						.tabla2
+							.text
+								.span= title
+						.tabla3
+							img.ui.image(src = '../frontend/images/tabla3.png')
+
+				.row.tablet.only
+					.social.seven.wide.column= __('Follow us on social networks')
+						include ../components/share
+
+					.img-title.eight.wide.column
+						p= __('Today promoted')
+						.tabla1
+							img.ui.image(src = '../frontend/images/tabla1.png')
+						.tabla2
+							.text
+								.span= title
+						.tabla3
+							img.ui.image(src = '../frontend/images/tabla3.png')
+
+				.row.mobile.only
+					.img-title.sixteen.wide.column
+						p= __('Today promoted')
+						.tabla1
+							img.ui.image(src = '../frontend/images/tabla1.png')
+						.tabla2
+							.text
+								.span= title
+						.tabla3
+							img.ui.image(src = '../frontend/images/tabla3.png')
+
+		else if section === 'recipes'
 			.ui.page.grid.head.with-title.with-social
 				#header.row
 					include ../components/header
