@@ -113,7 +113,7 @@ body {
   }
 
   &.with-social {
-    > .row:last-child {
+    > .row:not(.tablet):last-child, > .row:not(.mobile):last-child {
       height: 30% !important;
     }
 
@@ -148,6 +148,15 @@ body {
     //- With title and subtitle
     &.with-subtitle {
 
+      > .row {
+        margin: 0;
+        padding: 0;
+        height: 10%;
+
+        &.logo {
+          height: 40%;
+        }
+      }
     }
 
     .img-title {
@@ -205,7 +214,7 @@ body {
       }
 
       &.author {
-        font-size: 40px;
+        .font-extra-larger;
         font-weight: normal;
         text-transform: none;
       }
