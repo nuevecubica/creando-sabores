@@ -72,7 +72,7 @@ exports = module.exports = function(req, res) {
         function(callback) {
           queryHeader.exec(function(err, results) {
 
-            locals.data.header = results.results;
+            locals.data.header = results.results[0];
             callback(err);
           });
         },
