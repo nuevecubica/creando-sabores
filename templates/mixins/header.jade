@@ -1,0 +1,44 @@
+mixin header(recipe)
+	- var image = '/images/defaul_image.jpg'
+	- var title = 'Sin recomendación'
+
+	if recipe[0]
+		- image = recipe[0].header.url
+		- title = recipe[0].title
+
+	.promoted.ui.grid.segment(style="background: transparent url('#{image}')")
+		.ui.page.grid.head.with-title.with-social
+			#header.row
+				include ../components/header
+
+			.row.logo.shadow
+				a.icon-chef-logo.icon(href="/")
+
+			.row.section
+				.title.shadow= __('Recipes')
+
+			.row.computer.only
+				.social.five.wide.column= __('Follow us on social networks')
+					include ../components/share
+
+				.four.wide.column
+
+				.img-title.seven.wide.column
+					img.ui.image(src = '../frontend/images/test_recipe.png')
+					.text
+						.span= title
+
+			.row.tablet.only
+				.social.seven.wide.column= __('Follow us on social networks')
+					include ../components/share
+
+				.img-title.nine.wide.column
+					img.ui.image(src = '../frontend/images/test_recipe.png')
+					.text
+						.span= title
+
+			.row.mobile.only
+				.img-title.sixteen.wide.column
+					img.ui.image(src = '../frontend/images/test_recipe.png')
+					.text
+						.span= title

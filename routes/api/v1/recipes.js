@@ -27,11 +27,15 @@ exports = module.exports = function(req, res) {
         .sort('publishedDate');
 
       q.exec(function(err, recipes) {
+        //console.log('EXEC ' + JSON.stringify(recipes));
+
         if (err || !recipes) {
+          //console.log('ERROR ' + err);
           res.status(404);
           answer.error = true;
         }
-        else if (recipes.length > 0) {
+        else if (recipes.total > 0) {
+          //console.log('RECIPES ' + recipes);
           answer.success = true;
           answer.recipes = recipes;
         }

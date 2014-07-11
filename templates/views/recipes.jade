@@ -86,5 +86,12 @@ block content
 						| #{__('No recipes yet')}
 
 			.row.loader
+				.sixteen.wide.column= __('Loading more recipes')
+
+			.row.no-more
+				.sixteen.wide.column= __('No more')
+
+			.row.load-more.hidden
 				.sixteen.wide.column
-					.span= __('Loading more recipes')
+					.ui.button.chef.button-brick
+						a(href="#")= __('Load more')
