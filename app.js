@@ -1,4 +1,5 @@
 /* APP */
+var multiline = require('multiline');
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
@@ -60,20 +61,16 @@ MongoDB Environment:
 //	USER: " + process.env.MONGODB_USERNAME + "\n\
 //	URL:  " + process.env.MONGO_URL);
 
-var multiString = function(f) {
-  return f.toString().split('\n').slice(2, -2).join('\n');
-};
-
 if (config.keystone.test.enabled) {
   keystone.init(config.keystone.test.init);
-  console.warn(multiString(function() {
-    /**
+  console.warn(multiline(function() {
+    /*
  _____ _____ ____ _____   __  __  ___  ____  _____
 |_   _| ____/ ___|_   _| |  \/  |/ _ \|  _ \| ____|
   | | |  _| \___ \ | |   | |\/| | | | | | | |  _|
   | | | |___ ___) || |   | |  | | |_| | |_| | |___
   |_| |_____|____/ |_|   |_|  |_|\___/|____/|_____|
-**/
+*/
   }));
 }
 
