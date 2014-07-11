@@ -3,7 +3,7 @@
  */
 exports.requireUser = function(req, res, next) {
   if (!req.user || (req.user && req.user.isBanned)) {
-    req.flash('error', res.__('Please sign in to access this page.'));
+    req.flash('error', res.__('Please sign in to access this page'));
     res.redirect('/');
   }
   else {
@@ -34,7 +34,7 @@ exports.requireUserApi = function(req, res, next) {
  */
 exports.requireAdmin = function(req, res, next) {
   if (!req.user || (req.user && (req.user.isBanned || req.user.isDeactivated || !req.user.isAdmin))) {
-    req.flash('error', res.__('Please sign in to access this page.'));
+    req.flash('error', res.__('Please sign in to access this page'));
     res.redirect('/');
   }
   else {
