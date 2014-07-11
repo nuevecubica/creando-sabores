@@ -1,8 +1,9 @@
 must = require 'must'
 keystone = require 'keystone'
-config = require __dirname + '/../../config-test.js'
+config = require __dirname + '/../../config.js'
+users = require __dirname + '/../users.json'
 
-request = require('supertest') config.url
+request = require('supertest') config.keystone.publicUrl
 
 getFormErrors = (text, expected) ->
   errorDetector = new RegExp 'field error\-here', 'ig'
@@ -103,8 +104,8 @@ describe 'SIGNUP', ->
         .post('/registro')
         .send({
           'action': 'signup'
-          'signup_email': config.lists.users[0].email
-          'signup_password': config.lists.users[0].password
+          'signup_email': users.users[0].email
+          'signup_password': users.users[0].password
         })
         .expect(302)
         .end(done)
@@ -115,8 +116,8 @@ describe 'SIGNUP', ->
         .send({
           'action': 'signup'
           'signup_name': 'TestDummyName'
-          'signup_email': config.lists.users[0].email
-          'signup_password': config.lists.users[0].password
+          'signup_email': users.users[0].email
+          'signup_password': users.users[0].password
         })
         .expect(302)
         .end(done)

@@ -1,10 +1,10 @@
 must = require 'must'
 keystone = require 'keystone'
-config = require __dirname + '/../../config-test.js'
+config = require __dirname + '/../../config.js'
+users = require __dirname + '/../users.json'
 utils = require __dirname + '/../utils.js'
 
-
-request = require('supertest') config.url
+request = require('supertest') config.keystone.publicUrl
 cookie = null
 
 describe 'PRIVATE PROFILE - REMOVE', ->
@@ -15,8 +15,8 @@ describe 'PRIVATE PROFILE - REMOVE', ->
       .post('/acceso')
       .send({
         'action': 'login'
-        'login_email': config.lists.users[0].email
-        'login_password': config.lists.users[0].password
+        'login_email': users.users[0].email
+        'login_password': users.users[0].password
       })
       .expect(302)
       .end (err, res) ->

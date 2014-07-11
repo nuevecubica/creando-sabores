@@ -1,9 +1,10 @@
 must = require 'must'
-config = require __dirname + '/../../../config-test.js'
+config = require __dirname + '/../../../config.js'
+users = require __dirname + '/../../users.json'
 utils = require __dirname + '/../../utils.js'
 
 supertest = require 'supertest'
-request = supertest.agent config.url
+request = supertest.agent config.keystone.publicUrl
 cookie = null
 
 antiRegExp = (text, regexp) ->
@@ -37,8 +38,8 @@ describe 'API v1: /me/', ->
         request
         .post('/api/v1/login')
         .send({
-          email: config.lists.users[0].email,
-          password: config.lists.users[0].password
+          email: users.users[0].email,
+          password: users.users[0].password
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -58,7 +59,7 @@ describe 'API v1: /me/', ->
             (res) ->
               return 'No user' if not res.body.user
 
-              if res.body.user.username isnt config.lists.users[0].username
+              if res.body.user.username isnt users.users[0].username
                 return 'Wrong user'
           )
           .end(done)
@@ -70,8 +71,8 @@ describe 'API v1: /me/', ->
         request
         .post('/api/v1/login')
         .send({
-          email: config.lists.users[0].email,
-          password: config.lists.users[0].password
+          email: users.users[0].email,
+          password: users.users[0].password
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -88,7 +89,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .expect(
             (res) ->
-              if res.body.user.username isnt config.lists.users[0].username
+              if res.body.user.username isnt users.users[0].username
                 return 'Login failed'
           )
           .end (err, res) ->
@@ -135,8 +136,8 @@ describe 'API v1: /me/', ->
         request
         .post('/api/v1/login')
         .send({
-          email: config.lists.users[0].email,
-          password: config.lists.users[0].password
+          email: users.users[0].email,
+          password: users.users[0].password
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -171,9 +172,9 @@ describe 'API v1: /me/', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.username isnt config.lists.users[0].username
+                if res.body.user.username isnt users.users[0].username
                   return "Save failed.
-                   Expected username '#{config.lists.users[0].username}'
+                   Expected username '#{users.users[0].username}'
                    and got '#{res.body.user.username}'"
             )
             .end(done)
@@ -205,9 +206,9 @@ describe 'API v1: /me/', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.name isnt config.lists.users[0].name
+                if res.body.user.name isnt users.users[0].name
                   return "Save failed.
-                   Expected name '#{config.lists.users[0].name}'
+                   Expected name '#{users.users[0].name}'
                    and got '#{res.body.user.name}'"
             )
             .end(done)

@@ -206,11 +206,6 @@ module.exports = (grunt) ->
           filter: "isFile"
         }
         {
-          src: ["configs/config-" + grunt.config("env") + "-test.js"]
-          dest: "config-test.js"
-          filter: "isFile"
-        }
-        {
           src: ["configs/" + grunt.config("env") + ".env"]
           dest: ".env"
           filter: "isFile"

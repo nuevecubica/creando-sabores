@@ -1,7 +1,7 @@
 /*
 	DEVELOPMENT CONFIGURATION
 */
-exports = module.exports = {
+var answer = {
   keystone: {
     init: {
       'name': 'Chefcito',
@@ -28,8 +28,20 @@ exports = module.exports = {
 
       'host': '0.0.0.0',
       'port': process.env.PORT || 3000,
-      'mongo url': process.env.MONGO_URL ||  null
+      'mongo url': process.env.MONGO_URL || "mongodb://localhost:27017/chefcito"
     },
+    'security': {
+      'csrf': true
+    },
+    test: {
+      enabled: process.env.APP_TEST === 'true' || false,
+      init: {
+        'security': {
+          'csrf': false
+        }
+      }
+    },
+    publicUrl: process.env.APP_PUBLIC_URL ||  'http://chefcito.dev01.glue.gl',
     'email locals': {
       logo_src: '/images/logo-email.gif',
       logo_width: 194,
@@ -50,9 +62,8 @@ exports = module.exports = {
     }, {
       find: '/keystone/',
       replace: 'http://localhost:3000/keystone/'
-    }],
-    'security': {
-      'csrf': true
-    }
+    }]
   }
 };
+
+exports = module.exports = answer;

@@ -1,8 +1,9 @@
 must = require 'must'
 keystone = null
-config = require __dirname + '/../../config-test.js'
+config = require __dirname + '/../../config.js'
+users = require __dirname + '/../users.json'
 
-request = require('supertest') config.url
+request = require('supertest') config.keystone.publicUrl
 
 getFormErrors = (text, expected) ->
   errorDetector = new RegExp 'field error\-here', 'ig'
@@ -104,8 +105,8 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': config.lists.users[0].email
-          'login_password': config.lists.users[0].password
+          'login_email': users.users[0].email
+          'login_password': users.users[0].password
         })
         .expect(302)
         .end(done)
@@ -116,7 +117,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': config.lists.users[0].email
+          'login_email': users.users[0].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)
@@ -131,7 +132,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': config.lists.users[1].email
+          'login_email': users.users[1].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)
