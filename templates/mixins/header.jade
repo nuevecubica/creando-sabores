@@ -1,59 +1,81 @@
-mixin header(recipe)
+mixin header(recipe, section)
 	- var image = '/images/defaul_image.jpg'
 	- var title = 'Sin recomendación'
 
-	if recipe[0]
-		- image = recipe[0].header.url
-		- title = recipe[0].title
+	if recipe
+		- image = recipe.header.url
+		- title = recipe.title
 
 	.promoted.ui.grid.segment(style="background: transparent url('#{image}')")
-		.ui.page.grid.head.with-title.with-social
-			#header.row
-				include ../components/header
+		
 
-			.row.logo.shadow
-				a.icon-chef-logo.icon(href="/")
+		if section === 'recipes'
+			.ui.page.grid.head.with-title.with-social
+				#header.row
+					include ../components/header
 
-			.row.section
-				.title.shadow= __('Recipes')
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
 
-			.row.computer.only
-				.social.four.wide.column= __('Follow us on social networks')
-					include ../components/share
+				.row.section
+					.title.shadow= __('Recipes')
 
-				.four.wide.column
+				.row.computer.only
+					.social.four.wide.column= __('Follow us on social networks')
+						include ../components/share
 
-				.img-title.eight.wide.column
-					p HOY DESTACAMOS:
-					.tabla1
-						img.ui.image(src = '../frontend/images/tabla1.png')
-					.tabla2
-						.text
-							.span= title
-					.tabla3
-						img.ui.image(src = '../frontend/images/tabla3.png')
+					.four.wide.column
 
-			.row.tablet.only
-				.social.seven.wide.column= __('Follow us on social networks')
-					include ../components/share
+					.img-title.eight.wide.column
+						p= __('Today promoted')
+						.tabla1
+							img.ui.image(src = '../frontend/images/tabla1.png')
+						.tabla2
+							.text
+								.span= title
+						.tabla3
+							img.ui.image(src = '../frontend/images/tabla3.png')
 
-				.img-title.eight.wide.column
-					p HOY DESTACAMOS:
-					.tabla1
-						img.ui.image(src = '../frontend/images/tabla1.png')
-					.tabla2
-						.text
-							.span= title
-					.tabla3
-						img.ui.image(src = '../frontend/images/tabla3.png')
+				.row.tablet.only
+					.social.seven.wide.column= __('Follow us on social networks')
+						include ../components/share
 
-			.row.mobile.only
-				.img-title.sixteen.wide.column
-					p HOY DESTACAMOS:
-					.tabla1
-						img.ui.image(src = '../frontend/images/tabla1.png')
-					.tabla2
-						.text
-							.span= title
-					.tabla3
-						img.ui.image(src = '../frontend/images/tabla3.png')
+					.img-title.eight.wide.column
+						p= __('Today promoted')
+						.tabla1
+							img.ui.image(src = '../frontend/images/tabla1.png')
+						.tabla2
+							.text
+								.span= title
+						.tabla3
+							img.ui.image(src = '../frontend/images/tabla3.png')
+
+				.row.mobile.only
+					.img-title.sixteen.wide.column
+						p= __('Today promoted')
+						.tabla1
+							img.ui.image(src = '../frontend/images/tabla1.png')
+						.tabla2
+							.text
+								.span= title
+						.tabla3
+							img.ui.image(src = '../frontend/images/tabla3.png')
+
+		else if section === 'recipe'
+
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section
+					.title= data.recipe.title
+				.row.section
+					.subtitle.author= data.recipe.author.name
+
+				.row.computer.only
+					.social.four.wide.column= __('Follow us on social networks')
+						include ../components/share
+

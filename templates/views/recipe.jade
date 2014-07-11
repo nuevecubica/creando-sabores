@@ -2,6 +2,8 @@ extends ../layouts/default
 
 include ../mixins/recipe
 
+include ../mixins/header
+
 block css
 	link(href="../frontend/styles/site.css", rel="stylesheet")
 
@@ -31,42 +33,8 @@ block js
 		script(src='/keystone/js/content/editor.js')
 
 block content
-	#recipe-single.ui.grid.segment
-		.ui.page.grid
-			.row
-				include ../components/header
 
-			.row
-				.four.wide.column
-
-				.logo.eight.wide.column
-					a.icon-chef-logo.icon(href="/")
-
-					.span= data.recipe.title
-					.span.author= data.recipe.author.name.first + ' ' + data.recipe.author.name.last
-
-			.row
-				.twelve.wide.column
-
-				.social.four.wide.column
-					| #{__('Share on')}
-					.ui.four.column.center.aligned.grid
-						.column
-							a.ui.item(href='http://twitter.com')
-								.ui.icon
-									i.icon-chef-twitter.icon
-						.column
-							a.ui.item(href='http://youtube.es')
-								.ui.icon
-									i.icon-chef-google.icon
-						.column
-							a.ui.item(href='http://facebook.com')
-								.ui.icon
-									i.icon-chef-facebook.icon
-						.column
-							a.ui.item(href='http://pinterest.es')
-								.ui.icon
-									i.icon-chef-pinterest.icon
+	+header(data.recipe, section)
 
 	.ui.page.grid
 		#recipe-content.ui.grid.segment
