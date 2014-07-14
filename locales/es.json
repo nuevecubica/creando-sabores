@@ -94,5 +94,20 @@
 	"Videorecipes": "Videorecetas",
 	"Wrong email or in use.": "Incorrecto o en uso.",
 	"or register with email": "...o con tu correo electrónico",
-	"our terms and conditions": "nuestros términos y condiciones"
+	"our terms and conditions": "nuestros términos y condiciones",
+	"Dummy": "Dummy",
+	"Very easy": "Very easy",
+	"Easy": "Easy",
+	"Normal": "Normal",
+	"Difficult": "Difficult",
+	"Very difficult": "Very difficult",
+	"min (minutes)": "min (minutes)",
+	"Favorite": "Favorite",
+	"Add to menu": "Add to menu",
+	"Ingredients": "Ingredients",
+	"In case that you don't have enough ingredients [...]": "In case that you don't have enough ingredients [...]",
+	"Add to shopping basket": "Add to shopping basket",
+	"Select all": "Select all",
+	"Procedure": "Procedure",
+	"Step": "Step"
 }

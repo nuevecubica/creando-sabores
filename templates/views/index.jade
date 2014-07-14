@@ -4,7 +4,7 @@ include ../mixins/header
 include ../mixins/grid
 
 block js
-	script(src='/frontend/js/main.js')
+	script(src='/js/main.js')
 
 block content
 	+header(data.header, section)
@@ -30,18 +30,16 @@ block content
 			.row
 				.six.wide.column
 				.logo.four.wide.column
-					img.ui.image.play(src = '../frontend/images/test_play.png')
+					img.ui.image.play(src = '/images/test_play.png')
 
 			.row
 				.eight.wide.column
 				.title.eight.wide.column
-					img.ui.image(src = '../frontend/images/test_video_recipe.png')
+					img.ui.image(src = '/images/test_video_recipe.png')
 					.text
 						.span Lasagna del chef
 					.date
 						.span 13 Mayo de 2014
-
-
 
 		#video-recipes.list.ui.grid.segment
 			- for (var row = 0; row < 5; row++)
@@ -54,7 +52,7 @@ block content
 								.ui.three.column.center.aligned.grid
 									.column
 									.column
-										img.ui.image.play(src = '../frontend/images/test_play.png')
+										img.ui.image.play(src = '/images/test_play.png')
 									.column
 
 							.row
