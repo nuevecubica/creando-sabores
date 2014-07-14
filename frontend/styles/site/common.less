@@ -197,19 +197,16 @@ body {
     }
 
     .img-title {
-      height: 100%;
       position: relative;
       overflow: hidden;
 
       img {
-      height: 120px;
+        height: 120px;
       }
 
       .text {
-        position: absolute;
-        width: 75%;
+        position: relative;
         top: 40px;
-        left: 34px;
         font-family: @pinto-fonts;
         text-transform: uppercase;
 
@@ -274,36 +271,56 @@ body {
     }
   }
   .img-title.wide.column{
-    overflow: inherit;
-    margin-top: 10px;
-    p{
-      margin-left: 10%;
-      position: absolute;
-      top: -5px;
-      text-transform: uppercase;
+    padding-top: 10px;
+
+    .tabla {
+      overflow: inherit;
+      position: relative;
+      padding-left: 21px;
+      padding-right: 96px;
+      box-sizing: border-box;
+      width: 98%;
+      margin: 0 auto;
+
+      p {
+        margin-left: 10%;
+        position: absolute;
+        top: -5px;
+        text-transform: uppercase;
       }
-    .tabla1{
-      height: 120px;
-      float: left;
-      width: auto;
+      .tabla1{
+        position: absolute;
+        left:0;
+        height: 120px;
+        width: 21px;
+        background-image: url('/images/tabla1.png');
+        background-size: contain;
+        z-index: 10;
+      }
+      .tabla2{
+        height: 120px;
+        background-image: url('/images/tabla2.png');
+        background-size: contain;
+        z-index: 20;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .tabla3{
+        position: absolute;
+        right:0;
+        top:0;
+        height: 120px;
+        width: 96px;
+        background-image: url('/images/tabla3.png');
+        background-size: contain;
+        z-index: 10;
+      }
     }
-    .tabla2{
-      float: left;
-      height: 120px;
-      width: 75%;
-      background-image: url('../images/tabla2.png');
-      background-size: contain;
-    }
-    .tabla3{
-      margin-left: -1px;
-      height: 120px;
-      float: left;
-      width: auto;
-    } 
-  } 
+  }
   .tablet.only{
     .img-title.wide.column{
-    
+
       .text {
         position: absolute;
         width: 65%;
@@ -328,7 +345,7 @@ body {
         width: 70%;
       }
     }
-  }  
+  }
 }
 
 .body {
@@ -471,8 +488,8 @@ body {
     padding-top: 0;
     background-color: @recipes-list-even;
     .content {
-      &::after { 
-        background: linear-gradient(to bottom, fade(@recipes-list-even, 0%), @recipes-list-even 57%); 
+      &::after {
+        background: linear-gradient(to bottom, fade(@recipes-list-even, 0%), @recipes-list-even 57%);
       }
     }
   }
@@ -480,8 +497,8 @@ body {
   > .row:nth-child(odd) {
     background-color: @recipes-list-odd;
     .content {
-      &::after { 
-        background: linear-gradient(to bottom, fade(@recipes-list-odd, 0%), @recipes-list-odd 57%); 
+      &::after {
+        background: linear-gradient(to bottom, fade(@recipes-list-odd, 0%), @recipes-list-odd 57%);
       }
     }
   }
@@ -579,7 +596,7 @@ body {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    } 
+    }
   }
   .content {
 
@@ -587,13 +604,13 @@ body {
     overflow: hidden;
     position: relative;
 
-    &::after { 
+    &::after {
       content:'';
       position: absolute;
       width: 100%;
       height: 47px;
       top: 90px;
-      right: 0; 
+      right: 0;
     }
     p {
       margin-top: 10px;
@@ -660,8 +677,8 @@ body {
 }
   // Arrows
   .arrow-up {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
   border-bottom: 20px solid;
@@ -669,8 +686,8 @@ body {
 }
 
 .arrow-down {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
   border-top: 20px solid;
@@ -678,8 +695,8 @@ body {
 }
 
 .arrow-right {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
   border-left: 20px solid;
@@ -687,10 +704,10 @@ body {
 }
 
 .arrow-left {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent; 
+  border-bottom: 20px solid transparent;
   border-right:20px solid;
   border-right-color: @chef-color-light-bg;
 }

@@ -7,7 +7,7 @@ mixin header(recipe, section)
 		- title = recipe.title
 
 	.promoted.ui.grid.segment(style="background: transparent url('#{image}')")
-		
+
 		if section === 'home'
 
 			.ui.page.grid.head.simple.with-social
@@ -17,46 +17,22 @@ mixin header(recipe, section)
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
 
-				.row.computer.only
-					.social.four.wide.column= __('Follow us on social networks')
+				.row
+					.social.four.tablet-seven.wide.column.tablet.computer.only= __('Follow us on social networks')
 						include ../components/share
 
-					.four.wide.column
+					.four.wide.column.computer.only
 
-					.img-title.eight.wide.column
-						p= __('Today promoted')
-						.tabla1
-							img.ui.image(src = '../images/tabla1.png')
-						.tabla2
-							.text
-								.span= title
-						.tabla3
-							img.ui.image(src = '../images/tabla3.png')
-
-				.row.tablet.only
-					.social.seven.wide.column= __('Follow us on social networks')
-						include ../components/share
-
-					.img-title.eight.wide.column
-						p= __('Today promoted')
-						.tabla1
-							img.ui.image(src = '../images/tabla1.png')
-						.tabla2
-							.text
-								.span= title
-						.tabla3
-							img.ui.image(src = '../images/tabla3.png')
-
-				.row.mobile.only
-					.img-title.sixteen.wide.column
-						p= __('Today promoted')
-						.tabla1
-							img.ui.image(src = '../images/tabla1.png')
-						.tabla2
-							.text
-								.span= title
-						.tabla3
-							img.ui.image(src = '../images/tabla3.png')
+					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+						.tabla
+							p= __('Today promoted')
+							.tabla1
+								.ui.image
+							.tabla2
+								.text
+									.span= title
+							.tabla3
+								.ui.image
 
 		else if section === 'recipes'
 			.ui.page.grid.head.with-title.with-social
@@ -69,46 +45,22 @@ mixin header(recipe, section)
 				.row.section
 					.title.shadow= __('Recipes')
 
-				.row.computer.only
-					.social.four.wide.column= __('Follow us on social networks')
+				.row
+					.social.four.tablet-seven.wide.column.tablet.computer.only= __('Follow us on social networks')
 						include ../components/share
 
-					.four.wide.column
+					.four.wide.column.computer.only
 
-					.img-title.eight.wide.column
-						p= __('Today promoted')
-						.tabla1
-							img.ui.image(src = '../images/tabla1.png')
-						.tabla2
-							.text
-								.span= title
-						.tabla3
-							img.ui.image(src = '../images/tabla3.png')
-
-				.row.tablet.only
-					.social.seven.wide.column= __('Follow us on social networks')
-						include ../components/share
-
-					.img-title.eight.wide.column
-						p= __('Today promoted')
-						.tabla1
-							img.ui.image(src = '../images/tabla1.png')
-						.tabla2
-							.text
-								.span= title
-						.tabla3
-							img.ui.image(src = '../images/tabla3.png')
-
-				.row.mobile.only
-					.img-title.sixteen.wide.column
-						p= __('Today promoted')
-						.tabla1
-							img.ui.image(src = '../images/tabla1.png')
-						.tabla2
-							.text
-								.span= title
-						.tabla3
-							img.ui.image(src = '../images/tabla3.png')
+					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+						.tabla
+							p= __('Today promoted')
+							.tabla1
+								.ui.image
+							.tabla2
+								.text
+									.span= title
+							.tabla3
+								.ui.image
 
 		else if section === 'recipe'
 
