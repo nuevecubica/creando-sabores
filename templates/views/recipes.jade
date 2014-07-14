@@ -5,7 +5,7 @@ include ../mixins/recipe
 include ../mixins/grid
 
 block js
-	script(src='/frontend/js/recipes.js')
+	script(src='/js/recipes.js')
 
 block content
 	+header(data.header, section)
@@ -52,7 +52,6 @@ block content
 
 			.row.loader
 				.sixteen.wide.column.loading= __('Loading more recipes')
-				.sixteen.wide.column.no-more= __('No more')
 				.sixteen.wide.column.load-more
 					.ui.button.chef.button-brick.load-button
 						a(href="#")= __('Load more')

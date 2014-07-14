@@ -20,7 +20,7 @@ paths =
       "configs/**/*.js"
     ]
     client: [
-      "public/frontend/js/**/*.js"
+      "frontend/js/**/*.js"
     ]
 
 paths.js.all = paths.js.server.concat paths.js.client
@@ -155,8 +155,8 @@ module.exports = (grunt) ->
 
       less:
         files: [
-          "public/frontend/styles/*.less"
-          "public/frontend/styles/**/*.less"
+          "frontend/styles/*.less"
+          "frontend/styles/**/*.less"
         ]
         tasks: [
           "less:build"
@@ -167,11 +167,14 @@ module.exports = (grunt) ->
     clean:
       build:
         src: [
-          "public/frontend/fonts/basic*"
-          "public/frontend/fonts/icons.*"
+          "public/fonts/basic*"
+          "public/fonts/icons.*"
+          "public/js/*"
           "config.js"
           "config-test.js"
           ".env"
+          "public/frontend"
+          "public/packages"
         ]
 
     less:
@@ -180,18 +183,18 @@ module.exports = (grunt) ->
           paths: ["public"]
 
         files:
-          "public/frontend/styles/site.css": "public/frontend/styles/site.less"
+          "public/styles/site.css": "frontend/styles/site.less"
 
     autoprefixer:
       build:
         options: {}
-        src: "public/frontend/styles/site.css"
+        src: "public/styles/site.css"
 
     cssmin:
       build:
         files:
-          "public/frontend/styles/site.min.css": [
-            "public/frontend/styles/site.css"
+          "public/styles/site.min.css": [
+            "public/styles/site.css"
           ]
 
         options:
@@ -223,9 +226,9 @@ module.exports = (grunt) ->
       files: [
         {
           expand: true
-          cwd: "public/packages/semantic-ui/build/less/fonts/"
+          cwd: "frontend/packages/semantic-ui/build/less/fonts/"
           src: ["**"]
-          dest: "public/frontend/fonts/"
+          dest: "public/fonts/"
           filter: "isFile"
         }
         {
@@ -237,6 +240,26 @@ module.exports = (grunt) ->
           src: ["configs/" + grunt.config("environment") + ".env"]
           dest: ".env"
           filter: "isFile"
+        }
+        {
+          expand: true
+          cwd: "frontend/js/"
+          src: ["**"]
+          dest: "public/js/"
+          filter: "isFile"
+        }
+        {
+          expand: true
+          flatten: true
+          cwd: "frontend/packages/"
+          src: [
+            "jquery/dist/jquery.min.js"
+            "jquery/dist/jquery.min.map"
+            "jquery-address/src/jquery.address.js"
+            "semantic-ui/build/packaged/javascript/semantic.js"
+            "handlebars/handlebars.min.js"
+          ]
+          dest: "public/js/libs"
         }
       ]
 

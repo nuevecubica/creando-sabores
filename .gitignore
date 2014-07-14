@@ -12,7 +12,9 @@ results
 
 npm-debug.log
 node_modules
-public/packages
+frontend/packages
+public/js
+public/styles
 
 .DS_Store
 

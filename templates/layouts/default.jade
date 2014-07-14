@@ -11,7 +11,7 @@ html
 
 		- var pageTitle = (title ? (title + ' - ') : '') + __('Chefcito title')
 		title #{pageTitle}
-		link(href="/frontend/styles/site.css", rel="stylesheet")
+		link(href="/styles/site.min.css", rel="stylesheet")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
 		if user && user.canAccessKeystone
@@ -45,19 +45,17 @@ html
 			include ../components/menu
 
 		//- JAVASCRIPT
-		script(src='/packages/jquery/dist/jquery.min.js')
-		script(src='/packages/jquery-address/src/jquery.address.js')
-		script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
+		script(src='/js/libs/jquery.min.js')
+		script(src='/js/libs/jquery.address.js')
+		script(src='/js/libs/semantic.js')
 
 		//- Load default scripts
 
-		script(src='/packages/handlebars/handlebars.min.js')
+		script(src='/js/libs/handlebars.min.js')
+		script(src='/js/handlebars/helpers.js')
+		script(src='/js/jquery.functions.js')
 
-		script(src='/frontend/handlebars/helpers.js')
-
-		script(src='/frontend/js/jquery.functions.js')
-
-		script(src='/frontend/js/main.js')
+		script(src='/js/main.js')
 
 
 

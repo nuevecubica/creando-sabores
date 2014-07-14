@@ -5,7 +5,7 @@ include ../mixins/recipe
 include ../mixins/header
 
 block css
-	link(href="../frontend/styles/site.css", rel="stylesheet")
+	link(href="/styles/site.min.css", rel="stylesheet")
 
 	//- This file provides the default styling for the KeystoneJS Content Editor
 	if user && user.canAccessKeystone
@@ -20,12 +20,12 @@ block css
 
 block js
 	//- JAVASCRIPT
-	script(src='/packages/jquery/dist/jquery.min.js')
-	script(src='/packages/jquery-address/src/jquery.address.js')
-	script(src='/packages/semantic-ui/build/packaged/javascript/semantic.js')
+	script(src='/js/libs/jquery.min.js')
+	script(src='/js/libs/jquery.address.js')
+	script(src='/js/libs/semantic.js')
 
-	script(src='/frontend/js/main.js')
-	script(src='/frontend/js/recipe.js')
+	script(src='/js/main.js')
+	script(src='/js/recipe.js')
 
 	//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 	//- which generate links to edit content for users who can access Keystone

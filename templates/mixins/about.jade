@@ -3,7 +3,7 @@ mixin about(user)
 	.four.wide.column.picture-wrapper
 		.picture
 			if !user.media.avatar.url
-				- user.media.avatar.url = '../frontend/images/test_user.png'
+				- user.media.avatar.url = '../images/test_user.png'
 
 			#profile-img.ui.image.avatar(style="background-image: url(#{user.media.avatar.url}); background-size: cover; background-position:center; ")
 			.icon-chef-camera.rounded.show-editable
