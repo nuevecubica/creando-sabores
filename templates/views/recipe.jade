@@ -97,10 +97,10 @@ block content
 
 					.ui.button.chef.button-green
 						a= __('Add to shopping basket')
-			
+
 				#ingredients.ui.grid
 					.three.column.row.computer.only
-					
+
 						- var array = data.recipe.ingredients.split('<p>')
 						.column
 							- for(var j = 1; j < array.length; j+=3)
@@ -110,7 +110,7 @@ block content
 							.ingredient
 								.icon-chef-cesta.checks.all
 								.span= __('Select all')
-						.column			
+						.column
 							- for(var j = 2; j < array.length; j+=3)
 								.ingredient
 									.icon-chef-cesta.checks
@@ -121,9 +121,8 @@ block content
 									.icon-chef-cesta.checks
 									.span!= array[j]
 
-
 					.two.column.row.tablet.only
-					
+
 						- var array = data.recipe.ingredients.split('<p>')
 						.column
 							- for(var j = 1; j < array.length; j+=2)
@@ -133,14 +132,14 @@ block content
 							.ingredient
 								.icon-chef-cesta.checks.all
 								.span= __('Select all')
-						.column			
+						.column
 							- for(var j = 2; j < array.length; j+=2)
 								.ingredient
 									.icon-chef-cesta.checks
 									.span!= array[j]
 
 					.sixteen.wide.column.mobile.only
-					
+
 						- var array = data.recipe.ingredients.split('<p>')
 						.column
 							- for(var j = 1; j < array.length; j+=1)
@@ -149,7 +148,7 @@ block content
 									.span!= array[j]
 							.ingredient
 								.icon-chef-cesta.checks.all
-								.span= __('Select all')			
+								.span= __('Select all')
 			.sixteen.wide.column
 				h2.ui.header= __('Procedure')
 			#procedure.row
