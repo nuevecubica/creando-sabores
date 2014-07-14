@@ -1,13 +1,13 @@
-.six.wide.column
-	#manage-wrapper
-		.ui.menu
-			.left.menu
-				if section == 'privateProfile'
-					#edit.ui.button.chef.button-manage
-						a(href='#')= __('Edit')
+.six.mobile-sixteen.wide.column
+	if section == 'privateProfile'
+		#manage-wrapper
+			.ui.menu
+				.left.menu
+						#edit.ui.button.chef.button-manage
+							a(href='#')= __('Edit')
 
-.ten.wide.column
-	#actions-wrapper
+//-
+	#actions-wrapper.ten.mobile-sixteen.wide.column
 		.ui.menu
 			.right.menu
 				#cancel.ui.button.chef.button-manage
@@ -24,33 +24,33 @@
 						else
 							a= __('Draft')
 
-	#menu-wrapper
-		.ui.menu
-			.right.menu
-				if user
-					a.ui.item.profile(href='/perfil')
+#menu-wrapper.ten.mobile-sixteen.wide.column
+	.ui.menu
+		.right.menu
+			if user
+				a.ui.item.profile(href='/perfil')
 
-						if !user.media.avatar.url
-							- user.media.avatar.url = '../images/test_user.png'
+					if !user.media.avatar.url
+						- user.media.avatar.url = '../images/test_user.png'
 
-						img.ui.image.avatar(src="#{user.media.avatar.url}")
+					img.ui.image.avatar(src="#{user.media.avatar.url}")
 
-						if user.name
-							strong #{user.name}
-						else
-							strong #{user.username}
+					if user.name
+						strong #{user.name}
+					else
+						strong #{user.username}
 
-					if user.canAccessKeystone
-						.ui.item
-							a.ui.button.chef.button-brick(href="/keystone")= __('Admin panel')
+				if user.canAccessKeystone
 					.ui.item
-						a.ui.button.chef.button-brick(href="/salir")= __('To logout')
+						a.ui.button.chef.button-brick(href="/keystone")= __('Admin panel')
+				.ui.item
+					a.ui.button.chef.button-brick(href="/salir")= __('To logout')
 
-				else
-					.ui.item
-						a.ui.button.chef.button-brick(href="/acceso")= __('To login')
-					.ui.item
-						a.ui.button.chef.button-brick(href="/registro")= __('To register')
+			else
+				.ui.item
+					a.ui.button.chef.button-brick(href="/acceso")= __('To login')
+				.ui.item
+					a.ui.button.chef.button-brick(href="/registro")= __('To register')
 
-				#menu.ui.item
-					i.icon-chef-menu
+			#menu.ui.item
+				i.icon-chef-menu
