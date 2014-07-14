@@ -1,7 +1,12 @@
 "use strict()"
+
+## ======================== COMMON
+
 config =
   port: 3000
   publicUrl: "http://0.0.0.0:3000"
+
+## ======================== PATHS
 
 paths =
   js:
@@ -22,13 +27,53 @@ paths =
     client: [
       "frontend/js/**/*.js"
     ]
+  css:
+    normal: "public/styles/site.css"
+    min: "public/styles/site.min.css"
+    src: "frontend/styles/site.less"
+  coffee:
+    all: [
+      "Gruntfile.coffee"
+      "utils/**/*.coffee"
+      "test/**/*.coffee"
+    ]
+    test: ["test/**/*.coffee"]
+  clean:
+    client: [
+      "public/fonts/basic*"
+      "public/fonts/icons.*"
+      "public/js/*"
+      "public/frontend"
+      "public/packages"
+    ]
+    config: [
+      "config.js"
+      "config-test.js"
+      ".env"
+    ]
+  copy:
+    bower:
+      src: [
+        "jquery/dist/jquery.min.js"
+        "jquery/dist/jquery.min.map"
+        "jquery-address/src/jquery.address.js"
+        "semantic-ui/build/packaged/javascript/semantic.js"
+        "handlebars/handlebars.min.js"
+      ]
+      dest: "public/js/libs"
+  less:
+    src: [
+      "frontend/styles/*.less"
+      "frontend/styles/**/*.less"
+    ]
 
 paths.js.all = paths.js.server.concat paths.js.client
 
+## ======================== CONFIGS
+
 module.exports = (grunt) ->
 
-  # Project configuration.
-  grunt.initConfig
+  initConfig =
     pkg: grunt.file.readJSON("package.json")
     environment: (
       grunt.option("env") or
@@ -76,12 +121,8 @@ module.exports = (grunt) ->
       # options:
       #   configFile: 'coffeelint.json'
 
-      all: [
-        "Gruntfile.coffee"
-        "utils/**/*.coffee"
-        "test/**/*.coffee"
-      ]
-      test: ["test/**/*.coffee"]
+      all: paths.coffee.all
+      test: paths.coffee.test
 
     concurrent:
       default:
@@ -141,23 +182,23 @@ module.exports = (grunt) ->
 
       client:
         files: paths.js.client
-        tasks: ["jshint:client", "jsbeautifier:client"]
+        tasks: [
+          "jshint:client"
+          "jsbeautifier:client"
+          "clean:client"
+          "copy:client"
+        ]
 
       config:
         files: paths.js.config
-        tasks: ["clean", "copy"]
+        tasks: ["clean:config", "copy:config"]
 
       coffee:
-        files: [
-          "**/*.coffee"
-        ]
+        files: paths.coffee.all
         tasks: ["coffeelint:all"]
 
       less:
-        files: [
-          "frontend/styles/*.less"
-          "frontend/styles/**/*.less"
-        ]
+        files: paths.less.src
         tasks: [
           "less:build"
           "autoprefixer:build"
@@ -165,37 +206,30 @@ module.exports = (grunt) ->
         ]
 
     clean:
-      build:
-        src: [
-          "public/fonts/basic*"
-          "public/fonts/icons.*"
-          "public/js/*"
-          "config.js"
-          "config-test.js"
-          ".env"
-          "public/frontend"
-          "public/packages"
-        ]
+      client:
+        src: paths.clean.client
+      config:
+        src: paths.clean.config
 
     less:
       build:
         options:
           paths: ["public"]
 
-        files:
-          "public/styles/site.css": "frontend/styles/site.less"
+        files: {
+          # configured later
+        }
 
     autoprefixer:
       build:
         options: {}
-        src: "public/styles/site.css"
+        src: paths.css.normal
 
     cssmin:
       build:
-        files:
-          "public/styles/site.min.css": [
-            "public/styles/site.css"
-          ]
+        files: {
+          #configured later
+        }
 
         options:
           keepSpecialComments: 0
@@ -206,7 +240,7 @@ module.exports = (grunt) ->
         options:
           reporter: "spec"
 
-        src: ["test/**/*.coffee"]
+        src: paths.coffee.test
 
     jsbeautifier:
       options:
@@ -221,24 +255,20 @@ module.exports = (grunt) ->
         src: paths.js.all
 
 
+  initConfig.less.build.files[paths.css.normal] = paths.css.src
+  initConfig.cssmin.build.files[paths.css.min] = [paths.css.normal]
+
+  # Project configuration.
+  grunt.initConfig initConfig
+
   grunt.config 'copy',
-    build:
+    client:
       files: [
         {
           expand: true
           cwd: "frontend/packages/semantic-ui/build/less/fonts/"
           src: ["**"]
           dest: "public/fonts/"
-          filter: "isFile"
-        }
-        {
-          src: ["configs/config-" + grunt.config("environment") + ".js"]
-          dest: "config.js"
-          filter: "isFile"
-        }
-        {
-          src: ["configs/" + grunt.config("environment") + ".env"]
-          dest: ".env"
           filter: "isFile"
         }
         {
@@ -252,16 +282,25 @@ module.exports = (grunt) ->
           expand: true
           flatten: true
           cwd: "frontend/packages/"
-          src: [
-            "jquery/dist/jquery.min.js"
-            "jquery/dist/jquery.min.map"
-            "jquery-address/src/jquery.address.js"
-            "semantic-ui/build/packaged/javascript/semantic.js"
-            "handlebars/handlebars.min.js"
-          ]
-          dest: "public/js/libs"
+          src: paths.copy.bower.src
+          dest: paths.copy.bower.dest
         }
       ]
+    config:
+      files: [
+        {
+          src: ["configs/config-" + grunt.config("environment") + ".js"]
+          dest: "config.js"
+          filter: "isFile"
+        }
+        {
+          src: ["configs/" + grunt.config("environment") + ".env"]
+          dest: ".env"
+          filter: "isFile"
+        }
+      ]
+
+## ======================== LOAD DEFAULTS
 
   grunt.loadNpmTasks "grunt-autoprefixer"
   grunt.loadNpmTasks "grunt-coffeelint"
@@ -280,11 +319,18 @@ module.exports = (grunt) ->
   # Time how long tasks take. Can help when optimizing build times
   require("time-grunt") grunt
 
+## ======================== TASKS
+
   # load linters
   grunt.registerTask "lint", (target) ->
     grunt.task.run ["jshint:server"]
     grunt.task.run ["jshint:client"]
     grunt.task.run ["coffeelint:all"]
+
+  grunt.registerTask "test", ->
+    grunt.task.run ["env:test", "lint", "mochaTest:development"]
+
+## ======================== ENVIRONMENTS
 
   grunt.registerTask "development", ->
     grunt.task.run ["lint"]
@@ -311,9 +357,6 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
     grunt.task.run ["copy"]
-
-  grunt.registerTask "test", ->
-    grunt.task.run ["env:test", "lint", "mochaTest:development"]
 
   grunt.registerTask "default", ->
     grunt.task.run [grunt.config("environment")]
