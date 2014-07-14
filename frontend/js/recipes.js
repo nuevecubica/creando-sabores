@@ -4,7 +4,7 @@ $(window).load(function() {
 
   var timeCheckScroll = null,
     counter = 2,
-    found = false,
+    isStillOnScreen = false,
     paginationData = {
       page: 2,
       perPage: 5
@@ -27,7 +27,7 @@ $(window).load(function() {
   var checkScroll = function() {
     var isLoaderOnScreen = $('.loader').isOnScreen();
 
-    if (isLoaderOnScreen && !found) {
+    if (isLoaderOnScreen && !isStillOnScreen) {
 
       // Show "Loading" message
       $('.loader > .column').removeClass('show');
@@ -35,7 +35,7 @@ $(window).load(function() {
 
       if (counter > 0) {
 
-        found = true;
+        isStillOnScreen = true;
 
         setTimeout(function() {
           getNextPage();
@@ -45,7 +45,7 @@ $(window).load(function() {
         // Show "Load more" button
         $('.loader > .column').removeClass('show');
         $('.loader .load-more').addClass('show');
-        found = true;
+        isStillOnScreen = true;
       }
     }
   };
@@ -64,10 +64,9 @@ $(window).load(function() {
             html += tpl(items[i]);
           }
 
-          //$('#recipes .list').append(html);
-          $(html).css('display', 'none').appendTo('#recipes .list').slideDown(function() {
+          $(html).css('display', 'none').appendTo('#recipes .list').slideDown('slow', function() {
             // Is loader on screen after append recipes?
-            found = $('.loader').isOnScreen();
+            isStillOnScreen = $('.loader').isOnScreen();
           });
 
           // hidden all messages
