@@ -10,7 +10,7 @@ $(window).load(function() {
       perPage: 5
     };
 
-  $(document).on('click', '.load-more .button', function(e) {
+  $(document).on('click', '.load-button', function(e) {
     e.preventDefault();
     getNextPage();
   });
@@ -18,27 +18,33 @@ $(window).load(function() {
   $(window).on('scroll', function() {
     clearTimeout(timeCheckScroll);
 
-    console.log(found);
-
     timeCheckScroll = setTimeout(function() {
       checkScroll();
-    }, 200);
+    }, 100);
 
   });
 
   var checkScroll = function() {
-    var getData = $('.loader').isOnScreen();
+    var isLoaderOnScreen = $('.loader').isOnScreen();
 
-    if (getData && !found) {
+    if (isLoaderOnScreen && !found) {
+
+      // Show "Loading" message
+      $('.loader > .column').removeClass('show');
+      $('.loader .loading').addClass('show');
 
       if (counter > 0) {
 
         found = true;
 
-        getNextPage();
+        setTimeout(function() {
+          getNextPage();
+        }, 500);
       }
       else {
-        $('.loader-more').removeClass('hidden');
+        // Show "Load more" button
+        $('.loader > .column').removeClass('show');
+        $('.loader .load-more').addClass('show');
         found = true;
       }
     }
@@ -53,13 +59,18 @@ $(window).load(function() {
 
         getTemplate('recipe', items, function(tpl, items) {
           var html = '';
+
           for (var i = 0, l = items.length; i < l; i++) {
             html += tpl(items[i]);
           }
 
           $('#recipes .list').append(html);
 
+          // Is loader on screen after append recipes?
           found = $('.loader').isOnScreen();
+
+          // show all messages
+          $('.loader > .column').removeClass('show');
         });
 
         if (data.recipes.next) {
@@ -67,12 +78,21 @@ $(window).load(function() {
           counter--;
         }
         else {
-          $('.loader .no-more').html('No hay más recetas');
+          // Show "No more" message
+          $('.loader > .column').removeClass('show');
+
+          setTimeout(function() {
+            $('.loader .no-more').addClass('show');
+          }, 100);
         }
 
       })
       .fail(function() {
         console.log('error');
+
+        setTimeout(function() {
+          getNextPage();
+        }, 3000);
       });
   };
 
