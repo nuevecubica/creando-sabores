@@ -6,8 +6,10 @@
 @ingredients-color-check-disabled: @chef-color-gray-bg;
 @ingredients-border-check-enabled: @chef-color-black;
 @ingredients-border-check-disabled: @chef-color-gray-bg;
+@ingredients-steps-bg: @chef-color-light-bg;
 
 @icons-font-size: 28px;
+@icon-heart-font-size: 38px;
 @recipe-font-text: @font-uppercase-size-larger;
 
 /****************
@@ -30,14 +32,6 @@
     margin-top: 0;
     padding-top: 0;
 
-    &.loader {
-      .span {
-        .font-extra-large;
-        text-align: center;
-        text-transform: uppercase;
-        padding: 15px 0;
-      }
-    }
     .row.position {
       position: relative;
     }
@@ -59,8 +53,22 @@
     }
   }
 
-  #recipes-grid {
+  .loader {
+    height: 80px;
 
+    > .column {
+      .font-extra-large;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 15px 0;
+      visibility: hidden;
+      display: none;
+    }
+
+    .show {
+      animation: chefbounce 0.2s ease forwards;
+      display: block;
+    }
   }
 }
 
@@ -93,7 +101,12 @@
       margin-left: 10px;
     }
   }
-
+  .favorite{
+    .checks{
+      border: none;
+      font-size:@icon-heart-font-size ;
+    }
+  }
   .difficulty, .rating {
     font-size: @icons-font-size;
 
@@ -122,20 +135,21 @@
     margin: 20px 0;
 
     .ingredient {
-      display: inline-block;
-      width: 33%;
+     
 
       &:last-child {
         width: 100%;
       }
     }
   }
-
-  #steps {
-
-    .step {
-      .ui.header {
-        display: inline;
+  #procedure{
+    padding: 45px 0;
+    background-color: @ingredients-steps-bg;
+    #steps {
+      .step {
+        .ui.header {
+          display: inline;
+        }
       }
     }
   }

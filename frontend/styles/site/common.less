@@ -6,6 +6,44 @@
 @bars-padding: 30px;
 
 /*******************************
+          Animations
+*******************************/
+
+@keyframes chefbounce {
+  0% {
+    transform: translateY(-100%);
+    visibility: visible;
+  }
+  25% {
+    transform: translateY(-50%);
+  }
+  50%, 80% {
+    transform: translateY(0%);
+  }
+  70% {
+    transform: translateY(-30px);
+  }
+  90% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0%);
+    visibility: visible;
+  }
+}
+
+@keyframes chefunbounce {
+  from {
+    transform: translateY(0%);
+    visibility: visible;
+  }
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+
+/*******************************
             Global
 *******************************/
 
@@ -236,81 +274,50 @@ body {
       }
     }
   }
-  .computer.only{
-    .img-title.wide.column{
-      overflow: inherit;
-      margin-top: 10px;
-      p{
-       margin-left: 10%;
-       position: absolute;
-       top: -5px;
+  .img-title.wide.column{
+    overflow: inherit;
+    margin-top: 10px;
+    p{
+      margin-left: 10%;
+      position: absolute;
+      top: -5px;
+      text-transform: uppercase;
       }
-      .tabla1{
-        height: 120px;
-        float: left;
-        width: auto;
-      }
-      .tabla2{
-        float: left;
-        height: 120px;
-        width: 75%;
-        background-image: url('../images/tabla2.png');
-        background-size: contain;
-      }
-      .tabla3{
-        margin-left: -1px;
-        height: 120px;
-        float: left;
-        width: auto;
-      }
+    .tabla1{
+      height: 120px;
+      float: left;
+      width: auto;
     }
-  }
-
+    .tabla2{
+      float: left;
+      height: 120px;
+      width: 75%;
+      background-image: url('../images/tabla2.png');
+      background-size: contain;
+    }
+    .tabla3{
+      margin-left: -1px;
+      height: 120px;
+      float: left;
+      width: auto;
+    } 
+  } 
   .tablet.only{
     .img-title.wide.column{
-      overflow: inherit;
-      margin-top: 10px;
-      p{
-       margin-left: 10%;
-       position: absolute;
-       top: -5px;
-      }
-
+    
       .text {
         position: absolute;
         width: 65%;
         top: 50px;
         left: 34px;
       }
-      .tabla1{
-        height: 120px;
-        float: left;
-        width: auto;
-      }
       .tabla2{
-        float: left;
-        height: 120px;
         width: 67%;
-        background-image: url('../images/tabla2.png');
-        background-size: contain;
-      }
-      .tabla3{
-        margin-left: -1px;
-        height: 120px;
-        float: left;
-        width: auto;
       }
     }
   }
   .mobile.only{
     .img-title.wide.column{
-      overflow: inherit;
-      margin-top: 10px;
-      p{
-       margin-left: 10%;
-       position: absolute;
-       top: -5px;
-      }
 
       .text {
         position: absolute;
@@ -318,23 +325,8 @@ body {
         top: 50px;
         left: 34px;
       }
-      .tabla1{
-        height: 120px;
-        float: left;
-        width: auto;
-      }
       .tabla2{
-        float: left;
-        height: 120px;
         width: 70%;
-        background-image: url('../images/tabla2.png');
-        background-size: contain;
-      }
-      .tabla3{
-        margin-left: -1px;
-        height: 120px;
-        float: left;
-        width: auto;
       }
     }
   }  
@@ -471,7 +463,10 @@ body {
   }
 }
 
+
+
 .list {
+
   > .row {
     margin-top: 4px;
     padding-top: 0;

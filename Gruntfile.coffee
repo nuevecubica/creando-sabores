@@ -255,6 +255,7 @@ module.exports = (grunt) ->
             "jquery/dist/jquery.min.map"
             "jquery-address/src/jquery.address.js"
             "semantic-ui/build/packaged/javascript/semantic.js"
+            "handlebars/handlebars.min.js"
           ]
           dest: "public/js/libs"
         }
