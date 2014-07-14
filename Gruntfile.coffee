@@ -1,12 +1,13 @@
 "use strict()"
 config =
   port: 3000
-  portTest: 7357
+  publicUrl: "http://0.0.0.0:3000"
 
 paths =
   js:
     server: [
-      "./*.js"
+      "app.js"
+      "app-test-init.js"
       "configs/**/*.js"
       "middlewares/**/*.js"
       "routes/**/*.js"
@@ -14,6 +15,9 @@ paths =
       "updates/**/*.js"
       "utils/**/*.js"
       "test/**/*.js"
+    ]
+    config: [
+      "configs/**/*.js"
     ]
     client: [
       "public/frontend/js/**/*.js"
@@ -26,12 +30,16 @@ module.exports = (grunt) ->
   # Project configuration.
   grunt.initConfig
     pkg: grunt.file.readJSON("package.json")
-    env: (
+    environment: (
       grunt.option("env") or
       process.env.GRUNT_ENV or
       process.env.NODE_ENV or
       "preproduction"
     )
+
+    env:
+      test:
+        APP_TEST: true
 
     jshint:
       options:
@@ -69,13 +77,21 @@ module.exports = (grunt) ->
       #   configFile: 'coffeelint.json'
 
       all: [
-        "./*.coffee"
+        "Gruntfile.coffee"
         "utils/**/*.coffee"
         "test/**/*.coffee"
       ]
       test: ["test/**/*.coffee"]
 
     concurrent:
+      default:
+        tasks: [
+          "nodemon:server"
+          "watch"
+        ]
+        options:
+          logConcurrentOutput: true
+
       development:
         tasks: [
           "nodemon:debug"
@@ -98,17 +114,25 @@ module.exports = (grunt) ->
         options:
           nodeArgs: ["--debug"]
           env:
-            port: config.port
+            PORT: config.port
+            APP_TEST: false
+            APP_PUBLIC_URL: config.publicUrl
+
       server:
         script: "app.js"
         options:
           env:
-            port: config.port
+            PORT: config.port
+            APP_TEST: false
+            APP_PUBLIC_URL: config.publicUrl
+
       test:
-        script: "app-test.js"
+        script: "app.js"
         options:
           env:
-            test: true
+            PORT: config.port
+            APP_TEST: true
+            APP_PUBLIC_URL: config.publicUrl
 
     watch:
       server:
@@ -118,6 +142,10 @@ module.exports = (grunt) ->
       client:
         files: paths.js.client
         tasks: ["jshint:client", "jsbeautifier:client"]
+
+      config:
+        files: paths.js.config
+        tasks: ["clean", "copy"]
 
       coffee:
         files: [
@@ -201,17 +229,12 @@ module.exports = (grunt) ->
           filter: "isFile"
         }
         {
-          src: ["configs/config-" + grunt.config("env") + ".js"]
+          src: ["configs/config-" + grunt.config("environment") + ".js"]
           dest: "config.js"
           filter: "isFile"
         }
         {
-          src: ["configs/config-" + grunt.config("env") + "-test.js"]
-          dest: "config-test.js"
-          filter: "isFile"
-        }
-        {
-          src: ["configs/" + grunt.config("env") + ".env"]
+          src: ["configs/" + grunt.config("environment") + ".env"]
           dest: ".env"
           filter: "isFile"
         }
@@ -226,6 +249,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-jshint"
   grunt.loadNpmTasks "grunt-contrib-less"
   grunt.loadNpmTasks "grunt-contrib-watch"
+  grunt.loadNpmTasks "grunt-env"
   grunt.loadNpmTasks "grunt-jsbeautifier"
   grunt.loadNpmTasks "grunt-nodemon"
   grunt.loadNpmTasks "grunt-mocha-test"
@@ -266,16 +290,12 @@ module.exports = (grunt) ->
     grunt.task.run ["copy"]
 
   grunt.registerTask "test", ->
-    grunt.task.run ["lint", "mochaTest:development"]
+    grunt.task.run ["env:test", "lint", "mochaTest:development"]
 
   grunt.registerTask "default", ->
-    grunt.task.run [grunt.config("env")]
+    grunt.task.run [grunt.config("environment")]
 
   grunt.registerTask "build", ->
-    console.log("--------------------------------->>> " + process.env.NODE_ENV)
-    console.log("--------------------------------->>> " + grunt.config("env"))
-    grunt.task.run [grunt.config("env")]
-
-  grunt.registerTask "env", ->
-    console.log process.env.NODE_ENV
-    console.log grunt.config "env"
+    console.log("------------------------->>> " + process.env.NODE_ENV)
+    console.log("------------------------->>> " + grunt.config("environment"))
+    grunt.task.run [grunt.config("environment")]

@@ -1,9 +1,10 @@
 must = require 'must'
-config = require __dirname + '/../../../config-test.js'
+config = require __dirname + '/../../../config.js'
+users = require __dirname + '/../../users.json'
 utils = require __dirname + '/../../utils.js'
 
 supertest = require('supertest')
-request = supertest.agent config.url
+request = supertest.agent config.keystone.publicUrl
 
 antiRegExp = (text, regexp) ->
   antiRE = new RegExp regexp
@@ -37,7 +38,7 @@ describe 'API v1: /login', ->
       request
       .post('/api/v1/login')
       .send({
-        email: config.lists.users[0].email,
+        email: users.users[0].email,
         password: 'garbage'
       })
       .set('Accept', 'application/json')
@@ -52,8 +53,8 @@ describe 'API v1: /login', ->
       request
       .post('/api/v1/login')
       .send({
-        email: config.lists.users[0].email,
-        password: config.lists.users[0].password
+        email: users.users[0].email,
+        password: users.users[0].password
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -66,5 +67,5 @@ describe 'API v1: /login', ->
         .get('/')
         .set('cookie', cookie)
         .expect(200)
-        .expect(new RegExp(config.lists.users[0].name))
+        .expect(new RegExp(users.users[0].name))
         .end(done)

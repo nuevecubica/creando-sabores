@@ -5,7 +5,6 @@
 /*
 	Test environment
 */
-
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
@@ -14,7 +13,7 @@ if (!process.env.NODE_ENV) {
   // process.env.NODE_ENV = 'development';
 }
 
-var config = require('./config-test.js'),
+var config = require('./config.js'),
   keystone = require('keystone'),
   i18n = require('i18n');
 
@@ -43,15 +42,6 @@ i18n.configure({
   directory: __dirname + '/locales'
 });
 
-keystone.set('nav', {
-  'users': 'users',
-  'recipes': 'recipes'
-});
-
-keystone.testStart = function(done) {
-  keystone.start(function(e) {
-    return done();
-  });
-};
+keystone.init(config.keystone.test.init);
 
 exports = module.exports = keystone;

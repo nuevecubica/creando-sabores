@@ -175,7 +175,10 @@ describe 'PRIVATE PROFILE - CHANGE', ->
             if res.header['location'] isnt '/perfil/change/..' or
                 res.header['api-response-success'] isnt 'false' or
                 res.header['api-response-error'] isnt 'Error saving profile'
-              return 'Wrong status headers'
+              return "Wrong status headers.
+ Received: \"#{res.header['api-response-error']},
+  #{res.header['api-response-success']}\".
+ Expected: \"Error saving profile, false\"."
         )
         .end (err, res) ->
           if err

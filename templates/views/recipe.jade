@@ -2,6 +2,8 @@ extends ../layouts/default
 
 include ../mixins/recipe
 
+include ../mixins/header
+
 block css
 	link(href="../frontend/styles/site.css", rel="stylesheet")
 
@@ -31,53 +33,19 @@ block js
 		script(src='/keystone/js/content/editor.js')
 
 block content
-	#recipe-single.ui.grid.segment
-		.ui.page.grid
-			.row
-				include ../components/header
 
-			.row
-				.four.wide.column
-
-				.logo.eight.wide.column
-					a.icon-chef-logo.icon(href="/")
-
-					.span= data.recipe.title
-					.span.author= data.recipe.author.name.first + ' ' + data.recipe.author.name.last
-
-			.row
-				.twelve.wide.column
-
-				.social.four.wide.column
-					| #{__('Share on')}
-					.ui.four.column.center.aligned.grid
-						.column
-							a.ui.item(href='http://twitter.com')
-								.ui.icon
-									i.icon-chef-twitter.icon
-						.column
-							a.ui.item(href='http://youtube.es')
-								.ui.icon
-									i.icon-chef-google.icon
-						.column
-							a.ui.item(href='http://facebook.com')
-								.ui.icon
-									i.icon-chef-facebook.icon
-						.column
-							a.ui.item(href='http://pinterest.es')
-								.ui.icon
-									i.icon-chef-pinterest.icon
+	+header(data.recipe, section)
 
 	.ui.page.grid
 		#recipe-content.ui.grid.segment
 			.row
 				#info.eleven.wide.column
-					.ui.four.column.grid
-						.portions.column
+					.ui.seven.column.grid.stackable
+						.portions.column.two.wide
 							i.icon-chef-porciones.icon
 							.span= data.recipe.portions
 
-						.difficulty.column
+						.difficulty.column.four.wide
 							- var categories = [ __('Dummy'), __('Very easy') , __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
 							- var difficulty = data.recipe.difficulty
 							- var category = categories[difficulty]
@@ -91,11 +59,11 @@ block content
 
 							.span= category
 
-						.time.column
+						.time.column.three.wide
 							i.icon-chef-time.icon
-							.span= (data.recipe.time < 60) ? data.recipe.time + ' ' + __('min (minutes)') : (data.recipe.time / 60).toFixed(2) + ' ' + __('h (hours)')
+							.span= (data.recipe.time < 60) ? data.recipe.time + ' ' + __('min') : (data.recipe.time / 60).toFixed(2) + ' ' + __('h (hours)')
 
-						.rating.column
+						.rating.column.five.wide
 							- var rating = Math.floor(data.recipe.rating) || 0
 							- var r = rating
 							- for(var x = 0; x < 5; x++)
@@ -106,10 +74,12 @@ block content
 									- r = r - 1;
 
 							.span= rating
+						.favorite.column.one.wide
+							i.icon-chef-heart.icon.checks
+
 
 				#actions.five.wide.column.right.aligned
-					.ui.button.chef.button-yellow
-						a= __('Favorite')
+
 					.ui.button.chef.button-brick
 						a= __('Add to menu')
 
@@ -126,25 +96,68 @@ block content
 
 					.ui.button.chef.button-green
 						a= __('Add to shopping basket')
-
-					#ingredients
+			
+				#ingredients.ui.grid
+					.three.column.row.computer.only
+					
 						- var array = data.recipe.ingredients.split('<p>')
-						- for(var j = 1; j < array.length; j++)
+						.column
+							- for(var j = 1; j < array.length; j+=3)
+								.ingredient
+									.icon-chef-cesta.checks
+									.span!= array[j]
 							.ingredient
-								.icon-chef-cesta.checks
-								.span!= array[j]
-						.ingredient
-							.icon-chef-cesta.checks.all
-							.span= __('Select all')
+								.icon-chef-cesta.checks.all
+								.span= __('Select all')
+						.column			
+							- for(var j = 2; j < array.length; j+=3)
+								.ingredient
+									.icon-chef-cesta.checks
+									.span!= array[j]
+						.column
+							- for(var j = 3; j < array.length; j+=3)
+								.ingredient
+									.icon-chef-cesta.checks
+									.span!= array[j]
 
-			.row
+
+					.two.column.row.tablet.only
+					
+						- var array = data.recipe.ingredients.split('<p>')
+						.column
+							- for(var j = 1; j < array.length; j+=2)
+								.ingredient
+									.icon-chef-cesta.checks
+									.span!= array[j]
+							.ingredient
+								.icon-chef-cesta.checks.all
+								.span= __('Select all')
+						.column			
+							- for(var j = 2; j < array.length; j+=2)
+								.ingredient
+									.icon-chef-cesta.checks
+									.span!= array[j]
+
+					.sixteen.wide.column.mobile.only
+					
+						- var array = data.recipe.ingredients.split('<p>')
+						.column
+							- for(var j = 1; j < array.length; j+=1)
+								.ingredient
+									.icon-chef-cesta.checks
+									.span!= array[j]
+							.ingredient
+								.icon-chef-cesta.checks.all
+								.span= __('Select all')			
+			.sixteen.wide.column
+				h2.ui.header= __('Procedure')
+			#procedure.row
 				.sixteen.wide.column
-					h2.ui.header= __('Procedure')
 					#steps
 						- var array = data.recipe.procedure.split('<p>')
 						- for(var j = 1; j < array.length; j++)
 							.step
 								.icon-chef-tick.checks
-								.ui.header= __('Step') + ' ' + j
+								.ui.header= __('Step:') + ' ' + j
 								.ui.content!= array[j]
 

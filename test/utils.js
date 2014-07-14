@@ -1,5 +1,6 @@
 var keystone = require(__dirname + '/../app-test-init.js');
-var config = require(__dirname + '/../config-test.js');
+var config = require(__dirname + '/../config.js');
+var users = require(__dirname + '/users.json');
 var async = require('async');
 var Users = null;
 
@@ -49,7 +50,7 @@ function updateUsers(users, done) {
 }
 
 function revertTestUsers(done) {
-  updateUsers(config.lists.users, done);
+  updateUsers(users.users, done);
 }
 
 exports.updateUser = module.exports.updateUser = updateUser;

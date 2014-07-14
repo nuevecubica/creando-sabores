@@ -1,4 +1,5 @@
 /* APP */
+var multiline = require('multiline');
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
@@ -60,6 +61,40 @@ MongoDB Environment:
 //	USER: " + process.env.MONGODB_USERNAME + "\n\
 //	URL:  " + process.env.MONGO_URL);
 
-keystone.start();
+if (config.keystone.test.enabled) {
+  keystone.init(config.keystone.test.init);
+  console.warn(multiline(function() {
+    /*
+ _____ _____ ____ _____   __  __  ___  ____  _____
+|_   _| ____/ ___|_   _| |  \/  |/ _ \|  _ \| ____|
+  | | |  _| \___ \ | |   | |\/| | | | | | | |  _|
+  | | | |___ ___) || |   | |  | | |_| | |_| | |___
+  |_| |_____|____/ |_|   |_|  |_|\___/|____/|_____|
+*/
+  }));
+}
+
+keystone.start(function() {
+  if (config.keystone.test.enabled) {
+    var Users, user, userM, _i, _len, _ref, _results;
+
+    Users = keystone.list('User');
+
+    _ref = require('./test/users.json');
+
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      user = _ref[_i];
+      userM = new Users.model();
+      userM.name = user.name;
+      userM.username = user.username;
+      userM.email = user.email;
+      if (user.password) {
+        userM.password = user.password;
+      }
+      userM.media = user.media;
+      userM.save();
+    }
+  }
+});
 
 exports = module.exports = keystone;

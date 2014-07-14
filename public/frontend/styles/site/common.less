@@ -151,7 +151,7 @@ body {
   }
 
   &.with-social {
-    > .row:last-child {
+    > .row:not(.tablet):last-child, > .row:not(.mobile):last-child {
       height: 30% !important;
     }
 
@@ -186,6 +186,15 @@ body {
     //- With title and subtitle
     &.with-subtitle {
 
+      > .row {
+        margin: 0;
+        padding: 0;
+        height: 10%;
+
+        &.logo {
+          height: 40%;
+        }
+      }
     }
 
     .img-title {
@@ -194,23 +203,20 @@ body {
       overflow: hidden;
 
       img {
-        position: absolute;
-        bottom: 20px;
-        width: 97%;
+      height: 120px;
       }
 
       .text {
-        bottom: 30px;
         position: absolute;
-        width: 82%;
-        left: 30px;
+        width: 75%;
+        top: 40px;
+        left: 34px;
         font-family: @pinto-fonts;
         text-transform: uppercase;
 
         .span {
           font-size: 56px;
           color: @recipes-color-text;
-          text-align: center;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
@@ -246,7 +252,7 @@ body {
       }
 
       &.author {
-        font-size: 40px;
+        .font-extra-larger;
         font-weight: normal;
         text-transform: none;
       }
@@ -255,7 +261,7 @@ body {
 
   .social {
     .font-large;
-    padding-top: 50px;
+    padding-top: 30px;
     text-align: center;
     color: @recipes-color-text;
     line-height: 18px;
@@ -268,6 +274,62 @@ body {
       }
     }
   }
+  .img-title.wide.column{
+    overflow: inherit;
+    margin-top: 10px;
+    p{
+      margin-left: 10%;
+      position: absolute;
+      top: -5px;
+      text-transform: uppercase;
+      }
+    .tabla1{
+      height: 120px;
+      float: left;
+      width: auto;
+    }
+    .tabla2{
+      float: left;
+      height: 120px;
+      width: 75%;
+      background-image: url('../images/tabla2.png');
+      background-size: contain;
+    }
+    .tabla3{
+      margin-left: -1px;
+      height: 120px;
+      float: left;
+      width: auto;
+    } 
+  } 
+  .tablet.only{
+    .img-title.wide.column{
+    
+      .text {
+        position: absolute;
+        width: 65%;
+        top: 50px;
+        left: 34px;
+      }
+      .tabla2{
+        width: 67%;
+      }
+    }
+  }
+  .mobile.only{
+    .img-title.wide.column{
+
+      .text {
+        position: absolute;
+        width: 70%;
+        top: 50px;
+        left: 34px;
+      }
+      .tabla2{
+        width: 70%;
+      }
+    }
+  }  
 }
 
 .body {

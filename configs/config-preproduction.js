@@ -1,7 +1,7 @@
 /*
 	PREPRODUCTION CONFIGURATION
 */
-exports = module.exports = {
+var answer = {
   keystone: {
     init: {
       'name': 'Chefcito',
@@ -31,6 +31,18 @@ exports = module.exports = {
       'port': process.env.PORT || 3000,
       'mongo url': process.env.MONGO_URL ||  null
     },
+    'security': {
+      'csrf': true
+    },
+    test: {
+      enabled: process.env.APP_TEST === 'true' || false,
+      init: {
+        'security': {
+          'csrf': false
+        }
+      }
+    },
+    publicUrl: process.env.APP_PUBLIC_URL ||  'http://clubgibaja.byglue.me',
     'email locals': {
       logo_src: '/images/logo-email.gif',
       logo_width: 194,
@@ -51,9 +63,8 @@ exports = module.exports = {
     }, {
       find: '/keystone/',
       replace: 'http://localhost:3000/keystone/'
-    }],
-    'security': {
-      'csrf': true
-    }
+    }]
   }
 };
+
+exports = module.exports = answer;
