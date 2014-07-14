@@ -173,6 +173,8 @@ module.exports = (grunt) ->
           "config.js"
           "config-test.js"
           ".env"
+          "public/frontend"
+          "public/packages"
         ]
 
     less:
