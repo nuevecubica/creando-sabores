@@ -6,6 +6,44 @@
 @bars-padding: 30px;
 
 /*******************************
+          Animations
+*******************************/
+
+@keyframes chefbounce {
+  0% {
+    transform: translateY(-100%);
+    visibility: visible;
+  }
+  25% {
+    transform: translateY(-50%);
+  }
+  50%, 80% {
+    transform: translateY(0%);
+  }
+  70% {
+    transform: translateY(-30px);
+  }
+  90% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0%);
+    visibility: visible;
+  }
+}
+
+@keyframes chefunbounce {
+  from {
+    transform: translateY(0%);
+    visibility: visible;
+  }
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+
+/*******************************
             Global
 *******************************/
 
@@ -303,7 +341,10 @@ body {
   }
 }
 
+
+
 .list {
+
   > .row {
     margin-top: 4px;
     padding-top: 0;
