@@ -32,14 +32,6 @@
     margin-top: 0;
     padding-top: 0;
 
-    &.loader {
-      .span {
-        .font-extra-large;
-        text-align: center;
-        text-transform: uppercase;
-        padding: 15px 0;
-      }
-    }
     .row.position {
       position: relative;
     }
@@ -61,8 +53,22 @@
     }
   }
 
-  #recipes-grid {
+  .loader {
+    height: 80px;
 
+    > .column {
+      .font-extra-large;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 15px 0;
+      visibility: hidden;
+      display: none;
+    }
+
+    .show {
+      animation: chefbounce 0.2s ease forwards;
+      display: block;
+    }
   }
 }
 
