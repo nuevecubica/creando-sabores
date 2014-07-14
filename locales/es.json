@@ -43,6 +43,7 @@
 	"Jesús Gibaja": "Jesús Gibaja",
 	"Invalid credentials": "Credenciales no válidas",
 	"Loading more recipes": "Cargando más recetas...",
+	"Load more": "Cargar más",
 	"Login": "Acceso",
 	"Logout": "Salir",
 	"Menus": "Menús",
@@ -92,5 +93,6 @@
 	"Videorecipes": "Videorecetas",
 	"Wrong email or in use.": "Incorrecto o en uso.",
 	"or register with email": "...o con tu correo electrónico",
-	"our terms and conditions": "nuestros términos y condiciones"
+	"our terms and conditions": "nuestros términos y condiciones",
+	"No more": "No hay más"
 }

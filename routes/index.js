@@ -32,7 +32,8 @@ keystone.set('500', function(err, req, res, next) {
 var routes = {
   views: importRoutes('./views'),
   api: importRoutes('./api'),
-  authentication: importRoutes('./authentication')
+  authentication: importRoutes('./authentication'),
+  templates: importRoutes('./templates')
 };
 
 // Setup Route Bindings
@@ -83,4 +84,9 @@ exports = module.exports = function(app) {
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   //-- Recipes
+  app.get('/api/v1/recipes', routes.api.v1.recipes);
+
+  // Hbs
+  app.get('/templates/hbs/:template.hbs', routes.templates.hbs);
+
 };
