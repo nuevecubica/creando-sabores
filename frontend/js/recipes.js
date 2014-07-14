@@ -20,7 +20,7 @@ $(window).load(function() {
 
     timeCheckScroll = setTimeout(function() {
       checkScroll();
-    }, 100);
+    }, 50);
 
   });
 
@@ -64,12 +64,13 @@ $(window).load(function() {
             html += tpl(items[i]);
           }
 
-          $('#recipes .list').append(html);
+          //$('#recipes .list').append(html);
+          $(html).css('display', 'none').appendTo('#recipes .list').slideDown(function() {
+            // Is loader on screen after append recipes?
+            found = $('.loader').isOnScreen();
+          });
 
-          // Is loader on screen after append recipes?
-          found = $('.loader').isOnScreen();
-
-          // show all messages
+          // hidden all messages
           $('.loader > .column').removeClass('show');
         });
 
@@ -77,15 +78,6 @@ $(window).load(function() {
           paginationData.page = data.recipes.next;
           counter--;
         }
-        else {
-          // Show "No more" message
-          $('.loader > .column').removeClass('show');
-
-          setTimeout(function() {
-            $('.loader .no-more').addClass('show');
-          }, 100);
-        }
-
       })
       .fail(function() {
         console.log('error');
