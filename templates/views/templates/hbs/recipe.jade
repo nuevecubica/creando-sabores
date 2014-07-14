@@ -9,21 +9,15 @@
 				.ui.three.column.center.aligned.grid
 					.column
 						i.icon-chef-time.icon
-						//- - var time = {{time}}
-						//- .span= (time < 60) ? time + ' min' : (time / 60).toFixed(2) + ' h'
+						.span {{formatTime time}}
 
 					.column
 						i.icon-chef-porciones.icon
 						.span {{portions}}
 
 					.difficulty.column
-						//- - var difficulty = {{difficulty}}
-						//- - for(var x = 0; x < 5; x++)
-						//- 	if(difficulty == 0)
-						//- 		i.icon-chef-tenedor.icon.off
-						//- 	else
-						//- 		i.icon-chef-tenedor.icon.on
-						//- 		- difficulty = difficulty - 1;
+						//- Params: function value icon
+						{{formatIcons difficulty 'tenedor'}}
 
 	.eleven.wide.column
 		.ui.twelve.column
@@ -31,15 +25,12 @@
 				.strong= __('Rating')
 				.span
 					.ui.icon
-						//- - var rating = Math.floor(recipe.rating) || 0
-						//- - for(var x = 0; x < 5; x++)
-						//- 	if(rating == 0)
-						//- 		i.icon-chef-star.icon.off
-						//- 	else
-						//- 		i.icon-chef-star.icon.on
-						//- 		- rating = rating - 1;
+						//- Params: function value icon
+						{{formatIcons rating 'star'}}
 
 			a(href="/receta/{{slug}}")
 				h2.ui.header {{title}}
 
 			.ui.content {{description}}
+
+			{{formatOfficial isOfficial}}
