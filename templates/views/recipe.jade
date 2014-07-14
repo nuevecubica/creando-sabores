@@ -41,9 +41,17 @@ block content
 			.row
 				#info.eleven.wide.column
 					.ui.seven.column.grid.stackable
-						.portions.column.two.wide
-							i.icon-chef-porciones.icon
-							.span= data.recipe.portions
+						.rating.column.five.wide
+							- var rating = Math.floor(data.recipe.rating) || 0
+							- var r = rating
+							- for(var x = 0; x < 5; x++)
+								if(r == 0)
+									i.icon-chef-star.icon.off
+								else
+									i.icon-chef-star.icon.on
+									- r = r - 1;
+
+							.span= rating
 
 						.difficulty.column.four.wide
 							- var categories = [ __('Dummy'), __('Very easy') , __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
@@ -63,17 +71,10 @@ block content
 							i.icon-chef-time.icon
 							.span= (data.recipe.time < 60) ? data.recipe.time + ' ' + __('min') : (data.recipe.time / 60).toFixed(2) + ' ' + __('h (hours)')
 
-						.rating.column.five.wide
-							- var rating = Math.floor(data.recipe.rating) || 0
-							- var r = rating
-							- for(var x = 0; x < 5; x++)
-								if(r == 0)
-									i.icon-chef-star.icon.off
-								else
-									i.icon-chef-star.icon.on
-									- r = r - 1;
+						.portions.column.two.wide
+							i.icon-chef-porciones.icon
+							.span= data.recipe.portions
 
-							.span= rating
 						.favorite.column.one.wide
 							i.icon-chef-heart.icon.checks
 
