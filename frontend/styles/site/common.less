@@ -262,7 +262,7 @@ body {
   .social {
     .font-large;
     padding-top: 30px;
-    text-align: center;
+    text-align: center !important;
     color: @recipes-color-text;
     line-height: 18px;
 
@@ -282,12 +282,14 @@ body {
       position: absolute;
       top: -5px;
       text-transform: uppercase;
-      }
+    }
+
     .tabla1{
       height: 120px;
       float: left;
       width: auto;
     }
+
     .tabla2{
       float: left;
       height: 120px;
@@ -295,16 +297,17 @@ body {
       background-image: url('../images/tabla2.png');
       background-size: contain;
     }
+
     .tabla3{
       margin-left: -1px;
       height: 120px;
       float: left;
       width: auto;
-    } 
-  } 
+    }
+  }
+
   .tablet.only{
     .img-title.wide.column{
-    
       .text {
         position: absolute;
         width: 65%;
@@ -316,6 +319,7 @@ body {
       }
     }
   }
+
   .mobile.only{
     .img-title.wide.column{
 
@@ -329,7 +333,7 @@ body {
         width: 70%;
       }
     }
-  }  
+  }
 }
 
 .body {
@@ -463,8 +467,6 @@ body {
   }
 }
 
-
-
 .list {
 
   > .row {
@@ -472,7 +474,7 @@ body {
     padding-top: 0;
     background-color: @recipes-list-even;
     .content {
-      &::after { 
+      &::after {
         background: linear-gradient(to bottom, fade(@recipes-list-even, 0%), @recipes-list-even 57%); 
       }
     }
@@ -481,7 +483,7 @@ body {
   > .row:nth-child(odd) {
     background-color: @recipes-list-odd;
     .content {
-      &::after { 
+      &::after {
         background: linear-gradient(to bottom, fade(@recipes-list-odd, 0%), @recipes-list-odd 57%); 
       }
     }
