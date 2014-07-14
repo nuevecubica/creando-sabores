@@ -6,7 +6,8 @@
 @profile-editable-border: @chef-color-gray;
 @profile-editable-border-focus: @chef-color-black;
 @profile-icon-color: @chef-color-white;
-@profile-font-normal:@font-size-normal;
+@profile-font-normal: @font-size-normal;
+@chef-color-check: @chef-color-red-bg;
 
 .user-profile {
   background-color: transparent;
@@ -128,8 +129,8 @@
       input + span:before {
         .checks;
       }
-      input:not(:checked) + span:before {
-        color: transparent;
+      input:checked + span:before {
+       color:@chef-color-check;
       }
     }
 
