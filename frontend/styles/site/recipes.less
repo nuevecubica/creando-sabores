@@ -96,7 +96,8 @@
     text-transform: capitalize;
   }
 
-  .time, .portions, .difficulty, .rating {
+  //.time, .portions, .difficulty, .rating {
+  .difficulty, .rating {
     .span {
       margin-left: 10px;
     }
@@ -131,11 +132,22 @@
     margin-bottom: 20px;
   }
 
+  .recipe-attributes>div {
+    display: inline-block;
+    padding-right: .5em;
+
+    // Horizontal space invisible when verticalized
+    @media screen and (max-width: 767px) {
+      padding-right: 0;
+      display: block;
+    }
+  }
+
   #ingredients {
     margin: 20px 0;
 
     .ingredient {
-     
+
 
       &:last-child {
         width: 100%;

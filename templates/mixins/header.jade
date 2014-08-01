@@ -6,7 +6,7 @@ mixin header(recipe, section)
 		- image = recipe.header.url
 		- title = recipe.title
 
-	.promoted.ui.grid.segment(style="background: transparent url('#{image}')")
+	.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 
 		if section === 'home'
 

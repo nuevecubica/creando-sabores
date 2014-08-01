@@ -40,8 +40,8 @@ block content
 		#recipe-content.ui.grid.segment
 			.row
 				#info.eleven.wide.column
-					.ui.seven.column.grid.stackable
-						.rating.column.five.wide
+					.recipe-attributes
+						.rating
 							- var rating = Math.floor(data.recipe.rating) || 0
 							- var r = rating
 							- for(var x = 0; x < 5; x++)
@@ -53,7 +53,7 @@ block content
 
 							.span= rating
 
-						.difficulty.column.four.wide
+						.difficulty
 							- var categories = [ __('Dummy'), __('Very easy') , __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
 							- var difficulty = data.recipe.difficulty
 							- var category = categories[difficulty]
@@ -67,19 +67,18 @@ block content
 
 							.span= category
 
-						.time.column.three.wide
+						.time
 							i.icon-chef-time.icon
 							.span= (data.recipe.time < 60) ? data.recipe.time + ' ' + __('min') : (data.recipe.time / 60).toFixed(2) + ' ' + __('h (hours)')
 
-						.portions.column.two.wide
+						.portions
 							i.icon-chef-porciones.icon
 							.span= data.recipe.portions
 
-						.favorite.column.one.wide
-							i.icon-chef-heart.icon.checks
-
-
 				#actions.five.wide.column.right.aligned
+
+					.favorite
+						i.icon-chef-heart.icon.checks
 
 					.ui.button.chef.button-brick
 						a= __('Add to menu')
@@ -160,4 +159,3 @@ block content
 								.icon-chef-tick.checks
 								.ui.header= __('Step:') + ' ' + j
 								.ui.content!= array[j]
-
