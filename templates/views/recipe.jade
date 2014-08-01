@@ -39,7 +39,7 @@ block content
 	.ui.page.grid
 		#recipe-content.ui.grid.segment
 			.row
-				#info.eleven.wide.column
+				#info.eight.wide.column
 					.recipe-attributes
 						.rating
 							- var rating = Math.floor(data.recipe.rating) || 0
@@ -75,13 +75,16 @@ block content
 							i.icon-chef-porciones.icon
 							.span= data.recipe.portions
 
-				#actions.five.wide.column.right.aligned
+				#actions.eight.wide.column.right.aligned
+					.recipe-actions
+						.favorite
+							.ui.button.chef.button-pink
+								i.icon-chef-heart.icon.checks.chef
+								| #{__('Favorite')}
 
-					.favorite
-						i.icon-chef-heart.icon.checks
-
-					.ui.button.chef.button-brick
-						a= __('Add to menu')
+						.add-menu
+							.ui.button.chef.button-brick
+								a= __('Add to menu')
 
 			.row
 				.sixteen.wide.column
