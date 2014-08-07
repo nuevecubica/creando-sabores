@@ -53,16 +53,26 @@ exports = module.exports = function(app) {
   // Static
   app.get('/terminos', routes.views.terms);
 
-  // Private
+  // Profile: Private
   app.get('/perfil', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
-  // Public
+  // Home
   app.get('/', routes.views.index);
+
+  // Recipes
+  // -- Public
   app.get('/recetas', routes.views.recipes);
   app.get('/receta/:recipe', routes.views.recipe);
+  // -- Private
+  // ---- New
+  app.get('/nueva-receta', middleware.requireUser, routes.views.recipe);
+  app.post('/nueva-receta/save', middleware.requireUser, routes.views['private'].recipeSave.create);
+  // ---- Edit
+  app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
+  app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
 
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);

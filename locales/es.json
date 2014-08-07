@@ -23,7 +23,7 @@
 	"Content will be removed": "Perderás todas tus recetas y actividad reciente.",
 	"Contests": "Concursos",
 	"Create recipe": "Crear receta",
-	"Delete": "Borrar",
+	"Delete": "Eliminar",
 	"Difficult": "Difícil",
 	"Do you have a new recipe?": "¿Tienes una receta en mente?",
 	"Don't have an account?": "¿Aún no tienes una cuenta?",
@@ -39,6 +39,7 @@
 	"Error: Email format": "Debe ser un correo electrónico válido.",
 	"Error: Password format": "Mínimo 8 caracteres.",
 	"Error: Password not match": "Password erróneo.",
+	"Error: Unknown error": "Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo.",
 	"Error: Username format": "Sólo letras y números.",
 	"Favorite": "Favorito",
 	"Follow us on social networks": "Síguenos en las redes sociales",
@@ -87,6 +88,10 @@
 	"Rating": "Valoración",
 	"Recipe": "Receta",
 	"Recipes": "Recetas",
+	"Recipe published": "Receta publicada",
+	"Recipe removed": "Receta eliminada",
+	"Recipe unpublished": "Receta en borrador",
+	"Recipe saved": "Receta guardada",
 	"Register": "Registro",
 	"Register with social networks": "Regístrate en un solo click...",
 	"Remove account": "Eliminar cuenta",
@@ -113,5 +118,6 @@
 	"Very difficult": "Muy Difícil",
 	"Very easy": "Muy Fácil",
 	"Videorecipes": "Videorecetas",
-	"Wrong email or in use.": "Incorrecto o en uso."
+	"Wrong email or in use.": "Incorrecto o en uso.",
+	"You don't have rights to access that page": "No tienes permiso para acceder a esa página."
 }
