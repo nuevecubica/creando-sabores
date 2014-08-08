@@ -12,6 +12,7 @@ exports = module.exports = function(req, res, next) {
     recipeSlug = req.params.recipe;
 
   if (req.method === 'POST') {
+    // Get
     var q = Recipe.model.findOne({
       state: 1,
       slug: recipeSlug,
@@ -19,15 +20,20 @@ exports = module.exports = function(req, res, next) {
     });
     q.exec(function(err, recipe) {
       if (err) {
-        return formResponse(res, req, backError, 'Error: Unknown error', false);
+        return formResponse(req, res, backError, 'Error: Unknown error', false);
       }
       else if (recipe) {
-        //remove
-        return formResponse(res, req, backDone, 'Recipe removed');
+        // Remove
+        recipe.remove(function(err) {
+          if (err) {
+            return formResponse(req, res, backError, 'Error: Unknown error', false);
+          }
+          return formResponse(req, res, backDone, 'Recipe removed');
+        });
       }
     });
   }
   else {
-    return formResponse(res, req, backError, 'Error: Unknown error', false);
+    return formResponse(req, res, backError, 'Error: Unknown error', false);
   }
 };
