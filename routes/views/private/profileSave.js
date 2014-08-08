@@ -24,7 +24,7 @@ exports = module.exports = function(req, res, next) {
       // Error ocurred
       if (err) {
         console.log('profileSave: Error saving profile');
-        return formResponse(res, req, back, 'Error saving profile', false);
+        return formResponse(req, res, back, 'Error saving profile', false);
       }
       else {
         // New avatar uploaded? Change avatar
@@ -37,21 +37,21 @@ exports = module.exports = function(req, res, next) {
             // Error ocurred
             if (err) {
               console.log('profileSave: Error saving avatar');
-              return formResponse(res, req, back, 'Error saving profile', false);
+              return formResponse(req, res, back, 'Error saving profile', false);
             }
             else {
-              return formResponse(res, req, back, false, 'Profile saved');
+              return formResponse(req, res, back, false, 'Profile saved');
             }
           });
         }
         // Same avatar found
         else {
-          return formResponse(res, req, back, false, 'Profile saved');
+          return formResponse(req, res, back, false, 'Profile saved');
         }
       }
     });
   }
   else {
-    return formResponse(res, req, back, false, false);
+    return formResponse(req, res, back, false, false);
   }
 };

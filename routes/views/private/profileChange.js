@@ -95,7 +95,7 @@ exports = module.exports = function(req, res, next) {
         else {
           answer.success = 'Profile saved';
         }
-        return formResponse(res, req, back, answer.error, answer.success);
+        return formResponse(req, res, back, answer.error, answer.success);
       });
   }
 };
