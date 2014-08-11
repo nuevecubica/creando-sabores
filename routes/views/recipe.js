@@ -9,6 +9,9 @@ exports = module.exports = function(req, res) {
 
   // Init locals
   locals.section = 'recipe';
+  locals.editable = true;
+  locals.manageable = true;
+
   locals.filters = {
     recipe: req.params.recipe
   };
@@ -26,7 +29,15 @@ exports = module.exports = function(req, res) {
       if (!err) {
         locals.data.recipe = result;
         if (result) {
-          locals.title = result.name + ' - ' + res.__('Recipe');
+          locals.title = result.title + ' - ' + res.__('Recipe');
+
+          if (req.user) {
+            locals.own = (req.user._id.toString() === result.author._id.toString());
+          }
+          else {
+            locals.own = false;
+          }
+
         }
       }
       next(err);
