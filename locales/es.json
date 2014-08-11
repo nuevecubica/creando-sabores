@@ -23,8 +23,10 @@
 	"Content will be removed": "Perderás todas tus recetas y actividad reciente.",
 	"Contests": "Concursos",
 	"Create recipe": "Crear receta",
+	"Default": "Default",
 	"Delete": "Borrar",
 	"Difficult": "Difícil",
+	"Difficulty": "Dificultad",
 	"Do you have a new recipe?": "¿Tienes una receta en mente?",
 	"Don't have an account?": "¿Aún no tienes una cuenta?",
 	"Draft": "Borrador",
@@ -113,5 +115,8 @@
 	"Very difficult": "Muy Difícil",
 	"Very easy": "Muy Fácil",
 	"Videorecipes": "Videorecetas",
-	"Wrong email or in use.": "Incorrecto o en uso."
+	"Wrong email or in use.": "Incorrecto o en uso.",
+	"pers": "pers",
+	"Pers": "Pers",
+	"Very Easy": "Very Easy"
 }
