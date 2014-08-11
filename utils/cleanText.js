@@ -25,12 +25,33 @@ var cleaners = {
 
   username: function(str) {
     return str.replace(/([^a-z0-9_\-])/gi, '');
+  },
+
+  integer: function(str) {
+    var num = parseInt(str);
+    return (isNaN(num) ? "0" : num.toString());
+  },
+
+  min: function(str, min) {
+    var num = parseInt(str);
+    if (num < min) {
+      return min.toString();
+    }
+    return str;
+  },
+
+  max: function(str, max) {
+    var num = parseInt(str);
+    if (num > max) {
+      return max.toString(); 
+    }
+    return str;
   }
 };
 
 module.exports = exports = function(str, tasks) {
   if ("string" !== typeof str) {
-    return false;
+    return null;
   }
 
   var strClean = String(str);

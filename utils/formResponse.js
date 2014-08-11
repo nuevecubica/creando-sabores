@@ -1,4 +1,4 @@
-var formResponse = function(res, req, url, error, success) {
+var formResponse = function(req, res, url, error, success) {
   if ('string' === typeof error) {
     req.flash('error', res.__(error));
   }
