@@ -25,3 +25,24 @@
 .messages-close {
 	cursor: pointer;
 }
+
+.error-message {
+	display: none;
+	.font-smaller;
+	text-align: left;
+	color: @error-message-color;
+}
+
+.error-here {
+	input {
+		border-color: @error-input-border;
+	}
+
+	&.set-editable {
+		border: 1px solid @error-input-border !important;
+	}
+
+	.error-message {
+		display: block;
+	}
+}
