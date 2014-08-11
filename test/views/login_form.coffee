@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = null
 config = require __dirname + '/../../config.js'
-users = require __dirname + '/../users.json'
+data = require __dirname + '/../data.json'
 
 request = require('supertest') config.keystone.publicUrl
 
@@ -105,8 +105,8 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': users.users[0].email
-          'login_password': users.users[0].password
+          'login_email': data.users[0].email
+          'login_password': data.users[0].password
         })
         .expect(302)
         .end(done)
@@ -117,7 +117,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': users.users[0].email
+          'login_email': data.users[0].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)
@@ -132,7 +132,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': users.users[1].email
+          'login_email': data.users[1].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)

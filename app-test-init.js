@@ -5,6 +5,7 @@
 /*
 	Test environment
 */
+var _ = require('underscore');
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
@@ -17,12 +18,17 @@ var config = require('./config.js'),
   keystone = require('keystone'),
   i18n = require('i18n');
 
+if (config.keystone.test.enabled) {
+  config.keystone.init = _.extend(config.keystone.init, config.keystone.test.init);
+  config.keystone['security'] = _.extend(config.keystone['security'], config.keystone.test['security']);
+}
+
 keystone.init(config.keystone.init);
 
 keystone.import('models');
 
 keystone.set('locals', {
-  _: require('underscore'),
+  _: _,
   env: keystone.get('env'),
   utils: keystone.utils,
   editable: keystone.content.editable
@@ -41,7 +47,5 @@ i18n.configure({
   defaultLocale: 'es',
   directory: __dirname + '/locales'
 });
-
-keystone.init(config.keystone.test.init);
 
 exports = module.exports = keystone;

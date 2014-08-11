@@ -1,6 +1,6 @@
 var keystone = require(__dirname + '/../app-test-init.js');
 var config = require(__dirname + '/../config.js');
-var users = require(__dirname + '/users.json');
+var data = require(__dirname + '/data.json');
 var async = require('async');
 var Users = null;
 
@@ -50,7 +50,7 @@ function updateUsers(users, done) {
 }
 
 function revertTestUsers(done) {
-  updateUsers(users.users, done);
+  updateUsers(data.users, done);
 }
 
 exports.updateUser = module.exports.updateUser = updateUser;

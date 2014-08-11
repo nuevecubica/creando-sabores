@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../config.js'
-users = require __dirname + '/../users.json'
+data = require __dirname + '/../data.json'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
@@ -15,8 +15,8 @@ describe 'PRIVATE PROFILE - SAVE', ->
       .post('/acceso')
       .send({
         'action': 'login'
-        'login_email': users.users[0].email
-        'login_password': users.users[0].password
+        'login_email': data.users[0].email
+        'login_password': data.users[0].password
       })
       .expect(302)
       .end (err, res) ->
@@ -120,7 +120,7 @@ describe 'PRIVATE PROFILE - SAVE', ->
               (res) ->
                 if res.body.user.about isnt '<p>demo-about</p>'
                   return 'Edit failed'
-                if res.body.user.name isnt users.users[0].name
+                if res.body.user.name isnt data.users[0].name
                   return 'Edit changed unmodified fields'
             )
             .end(done)

@@ -23,7 +23,7 @@ var answer = {
       'auth': true,
       'user model': 'User',
       'cookie secret': 'r^.s/{!h0?gs.kB*_Z<m4P6diRZ07([O_K[y<*w"Wu;8pm-UoThSiZAT`yt^h@L"',
-      'db name': process.env.MONGODB_DATABASE,
+      'db name': (process.env.MONGODB_DATABASE || 'chefcito'),
       'trust proxy': true,
 
       'host': '0.0.0.0',
@@ -36,9 +36,11 @@ var answer = {
     test: {
       enabled: process.env.APP_TEST === 'true' || false,
       init: {
-        'security': {
-          'csrf': false
-        }
+        'db name': (process.env.MONGODB_DATABASE || "chefcito") + '-test',
+        'mongo url': (process.env.MONGO_URL || "mongodb://localhost:27017/chefcito") + '-test'
+      },
+      'security': {
+        'csrf': false
       }
     },
     publicUrl: process.env.APP_PUBLIC_URL ||  'http://chefcito.dev01.glue.gl',

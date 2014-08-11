@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../config.js'
-users = require __dirname + '/../users.json'
+data = require __dirname + '/../data.json'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
@@ -15,8 +15,8 @@ describe 'PRIVATE PROFILE - REMOVE', ->
       .post('/acceso')
       .send({
         'action': 'login'
-        'login_email': users.users[0].email
-        'login_password': users.users[0].password
+        'login_email': data.users[0].email
+        'login_password': data.users[0].password
       })
       .expect(302)
       .end (err, res) ->

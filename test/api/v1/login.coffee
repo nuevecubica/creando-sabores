@@ -1,6 +1,6 @@
 must = require 'must'
 config = require __dirname + '/../../../config.js'
-users = require __dirname + '/../../users.json'
+data = require __dirname + '/../../data.json'
 utils = require __dirname + '/../../utils.js'
 
 supertest = require('supertest')
@@ -38,7 +38,7 @@ describe 'API v1: /login', ->
       request
       .post('/api/v1/login')
       .send({
-        email: users.users[0].email,
+        email: data.users[0].email,
         password: 'garbage'
       })
       .set('Accept', 'application/json')
@@ -53,8 +53,8 @@ describe 'API v1: /login', ->
       request
       .post('/api/v1/login')
       .send({
-        email: users.users[0].email,
-        password: users.users[0].password
+        email: data.users[0].email,
+        password: data.users[0].password
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -67,5 +67,5 @@ describe 'API v1: /login', ->
         .get('/')
         .set('cookie', cookie)
         .expect(200)
-        .expect(new RegExp(users.users[0].name))
+        .expect(new RegExp(data.users[0].name))
         .end(done)
