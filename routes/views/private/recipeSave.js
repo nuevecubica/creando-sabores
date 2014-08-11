@@ -49,7 +49,7 @@ var recipeEdit = function(req, res, back) {
 
       // Save
       recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,publishDate,portions,time,difficulty'
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty'
       }, function(err) {
         if (err) {
           return formResponse(req, res, back, 'Error: Unknown error', false);
@@ -73,7 +73,7 @@ var recipeNew = function(req, res) {
     var recipe = new Recipe.model();
     var data = recipeData(req);
     recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,publishDate,portions,time,difficulty'
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty'
       },
       function(err) {
         if (err) {
