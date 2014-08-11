@@ -10,7 +10,7 @@ block content
 		input#hidden-name(type="hidden" name="name")
 		input#hidden-about(type="hidden" name="about")
 		input(type="hidden" name="_csrf" value="#{csrftoken}")
-		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url}); background-size: cover;")
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url});")
 			.ui.page.grid.head.with-title
 				#header.row
 					include ../../components/header
