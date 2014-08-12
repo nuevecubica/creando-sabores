@@ -45,8 +45,6 @@ $(document).ready(function() {
     }
 
     $title.focus();
-    //$title.selectRange($title.text().length);
-    window.getSelection().setPosition(3);
   });
 
   $('#update.button-manage').on('click', function() {
