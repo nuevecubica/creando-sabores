@@ -48,4 +48,6 @@ i18n.configure({
   directory: __dirname + '/locales'
 });
 
+require('./test/testMode')(keystone);
+
 exports = module.exports = keystone;

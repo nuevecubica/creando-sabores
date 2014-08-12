@@ -32,8 +32,8 @@
     "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
     "publishedDate": "2014-07-09T00:00:00.000+0200",
     "rating": 3,
-    "slug": "TEST RECIPE 1",
-    "title": "test-recipe-1",
+    "title": "TEST RECIPE 1",
+    "slug": "test-recipe-1",
     "review": [],
     "isRecipesGridPromoted": {
       "position": 0,
@@ -71,8 +71,8 @@
     "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
     "publishedDate": "2014-07-09T00:00:00.000+0200",
     "rating": 3,
-    "slug": "TEST RECIPE 2",
-    "title": "test-recipe-2",
+    "title": "TEST RECIPE 2",
+    "slug": "test-recipe-2",
     "review": [],
     "isRecipesGridPromoted": {
       "position": 0,

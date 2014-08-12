@@ -1,7 +1,8 @@
-var _ = require('underscore');
 
 /* APP */
-var multiline = require('multiline');
+var _ = require('underscore'),
+  multiline = require('multiline');
+
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
@@ -12,9 +13,13 @@ if (!process.env.NODE_ENV) {
 
 var config = require('./config.js'),
   keystone = require('keystone'),
-  i18n = require('i18n');
+  i18n = require('i18n')
+  testMode = null;
 
 if (config.keystone.test.enabled) {
+  // Load function
+  testMode = require('./test/testMode');
+
   config.keystone.init = _.extend(config.keystone.init, config.keystone.test.init);
   config.keystone['security'] = _.extend(config.keystone['security'], config.keystone.test['security']);
   console.warn(multiline(function() {
@@ -27,8 +32,6 @@ if (config.keystone.test.enabled) {
 */
   }));
 }
-
-console.log(config.keystone.init);
 
 keystone.init(config.keystone.init);
 
@@ -81,45 +84,7 @@ MongoDB Environment:
 
 keystone.start(function() {
   if (config.keystone.test.enabled) {
-    var Users, Recipes, user, userM, _i, _len, _ref, _results, usersList = [];
-
-    console.log('Adding test users');
-    Users = keystone.list('User');
-
-    _ref = require('./test/data.json');
-
-    for (_i = 0, _len = _ref.users.length; _i < _len; _i++) {
-      user = _ref.users[_i];
-      userM = new Users.model();
-      userM.name = user.name;
-      userM.username = user.username;
-      userM.email = user.email;
-      if (user.password) {
-        userM.password = user.password;
-      }
-      userM.media = user.media;
-      userM.save(function(err, user) {
-        usersList.push(user.id);
-      });
-    }
-
-    console.log('Adding test recipes');
-    // Change authors
-    Recipes = keystone.list('Recipe');
-    for (_i = 0, _len = _ref.recipes.length; _i < _len; _i++) {
-      recipe = _ref.recipes[_i];
-      recipeM = new Recipes.model();
-      for (var val in recipe) {
-        if (val === 'author') {
-          recipeM['author'] = usersList[recipe.author - 1];
-        }
-        else {
-          recipeM[val] = recipe[val];
-        }
-      }
-      recipeM.save();
-    }
-
+    testMode(keystone);
   }
 });
 
