@@ -68,11 +68,27 @@
     visibility: visible;
   }
 
-  .section.title {
-    .set-editable {
-      box-shadow: none !important;
-      border: none;
-      padding: 0;
+  .head {
+    .logo {
+      position: inherit;
+    }
+
+    .section {
+      position: inherit;
+
+      &.title {
+        position: relative;
+
+        .set-editable {
+          box-shadow: none !important;
+          border: none;
+          padding: 0;
+        }
+      }
+    }
+
+    .social {
+      position: inherit;
     }
   }
 

@@ -115,7 +115,7 @@ body {
 .head {
   height: 100%;
 
-  > .row.title {
+  > .row {
     position: relative;
   }
 
@@ -274,17 +274,21 @@ body {
   .social {
     .font-large;
     padding-top: 30px;
-    text-align: center !important;
     color: @recipes-color-text;
     line-height: 18px;
 
-    a {
-      color: @recipes-color-text;
+    .column {
+      text-align: center !important;
 
-      .icon {
-        .font-extra-larger;
+      a {
+        color: @recipes-color-text;
+
+        .icon {
+          .font-extra-larger;
+        }
       }
     }
+
   }
   .img-title.wide.column{
     padding-top: 10px;
