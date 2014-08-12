@@ -11,20 +11,9 @@ describe 'PRIVATE PROFILE - REMOVE', ->
 
   before (done) ->
     this.timeout 10000
-    request
-      .post('/acceso')
-      .send({
-        'action': 'login'
-        'login_email': data.users[0].email
-        'login_password': data.users[0].password
-      })
-      .expect(302)
-      .end (err, res) ->
-        cookie = res.headers['set-cookie']
-        done()
-
-  afterEach (done) ->
-    utils.revertTestUsers done
+    utils.loginUser data.users[0], request, (err, res) ->
+      cookie = res.headers['set-cookie']
+      done()
 
   describe 'GET /perfil', ->
     it 'responds with the form', (done) ->
@@ -37,6 +26,9 @@ describe 'PRIVATE PROFILE - REMOVE', ->
         .end(done)
 
   describe 'POST /perfil/remove', ->
+    afterEach (done) ->
+      utils.revertTestUsers done
+
     describe 'on remove request', ->
       it 'should destroy user session', (done) ->
         request

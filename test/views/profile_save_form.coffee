@@ -9,19 +9,11 @@ cookie = null
 
 describe 'PRIVATE PROFILE - SAVE', ->
 
-  before (done) ->
+  beforeEach (done) ->
     this.timeout 10000
-    request
-      .post('/acceso')
-      .send({
-        'action': 'login'
-        'login_email': data.users[0].email
-        'login_password': data.users[0].password
-      })
-      .expect(302)
-      .end (err, res) ->
-        cookie = res.headers['set-cookie']
-        done()
+    utils.loginUser data.users[0], request, (err, res) ->
+      cookie = res.headers['set-cookie']
+      done()
 
   afterEach (done) ->
     utils.revertTestUsers done
@@ -40,6 +32,7 @@ describe 'PRIVATE PROFILE - SAVE', ->
       .end(done)
 
   describe 'POST /perfil/save', ->
+
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
@@ -56,7 +49,6 @@ describe 'PRIVATE PROFILE - SAVE', ->
         )
         .end(done)
 
-  describe 'POST /perfil/save', ->
     describe 'on modified data', ->
       it 'updates user profile', (done) ->
         # This doesn't check the image upload.

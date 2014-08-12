@@ -11,9 +11,6 @@ describe 'API v1: /user', ->
   before (done) ->
     request.get('/').expect 200, done
 
-  afterEach (done) ->
-    utils.revertTestUsers done
-
   describe 'GET /user/:username/check', ->
     describe 'on request invalid user', ->
       it 'responds with not found', (done) ->

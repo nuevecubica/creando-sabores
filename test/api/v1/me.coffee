@@ -18,9 +18,6 @@ describe 'API v1: /me/', ->
   before (done) ->
     request.get('/').expect 200, done
 
-  afterEach (done) ->
-    utils.revertTestUsers done
-
   #*---------- ME ----------*
   describe 'GET /me', ->
     describe 'on not logged in', ->
@@ -119,6 +116,10 @@ describe 'API v1: /me/', ->
 
   #*---------- SAVE PROFILE ----------*
   describe 'PUT /me/save', ->
+
+    afterEach (done) ->
+      utils.revertTestUsers done
+
     describe 'on not logged in user', ->
       it 'should refuse changes', (done) ->
         request
@@ -132,7 +133,7 @@ describe 'API v1: /me/', ->
         .end(done)
 
     describe 'on logged in user', ->
-      before (done) ->
+      beforeEach (done) ->
         request
         .post('/api/v1/login')
         .send({

@@ -9,21 +9,11 @@ cookie = null
 
 describe 'PRIVATE PROFILE - CHANGE', ->
 
-  before (done) ->
+  beforeEach (done) ->
     this.timeout 10000
-    request
-      .post('/acceso')
-      .send({
-        'action': 'login'
-        'login_email': data.users[0].email
-        'login_password': data.users[0].password
-      })
-      .expect(302)
-      .end (err, res) ->
-        if err
-          return done err, res
-        cookie = res.headers['set-cookie']
-        done()
+    utils.loginUser data.users[0], request, (err, res) ->
+      cookie = res.headers['set-cookie']
+      done()
 
   afterEach (done) ->
     utils.revertTestUsers done
@@ -43,6 +33,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
       .end(done)
 
   describe 'POST /perfil/change', ->
+
     describe 'on empty action', ->
       it 'returns an error', (done) ->
         request

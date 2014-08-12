@@ -11,7 +11,6 @@ require('dotenv').load();
 if (!process.env.NODE_ENV) {
   console.error("Warning: Environment variable NODE_ENV not defined.");
   return 1;
-  // process.env.NODE_ENV = 'development';
 }
 
 var config = require('./config.js'),
@@ -39,7 +38,7 @@ keystone.set('routes', require('./routes'));
 keystone.set('email locals', config.keystone['email locals']);
 keystone.set('email rules', config.keystone['email rules']);
 keystone.set('email tests', require('./routes/emails'));
-keystone.set('security', config.keystone.security);
+keystone.set('security', config.keystone['security']);
 
 // Configure i18n
 i18n.configure({
@@ -47,7 +46,5 @@ i18n.configure({
   defaultLocale: 'es',
   directory: __dirname + '/locales'
 });
-
-require('./test/testMode')(keystone);
 
 exports = module.exports = keystone;
