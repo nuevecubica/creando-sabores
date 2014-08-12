@@ -8,6 +8,8 @@ mixin header(recipe, section)
 
 	.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 
+		.shadow-layer
+
 		if section === 'home'
 
 			.ui.page.grid.head.simple.with-social
@@ -42,8 +44,8 @@ mixin header(recipe, section)
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
 
-				.row.section
-					.title.shadow= __('Recipes')
+				.row.section.title
+					.shadow= __('Recipes')
 
 				.row
 					.social.four.tablet-seven.wide.column.tablet.computer.only= __('Follow us on social networks')
@@ -71,12 +73,12 @@ mixin header(recipe, section)
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
 
-				.row.section
-					.title.shadow= data.recipe.title
-				.row.section
-					.subtitle.author.shadow= data.recipe.author.name
+				.row.section.title
+					#recipe-title.shadow.set-editable= data.recipe.title
 
-				.row.computer.only
-					.social.four.wide.column= __('Follow us on social networks')
+				.row.section.subtitle
+					.author.shadow= data.recipe.author.name
+
+				.row.computer.only.social
+					.four.wide.column= __('Follow us on social networks')
 						include ../components/share
-

@@ -1,6 +1,8 @@
 @recipes-list-odd: @chef-color-white-bg;
 @recipes-list-even: @chef-color-light-bg;
 
+@editable-alpha: fade(@chef-color-black, 60%);
+
 @grid-hover-background: @chef-color-green-bg;
 
 @bars-padding: 30px;
@@ -95,14 +97,27 @@ body {
 }
 
 .ui.segment.promoted {
-  background-color: transparent;
+  // background-color: transparent;
   background-size: cover !important;
   background-position: center center;
   height: 600px;
+
+  .shadow-layer {
+    opacity: 0;
+    background-color: @editable-alpha;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
 }
 
 .head {
   height: 100%;
+
+  > .row {
+    position: relative;
+  }
 
   > .row:first-child {
     height: 10% !important;
@@ -229,26 +244,26 @@ body {
   .section {
     text-align: center !important;
 
-    .title {
+    &.title {
       .font-extra-large.uppercase;
       font-weight: bold;
       text-align: center;
 
-      &.shadow {
+      .shadow {
         text-shadow: 1px 2px 4px #000;
       }
     }
 
-    .subtitle {
+    &.subtitle {
       .font-larger;
       text-align: center;
 
-      &.shadow {
+      .shadow {
         text-shadow: 1px 2px 4px #000;
         text-transform: uppercase;
       }
 
-      &.author {
+      .author {
         .font-extra-larger;
         font-weight: normal;
         text-transform: none;
@@ -259,17 +274,21 @@ body {
   .social {
     .font-large;
     padding-top: 30px;
-    text-align: center !important;
     color: @recipes-color-text;
     line-height: 18px;
 
-    a {
-      color: @recipes-color-text;
+    .column {
+      text-align: center !important;
 
-      .icon {
-        .font-extra-larger;
+      a {
+        color: @recipes-color-text;
+
+        .icon {
+          .font-extra-larger;
+        }
       }
     }
+
   }
   .img-title.wide.column{
     padding-top: 10px;
