@@ -58,16 +58,15 @@ $(document).ready(function() {
       return $(this).text();
     }).get().join('\n');
 
-    console.log($('#recipe-title').text());
-
     $('#hidden-title').attr('value', $('#recipe-title').text());
     $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
     $('#hidden-time').attr('value', $('#recipe-time .span.set-editable').text());
     $('#hidden-portions').attr('value', $('#recipe-portions .span.set-editable').text());
     $('#hidden-description').attr('value', description);
+    // Commented waiting for ingredients and procedure task
     // $('#hidden-ingredients').attr('value', ingredients);
     // $('#hidden-procedure').attr('value', procedure);
-    $('#recipe-form').submit();
+    $('#recipe-edit-form').submit();
   });
 
   $('#cancel.button-manage').on('click', function() {
@@ -90,6 +89,10 @@ $(document).ready(function() {
     $ingredients.html($ingredients.data('origvalue'));
     $procedure.html($procedure.data('origvalue'));
 
+  });
+
+  $('#delete.button-manage').on('click', function() {
+    $('#recipe-remove-form').submit();
   });
 
   $('.set-editable.for.numbers').on('keypress', function(e) {

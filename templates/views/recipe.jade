@@ -30,12 +30,15 @@ block js
 block content
 
   if own
-    form#recipe-form(action="/receta/" + data.recipe.slug + "/save" method="POST" enctype="multipart/form-data")
+    form#recipe-edit-form(action="/receta/" + data.recipe.slug + "/save" method="POST" enctype="multipart/form-data")
       input#hidden-title(type="hidden" name="title")
       input#hidden-difficulty(type="hidden" name="difficulty")
       input#hidden-time(type="hidden" name="time")
       input#hidden-portions(type="hidden" name="portions")
       input#hidden-description(type="hidden" name="description")
+      input(type="hidden" name="_csrf" value="#{csrftoken}")
+
+    form#recipe-remove-form(action="/receta/" + data.recipe.slug + "/remove" method="POST" enctype="multipart/form-data")
       input(type="hidden" name="_csrf" value="#{csrftoken}")
 
   +header(data.recipe, section)
