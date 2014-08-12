@@ -83,6 +83,7 @@ $(document).ready(function() {
     item.removeClass('selected');
 
     selected.html(itemContent);
+    selected.find('.item').attr('data-value', $(this).attr('data-value'));
 
     $(this).addClass('selected');
 
