@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'PRIVATE PROFILE - CHANGE', ->
+describe 'PRIVATE PROFILE - UPDATE', ->
 
   beforeEach (done) ->
     this.timeout 10000

@@ -19,13 +19,15 @@ describe 'PRIVATE RECIPE - SAVE', ->
     utils.revertTestUsers done
 
   describe 'GET /receta/:recipe', ->
-    it 'responds with the form'
+    describe 'from author', ->
+      it 'responds with the form'
+    describe 'from another user', ->
+      it 'doesn\'t respond with the form'
 
-  describe 'POST /perfil/save', ->
+  describe 'POST /receta/:recipe/save', ->
     describe 'on empty action', ->
       it 'redirects back to the form'
 
-  describe 'POST /perfil/save', ->
     describe 'on modified data', ->
       it 'updates user profile'
       it 'preserves missing fields'
