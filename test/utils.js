@@ -9,7 +9,7 @@ var Users = null;
 
 function updateUsers(done) {
   if (!keystone.mongoose.connection.readyState) {
-    keystone.mongoose.connect(config.keystone.init['mongo url']);
+    keystone.mongoose.connect(config.keystone.test.init['mongo url']);
     keystone.mongoose.connection.on('open', function() {
       return testMode(keystone, done);
     });
