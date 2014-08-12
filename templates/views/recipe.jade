@@ -29,6 +29,15 @@ block js
 
 block content
 
+  if own
+    form#recipe-form(action="/receta/" + data.recipe.slug + "/save" method="POST" enctype="multipart/form-data")
+      input#hidden-title(type="hidden" name="title")
+      input#hidden-difficulty(type="hidden" name="difficulty")
+      input#hidden-time(type="hidden" name="time")
+      input#hidden-portions(type="hidden" name="portions")
+      input#hidden-description(type="hidden" name="description")
+      input(type="hidden" name="_csrf" value="#{csrftoken}")
+
   +header(data.recipe, section)
 
   .ui.page.grid
@@ -37,13 +46,13 @@ block content
         #info.ten.wide.column
           .recipe-attributes
 
-            #recipe-difficulty.difficulty.set-editable.dropdown(tabindex='1')
+            #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
               - var categories = [ __('Dummy'), __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
               - var difficulty = data.recipe.difficulty
               - var category = categories[difficulty]
 
               .itemSelected
-                .item(data-value='0')
+                .item(data-value=difficulty)
                   if difficulty <= 0
                     i.icon-chef-tenedor.icon.off
                     i.icon-chef-tenedor.icon.off
@@ -106,12 +115,12 @@ block content
 
             #recipe-time.time(tabindex='2')
               i.icon-chef-time.icon
-              .span.set-editable= (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
+              .span.set-editable.for.numbers= (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
               .span= (data.recipe.time < 60) ? __('min') : __('h (hours)')
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
-              .span.set-editable= data.recipe.portions
+              .span.set-editable.for.numbers= data.recipe.portions
               .span= __('Pers')
 
             .rating
@@ -137,7 +146,7 @@ block content
               .ui.button.chef.button-brick
                 a= __('Add to menu')
 
-      .row
+      #recipe-description.row
         .sixteen.wide.column
           .explain
             .ui.content.set-editable(spellcheck="false", tabindex='4')!= data.recipe.description
@@ -150,55 +159,57 @@ block content
 
         #ingredients.ui.grid
           .three.column.row.computer.only
-
-            - var array = data.recipe.ingredients.split('<p>')
-            .column
-              - for(var j = 1; j < array.length; j+=3)
+            if data.recipe.ingredients
+              - var array = data.recipe.ingredients.split('<p>')
+              .column
+                - for(var j = 1; j < array.length; j+=3)
+                  .ingredient
+                    .icon-chef-cesta.checks
+                    .span!= array[j]
                 .ingredient
-                  .icon-chef-cesta.checks
-                  .span!= array[j]
-              .ingredient
-                .icon-chef-cesta.checks.all
-                .span= __('Select all')
-            .column
-              - for(var j = 2; j < array.length; j+=3)
-                .ingredient
-                  .icon-chef-cesta.checks
-                  .span!= array[j]
-            .column
-              - for(var j = 3; j < array.length; j+=3)
-                .ingredient
-                  .icon-chef-cesta.checks
-                  .span!= array[j]
+                  .icon-chef-cesta.checks.all
+                  .span= __('Select all')
+              .column
+                - for(var j = 2; j < array.length; j+=3)
+                  .ingredient
+                    .icon-chef-cesta.checks
+                    .span!= array[j]
+              .column
+                - for(var j = 3; j < array.length; j+=3)
+                  .ingredient
+                    .icon-chef-cesta.checks
+                    .span!= array[j]
 
           .two.column.row.tablet.only
 
-            - var array = data.recipe.ingredients.split('<p>')
-            .column
-              - for(var j = 1; j < array.length; j+=2)
+            if data.recipe.ingredients
+              - var array = data.recipe.ingredients.split('<p>')
+              .column
+                - for(var j = 1; j < array.length; j+=2)
+                  .ingredient
+                    .icon-chef-cesta.checks
+                    .span!= array[j]
                 .ingredient
-                  .icon-chef-cesta.checks
-                  .span!= array[j]
-              .ingredient
-                .icon-chef-cesta.checks.all
-                .span= __('Select all')
-            .column
-              - for(var j = 2; j < array.length; j+=2)
-                .ingredient
-                  .icon-chef-cesta.checks
-                  .span!= array[j]
+                  .icon-chef-cesta.checks.all
+                  .span= __('Select all')
+              .column
+                - for(var j = 2; j < array.length; j+=2)
+                  .ingredient
+                    .icon-chef-cesta.checks
+                    .span!= array[j]
 
           .sixteen.wide.column.mobile.only
-
-            - var array = data.recipe.ingredients.split('<p>')
-            .column
-              - for(var j = 1; j < array.length; j+=1)
+            if data.recipe.ingredients
+              - var array = data.recipe.ingredients.split('<p>')
+              .column
+                - for(var j = 1; j < array.length; j+=1)
+                  .ingredient
+                    .icon-chef-cesta.checks
+                    .span!= array[j]
                 .ingredient
-                  .icon-chef-cesta.checks
-                  .span!= array[j]
-              .ingredient
-                .icon-chef-cesta.checks.all
-                .span= __('Select all')
+                  .icon-chef-cesta.checks.all
+                  .span= __('Select all')
+
       .sixteen.wide.column
         h2.ui.header= __('Procedure')
       #procedure.row
