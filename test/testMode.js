@@ -18,7 +18,7 @@ var testMode = function(keystone, done) {
   // Load all the users
   var testUsersAdd = function(callback) {
     // console.log('Adding test users');
-    var end = function(err, results) {
+    var end = function(err) {
       // console.log('users end');
       callback();
     };
@@ -37,14 +37,14 @@ var testMode = function(keystone, done) {
       });
     };
 
-    async.map(data.users, add, end);
+    async.each(data.users, add, end);
   };
 
   // Load all the recipes
   var testRecipesAdd = function(callback) {
     // console.log('Adding test recipes');
     var users = null;
-    var end = function(err, results) {
+    var end = function(err) {
       // console.log('recipes end');
       callback();
     };
@@ -69,7 +69,7 @@ var testMode = function(keystone, done) {
       }
 
       users = results;
-      async.map(data.recipes, add, end);
+      async.each(data.recipes, add, end);
     });
   };
 

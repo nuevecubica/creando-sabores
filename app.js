@@ -83,7 +83,7 @@ MongoDB Environment:
 
 keystone.start(function() {
   if (config.keystone.test.enabled) {
-    testMode(keystone);
+    testMode(keystone, function() {});
   }
 });
 
