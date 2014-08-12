@@ -1,7 +1,7 @@
 var async = require('async'),
   data = require('./data.json');
 
-var testMode = function(keystone) {
+var testMode = function(keystone, done) {
   var user, recipe, _i, _len, _results, usersList = [];
 
   var Users = keystone.list('User'),
@@ -11,13 +11,13 @@ var testMode = function(keystone) {
     Users.model.collection.drop(function(err) {
       Recipes.model.collection.drop(function(err) {
         callback(err);
-      })
-    })
+      });
+    });
   };
 
   // Load all the users
   var testUsersAdd = function(callback) {
-    console.log('Adding test users');
+    // console.log('Adding test users');
     var end = function(err, results) {
       // console.log('users end');
       callback();
@@ -42,7 +42,7 @@ var testMode = function(keystone) {
 
   // Load all the recipes
   var testRecipesAdd = function(callback) {
-    console.log('Adding test recipes');
+    // console.log('Adding test recipes');
     var users = null;
     var end = function(err, results) {
       // console.log('recipes end');
@@ -76,6 +76,9 @@ var testMode = function(keystone) {
   // Run loaders
   var end = function(err) {
     // console.log('done');
+    if (done) {
+      done(err);
+    }
   };
 
   async.series([
