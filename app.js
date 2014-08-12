@@ -1,4 +1,3 @@
-
 /* APP */
 var _ = require('underscore'),
   multiline = require('multiline');
@@ -13,7 +12,7 @@ if (!process.env.NODE_ENV) {
 
 var config = require('./config.js'),
   keystone = require('keystone'),
-  i18n = require('i18n')
+  i18n = require('i18n'),
   testMode = null;
 
 if (config.keystone.test.enabled) {
