@@ -80,12 +80,13 @@
 
   margin-top: 10px;
 
-  #actions {
-    padding-top: 10px;
-  }
-
   .icon {
-    font-size: @icons-font-size;
+    .font-extra-large;
+
+    @media only screen and (max-width : 991px) {
+      .font-larger;
+    }
+
   }
 
   .span {
@@ -97,18 +98,34 @@
   }
 
   //.time, .portions, .difficulty, .rating {
-  .difficulty, .rating {
+  .difficulty {
     .span {
       margin-left: 10px;
     }
   }
-  .favorite{
-    .checks{
-      border: none;
-      font-size:@icon-heart-font-size;
-      padding-left: 0;
+
+  .rating {
+    transition: opacity 300ms ease-in;
+
+    .span {
+      margin-left: 10px;
     }
   }
+
+  .favourite{
+    .checks{
+      .font-normal;
+      border: none;
+      padding-left: 0;
+    }
+
+    .activated {
+      .checks {
+        color: @ingredients-color-check-enabled;
+      }
+    }
+  }
+
   .difficulty, .rating {
     font-size: @icons-font-size;
 
@@ -133,25 +150,37 @@
     margin-bottom: 20px;
   }
 
-  .recipe-attributes>div {
-    display: inline-block;
-    padding-right: .5em;
+  #info {
+    padding-top: 10px;
 
-    // Horizontal space invisible when verticalized
-    @media screen and (max-width: 767px) {
-      padding-right: 0;
-      display: block;
+    .recipe-attributes > div {
+      display: inline-block;
+      margin: 0 6px;
+      outline: none;
+
+      // Horizontal space invisible when verticalized
+      @media screen and (max-width: 767px) {
+        padding: 12px;
+        padding-right: 0;
+        display: block;
+      }
     }
   }
 
-  .recipe-actions>div {
-    display: inline-block;
-    padding-left: .5em;
-    margin-bottom: .5em;
-    @media screen and (max-width: 767px) {
-      display: block;
-      .button {
-        width: 100%;
+  #actions {
+    transition: opacity 300ms ease-in;
+    padding-top: 10px;
+
+    .recipe-actions > div {
+      display: inline-block;
+      padding-left: .5em;
+      margin-bottom: .5em;
+
+      @media screen and (max-width: 991px) {
+        display: block;
+        .button {
+          width: 100%;
+        }
       }
     }
   }
@@ -161,15 +190,16 @@
 
     .ingredient {
 
-
       &:last-child {
         width: 100%;
       }
     }
   }
+
   #procedure{
     padding: 45px 0;
     background-color: @ingredients-steps-bg;
+
     #steps {
       .step {
         .ui.header {
@@ -182,13 +212,29 @@
 
 .mode-editable {
 
+  #info {
+    .rating {
+      transition: opacity 300ms ease-in;
+      opacity: 0;
+    }
+  }
+
+  #actions {
+    transition: opacity 300ms ease-in;
+    opacity: 0;
+  }
+
   .set-editable {
 
     &.dropdown {
 
       &.difficulty {
         transition: all 300ms ease-in;
-        width: 173px;
+        width: 180px;
+
+        .options {
+          width: 180px;
+        }
       }
     }
   }

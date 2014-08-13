@@ -19,14 +19,6 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  $('.set-editable.one-line').on('keypress', function(e) {
-    if (e.which === 13) {
-      e.preventDefault();
-    }
-  }).on('paste', function(e) {
-    e.preventDefault();
-  });
-
   $('#edit.button-manage').on('click', function() {
     $('body').addClass('mode-editable');
     $('.set-editable').attr('contenteditable', true);

@@ -20,9 +20,11 @@ $(document).ready(function() {
 
   // Menu
   $('.demo.menu .item').tab();
+
   $('#menu').on('click', function() {
     $('#menu-box').addClass('open').removeClass('close');
   });
+
   $('#menu-close').on('click', function() {
     $('#menu-box').removeClass('open').addClass('close');
   });
@@ -51,11 +53,30 @@ $(document).ready(function() {
     $(window).load(gridResizer);
   }
 
+  // Edited
+  var editable = $('.set-editable');
+
+  $('.set-editable.one-line').on('keypress', function(e) {
+    if (e.which === 13) {
+      e.preventDefault();
+    }
+  }).on('paste', function(e) {
+    e.preventDefault();
+  });
+
+  $('.set-editable.for.numbers').on('keypress', function(e) {
+    var charCode = (e.which) ? e.which : e.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      e.preventDefault();
+    }
+  });
+
   // Dropdown
   var dropdown = $('.dropdown');
   var selected = dropdown.find('.itemSelected');
   var options = dropdown.find('.options');
   var item = options.find('.item');
+
 
   dropdown.on('click', function() {
     var me = $(this);
