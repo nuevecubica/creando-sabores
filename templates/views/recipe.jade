@@ -46,7 +46,7 @@ block content
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
-        #info.ten.wide.column
+        #info.ten.tablet-twelve.mobile-eight.wide.column
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
@@ -118,12 +118,12 @@ block content
 
             #recipe-time.time(tabindex='2')
               i.icon-chef-time.icon
-              .span.set-editable.for.numbers= (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
+              .span.set-editable.one-line.for.numbers= (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
               .span= (data.recipe.time < 60) ? __('min') : __('h (hours)')
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
-              .span.set-editable.for.numbers= data.recipe.portions
+              .span.set-editable.one-line.for.numbers= data.recipe.portions
               .span= __('Pers')
 
             .rating
@@ -138,10 +138,10 @@ block content
 
               .span= rating
 
-        #actions.six.wide.column.right.aligned
+        #actions.six.tablet-four.mobile-eight.wide.column.right.aligned
           .recipe-actions
-            .favorite
-              .ui.button.chef.button-pink
+            .favourite
+              .ui.button.chef.button-yellow.switch.mini
                 i.icon-chef-heart.icon.checks.chef
                 | #{__('Favorite')}
 

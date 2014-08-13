@@ -30,6 +30,7 @@
 }
 
 #menu-wrapper {
+	margin-top: 5px;
 	position: relative;
 	min-height: 52px;
 	vertical-align: middle;
@@ -39,14 +40,29 @@
 		box-shadow: none;
 		background-color: transparent;
 
+		.item {
+			padding: 10px 5px;
+		}
+
 		:before {
 			background-image: none;
 		}
 	}
 
 	#menu {
+		width: 62px;
 		position: relative;
 		top: 2px;
+
+		@media only screen and (max-width : 767px) {
+			width: 58px;
+			position: relative;
+			top: -4px;
+		}
+
+		&.item {
+			padding: 10px 0px;
+		}
 
 		i:before {
 			font-size: 30px;
