@@ -47,7 +47,8 @@ var Recipe = new keystone.List('Recipe', {
   autokey: {
     path: 'slug',
     from: 'title',
-    unique: true
+    unique: true,
+    fixed: true
   }
 });
 
