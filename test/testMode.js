@@ -2,7 +2,6 @@ var async = require('async'),
   data = require('./data.json');
 
 var testMode = function(keystone, done) {
-  var user, recipe, _i, _len, _results, usersList = [];
 
   var Users = keystone.list('User'),
     Recipes = keystone.list('Recipe');
@@ -13,6 +12,32 @@ var testMode = function(keystone, done) {
         callback(err);
       });
     });
+  };
+
+  // Load all the users
+  var testAdminsAdd = function(callback) {
+    // console.log('Adding test admins');
+    var end = function(err) {
+      // console.log('admins end');
+      callback();
+    };
+    var add = function(admin, callback) {
+      var userM = new Users.model();
+      userM.name = admin.name;
+      userM.username = admin.username;
+      userM.email = admin.email;
+      if (admin.password) {
+        userM.password = admin.password;
+      }
+      userM.media = admin.media;
+      userM.isAdmin = true;
+      userM.save(function(err) {
+        // console.log('admin saved', err);
+        callback();
+      });
+    };
+
+    async.each(data.admins, add, end);
   };
 
   // Load all the users
@@ -63,7 +88,16 @@ var testMode = function(keystone, done) {
         callback();
       });
     };
-    Users.model.find().sort({
+    var usersList = [];
+    for (var i = 0, l = data.users.length; i < l; i++) {
+      usersList.push(data.users[i].username);
+    }
+
+    Users.model.find({
+      username: {
+        '$in': usersList
+      }
+    }).sort({
       username: 1
     }).exec(function(err, results) {
       if (err) {
@@ -85,6 +119,7 @@ var testMode = function(keystone, done) {
 
   async.series([
     testClean,
+    testAdminsAdd,
     testUsersAdd,
     testRecipesAdd
   ], end);

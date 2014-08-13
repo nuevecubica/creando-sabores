@@ -1,4 +1,19 @@
 {
+  "admins": [{
+    "name": "Admin",
+    "email": "user@keystonejs.com",
+    "password": "admin",
+    "username": "admin",
+    "about": "Admin",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "isAdmin": true,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
+  }],
   "users": [{
     "name": "Test User1",
     "email": "testUser1@glue.gl",
