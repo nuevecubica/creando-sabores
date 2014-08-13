@@ -23,11 +23,14 @@ exports = module.exports = function(req, res) {
     }).populate('author');
 
     q.exec(function(err, result) {
-      if (!err) {
+      if (!err && result) {
         locals.data.recipe = result;
         if (result) {
           locals.title = result.name + ' - ' + res.__('Recipe');
         }
+      }
+      else {
+        return res.notfound(res.__('Not found'));
       }
       next(err);
     });
