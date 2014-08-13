@@ -1,0 +1,27 @@
+mixin editable(editable, own)
+  if editable && own
+    #manage-wrapper
+      .ui.menu
+        .menu
+            #edit.ui.button.chef.button-manage
+              a(href='#')= __('Edit')
+
+            if manageable
+              #publish.ui.button.chef.button-manage
+                if recipe && recipe.state == 0
+                  a= __('Publish')
+                else
+                  a= __('Draft')
+
+
+    #actions-wrapper.ten.mobile-sixteen.wide.column
+      .ui.menu
+        .menu
+          #cancel.ui.button.chef.button-manage
+            a= __('Cancel')
+          #update.ui.button.chef.button-manage
+            a= __('Save')
+
+          if manageable
+            #delete.ui.button.chef.button-manage
+              a= __('Delete')
