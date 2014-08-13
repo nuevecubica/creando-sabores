@@ -3,21 +3,18 @@ $(document).ready(function() {
   $('.ui.dropdown').dropdown();
 
   $('#edit.button-manage').on('click', function() {
-
-    $('body').addClass('mode-editable');
-    $('.set-editable:not(.dropdown)').attr('contenteditable', true);
-
+    // First coppy original value in data attribute for each false form component
     var $title = $('#recipe-title');
     var $difficulty = $('#recipe-difficulty .itemSelected');
-    var $time = $('#recipe-time');
-    var $portions = $('#recipe-portions');
-    var $description = $('#recipe-description');
-    var $ingredients = $('#recipe-ingredients');
-    var $procedure = $('#recipe-procedure');
+    var $time = $('#recipe-time .set-editable');
+    var $portions = $('#recipe-portions .set-editable');
+    var $description = $('#recipe-description .set-editable');
+    var $ingredients = $('#recipe-ingredients .set-editable');
+    var $procedure = $('#recipe-procedure .set-editable');
 
     // Save original values for restore if user cancel edit
     if (!$title.data('origvalue')) {
-      $title.data('origvalue', $title.html());
+      $title.data('origvalue', $title.text());
     }
 
     if (!$difficulty.data('origvalue')) {
@@ -25,24 +22,28 @@ $(document).ready(function() {
     }
 
     if (!$time.data('origvalue')) {
-      $time.data('origvalue', $time.html());
+      $time.data('origvalue', $time.text());
     }
 
     if (!$portions.data('origvalue')) {
-      $portions.data('origvalue', $portions.html());
+      $portions.data('origvalue', $portions.text());
     }
 
     if (!$description.data('origvalue')) {
-      $description.data('origvalue', $description.html());
+      $description.data('origvalue', $description.text());
     }
 
     if (!$ingredients.data('origvalue')) {
-      $ingredients.data('origvalue', $ingredients.html());
+      $ingredients.data('origvalue', $ingredients.text());
     }
 
     if (!$procedure.data('origvalue')) {
-      $procedure.data('origvalue', $procedure.html());
+      $procedure.data('origvalue', $procedure.text());
     }
+
+    // Change to editable mode
+    $('body').addClass('mode-editable');
+    $('.set-editable:not(.dropdown)').attr('contenteditable', true);
 
     $title.focus();
   });
@@ -56,10 +57,10 @@ $(document).ready(function() {
       return $(this).text();
     }).get().join('\n');
 
-    $('#hidden-title').attr('value', $('#recipe-title').text());
+    $('#hidden-title').attr('value', $('#recipe-title .set-editable').text());
     $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
-    $('#hidden-time').attr('value', $('#recipe-time .span.set-editable').text());
-    $('#hidden-portions').attr('value', $('#recipe-portions .span.set-editable').text());
+    $('#hidden-time').attr('value', $('#recipe-time .set-editable').text());
+    $('#hidden-portions').attr('value', $('#recipe-portions .set-editable').text());
     $('#hidden-description').attr('value', description);
     // Commented waiting for ingredients and procedure task
     // $('#hidden-ingredients').attr('value', ingredients);
@@ -73,31 +74,24 @@ $(document).ready(function() {
 
     var $title = $('#recipe-title');
     var $difficulty = $('#recipe-difficulty .itemSelected');
-    var $time = $('#recipe-time');
-    var $portions = $('#recipe-portions');
-    var $description = $('#recipe-description');
-    var $ingredients = $('#recipe-ingredients');
-    var $procedure = $('#recipe-procedure');
+    var $time = $('#recipe-time .set-editable');
+    var $portions = $('#recipe-portions .set-editable');
+    var $description = $('#recipe-description .set-editable');
+    var $ingredients = $('#recipe-ingredients .set-editable');
+    var $procedure = $('#recipe-procedure .set-editable');
 
-    $title.html($title.data('origvalue'));
+    $title.text($title.data('origvalue'));
     $difficulty.html($difficulty.data('origvalue'));
-    $time.html($time.data('origvalue'));
-    $portions.html($portions.data('origvalue'));
-    $description.html($description.data('origvalue'));
-    $ingredients.html($ingredients.data('origvalue'));
-    $procedure.html($procedure.data('origvalue'));
+    $time.text($time.data('origvalue'));
+    $portions.text($portions.data('origvalue'));
+    $description.text($description.data('origvalue'));
+    $ingredients.text($ingredients.data('origvalue'));
+    $procedure.text($procedure.data('origvalue'));
 
   });
 
   $('#delete.button-manage').on('click', function() {
     $('#recipe-remove-form').submit();
-  });
-
-  $('.set-editable.for.numbers').on('keypress', function(e) {
-    var charCode = (e.which) ? e.which : e.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      e.preventDefault();
-    }
   });
 
   $('.set-editable').on('focus', function(e) {
@@ -124,12 +118,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#cancel.button-manage').on('click', function() {
-    $('body').removeClass('mode-editable');
-    $('.set-editable').attr('contenteditable', false);
-  });
-
-  $('.checks').on('click', function() {
+  $('.favourite .button').on('click', function() {
     $(this).toggleClass('activated');
   });
 
