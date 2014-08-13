@@ -63,7 +63,9 @@ var testMode = function(keystone, done) {
         callback();
       });
     };
-    Users.model.find().sort('+name').exec(function(err, results) {
+    Users.model.find().sort({
+      username: 1
+    }).exec(function(err, results) {
       if (err) {
         console.log(err);
       }
