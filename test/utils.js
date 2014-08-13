@@ -31,5 +31,25 @@ function loginUser(user, request, callback) {
   });
 }
 
-exports.revertTestUsers = module.exports.revertTestUsers = revertTestUsers;
-exports.loginUser = module.exports.loginUser = loginUser;
+function generateText(len) {
+  var txt = '';
+  for (var i = 0; i < len; i++) {
+    txt += 'a';
+  }
+  return txt;
+}
+
+function antiRegExp(text, regexp) {
+  var antiRE = new RegExp(regexp);
+  if (text.match(antiRE) !== null) {
+    return "text found: " + regexp;
+  }
+  return false;
+}
+
+exports = module.exports = {
+  revertTestUsers: revertTestUsers,
+  loginUser: loginUser,
+  generateText: generateText,
+  antiRegExp: antiRegExp
+};
