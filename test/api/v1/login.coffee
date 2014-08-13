@@ -6,11 +6,6 @@ utils = require __dirname + '/../../utils.js'
 supertest = require('supertest')
 request = supertest.agent config.keystone.publicUrl
 
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{regexp}"
-
 describe 'API v1: /login', ->
   this.timeout 10000
 

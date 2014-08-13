@@ -7,11 +7,6 @@ supertest = require 'supertest'
 request = supertest.agent config.keystone.publicUrl
 cookie = null
 
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{regexp}"
-
 describe 'API v1: /me/', ->
   this.timeout 5000
 

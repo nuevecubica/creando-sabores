@@ -12,11 +12,6 @@ getFormErrors = (text, expected) ->
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
 
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{text}"
-
 describe 'LOGIN', ->
   before (done) ->
     this.timeout 10000
@@ -64,7 +59,7 @@ describe 'LOGIN', ->
           (res) -> return getFormErrors res.text, 2
         )
         .expect(
-          (res) -> return antiRegExp res.text, 'TestDummyEmail'
+          (res) -> return utils.antiRegExp res.text, 'TestDummyEmail'
         )
         .end(done)
 

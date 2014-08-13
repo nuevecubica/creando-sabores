@@ -12,11 +12,6 @@ getFormErrors = (text, expected) ->
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
 
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{text}"
-
 describe 'SIGNUP', ->
   before (done) ->
     this.timeout 10000
