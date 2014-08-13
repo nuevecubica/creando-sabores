@@ -160,58 +160,59 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
-        #ingredients.ui.grid
-          .three.column.row.computer.only
-            if data.recipe.ingredients
-              - var array = data.recipe.ingredients.split('<p>')
-              .column
-                - for(var j = 1; j < array.length; j+=3)
+        - if (data.recipe.ingredients)
+          #ingredients.ui.grid
+            .three.column.row.computer.only
+              if data.recipe.ingredients
+                - var array = data.recipe.ingredients.split('<p>')
+                .column
+                  - for(var j = 1; j < array.length; j+=3)
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span!= array[j]
                   .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-                .ingredient
-                  .icon-chef-cesta.checks.all
-                  .span= __('Select all')
-              .column
-                - for(var j = 2; j < array.length; j+=3)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-              .column
-                - for(var j = 3; j < array.length; j+=3)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
+                    .icon-chef-cesta.checks.all
+                    .span= __('Select all')
+                .column
+                  - for(var j = 2; j < array.length; j+=3)
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span!= array[j]
+                .column
+                  - for(var j = 3; j < array.length; j+=3)
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span!= array[j]
 
-          .two.column.row.tablet.only
+            .two.column.row.tablet.only
 
-            if data.recipe.ingredients
-              - var array = data.recipe.ingredients.split('<p>')
-              .column
-                - for(var j = 1; j < array.length; j+=2)
+              if data.recipe.ingredients
+                - var array = data.recipe.ingredients.split('<p>')
+                .column
+                  - for(var j = 1; j < array.length; j+=2)
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span!= array[j]
                   .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-                .ingredient
-                  .icon-chef-cesta.checks.all
-                  .span= __('Select all')
-              .column
-                - for(var j = 2; j < array.length; j+=2)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
+                    .icon-chef-cesta.checks.all
+                    .span= __('Select all')
+                .column
+                  - for(var j = 2; j < array.length; j+=2)
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span!= array[j]
 
-          .sixteen.wide.column.mobile.only
-            if data.recipe.ingredients
-              - var array = data.recipe.ingredients.split('<p>')
-              .column
-                - for(var j = 1; j < array.length; j+=1)
+            .sixteen.wide.column.mobile.only
+              if data.recipe.ingredients
+                - var array = data.recipe.ingredients.split('<p>')
+                .column
+                  - for(var j = 1; j < array.length; j+=1)
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span!= array[j]
                   .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-                .ingredient
-                  .icon-chef-cesta.checks.all
-                  .span= __('Select all')
+                    .icon-chef-cesta.checks.all
+                    .span= __('Select all')
 
       .sixteen.wide.column
         h2.ui.header= __('Procedure')

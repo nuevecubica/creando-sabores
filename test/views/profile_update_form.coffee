@@ -1,32 +1,19 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../config.js'
-users = require __dirname + '/../users.json'
+data = require __dirname + '/../data.json'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'PRIVATE PROFILE - CHANGE', ->
+describe 'PRIVATE PROFILE - UPDATE', ->
 
-  before (done) ->
+  beforeEach (done) ->
     this.timeout 10000
-    request
-      .post('/acceso')
-      .send({
-        'action': 'login'
-        'login_email': users.users[0].email
-        'login_password': users.users[0].password
-      })
-      .expect(302)
-      .end (err, res) ->
-        if err
-          return done err, res
-        cookie = res.headers['set-cookie']
-        done()
-
-  afterEach (done) ->
-    utils.revertTestUsers done
+    utils.loginUser data.users[0], request, (err, res) ->
+      cookie = res.headers['set-cookie']
+      done()
 
   describe 'GET /perfil', ->
     it 'responds with the form', (done) ->
@@ -43,6 +30,9 @@ describe 'PRIVATE PROFILE - CHANGE', ->
       .end(done)
 
   describe 'POST /perfil/change', ->
+    afterEach (done) ->
+      utils.revertTestUsers done
+
     describe 'on empty action', ->
       it 'returns an error', (done) ->
         request
@@ -65,7 +55,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'username': users.users[0].username,
+          'username': data.users[0].username,
           'email': 'demo@email.com',
           'isPrivate': 'on'
           'old-pass': '',
@@ -101,7 +91,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
                 .post('/perfil/change')
                 .set('cookie', cookie)
                 .send({
-                  'username': users.users[0].username,
+                  'username': data.users[0].username,
                   'email': 'demo@email.com',
                 })
                 .expect(302)
@@ -134,9 +124,9 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'username': users.users[0].username,
-          'email': users.users[0].email,
-          'old-pass': users.users[0].password,
+          'username': data.users[0].username,
+          'email': data.users[0].email,
+          'old-pass': data.users[0].password,
           'new-pass': 'demo-pass'
         })
         .expect(302)
@@ -153,7 +143,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
           request
             .post('/api/v1/login')
             .send({
-              email: users.users[0].email,
+              email: data.users[0].email,
               password: 'demo-pass'
             })
             .set('Accept', 'application/json')
@@ -166,8 +156,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'username': users.users[0].username,
-          'email': users.users[1].email
+          'username': data.users[0].username,
+          'email': data.users[1].email
         })
         .expect(302)
         .expect(
@@ -188,7 +178,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.email isnt users.users[0].email
+                if res.body.user.email isnt data.users[0].email
                   return 'Email changed on collision'
             )
             .end(done)
@@ -198,8 +188,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'username': users.users[0].username
-          'email': users.users[0].email
+          'username': data.users[0].username
+          'email': data.users[0].email
           'old-pass': 'bad-password',
           'new-pass': 'demo-password'
         })
@@ -218,8 +208,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
           request
             .post('/api/v1/login')
             .send({
-              email: users.users[0].email,
-              password: users.users[0].password
+              email: data.users[0].email,
+              password: data.users[0].password
             })
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -231,7 +221,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'username': users.users[0].username,
+          'username': data.users[0].username,
           'email': 'dummyEmail'
         })
         .expect(302)
@@ -253,7 +243,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.email isnt users.users[0].email
+                if res.body.user.email isnt data.users[0].email
                   return 'Email changed on invalid format'
             )
             .end(done)

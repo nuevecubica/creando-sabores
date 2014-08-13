@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = null
 config = require __dirname + '/../../config.js'
-users = require __dirname + '/../users.json'
+data = require __dirname + '/../data.json'
 
 request = require('supertest') config.keystone.publicUrl
 
@@ -11,11 +11,6 @@ getFormErrors = (text, expected) ->
   count = if matches then matches.length else 0
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
-
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{text}"
 
 describe 'LOGIN', ->
   before (done) ->
@@ -64,7 +59,7 @@ describe 'LOGIN', ->
           (res) -> return getFormErrors res.text, 2
         )
         .expect(
-          (res) -> return antiRegExp res.text, 'TestDummyEmail'
+          (res) -> return utils.antiRegExp res.text, 'TestDummyEmail'
         )
         .end(done)
 
@@ -105,8 +100,8 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': users.users[0].email
-          'login_password': users.users[0].password
+          'login_email': data.users[0].email
+          'login_password': data.users[0].password
         })
         .expect(302)
         .end(done)
@@ -117,7 +112,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': users.users[0].email
+          'login_email': data.users[0].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)
@@ -132,7 +127,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': users.users[1].email
+          'login_email': data.users[1].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)

@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../config.js'
-users = require __dirname + '/../users.json'
+data = require __dirname + '/../data.json'
 
 request = require('supertest') config.keystone.publicUrl
 
@@ -11,11 +11,6 @@ getFormErrors = (text, expected) ->
   count = if matches then matches.length else 0
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
-
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{text}"
 
 describe 'SIGNUP', ->
   before (done) ->
@@ -104,8 +99,8 @@ describe 'SIGNUP', ->
         .post('/registro')
         .send({
           'action': 'signup'
-          'signup_email': users.users[0].email
-          'signup_password': users.users[0].password
+          'signup_email': data.users[0].email
+          'signup_password': data.users[0].password
         })
         .expect(302)
         .end(done)
@@ -116,8 +111,8 @@ describe 'SIGNUP', ->
         .send({
           'action': 'signup'
           'signup_name': 'TestDummyName'
-          'signup_email': users.users[0].email
-          'signup_password': users.users[0].password
+          'signup_email': data.users[0].email
+          'signup_password': data.users[0].password
         })
         .expect(302)
         .end(done)
