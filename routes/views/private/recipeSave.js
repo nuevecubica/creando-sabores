@@ -114,8 +114,10 @@ var recipeNew = function(req, res) {
       return formResponse(req, res, back, false, 'Missing data');
     }
 
+    data.author = req.user.id;
+
     recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,portions,time,difficulty'
+        fields: 'author,title,description,ingredients,procedure,portions,time,difficulty'
       },
       function(err) {
         if (err) {
