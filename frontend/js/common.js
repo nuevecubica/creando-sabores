@@ -56,6 +56,18 @@ $(document).ready(function() {
   // Edited
   var editable = $('.set-editable');
 
+  var checkLength = function(editable, e) {
+    if (editable.text().length >= editable.data('length')) {
+      e.preventDefault();
+    }
+  };
+
+  editable.on('focus', function() {
+    $(this).toggleClass('focus');
+  }).on('focusout', function() {
+    $(this).toggleClass('focus');
+  });
+
   $('.set-editable.one-line').on('keypress', function(e) {
     if (e.which === 13) {
       e.preventDefault();
@@ -64,7 +76,31 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  $('.set-editable.for.numbers').on('keypress', function(e) {
+  $('.set-editable[data-length]').on('keypress', function(e) {
+    if (e.which !== 8 && e.which !== 37 && e.which !== 38 && e.which !== 39 && e.which !== 40) {
+      // Limit name text size
+      checkLength($(this), e);
+    }
+  }).on('paste', function(e) {
+    // var paste = e.originalEvent.clipboardData.getData('Text');
+
+    // if ((paste.length + $(this).text().length) >= $(this).data('length')) {
+    //   var limit = $(this).data('length') - $(this).text().length;
+    //   var pasteFinal = paste.substr(0, limit);
+    //   $(this).append(pasteFinal);
+    // }
+    // checkLength($(this), e);
+  }).on('drop', function(e) {
+    e.preventDefault();
+  });
+
+  $('.set-editable.no-paste').on('paste', function(e) {
+    e.preventDefault();
+  }).on('drop', function(e) {
+    e.preventDefault();
+  });
+
+  $('.set-editable.for-numbers').on('keypress', function(e) {
     var charCode = (e.which) ? e.which : e.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       e.preventDefault();
@@ -117,7 +153,7 @@ $(document).ready(function() {
 
     item.removeClass('selected');
 
-    selected.html(itemContent);
+    selected.find('.item').html(itemContent);
     selected.find('.item').attr('data-value', $(this).attr('data-value'));
 
     $(this).addClass('selected');

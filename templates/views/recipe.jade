@@ -158,7 +158,7 @@ block content
             #recipe-time.time(tabindex='2')
               i.icon-chef-time.icon
               .editable-container
-                .set-editable.one-line.for.numbers(placeholder=__('Time'))
+                .set-editable.one-line.for-numbers(placeholder=__('Time'), data-length="3")
                   if data.recipe && data.recipe.time
                       = (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
               .span= __('min')
@@ -167,14 +167,14 @@ block content
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
               .editable-container
-                .set-editable.one-line.for.numbers(placeholder=__('Portions'))
+                .set-editable.one-line.for-numbers(placeholder=__('Portions'), data-length="2")
                   if data.recipe && data.recipe.portions
                     = data.recipe.portions
               .span= __('Pers')
 
             .rating
-              - var rating = 0 
-              if data.recipe
+              - var rating = 0
+              if data.recipe && data.recipe.rating
                 - rating = Math.floor(data.recipe.rating)
 
               - var r = rating
@@ -201,7 +201,7 @@ block content
       #recipe-description.row
         .sixteen.wide.column
           .explain
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'), data-length="400")
               if data.recipe && data.recipe.description
                 != data.recipe.description
 
@@ -211,7 +211,7 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
-        if data.recipe.ingredients
+        if data.recipe && data.recipe.ingredients
           #ingredients.ui.grid
             .three.column.row.computer.only
               - var array = data.recipe.ingredients.split('<p>')

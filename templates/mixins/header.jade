@@ -82,7 +82,7 @@ mixin header(recipe, section)
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section.title
-					#recipe-title.shadow.set-editable.one-line= title
+					#recipe-title.shadow.set-editable.one-line(data-length="40")= title
 
 				.row.section.subtitle
 					.author.shadow= author
@@ -104,7 +104,7 @@ mixin header(recipe, section)
 
 				.row.section.title
 					.editable-container
-						#recipe-title.shadow.set-editable.one-line(placeholder=__('Write here recipe name'))= title
+						#recipe-title.shadow.set-editable.one-line(placeholder=__('Write here recipe name'), data-length="40")= title
 
 				.row.section.subtitle
 					.author.shadow= author
