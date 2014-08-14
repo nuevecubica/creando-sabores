@@ -56,7 +56,7 @@ Recipe.add({
     title: {
       type: Types.Text,
       initial: true,
-      required: true,
+      // required: true,
       index: true
     },
 
@@ -170,14 +170,14 @@ Recipe.add({
     time: {
       type: Types.Number,
       note: 'In minutes',
-      required: true,
+      // required: true,
       initial: false,
       default: 0
     },
 
     portions: {
       type: Types.Number,
-      required: true,
+      // required: true,
       initial: false,
       default: 0
     },

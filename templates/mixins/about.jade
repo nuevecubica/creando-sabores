@@ -11,6 +11,6 @@ mixin about(user)
 
 	.twelve.wide.column.info
 		h2.ui.header= __('Hi user! (prefix)')
-			strong#profile-name.set-editable.one-line(data-length="20")= user.name
+			strong#profile-name.set-editable.one-line.no-paste(data-length="20")= user.name
 			|#{__('Hi user! (postfix)')}
 		#profile-about.ui.content.set-editable(spellcheck="false")!= user.about

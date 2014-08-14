@@ -55,7 +55,7 @@ $(document).ready(function() {
       return $(this).text();
     }).get().join('\n');
 
-    $('#hidden-title').attr('value', $('#recipe-title .set-editable').text());
+    $('#hidden-title').attr('value', $('#recipe-title.set-editable').text());
     $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
     $('#hidden-time').attr('value', $('#recipe-time .set-editable').text());
     $('#hidden-portions').attr('value', $('#recipe-portions .set-editable').text());
