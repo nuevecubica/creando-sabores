@@ -92,6 +92,11 @@
     }
   }
 
+  .editable-container {
+    display: inline-block;
+
+  }
+
   .set-editable {
     transition: box-shadow 300ms ease-in, padding 300ms ease-in;
 
@@ -99,6 +104,11 @@
     box-shadow: 0px 2px 4px -2px @editable-border-shadow !important;
     padding: 15px;
     outline:none;
+
+    &[placeholder]:empty:before {
+      content: attr(placeholder);
+      color: #555;
+    }
 
     &.dropdown {
       cursor: pointer;

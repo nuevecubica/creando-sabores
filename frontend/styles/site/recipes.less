@@ -21,6 +21,15 @@
   .section {
     color: @profile-section-color-text;
   }
+
+  .editable-container {
+    text-align: center;
+
+    #recipe-title {
+      display: inline-block;
+      white-space: nowrap;
+    }
+  }
 }
 
 /****************
@@ -90,10 +99,9 @@
   }
 
   .span {
-    display: inline;
+    display: inline-block;
     font-size: 18px;
     font-weight: normal;
-    line-height: 4px;
     text-transform: capitalize;
   }
 
@@ -112,8 +120,8 @@
     }
   }
 
-  .favourite{
-    .checks{
+  .favourite {
+    .checks {
       .font-normal;
       border: none;
       padding-left: 0;

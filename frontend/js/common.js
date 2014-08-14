@@ -71,6 +71,20 @@ $(document).ready(function() {
     }
   });
 
+  // Placeholder
+  var $placeholder = $('.set-editable[placeholder]');
+
+  var clearPlaceHolder = function() {
+    if ($(this).text().length === 0) {
+      $(this).empty();
+    }
+  };
+
+  $placeholder.on('keyup', clearPlaceHolder);
+  $placeholder.on('click', clearPlaceHolder);
+  $placeholder.on('change', clearPlaceHolder);
+  $placeholder.bind('input', (clearPlaceHolder));
+
   // Dropdown
   var dropdown = $('.dropdown');
   var selected = dropdown.find('.itemSelected');

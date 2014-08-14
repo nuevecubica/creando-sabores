@@ -55,7 +55,7 @@
 		top: 2px;
 
 		@media only screen and (max-width : 767px) {
-			width: 58px;
+			width: 56px;
 			position: relative;
 			top: -4px;
 		}
@@ -103,6 +103,7 @@
 		padding: .83em .95em;
 		right: 10%;
 		top: 12px;
+		z-index: 100;
 
 		i:before {
 			font-size: 30px;
@@ -132,7 +133,7 @@
 			min-width: 70%;
 
 			&.scroll {
-				height: 90%;
+				height: 96%;
 				overflow-x: hidden;
 				overflow-y: auto;
 
@@ -205,7 +206,7 @@
 	}
 }
 
-@media screen and (max-height: 55em) {
+@media screen and (max-height: 60em) {
 	#menu-box nav ul.menu li {
 		font-size: (@chef-menu-text-size * 0.8);
 		a {
@@ -214,12 +215,12 @@
 	}
 }
 
-@media screen and (max-height: 45em) {
+@media screen and (max-height: 50em) {
 		#menu-box nav ul.menu li a i.icon-chef-logo {
 			font-size: 4em;
 		}
 }
-@media screen and (max-height: 30em) {
+@media screen and (max-height: 35em) {
 		#menu-box nav ul.menu li a i.icon-chef-logo {
 			font-size: 3em;
 		}
