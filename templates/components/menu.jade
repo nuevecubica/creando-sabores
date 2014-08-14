@@ -17,7 +17,7 @@
       each link in navLinks
         li.item.main(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
 
-      if user || true
+      if user
         if user.canAccessKeystone
           li.item.main: a(href="/keystone")= __('Admin panel')
 
