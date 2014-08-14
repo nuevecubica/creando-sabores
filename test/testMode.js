@@ -62,7 +62,7 @@ var testMode = function(keystone, done) {
       });
     };
 
-    async.each(data.users, add, end);
+    async.eachSeries(data.users, add, end);
   };
 
   // Load all the recipes
