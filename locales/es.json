@@ -25,6 +25,7 @@
 	"Create recipe": "Crear receta",
 	"Default": "Default",
 	"Delete": "Eliminar",
+	"Description": "Descripción",
 	"Difficult": "Difícil",
 	"Difficulty": "Dificultad",
 	"Do you have a new recipe?": "¿Tienes una receta en mente?",
@@ -45,6 +46,7 @@
 	"Error: Username format": "Sólo letras y números.",
 	"Favorite": "Favorito",
 	"Follow us on social networks": "Síguenos en las redes sociales",
+	"h (hours)": "h (horas)",
 	"Help": "Ayuda",
 	"Hi user! (postfix)": "!",
 	"Hi user! (prefix)": "¡Hola ",
@@ -79,6 +81,7 @@
 	"Pers": "Pers",
 	"Please sign in to access this page": "Necesitas acceder para ver esta página.",
 	"Popular": "Populares",
+	"Portions": "Porciones",
 	"Press media": "Medios de comunicación",
 	"Privacy": "Privacidad",
 	"Private profile": "Perfil privado",
@@ -109,6 +112,7 @@
 	"Step": "Paso",
 	"Step:": "Paso:",
 	"Terms and conditions": "Términos y condiciones",
+	"Time": "Tiempo",
 	"Tips": "Tips",
 	"To login": "Accede",
 	"To logout": "Salir",
@@ -121,8 +125,7 @@
 	"Very difficult": "Muy Difícil",
 	"Very easy": "Muy Fácil",
 	"Videorecipes": "Videorecetas",
+	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"Very Easy": "Very Easy",
-	"You don't have rights to access that page": "No tienes permiso para acceder a esa página.",
-	"h (hours)": "h (hours)"
+	"You don't have rights to access that page": "No tienes permiso para acceder a esa página."
 }
