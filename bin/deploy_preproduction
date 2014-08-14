@@ -32,6 +32,14 @@ check_dir() {
 	fi
 }
 
+check_remote() {
+	remote="$(git remote | egrep ^$app_gluerokku_repository\$)"
+	if [[ "x$remote" == "x" ]]; then
+		echo "Remote ${app_gluerokku_repository} not found"
+		exit 1
+	fi
+}
+
 set_checkout() {
 	branch=$(git branch --list "$app_branch")
 	if [[ -z "$branch" ]]; then
@@ -67,6 +75,7 @@ color_no='\033[0m'
 color_icon=$'\360\237\215\211'
 
 check_dir
+check_remote
 set_checkout
 echo "${color_icon}  ${color_1}===> ${color_2}Update${color_no}"
 git checkout $app_checkout || exit 1

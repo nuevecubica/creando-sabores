@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../config.js'
-users = require __dirname + '/../users.json'
+data = require __dirname + '/../data.json'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
@@ -9,19 +9,11 @@ cookie = null
 
 describe 'PRIVATE PROFILE - SAVE', ->
 
-  before (done) ->
+  beforeEach (done) ->
     this.timeout 10000
-    request
-      .post('/acceso')
-      .send({
-        'action': 'login'
-        'login_email': users.users[0].email
-        'login_password': users.users[0].password
-      })
-      .expect(302)
-      .end (err, res) ->
-        cookie = res.headers['set-cookie']
-        done()
+    utils.loginUser data.users[0], request, (err, res) ->
+      cookie = res.headers['set-cookie']
+      done()
 
   afterEach (done) ->
     utils.revertTestUsers done
@@ -40,6 +32,7 @@ describe 'PRIVATE PROFILE - SAVE', ->
       .end(done)
 
   describe 'POST /perfil/save', ->
+
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
@@ -56,7 +49,6 @@ describe 'PRIVATE PROFILE - SAVE', ->
         )
         .end(done)
 
-  describe 'POST /perfil/save', ->
     describe 'on modified data', ->
       it 'updates user profile', (done) ->
         # This doesn't check the image upload.
@@ -120,7 +112,7 @@ describe 'PRIVATE PROFILE - SAVE', ->
               (res) ->
                 if res.body.user.about isnt '<p>demo-about</p>'
                   return 'Edit failed'
-                if res.body.user.name isnt users.users[0].name
+                if res.body.user.name isnt data.users[0].name
                   return 'Edit changed unmodified fields'
             )
             .end(done)

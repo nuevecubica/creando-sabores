@@ -1,60 +1,55 @@
 var keystone = require(__dirname + '/../app-test-init.js');
 var config = require(__dirname + '/../config.js');
-var users = require(__dirname + '/users.json');
-var async = require('async');
-var Users = null;
 
-function updateUser(user, done) {
-  var fields = ['name', 'email', 'about', 'password', 'media', 'isPrivate', 'isDeactivated'];
-  Users.model.findOne({
-      username: user.username
-    },
-    function(err, doc) {
-      if (err) {
-        console.log('updateUser find ERROR: ', err, user);
-        done(true);
-      }
-      else {
-        for (var i = 0, l = fields.length; i < l; i++)  {
-          if (fields[i] in user) {
-            doc[fields[i]] = user[fields[i]];
-          }
-        }
+var testMode = require(__dirname + '/testMode.js');
 
-        doc.save(function(err) {
-          if (err) {
-            console.log('updateUser save ERROR: ', err, doc);
-          }
-          done();
-        });
-      }
-    }
-  );
-}
-
-function __updateUsers(users, done) {
-  Users = keystone.list('User');
-  async.forEach(users, updateUser, done);
-}
-
-function updateUsers(users, done) {
+function updateUsers(done) {
   if (!keystone.mongoose.connection.readyState) {
-    keystone.mongoose.connect(config.keystone.init['mongo url']);
+    // console.warn('Mongoose connection NOT ready');
+    keystone.mongoose.connect(config.keystone.test.init['mongo url']);
     keystone.mongoose.connection.on('open', function() {
-      return __updateUsers(users, done);
+      // console.info('Mongoose connection opened');
+      return testMode(keystone, done);
     });
   }
   else {
-    __updateUsers(users, done);
+    return testMode(keystone, done);
   }
 }
 
 function revertTestUsers(done) {
-  updateUsers(users.users, done);
+  updateUsers(done);
 }
 
-exports.updateUser = module.exports.updateUser = updateUser;
-exports.updateUsers = module.exports.updateUsers = updateUsers;
-exports.revertTestUsers = module.exports.revertTestUsers = revertTestUsers;
+function loginUser(user, request, callback) {
+  request.post('/acceso').send({
+    'action': 'login',
+    'login_email': user.email,
+    'login_password': user.password
+  }).expect(302).end(function(err, res) {
+    callback(err, res);
+  });
+}
 
-// return revertTestUsers(function() {});
+function generateText(len) {
+  var txt = '';
+  for (var i = 0; i < len; i++) {
+    txt += 'a';
+  }
+  return txt;
+}
+
+function antiRegExp(text, regexp) {
+  var antiRE = new RegExp(regexp);
+  if (text.match(antiRE) !== null) {
+    return "text found: " + regexp;
+  }
+  return false;
+}
+
+exports = module.exports = {
+  revertTestUsers: revertTestUsers,
+  loginUser: loginUser,
+  generateText: generateText,
+  antiRegExp: antiRegExp
+};
