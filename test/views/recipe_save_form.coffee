@@ -156,3 +156,102 @@ describe 'PRIVATE RECIPE - SAVE', ->
               (res) -> return res.text.must.not.match text
             )
             .end(done)
+
+#------------------------------------------------------------------------------
+
+  describe.only 'POST /nueva-receta/save', ->
+    describe 'on empty action', ->
+      it 'redirects back to the form', (done) ->
+        request
+        .post('/nueva-receta/save')
+        .set('cookie', cookie)
+        .send({})
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt '/nueva-receta/save/..' or
+                res.header['api-response-success'] isnt 'false' or
+                res.header['api-response-error'] isnt 'Missing data'
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end(done)
+
+    describe 'on complete data received', ->
+      it 'saves recipe and redirects', (done) ->
+        url = '/receta/' + data.newRecipes[0].slug
+        request
+        .post('/nueva-receta/save')
+        .set('cookie', cookie)
+        .send(data.newRecipes[0])
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt url or
+                res.header['api-response-success'] isnt 'Recipe saved' or
+                res.header['api-response-error'] isnt 'false'
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end (err,res) ->
+          if err
+            return done err, res
+          request
+            .get(url)
+            .set('cookie', cookie)
+            .expect(200)
+            .expect(
+              (res) -> return res.text.must.match data.newRecipes[0].title
+            )
+            .expect(
+              (res) -> return res.text.must.match 'INGREDIENT NEW 1'
+            )
+            .end(done)
+
+    describe 'on incomplete data received', ->
+      it 'saves recipe and redirects', (done) ->
+        url = '/receta/' + data.newRecipes[1].slug
+        request
+        .post('/nueva-receta/save')
+        .set('cookie', cookie)
+        .send(data.newRecipes[1])
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt url or
+                res.header['api-response-success'] isnt 'Recipe saved' or
+                res.header['api-response-error'] isnt 'false'
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end (err,res) ->
+          if err
+            return done err, res
+          request
+            .get(url)
+            .set('cookie', cookie)
+            .expect(200)
+            .expect(
+              (res) -> return res.text.must.match data.newRecipes[1].title
+            )
+            .expect(
+              (res) -> return res.text.must.match 'INGREDIENT NEW 1'
+            )
+            .end(done)
+
+    describe 'on missing title', ->
+      it 'doesn\'t save it' , (done) ->
+        request
+        .post('/nueva-receta/save')
+        .set('cookie', cookie)
+        .send(data.newRecipes[2])
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt '/nueva-receta/save/..' or
+                res.header['api-response-success'] isnt 'false' or
+                res.header['api-response-error'] isnt 'Error: Unknown error'
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end(done)

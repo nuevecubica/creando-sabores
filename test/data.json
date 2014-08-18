@@ -118,5 +118,27 @@
     },
     "author": 2,
     "schemaVersion": 1
+  }],
+  "newRecipes": [{
+    "description": "<p>DESCRIPTION NEW 1</p>",
+    "ingredients": "<p>INGREDIENT NEW 1</p>\r\n<p>INGREDIENT NEW 2</p>\r\n<p>INGREDIENT NEW 3</p>",
+    "procedure": "<p>PROCEDURE NEW STEP 1</p>\r\n<p>PROCEDURE NEW STEP 2</p>\r\n<p>PROCEDURE NEW STEP 3</p>\r\n<p>PROCEDURE NEW STEP 4</p>",
+    "title": "TEST NEW RECIPE 1",
+    "slug": "test-new-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 1
+  }, {
+    "description": "<p>DESCRIPTION NEW 2</p>",
+    "title": "TEST NEW RECIPE 2",
+    "slug": "test-new-recipe-2",
+    "portions": 10,
+    "time": 90,
+    "difficulty": 5
+  }, {
+    "description": "<p>DESCRIPTION NEW 3</p>",
+    "portions": 12,
+    "time": 60,
+    "difficulty": 3
   }]
 }
