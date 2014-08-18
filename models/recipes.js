@@ -63,7 +63,6 @@ Recipe.add({
     author: {
       type: Types.Relationship,
       ref: 'User',
-      required: true,
       initial: true,
       index: true
     },
@@ -170,14 +169,12 @@ Recipe.add({
     time: {
       type: Types.Number,
       note: 'In minutes',
-      required: true,
       initial: false,
       default: 0
     },
 
     portions: {
       type: Types.Number,
-      required: true,
       initial: false,
       default: 0
     },
@@ -283,7 +280,7 @@ Recipe.schema.pre('save', function(next) {
       // Check if user isChef, for official recipe.
       official: function(callback) {
         keystone.list('User').model.findById(me.author).exec(function(err, user) {
-          if (!err) {
+          if (!err && user) {
             callback(null, (user.isChef) ? user.isChef : false);
           }
           else {
