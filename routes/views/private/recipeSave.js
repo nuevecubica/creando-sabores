@@ -44,6 +44,7 @@ var recipeData = function(req, orig) {
     data.difficulty = clean(req.body.difficulty, ['integer', ['max', 5],
       ['min', 1]
     ]);
+    data.author = req.user.id;
 
     // Get missing data from original if present
     if (orig) {
@@ -110,7 +111,7 @@ var recipeNew = function(req, res) {
     var data = recipeData(req);
 
     if (data === null) {
-      return formResponse(req, res, back, false, 'Missing data');
+      return formResponse(req, res, back, 'Missing data', false);
     }
 
     recipe.getUpdateHandler(req).process(data, {
@@ -118,6 +119,7 @@ var recipeNew = function(req, res) {
       },
       function(err) {
         if (err) {
+          console.error('recipeNew:', err);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {
