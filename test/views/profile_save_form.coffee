@@ -10,13 +10,12 @@ cookie = null
 describe 'PRIVATE PROFILE - SAVE', ->
 
   beforeEach (done) ->
-    this.timeout 10000
     utils.loginUser data.users[0], request, (err, res) ->
       cookie = res.headers['set-cookie']
       done()
 
   afterEach (done) ->
-    utils.revertTestUsers done
+    utils.revertTestUsers.call this, done
 
   describe 'GET /perfil', ->
     it 'responds with the form', (done) ->

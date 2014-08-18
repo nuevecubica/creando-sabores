@@ -10,13 +10,12 @@ cookie = null
 describe 'PRIVATE RECIPE - SAVE', ->
 
   beforeEach (done) ->
-    this.timeout 10000
     utils.loginUser data.users[0], request, (err, res) ->
       cookie = res.headers['set-cookie']
       done()
 
   afterEach (done) ->
-    utils.revertTestUsers done
+    utils.revertTestUsers.call this, done
 
   describe 'GET /receta/:recipe', ->
     describe 'from author', ->
@@ -126,11 +125,13 @@ describe 'PRIVATE RECIPE - SAVE', ->
             .end(done)
 
       it 'truncates long name', (done) ->
+        text = utils.generateText 600
+
         request
         .post('/receta/test-recipe-1/save')
         .set('cookie', cookie)
         .send({
-          'description': utils.generateText(600)
+          'description': text
         })
         .expect(302)
         .expect(
@@ -148,8 +149,10 @@ describe 'PRIVATE RECIPE - SAVE', ->
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
             .expect(200)
-            .expect(new RegExp(utils.generateText(100)))
             .expect(
-              (res) -> return utils.antiRegExp res.text, utils.generateText(600)
+              (res) -> return res.text.must.match text.substring 0, 100
+            )
+            .expect(
+              (res) -> return res.text.must.not.match text
             )
             .end(done)

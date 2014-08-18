@@ -60,7 +60,7 @@ describe 'LOGIN', ->
           (res) -> return getFormErrors res.text, 2
         )
         .expect(
-          (res) -> return utils.antiRegExp res.text, 'TestDummyEmail'
+          (res) -> return res.text.must.not.match 'TestDummyEmail'
         )
         .end(done)
 

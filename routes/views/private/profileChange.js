@@ -76,10 +76,10 @@ exports = module.exports = function(req, res, next) {
             return next();
           }
         },
-        // Change password
+        // Change profile
         function(next) {
-          console.log('EMAIL: ', req.user.email);
-          console.log(' VS  : ', req.body.email);
+          // console.log('USERNAME - EMAIL: ', req.user.username, req.user.email);
+          // console.log('      VS        : ', req.body.username, req.body.email);
           req.user.getUpdateHandler(req).process(req.body, {
             fields: fields.join(',')
           }, function(err, user) {
@@ -89,7 +89,7 @@ exports = module.exports = function(req, res, next) {
               return next('Error saving profile');
             }
             else {
-              if (req.body['password']) {
+              if (req.body.password) {
                 console.log('Password change:', req.body.password, req.user.password);
               }
               var User = keystone.list('User');
@@ -98,7 +98,7 @@ exports = module.exports = function(req, res, next) {
               }).exec(function(err, results) {
                 console.log(results);
               });
-              console.log('WINS : ', user.item.email);
+              // console.log('WINS        : ', user.item.username, user.item.email);
               return next();
             }
           });

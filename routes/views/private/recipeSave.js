@@ -15,7 +15,6 @@ var recipeData = function(req, orig) {
   for (i = 0; i < l; i++) {
     prop = props[i];
     if (req.body[prop]) {
-      console.log('found');
       something = true;
       break;
     }
@@ -23,14 +22,14 @@ var recipeData = function(req, orig) {
 
   // Empty body
   if (!something) {
-    console.log('not found');
     data = null;
   }
+
   // Parse body
   else {
     data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', 40], 'escape']);
     data.description = clean(req.body.description, ['oneline', ['maxlength', 400], 'escape']);
-    data.procedure = clean(req.body.description, [
+    data.procedure = clean(req.body.procedure, [
       ['maxlength', 1200], 'escape', 'textarea', 'paragraphs'
     ]);
     data.ingredients = clean(req.body.ingredients, [

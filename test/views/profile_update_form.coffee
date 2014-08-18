@@ -10,16 +10,15 @@ cookie = null
 describe 'PRIVATE PROFILE - UPDATE', ->
 
   before (done) ->
-    utils.revertTestUsers done
+    utils.revertTestUsers.call this, done
 
   beforeEach (done) ->
-    this.timeout 10000
     utils.loginUser data.users[0], request, (err, res) ->
       cookie = res.headers['set-cookie']
       done()
 
   afterEach (done) ->
-    utils.revertTestUsers done
+    utils.revertTestUsers.call this, done
 
   describe 'GET /perfil', ->
     it 'responds with the form', (done) ->
@@ -53,7 +52,7 @@ describe 'PRIVATE PROFILE - UPDATE', ->
         )
         .end(done)
 
-    describe.only 'on modified data', ->
+    describe 'on modified data', ->
       it 'updates user data', (done) ->
         request
         .post('/perfil/change')
@@ -155,6 +154,7 @@ describe 'PRIVATE PROFILE - UPDATE', ->
             .expect(200)
             .end(done)
 
+    describe 'on bad data', ->
       it 'rejects repeated email', (done) ->
         request
         .post('/perfil/change')
@@ -195,7 +195,8 @@ describe 'PRIVATE PROFILE - UPDATE', ->
         .post('/perfil/change')
         .set('cookie', cookie)
         .send({
-          'username': data.users[1].username
+          'username': data.users[1].username,
+          'email': data.users[0].email
         })
         .expect(302)
         .expect(

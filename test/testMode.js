@@ -6,10 +6,22 @@ var testMode = function(keystone, done) {
   var Users = keystone.list('User'),
     Recipes = keystone.list('Recipe');
 
+  // 'drop' destroys the indexes and, while they are
+  // regenerating, 'unique' property won't be checked
+  var testDrop = function(callback) {
+    // console.log('Drop database');
+    Recipes.model.collection.drop(function(err1) {
+      Users.model.collection.drop(function(err2) {
+        callback(err1 || err2);
+      });
+    });
+  };
+
   var testClean = function(callback) {
-    Users.model.collection.drop(function(err) {
-      Recipes.model.collection.drop(function(err) {
-        callback(err);
+    // console.log('Clean database');
+    Recipes.model.remove({}, function(err1) {
+      Users.model.remove({}, function(err2) {
+        callback(err1 || err2);
       });
     });
   };
@@ -33,7 +45,7 @@ var testMode = function(keystone, done) {
       userM.isAdmin = true;
       userM.save(function(err) {
         // console.log('admin saved', err);
-        callback();
+        callback(err);
       });
     };
 
@@ -58,7 +70,7 @@ var testMode = function(keystone, done) {
       userM.media = user.media;
       userM.save(function(err) {
         // console.log('user saved', err);
-        callback();
+        callback(err);
       });
     };
 
@@ -111,7 +123,7 @@ var testMode = function(keystone, done) {
 
   // Run loaders
   var end = function(err) {
-    // console.log('done');
+    // console.log('Database reset done');
     if (done) {
       done(err);
     }

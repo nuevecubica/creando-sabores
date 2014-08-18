@@ -18,6 +18,9 @@ function updateUsers(done) {
 }
 
 function revertTestUsers(done) {
+  if (this && this.timeout) {
+    this.timeout(10000);
+  }
   updateUsers(done);
 }
 
@@ -33,23 +36,16 @@ function loginUser(user, request, callback) {
 
 function generateText(len) {
   var txt = '';
-  for (var i = 0; i < len; i++) {
-    txt += 'a';
+  while (len > 0) {
+    var s = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, len);
+    txt += s;
+    len -= s.length;
   }
   return txt;
-}
-
-function antiRegExp(text, regexp) {
-  var antiRE = new RegExp(regexp);
-  if (text.match(antiRE) !== null) {
-    return "text found: " + regexp;
-  }
-  return false;
 }
 
 exports = module.exports = {
   revertTestUsers: revertTestUsers,
   loginUser: loginUser,
-  generateText: generateText,
-  antiRegExp: antiRegExp
+  generateText: generateText
 };
