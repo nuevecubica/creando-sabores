@@ -22,6 +22,6 @@ mixin editable(editable, own)
           #update.ui.button.chef.button-manage
             a= __('Save')
 
-          if manageable
+          if manageable && !isNew
             #delete.ui.button.chef.button-manage
               a= __('Delete')

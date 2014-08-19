@@ -5,22 +5,51 @@ include ../mixins/recipe
 include ../mixins/header
 
 block css
-  link(href="/styles/site.min.css", rel="stylesheet")
+  link(href='/styles/site.min.css', rel='stylesheet')
 
   //- This file provides the default styling for the KeystoneJS Content Editor
   if user && user.canAccessKeystone
-    link(href="/keystone/styles/content/editor.min.css", rel="stylesheet")
+    link(href='/keystone/styles/content/editor.min.css', rel='stylesheet')
 
   //- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
   //- Safely remove this block if you are not targeting IE8
   //-[if lt IE 9]
-    script(src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js")
-    script(src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js")
+    script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+    script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
   //-[endif]
 
 block js
   //- JAVASCRIPT
   script(src='/js/recipe.js')
+
+  if isNew
+    script.
+      $(document).ready(function(){
+        // First coppy original value in data attribute for each false form component
+        var $title = $('#recipe-title');
+        var $difficulty = $('#recipe-difficulty .itemSelected');
+        var $time = $('#recipe-time .set-editable');
+        var $portions = $('#recipe-portions .set-editable');
+        var $description = $('#recipe-description .set-editable');
+        var $ingredients = $('#recipe-ingredients .set-editable');
+        var $procedure = $('#recipe-procedure .set-editable');
+
+        $title.empty();
+        $time.empty();
+        $portions.empty();
+        $description.empty();
+
+        // Change to editable mode
+        $('body').addClass('mode-editable');
+        $('.set-editable:not(.dropdown)').attr('contenteditable', true);
+
+        $title.focus();
+
+        // Overwrite cancell function
+        $('#cancel.button-manage').off().on('click', function() {
+          window.location.href ='/recetas';
+        });
+      });
 
   //- The KeystoneJS Content Editor provides support for ks-editable data attributes,
   //- which generate links to edit content for users who can access Keystone
@@ -29,17 +58,23 @@ block js
 
 block content
 
-  if own
-    form#recipe-edit-form(action="/receta/" + data.recipe.slug + "/save" method="POST" enctype="multipart/form-data")
-      input#hidden-title(type="hidden" name="title")
-      input#hidden-difficulty(type="hidden" name="difficulty")
-      input#hidden-time(type="hidden" name="time")
-      input#hidden-portions(type="hidden" name="portions")
-      input#hidden-description(type="hidden" name="description")
-      input(type="hidden" name="_csrf" value="#{csrftoken}")
+  - var urlAction = '/';
+  if isNew
+    - urlAction = '/nueva-receta'
+  else
+    - urlAction = '/receta/' + data.recipe.slug
 
-    form#recipe-remove-form(action="/receta/" + data.recipe.slug + "/remove" method="POST" enctype="multipart/form-data")
-      input(type="hidden" name="_csrf" value="#{csrftoken}")
+  if own
+    form#recipe-edit-form(action=urlAction + '/save' method='POST' enctype='multipart/form-data')
+      input#hidden-title(type='hidden' name='title')
+      input#hidden-difficulty(type='hidden' name='difficulty')
+      input#hidden-time(type='hidden' name='time')
+      input#hidden-portions(type='hidden' name='portions')
+      input#hidden-description(type='hidden' name='description')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
+
+    form#recipe-remove-form(action=urlAction + '/remove' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
 
   +header(data.recipe, section)
 
@@ -51,7 +86,11 @@ block content
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
               - var categories = [ __('Dummy'), __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
-              - var difficulty = data.recipe.difficulty
+              - var difficulty = 0
+
+              if data.recipe
+                - difficulty = data.recipe.difficulty
+
               - var category = categories[difficulty]
 
               .itemSelected
@@ -118,16 +157,26 @@ block content
 
             #recipe-time.time(tabindex='2')
               i.icon-chef-time.icon
-              .span.set-editable.one-line.for.numbers= (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
-              .span= (data.recipe.time < 60) ? __('min') : __('h (hours)')
+              .editable-container
+                .set-editable.one-line.for-numbers(placeholder=__('Time'), data-length="3")
+                  if data.recipe && data.recipe.time
+                      = (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
+              .span= __('min')
+
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
-              .span.set-editable.one-line.for.numbers= data.recipe.portions
+              .editable-container
+                .set-editable.one-line.for-numbers(placeholder=__('Portions'), data-length="2")
+                  if data.recipe && data.recipe.portions
+                    = data.recipe.portions
               .span= __('Pers')
 
             .rating
-              - var rating = Math.floor(data.recipe.rating) || 0
+              - var rating = 0
+              if data.recipe && data.recipe.rating
+                - rating = Math.floor(data.recipe.rating)
+
               - var r = rating
               - for(var x = 0; x < 5; x++)
                 if(r == 0)
@@ -152,7 +201,9 @@ block content
       #recipe-description.row
         .sixteen.wide.column
           .explain
-            .ui.content.set-editable(spellcheck="false", tabindex='4')!= data.recipe.description
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'), data-length="400")
+              if data.recipe && data.recipe.description
+                != data.recipe.description
 
       .row
         .sixteen.wide.column
@@ -160,7 +211,7 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
-        if data.recipe.ingredients
+        if data.recipe && data.recipe.ingredients
           #ingredients.ui.grid
             .three.column.row.computer.only
               - var array = data.recipe.ingredients.split('<p>')
@@ -216,9 +267,11 @@ block content
       #procedure.row
         .sixteen.wide.column
           #steps
-            - var array = data.recipe.procedure.split('<p>')
-            - for(var j = 1; j < array.length; j++)
-              .step
-                .icon-chef-tick.checks
-                .ui.header= __('Step:') + ' ' + j
-                .ui.content.set-editable(spellcheck="false")!= array[j]
+            if data.recipe && data.recipe.procedure
+              - var array = data.recipe.procedure.split('<p>')
+              - for(var j = 1; j < array.length; j++)
+                .step
+                  .icon-chef-tick.checks
+                  .ui.header= __('Step:') + ' ' + j
+                  .ui.content.set-editable(spellcheck='false')!= array[j]
+

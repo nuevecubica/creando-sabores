@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  $('.ui.dropdown').dropdown();
-
   $('#edit.button-manage').on('click', function() {
     // First coppy original value in data attribute for each false form component
     var $title = $('#recipe-title');
@@ -57,7 +55,7 @@ $(document).ready(function() {
       return $(this).text();
     }).get().join('\n');
 
-    $('#hidden-title').attr('value', $('#recipe-title .set-editable').text());
+    $('#hidden-title').attr('value', $('#recipe-title.set-editable').text());
     $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
     $('#hidden-time').attr('value', $('#recipe-time .set-editable').text());
     $('#hidden-portions').attr('value', $('#recipe-portions .set-editable').text());
@@ -92,16 +90,6 @@ $(document).ready(function() {
 
   $('#delete.button-manage').on('click', function() {
     $('#recipe-remove-form').submit();
-  });
-
-  $('.set-editable').on('focus', function(e) {
-
-    $(this).removeClass('error-here');
-  }).on('blur', function(e) {
-
-    if ($(this).html() === '') {
-      $(this).addClass('error-here');
-    }
   });
 
   $('.time .set-editable').on('keyup', function(e) {

@@ -1,10 +1,18 @@
 mixin header(recipe, section)
+	- var state = 0
 	- var image = '/images/defaul_image.jpg'
-	- var title = 'Sin recomendación'
+	- var title = __('No recommendation');
+	- var author = 'Unknow'
 
 	if recipe
+		- state = recipe.state
 		- image = recipe.header.url
 		- title = recipe.title
+		- author = recipe.author.name || recipe.author.username
+	else
+		- image = ''
+		- title = ''
+		- author = user.name || user.username
 
 	.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 
@@ -74,11 +82,35 @@ mixin header(recipe, section)
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section.title
-					#recipe-title.shadow.set-editable.one-line= data.recipe.title
+					#recipe-title.shadow.set-editable.one-line(data-length="40")= title
 
 				.row.section.subtitle
-					.author.shadow= data.recipe.author.name
+					.author.shadow= author
 
-				.row.computer.only.social
-					.four.wide.column= __('Follow us on social networks')
-						include ../components/share
+				//- Check if recipe is published to show social buttons
+				if state > 0
+					.row.computer.only.social
+						.four.wide.column= __('Follow us on social networks')
+							include ../components/share
+
+		else if section === 'new-recipe'
+
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						#recipe-title.shadow.set-editable.one-line(placeholder=__('Write here recipe name'), data-length="40")= title
+
+				.row.section.subtitle
+					.author.shadow= author
+
+				//- Check if recipe is published to show social buttons
+				if state > 0
+					.row.computer.only.social
+						.four.wide.column= __('Follow us on social networks')
+							include ../components/share

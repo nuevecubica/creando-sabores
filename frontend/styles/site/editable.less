@@ -2,6 +2,10 @@
 @editable-border: @chef-color-gray;
 @editable-border-focus: @chef-color-black;
 
+.editable-container {
+  display: inline-block;
+}
+
 .show-editable {
   visibility: hidden;
 }
@@ -99,6 +103,11 @@
     box-shadow: 0px 2px 4px -2px @editable-border-shadow !important;
     padding: 15px;
     outline:none;
+
+    &[placeholder]:empty:before {
+      content: attr(placeholder);
+      color: #555;
+    }
 
     &.dropdown {
       cursor: pointer;
