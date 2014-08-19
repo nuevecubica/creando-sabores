@@ -7,15 +7,21 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'PRIVATE RECIPE - SAVE', ->
+describe.only 'PRIVATE RECIPE - SAVE', ->
+
+  before (done) ->
+    this.timeout 10000
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
 
   beforeEach (done) ->
+    this.timeout 10000
     utils.loginUser data.users[0], request, (err, res) ->
       cookie = res.headers['set-cookie']
       done()
 
   afterEach (done) ->
-    utils.revertTestUsers.call this, done
+    utils.revertTestDatabase.call this, done
 
   describe 'GET /receta/:recipe', ->
     describe 'from author', ->
@@ -159,7 +165,7 @@ describe 'PRIVATE RECIPE - SAVE', ->
 
 #------------------------------------------------------------------------------
 
-  describe.only 'POST /nueva-receta/save', ->
+  describe 'POST /nueva-receta/save', ->
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
@@ -235,7 +241,9 @@ describe 'PRIVATE RECIPE - SAVE', ->
               (res) -> return res.text.must.match data.newRecipes[1].title
             )
             .expect(
-              (res) -> return res.text.must.match 'INGREDIENT NEW 1'
+              (res) ->
+                return res.text.must.match 'DESCRIPTION NEW ' +
+                '&lt;h1&gt;2&lt;/h1&gt;'
             )
             .end(done)
 

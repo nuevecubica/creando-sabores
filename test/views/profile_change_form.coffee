@@ -9,13 +9,18 @@ cookie = null
 
 describe 'PRIVATE PROFILE - CHANGE', ->
 
+  before (done) ->
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
+
   beforeEach (done) ->
+    this.timeout 100000
     utils.loginUser data.users[0], request, (err, res) ->
       cookie = res.headers['set-cookie']
       done()
 
   afterEach (done) ->
-    utils.revertTestUsers.call this, done
+    utils.revertTestDatabase.call this, done
 
   describe 'GET /perfil', ->
     it 'responds with the form', (done) ->
