@@ -91,6 +91,12 @@ $(document).ready(function() {
 
   });
 
+  $('.ingredients-manage .button').on('click', function() {
+    console.log('Add ingredient click');
+
+    $('.ingredients-manage').addClass('adding');
+
+  });
 
   $('#recipe-header-select').on('change', function(e) {
     setPreview(e.target, $('.promoted'));

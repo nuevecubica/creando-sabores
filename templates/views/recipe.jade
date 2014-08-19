@@ -220,9 +220,20 @@ block content
                   .ingredient
                     .icon-chef-cesta.checks
                     .span!= array[j]
-                .ingredient
-                  .icon-chef-cesta.checks.all
-                  .span= __('Select all')
+                .ingredients-manage
+                  .hide-editable.ingredient
+                    .icon-chef-cesta.checks.all
+                    .span= __('Select all')
+
+                  .show-editable
+                    .ui.button.chef.button-brick
+                      a= __('Add ingredient')
+
+                  .add-ingredient
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span(contenteditable=true, placeholder=__('Ingredient'), data-length='40')
+
               .column
                 - for(var j = 2; j < array.length; j+=3)
                   .ingredient
@@ -245,6 +256,15 @@ block content
                 .ingredient
                   .icon-chef-cesta.checks.all
                   .span= __('Select all')
+                .add-ingredient
+                  .show-editable
+                    .ui.button.chef.button-brick
+                      a= __('Add ingredient')
+
+                    .ingredient
+                      .icon-chef-cesta.checks
+                      .span(contenteditable=true, placeholder=__('Ingredient'), data-length='40')
+
               .column
                 - for(var j = 2; j < array.length; j+=2)
                   .ingredient
@@ -261,6 +281,9 @@ block content
                 .ingredient
                   .icon-chef-cesta.checks.all
                   .span= __('Select all')
+                .show-editable.add-ingredient
+                  .ui.button.chef.button-brick
+                    a= __('Add ingredient')
 
       .sixteen.wide.column
         h2.ui.header= __('Procedure')
