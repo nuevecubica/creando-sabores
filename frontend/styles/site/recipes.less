@@ -202,6 +202,13 @@
         width: 100%;
       }
     }
+
+    .ingredients-manage {
+      .add-ingredient {
+        display: none;
+      }
+    }
+
   }
 
   #procedure{
@@ -230,6 +237,22 @@
   #actions {
     transition: opacity 300ms ease-in;
     opacity: 0;
+  }
+
+  .show-editable {
+
+    .ingredients-manage {
+
+      &.adding {
+        .show-editable {
+          display: none;
+        }
+
+        .add-ingredient {
+          display: block;
+        }
+      }
+    }
   }
 
   .set-editable {
