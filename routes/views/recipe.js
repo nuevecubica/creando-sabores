@@ -1,4 +1,5 @@
-var keystone = require('keystone'),
+var _ = require('underscore'),
+  keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe');
 
@@ -27,6 +28,14 @@ exports = module.exports = function(req, res) {
     recipe: req.params.recipe
   };
 
+  var parseRecipe = function(recipe) {
+    var data = {};
+    if (recipe.ingredients) {
+      var ingr = recipe.ingredients;
+      data.ingredients = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+    }
+    return _.defaults(data, recipe);
+  };
 
   // load recipe
   view.on('init', function(next) {
@@ -39,7 +48,7 @@ exports = module.exports = function(req, res) {
 
       q.exec(function(err, result) {
         if (!err && result) {
-          locals.data.recipe = result;
+          locals.data.recipe = parseRecipe(result);
           if (result) {
             locals.title = result.title + ' - ' + res.__('Recipe');
 
