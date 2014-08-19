@@ -154,7 +154,7 @@ block content
               i.icon-chef-porciones.icon
               .editable-container
                 .set-editable.one-line.for-numbers(placeholder=__('Portions'), data-length="2")= data.recipe.portions
-              .span= __('people')
+              .span= __n('person','people',data.recipe.portions)
 
             .rating
               - var rating = Math.floor(data.recipe.rating)
