@@ -115,7 +115,7 @@ var recipeNew = function(req, res) {
     }
 
     recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,portions,time,difficulty'
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty,author'
       },
       function(err) {
         if (err) {

@@ -51,7 +51,7 @@ block content
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
               - var categories = [ __('Dummy'), __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
-              - var difficulty = data.recipe.difficulty
+              - var difficulty = data.recipe.difficulty || 1
               - var category = categories[difficulty]
 
               .itemSelected
@@ -118,8 +118,8 @@ block content
 
             #recipe-time.time(tabindex='2')
               i.icon-chef-time.icon
-              .span.set-editable.one-line.for.numbers= (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
-              .span= (data.recipe.time < 60) ? __('min') : __('h (hours)')
+              .span.set-editable.one-line.for.numbers= data.recipe.time
+              .span= __('min')
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
@@ -127,7 +127,7 @@ block content
               .span= __('Pers')
 
             .rating
-              - var rating = Math.floor(data.recipe.rating) || 0
+              - var rating = Math.floor(data.recipe.rating)
               - var r = rating
               - for(var x = 0; x < 5; x++)
                 if(r == 0)

@@ -1,4 +1,5 @@
-var keystone = require('keystone'),
+var _ = require('underscore'),
+  keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe');
 
@@ -17,28 +18,42 @@ exports = module.exports = function(req, res) {
   };
   locals.data = {};
 
+  locals.defaults = {
+    rating: 0,
+    time: 30,
+    portions: 2,
+    difficulty: 1,
+    description: '',
+    procedure: ''
+  };
+
   // load recipe
   view.on('init', function(next) {
 
     var q = Recipe.model.findOne({
-      state: 1,
       slug: locals.filters.recipe
     }).populate('author');
 
     q.exec(function(err, result) {
       if (!err && result) {
-        locals.data.recipe = result;
-        if (result) {
-          locals.title = result.title + ' - ' + res.__('Recipe');
 
-          if (req.user) {
-            locals.own = (req.user._id.toString() === result.author._id.toString());
-          }
-          else {
-            locals.own = false;
-          }
+        result = _.defaults(result, locals.defaults);
 
+        // Am I the owner?
+        if (req.user) {
+          locals.own = (req.user.id.toString() === result.author.id.toString());
         }
+        else {
+          locals.own = false;
+        }
+
+        // Drafts only for the owner
+        if (result.state === 0 && !locals.own) {
+          return res.notfound(res.__('Not found'));
+        }
+
+        locals.data.recipe = result;
+        locals.title = result.title + ' - ' + res.__('Recipe');
       }
       else {
         return res.notfound(res.__('Not found'));
