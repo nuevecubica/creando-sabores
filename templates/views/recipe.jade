@@ -211,79 +211,17 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
-        if data.recipe && data.recipe.ingredients
-          #ingredients.ui.grid
-            .three.column.row.computer.only
-              - var array = data.recipe.ingredients.split('<p>')
-              .column
-                - for(var j = 1; j < array.length; j+=3)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-                .ingredients-manage
-                  .hide-editable.ingredient
-                    .icon-chef-cesta.checks.all
-                    .span= __('Select all')
+        if data.recipe.ingredients
+          #ingredients.sixteen.wide.column
+            .ui.three.mobile-one.tablet-two.column.grid
+              - var ingredients = data.recipe.ingredients
+              - for(var j = 0, l = ingredients.length; j < l; j++)
+                .column.ingredient
+                  .icon-chef-cesta.checks
+                  span.editable-container
+                    .set-editable.one-line(placeholder=__('Ingredient'), data-length='40')!= ingredients[j]
 
-                  .show-editable
-                    .ui.button.chef.button-brick
-                      a= __('Add ingredient')
-
-                  .add-ingredient
-                    .ingredient
-                      .icon-chef-cesta.checks
-                      .span(contenteditable=true, placeholder=__('Ingredient'), data-length='40')
-
-              .column
-                - for(var j = 2; j < array.length; j+=3)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-              .column
-                - for(var j = 3; j < array.length; j+=3)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-
-            .two.column.row.tablet.only
-
-              - var array = data.recipe.ingredients.split('<p>')
-              .column
-                - for(var j = 1; j < array.length; j+=2)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-                .ingredient
-                  .icon-chef-cesta.checks.all
-                  .span= __('Select all')
-                .add-ingredient
-                  .show-editable
-                    .ui.button.chef.button-brick
-                      a= __('Add ingredient')
-
-                    .ingredient
-                      .icon-chef-cesta.checks
-                      .span(contenteditable=true, placeholder=__('Ingredient'), data-length='40')
-
-              .column
-                - for(var j = 2; j < array.length; j+=2)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-
-            .sixteen.wide.column.mobile.only
-              - var array = data.recipe.ingredients.split('<p>')
-              .column
-                - for(var j = 1; j < array.length; j+=1)
-                  .ingredient
-                    .icon-chef-cesta.checks
-                    .span!= array[j]
-                .ingredient
-                  .icon-chef-cesta.checks.all
-                  .span= __('Select all')
-                .show-editable.add-ingredient
-                  .ui.button.chef.button-brick
-                    a= __('Add ingredient')
+            include ../components/ingredients-manage
 
       .sixteen.wide.column
         h2.ui.header= __('Procedure')
