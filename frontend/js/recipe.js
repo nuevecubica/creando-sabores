@@ -71,6 +71,7 @@ $(document).ready(function() {
     $('.set-editable').attr('contenteditable', false);
 
     var $title = $('#recipe-title');
+    var $header = $('#recipe-header-select');
     var $difficulty = $('#recipe-difficulty .itemSelected');
     var $time = $('#recipe-time .set-editable');
     var $portions = $('#recipe-portions .set-editable');
@@ -85,7 +86,14 @@ $(document).ready(function() {
     $description.text($description.data('origvalue'));
     $ingredients.text($ingredients.data('origvalue'));
     $procedure.text($procedure.data('origvalue'));
+    clearFile($header.get(0));
+    $header.trigger('change');
 
+  });
+
+
+  $('#recipe-header-select').on('change', function(e) {
+    setPreview(e.target, $('.promoted'));
   });
 
   $('#delete.button-manage').on('click', function() {
