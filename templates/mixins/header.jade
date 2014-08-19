@@ -4,15 +4,15 @@ mixin header(recipe, section)
 	- var title = __('No recommendation');
 	- var author = 'Unknow'
 
-	if recipe
+	if section === 'new-recipe'
+		- image = ''
+		- title = ''
+		- author = user.name || user.username
+	else if recipe
 		- state = recipe.state
 		- image = recipe.header.url
 		- title = recipe.title
 		- author = recipe.author.name || recipe.author.username
-	else if section === 'new-recipe'
-		- image = ''
-		- title = ''
-		- author = user.name || user.username
 
 	.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 

@@ -34,7 +34,8 @@ exports = module.exports = function(req, res) {
     portions: 2,
     difficulty: 3,
     description: '',
-    procedure: ''
+    procedure: '',
+    state: 0
   };
 
   // load recipe
