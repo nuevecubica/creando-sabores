@@ -101,17 +101,17 @@ $(document).ready(function() {
   });
 
   $('.time .set-editable').on('keyup', function(e) {
-    if ($(this).html() > 120) {
-      $(this).html('120');
-      e.preventDefault();
-    }
+    // if ($(this).html() > 120) {
+    //   $(this).html('120');
+    //   e.preventDefault();
+    // }
   });
 
   $('.portions .set-editable').on('keyup', function(e) {
-    if ($(this).html() > 24) {
-      $(this).html(24);
-      e.preventDefault();
-    }
+    // if ($(this).html() > 24) {
+    //   $(this).html(24);
+    //   e.preventDefault();
+    // }
   });
 
   $('.favourite .button').on('click', function() {

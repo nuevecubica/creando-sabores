@@ -57,7 +57,7 @@ $(document).ready(function() {
   var editable = $('.set-editable');
 
   var checkLength = function(editable, e) {
-    if (editable.text().length >= editable.data('length')) {
+    if (editable.text().trim().length >= editable.data('length')) {
       e.preventDefault();
     }
   };
