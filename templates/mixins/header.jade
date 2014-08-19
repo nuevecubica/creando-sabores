@@ -28,8 +28,10 @@ mixin header(recipe, section)
 					a.icon-chef-logo.icon(href="/")
 
 				.row
-					.social.four.tablet-seven.wide.column.tablet.computer.only= __('Follow us on social networks')
-						include ../components/share
+					.social.four.tablet-seven.wide.column.tablet.computer.only
+						.corner-position.left
+							|#{__('Follow us on social networks')}
+							include ../components/share
 
 					.four.wide.column.computer.only
 
@@ -56,8 +58,10 @@ mixin header(recipe, section)
 					.shadow= __('Recipes')
 
 				.row
-					.social.four.tablet-seven.wide.column.tablet.computer.only= __('Follow us on social networks')
-						include ../components/share
+					.social.four.tablet-seven.wide.column.tablet.computer.only
+						.corner-position.left
+							|#{__('Follow us on social networks')}
+							include ../components/share
 
 					.four.wide.column.computer.only
 
@@ -90,8 +94,21 @@ mixin header(recipe, section)
 				//- Check if recipe is published to show social buttons
 				if state > 0
 					.row.computer.only.social
-						.four.wide.column= __('Follow us on social networks')
-							include ../components/share
+						.four.wide.column
+							.corner-position.left
+								|#{__('Follow us on social networks')}
+								include ../components/share
+
+						.six.wide.column
+
+						.six.wide.column.right.aligned
+							.corner-position.right
+								.ui.button.chef.button-gray.show-editable.file-select
+									input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
 
 		else if section === 'new-recipe'
 
@@ -112,5 +129,7 @@ mixin header(recipe, section)
 				//- Check if recipe is published to show social buttons
 				if state > 0
 					.row.computer.only.social
-						.four.wide.column= __('Follow us on social networks')
-							include ../components/share
+						.four.wide.column
+							.corner-position.left
+								|#{__('Follow us on social networks')}
+								include ../components/share
