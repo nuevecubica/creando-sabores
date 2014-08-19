@@ -11,7 +11,12 @@ describe 'API v1: /me/', ->
   this.timeout 5000
 
   before (done) ->
-    request.get('/').expect 200, done
+    this.timeout 10000
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
+
+  afterEach (done) ->
+    utils.revertTestDatabase.call this, done
 
   #*---------- ME ----------*
   describe 'GET /me', ->
@@ -113,7 +118,7 @@ describe 'API v1: /me/', ->
   describe 'PUT /me/save', ->
 
     afterEach (done) ->
-      utils.revertTestUsers done
+      utils.revertTestDatabase done
 
     describe 'on not logged in user', ->
       it 'should refuse changes', (done) ->

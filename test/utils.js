@@ -3,25 +3,38 @@ var config = require(__dirname + '/../config.js');
 
 var testMode = require(__dirname + '/testMode.js');
 
-function updateUsers(done) {
+function revertTestDatabase(done) {
+  if (this && this.timeout) {
+    this.timeout(10000);
+  }
   if (!keystone.mongoose.connection.readyState) {
     // console.warn('Mongoose connection NOT ready');
     keystone.mongoose.connect(config.keystone.test.init['mongo url']);
     keystone.mongoose.connection.on('open', function() {
       // console.info('Mongoose connection opened');
-      return testMode(keystone, done);
+      return testMode(keystone).revertDatabase(done);
     });
   }
   else {
-    return testMode(keystone, done);
+    return testMode(keystone).revertDatabase(done);
   }
 }
 
-function revertTestUsers(done) {
+function resetTestDatabase(done) {
   if (this && this.timeout) {
     this.timeout(10000);
   }
-  updateUsers(done);
+  if (!keystone.mongoose.connection.readyState) {
+    // console.warn('Mongoose connection NOT ready');
+    keystone.mongoose.connect(config.keystone.test.init['mongo url']);
+    keystone.mongoose.connection.on('open', function() {
+      // console.info('Mongoose connection opened');
+      return testMode(keystone).resetDatabase(done);
+    });
+  }
+  else {
+    return testMode(keystone).resetDatabase(done);
+  }
 }
 
 function loginUser(user, request, callback) {
@@ -45,7 +58,8 @@ function generateText(len) {
 }
 
 exports = module.exports = {
-  revertTestUsers: revertTestUsers,
+  revertTestDatabase: revertTestDatabase,
+  resetTestDatabase: resetTestDatabase,
   loginUser: loginUser,
   generateText: generateText
 };

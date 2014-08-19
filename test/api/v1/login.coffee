@@ -10,7 +10,9 @@ describe 'API v1: /login', ->
   this.timeout 10000
 
   before (done) ->
-    request.get('/').expect 200, done
+    this.timeout 10000
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
 
   #*---------- LOGIN ----------*
 

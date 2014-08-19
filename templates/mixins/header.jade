@@ -9,7 +9,7 @@ mixin header(recipe, section)
 		- image = recipe.header.url
 		- title = recipe.title
 		- author = recipe.author.name || recipe.author.username
-	else
+	else if section === 'new-recipe'
 		- image = ''
 		- title = ''
 		- author = user.name || user.username
