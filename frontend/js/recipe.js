@@ -91,12 +91,13 @@ $(document).ready(function() {
 
   });
 
-  $('.ingredients-manage .button').on('click', function() {
-    console.log('Add ingredient click');
+  var editableIngredients = function() {
+    var manage = $('#ingredients').find('.ingredients-manage');
+    $('#ingredients > .column.grid').append(manage.find('.add-ingredient .ingredient').clone());
+    $('.ingredient:last-child .set-editable').focus();
+  };
 
-    $('.ingredients-manage').addClass('adding');
-
-  });
+  $('#ingredients .ingredients-manage .button').on('click', editableIngredients);
 
   $('#recipe-header-select').on('change', function(e) {
     setPreview(e.target, $('.promoted'));
