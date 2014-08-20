@@ -92,7 +92,7 @@ $(document).ready(function() {
   });
 
   var editableIngredients = function() {
-    var manage = $('#ingredients').find('.ingredients-manage');
+    var manage = $('#ingredients .ingredients-manage');
     $('#ingredients > .column.grid').append(manage.find('.add-ingredient .ingredient').clone());
     $('.ingredient:last-child .set-editable').focus();
   };
