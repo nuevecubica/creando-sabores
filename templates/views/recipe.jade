@@ -71,6 +71,7 @@ block content
       input#hidden-time(type='hidden' name='time')
       input#hidden-portions(type='hidden' name='portions')
       input#hidden-description(type='hidden' name='description')
+      input#hidden-ingredients(type='hidden' name='ingredients')
       input(type='hidden' name='_csrf' value='#{csrftoken}')
 
     form#recipe-remove-form(action=urlAction + '/remove' method='POST' enctype='multipart/form-data')
