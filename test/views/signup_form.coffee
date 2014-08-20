@@ -2,6 +2,7 @@ must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../config.js'
 data = require __dirname + '/../data.json'
+utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
 
@@ -13,9 +14,14 @@ getFormErrors = (text, expected) ->
     return "invalid number of errors, expected #{expected} found #{count}"
 
 describe 'SIGNUP', ->
+
   before (done) ->
     this.timeout 10000
-    request.get('/').expect 200, done
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
+
+  afterEach (done) ->
+    utils.revertTestDatabase.call this, done
 
   describe 'GET /registro', ->
     it 'responds with the form', (done) ->

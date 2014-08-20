@@ -15,7 +15,6 @@ var recipeData = function(req, orig) {
   for (i = 0; i < l; i++) {
     prop = props[i];
     if (req.body[prop]) {
-      console.log('found');
       something = true;
       break;
     }
@@ -23,14 +22,14 @@ var recipeData = function(req, orig) {
 
   // Empty body
   if (!something) {
-    console.log('not found');
     data = null;
   }
+
   // Parse body
   else {
     data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', 40], 'escape']);
     data.description = clean(req.body.description, ['oneline', ['maxlength', 400], 'escape']);
-    data.procedure = clean(req.body.description, [
+    data.procedure = clean(req.body.procedure, [
       ['maxlength', 1200], 'escape', 'textarea', 'paragraphs'
     ]);
     data.ingredients = clean(req.body.ingredients, [
@@ -45,6 +44,7 @@ var recipeData = function(req, orig) {
     data.difficulty = clean(req.body.difficulty, ['integer', ['max', 5],
       ['min', 1]
     ]);
+    data.author = req.user.id;
 
     // Get missing data from original if present
     if (orig) {
@@ -111,16 +111,15 @@ var recipeNew = function(req, res) {
     var data = recipeData(req);
 
     if (data === null) {
-      return formResponse(req, res, back, false, 'Missing data');
+      return formResponse(req, res, back, 'Missing data', false);
     }
 
-    data.author = req.user.id;
-
     recipe.getUpdateHandler(req).process(data, {
-        fields: 'author,title,description,ingredients,procedure,portions,time,difficulty'
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty,author'
       },
       function(err) {
         if (err) {
+          console.error('recipeNew:', err);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {

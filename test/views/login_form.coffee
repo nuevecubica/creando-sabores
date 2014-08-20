@@ -1,5 +1,4 @@
 must = require 'must'
-keystone = null
 config = require __dirname + '/../../config.js'
 data = require __dirname + '/../data.json'
 utils = require __dirname + '/../utils.js'
@@ -16,7 +15,8 @@ getFormErrors = (text, expected) ->
 describe 'LOGIN', ->
   before (done) ->
     this.timeout 10000
-    request.get('/').expect 200, done
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
 
   describe 'GET /acceso', ->
     it 'responds with the form', (done) ->
@@ -60,7 +60,7 @@ describe 'LOGIN', ->
           (res) -> return getFormErrors res.text, 2
         )
         .expect(
-          (res) -> return utils.antiRegExp res.text, 'TestDummyEmail'
+          (res) -> return res.text.must.not.match 'TestDummyEmail'
         )
         .end(done)
 

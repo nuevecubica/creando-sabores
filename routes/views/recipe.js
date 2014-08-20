@@ -28,6 +28,16 @@ exports = module.exports = function(req, res) {
     recipe: req.params.recipe
   };
 
+  locals.defaults = {
+    rating: 0,
+    time: 30,
+    portions: 2,
+    difficulty: 3,
+    description: '',
+    procedure: '',
+    state: 0
+  };
+
   var parseRecipe = function(recipe) {
     var data = {};
     if (recipe.ingredients) {
@@ -42,32 +52,37 @@ exports = module.exports = function(req, res) {
 
     if (!locals.isNew) {
       var q = Recipe.model.findOne({
-        state: 1,
         slug: locals.filters.recipe
       }).populate('author');
 
       q.exec(function(err, result) {
         if (!err && result) {
-          locals.data.recipe = parseRecipe(result);
-          if (result) {
-            locals.title = result.title + ' - ' + res.__('Recipe');
+          result = _.defaults(parseRecipe(result), locals.defaults);
 
-            if (req.user) {
-              locals.own = (req.user._id.toString() === result.author._id.toString());
-            }
-            else {
-              locals.own = false;
-            }
+          // Am I the owner?
+          if (req.user) {
+            locals.own = (req.user.id.toString() === result.author.id.toString());
           }
+          else {
+            locals.own = false;
+          }
+
+          // Drafts only for the owner
+          if (result.state === 0 && !locals.own) {
+            return res.notfound(res.__('Not found'));
+          }
+
+          locals.data.recipe = result;
+          locals.title = result.title + ' - ' + res.__('Recipe');
         }
         else {
           return res.notfound(res.__('Not found'));
         }
-
         next(err);
       });
     }
     else {
+      locals.data.recipe = locals.defaults;
       next(null);
     }
   });

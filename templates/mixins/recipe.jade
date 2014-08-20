@@ -9,7 +9,7 @@ mixin recipe(recipe)
 				.ui.three.column.center.aligned.grid
 					.column
 						i.icon-chef-time.icon
-						.span= (recipe.time < 60) ? recipe.time + ' min' : (recipe.time / 60).toFixed(2) + ' h'
+						.span= recipe.time + ' ' + __('min')
 
 					.column
 						i.icon-chef-porciones.icon

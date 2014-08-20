@@ -9,11 +9,19 @@ cookie = null
 
 describe 'PRIVATE PROFILE - UPDATE', ->
 
+  before (done) ->
+    this.timeout 10000
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
+
   beforeEach (done) ->
     this.timeout 10000
     utils.loginUser data.users[0], request, (err, res) ->
       cookie = res.headers['set-cookie']
       done()
+
+  afterEach (done) ->
+    utils.revertTestDatabase.call this, done
 
   describe 'GET /perfil', ->
     it 'responds with the form', (done) ->
@@ -30,8 +38,6 @@ describe 'PRIVATE PROFILE - UPDATE', ->
       .end(done)
 
   describe 'POST /perfil/change', ->
-    afterEach (done) ->
-      utils.revertTestUsers done
 
     describe 'on empty action', ->
       it 'returns an error', (done) ->
@@ -151,6 +157,7 @@ describe 'PRIVATE PROFILE - UPDATE', ->
             .expect(200)
             .end(done)
 
+    describe 'on bad data', ->
       it 'rejects repeated email', (done) ->
         request
         .post('/perfil/change')
@@ -165,7 +172,10 @@ describe 'PRIVATE PROFILE - UPDATE', ->
             if res.header['location'] isnt '/perfil/change/..' or
                 res.header['api-response-success'] isnt 'false' or
                 res.header['api-response-error'] isnt 'Error saving profile'
-              return 'Wrong status headers'
+              return "Wrong status headers.
+ Received: \"#{res.header['api-response-error']},
+  #{res.header['api-response-success']}\".
+ Expected: \"Error saving profile, false\"."
         )
         .end (err, res) ->
           if err
@@ -180,6 +190,41 @@ describe 'PRIVATE PROFILE - UPDATE', ->
               (res) ->
                 if res.body.user.email isnt data.users[0].email
                   return 'Email changed on collision'
+            )
+            .end(done)
+
+      it 'rejects repeated username', (done) ->
+        request
+        .post('/perfil/change')
+        .set('cookie', cookie)
+        .send({
+          'username': data.users[1].username,
+          'email': data.users[0].email
+        })
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt '/perfil/change/..' or
+                res.header['api-response-success'] isnt 'false' or
+                res.header['api-response-error'] isnt 'Error saving profile'
+              return "Wrong status headers.
+ Received: \"#{res.header['api-response-error']},
+  #{res.header['api-response-success']}\".
+ Expected: \"Error saving profile, false\"."
+        )
+        .end (err, res) ->
+          if err
+            return done err, res
+          request
+            .get('/api/v1/me')
+            .set('Accept', 'application/json')
+            .set('cookie', cookie)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(
+              (res) ->
+                if res.body.user.username isnt data.users[0].username
+                  return 'Username changed on collision'
             )
             .end(done)
 

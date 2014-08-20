@@ -9,7 +9,9 @@ request = require('supertest') config.keystone.publicUrl
 describe 'API v1: /user', ->
 
   before (done) ->
-    request.get('/').expect 200, done
+    this.timeout 10000
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
 
   describe 'GET /user/:username/check', ->
     describe 'on request invalid user', ->

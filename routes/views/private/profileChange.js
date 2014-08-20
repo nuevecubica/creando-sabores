@@ -14,8 +14,10 @@ exports = module.exports = function(req, res, next) {
 
   if (req.method === 'POST') {
 
-    async.series([
+    var fields = ['isPrivate'];
 
+    async.series([
+        // Same username, do not change
         function(next) {
           if (req.body.username) {
             req.body.username = clean(String(req.body.username), ['username', ['maxlength', 20]]);
@@ -23,9 +25,13 @@ exports = module.exports = function(req, res, next) {
               req.body.username = null;
               delete req.body.username;
             }
+            else {
+              fields.push('username');
+            }
           }
           next();
         },
+        // Email format
         function(next) {
           if (req.body.email) {
             req.body.email = String(req.body.email);
@@ -34,6 +40,7 @@ exports = module.exports = function(req, res, next) {
               return next('Error: Email format');
             }
             else {
+              fields.push('email');
               return next(false);
             }
           }
@@ -41,10 +48,12 @@ exports = module.exports = function(req, res, next) {
             return next(true);
           }
         },
+        // isPrivate
         function(next) {
           req.body.isPrivate = (req.body.isPrivate && req.body.isPrivate === 'on');
           return next();
         },
+        // Password changed?
         function(next) {
           req.body.password = null;
           req.body.password_confirm = null;
@@ -54,6 +63,7 @@ exports = module.exports = function(req, res, next) {
               if (!err && isMatch) {
                 req.body['password'] = String(req.body['new-pass']);
                 req.body['password_confirm'] = req.body.password;
+                fields.push('password');
                 return next();
               }
               else {
@@ -66,17 +76,29 @@ exports = module.exports = function(req, res, next) {
             return next();
           }
         },
+        // Change profile
         function(next) {
+          // console.log('USERNAME - EMAIL: ', req.user.username, req.user.email);
+          // console.log('      VS        : ', req.body.username, req.body.email);
           req.user.getUpdateHandler(req).process(req.body, {
-            fields: 'username,password,email,isPrivate'
-          }, function(err) {
+            fields: fields.join(',')
+          }, function(err, user) {
             // Error ocurred
-            if (err) {
+            if (err || !user) {
               console.log('profileChange: Error processing profile', err);
               return next('Error saving profile');
             }
             else {
-              console.log('Password change:', req.body.password, req.user.password);
+              if (req.body.password) {
+                console.log('Password change:', req.body.password, req.user.password);
+              }
+              var User = keystone.list('User');
+              User.model.find({
+                email: user.item.email
+              }).exec(function(err, results) {
+                console.log(results);
+              });
+              // console.log('WINS        : ', user.item.username, user.item.email);
               return next();
             }
           });

@@ -120,8 +120,9 @@ module.exports = (grunt) ->
           src: paths.js.client
 
     coffeelint:
-      # options:
-      #   configFile: 'coffeelint.json'
+      options:
+        max_line_length:
+          level: 'warn'
 
       all: paths.coffee.all
       test: paths.coffee.test

@@ -62,7 +62,7 @@
     "isIndexHeaderPromoted": false,
     "isPromoted": true,
     "portions": 1,
-    "time": 30,
+    "time": 45,
     "difficulty": 1,
     "isBanned": false,
     "state": 1,
@@ -100,9 +100,9 @@
     },
     "isIndexHeaderPromoted": false,
     "isPromoted": true,
-    "portions": 1,
-    "time": 30,
-    "difficulty": 1,
+    "portions": 5,
+    "time": 60,
+    "difficulty": 3,
     "isBanned": false,
     "state": 1,
     "header": {
@@ -118,5 +118,27 @@
     },
     "author": 2,
     "schemaVersion": 1
+  }],
+  "newRecipes": [{
+    "description": "DESCRIPTION NEW 1",
+    "ingredients": "INGREDIENT NEW 1\nINGREDIENT NEW 2\nINGREDIENT NEW 3",
+    "procedure": "PROCEDURE NEW STEP 1\nPROCEDURE NEW STEP 2\nPROCEDURE NEW STEP 3\nPROCEDURE NEW STEP 4",
+    "title": "TEST NEW RECIPE 1",
+    "slug": "test-new-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 1
+  }, {
+    "description": "DESCRIPTION NEW <h1>2</h1>",
+    "title": "TEST NEW RECIPE 2",
+    "slug": "test-new-recipe-2",
+    "portions": 10,
+    "time": 90,
+    "difficulty": 5
+  }, {
+    "description": "DESCRIPTION NEW 3",
+    "portions": 12,
+    "time": 60,
+    "difficulty": 3
   }]
 }

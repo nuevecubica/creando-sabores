@@ -11,9 +11,17 @@ describe 'PRIVATE PROFILE - REMOVE', ->
 
   before (done) ->
     this.timeout 10000
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
+
+  beforeEach (done) ->
+    this.timeout 10000
     utils.loginUser data.users[0], request, (err, res) ->
       cookie = res.headers['set-cookie']
       done()
+
+  afterEach (done) ->
+    utils.revertTestDatabase.call this, done
 
   describe 'GET /perfil', ->
     it 'responds with the form', (done) ->
@@ -27,7 +35,7 @@ describe 'PRIVATE PROFILE - REMOVE', ->
 
   describe 'POST /perfil/remove', ->
     afterEach (done) ->
-      utils.revertTestUsers done
+      utils.revertTestDatabase done
 
     describe 'on remove request', ->
       it 'should destroy user session', (done) ->

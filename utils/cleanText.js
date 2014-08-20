@@ -43,7 +43,7 @@ var cleaners = {
   max: function(str, max) {
     var num = parseInt(str);
     if (num > max) {
-      return max.toString(); 
+      return max.toString();
     }
     return str;
   }

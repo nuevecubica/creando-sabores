@@ -1,26 +1,55 @@
 var async = require('async'),
   data = require('./data.json');
 
-var testMode = function(keystone, done) {
+var testMode = function(keystone) {
+
+  if (!keystone) {
+    console.error('testMode error: keystone not found');
+  }
 
   var Users = keystone.list('User'),
     Recipes = keystone.list('Recipe');
 
+  // End function maker
+  var end = function(done, caller) {
+    return function(err) {
+      if (err) {
+        console.error('Error on done from %s: ', caller || 'unknown', err);
+      }
+      // console.log('Database reset done');
+      if (done) {
+        return done(err);
+      }
+      return err;
+    };
+  };
+
+  // 'drop' destroys the indexes and, while they are
+  // regenerating, 'unique' property won't be checked
+  var testDrop = function(callback) {
+    // console.log('Drop database');
+    Recipes.model.collection.drop(function(err1) {
+      Users.model.collection.drop(function(err2) {
+        if (callback) {
+          callback(err1 || err2);
+        }
+      });
+    });
+  };
+
   var testClean = function(callback) {
-    Users.model.collection.drop(function(err) {
-      Recipes.model.collection.drop(function(err) {
-        callback(err);
+    // console.log('Clean database');
+    Recipes.model.remove({}, function(err1) {
+      Users.model.remove({}, function(err2) {
+        if (callback) {
+          callback(err1 || err2);
+        }
       });
     });
   };
 
   // Load all the users
-  var testAdminsAdd = function(callback) {
-    // console.log('Adding test admins');
-    var end = function(err) {
-      // console.log('admins end');
-      callback();
-    };
+  var testAdminsAdd = function(done) {
     var add = function(admin, callback) {
       var userM = new Users.model();
       userM.name = admin.name;
@@ -33,20 +62,17 @@ var testMode = function(keystone, done) {
       userM.isAdmin = true;
       userM.save(function(err) {
         // console.log('admin saved', err);
-        callback();
+        if (callback) {
+          callback(err);
+        }
       });
     };
 
-    async.each(data.admins, add, end);
+    async.each(data.admins, add, end(done));
   };
 
   // Load all the users
-  var testUsersAdd = function(callback) {
-    // console.log('Adding test users');
-    var end = function(err) {
-      // console.log('users end');
-      callback();
-    };
+  var testUsersAdd = function(done) {
     var add = function(user, callback) {
       var userM = new Users.model();
       userM.name = user.name;
@@ -58,21 +84,19 @@ var testMode = function(keystone, done) {
       userM.media = user.media;
       userM.save(function(err) {
         // console.log('user saved', err);
-        callback();
+        if (callback) {
+          callback(err);
+        }
       });
     };
 
-    async.each(data.users, add, end);
+    async.eachSeries(data.users, add, end(done));
   };
 
   // Load all the recipes
-  var testRecipesAdd = function(callback) {
+  var testRecipesAdd = function(done) {
     // console.log('Adding test recipes');
     var users = null;
-    var end = function(err) {
-      // console.log('recipes end');
-      callback();
-    };
     var add = function(recipe, callback) {
       var recipeM = new Recipes.model();
       for (var val in recipe) {
@@ -85,7 +109,9 @@ var testMode = function(keystone, done) {
       }
       recipeM.save(function(err) {
         // console.log('recipe saved', err);
-        callback();
+        if (callback) {
+          callback(err);
+        }
       });
     };
     var usersList = [];
@@ -105,24 +131,33 @@ var testMode = function(keystone, done) {
       }
 
       users = results;
-      async.each(data.recipes, add, end);
+      async.each(data.recipes, add, end(done));
     });
   };
 
+  // Return
+  var resp = {};
+
   // Run loaders
-  var end = function(err) {
-    // console.log('done');
-    if (done) {
-      done(err);
-    }
+  resp.resetDatabase = function(done) {
+    async.series([
+      testDrop,
+      testAdminsAdd,
+      testUsersAdd,
+      testRecipesAdd
+    ], end(done));
   };
 
-  async.series([
-    testClean,
-    testAdminsAdd,
-    testUsersAdd,
-    testRecipesAdd
-  ], end);
+  resp.revertDatabase = function(done) {
+    async.series([
+      testClean,
+      testAdminsAdd,
+      testUsersAdd,
+      testRecipesAdd
+    ], end(done));
+  };
+
+  return resp;
 };
 
 module.exports = exports = testMode;

@@ -87,30 +87,18 @@ block content
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
               - var categories = [ __('Dummy'), __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
-              - var difficulty = 0
-
-              if data.recipe
-                - difficulty = data.recipe.difficulty
-
+              - var difficulty = data.recipe.difficulty
               - var category = categories[difficulty]
 
               .itemSelected
                 .item(data-value=difficulty)
-                  if difficulty <= 0
-                    i.icon-chef-tenedor.icon.off
-                    i.icon-chef-tenedor.icon.off
-                    i.icon-chef-tenedor.icon.off
-                    i.icon-chef-tenedor.icon.off
-                    i.icon-chef-tenedor.icon.off
-                    .span= __('Difficulty')
-                  else
-                    - for(var i = 0; i < 5; i++)
-                        if(difficulty == 0)
-                          i.icon-chef-tenedor.icon.off
-                        else
-                          i.icon-chef-tenedor.icon.on
-                          - difficulty = difficulty - 1;
-                      .span= category
+                  - for(var i = 0; i < 5; i++)
+                      if(difficulty == 0)
+                        i.icon-chef-tenedor.icon.off
+                      else
+                        i.icon-chef-tenedor.icon.on
+                        - difficulty = difficulty - 1;
+                    .span= category
 
               .options
                 .item(data-value='1')
@@ -158,33 +146,26 @@ block content
 
             #recipe-time.time(tabindex='2')
               i.icon-chef-time.icon
-              .editable-container
-                .set-editable.one-line.for-numbers(placeholder=__('Time'), data-length="3")
-                  if data.recipe && data.recipe.time
-                      = (data.recipe.time < 60) ? data.recipe.time : (data.recipe.time / 60).toFixed(2)
-              .span= __('min')
 
+              .editable-container
+                .set-editable.one-line.for-numbers(placeholder=__('Time'), data-length="3")= data.recipe.time
+              .span= __('min')
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
               .editable-container
-                .set-editable.one-line.for-numbers(placeholder=__('Portions'), data-length="2")
-                  if data.recipe && data.recipe.portions
-                    = data.recipe.portions
-              .span= __('Pers')
+                .set-editable.one-line.for-numbers(placeholder=__('Portions'), data-length="2")= data.recipe.portions
+              .span= __n('person','people',data.recipe.portions)
 
             .rating
-              - var rating = 0
-              if data.recipe && data.recipe.rating
-                - rating = Math.floor(data.recipe.rating)
-
+              - var rating = Math.floor(data.recipe.rating)
               - var r = rating
               - for(var x = 0; x < 5; x++)
                 if(r == 0)
                   i.icon-chef-star.icon.off
                 else
                   i.icon-chef-star.icon.on
-                  - r = r - 1;
+                  - --r;
 
               .span= rating
 
@@ -202,9 +183,7 @@ block content
       #recipe-description.row
         .sixteen.wide.column
           .explain
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'), data-length="400")
-              if data.recipe && data.recipe.description
-                != data.recipe.description
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'), data-length="400")!= data.recipe.description
 
       .row
         .sixteen.wide.column
@@ -229,11 +208,10 @@ block content
       #procedure.row
         .sixteen.wide.column
           #steps
-            if data.recipe && data.recipe.procedure
+            if data.recipe.procedure
               - var array = data.recipe.procedure.split('<p>')
               - for(var j = 1; j < array.length; j++)
                 .step
                   .icon-chef-tick.checks
                   .ui.header= __('Step:') + ' ' + j
                   .ui.content.set-editable(spellcheck='false')!= array[j]
-
