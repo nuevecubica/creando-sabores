@@ -9,6 +9,8 @@
 @chef-menu-background: @chef-color-brick-bg;
 @chef-menu-background-hover: lighten(@chef-color-brick-bg, 5%);
 
+@chef-menu-over-shadow: 1px 1px 2px rgba(0,0,0,.5);
+
 //====================================
 
 .preload #menu-box {
@@ -42,6 +44,10 @@
 
 		.item {
 			padding: 10px 5px;
+
+			.username {
+				text-shadow: @chef-menu-over-shadow;
+			}
 		}
 
 		:before {
@@ -67,6 +73,7 @@
 		i:before {
 			font-size: 30px;
 			color: @chef-menu-text;
+			text-shadow: @chef-menu-over-shadow;
 		}
 
 		cursor: pointer;
