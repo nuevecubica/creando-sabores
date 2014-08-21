@@ -38,6 +38,15 @@ exports = module.exports = function(req, res) {
     state: 0
   };
 
+  var parseRecipe = function(recipe) {
+    var data = {};
+    if (recipe.ingredients) {
+      var ingr = recipe.ingredients;
+      data.ingredients = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+    }
+    return _.defaults(data, recipe);
+  };
+
   // load recipe
   view.on('init', function(next) {
 
@@ -49,7 +58,7 @@ exports = module.exports = function(req, res) {
       q.exec(function(err, result) {
         if (!err && result) {
 
-          result = _.defaults(result, locals.defaults);
+          result = _.defaults(parseRecipe(result), locals.defaults);
 
           // Am I the owner?
           if (req.user) {

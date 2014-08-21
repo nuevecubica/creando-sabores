@@ -56,6 +56,7 @@ paths =
       src: [
         "jquery/dist/jquery.min.js"
         "jquery/dist/jquery.min.map"
+        "lodash/dist/lodash.min.js"
         "jquery-address/src/jquery.address.js"
         "semantic-ui/build/packaged/javascript/semantic.js"
         "handlebars/handlebars.min.js"
@@ -114,6 +115,7 @@ module.exports = (grunt) ->
           devel: true
           jquery: true
           browser: true
+          predef: ['_']
         files:
           src: paths.js.client
 

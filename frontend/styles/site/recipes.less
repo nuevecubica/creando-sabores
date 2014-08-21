@@ -196,12 +196,16 @@
   #ingredients {
     margin: 20px 0;
 
-    .ingredient {
+    .ingredient.column {
+      margin: 0;
+    }
 
-      &:last-child {
-        width: 100%;
+    .ingredients-manage {
+      .add-ingredient {
+        display: none;
       }
     }
+
   }
 
   #procedure{
@@ -230,6 +234,23 @@
   #actions {
     transition: opacity 300ms ease-in;
     opacity: 0;
+  }
+
+  .ingredients-manage {
+
+    &.adding {
+      .show-editable {
+        display: none;
+      }
+
+      .add-ingredient {
+        display: block;
+      }
+    }
+  }
+
+  .show-editable {
+
   }
 
   .set-editable {

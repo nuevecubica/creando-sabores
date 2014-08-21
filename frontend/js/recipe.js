@@ -1,147 +1,332 @@
-$(document).ready(function() {
+(function() {
+  //---------- GENERIC FUNCTIONS
+  var _generic = {};
 
-  $('#edit.button-manage').on('click', function() {
-    // First coppy original value in data attribute for each false form component
-    var $title = $('#recipe-title');
-    var $difficulty = $('#recipe-difficulty .itemSelected');
-    var $time = $('#recipe-time .set-editable');
-    var $portions = $('#recipe-portions .set-editable');
-    var $description = $('#recipe-description .set-editable');
-    var $ingredients = $('#recipe-ingredients .set-editable');
-    var $procedure = $('#recipe-procedure .set-editable');
-
-    // Save original values for restore if user cancel edit
-    if (!$title.data('origvalue')) {
-      $title.data('origvalue', $title.text());
-    }
-
-    if (!$difficulty.data('origvalue')) {
-      $difficulty.data('origvalue', $difficulty.html());
-    }
-
-    if (!$time.data('origvalue')) {
-      $time.data('origvalue', $time.text());
-    }
-
-    if (!$portions.data('origvalue')) {
-      $portions.data('origvalue', $portions.text());
-    }
-
-    if (!$description.data('origvalue')) {
-      $description.data('origvalue', $description.text());
-    }
-
-    if (!$ingredients.data('origvalue')) {
-      $ingredients.data('origvalue', $ingredients.text());
-    }
-
-    if (!$procedure.data('origvalue')) {
-      $procedure.data('origvalue', $procedure.text());
-    }
-
-    // Change to editable mode
-    $('body').addClass('mode-editable');
-    $('.set-editable:not(.dropdown)').attr('contenteditable', true);
-
-    $title.focus();
-  });
-
-  $('#update.button-manage').on('click', function() {
-    $('body').removeClass('mode-editable');
-    $('.set-editable').attr('contenteditable', false);
-
-    // Can't do .text() directly to preserve newlines
-    var description = $('#recipe-description .set-editable').contents().map(function() {
-      return $(this).text();
-    }).get().join('\n');
-
-    $('#hidden-title').attr('value', $('#recipe-title.set-editable').text());
-    $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
-    $('#hidden-time').attr('value', $('#recipe-time .set-editable').text());
-    $('#hidden-portions').attr('value', $('#recipe-portions .set-editable').text());
-    $('#hidden-description').attr('value', description);
-    // Commented waiting for ingredients and procedure task
-    // $('#hidden-ingredients').attr('value', ingredients);
-    // $('#hidden-procedure').attr('value', procedure);
-    $('#recipe-edit-form').submit();
-  });
-
-  $('#cancel.button-manage').on('click', function() {
-    $('body').removeClass('mode-editable');
-    $('.set-editable').attr('contenteditable', false);
-
-    var $title = $('#recipe-title');
-    var $difficulty = $('#recipe-difficulty .itemSelected');
-    var $time = $('#recipe-time .set-editable');
-    var $portions = $('#recipe-portions .set-editable');
-    var $description = $('#recipe-description .set-editable');
-    var $ingredients = $('#recipe-ingredients .set-editable');
-    var $procedure = $('#recipe-procedure .set-editable');
-
-    $title.text($title.data('origvalue'));
-    $difficulty.html($difficulty.data('origvalue'));
-    $time.text($time.data('origvalue'));
-    $portions.text($portions.data('origvalue'));
-    $description.text($description.data('origvalue'));
-    $ingredients.text($ingredients.data('origvalue'));
-    $procedure.text($procedure.data('origvalue'));
-
-  });
-
-  $('#delete.button-manage').on('click', function() {
-    $('#recipe-remove-form').submit();
-  });
-
-  $('.time .set-editable').on('keyup', function(e) {
-    if ($(this).html() > 120) {
-      $(this).html('120');
-      e.preventDefault();
-    }
-  });
-
-  $('.portions .set-editable').on('keyup', function(e) {
-    if ($(this).html() > 24) {
-      $(this).html(24);
-      e.preventDefault();
-    }
-  });
-
-  $('.favourite .button').on('click', function() {
-    $(this).toggleClass('activated');
-  });
-
-  $('.checks.all').on('click', function() {
-    console.log('click');
-    $('#ingredients .checks').toggleClass('activated');
-    $(this).toggleClass('activated');
-  });
-
-  var setPreview = function(input, $target) {
-    if (input.files.length === 0) {
-      if ($target.data('origsrc')) {
-        $target.css('background-image', $target.data('origsrc'));
-      }
-    }
-    else {
-      if (!$target.data('origsrc')) {
-        $target.data('origsrc', $target.css('background-image'));
-      }
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        $target.css('background-image', 'url(' + event.target.result + ')');
-      };
-      reader.readAsDataURL(input.files[0]);
+  //---------- FILTERS
+  var filters = {
+    onlyNumbers: function(str) {
+      return str.replace(/[^0-9]/, '');
+    },
+    newLines: function(str) {
+      return str.replace(/[\r\n]/, ' ');
     }
   };
 
-  var clearFile = function(input) {
-    try {
-      input.value = null;
+  //========== ELEMENTS
+  //---------- GENERIC
+  // Creates or selects a generic element
+  var _newElement = function(selector, value) {
+    var elem = {
+      // Self
+      $self: null,
+      selector: selector,
+      selectorEditable: '.set-editable',
+      // Init
+      init: function() {
+        this.$self = selector ? $(selector) : null;
+      },
+      // Default options
+      options: {
+        isHtml: false
+      },
+      // Attributes
+      originalValue: null,
+      tpl: null,
+      // Binds
+      getValue: function() {
+        if (this.options.isHtml) {
+          return this.$self.html();
+        }
+        else {
+          return this.$self.text();
+        }
+      },
+      setValue: function(value) {
+        this.$self.html(value);
+      },
+      saveValue: function(value) {
+        this.originalValue = value;
+        this.restore();
+      },
+      save: function(putFocus) {
+        this.originalValue = this.getValue();
+      },
+      restore: function() {
+        this.setValue(this.originalValue);
+      },
+      edit: function(putFocus) {
+        this.save();
+        if (putFocus) {
+          this.$self.focus();
+        }
+      },
+      focus: function() {
+        this.$self.find(this.selectorEditable).focus();
+      },
+      cancel: this.restore
+    };
+
+    elem.init();
+
+    if (value) {
+      elem.saveValue(value);
     }
-    catch (ex) {}
-    if (input.value) {
-      input.parentNode.replaceChild(input.cloneNode(true), input);
+
+    return elem;
+  };
+
+  // Creates a new element list
+  var _newElemList = function(selector, constructor) {
+    var elemList = {
+      elements: [],
+      addElement: function(element) {
+        this.elements.push(element);
+      },
+      removeElement: function(index, amount) {
+        if (!index) {
+          this.elements.pop();
+        }
+        else {
+          this.elements = this.elements.splice(index, amount || 1);
+        }
+      },
+      add: function(value) {
+        var elem = constructor(value);
+        this.addElement(elem);
+        this.$self.append(elem.$self);
+        elem.focus();
+        return elem;
+      },
+      remove: function(index) {
+        this.removeElement(index);
+      },
+      export: function() {
+        var values = [];
+        var elems = this.$self.children();
+        elems.each(function(idx, elem) {
+          values.push($(elem).text().trim());
+        });
+        console.log(values);
+        return values;
+      }
+    };
+    return _.extend(_newElement(selector), elemList);
+  };
+
+  //---------- Specific
+  // Creates or selects an one line input element
+  var newInputElement = function(selector) {
+    var elem = {
+      options: {
+        isHtml: false,
+        onlyNumbers: false,
+        newLines: false
+      }
+    };
+    return _.extend(_newElement(selector), elem);
+  };
+
+  // Creates or selects a select element
+  var newSelectElement = function(selector) {
+    var elem = {
+      options: {
+        isHtml: true
+      }
+    };
+    return _.extend(_newElement(selector), elem);
+  };
+
+  // Creates or selects a text element
+  var newTextElement = function(selector) {
+    var elem = {
+      export: function() {
+        return this.$self.contents().map(function() {
+          return $(this).text().trim();
+        }).get();
+      },
+      options: {
+        newLines: true
+      }
+    };
+    return _.extend(_newElement(selector), elem);
+  };
+
+  // Creates or selects an ingredients list
+  var newIngredientList = function(selector) {
+    var elem = {
+      options: {
+        isHtml: true
+      }
+    };
+    return _.extend(_newElemList(selector, newIngredient), elem);
+  };
+
+  // Creates a new ingredient
+  var newIngredient = function(value) {
+    var tpl = '<div class="ingredient column">' +
+      '<div class="icon-chef-cesta checks"></div>' +
+      '<span class="editable-container">' +
+      '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40">' +
+      '</div></span></div>';
+    return _newElement(tpl, value);
+  };
+
+  //----------- TITLE
+  var title = newInputElement('#recipe-title');
+  var difficulty = newSelectElement('#recipe-difficulty');
+  var time = newInputElement('#recipe-time .set-editable');
+  var portions = newInputElement('#recipe-portions .set-editable');
+  var description = newTextElement('#recipe-description .set-editable');
+  var ingredients = newIngredientList('#ingredients .column.grid');
+
+  //----------- SAVERS
+  var saveArrayList = function(arr) {
+    var str = arr.join("\n");
+    return str;
+  };
+
+  var saveArrayText = function(arr) {
+    console.log(typeof arr, arr);
+    return arr.join('\n');
+  };
+
+  //----------- EDITOR MODE
+  var editorMode = {
+    // Events' functions
+    events: {
+      // Actives the edit mode
+      onButtonEditClick: function(ev) {
+        title.save(true);
+        difficulty.save();
+        time.save();
+        portions.save();
+        description.save();
+        ingredients.save();
+
+        // First coppy original value in data attribute for each false form component
+        var $procedure = $('#recipe-procedure .set-editable');
+
+        if (!$procedure.data('origvalue')) {
+          $procedure.data('origvalue', $procedure.text());
+        }
+
+        // Change to editable mode
+        $('body').addClass('mode-editable');
+        $('.set-editable:not(.dropdown)').attr('contenteditable', true);
+
+      },
+      onButtonCancelClick: function(ev) {
+        title.restore();
+        difficulty.restore();
+        time.restore();
+        portions.restore();
+        description.restore();
+        ingredients.restore();
+
+        $('body').removeClass('mode-editable');
+        $('.set-editable').attr('contenteditable', false);
+
+        var $procedure = $('#recipe-procedure .set-editable');
+        $procedure.text($procedure.data('origvalue'));
+      },
+      onButtonDeleteClick: function(ev) {
+        $('#recipe-remove-form').submit();
+      },
+      onButtonUpdateClick: function(ev) {
+        $('body').removeClass('mode-editable');
+        $('.set-editable').attr('contenteditable', false);
+
+        $('#hidden-title').attr('value', title.getValue());
+        $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
+        $('#hidden-time').attr('value', time.getValue());
+        $('#hidden-portions').attr('value', portions.getValue());
+        $('#hidden-description').attr('value', saveArrayText(description.export()));
+        $('#hidden-ingredients').attr('value', saveArrayList(ingredients.export()));
+        $('#recipe-edit-form').submit();
+      },
+      onButtonAddIngredientClick: function() {
+        var elem = ingredients.add();
+      }
+    },
+    // Binds the global events
+    bind: function() {
+      $('#edit.button-manage').on('click', editorMode.events.onButtonEditClick);
+      $('#cancel.button-manage').on('click', editorMode.events.onButtonCancelClick);
+      $('#delete.button-manage').on('click', editorMode.events.onButtonDeleteClick);
+      $('#update.button-manage').on('click', editorMode.events.onButtonUpdateClick);
+      $('#ingredients .ingredients-manage .button').on('click', editorMode.events.onButtonAddIngredientClick);
+    },
+    init: function() {
+      title.init();
+      difficulty.init();
+      time.init();
+      portions.init();
+      description.init();
     }
   };
 
-});
+  //----------- DOCUMENT READY
+  $(document).ready(function() {
+
+    editorMode.init();
+    editorMode.bind();
+
+
+    $('#recipe-header-select').on('change', function(e) {
+      setPreview(e.target, $('.promoted'));
+    });
+
+    $('.time .set-editable').on('keyup', function(e) {
+      // if ($(this).html() > 120) {
+      //   $(this).html('120');
+      //   e.preventDefault();
+      // }
+    });
+
+    $('.portions .set-editable').on('keyup', function(e) {
+      // if ($(this).html() > 24) {
+      //   $(this).html(24);
+      //   e.preventDefault();
+      // }
+    });
+
+    $('.favourite .button').on('click', function() {
+      $(this).toggleClass('activated');
+    });
+
+    $('.checks.all').on('click', function() {
+      console.log('click');
+      $('#ingredients .checks').toggleClass('activated');
+      $(this).toggleClass('activated');
+    });
+
+    var setPreview = function(input, $target) {
+      if (input.files.length === 0) {
+        if ($target.data('origsrc')) {
+          $target.css('background-image', $target.data('origsrc'));
+        }
+      }
+      else {
+        if (!$target.data('origsrc')) {
+          $target.data('origsrc', $target.css('background-image'));
+        }
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          $target.css('background-image', 'url(' + event.target.result + ')');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    };
+
+    var clearFile = function(input) {
+      try {
+        input.value = null;
+      }
+      catch (ex) {}
+      if (input.value) {
+        input.parentNode.replaceChild(input.cloneNode(true), input);
+      }
+    };
+
+  });
+})();

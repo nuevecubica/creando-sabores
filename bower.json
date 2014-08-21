@@ -4,6 +4,7 @@
   "dependencies": {
     "jquery-address": "*",
     "semantic-ui": "~0.17.0",
-    "handlebars": "~1.3.0"
+    "handlebars": "~1.3.0",
+    "lodash": "~2.4.1"
   }
 }

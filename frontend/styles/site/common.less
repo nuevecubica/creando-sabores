@@ -278,7 +278,7 @@ body {
     line-height: 18px;
 
     .column {
-      text-align: center !important;
+      //text-align: center !important;
 
       a {
         color: @recipes-color-text;
@@ -288,8 +288,21 @@ body {
         }
       }
     }
-
   }
+
+  .corner-position {
+    position: absolute;
+    bottom: 15px;
+
+    &.right {
+      right: 15px;
+    }
+
+    &.left {
+      left: 15px;
+    }
+  }
+
   .img-title.wide.column{
     padding-top: 10px;
 

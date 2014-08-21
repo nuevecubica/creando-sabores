@@ -10,7 +10,8 @@ block content
 		input#hidden-name(type="hidden" name="name")
 		input#hidden-about(type="hidden" name="about")
 		input(type="hidden" name="_csrf" value="#{csrftoken}")
-		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.media.header.url});")
+
+		.ui.grid.segment.user-profile.img-select#profile-header(style="background-image: url(#{user.media.header.url});")
 			.ui.page.grid.head.with-title
 				#header.row
 					include ../../components/header
@@ -23,9 +24,9 @@ block content
 
 				.row
 					.ten.wide.column
-					.six.wide.column.social.right.aligned.show-editable
+					.six.wide.column.right.aligned.show-editable
 						.ui.button.chef.button-gray
-							input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
+							input.img-select#profile-header-select(type="file" name="media.header_upload" accept="image/*")
 							i.social.icon-chef-camera
 							span
 							|#{__('Change image')}
