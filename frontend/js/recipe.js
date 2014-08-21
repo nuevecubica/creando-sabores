@@ -159,7 +159,15 @@
       },
       remove: function(index) {
         this.removeElement(index);
-        this.$self.find('.ingredient:nth-child(' + index + ')').remove();
+        this.$self.find('.ingredient:nth-child(' + index + ')').hide('300', function() {
+          $(this).remove();
+        });
+      },
+      count: function() {
+        return this.$self.find('.ingredient').length;
+      },
+      focusOn: function(index) {
+        this.$self.find('.ingredient:nth-child(' + index + ') .set-editable').focus();
       },
       isClearLastItem: function() {
         return this.$self.find('.ingredient:last-child .set-editable').text().length > 0 ? true : this.$self.find('.ingredient:last-child .set-editable');
@@ -180,6 +188,7 @@
       '<span class="remove-ingredient"><i class="icon-chef-cross"></i></span>' +
       '</span>' +
       '</div>';
+
     return _newElement(tpl, value);
   };
 
@@ -256,7 +265,7 @@
         $('#hidden-ingredients').attr('value', saveArrayList(ingredients.export()));
         $('#recipe-edit-form').submit();
       },
-      onButtonAddIngredientClick: function() {
+      onButtonAddIngredientClick: function(ev) {
         var lastIndex = ingredients.isClearLastItem();
         if (lastIndex === true) {
           var elem = ingredients.add();
@@ -265,9 +274,24 @@
           lastIndex.focus();
         }
       },
-      onButtonRemoveIngredientClick: function() {
-        var element = $(this).closest('.ingredient').index();
+      onButtonRemoveIngredientClick: function(ev) {
+        var element = $(this).closest('.ingredient').index() + 1;
         ingredients.remove(element);
+      },
+      onKeypressIngredient: function(ev) {
+        var index = $(this).closest('.ingredient').index() + 1;
+        if (ev.which === 13) {
+          ev.preventDefault();
+
+          if (index < ingredients.count()) {
+            ingredients.focusOn(index + 1);
+          }
+          else {
+            if (ingredients.isClearLastItem() === true) {
+              var elem = ingredients.add();
+            }
+          }
+        }
       }
     },
     // Binds the global events
@@ -278,6 +302,7 @@
       $('#update.button-manage').on('click', editorMode.events.onButtonUpdateClick);
       $('#ingredients .ingredients-manage .button').on('click', editorMode.events.onButtonAddIngredientClick);
       $('#ingredients .ingredient span.remove-ingredient').on('click', editorMode.events.onButtonRemoveIngredientClick);
+      $(document).on('keypress', '#ingredients .ingredient .set-editable', editorMode.events.onKeypressIngredient);
     },
     init: function() {
       title.init();
