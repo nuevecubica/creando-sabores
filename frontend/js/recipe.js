@@ -156,18 +156,30 @@
     var elem = {
       options: {
         isHtml: true
+      },
+      remove: function(index) {
+        this.removeElement(index);
+        this.$self.find('.ingredient:nth-child(' + index + ')').remove();
+      },
+      isClearLastItem: function() {
+        return this.$self.find('.ingredient:last-child .set-editable').text().length > 0 ? true : this.$self.find('.ingredient:last-child .set-editable');
       }
     };
+
     return _.extend(_newElemList(selector, newIngredient), elem);
   };
 
   // Creates a new ingredient
   var newIngredient = function(value) {
     var tpl = '<div class="ingredient column">' +
-      '<div class="icon-chef-cesta checks"></div>' +
+      '<div class="icon-chef-cesta checks hide-editable"></div>' +
       '<span class="editable-container">' +
-      '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40">' +
-      '</div></span></div>';
+      '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
+      '</span>' +
+      '<span>' +
+      '<span class="remove-ingredient"><i class="icon-chef-cross"></i></span>' +
+      '</span>' +
+      '</div>';
     return _newElement(tpl, value);
   };
 
@@ -245,7 +257,17 @@
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function() {
-        var elem = ingredients.add();
+        var lastIndex = ingredients.isClearLastItem();
+        if (lastIndex === true) {
+          var elem = ingredients.add();
+        }
+        else {
+          lastIndex.focus();
+        }
+      },
+      onButtonRemoveIngredientClick: function() {
+        var element = $(this).closest('.ingredient').index();
+        ingredients.remove(element);
       }
     },
     // Binds the global events
@@ -255,6 +277,7 @@
       $('#delete.button-manage').on('click', editorMode.events.onButtonDeleteClick);
       $('#update.button-manage').on('click', editorMode.events.onButtonUpdateClick);
       $('#ingredients .ingredients-manage .button').on('click', editorMode.events.onButtonAddIngredientClick);
+      $('#ingredients .ingredient span.remove-ingredient').on('click', editorMode.events.onButtonRemoveIngredientClick);
     },
     init: function() {
       title.init();
@@ -294,10 +317,22 @@
       $(this).toggleClass('activated');
     });
 
-    $('.checks.all').on('click', function() {
-      console.log('click');
-      $('#ingredients .checks').toggleClass('activated');
+    $('.checks:not(.all)').on('click', function() {
       $(this).toggleClass('activated');
+    });
+
+    $('.checks.all').on('click', function() {
+      $('#ingredients .checks.activated').removeClass('activated');
+      if (!$(this).hasClass('activated')) {
+        console.log('Tiene');
+
+        $('#ingredients .checks.activated').removeClass('activated');
+        $('#ingredients .checks').toggleClass('activated');
+        // $(this).toggleClass('activated');
+      }
+      else {
+        console.log('NO tiene');
+      }
     });
 
     var setPreview = function(input, $target) {

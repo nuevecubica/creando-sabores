@@ -176,7 +176,6 @@
   }
 
   #actions {
-    transition: opacity 300ms ease-in;
     padding-top: 10px;
 
     .recipe-actions > div {
@@ -196,8 +195,14 @@
   #ingredients {
     margin: 20px 0;
 
-    .ingredient.column {
-      margin: 0;
+    .ingredient {
+      &.column {
+        margin: 0;
+      }
+
+      .remove-ingredient {
+        cursor: pointer;
+      }
     }
 
     .ingredients-manage {
@@ -229,11 +234,6 @@
       transition: opacity 300ms ease-in;
       opacity: 0;
     }
-  }
-
-  #actions {
-    transition: opacity 300ms ease-in;
-    opacity: 0;
   }
 
   .ingredients-manage {
