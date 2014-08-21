@@ -1,13 +1,22 @@
 @editable-border-shadow: @chef-color-black;
 @editable-border: @chef-color-gray;
 @editable-border-focus: @chef-color-black;
+@editable-placeholder-color: lighten(@chef-color-gray, 50%);
 
 .editable-container {
   display: inline-block;
 }
 
+.hide-editable {
+  transition: visibility 300ms ease-in, opacity 300ms ease-in;
+  visibility: visible;
+  opacity: 1;
+}
+
 .show-editable {
+  transition: visibility 300ms ease-in, opacity 300ms ease-in;
   visibility: hidden;
+  opacity: 0;
 }
 
 .set-editable {
@@ -68,9 +77,6 @@
     }
   }
 
-  .hide-editable {
-    display: none;
-  }
 
   .head {
     .logo {
@@ -96,8 +102,16 @@
     }
   }
 
+  .hide-editable {
+    transition: visibility 300ms ease-in, opacity 300ms ease-in;
+    visibility: hidden;
+    opacity: 0;
+  }
+
   .show-editable {
+    transition: visibility 300ms ease-in, opacity 300ms ease-in;
     visibility: visible;
+    opacity: 1;
   }
 
   .set-editable {
@@ -111,7 +125,7 @@
 
   [placeholder]:empty:before {
     content: attr(placeholder);
-    color: #555;
+    color: @editable-placeholder-color;
   }
 
   .file-select {
