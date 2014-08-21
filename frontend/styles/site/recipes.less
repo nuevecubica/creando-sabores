@@ -84,7 +84,6 @@
 /****************
   Recipe Styles
 ****************/
-
 #recipe-content {
 
   margin-top: 10px;
@@ -200,17 +199,34 @@
         margin: 0;
       }
 
+      position: relative;
+
+      .checks {
+        position: absolute;
+        top: 0;
+      }
+
+      .editable-container {
+        transition: all 300ms ease-in;
+        margin-left: 48px;
+        display: block;
+        .set-editable {
+          line-height: 44px;
+        }
+      }
+
       .remove-ingredient {
         cursor: pointer;
+        position: absolute;
+        top: 12px;
+        right: 32px;
+        z-index: 20;
+        opacity: .5;
+        &:hover {
+          opacity: 1;
+        }
       }
     }
-
-    .ingredients-manage {
-      .add-ingredient {
-        display: none;
-      }
-    }
-
   }
 
   #procedure{
@@ -242,18 +258,19 @@
       .show-editable {
         display: none;
       }
-
-      .add-ingredient {
-        display: block;
-      }
     }
   }
 
-  .show-editable {
-
+  .ingredient {
+    .editable-container {
+      margin-left: 0 !important;
+      margin-right: 48px;
+    }
   }
 
   .set-editable {
+    padding-top: 0;
+    padding-bottom: 0;
 
     &.dropdown {
 
