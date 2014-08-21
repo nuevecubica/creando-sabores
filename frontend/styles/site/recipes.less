@@ -8,6 +8,9 @@
 @ingredients-border-check-disabled: @chef-color-gray-bg;
 @ingredients-steps-bg: @chef-color-light-bg;
 
+@ingredients-color-remove: @chef-color-gray-bg;
+@ingredients-color-remove-hover: darken(@ingredients-color-remove, 60%);
+
 @icons-font-size: 28px;
 @icon-heart-font-size: 18px;
 @recipe-font-text: @font-uppercase-size-larger;
@@ -201,7 +204,14 @@
       }
 
       .remove-ingredient {
+        transition: color 150ms ease-in;
         cursor: pointer;
+        color: @ingredients-color-remove;
+
+        &:hover {
+          transition: color 150ms ease-in;
+          color: @ingredients-color-remove-hover;
+        }
       }
     }
 
