@@ -11,6 +11,50 @@ window.chef.errorMessage = function(errorId) {
   }
 };
 
+var activateDropdown = function() {
+  // Dropdown
+  var dropdown = $('.dropdown');
+  var selected = dropdown.find('.itemSelected');
+  var options = dropdown.find('.options');
+  var item = options.find('.item');
+
+
+  dropdown.on('click', function() {
+    var me = $(this);
+    selected = me.find('.itemSelected');
+    options = me.find('.options');
+    item = options.find('.item');
+  }).on('blur', function() {
+    $(this).find('.options').slideUp(300).removeClass('show');
+  });
+
+  selected.on('click', function() {
+    if ($('body').hasClass('mode-editable')) {
+      if (options.hasClass('show')) {
+        options.slideUp(300).removeClass('show');
+      }
+      else {
+        options.slideDown(300).addClass('show');
+      }
+    }
+  });
+
+  item.on('click', function() {
+    var itemContent = $(this).html();
+
+    item.removeClass('selected');
+
+    selected.find('.item').html(itemContent);
+    selected.find('.item').attr('data-value', $(this).attr('data-value'));
+
+    $(this).addClass('selected');
+
+    if (options.hasClass('show')) {
+      options.slideUp(300).removeClass('show');
+    }
+  });
+};
+
 $(window).load(function() {
   $('body').removeClass('preload');
   $('.error-here:visible').transition('bounce');
@@ -121,49 +165,9 @@ $(document).ready(function() {
   $placeholder.on('change', clearPlaceHolder);
   $placeholder.bind('input', (clearPlaceHolder));
 
-  // Dropdown
-  var dropdown = $('.dropdown');
-  var selected = dropdown.find('.itemSelected');
-  var options = dropdown.find('.options');
-  var item = options.find('.item');
-
-
-  dropdown.on('click', function() {
-    var me = $(this);
-    selected = me.find('.itemSelected');
-    options = me.find('.options');
-    item = options.find('.item');
-  }).on('blur', function() {
-    $(this).find('.options').slideUp(300).removeClass('show');
-  });
-
-  selected.on('click', function() {
-    if ($('body').hasClass('mode-editable')) {
-      if (options.hasClass('show')) {
-        options.slideUp(300).removeClass('show');
-      }
-      else {
-        options.slideDown(300).addClass('show');
-      }
-    }
-  });
-
-  item.on('click', function() {
-    var itemContent = $(this).html();
-
-    item.removeClass('selected');
-
-    selected.find('.item').html(itemContent);
-    selected.find('.item').attr('data-value', $(this).attr('data-value'));
-
-    $(this).addClass('selected');
-
-    if (options.hasClass('show')) {
-      options.slideUp(300).removeClass('show');
-    }
-  });
-
 });
+
+
 
 // Avoid `console` errors in browsers that lack a console.
 (function() {
