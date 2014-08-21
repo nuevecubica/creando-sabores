@@ -209,13 +209,17 @@
         top: 0;
       }
 
-      .editable-container {
+      .editable-container, .span {
         transition: all 300ms ease-in;
         margin-left: 48px;
         display: block;
         .set-editable {
           line-height: 44px;
         }
+      }
+
+      .span {
+        line-height: 44px;
       }
 
       .remove-ingredient {
@@ -258,6 +262,10 @@
   }
 
   .ingredient {
+    .set-editable {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
     .editable-container {
       margin-left: 0 !important;
       margin-right: 48px;
@@ -265,9 +273,6 @@
   }
 
   .set-editable {
-    padding-top: 0;
-    padding-bottom: 0;
-
     &.dropdown {
 
       &.difficulty {
