@@ -169,7 +169,7 @@ block content
 
               .span= rating
 
-        #actions.six.tablet-four.mobile-eight.wide.column.right.aligned
+        #actions.six.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
           .recipe-actions
             .favourite
               .ui.button.chef.button-yellow.switch.mini
@@ -197,11 +197,22 @@ block content
               - var ingredients = data.recipe.ingredients
               - for(var j = 0, l = ingredients.length; j < l; j++)
                 .column.ingredient
-                  .icon-chef-cesta.checks
+                  .icon-chef-cesta.checks.hide-editable
                   span.editable-container
                     .set-editable.one-line(placeholder=__('Ingredient'), data-length='40')!= ingredients[j]
+                  span.show-editable
+                    span.remove-ingredient
+                      i.icon-chef-cross
 
-            include ../components/ingredients-manage
+            .ingredients-manage.column.hide-editable
+              span.ingredient
+                .icon-chef-cesta.checks.all
+                span.span= __('Select all')
+
+            .ingredients-manage.column.show-editable
+              span.ingredient
+                .ui.button.chef.button-brick
+                  a= __('Add ingredient')
 
       .sixteen.wide.column
         h2.ui.header= __('Procedure')
