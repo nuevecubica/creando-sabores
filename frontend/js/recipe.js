@@ -234,6 +234,7 @@
         // Change to editable mode
         $('body').addClass('mode-editable');
         $('.set-editable:not(.dropdown)').attr('contenteditable', true);
+        window.activateDropdown();
 
       },
       onButtonCancelClick: function(ev) {
@@ -300,8 +301,8 @@
       $('#cancel.button-manage').on('click', editorMode.events.onButtonCancelClick);
       $('#delete.button-manage').on('click', editorMode.events.onButtonDeleteClick);
       $('#update.button-manage').on('click', editorMode.events.onButtonUpdateClick);
-      $('#ingredients .ingredients-manage .button').on('click', editorMode.events.onButtonAddIngredientClick);
-      $('#ingredients .ingredient span.remove-ingredient').on('click', editorMode.events.onButtonRemoveIngredientClick);
+      $(document).on('click', '#ingredients .ingredients-manage .button', editorMode.events.onButtonAddIngredientClick);
+      $(document).on('click', '#ingredients .ingredient .remove-ingredient', editorMode.events.onButtonRemoveIngredientClick);
       $(document).on('keypress', '#ingredients .ingredient .set-editable', editorMode.events.onKeypressIngredient);
     },
     init: function() {
