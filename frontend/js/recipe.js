@@ -3,14 +3,32 @@
   var _generic = {};
 
   //---------- FILTERS
-  var filters = {
+  var filter = {
     onlyNumbers: function(str) {
       return str.replace(/[^0-9]/, '');
     },
     newLines: function(str) {
       return str.replace(/[\r\n]/, ' ');
+    },
+    onNewLineKey: function(ev) {
+      if (ev.which === 13) {
+        console.log('INTRO');
+        ev.preventDefault();
+        if (this.callbacks.onNewLineKey) {
+          this.onNewLineKey.call(this, ev);
+        }
+      }
+    },
+    onNewLineChange: function(ev) {
+      console.log('CHANGE');
+      var text = $(ev.target).text();
+      $(ev.target).text(text.replace(/[\n\r]+/g, ' '));
+      if (this.callbacks.onNewLineChange) {
+        this.onNewLineChange.call(this, ev);
+      }
     }
   };
+
 
   //========== ELEMENTS
   //---------- GENERIC
@@ -20,15 +38,21 @@
       // Self
       $self: null,
       selector: selector,
+      $selfEditable: null,
       selectorEditable: '.set-editable',
       // Init
       init: function() {
         this.$self = selector ? $(selector) : null;
+        if (this.$self) {
+          this.$selfEditable = this.selectorEditable ? $(this.selectorEditable) : null;
+        }
       },
       // Default options
       options: {
         isHtml: false
       },
+      // Callbacks for events filtered
+      callbacks: {},
       // Attributes
       originalValue: null,
       tpl: null,
@@ -60,10 +84,30 @@
           this.$self.focus();
         }
       },
-      focus: function() {
-        this.$self.find(this.selectorEditable).focus();
+      setSelfEditable: function(selector) {
+        if (selector) {
+          this.selectorEditable = selector;
+        }
+        this.$selfEditable = this.$self.find(this.selectorEditable);
       },
-      cancel: this.restore
+      focus: function() {
+        if (!this.$selfEditable) {
+          this.setSelfEditable();
+        }
+        this.$selfEditable.focus();
+      },
+      cancel: this.restore,
+      // Filters
+      filtered: false,
+      filter: function(state) {
+        this.filtered = (state === true);
+        if (this.filtered) {
+          var opFilters = this.options.filters;
+          // apply or remove filters
+          this.$selfEditable[opFilters.newLines ? 'on' : 'off']('keypress.filterNewLines', filter.onNewLineKey.bind(this));
+          this.$selfEditable[opFilters.newLines ? 'on' : 'off']('change.filterNewLines', filter.onNewLineChange.bind(this));
+        }
+      }
     };
 
     elem.init();
@@ -181,15 +225,38 @@
   var newIngredient = function(value) {
     var tpl = '<div class="ingredient column">' +
       '<div class="icon-chef-cesta checks hide-editable"></div>' +
-      '<span class="editable-container">' +
+      '<div class="editable-container">' +
       '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
-      '</span>' +
-      '<span>' +
-      '<span class="remove-ingredient"><i class="icon-chef-cross"></i></span>' +
-      '</span>' +
+      '</div>' +
+      '<div>' +
+      '<div class="remove-ingredient"><i class="icon-chef-cross"></i></div>' +
+      '</div>' +
       '</div>';
 
-    return _newElement(tpl, value);
+    var elem = {
+      options: {
+        filters: {
+          newLines: true
+        }
+      },
+      callbacks: {
+        onNewLineKey: function(ev) {
+          var index = $(ev.target).closest('.ingredient').index() + 1;
+          if (index < ingredients.count()) {
+            ingredients.focusOn(index + 1);
+          }
+          else {
+            if (ingredients.isClearLastItem() === true) {
+              ingredients.add();
+            }
+          }
+        }
+      }
+    };
+
+    elem = _.extend(_newElement(tpl, value), elem);
+    elem.filter(true);
+    return elem;
   };
 
   //----------- TITLE
