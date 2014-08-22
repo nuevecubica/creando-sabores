@@ -69,9 +69,21 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
+  $('#save').on('click', function(e) {
+    $('#hidden-username').attr('value', );
+    $('#hidden-email').attr('value', );
+    $('#hidden-old-password').attr('value', );
+    $('#hidden-new-password').attr('value', );
+    $('#hidden-isPrivate')(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
+  });
+
   $('#delete-first').on('click', function(e) {
     $('#delete-confirm').toggleClass('visible');
     e.preventDefault();
+  });
+
+  $('#delete-confirm').on('click', function(e) {
+    $('#profile-remove-form').submit();
   });
 
 

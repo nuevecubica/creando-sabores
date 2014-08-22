@@ -58,26 +58,17 @@ block js
 
 block content
 
-  - var urlAction = '/';
-  if isNew
-    - urlAction = '/nueva-receta'
-  else
-    - urlAction = '/receta/' + data.recipe.slug
-
   if own
-    form#recipe-edit-form(action=urlAction + '/save' method='POST' enctype='multipart/form-data')
-      input#hidden-title(type='hidden' name='title')
-      input#hidden-difficulty(type='hidden' name='difficulty')
-      input#hidden-time(type='hidden' name='time')
-      input#hidden-portions(type='hidden' name='portions')
-      input#hidden-description(type='hidden' name='description')
-      input#hidden-ingredients(type='hidden' name='ingredients')
-      input(type='hidden' name='_csrf' value='#{csrftoken}')
+    input#hidden-title(type='hidden' name='title')
+    input#hidden-difficulty(type='hidden' name='difficulty')
+    input#hidden-time(type='hidden' name='time')
+    input#hidden-portions(type='hidden' name='portions')
+    input#hidden-description(type='hidden' name='description')
+    input#hidden-ingredients(type='hidden' name='ingredients')
+    input(type='hidden' name='_csrf' value='#{csrftoken}')
 
-    form#recipe-remove-form(action=urlAction + '/remove' method='POST' enctype='multipart/form-data')
-      input(type='hidden' name='_csrf' value='#{csrftoken}')
 
-  +header(data.recipe, section)
+  +header(data, section)
 
   .ui.page.grid
     #recipe-content.ui.grid.segment

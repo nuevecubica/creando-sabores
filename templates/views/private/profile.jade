@@ -1,40 +1,18 @@
 extends ../../layouts/default
-
+include ../../mixins/header
 include ../../mixins/about
 
 block js
 	script(src='/js/profile.js')
 
 block content
-	form#profile-form(action="/perfil/save" method="POST" enctype="multipart/form-data")
-		input#hidden-name(type="hidden" name="name")
-		input#hidden-about(type="hidden" name="about")
-		input(type="hidden" name="_csrf" value="#{csrftoken}")
 
-		.ui.grid.segment.user-profile.img-select#profile-header(style="background-image: url(#{user.media.header.url});")
-			.ui.page.grid.head.with-title
-				#header.row
-					include ../../components/header
+	+header(data, section)
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section
-					.title.shadow= __('My recipe book')
-
-				.row
-					.ten.wide.column
-					.six.wide.column.right.aligned.show-editable
-						.ui.button.chef.button-gray
-							input.img-select#profile-header-select(type="file" name="media.header_upload" accept="image/*")
-							i.social.icon-chef-camera
-							span
-							|#{__('Change image')}
-
-		.ui.page.grid.segment.body.about
-			.column
-				.ui.stackable.grid
-					+about(user)
+	.ui.page.grid.segment.body.about
+		.column
+			.ui.stackable.grid
+				+about(user)
 
 	.ui.page.grid.segment.body
 		.row.tablet.computer.only
@@ -59,57 +37,54 @@ block content
 		.row
 			#profile.column.tab-content
 
-				form(method="post" action="/perfil/change")
-					input(type="hidden" name="_csrf" value="#{csrftoken}")
-					.row
-						.three.column.stackable.ui.grid
-							.column
-								#user-name.field
-									label.explain= __('Username')
-									input(name="username" value="#{user.username}")
-							.column
-								#email.field
-									label.explain= __('Email')
-									input(name="email" value="#{user.email}")
-							.column
-								.password.field
-									.ui.button.chef.button-brick
-										a(href='/')= __('Change password')
-					#pass-row.row
-						.three.column.stackable.ui.grid
-							.column
-								.password.field
-									label.explain= __('Actual password')
-									input(name="old-pass" type="password" autocomplete="off")
-							.column
-								.password.field
-									label.explain= __('New password')
-									input(name="new-pass" type="password" autocomplete="off")
-							.column
-
-					.row
+				.row
+					.three.column.stackable.ui.grid
 						.column
-							label.explain= __('Privacy')
-							#private.field
-								label
-									input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
-									span.icon-chef-tick= __('Private profile?')
-					.row
-						.column.grid
-							#save
-								input.ui.button.chef.button-blue(type="submit" value="Guardar Cambios")
+							#user-name.field
+								label.explain= __('Username')
+								input(name="username" value="#{user.username}")
+						.column
+							#email.field
+								label.explain= __('Email')
+								input(name="email" value="#{user.email}")
+						.column
+							.password.field
+								.ui.button.chef.button-brick
+									a(href='/')= __('Change password')
+				#pass-row.row
+					.three.column.stackable.ui.grid
+						.column
+							.password.field
+								label.explain= __('Actual password')
+								input(name="old-pass" type="password" autocomplete="off")
+						.column
+							.password.field
+								label.explain= __('New password')
+								input(name="new-pass" type="password" autocomplete="off")
+						.column
+
+				.row
+					.column
+						label.explain= __('Privacy')
+						#private.field
+							label
+								input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
+								span.icon-chef-tick= __('Private profile?')
+				.row
+					.column.grid
+						#save
+							.ui.button.chef.button-blue= __('Save changes')
 
 				.row
 					.colum.grid.ui
 						.three.wide.column
 							.delete.field
 								a#delete-first(href='#')= __('Remove account')
+
 						#delete-confirm.six.wide.column
 							.arrow-left
 							.delete.message.ui
 								span= __('Are you sure remove account?')
 								p= __('Content will be removed')
-								form(method="post" action="/perfil/remove")
-									input(type="hidden" name="_csrf" value="#{csrftoken}")
-									input.ui.button.chef.button-brick(type="submit" value="Eliminar")
+								.ui.button.chef.button-brick= __('Remove account')
 						.seven.wide.column
