@@ -1,5 +1,5 @@
 // Everything globally available goes inside this object!
-var chef = window.chef = {};
+var chef = window.chef;
 
 window.chef.errorMessages = {};
 window.chef.errorMessage = function(errorId) {
@@ -7,7 +7,7 @@ window.chef.errorMessage = function(errorId) {
     return 'Error';
   }
   else {
-    return chef.errorMessages[errorId] ||  'Error';
+    return chef.errorMessages[errorId] || 'Error';
   }
 };
 
@@ -96,75 +96,6 @@ $(document).ready(function() {
     $(window).resize(gridResizer);
     $(window).load(gridResizer);
   }
-
-  // Edited
-  var editable = $('.set-editable');
-
-  var checkLength = function(editable, e) {
-    if (editable.text().trim().length >= editable.data('length')) {
-      e.preventDefault();
-    }
-  };
-
-  editable.on('focus', function() {
-    $(this).toggleClass('focus');
-  }).on('focusout', function() {
-    $(this).toggleClass('focus');
-  });
-
-  $('.set-editable.one-line').on('keypress', function(e) {
-    if (e.which === 13) {
-      e.preventDefault();
-    }
-  }).on('paste', function(e) {
-    e.preventDefault();
-  });
-
-  $('.set-editable[data-length]').on('keypress', function(e) {
-    if (e.which !== 8 && e.which !== 37 && e.which !== 38 && e.which !== 39 && e.which !== 40) {
-      // Limit name text size
-      checkLength($(this), e);
-    }
-  }).on('paste', function(e) {
-    // var paste = e.originalEvent.clipboardData.getData('Text');
-
-    // if ((paste.length + $(this).text().length) >= $(this).data('length')) {
-    //   var limit = $(this).data('length') - $(this).text().length;
-    //   var pasteFinal = paste.substr(0, limit);
-    //   $(this).append(pasteFinal);
-    // }
-    // checkLength($(this), e);
-  }).on('drop', function(e) {
-    e.preventDefault();
-  });
-
-  $('.set-editable.no-paste').on('paste', function(e) {
-    e.preventDefault();
-  }).on('drop', function(e) {
-    e.preventDefault();
-  });
-
-  $('.set-editable.for-numbers').on('keypress', function(e) {
-    var charCode = (e.which) ? e.which : e.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      e.preventDefault();
-    }
-  });
-
-  // Placeholder
-  var $placeholder = $('.set-editable[placeholder]');
-
-  var clearPlaceHolder = function() {
-    if ($(this).text().length === 0) {
-      $(this).empty();
-    }
-  };
-
-  $placeholder.on('keyup', clearPlaceHolder);
-  $placeholder.on('click', clearPlaceHolder);
-  $placeholder.on('change', clearPlaceHolder);
-  $placeholder.bind('input', (clearPlaceHolder));
-
 });
 
 
