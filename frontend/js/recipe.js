@@ -19,8 +19,10 @@
         }
       };
       var elem = {
+        type: 'ingredient',
         callbacks: {
           onNewLineKey: function(ev) {
+            console.log('onNewLineKey custom callback');
             var ingredients = ingredients || null;
             var index = $(ev.target).closest('.ingredient').index() + 1;
             if (index < ingredients.count()) {
@@ -36,6 +38,7 @@
       };
 
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
+      // console.log('ingredient', elem);
       return elem;
     });
 
@@ -45,6 +48,7 @@
         isHtml: true
       };
       var elem = {
+        type: 'ingredientList',
         remove: function(index) {
           this.removeElement(index);
           this.$self.find('.ingredient:nth-child(' + index + ')').hide('300', function() {
@@ -62,7 +66,9 @@
         }
       };
 
-      return _.extend(this.newElement('list')(selector, this.newElement('ingredient'), options), elem);
+      var list = _.extend(this.newElement('list')(selector, this.newElement('ingredient'), options), elem);
+      // console.log('ingredients', list);
+      return list;
     });
   };
 
@@ -80,7 +86,6 @@
     };
 
     var saveArrayText = function(arr) {
-      console.log(typeof arr, arr);
       return arr.join('\n');
     };
 
