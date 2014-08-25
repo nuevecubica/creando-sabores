@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+  // =============================
+  // ========== Buttons events
+  // =============================
+
+  // ---------- Edit button: Activate mode-editor
   $('#edit.button-manage').on('click', function() {
     $('body').addClass('mode-editable');
     $('.set-editable').attr('contenteditable', true);
@@ -14,6 +19,8 @@ $(document).ready(function() {
     }
   });
 
+  // ========== Save buttons
+  // ---------- Update button: Save data user form (name, bio, photo)
   $('#update.button-manage').on('click', function() {
     $('body').removeClass('mode-editable');
     $('.set-editable').attr('contenteditable', false);
@@ -26,8 +33,20 @@ $(document).ready(function() {
     // FormData not available in IE9, so we have to post a form
     $('#hidden-name').attr('value', $('#profile-name').text());
     $('#hidden-about').attr('value', about);
+
     $('#profile-form').submit();
 
+  });
+
+  // ---------- Save button: Save data account form (email, password...)
+  $('#save').on('click', function(e) {
+    $('#hidden-username').attr('value', $('#user-name').text());
+    $('#hidden-email').attr('value', $('#email').text());
+    $('#hidden-old-password').attr('value', $('#old-pass').text());
+    $('#hidden-new-password').attr('value', $('#new-pass').text());
+    $('#hidden-isPrivate').attr('value', $('#private input').val());
+
+    $('#profile-change-form').submit();
   });
 
   $('#cancel.button-manage').on('click', function() {
@@ -67,14 +86,6 @@ $(document).ready(function() {
         .data('toggle', true);
     }
     e.preventDefault();
-  });
-
-  $('#save').on('click', function(e) {
-    $('#hidden-username').attr('value', );
-    $('#hidden-email').attr('value', );
-    $('#hidden-old-password').attr('value', );
-    $('#hidden-new-password').attr('value', );
-    $('#hidden-isPrivate')(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
   });
 
   $('#delete-first').on('click', function(e) {
