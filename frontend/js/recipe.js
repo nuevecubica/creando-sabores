@@ -264,6 +264,15 @@
         $('#hidden-portions').attr('value', portions.getValue());
         $('#hidden-description').attr('value', saveArrayText(description.export()));
         $('#hidden-ingredients').attr('value', saveArrayList(ingredients.export()));
+
+        // Create and append formAux (contents all inputs text of page) in form in header (content input file) to submitµ all.
+        // var form = $('#recipe-edit-form');
+        // var formAux = $('#recipe-aux-form').html();
+
+        // form.append(formAux);
+
+        // form.submit();
+
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function(ev) {
@@ -319,7 +328,6 @@
 
     editorMode.init();
     editorMode.bind();
-
 
     $('#recipe-header-select').on('change', function(e) {
       setPreview(e.target, $('.promoted'));

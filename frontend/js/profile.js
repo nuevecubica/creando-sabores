@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+  // =============================
+  // ========== Buttons events
+  // =============================
+
+  // ---------- Edit button: Activate mode-editor
   $('#edit.button-manage').on('click', function() {
     $('body').addClass('mode-editable');
     $('.set-editable').attr('contenteditable', true);
@@ -14,6 +19,8 @@ $(document).ready(function() {
     }
   });
 
+  // ========== Save events
+  // ---------- Update button: Save data user form (name, bio, photo)
   $('#update.button-manage').on('click', function() {
     $('body').removeClass('mode-editable');
     $('.set-editable').attr('contenteditable', false);
@@ -26,10 +33,23 @@ $(document).ready(function() {
     // FormData not available in IE9, so we have to post a form
     $('#hidden-name').attr('value', $('#profile-name').text());
     $('#hidden-about').attr('value', about);
+
     $('#profile-form').submit();
 
   });
 
+  // ---------- Save button: Save data account form (email, password...)
+  $('#save').on('click', function(e) {
+    $('#hidden-username').attr('value', $('#user-name input').val());
+    $('#hidden-email').attr('value', $('#email input').val());
+    $('#hidden-old-password').attr('value', $('#old-pass').val());
+    $('#hidden-new-password').attr('value', $('#new-pass').val());
+    $('#hidden-isPrivate').attr('value', $('#private input').is(':checked'));
+
+    $('#profile-change-form').submit();
+  });
+
+  // ---------- Cancel button: Restore profile fields (name, bio, photos)
   $('#cancel.button-manage').on('click', function() {
     $('body').removeClass('mode-editable');
     $('.set-editable').attr('contenteditable', false);
@@ -40,42 +60,24 @@ $(document).ready(function() {
     var $img = $('#profile-img-select');
     $name.html($name.data('origvalue'));
     $about.html($about.data('origvalue'));
-    clearFile($header.get(0));
+    clearImages($header.get(0));
     $header.trigger('change');
-    clearFile($img.get(0));
+    clearImages($img.get(0));
     $img.trigger('change');
   });
 
+  // ---------- Change header image: Save data account form (email, password...)
   $('#profile-header-select').on('change', function(e) {
-    setPreview(e.target, $('#profile-header'));
+    setImagesPreview(e.target, $('#profile-header'));
   });
 
+  // ---------- Change profile image: Save data account form (email, password...)
   $('#profile-img-select').on('change', function(e) {
-    setPreview(e.target, $('#profile-img'));
+    setImagesPreview(e.target, $('#profile-img'));
   });
 
-  $('.password .button').on('click', function(e) {
-    var $passrow = $('#pass-row');
-    if ($passrow.data('toggle')) {
-      $passrow
-        .slideUp()
-        .data('toggle', false);
-    }
-    else {
-      $passrow
-        .slideDown()
-        .data('toggle', true);
-    }
-    e.preventDefault();
-  });
-
-  $('#delete-first').on('click', function(e) {
-    $('#delete-confirm').toggleClass('visible');
-    e.preventDefault();
-  });
-
-
-  var setPreview = function(input, $target) {
+  // ---------- Header and profile images preview
+  var setImagesPreview = function(input, $target) {
     if (input.files.length === 0) {
       if ($target.data('origsrc')) {
         $target.css('background-image', $target.data('origsrc'));
@@ -93,7 +95,7 @@ $(document).ready(function() {
     }
   };
 
-  var clearFile = function(input) {
+  var clearImages = function(input) {
     try {
       input.value = null;
     }
@@ -102,4 +104,34 @@ $(document).ready(function() {
       input.parentNode.replaceChild(input.cloneNode(true), input);
     }
   };
+
+  // ---------- Show div change password
+  $('.password .button').on('click', function(e) {
+    var $passrow = $('#pass-row');
+    if ($passrow.data('toggle')) {
+      $passrow
+        .slideUp()
+        .data('toggle', false);
+    }
+    else {
+      $passrow
+        .slideDown()
+        .data('toggle', true);
+    }
+    e.preventDefault();
+  });
+
+  // ========== Delete events
+  //---------- Show popup delete account
+  $('#delete-first').on('click', function(e) {
+    $('#delete-confirm').toggleClass('visible');
+    e.preventDefault();
+  });
+
+  //---------- Delete account
+  $('#delete-confirm').on('click', function(e) {
+    $('#profile-remove-form').submit();
+  });
+
+
 });

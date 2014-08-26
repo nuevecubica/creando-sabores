@@ -8,6 +8,7 @@ var recipeData = function(req, orig) {
   // Clean data
   var data = {};
   var prop, props = ['title', 'description', 'procedure', 'ingredients', 'portions', 'time', 'difficulty'];
+  var file, files = ['header_upload'];
 
   // Something in the request body?
   var something = false;
@@ -15,6 +16,15 @@ var recipeData = function(req, orig) {
   for (i = 0; i < l; i++) {
     prop = props[i];
     if (req.body[prop]) {
+      something = true;
+      break;
+    }
+  }
+
+  var j, m = files.length;
+  for (j = 0; j < m; j++) {
+    file = files[j];
+    if (req.files[file]) {
       something = true;
       break;
     }
@@ -85,7 +95,7 @@ var recipeEdit = function(req, res) {
 
       // Save
       recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,portions,time,difficulty'
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
       }, function(err) {
         if (err) {
           console.error('recipeEdit:', err);
@@ -115,7 +125,7 @@ var recipeNew = function(req, res) {
     }
 
     recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,portions,time,difficulty,author'
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header'
       },
       function(err) {
         if (err) {

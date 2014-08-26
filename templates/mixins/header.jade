@@ -1,25 +1,14 @@
-mixin header(recipe, section)
-	- var state = 0
-	- var image = '/images/defaul_image.jpg'
-	- var title = __('No recommendation');
-	- var author = 'Unknow'
+mixin header(data, section)
 
-	if section === 'new-recipe'
-		- image = ''
-		- title = ''
-		- author = user.name || user.username
-	else if recipe
-		- state = recipe.state
-		- image = recipe.header.url
-		- title = recipe.title
-		- author = recipe.author.name || recipe.author.username
+	//- Change this
+	- var default_image = '/images/defaul_image.jpg'
 
-	.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+	if section === 'home'
+		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
+		- var image = data.header ? data.header.header.url : default_image
 
-		.shadow-layer
-
-		if section === 'home'
-
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
 			.ui.page.grid.head.simple.with-social
 				#header.row
 					include ../components/header
@@ -42,11 +31,40 @@ mixin header(recipe, section)
 								.ui.image
 							.tabla2
 								.text
-									.span= title
+									.span= titlePromoted
 							.tabla3
 								.ui.image
 
-		else if section === 'recipes'
+	else if section === 'privateProfile'
+		- var image = user ? user.media.header.url : default_image
+
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
+			.ui.page.grid.head.with-title
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.shadow= __('My recipe book')
+
+				.row
+					.ten.wide.column
+					.six.wide.column.right.aligned.show-editable
+						.corner-position.right
+							.ui.button.chef.button-gray
+								input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
+								i.social.icon-chef-camera
+								span
+								|#{__('Change image')}
+
+	else if section === 'recipes'
+		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
+		- var image = data.header ? data.header.header.url : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
 				#header.row
 					include ../components/header
@@ -72,11 +90,18 @@ mixin header(recipe, section)
 								.ui.image
 							.tabla2
 								.text
-									.span= title
+									.span= titlePromoted
 							.tabla3
 								.ui.image
 
-		else if section === 'recipe'
+	else if section === 'recipe'
+		- var title = data.recipe ? data.recipe.title : ''
+		- var image = data.recipe ? data.recipe.header.url : default_image
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : 'Unknow'
+		- var state = data.recipe ? data.recipe.state : 0
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
 
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -104,15 +129,20 @@ mixin header(recipe, section)
 						.six.wide.column.right.aligned
 							.corner-position.right
 								.ui.button.chef.button-gray.show-editable.file-select
-									input#recipe-header-select(type="file" name="header_upload" accept="image/*")
-									i.social.icon-chef-camera
-									span
-									|#{__('Change image')}
+									if own
+										input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+										i.social.icon-chef-camera
+										span
+										|#{__('Change image')}
 
 
-		else if section === 'new-recipe'
+	else if section === 'new-recipe'
+		- var title = ''
+		- var author = data.recipe ? data.recipe.author.name : data.recipe.author.username
 
-			.ui.page.grid.head.with-subtitle.with-social
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -126,10 +156,3 @@ mixin header(recipe, section)
 				.row.section.subtitle
 					.author.shadow= author
 
-				//- Check if recipe is published to show social buttons
-				if state > 0
-					.row.computer.only.social
-						.four.wide.column
-							.corner-position.left.hide-editable
-								|#{__('Follow us on social networks')}
-								include ../components/share

@@ -48,11 +48,6 @@ exports = module.exports = function(req, res, next) {
             return next(true);
           }
         },
-        // isPrivate
-        function(next) {
-          req.body.isPrivate = (req.body.isPrivate && req.body.isPrivate === 'on');
-          return next();
-        },
         // Password changed?
         function(next) {
           req.body.password = null;
@@ -96,7 +91,7 @@ exports = module.exports = function(req, res, next) {
               User.model.find({
                 email: user.item.email
               }).exec(function(err, results) {
-                console.log(results);
+                // console.log(results);
               });
               // console.log('WINS        : ', user.item.username, user.item.email);
               return next();
