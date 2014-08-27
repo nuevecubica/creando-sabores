@@ -88,19 +88,25 @@ window.chef.editor = (function(editor) {
 
     // generic bind for all the editable content
     bindEditables: function() {
-      $('body').on('focus', '[contenteditable]', function() {
+      $(document).on('focus', '[contenteditable]', {}, function() {
         var $this = $(this);
         $this.data('before', $this.html());
         return $this;
-      }).on('blur paste drop', '[contenteditable]', function() {
+      }).on('blur paste drop', '[contenteditable]', {}, function(ev) {
         //- BUG right now it moves the cursor to the beginning
         //- of the input if value is changed, so avoid keyup and input
         var $this = $(this);
-        if ($this.data('before') !== $this.html()) {
-          $this.data('before', $this.html());
-          $this.trigger('change');
-        }
-        return $this;
+        /*
+          'paste' and 'drop' events are triggered BEFORE the content, so
+          we need to defer for the next loop, that's why there's a timeout
+          of 0 here
+        */
+        setTimeout(function() {
+          if ($this.data('before') !== $this.html()) {
+            $this.data('before', $this.html());
+            $this.trigger('change');
+          }
+        }, 0);
       });
     }
   };
