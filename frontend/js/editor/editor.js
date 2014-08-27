@@ -23,9 +23,11 @@ window.chef.editor = (function(editor) {
 
       $('.set-editable.one-line').on('keypress', function(e) {
         if (e.which === 13) {
+          console.warn('.one-line class is deprecated');
           e.preventDefault();
         }
       }).on('paste', function(e) {
+        console.warn('.one-line class is deprecated');
         e.preventDefault();
       });
 

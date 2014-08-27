@@ -2,32 +2,33 @@ window.chef.editor = (function(editor) {
 
   //---------- FILTERS
   var filter = {
+    //----- Values
     // Removes non-numbers from the string
     onlyNumbers: function(str) {
       return str.replace(/[^0-9]/, '');
     },
     // Removes \n and \r from the string
-    newLines: function(str) {
+    avoidNewLines: function(str) {
       return str.replace(/[\r\n]/, ' ');
     },
+    //----- Events
     // Detects an intro keypress
-    onNewLineKey: function(ev) {
-      console.log('MORCILLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    onAvoidNewLineKey: function(ev) {
       if (ev.which === 13) {
         console.log('INTRO');
         ev.preventDefault();
-        if (this.callbacks.onNewLineKey) {
-          this.onNewLineKey.call(this, ev);
+        if (this.callbacks.onAvoidNewLineKey) {
+          this.onAvoidNewLineKey.call(this, ev);
         }
       }
     },
     // Detects an input change and removes \n and \r
-    onNewLineChange: function(ev) {
+    onAvoidNewLineChange: function(ev) {
       console.log('CHANGE');
       var text = $(ev.target).text();
       $(ev.target).text(text.replace(/[\n\r]+/g, ' '));
-      if (this.callbacks.onNewLineChange) {
-        this.onNewLineChange.call(this, ev);
+      if (this.callbacks.onAvoidNewLineChange) {
+        this.onAvoidNewLineChange.call(this, ev);
       }
     }
   };
@@ -48,7 +49,17 @@ window.chef.editor = (function(editor) {
       init: function() {
         this.$self = selector ? jQuery(selector) : null;
         if (this.$self && this.$self.length > 0) {
-          this.$selfEditable = this.selectorEditable ? jQuery(this.selectorEditable, this.$self) : null;
+          if (this.selectorEditable) {
+            // Is editable by itself?
+            this.$selfEditable = jQuery(this.selector + this.selectorEditable);
+            if (this.$selfEditable.length === 0) {
+              // Or is a children editable?
+              this.$selfEditable = jQuery(this.selectorEditable, this.$self);
+              if (this.$selfEditable.length === 0) {
+                console.warn('this.$selfEditable empty for ', this.$self);
+              }
+            }
+          }
         }
         this.bindFilters();
       },
@@ -57,7 +68,7 @@ window.chef.editor = (function(editor) {
         // Return getters as text
         isHtml: false,
         filters: {
-          newLines: false
+          avoidNewLines: false
         }
       },
       // Callbacks for events filtered
@@ -130,8 +141,8 @@ window.chef.editor = (function(editor) {
         // console.log('_filter', opFilters);
         // apply filters
         if (opFilters) {
-          if (opFilters.newLines) {
-            value = filter.newLines(value);
+          if (opFilters.avoidNewLines) {
+            value = filter.avoidNewLines(value);
           }
         }
         return value;
@@ -139,11 +150,11 @@ window.chef.editor = (function(editor) {
       // Binds the filters to events
       bindFilters: function(overrideFilters) {
         var opFilters = overrideFilters ? overrideFilters : this.options.filters;
+        var edit = this.$selfEditable;
         //- new line key
-        // this.$selfEditable[opFilters.newLines ? 'on' : 'off']('keydown.filterNewLines', filter.onNewLineKey.bind(this));
-        this.$self.find(this.selectorEditable)[opFilters.newLines ? 'on' : 'off']('keypress.filterNewLines', filter.onNewLineKey.bind(this));
+        edit[opFilters.avoidNewLines ? 'on' : 'off']('keypress.filterAvoidNewLines', filter.onAvoidNewLineKey.bind(this));
         //- new line value
-        this.$self.find(this.selectorEditable)[opFilters.newLines ? 'on' : 'off']('change.filterNewLines', filter.onNewLineChange.bind(this));
+        edit[opFilters.avoidNewLines ? 'on' : 'off']('change.filterAvoidNewLines', filter.onAvoidNewLineChange.bind(this));
       },
       // Unbinds all the filters
       unbindFilters: function() {
@@ -151,10 +162,13 @@ window.chef.editor = (function(editor) {
       }
     };
 
+    // Load default options
     elem.options = _.defaults(options, elem.options);
 
+    // Run init
     elem.init.call(elem);
 
+    // Initial value
     if (value) {
       elem.saveValue.call(elem, value);
     }
@@ -208,7 +222,7 @@ window.chef.editor = (function(editor) {
     var options = {
       isHtml: false,
       filters: {
-        newLines: true
+        avoidNewLines: true
       }
     };
     return _.extend(this.newElement('default')(selector, options), {
@@ -238,7 +252,7 @@ window.chef.editor = (function(editor) {
     };
     var options = {
       filters: {
-        newLines: false
+        avoidNewLines: false
       }
     };
     return _.extend(this.newElement('default')(selector, options), elem);
