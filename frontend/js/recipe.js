@@ -80,7 +80,12 @@
 
       var that = this;
       _.each(ingredients, function(element) {
-        a.push(that.newElement('ingredient')(element));
+        a.push(that.newElement('ingredient')(element, {
+          showLimit: true,
+          filters: {
+            limitLength: 30,
+          }
+        }));
       });
 
       list.addElements(a);
@@ -107,11 +112,28 @@
     };
 
     //----------- TITLE
-    var title = window.chef.editor.newElement('input')('#recipe-title');
+    var title = window.chef.editor.newElement('input')('#recipe-title', {
+      filters: {
+        limitLength: 60
+      }
+    });
     var difficulty = window.chef.editor.newElement('select')('#recipe-difficulty');
-    var time = window.chef.editor.newElement('number')('#recipe-time .set-editable');
-    var portions = window.chef.editor.newElement('number')('#recipe-portions .set-editable');
-    var description = window.chef.editor.newElement('text')('#recipe-description .set-editable');
+    var time = window.chef.editor.newElement('number')('#recipe-time .set-editable', {
+      filters: {
+        limitLength: 3
+      }
+    });
+    var portions = window.chef.editor.newElement('number')('#recipe-portions .set-editable', {
+      filters: {
+        limitLength: 2
+      }
+    });
+    var description = window.chef.editor.newElement('text')('#recipe-description .set-editable', {
+      showLimit: true,
+      filters: {
+        limitLength: 400
+      }
+    });
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
 
     // Events' functions

@@ -21,6 +21,9 @@ window.chef.editor = (function(editor) {
       console.log('keepMultiline');
       return '<p>' + String(str).replace(/[\n\r]+/g, "\n").split("\n").join('</p><p>') + '</p>';
     },
+    limitLength: function(str, limit) {
+      return str.length >= limit;
+    },
     //----- Events
     // Detects a non-number keypress
     onOnlyNumbersKey: function(ev) {
@@ -73,6 +76,19 @@ window.chef.editor = (function(editor) {
       $(ev.target).text(filter.avoidNewLines(text));
       if (this.callbacks.onAvoidNewLineChange) {
         this.onAvoidNewLineChange.call(this, ev);
+      }
+    },
+
+    onLimitLengthKey: function(ev) {
+      console.log('letra ' + $(ev.target).text());
+      // if (this.options.showLimit && this.options.limit && filter.limitLength(ev.target().text, this.options.limit)) {
+      if (filter.limitLength($(ev.target).text(), this.options.filters.limitLength)) {
+        ev.preventDefault();
+      }
+      else {
+        if (this.options.limit) {
+          if (this.options.showLimit) {}
+        }
       }
     }
   };
@@ -209,7 +225,10 @@ window.chef.editor = (function(editor) {
       // Binds the filters to events
       bindFilters: function(overrideFilters) {
         var opFilters = overrideFilters ? overrideFilters : this.options.filters;
+
+
         var edit = this.$selfEditable;
+        console.log(opFilters);
         //- new line
         edit[opFilters.avoidNewLines ? 'on' : 'off']('keypress.filterAvoidNewLines', filter.onAvoidNewLineKey.bind(this));
         edit[opFilters.avoidNewLines ? 'on' : 'off']('change.filterAvoidNewLines', filter.onAvoidNewLineChange.bind(this));
@@ -219,6 +238,8 @@ window.chef.editor = (function(editor) {
         //- collapse spaces
         edit[opFilters.collapseSpaces ? 'on' : 'off']('change.filterCollapseSpaces', filter.onCollapseSpacesChange.bind(this));
         edit[opFilters.keepMultiline ? 'on' : 'off']('change.filterKeepMultiline', filter.onKeepMultilineChange.bind(this));
+        //- limit length
+        edit[opFilters.limitLength ? 'on' : 'off']('keypress.filterLimitLength', filter.onLimitLengthKey.bind(this));
       },
       // Unbinds all the filters
       unbindFilters: function() {
@@ -291,6 +312,7 @@ window.chef.editor = (function(editor) {
     // console.log('newInputElement', arguments);
     var optionsDefault = {
       isHtml: false,
+      showLimit: false,
       filters: {
         avoidNewLines: true
       }
@@ -307,6 +329,7 @@ window.chef.editor = (function(editor) {
     // console.log('newInputElement', arguments);
     var optionsDefault = {
       isHtml: false,
+      showLimit: false,
       filters: {
         avoidNewLines: true,
         onlyNumbers: true
@@ -315,7 +338,7 @@ window.chef.editor = (function(editor) {
     return _.extend(this.newElement('default')(
       selector, _.merge(optionsDefault, options || {}, _.defaults)
     ), {
-      type: 'input'
+      type: 'number'
     });
   };
 
