@@ -49,6 +49,7 @@ window.chef.editor = (function(editor) {
       });
 
       $('.set-editable.for-numbers').on('keypress', function(e) {
+        console.warn('.for-numbers class is deprecated');
         var charCode = (e.which) ? e.which : e.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
           e.preventDefault();

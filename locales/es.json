@@ -134,5 +134,9 @@
 	"Videorecipes": "Videorecetas",
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"You don't have rights to access that page": "No tienes permiso para acceder a esa página."
+	"You don't have rights to access that page": "No tienes permiso para acceder a esa página.",
+	"Muy Fácil": "Muy Fácil",
+	"Fácil": "Fácil",
+	"Difícil": "Difícil",
+	"Muy Difícil": "Muy Difícil"
 }

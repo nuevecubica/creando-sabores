@@ -9,9 +9,25 @@ window.chef.editor = (function(editor) {
     },
     // Removes \n and \r from the string
     avoidNewLines: function(str) {
-      return str.replace(/[\r\n]/, ' ');
+      return str.replace(/[\r\n]+/g, ' ');
     },
     //----- Events
+    // Detects a non-number keypress
+    onOnlyNumbersKey: function(ev) {
+      var charCode = (ev.which) ? ev.which : ev.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        ev.preventDefault();
+      }
+    },
+    // Detects an input change and removes \n and \r
+    onOnlyNumbersChange: function(ev) {
+      console.log('CHANGE');
+      var text = $(ev.target).text();
+      $(ev.target).text(filter.onlyNumbers(text));
+      if (this.callbacks.onOnlyNumbersChange) {
+        this.onOnlyNumbersChange.call(this, ev);
+      }
+    },
     // Detects an intro keypress
     onAvoidNewLineKey: function(ev) {
       if (ev.which === 13) {
@@ -26,7 +42,7 @@ window.chef.editor = (function(editor) {
     onAvoidNewLineChange: function(ev) {
       console.log('CHANGE');
       var text = $(ev.target).text();
-      $(ev.target).text(text.replace(/[\n\r]+/g, ' '));
+      $(ev.target).text(filter.avoidNewLines(text));
       if (this.callbacks.onAvoidNewLineChange) {
         this.onAvoidNewLineChange.call(this, ev);
       }
@@ -164,10 +180,12 @@ window.chef.editor = (function(editor) {
       bindFilters: function(overrideFilters) {
         var opFilters = overrideFilters ? overrideFilters : this.options.filters;
         var edit = this.$selfEditable;
-        //- new line key
+        //- new line
         edit[opFilters.avoidNewLines ? 'on' : 'off']('keypress.filterAvoidNewLines', filter.onAvoidNewLineKey.bind(this));
-        //- new line value
         edit[opFilters.avoidNewLines ? 'on' : 'off']('change.filterAvoidNewLines', filter.onAvoidNewLineChange.bind(this));
+        //- only numbers
+        edit[opFilters.onlyNumbers ? 'on' : 'off']('keypress.filterOnlyNumbers', filter.onOnlyNumbersKey.bind(this));
+        edit[opFilters.onlyNumbers ? 'on' : 'off']('change.filterOnlyNumbers', filter.onOnlyNumbersChange.bind(this));
       },
       // Unbinds all the filters
       unbindFilters: function() {
@@ -236,31 +254,52 @@ window.chef.editor = (function(editor) {
 
   //---------- Specific
   // Creates or selects an one line input element
-  var newInputElement = function(selector) {
+  var newInputElement = function(selector, options) {
     // console.log('newInputElement', arguments);
-    var options = {
+    var optionsDefault = {
       isHtml: false,
       filters: {
         avoidNewLines: true
       }
     };
-    return _.extend(this.newElement('default')(selector, options), {
+    return _.extend(this.newElement('default')(
+      selector, _.defaults(options || {}, optionsDefault)
+    ), {
+      type: 'input'
+    });
+  };
+
+  // Creates or selects an one line input element
+  var newInputNumberElement = function(selector, options) {
+    // console.log('newInputElement', arguments);
+    var optionsDefault = {
+      isHtml: false,
+      filters: {
+        avoidNewLines: true,
+        onlyNumbers: true
+      }
+    };
+    return _.extend(this.newElement('default')(
+      selector, _.defaults(options || {}, optionsDefault)
+    ), {
       type: 'input'
     });
   };
 
   // Creates or selects a select element
-  var newSelectElement = function(selector) {
-    var options = {
+  var newSelectElement = function(selector, options) {
+    var optionsDefault = {
       isHtml: true
     };
-    return _.extend(this.newElement('default')(selector, options), {
+    return _.extend(this.newElement('default')(
+      selector, _.defaults(options || {}, optionsDefault)
+    ), {
       type: 'select'
     });
   };
 
   // Creates or selects a text element
-  var newTextElement = function(selector) {
+  var newTextElement = function(selector, options) {
     var elem = {
       type: 'text',
       export: function() {
@@ -269,18 +308,21 @@ window.chef.editor = (function(editor) {
         }).get();
       }
     };
-    var options = {
+    var optionsDefault = {
       filters: {
         avoidNewLines: false
       }
     };
-    return _.extend(this.newElement('default')(selector, options), elem);
+    return _.extend(this.newElement('default')(
+      selector, _.defaults(options || {}, optionsDefault)
+    ), elem);
   };
 
   var elementTypes = {
     'default': _newElement,
     list: _newElemList,
     input: newInputElement,
+    number: newInputNumberElement,
     select: newSelectElement,
     text: newTextElement
   };

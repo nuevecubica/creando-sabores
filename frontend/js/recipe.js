@@ -92,8 +92,8 @@
     //----------- TITLE
     var title = window.chef.editor.newElement('input')('#recipe-title');
     var difficulty = window.chef.editor.newElement('select')('#recipe-difficulty');
-    var time = window.chef.editor.newElement('input')('#recipe-time .set-editable');
-    var portions = window.chef.editor.newElement('input')('#recipe-portions .set-editable');
+    var time = window.chef.editor.newElement('number')('#recipe-time .set-editable');
+    var portions = window.chef.editor.newElement('number')('#recipe-portions .set-editable');
     var description = window.chef.editor.newElement('text')('#recipe-description .set-editable');
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
 
