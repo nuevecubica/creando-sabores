@@ -11,12 +11,25 @@ window.chef.editor = (function(editor) {
     avoidNewLines: function(str) {
       return str.replace(/[\r\n]+/g, ' ');
     },
+    // Removes extra spaces
+    collapseSpaces: function(str) {
+      return str.trim().replace(/[\s\t]+/g, ' ');
+    },
     //----- Events
     // Detects a non-number keypress
     onOnlyNumbersKey: function(ev) {
       var charCode = (ev.which) ? ev.which : ev.keyCode;
       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
         ev.preventDefault();
+      }
+    },
+    // Detects an input change and removes extra spaces
+    onCollapseSpacesChange: function(ev) {
+      console.log('CHANGE');
+      var text = $(ev.target).text();
+      $(ev.target).text(filter.collapseSpaces(text));
+      if (this.callbacks.onCollapseSpacesChange) {
+        this.onCollapseSpacesChange.call(this, ev);
       }
     },
     // Detects an input change and removes \n and \r
@@ -186,6 +199,8 @@ window.chef.editor = (function(editor) {
         //- only numbers
         edit[opFilters.onlyNumbers ? 'on' : 'off']('keypress.filterOnlyNumbers', filter.onOnlyNumbersKey.bind(this));
         edit[opFilters.onlyNumbers ? 'on' : 'off']('change.filterOnlyNumbers', filter.onOnlyNumbersChange.bind(this));
+        //- collapse spaces
+        edit['on']('change.filterCollapseSpaces', filter.onCollapseSpacesChange.bind(this));
       },
       // Unbinds all the filters
       unbindFilters: function() {
