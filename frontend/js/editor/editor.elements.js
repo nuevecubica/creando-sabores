@@ -47,23 +47,34 @@ window.chef.editor = (function(editor) {
       selectorEditable: '.set-editable',
       // Init the jQuery selector
       init: function() {
-        this.$self = selector ? jQuery(selector) : null;
-        if (this.$self && this.$self.length > 0) {
-          if (this.selectorEditable) {
-            if (this.$self.hasClass(this.selectorEditable.slice(1))) {
-              // Is it editable by itself?
-              this.$selfEditable = this.$self;
-            }
-            else {
-              // Or is a children editable?
-              this.$selfEditable = jQuery(this.selectorEditable, this.$self);
-            }
-            if (this.$selfEditable.length === 0) {
-              console.warn('this.$selfEditable empty for ', this.$self);
-            }
+        if ('object' === typeof this.selector && this.selector.jquery) {
+          this.setSelf(this.selector);
+          this.selector = this.$self.selector;
+        }
+        else {
+          var $self = selector ? jQuery(selector) : null;
+          if ($self && $self.length > 0) {
+            this.setSelf($self);
           }
         }
         this.bindFilters();
+      },
+      // Sets the $self jQuery element
+      setSelf: function($self) {
+        this.$self = $self;
+        if (this.selectorEditable) {
+          if (this.$self.hasClass(this.selectorEditable.slice(1))) {
+            // Is it editable by itself?
+            this.$selfEditable = this.$self;
+          }
+          else {
+            // Or is a children editable?
+            this.$selfEditable = jQuery(this.selectorEditable, this.$self);
+          }
+          if (this.$selfEditable.length === 0) {
+            console.warn('this.$selfEditable empty for ', this.$self);
+          }
+        }
       },
       // Default options
       options: {
@@ -186,6 +197,12 @@ window.chef.editor = (function(editor) {
       type: 'list',
       addElement: function(element) {
         this.elements.push(element);
+      },
+      addElements: function(elementArray) {
+        var that = this;
+        _.each(elementArray, function(i, e) {
+          that.addElement(e);
+        });
       },
       removeElement: function(index, amount) {
         if (!index) {
