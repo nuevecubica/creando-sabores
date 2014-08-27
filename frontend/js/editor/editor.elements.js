@@ -1,0 +1,258 @@
+window.chef.editor = (function(editor) {
+
+  //---------- FILTERS
+  var filter = {
+    // Removes non-numbers from the string
+    onlyNumbers: function(str) {
+      return str.replace(/[^0-9]/, '');
+    },
+    // Removes \n and \r from the string
+    newLines: function(str) {
+      return str.replace(/[\r\n]/, ' ');
+    },
+    // Detects an intro keypress
+    onNewLineKey: function(ev) {
+      console.log('MORCILLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      if (ev.which === 13) {
+        console.log('INTRO');
+        ev.preventDefault();
+        if (this.callbacks.onNewLineKey) {
+          this.onNewLineKey.call(this, ev);
+        }
+      }
+    },
+    // Detects an input change and removes \n and \r
+    onNewLineChange: function(ev) {
+      console.log('CHANGE');
+      var text = $(ev.target).text();
+      $(ev.target).text(text.replace(/[\n\r]+/g, ' '));
+      if (this.callbacks.onNewLineChange) {
+        this.onNewLineChange.call(this, ev);
+      }
+    }
+  };
+
+  //========== ELEMENTS
+  //---------- GENERIC
+  // Creates or selects a generic element
+  var _newElement = function(selector, options, value) {
+    // console.log('_newElememt', arguments);
+    var elem = {
+      // Self
+      type: 'default',
+      $self: null,
+      selector: selector,
+      $selfEditable: null,
+      selectorEditable: '.set-editable',
+      // Init the jQuery selector
+      init: function() {
+        this.$self = selector ? jQuery(selector) : null;
+        if (this.$self && this.$self.length > 0) {
+          this.$selfEditable = this.selectorEditable ? jQuery(this.selectorEditable, this.$self) : null;
+        }
+        this.bindFilters();
+      },
+      // Default options
+      options: {
+        // Return getters as text
+        isHtml: false,
+        filters: {
+          newLines: false
+        }
+      },
+      // Callbacks for events filtered
+      callbacks: {},
+      // Attributes
+      originalValue: null,
+      tpl: null,
+      // Gets the actual value
+      getValue: function() {
+        if (this.options.isHtml) {
+          return this._filter(String(this.$self.html()));
+        }
+        else {
+          return this._filter(String(this.$self.text()));
+        }
+      },
+      // Sets the actual value
+      setValue: function(value) {
+        this.$self.html(value);
+      },
+      // Saves a value as original and restores it
+      saveValue: function(value) {
+        this.originalValue = value;
+        this.restore();
+      },
+      // Save the actual value as the original value
+      save: function() {
+        this.originalValue = this.getValue();
+      },
+      // Restores the original value as the actual value
+      restore: function() {
+        this.setValue(this.originalValue);
+      },
+      // Saves the value and puts focus on it
+      edit: function(putFocus) {
+        this.save();
+        if (putFocus) {
+          this.$self.focus();
+        }
+      },
+      // Sets a new selector for the editable element
+      setSelfEditable: function(selector) {
+        if (selector) {
+          this.selectorEditable = selector;
+        }
+        if (this.$self) {
+          this.$selfEditable = this.$self.find(this.selectorEditable);
+        }
+        else {
+          console.error("setSelfEditable: $self not defined");
+        }
+      },
+      // Sets focus on it
+      focus: function() {
+        if (!this.$selfEditable) {
+          this.setSelfEditable();
+        }
+        if (this.$selfEditable) {
+          this.$selfEditable.focus();
+        }
+        else {
+          console.error("focus: $selfEditable not defined");
+        }
+      },
+      // See .restore
+      cancel: this.restore,
+      // Filters the actual value
+      _filter: function(value, overrideOptions) {
+        var opFilters = overrideOptions ? overrideOptions : this.options.filters;
+        // console.log('_filter', opFilters);
+        // apply filters
+        if (opFilters) {
+          if (opFilters.newLines) {
+            value = filter.newLines(value);
+          }
+        }
+        return value;
+      },
+      // Binds the filters to events
+      bindFilters: function(overrideFilters) {
+        var opFilters = overrideFilters ? overrideFilters : this.options.filters;
+        //- new line key
+        // this.$selfEditable[opFilters.newLines ? 'on' : 'off']('keydown.filterNewLines', filter.onNewLineKey.bind(this));
+        this.$self.find(this.selectorEditable)[opFilters.newLines ? 'on' : 'off']('keypress.filterNewLines', filter.onNewLineKey.bind(this));
+        //- new line value
+        this.$self.find(this.selectorEditable)[opFilters.newLines ? 'on' : 'off']('change.filterNewLines', filter.onNewLineChange.bind(this));
+      },
+      // Unbinds all the filters
+      unbindFilters: function() {
+        return this.bindFilters({});
+      }
+    };
+
+    elem.options = _.defaults(options, elem.options);
+
+    elem.init.call(elem);
+
+    if (value) {
+      elem.saveValue.call(elem, value);
+    }
+
+    return elem;
+  };
+
+  // Creates a new element list
+  var _newElemList = function(selector, constructor, options) {
+    // console.log('_newElemList', arguments);
+    var elemList = {
+      elements: [],
+      type: 'list',
+      addElement: function(element) {
+        this.elements.push(element);
+      },
+      removeElement: function(index, amount) {
+        if (!index) {
+          this.elements.pop();
+        }
+        else {
+          this.elements = this.elements.splice(index, amount || 1);
+        }
+      },
+      add: function(value) {
+        var elem = constructor(value);
+        this.addElement(elem);
+        this.$self.append(elem.$self);
+        elem.focus();
+        return elem;
+      },
+      remove: function(index) {
+        this.removeElement(index);
+      },
+      export: function() {
+        var values = [];
+        var elems = this.$self.children();
+        elems.each(function(idx, elem) {
+          values.push($(elem).text().trim());
+        });
+        return values;
+      }
+    };
+    return _.extend(this.newElement('default')(selector, options), elemList);
+  };
+
+  //---------- Specific
+  // Creates or selects an one line input element
+  var newInputElement = function(selector) {
+    // console.log('newInputElement', arguments);
+    var options = {
+      isHtml: false,
+      filters: {
+        newLines: true
+      }
+    };
+    return _.extend(this.newElement('default')(selector, options), {
+      type: 'input'
+    });
+  };
+
+  // Creates or selects a select element
+  var newSelectElement = function(selector) {
+    var options = {
+      isHtml: true
+    };
+    return _.extend(this.newElement('default')(selector, options), {
+      type: 'select'
+    });
+  };
+
+  // Creates or selects a text element
+  var newTextElement = function(selector) {
+    var elem = {
+      type: 'text',
+      export: function() {
+        return this.$self.contents().map(function() {
+          return $(this).text().trim();
+        }).get();
+      }
+    };
+    var options = {
+      filters: {
+        newLines: false
+      }
+    };
+    return _.extend(this.newElement('default')(selector, options), elem);
+  };
+
+  var elementTypes = {
+    'default': _newElement,
+    list: _newElemList,
+    input: newInputElement,
+    select: newSelectElement,
+    text: newTextElement
+  };
+
+  return _.extend(editor, {
+    elementTypes: _.extend(editor.elementTypes || {}, elementTypes)
+  });
+})(window.chef.editor || {});
