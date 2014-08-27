@@ -44,7 +44,7 @@ exports = module.exports = function(req, res) {
       var ingr = recipe.ingredients;
       data.ingredients = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
     }
-    return _.defaults(data, recipe);
+    return _.merge(recipe, data, _.defaults);
   };
 
   // load recipe
@@ -58,7 +58,7 @@ exports = module.exports = function(req, res) {
       q.exec(function(err, result) {
         if (!err && result) {
 
-          result = _.defaults(parseRecipe(result), locals.defaults);
+          result = _.merge(locals.defaults, parseRecipe(result), _.defaults);
 
           // Am I the owner?
           if (req.user) {

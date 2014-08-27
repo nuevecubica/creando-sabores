@@ -13,7 +13,7 @@ window.chef.editor = (function(editor) {
     },
     // Removes extra spaces
     collapseSpaces: function(str) {
-      return str.trim().replace(/[\s\t]+/g, ' ');
+      return String(str).replace(/([\s\t ]|&nbsp;|&#x0A;)+/g, ' ').replace(/[\s]+/g, ' ');
     },
     //----- Events
     // Detects a non-number keypress
@@ -25,25 +25,27 @@ window.chef.editor = (function(editor) {
     },
     // Detects an input change and removes extra spaces
     onCollapseSpacesChange: function(ev) {
-      console.log('CHANGE');
-      var text = $(ev.target).text();
-      $(ev.target).text(filter.collapseSpaces(text));
+      var method = this.options.isHtml ? 'html' : 'text';
+      console.log('method', method, this);
+      var text = $(ev.target)[method]();
+      $(ev.target)[method](filter.collapseSpaces(text));
       if (this.callbacks.onCollapseSpacesChange) {
         this.onCollapseSpacesChange.call(this, ev);
       }
     },
     // Detects an input change and removes \n and \r
     onOnlyNumbersChange: function(ev) {
-      console.log('CHANGE');
-      var text = $(ev.target).text();
-      $(ev.target).text(filter.onlyNumbers(text));
+      var method = this.options.isHtml ? 'html' : 'text';
+      var text = $(ev.target)[method]();
+      $(ev.target)[method](filter.onlyNumbers(text));
       if (this.callbacks.onOnlyNumbersChange) {
         this.onOnlyNumbersChange.call(this, ev);
       }
     },
     // Detects an intro keypress
     onAvoidNewLineKey: function(ev) {
-      if (ev.which === 13) {
+      var charCode = (ev.which) ? ev.which : ev.keyCode;
+      if (charCode === 13) {
         console.log('INTRO');
         ev.preventDefault();
         if (this.callbacks.onAvoidNewLineKey) {
@@ -53,7 +55,6 @@ window.chef.editor = (function(editor) {
     },
     // Detects an input change and removes \n and \r
     onAvoidNewLineChange: function(ev) {
-      console.log('CHANGE');
       var text = $(ev.target).text();
       $(ev.target).text(filter.avoidNewLines(text));
       if (this.callbacks.onAvoidNewLineChange) {
@@ -110,7 +111,8 @@ window.chef.editor = (function(editor) {
         // Return getters as text
         isHtml: false,
         filters: {
-          avoidNewLines: false
+          avoidNewLines: false,
+          collapseSpaces: true
         }
       },
       // Callbacks for events filtered
@@ -209,7 +211,7 @@ window.chef.editor = (function(editor) {
     };
 
     // Load default options
-    elem.options = _.defaults(options, elem.options);
+    elem.options = _.merge(elem.options, options, _.defaults);
 
     // Run init
     elem.init.call(elem);
@@ -278,7 +280,7 @@ window.chef.editor = (function(editor) {
       }
     };
     return _.extend(this.newElement('default')(
-      selector, _.defaults(options || {}, optionsDefault)
+      selector, _.merge(optionsDefault, options || {}, _.defaults)
     ), {
       type: 'input'
     });
@@ -295,7 +297,7 @@ window.chef.editor = (function(editor) {
       }
     };
     return _.extend(this.newElement('default')(
-      selector, _.defaults(options || {}, optionsDefault)
+      selector, _.merge(optionsDefault, options || {}, _.defaults)
     ), {
       type: 'input'
     });
@@ -307,7 +309,7 @@ window.chef.editor = (function(editor) {
       isHtml: true
     };
     return _.extend(this.newElement('default')(
-      selector, _.defaults(options || {}, optionsDefault)
+      selector, _.merge(optionsDefault, options || {}, _.defaults)
     ), {
       type: 'select'
     });
@@ -324,12 +326,13 @@ window.chef.editor = (function(editor) {
       }
     };
     var optionsDefault = {
+      isHtml: true,
       filters: {
         avoidNewLines: false
       }
     };
     return _.extend(this.newElement('default')(
-      selector, _.defaults(options || {}, optionsDefault)
+      selector, _.merge(optionsDefault, options || {}, _.defaults)
     ), elem);
   };
 

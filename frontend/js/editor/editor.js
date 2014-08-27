@@ -111,5 +111,5 @@ window.chef.editor = (function(editor) {
     }
   };
 
-  return _.defaults(editor, editorMode);
+  return _.merge(editorMode, editor, _.defaults);
 })(window.chef.editor || {});
