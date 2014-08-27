@@ -50,14 +50,16 @@ window.chef.editor = (function(editor) {
         this.$self = selector ? jQuery(selector) : null;
         if (this.$self && this.$self.length > 0) {
           if (this.selectorEditable) {
-            // Is editable by itself?
-            this.$selfEditable = jQuery(this.selector + this.selectorEditable);
-            if (this.$selfEditable.length === 0) {
+            if (this.$self.hasClass(this.selectorEditable.slice(1))) {
+              // Is it editable by itself?
+              this.$selfEditable = this.$self;
+            }
+            else {
               // Or is a children editable?
               this.$selfEditable = jQuery(this.selectorEditable, this.$self);
-              if (this.$selfEditable.length === 0) {
-                console.warn('this.$selfEditable empty for ', this.$self);
-              }
+            }
+            if (this.$selfEditable.length === 0) {
+              console.warn('this.$selfEditable empty for ', this.$self);
             }
           }
         }
