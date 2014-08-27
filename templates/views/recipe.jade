@@ -3,6 +3,7 @@ extends ../layouts/default
 include ../mixins/recipe
 
 include ../mixins/header
+
 include ../mixins/difficultItems
 
 block css
@@ -163,7 +164,7 @@ block content
                 .column.ingredient
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable.one-line(placeholder=__('Ingredient'), data-length='40')!= ingredients[j]
+                    .set-editable(placeholder=__('Ingredient'), data-length='40')!= ingredients[j]
                   .show-editable
                     .remove-ingredient
                       i.icon-chef-cross
@@ -171,7 +172,7 @@ block content
               .column.ingredient.show-editable
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable.one-line(placeholder=__('Add ingredient'), data-length='40')!= ingredients[j]
+                    .set-editable(placeholder=__('Add ingredient'), data-length='40')!= ingredients[j]
                   .show-editable
                     .remove-ingredient
                       i.icon-chef-cross
