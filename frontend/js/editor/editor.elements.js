@@ -68,7 +68,7 @@ window.chef.editor = (function(editor) {
           this.selector = this.$self.selector;
         }
         else {
-          var $self = selector ? jQuery(selector) : null;
+          var $self = this.selector ? jQuery(this.selector) : null;
           if ($self && $self.length > 0) {
             this.setSelf($self);
           }
@@ -218,8 +218,8 @@ window.chef.editor = (function(editor) {
       },
       addElements: function(elementArray) {
         var that = this;
-        _.each(elementArray, function(i, e) {
-          that.addElement(e);
+        _.each(elementArray, function(element) {
+          that.addElement(element);
         });
       },
       removeElement: function(index, amount) {
