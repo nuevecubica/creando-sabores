@@ -37,6 +37,11 @@
         }
       };
 
+      if ("object" === typeof value) {
+        tpl = value;
+        value = null;
+      }
+
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
       // console.log('ingredient', elem);
       return elem;
@@ -68,6 +73,18 @@
 
       var list = _.extend(this.newElement('list')(selector, this.newElement('ingredient'), options), elem);
       // console.log('ingredients', list);
+
+      // Add list ingredients
+      var ingredients = list.$self.find('.ingredient');
+      var a = [];
+
+      var that = this;
+      _.each(ingredients, function(element) {
+        a.push(that.newElement('ingredient')(element));
+      });
+
+      list.addElements(a);
+
       return list;
     });
   };
