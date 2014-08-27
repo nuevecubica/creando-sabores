@@ -70,7 +70,14 @@ window.chef.editor = (function(editor) {
       $placeholder.on('change', clearPlaceHolder);
       $placeholder.bind('input', clearPlaceHolder);
     },
+
     elementTypes: {},
+
+    // Adds a new constructor to the elements type
+    addType: function(type, constructor) {
+      this.elementTypes[type] = constructor;
+    },
+
     newElement: function(type) {
       if (!this.elementTypes[type]) {
         console.warn('editor: newElement, Unknown type %s', type);
@@ -78,9 +85,7 @@ window.chef.editor = (function(editor) {
       }
       return this.elementTypes[type].bind(this) || null;
     },
-    addType: function(type, constructor) {
-      this.elementTypes[type] = constructor;
-    },
+
     // generic bind for all the editable content
     bindEditables: function() {
       $('body').on('focus', '[contenteditable]', function() {
