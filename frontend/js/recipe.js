@@ -15,14 +15,14 @@
 
       var options = {
         filters: {
-          newLines: true
+          avoidNewLines: true
         }
       };
       var elem = {
         type: 'ingredient',
         callbacks: {
-          onNewLineKey: function(ev) {
-            console.log('onNewLineKey custom callback');
+          onAvoidNewLineKey: function(ev) {
+            console.log('onAvoidNewLineKey custom callback');
             var ingredients = ingredients || null;
             var index = $(ev.target).closest('.ingredient').index() + 1;
             if (index < ingredients.count()) {
