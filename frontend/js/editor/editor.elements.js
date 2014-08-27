@@ -13,7 +13,13 @@ window.chef.editor = (function(editor) {
     },
     // Removes extra spaces
     collapseSpaces: function(str) {
+      console.log('collapseSpaces');
       return String(str).replace(/([\s\t ]|&nbsp;|&#x0A;)+/g, ' ').replace(/[\s]+/g, ' ');
+    },
+    // Keep new lines
+    keepMultiline: function(str) {
+      console.log('keepMultiline');
+      return '<p>' + String(str).replace(/[\n\r]+/g, "\n").split("\n").join('</p><p>') + '</p>';
     },
     //----- Events
     // Detects a non-number keypress
@@ -31,6 +37,14 @@ window.chef.editor = (function(editor) {
       $(ev.target)[method](filter.collapseSpaces(text));
       if (this.callbacks.onCollapseSpacesChange) {
         this.onCollapseSpacesChange.call(this, ev);
+      }
+    },
+    // Detects an input change and keeps new lines with paragraphs
+    onKeepMultilineChange: function(ev) {
+      var text = $(ev.target).text();
+      $(ev.target).html(filter.keepMultiline(text));
+      if (this.callbacks.onKeepMultilineChange) {
+        this.onKeepMultilineChange.call(this, ev);
       }
     },
     // Detects an input change and removes \n and \r
@@ -112,7 +126,8 @@ window.chef.editor = (function(editor) {
         isHtml: false,
         filters: {
           avoidNewLines: false,
-          collapseSpaces: true
+          collapseSpaces: true,
+          keepMultiline: false
         }
       },
       // Callbacks for events filtered
@@ -202,7 +217,8 @@ window.chef.editor = (function(editor) {
         edit[opFilters.onlyNumbers ? 'on' : 'off']('keypress.filterOnlyNumbers', filter.onOnlyNumbersKey.bind(this));
         edit[opFilters.onlyNumbers ? 'on' : 'off']('change.filterOnlyNumbers', filter.onOnlyNumbersChange.bind(this));
         //- collapse spaces
-        edit['on']('change.filterCollapseSpaces', filter.onCollapseSpacesChange.bind(this));
+        edit[opFilters.collapseSpaces ? 'on' : 'off']('change.filterCollapseSpaces', filter.onCollapseSpacesChange.bind(this));
+        edit[opFilters.keepMultiline ? 'on' : 'off']('change.filterKeepMultiline', filter.onKeepMultilineChange.bind(this));
       },
       // Unbinds all the filters
       unbindFilters: function() {
@@ -326,9 +342,10 @@ window.chef.editor = (function(editor) {
       }
     };
     var optionsDefault = {
-      isHtml: true,
+      isHtml: false,
       filters: {
-        avoidNewLines: false
+        avoidNewLines: false,
+        keepMultiline: true
       }
     };
     return _.extend(this.newElement('default')(

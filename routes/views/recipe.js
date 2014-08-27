@@ -41,10 +41,10 @@ exports = module.exports = function(req, res) {
   var parseRecipe = function(recipe) {
     var data = {};
     if (recipe.ingredients) {
-      var ingr = recipe.ingredients;
+      var ingr = String(recipe.ingredients);
       data.ingredients = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
     }
-    return _.merge(recipe, data, _.defaults);
+    return _.defaults(data, recipe);
   };
 
   // load recipe
@@ -58,11 +58,13 @@ exports = module.exports = function(req, res) {
       q.exec(function(err, result) {
         if (!err && result) {
 
-          result = _.merge(locals.defaults, parseRecipe(result), _.defaults);
+          console.log(parseRecipe(result), locals.defaults);
+          result = _.defaults(parseRecipe(result), locals.defaults);
+          console.log(result);
 
           // Am I the owner?
           if (req.user) {
-            locals.own = (req.user.id.toString() === result.author.id.toString());
+            locals.own = (req.user._id.toString() === result.author._id.toString());
           }
           else {
             locals.own = false;
