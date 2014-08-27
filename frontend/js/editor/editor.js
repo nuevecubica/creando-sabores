@@ -87,7 +87,7 @@ window.chef.editor = (function(editor) {
         var $this = $(this);
         $this.data('before', $this.html());
         return $this;
-      }).on('blur paste', '[contenteditable]', function() {
+      }).on('blur paste drop', '[contenteditable]', function() {
         //- BUG right now it moves the cursor to the beginning
         //- of the input if value is changed, so avoid keyup and input
         var $this = $(this);
