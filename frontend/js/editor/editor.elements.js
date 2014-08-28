@@ -42,13 +42,6 @@ window.chef.editor = (function(editor) {
           if (ops.onlyNumbers) {
             filter.onOnlyNumbersKey.call(this, ev);
           }
-          //- collapse spaces
-          if (ops.collapseSpaces) {
-            filter.onCollapseSpacesChange.call(this, ev);
-          }
-          if (ops.keepMultiline) {
-            filter.onKeepMultilineChange.call(this, ev);
-          }
         },
         change: function(ev) {
           if (ops.avoidNewLines) {
@@ -56,6 +49,13 @@ window.chef.editor = (function(editor) {
           }
           if (ops.onlyNumbers) {
             filter.onOnlyNumbersChange.call(this, ev);
+          }
+          //- collapse spaces
+          if (ops.collapseSpaces) {
+            filter.onCollapseSpacesChange.call(this, ev);
+          }
+          if (ops.keepMultiline) {
+            filter.onKeepMultilineChange.call(this, ev);
           }
         }
       };
