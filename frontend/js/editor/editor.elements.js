@@ -9,27 +9,66 @@ window.chef.editor = (function(editor) {
     },
     // Removes \n and \r from the string
     avoidNewLines: function(str) {
+      console.log('avoidNewLines', str);
       return str.replace(/[\r\n]+/g, ' ');
     },
     // Removes extra spaces
     collapseSpaces: function(str) {
-      console.log('collapseSpaces');
+      console.log('collapseSpaces', str);
       return String(str).replace(/([\s\t ]|&nbsp;|&#x0A;)+/g, ' ').replace(/[\s]+/g, ' ');
     },
     // Keep new lines
     keepMultiline: function(str) {
-      console.log('keepMultiline');
+      console.log('keepMultiline', str);
       return '<p>' + String(str).replace(/[\n\r]+/g, "\n").split("\n").join('</p><p>') + '</p>';
     },
     limitLength: function(str, limit) {
-      return str.length >= limit;
+      return (str.length >= limit);
     },
     //----- Events
+    // Caller
+    on: function(ops) {
+      return {
+        keypress: function(ev) {
+          //- limit length
+          if (ops.limitLength) {
+            filter.onLimitLengthKey.call(this, ev);
+          }
+          //- avoid new lines
+          if (ops.avoidNewLines) {
+            filter.onAvoidNewLineKey.call(this, ev);
+          }
+          //- only numbers
+          if (ops.onlyNumbers) {
+            filter.onOnlyNumbersKey.call(this, ev);
+          }
+          //- collapse spaces
+          if (ops.collapseSpaces) {
+            filter.onCollapseSpacesChange.call(this, ev);
+          }
+          if (ops.keepMultiline) {
+            filter.onKeepMultilineChange.call(this, ev);
+          }
+          return last;
+        },
+        change: function(ev) {
+          if (ops.avoidNewLines) {
+            last = filter.onAvoidNewLineChange.call(this, ev);
+          }
+          if (ops.onlyNumbers) {
+            last = filter.onOnlyNumbersChange.call(this, ev);
+          }
+        }
+      };
+    },
     // Detects a non-number keypress
     onOnlyNumbersKey: function(ev) {
       var charCode = (ev.which) ? ev.which : ev.keyCode;
       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
         ev.preventDefault();
+        if (this.callbacks.onOnlyNumbersKey) {
+          this.callbacks.onOnlyNumbersKey.call(this, ev);
+        }
       }
     },
     // Detects an input change and removes extra spaces
@@ -78,7 +117,7 @@ window.chef.editor = (function(editor) {
         this.callbacks.onAvoidNewLineChange.call(this, ev);
       }
     },
-
+    // Limits the field length
     onLimitLengthKey: function(ev) {
       // if (this.options.showLimit && this.options.limit && filter.limitLength(ev.target().text, this.options.limit)) {
       if (filter.limitLength($(ev.target).text(), this.options.filters.limitLength)) {
@@ -224,23 +263,9 @@ window.chef.editor = (function(editor) {
       // Binds the filters to events
       bindFilters: function(overrideFilters) {
         var opFilters = overrideFilters ? overrideFilters : this.options.filters;
-
-
         var edit = this.$selfEditable;
-        //- console.log(opFilters);
-        //- console.log(edit);
-
-        //- new line
-        edit[opFilters.avoidNewLines ? 'on' : 'off']('keypress.filterAvoidNewLines', filter.onAvoidNewLineKey.bind(this));
-        edit[opFilters.avoidNewLines ? 'on' : 'off']('change.filterAvoidNewLines', filter.onAvoidNewLineChange.bind(this));
-        //- only numbers
-        edit[opFilters.onlyNumbers ? 'on' : 'off']('keypress.filterOnlyNumbers', filter.onOnlyNumbersKey.bind(this));
-        edit[opFilters.onlyNumbers ? 'on' : 'off']('change.filterOnlyNumbers', filter.onOnlyNumbersChange.bind(this));
-        //- collapse spaces
-        edit[opFilters.collapseSpaces ? 'on' : 'off']('change.filterCollapseSpaces', filter.onCollapseSpacesChange.bind(this));
-        edit[opFilters.keepMultiline ? 'on' : 'off']('change.filterKeepMultiline', filter.onKeepMultilineChange.bind(this));
-        //- limit length
-        edit[opFilters.limitLength ? 'on' : 'off']('keypress.filterLimitLength', filter.onLimitLengthKey.bind(this));
+        edit.on('keypress.filters', filter.on.call(this, opFilters).keypress.bind(this));
+        edit.on('change.filters', filter.on.call(this, opFilters).change.bind(this));
       },
       // Unbinds all the filters
       unbindFilters: function() {

@@ -110,7 +110,6 @@
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             console.log('onAvoidNewLineKey custom callback');
-
           }
         }
       };
