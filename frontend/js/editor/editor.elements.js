@@ -39,7 +39,7 @@ window.chef.editor = (function(editor) {
       var text = $(ev.target)[method]();
       $(ev.target)[method](filter.collapseSpaces(text));
       if (this.callbacks.onCollapseSpacesChange) {
-        this.onCollapseSpacesChange.call(this, ev);
+        this.callbacks.onCollapseSpacesChange.call(this, ev);
       }
     },
     // Detects an input change and keeps new lines with paragraphs
@@ -47,7 +47,7 @@ window.chef.editor = (function(editor) {
       var text = $(ev.target).text();
       $(ev.target).html(filter.keepMultiline(text));
       if (this.callbacks.onKeepMultilineChange) {
-        this.onKeepMultilineChange.call(this, ev);
+        this.callbacks.onKeepMultilineChange.call(this, ev);
       }
     },
     // Detects an input change and removes \n and \r
@@ -56,7 +56,7 @@ window.chef.editor = (function(editor) {
       var text = $(ev.target)[method]();
       $(ev.target)[method](filter.onlyNumbers(text));
       if (this.callbacks.onOnlyNumbersChange) {
-        this.onOnlyNumbersChange.call(this, ev);
+        this.callbacks.onOnlyNumbersChange.call(this, ev);
       }
     },
     // Detects an intro keypress
@@ -66,7 +66,7 @@ window.chef.editor = (function(editor) {
         console.log('INTRO');
         ev.preventDefault();
         if (this.callbacks.onAvoidNewLineKey) {
-          this.onAvoidNewLineKey.call(this, ev);
+          this.callbacks.onAvoidNewLineKey.call(this, ev);
         }
       }
     },
@@ -75,7 +75,7 @@ window.chef.editor = (function(editor) {
       var text = $(ev.target).text();
       $(ev.target).text(filter.avoidNewLines(text));
       if (this.callbacks.onAvoidNewLineChange) {
-        this.onAvoidNewLineChange.call(this, ev);
+        this.callbacks.onAvoidNewLineChange.call(this, ev);
       }
     },
 
@@ -169,7 +169,7 @@ window.chef.editor = (function(editor) {
         this.restore();
       },
       // Save the actual value as the original value
-      save: function() {
+      recovery: function() {
         this.originalValue = this.getValue();
       },
       // Restores the original value as the actual value
@@ -228,6 +228,7 @@ window.chef.editor = (function(editor) {
 
         var edit = this.$selfEditable;
         //- console.log(opFilters);
+        //- console.log(edit);
 
         //- new line
         edit[opFilters.avoidNewLines ? 'on' : 'off']('keypress.filterAvoidNewLines', filter.onAvoidNewLineKey.bind(this));
@@ -290,6 +291,13 @@ window.chef.editor = (function(editor) {
         this.$self.append(elem.$self);
         elem.focus();
         return elem;
+      },
+      // Set focus on the position (index)
+      focusOn: function(index) {
+        this.elements[index].focus();
+      },
+      isClearLastItem: function() {
+        return (this.elements[this.elements.length - 1].getValue().length <= 0);
       },
       remove: function(index) {
         this.removeElement(index);

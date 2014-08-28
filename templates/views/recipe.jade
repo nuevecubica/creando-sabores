@@ -164,7 +164,7 @@ block content
                 .column.ingredient
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable(placeholder=__('Ingredient'))!= ingredients[j]
+                    .set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
                   .show-editable
                     .remove-ingredient
                       i.icon-chef-cross
@@ -172,7 +172,7 @@ block content
               .column.ingredient.show-editable
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable(placeholder=__('Add ingredient'))!= ingredients[j]
+                    .set-editable(placeholder=__('Add ingredient'), spellcheck='false')
                   .show-editable
                     .remove-ingredient
                       i.icon-chef-cross
@@ -198,4 +198,14 @@ block content
                 .step
                   .icon-chef-tick.checks
                   .ui.header= __('Step:') + ' ' + j
-                  .ui.content.set-editable(spellcheck='false')!= array[j]
+                  .ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= array[j]
+
+              .step
+                .icon-chef-tick.checks
+                .ui.header= __('Step:') + ' ' + j
+                .ui.content.set-editable(placeholder=__('Add step'), spellcheck='false')
+
+            .step-manage.column.show-editable
+              .step
+                .ui.button.chef.button-brick
+                  a= __('Add step')

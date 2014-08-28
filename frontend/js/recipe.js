@@ -27,16 +27,7 @@
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             console.log('onAvoidNewLineKey custom callback');
-            var ingredients = ingredients || null;
-            var index = $(ev.target).closest('.ingredient').index() + 1;
-            if (index < ingredients.count()) {
-              ingredients.focusOn(index + 1);
-            }
-            else {
-              if (ingredients.isClearLastItem() === true) {
-                ingredients.add();
-              }
-            }
+
           }
         }
       };
@@ -47,8 +38,6 @@
       }
 
       options = _.merge(optionsIngredient, options, _.defaults);
-
-      console.log(options);
 
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
       // console.log('ingredient', elem);
@@ -99,6 +88,91 @@
 
       return list;
     });
+
+    // ========== Procedures
+    // ---------- Creates a new step
+    window.chef.editor.addType('step', function(value, optionsStep) {
+      var tpl = '<div class="step">' +
+        '<div class="icon-chef-tick checks"></div>' +
+        '<div class="ui header"></div>' +
+        '<div class="ui content set-editable" contenteditable="true" placeholder="Añadir nuevo paso" spellcheck="false">' +
+        '</div>' +
+        '</div>';
+
+      var options = {
+        showLimit: true,
+        filters: {
+          avoidNewLines: true
+        }
+      };
+      var elem = {
+        type: 'step',
+        callbacks: {
+          onAvoidNewLineKey: function(ev) {
+            console.log('onAvoidNewLineKey custom callback');
+
+          }
+        }
+      };
+
+      if ("object" === typeof value) {
+        tpl = value;
+        value = null;
+      }
+
+      options = _.merge(optionsStep, options, _.defaults);
+
+      console.log(options);
+
+      elem = _.extend(this.newElement('default')(tpl, options, value), elem);
+      // console.log('step', elem);
+      return elem;
+    });
+
+    // ---------- Creates or selects an step list
+    window.chef.editor.addType('procedureList', function(selector) {
+      var options = {
+        isHtml: true
+      };
+      var elem = {
+        type: 'procedureList',
+        remove: function(index) {
+          this.removeElement(index);
+          this.$self.find('.step:nth-child(' + index + ')').hide('300', function() {
+            $(this).remove();
+          });
+        },
+        count: function() {
+          return this.$self.find('.step').length;
+        },
+        focusOn: function(index) {
+          this.$self.find('.step:nth-child(' + index + ') .set-editable').focus();
+        },
+        isClearLastItem: function() {
+          return this.$self.find('.step:last-child .set-editable').text().length > 0 ? true : this.$self.find('.step:last-child .set-editable');
+        }
+      };
+
+      var list = _.extend(this.newElement('list')(selector, this.newElement('step'), options), elem);
+      // console.log('steps', list);
+
+      // Add list steps
+      var steps = list.$self.find('.step');
+      var stepsArray = [];
+
+      var that = this;
+      _.each(steps, function(element) {
+        stepsArray.push(that.newElement('step')(element, {
+          filters: {
+            limitLength: 300,
+          }
+        }));
+      });
+
+      list.addElements(stepsArray);
+
+      return list;
+    });
   };
 
   //---------- DOCUMENT READY
@@ -144,16 +218,19 @@
     });
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
 
+    var procedure = window.chef.editor.newElement('procedureList')('#steps');
+
     // Events' functions
     var events = {
       // Actives the edit mode
       onButtonEditClick: function(ev) {
-        title.save(true);
-        difficulty.save();
-        time.save();
-        portions.save();
-        description.save();
-        ingredients.save();
+        title.recovery(true);
+        difficulty.recovery();
+        time.recovery();
+        portions.recovery();
+        description.recovery();
+        ingredients.recovery();
+        procedure.recovery();
 
         // First coppy original value in data attribute for each false form component
         var $procedure = $('#recipe-procedure .set-editable');
@@ -175,6 +252,7 @@
         portions.restore();
         description.restore();
         ingredients.restore();
+        procedure.restore();
 
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
