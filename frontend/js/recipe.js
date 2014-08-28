@@ -2,7 +2,7 @@
 
   var addTypes = function() {
     // Creates a new ingredient
-    window.chef.editor.addType('ingredient', function(value) {
+    window.chef.editor.addType('ingredient', function(value, optionsIngredient) {
       var tpl = '<div class="ingredient column">' +
         '<div class="icon-chef-cesta checks hide-editable"></div>' +
         '<div class="editable-container">' +
@@ -14,10 +14,12 @@
         '</div>';
 
       var options = {
+        showLimit: true,
         filters: {
           avoidNewLines: true
         }
       };
+
       var elem = {
         type: 'ingredient',
         callbacks: {
@@ -41,6 +43,8 @@
         tpl = value;
         value = null;
       }
+
+      options = _.merge(options, optionsIngredient, _.defaults);
 
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
       // console.log('ingredient', elem);
@@ -81,9 +85,8 @@
       var that = this;
       _.each(ingredients, function(element) {
         a.push(that.newElement('ingredient')(element, {
-          showLimit: true,
           filters: {
-            limitLength: 30,
+            limitLength: 30
           }
         }));
       });
