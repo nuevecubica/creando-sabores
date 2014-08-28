@@ -80,7 +80,6 @@ window.chef.editor = (function(editor) {
     },
 
     onLimitLengthKey: function(ev) {
-      console.log('letra ' + $(ev.target).text());
       // if (this.options.showLimit && this.options.limit && filter.limitLength(ev.target().text, this.options.limit)) {
       if (filter.limitLength($(ev.target).text(), this.options.filters.limitLength)) {
         ev.preventDefault();
@@ -228,7 +227,8 @@ window.chef.editor = (function(editor) {
 
 
         var edit = this.$selfEditable;
-        console.log(opFilters);
+        //- console.log(opFilters);
+
         //- new line
         edit[opFilters.avoidNewLines ? 'on' : 'off']('keypress.filterAvoidNewLines', filter.onAvoidNewLineKey.bind(this));
         edit[opFilters.avoidNewLines ? 'on' : 'off']('change.filterAvoidNewLines', filter.onAvoidNewLineChange.bind(this));
