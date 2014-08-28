@@ -1,7 +1,7 @@
 window.chef.editor = (function(editor) {
 
   //---------- FILTERS
-  var filter = {
+  var filters = {
     //----- Values
     // Removes non-numbers from the string
     onlyNumbers: function(str) {

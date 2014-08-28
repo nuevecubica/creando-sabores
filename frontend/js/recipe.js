@@ -32,7 +32,7 @@
             if (this.parent) {
               if (this.parent.isLastElement.call(this.parent, this)) {
                 if (!this.parent.isClearLastElement.call(this.parent)) {
-                  this.parent.add.call(this.parent, '');
+                  this.parent.add.call(this.parent, null);
                 }
               }
               else {
