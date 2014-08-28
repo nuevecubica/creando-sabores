@@ -207,7 +207,6 @@ window.chef.editor = (function(editor) {
       next: function(current) {
         var currentIndex = this.elements.indexOf(current);
         if (currentIndex >= 0) {
-          console.log('INDEX: ' + currentIndex + ', GO TO ' + (currentIndex + 1));
           this.elements[currentIndex + 1].focus();
         }
       },
@@ -225,11 +224,9 @@ window.chef.editor = (function(editor) {
         return values;
       },
       isClearLastElement: function() {
-        console.log('IS CLEAR LAST ELEMENT: ', _.last(this.elements), _.last(this.elements).getValue().length);
         return (_.last(this.elements).getValue().length <= 0);
       },
       isLastElement: function(current) {
-        console.log('IS LAST: ', (_.last(this.elements) === current), ' -------- ');
         return (_.last(this.elements) === current);
       }
     };
