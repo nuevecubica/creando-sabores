@@ -73,6 +73,7 @@ window.chef.editor = (function(editor) {
     },
 
     elementTypes: {},
+    filters: {},
 
     // Adds a new constructor to the elements type
     addType: function(type, constructor) {
