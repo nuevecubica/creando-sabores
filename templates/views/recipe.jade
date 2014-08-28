@@ -112,13 +112,13 @@ block content
               i.icon-chef-time.icon
 
               .editable-container
-                .set-editable(placeholder=__('Time'), data-length="3")= data.recipe.time
+                .set-editable(placeholder=__('Time'))= data.recipe.time
               .span= __('min')
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
               .editable-container
-                .set-editable(placeholder=__('Portions'), data-length="2")= data.recipe.portions
+                .set-editable(placeholder=__('Portions'))= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
 
             .rating.hide-editable
@@ -164,7 +164,7 @@ block content
                 .column.ingredient
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable(placeholder=__('Ingredient'), data-length='40')!= ingredients[j]
+                    .set-editable(placeholder=__('Ingredient'))!= ingredients[j]
                   .show-editable
                     .remove-ingredient
                       i.icon-chef-cross
@@ -172,7 +172,7 @@ block content
               .column.ingredient.show-editable
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable(placeholder=__('Add ingredient'), data-length='40')!= ingredients[j]
+                    .set-editable(placeholder=__('Add ingredient'))!= ingredients[j]
                   .show-editable
                     .remove-ingredient
                       i.icon-chef-cross
