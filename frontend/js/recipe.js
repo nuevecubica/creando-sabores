@@ -118,6 +118,7 @@
       }
     });
     var difficulty = window.chef.editor.newElement('select')('#recipe-difficulty');
+
     var time = window.chef.editor.newElement('number')('#recipe-time .set-editable', {
       filters: {
         limitLength: 3

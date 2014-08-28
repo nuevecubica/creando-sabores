@@ -32,6 +32,7 @@ window.chef.editor = (function(editor) {
       });
 
       $('.set-editable[data-length]').on('keypress', function(e) {
+        console.warn('[data-length] attribute is deprecated');
         if (e.which !== 8 && e.which !== 37 && e.which !== 38 && e.which !== 39 && e.which !== 40) {
           // Limit name text size
           checkLength($(this), e);
