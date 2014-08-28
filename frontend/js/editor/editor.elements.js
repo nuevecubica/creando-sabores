@@ -26,7 +26,7 @@ window.chef.editor = (function(editor) {
       return (str.length >= limit);
     },
     //----- Events
-    // Caller
+    // Caller that reads options and returns event functions
     on: function(ops) {
       return {
         keypress: function(ev) {
