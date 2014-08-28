@@ -317,6 +317,9 @@ window.chef.editor = (function(editor) {
         elem.focus();
         return elem;
       },
+      remove: function(index) {
+        this.removeElement(index);
+      },
       length: function() {
         return this.elements.length;
       },
@@ -328,8 +331,10 @@ window.chef.editor = (function(editor) {
           this.elements[currentIndex + 1].focus();
         }
       },
-      remove: function(index) {
-        this.removeElement(index);
+      focusOn: function(index) {
+        if (this.elements[index]) {
+          this.elements[index].focus();
+        }
       },
       export: function() {
         var values = [];
