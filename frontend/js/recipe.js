@@ -157,15 +157,6 @@
           this.$self.find('.step:nth-child(' + index + ')').hide('300', function() {
             $(this).remove();
           });
-        },
-        count: function() {
-          return this.$self.find('.step').length;
-        },
-        focusOn: function(index) {
-          this.$self.find('.step:nth-child(' + index + ') .set-editable').focus();
-        },
-        isClearLastItem: function() {
-          return this.$self.find('.step:last-child .set-editable').text().length > 0 ? true : this.$self.find('.step:last-child .set-editable');
         }
       };
 
@@ -292,7 +283,7 @@
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function(ev) {
-        var lastIndex = ingredients.isClearLastItem();
+        var lastIndex = ingredients.isClearLastElement();
         if (lastIndex === true) {
           var elem = ingredients.add();
         }
@@ -314,9 +305,27 @@
           }
           else {
             if (ingredients.isClearLastItem() === true) {
-              var elem = ingredients.add();
+              var elem = ingredients.add('');
             }
           }
+        }
+      },
+      onButtonAddProcedureClick: function(ev) {
+        var lastIndex = procedure.isClearLastElement();
+        if (lastIndex === true) {
+          var elem = procedure.add('');
+        }
+        else {
+          procedure.focusOn(procedure.length - 1);
+        }
+      },
+      onButtonRemoveProcedureClick: function(ev) {
+        var lastIndex = procedure.isClearLastElement();
+        if (lastIndex === true) {
+          var elem = procedure.add('');
+        }
+        else {
+          procedure.focusOn(procedure.length - 1);
         }
       }
     };
@@ -327,6 +336,8 @@
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
     $(document).on('click', '#ingredients .ingredients-manage .button', events.onButtonAddIngredientClick);
     $(document).on('click', '#ingredients .ingredient .remove-ingredient', events.onButtonRemoveIngredientClick);
+    $(document).on('click', '#steps .step .button', events.onButtonAddProcedureClick);
+    $(document).on('click', '#steps .step .button', events.onButtonRemoveIngredientClick);
     // $(document).on('keypress', '#ingredients .ingredient .set-editable', events.onKeypressIngredient);
 
     $('#recipe-header-select').on('change', function(e) {
