@@ -49,14 +49,13 @@ window.chef.editor = (function(editor) {
           if (ops.keepMultiline) {
             filter.onKeepMultilineChange.call(this, ev);
           }
-          return last;
         },
         change: function(ev) {
           if (ops.avoidNewLines) {
-            last = filter.onAvoidNewLineChange.call(this, ev);
+            filter.onAvoidNewLineChange.call(this, ev);
           }
           if (ops.onlyNumbers) {
-            last = filter.onOnlyNumbersChange.call(this, ev);
+            filter.onOnlyNumbersChange.call(this, ev);
           }
         }
       };
