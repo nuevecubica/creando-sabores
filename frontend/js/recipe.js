@@ -118,8 +118,12 @@
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             console.log('onAvoidNewLineKey custom callback');
+
             if (this.parent) {
-              console.log('Papito');
+              this.parent.next.call(this.parent, this);
+              if (this.parent.isClearLastItem()) {
+                this.parent.add.call(this.parent);
+              }
             }
           }
         }

@@ -261,6 +261,7 @@ window.chef.editor = (function(editor) {
       },
       // Binds the filters to events
       bindFilters: function(overrideFilters) {
+        console.log(this);
         var opFilters = overrideFilters ? overrideFilters : this.options.filters;
         var edit = this.$selfEditable;
         edit.on('keypress.filters', filter.on.call(this, opFilters).keypress.bind(this));
