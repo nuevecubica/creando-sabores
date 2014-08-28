@@ -248,7 +248,7 @@ window.chef.editor = (function(editor) {
     };
 
     // Load default options
-    elem.options = _.merge(elem.options, options, _.defaults);
+    elem.options = _.merge(options, elem.options, _.defaults);
 
     // Run init
     elem.init.call(elem);
@@ -318,7 +318,7 @@ window.chef.editor = (function(editor) {
       }
     };
     return _.extend(this.newElement('default')(
-      selector, _.merge(optionsDefault, options || {}, _.defaults)
+      selector, _.merge(options || {}, optionsDefault, _.defaults)
     ), {
       type: 'input'
     });
@@ -336,7 +336,7 @@ window.chef.editor = (function(editor) {
       }
     };
     return _.extend(this.newElement('default')(
-      selector, _.merge(optionsDefault, options || {}, _.defaults)
+      selector, _.merge(options || {}, optionsDefault, _.defaults)
     ), {
       type: 'number'
     });
@@ -348,7 +348,7 @@ window.chef.editor = (function(editor) {
       isHtml: true
     };
     return _.extend(this.newElement('default')(
-      selector, _.merge(optionsDefault, options || {}, _.defaults)
+      selector, _.merge(options || {}, optionsDefault, _.defaults)
     ), {
       type: 'select'
     });
@@ -372,7 +372,7 @@ window.chef.editor = (function(editor) {
       }
     };
     return _.extend(this.newElement('default')(
-      selector, _.merge(optionsDefault, options || {}, _.defaults)
+      selector, _.merge(options || {}, optionsDefault, _.defaults)
     ), elem);
   };
 
