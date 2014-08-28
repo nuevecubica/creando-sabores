@@ -1,8 +1,10 @@
 (function() {
 
   var addTypes = function() {
-    // Creates a new ingredient
-    window.chef.editor.addType('ingredient', function(value) {
+
+    // ========== Ingredients
+    // ---------- Creates a new ingredient
+    window.chef.editor.addType('ingredient', function(value, optionsIngredient) {
       var tpl = '<div class="ingredient column">' +
         '<div class="icon-chef-cesta checks hide-editable"></div>' +
         '<div class="editable-container">' +
@@ -14,10 +16,12 @@
         '</div>';
 
       var options = {
+        showLimit: true,
         filters: {
           avoidNewLines: true
         }
       };
+
       var elem = {
         type: 'ingredient',
         callbacks: {
@@ -42,12 +46,16 @@
         value = null;
       }
 
+      options = _.merge(optionsIngredient, options, _.defaults);
+
+      console.log(options);
+
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
       // console.log('ingredient', elem);
       return elem;
     });
 
-    // Creates or selects an ingredients list
+    // --------- Creates or selects an ingredients list
     window.chef.editor.addType('ingredientList', function(selector) {
       var options = {
         isHtml: true
@@ -76,25 +84,24 @@
 
       // Add list ingredients
       var ingredients = list.$self.find('.ingredient');
-      var a = [];
+      var ingredientsArray = [];
 
       var that = this;
       _.each(ingredients, function(element) {
-        a.push(that.newElement('ingredient')(element, {
-          showLimit: true,
+        ingredientsArray.push(that.newElement('ingredient')(element, {
           filters: {
             limitLength: 30,
           }
         }));
       });
 
-      list.addElements(a);
+      list.addElements(ingredientsArray);
 
       return list;
     });
   };
 
-  //----------- DOCUMENT READY
+  //---------- DOCUMENT READY
   $(document).ready(function() {
 
     addTypes();
