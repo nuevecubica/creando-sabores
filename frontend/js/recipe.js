@@ -39,6 +39,9 @@
                 this.parent.next.call(this.parent, this);
               }
             }
+            else {
+              console.warn('No parent found in', this);
+            }
           }
         }
       };

@@ -126,6 +126,15 @@ window.chef.editor = (function(editor) {
           if (opFilters.avoidNewLines) {
             value = editor.filters.avoidNewLines(value);
           }
+          if (opFilters.collapseSpaces) {
+            value = editor.filters.collapseSpaces(value);
+          }
+          if (opFilters.onlyNumbers) {
+            value = editor.filters.onlyNumbers(value);
+          }
+          if (opFilters.limitLength) {
+            value = editor.filters.limitLength(value);
+          }
         }
         return value;
       },
@@ -211,12 +220,12 @@ window.chef.editor = (function(editor) {
         return values;
       },
       isClearLastElement: function() {
-        console.log('IS CLEAR LAST ELEMENT: ', (this.elements[this.elements.length - 1].getValue().length <= 0), ' -------- ');
-        return (this.elements[this.elements.length - 1].getValue().length <= 0);
+        console.log('IS CLEAR LAST ELEMENT: ', _.last(this.elements), _.last(this.elements).getValue().length);
+        return (_.last(this.elements).getValue().length <= 0);
       },
       isLastElement: function(current) {
-        console.log('IS LAST: ', (this.elements[this.elements.length - 1] === current), ' -------- ');
-        return (this.elements[this.elements.length - 1] === current);
+        console.log('IS LAST: ', (_.last(this.elements) === current), ' -------- ');
+        return (_.last(this.elements) === current);
       }
     };
     return _.extend(this.newElement('default')(selector, options), elemList);

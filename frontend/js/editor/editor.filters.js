@@ -15,7 +15,7 @@ window.chef.editor = (function(editor) {
     // Removes extra spaces
     collapseSpaces: function(str) {
       console.log('collapseSpaces', str);
-      return String(str).replace(/([\s\t ]|&nbsp;|&#x0A;)+/g, ' ').replace(/[\s]+/g, ' ');
+      return String(str).replace(/([\s\t ]|&nbsp;|&#x0A;)+/g, ' ').replace(/[\s]+/g, ' ').trim();
     },
     // Keep new lines
     keepMultiline: function(str) {
