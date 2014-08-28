@@ -30,9 +30,13 @@
             console.log('onAvoidNewLineKey custom callback');
 
             if (this.parent) {
-              this.parent.next.call(this.parent, this);
-              if (this.parent.isClearLastItem()) {
-                this.parent.add.call(this.parent);
+              if (this.parent.isLastElement.call(this.parent, this)) {
+                if (!this.parent.isClearLastElement.call(this.parent)) {
+                  this.parent.add.call(this.parent, '');
+                }
+              }
+              else {
+                this.parent.next.call(this.parent, this);
               }
             }
           }
@@ -63,15 +67,6 @@
           this.$self.find('.ingredient:nth-child(' + index + ')').hide('300', function() {
             $(this).remove();
           });
-        },
-        count: function() {
-          return this.$self.find('.ingredient').length;
-        },
-        focusOn: function(index) {
-          this.$self.find('.ingredient:nth-child(' + index + ') .set-editable').focus();
-        },
-        isClearLastItem: function() {
-          return this.$self.find('.ingredient:last-child .set-editable').text().length > 0 ? true : this.$self.find('.ingredient:last-child .set-editable');
         }
       };
 
@@ -120,9 +115,13 @@
             console.log('onAvoidNewLineKey custom callback');
 
             if (this.parent) {
-              this.parent.next.call(this.parent, this);
-              if (this.parent.isClearLastItem()) {
-                this.parent.add.call(this.parent);
+              if (this.parent.isLastElement.call(this.parent, this)) {
+                if (!this.parent.isClearLastElement.call(this.parent)) {
+                  this.parent.add.call(this.parent, '');
+                }
+              }
+              else {
+                this.parent.next.call(this.parent, this);
               }
             }
           }

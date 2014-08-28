@@ -274,7 +274,7 @@ window.chef.editor = (function(editor) {
     };
 
     // Load default options
-    elem.options = _.merge(options, elem.options, _.defaults);
+    elem.options = _.merge(options || {}, elem.options, _.defaults);
 
     // Run init
     elem.init.call(elem);
@@ -317,22 +317,16 @@ window.chef.editor = (function(editor) {
         elem.focus();
         return elem;
       },
+      length: function() {
+        return this.elements.length;
+      },
       // Set focus on the position (index)
       next: function(current) {
         var currentIndex = this.elements.indexOf(current);
-
-        if (currentIndex < this.length) {
-          if (currentIndex > 0) {
-            var next = currentIndex + 1;
-            this.elements[next].focus();
-          }
+        if (currentIndex >= 0) {
+          console.log('INDEX: ' + currentIndex + ', GO TO ' + (currentIndex + 1));
+          this.elements[currentIndex + 1].focus();
         }
-      },
-      isClearLastItem: function() {
-        return (this.elements[this.elements.length - 1].getValue().length <= 0);
-      },
-      length: function() {
-        return this.elements.length;
       },
       remove: function(index) {
         this.removeElement(index);
@@ -344,6 +338,14 @@ window.chef.editor = (function(editor) {
           values.push($(elem).text().trim());
         });
         return values;
+      },
+      isClearLastElement: function() {
+        console.log('IS CLEAR LAST ELEMENT: ', (this.elements[this.elements.length - 1].getValue().length <= 0), ' -------- ');
+        return (this.elements[this.elements.length - 1].getValue().length <= 0);
+      },
+      isLastElement: function(current) {
+        console.log('IS LAST: ', (this.elements[this.elements.length - 1] === current), ' -------- ');
+        return (this.elements[this.elements.length - 1] === current);
       }
     };
     return _.extend(this.newElement('default')(selector, options), elemList);
