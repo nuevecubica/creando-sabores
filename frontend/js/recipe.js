@@ -4,7 +4,7 @@
 
     // ========== Ingredients
     // ---------- Creates a new ingredient
-    window.chef.editor.addType('ingredient', function(value, optionsIngredient) {
+    window.chef.editor.addType('ingredient', function(parent, value, optionsIngredient) {
       var tpl = '<div class="ingredient column">' +
         '<div class="icon-chef-cesta checks hide-editable"></div>' +
         '<div class="editable-container">' +
@@ -24,10 +24,17 @@
 
       var elem = {
         type: 'ingredient',
+        parent: parent,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             console.log('onAvoidNewLineKey custom callback');
 
+            if (this.parent) {
+              this.parent.next(this);
+              if (this.parent.isClearLastItem()) {
+                this.add();
+              }
+            }
           }
         }
       };
@@ -77,7 +84,7 @@
 
       var that = this;
       _.each(ingredients, function(element) {
-        ingredientsArray.push(that.newElement('ingredient')(element, {
+        ingredientsArray.push(that.newElement('ingredient')(list, element, {
           filters: {
             limitLength: 30,
           }
@@ -91,7 +98,7 @@
 
     // ========== Procedures
     // ---------- Creates a new step
-    window.chef.editor.addType('step', function(value, optionsStep) {
+    window.chef.editor.addType('step', function(parent, value, optionsStep) {
       var tpl = '<div class="step">' +
         '<div class="icon-chef-tick checks"></div>' +
         '<div class="ui header"></div>' +
@@ -107,10 +114,14 @@
       };
       var elem = {
         type: 'step',
+        parent: parent,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             console.log('onAvoidNewLineKey custom callback');
 
+            if (this.parent) {
+              console.log('Papito');
+            }
           }
         }
       };
@@ -162,7 +173,7 @@
 
       var that = this;
       _.each(steps, function(element) {
-        stepsArray.push(that.newElement('step')(element, {
+        stepsArray.push(that.newElement('step')(list, element, {
           filters: {
             limitLength: 300,
           }

@@ -104,6 +104,7 @@ window.chef.editor = (function(editor) {
       selector: selector,
       $selfEditable: null,
       selectorEditable: '.set-editable',
+      parent: null,
       // Init the jQuery selector
       init: function() {
         if ('object' === typeof this.selector && this.selector.jquery) {
@@ -293,11 +294,21 @@ window.chef.editor = (function(editor) {
         return elem;
       },
       // Set focus on the position (index)
-      focusOn: function(index) {
-        this.elements[index].focus();
+      next: function(current) {
+        var currentIndex = this.elements.indexOf(current);
+
+        if (currentIndex < this.length) {
+          if (currentIndex > 0) {
+            var next = currentIndex + 1;
+            this.elements[next].focus();
+          }
+        }
       },
       isClearLastItem: function() {
         return (this.elements[this.elements.length - 1].getValue().length <= 0);
+      },
+      length: function() {
+        return this.elements.length;
       },
       remove: function(index) {
         this.removeElement(index);
