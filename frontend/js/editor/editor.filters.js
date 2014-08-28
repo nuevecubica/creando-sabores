@@ -1,7 +1,7 @@
 window.chef.editor = (function(editor) {
 
   //---------- FILTERS
-  var filters = {
+  var filter = {
     //----- Values
     // Removes non-numbers from the string
     onlyNumbers: function(str) {
@@ -131,6 +131,6 @@ window.chef.editor = (function(editor) {
   };
 
   return _.extend(editor, {
-    filters: _.extend(editor.filters || {}, filters)
+    filters: _.extend(editor.filters || {}, filter)
   });
 })(window.chef.editor || {});
