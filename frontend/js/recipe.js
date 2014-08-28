@@ -30,9 +30,9 @@
             console.log('onAvoidNewLineKey custom callback');
 
             if (this.parent) {
-              this.parent.next(this);
+              this.parent.next.call(this.parent, this);
               if (this.parent.isClearLastItem()) {
-                this.add();
+                this.parent.add.call(this.parent);
               }
             }
           }

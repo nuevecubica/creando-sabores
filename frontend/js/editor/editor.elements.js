@@ -251,7 +251,6 @@ window.chef.editor = (function(editor) {
       // Filters the actual value
       _filter: function(value, overrideOptions) {
         var opFilters = overrideOptions ? overrideOptions : this.options.filters;
-        // console.log('_filter', opFilters);
         // apply filters
         if (opFilters) {
           if (opFilters.avoidNewLines) {
