@@ -138,8 +138,6 @@
 
       options = _.merge(optionsStep, options, _.defaults);
 
-      console.log(options);
-
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
       // console.log('step', elem);
       return elem;
