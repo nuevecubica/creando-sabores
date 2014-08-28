@@ -131,6 +131,6 @@ window.chef.editor = (function(editor) {
   };
 
   return _.extend(editor, {
-    filters: _.extend(editor.filters || {}, filters)
+    filters: _.extend(editor.filters || {}, filters);
   });
 })(window.chef.editor || {});
