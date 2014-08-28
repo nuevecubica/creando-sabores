@@ -234,13 +234,13 @@
     var events = {
       // Actives the edit mode
       onButtonEditClick: function(ev) {
-        title.recovery(true);
-        difficulty.recovery();
-        time.recovery();
-        portions.recovery();
-        description.recovery();
-        ingredients.recovery();
-        procedure.recovery();
+        title.recover(true);
+        difficulty.recover();
+        time.recover();
+        portions.recover();
+        description.recover();
+        ingredients.recover();
+        procedure.recover();
 
         // First coppy original value in data attribute for each false form component
         var $procedure = $('#recipe-procedure .set-editable');

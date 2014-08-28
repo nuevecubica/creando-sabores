@@ -208,7 +208,7 @@ window.chef.editor = (function(editor) {
         this.restore();
       },
       // Save the actual value as the original value
-      recovery: function() {
+      recover: function() {
         this.originalValue = this.getValue();
       },
       // Restores the original value as the actual value
