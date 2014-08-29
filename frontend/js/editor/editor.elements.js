@@ -4,7 +4,6 @@ window.chef.editor = (function(editor) {
   //---------- GENERIC
   // Creates or selects a generic element
   var _newElement = function(selector, options, value) {
-    console.log('_newElememt', arguments);
     var elem = {
       // Self
       type: 'default',
@@ -13,6 +12,8 @@ window.chef.editor = (function(editor) {
       $selfEditable: null,
       selectorEditable: '.set-editable',
       parent: null,
+      selectorIndex: '.index',
+      index: null,
       // Init the jQuery selector
       init: function() {
         if (this.selector) {
@@ -67,15 +68,23 @@ window.chef.editor = (function(editor) {
       // Gets the actual value
       getValue: function() {
         if (this.options.isHtml) {
-          return this._filter(String(this.$self.html() || ''));
+          return this._filter(String(this.$selfEditable.html() || ''));
         }
         else {
-          return this._filter(String(this.$self.text() || ''));
+          return this._filter(String(this.$selfEditable.text() || ''));
         }
       },
       // Sets the actual value
       setValue: function(value) {
-        this.$self.html(value);
+        this.$selfEditable.html(value);
+      },
+      getIndex: function() {
+        return (this.index) ? this.index : false;
+      },
+      setIndex: function(index) {
+        console.log('INDEX ' + index);
+        this.index = index;
+        this.$self.find(this.selectorIndex).prepend('Paso: ' + this.index);
       },
       // Saves a value as original and restores it
       saveValue: function(value) {
@@ -94,7 +103,7 @@ window.chef.editor = (function(editor) {
       edit: function(putFocus) {
         this.save();
         if (putFocus) {
-          this.$self.focus();
+          this.focus();
         }
       },
       // Sets a new selector for the editable element
@@ -196,7 +205,7 @@ window.chef.editor = (function(editor) {
       },
       add: function(value) {
         var elem = constructor(this, {}, value);
-        elem.index = this.elements.length - 1;
+        elem.setIndex(this.elements.length + 1);
 
         this.addElement(elem);
         this.$self.append(elem.$self);
@@ -237,6 +246,8 @@ window.chef.editor = (function(editor) {
       },
       isClearLastElement: function() {
         var elem = _.last(this.elements);
+
+        console.log('---------- ', elem);
         if (elem) {
           return !elem.getValue.call(elem);
         }
@@ -297,6 +308,23 @@ window.chef.editor = (function(editor) {
 
   // Creates or selects a select element
   var newSelectElement = function(selector, options) {
+
+    var elem = {
+      type: 'select',
+      getValue: function() {
+        if (this.options.isHtml) {
+          return this._filter(String(this.$self.html() || ''));
+        }
+        else {
+          return this._filter(String(this.$self.text() || ''));
+        }
+      },
+      // Sets the actual value
+      setValue: function(value) {
+        this.$self.html(value);
+      }
+    };
+
     var optionsDefault = {
       isHtml: true,
       filters: {
@@ -305,9 +333,7 @@ window.chef.editor = (function(editor) {
     };
     return _.extend(this.newElement('default')(
       selector, _.merge(options || {}, optionsDefault, _.defaults)
-    ), {
-      type: 'select'
-    });
+    ), elem);
   };
 
   // Creates or selects a text element
