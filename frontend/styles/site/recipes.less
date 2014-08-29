@@ -213,6 +213,7 @@
         transition: all 300ms ease-in;
         margin-left: 48px;
         display: block;
+
         .set-editable {
           line-height: 1.2em;
           padding-top: 12px;
@@ -245,9 +246,35 @@
 
     #steps {
       .step {
-        .ui.header {
-          display: inline;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        position: relative;
+
+        .checks {
+          position: absolute;
+          top: 0;
         }
+
+        .header {
+          transition: all 300ms ease-in;
+          margin: 0;
+          margin-left: 48px;
+          display: block;
+
+          .step-remove {
+            .font-small;
+            display: inline;
+            text-transform: lowercase;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: normal;
+            padding: 0px 15px;
+          }
+        }
+      }
+
+      .set-editable {
+        margin-top: 10px;
       }
     }
   }
@@ -272,6 +299,16 @@
     .editable-container {
       margin-left: 0 !important;
       margin-right: 48px;
+    }
+  }
+
+  .step {
+
+    .header {
+      &.index {
+        margin-left: 0 !important;
+        margin-right: 48px;
+      }
     }
   }
 

@@ -74,6 +74,7 @@ block content
       input#hidden-portions(type='hidden' name='portions')
       input#hidden-description(type='hidden' name='description')
       input#hidden-ingredients(type='hidden' name='ingredients')
+      input#hidden-procedure(type='hidden' name='procedure')
       input(type='hidden' name='_csrf' value='#{csrftoken}')
 
     form#recipe-remove-form(action=urlAction + '/remove' method='POST' enctype='multipart/form-data')
@@ -160,7 +161,7 @@ block content
           #ingredients.sixteen.wide.column
             .ui.three.mobile-one.tablet-two.column.grid
               - var ingredients = data.recipe.ingredients
-              - for(var j = 0, l = ingredients.length; j < l; j++)
+              - for (var j = 0, l = ingredients.length; j < l; j++)
                 .column.ingredient
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
@@ -194,19 +195,20 @@ block content
         if data.recipe.procedure
           #procedure.sixteen.wide.column
             #steps
-              - var array = data.recipe.procedure.split('<p>')
-              - for(var j = 1; j < array.length; j++)
+              - var steps = data.recipe.procedure
+              - var j = 0
+              - for (var m = steps.length; j < m; j++)
                 .step
-                  .icon-chef-tick.checks
-                  .ui.header.index= __('Step:') + ' ' + j
-                  .show-editable
-                    .remove-step
-                      i.icon-chef-cross
-                  .ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= array[j]
+                  .icon-chef-tick.checks.hide-editable
+                  .ui.header.index
+                    = __('Step:') + ' ' + (j + 1)
+                    .step-remove.show-editable= __('Remove step')
+                  .ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
 
-              .step
-                .icon-chef-tick.checks
-                .ui.header= __('Step:') + ' ' + j
+              .step.show-editable
+                .icon-chef-tick.checks.hide-editable
+                .ui.header.index= __('Step:') + ' ' + (j + 1)
+                  .step-remove.show-editable= __('Remove step')
                 .ui.content.set-editable(placeholder=__('Add step'), spellcheck='false')
 
         .step-manage.column.show-editable
