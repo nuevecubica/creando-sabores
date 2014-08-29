@@ -218,8 +218,10 @@
         limitLength: 2
       }
     });
-    var description = window.chef.editor.newElement('input')('#recipe-description .set-editable', {
+    var description = window.chef.editor.newElement('text')('#recipe-description .set-editable', {
       filters: {
+        avoidNewLines: true,
+        keepMultiline: false,
         limitLength: 400
       }
     });
@@ -278,7 +280,7 @@
         $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
         $('#hidden-time').attr('value', time.getValue());
         $('#hidden-portions').attr('value', portions.getValue());
-        $('#hidden-description').attr('value', description.getValue());
+        $('#hidden-description').attr('value', saveArrayText(description.export()));
         $('#hidden-ingredients').attr('value', saveArrayList(ingredients.export()));
         $('#recipe-edit-form').submit();
       },
