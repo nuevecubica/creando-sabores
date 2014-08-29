@@ -4,7 +4,7 @@
 
     // ========== Ingredients
     // ---------- Creates a new ingredient
-    window.chef.editor.addType('ingredient', function(parent, value, optionsIngredient) {
+    window.chef.editor.addType('ingredient', function(parent, optionsIngredient, value) {
       var tpl = '<div class="ingredient column">' +
         '<div class="icon-chef-cesta checks hide-editable"></div>' +
         '<div class="editable-container">' +
@@ -46,12 +46,12 @@
         }
       };
 
-      if ("object" === typeof value) {
+      if (value && "object" === typeof value) {
         tpl = value;
         value = null;
       }
 
-      options = _.merge(optionsIngredient, options, _.defaults);
+      options = _.merge(optionsIngredient || {}, options, _.defaults);
 
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
       // console.log('ingredient', elem);
@@ -82,11 +82,11 @@
 
       var that = this;
       _.each(ingredients, function(element) {
-        ingredientsArray.push(that.newElement('ingredient')(list, element, {
+        ingredientsArray.push(that.newElement('ingredient')(list, {
           filters: {
-            limitLength: 30,
+            limitLength: 30
           }
-        }));
+        }, element));
       });
 
       list.addElements(ingredientsArray);
