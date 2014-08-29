@@ -58,9 +58,7 @@ exports = module.exports = function(req, res) {
       q.exec(function(err, result) {
         if (!err && result) {
 
-          console.log(parseRecipe(result), locals.defaults);
           result = _.defaults(parseRecipe(result), locals.defaults);
-          console.log(result);
 
           // Am I the owner?
           if (req.user) {

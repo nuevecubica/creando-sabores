@@ -27,7 +27,7 @@
         parent: parent,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
-            console.log('onAvoidNewLineKey custom callback');
+            // console.log('onAvoidNewLineKey custom callback');
 
             if (this.parent) {
               if (this.parent.isLastElement.call(this.parent, this)) {
@@ -141,7 +141,7 @@
       options = _.merge(optionsStep, options, _.defaults);
 
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
-      console.log('step', elem);
+      // console.log('step', elem);
       return elem;
     });
 
@@ -226,6 +226,7 @@
       }
     });
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
+    console.log(ingredients);
 
     var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
@@ -233,13 +234,13 @@
     var events = {
       // Actives the edit mode
       onButtonEditClick: function(ev) {
-        title.recover(true);
-        difficulty.recover();
-        time.recover();
-        portions.recover();
-        description.recover();
-        ingredients.recover();
-        procedure.recover();
+        title.backup(true);
+        difficulty.backup();
+        time.backup();
+        portions.backup();
+        description.backup();
+        ingredients.backup();
+        procedure.backup();
 
         // First coppy original value in data attribute for each false form component
         var $procedure = $('#recipe-procedure .set-editable');
