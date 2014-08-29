@@ -158,7 +158,7 @@ window.chef.editor = (function(editor) {
     };
 
     // Load default options
-    elem.options = options;
+    elem.options = _.merge(options || {}, elem.options, _.defaults);
 
     // Run init
     elem.init.call(elem);
@@ -170,17 +170,6 @@ window.chef.editor = (function(editor) {
 
     return elem;
   };
-
-  // Options getter / setter
-  // Merges the new options with the default ones
-  Object.defineProperty(_newElement.prototype, 'options', {
-    get: function() {
-      return this.options;
-    },
-    set: function(options) {
-      this.options = _.merge(options || {}, this.options, _.defaults);
-    }
-  });
 
   // Creates a new element list
   var _newElemList = function(selector, constructor, options) {
