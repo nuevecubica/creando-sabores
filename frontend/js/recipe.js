@@ -11,7 +11,7 @@
         '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
         '</div>' +
         '<div>' +
-        '<div class="remove-ingredient"><i class="icon-chef-cross"></i></div>' +
+        '<div class="ingredient-remove"><i class="icon-chef-cross"></i></div>' +
         '</div>' +
         '</div>';
 
@@ -67,7 +67,7 @@
         type: 'ingredientList',
         remove: function(index) {
           this.removeElement(index);
-          this.$self.find('.ingredient:nth-child(' + index + ')').hide('300', function() {
+          this.$self.find('.ingredient:nth-child(' + (index + 1) + ')').hide('300', function() {
             $(this).remove();
           });
         }
@@ -114,7 +114,7 @@
         type: 'step',
         parent: parent,
         selectorIndex: '.index',
-        index: index,
+        index: null,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             console.log('onAvoidNewLineKey custom callback');
@@ -170,11 +170,11 @@
       var that = this;
       _.each(steps, function(element) {
         stepsArray.push(that.newElement('step')(list, {
-          filters: {
-            limitLength: 300,
-          }
-        },
-        element));
+            filters: {
+              limitLength: 300,
+            }
+          },
+          element));
       });
 
       list.addElements(stepsArray);
@@ -292,11 +292,11 @@
         }
       },
       onButtonRemoveIngredientClick: function(ev) {
-        var element = $(this).closest('.ingredient').index() + 1;
-        ingredients.remove(element);
+        var index = $(this).closest('.ingredient').index();
+        ingredients.remove(index);
       },
       onKeypressIngredient: function(ev) {
-        var index = $(this).closest('.ingredient').index() + 1;
+        var index = $(this).closest('.ingredient').index();
         if (ev.which === 13) {
           ev.preventDefault();
 
@@ -335,10 +335,10 @@
     $('#cancel.button-manage').on('click', events.onButtonCancelClick);
     $('#delete.button-manage').on('click', events.onButtonDeleteClick);
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
-    $(document).on('click', '#ingredients .ingredients-manage .button', events.onButtonAddIngredientClick);
-    $(document).on('click', '#ingredients .ingredient .remove-ingredient', events.onButtonRemoveIngredientClick);
-    $(document).on('click', '#steps .steps-manage .button', events.onButtonAddProcedureClick);
-    $(document).on('click', '#steps .steps .remove-step', events.onButtonRemoveProcedureClick);
+    $(document).on('click', '.ingredient-add', events.onButtonAddIngredientClick);
+    $(document).on('click', '#ingredients .ingredient .ingredient-remove', events.onButtonRemoveIngredientClick);
+    $(document).on('click', '.step-add', events.onButtonAddProcedureClick);
+    $(document).on('click', '#steps .steps .step-remove', events.onButtonRemoveProcedureClick);
     // $(document).on('click', '#steps .step .button', events.onButtonRemoveIngredientClick);
     // $(document).on('keypress', '#ingredients .ingredient .set-editable', events.onKeypressIngredient);
 

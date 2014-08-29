@@ -101,7 +101,6 @@ window.chef.editor = (function(editor) {
     onAvoidNewLineKey: function(ev) {
       var charCode = (ev.which) ? ev.which : ev.keyCode;
       if (charCode === 13) {
-        console.log('INTRO');
         ev.preventDefault();
         if (this.callbacks.onAvoidNewLineKey) {
           this.callbacks.onAvoidNewLineKey.call(this, ev);

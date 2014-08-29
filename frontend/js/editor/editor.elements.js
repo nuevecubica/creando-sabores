@@ -187,16 +187,15 @@ window.chef.editor = (function(editor) {
         });
       },
       removeElement: function(index, amount) {
-        if (!index) {
-          this.elements.pop();
+        if (index >= 0) {
+          this.elements.splice(index, amount || 1);
         }
         else {
-          this.elements.splice(index, amount || 1);
+          this.elements.pop();
         }
       },
       add: function(value) {
         var elem = constructor(this, {}, value);
-        console.log('add', elem, constructor, value);
         elem.index = this.elements.length - 1;
 
         this.addElement(elem);
@@ -238,7 +237,12 @@ window.chef.editor = (function(editor) {
       },
       isClearLastElement: function() {
         var elem = _.last(this.elements);
-        return !elem.getValue.call(elem);
+        if (elem) {
+          return !elem.getValue.call(elem);
+        }
+        else {
+          return false;
+        }
       },
       isLastElement: function(current) {
         var elem = _.last(this.elements);

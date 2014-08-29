@@ -166,7 +166,7 @@ block content
                   .editable-container
                     .set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
                   .show-editable
-                    .remove-ingredient
+                    .ingredient-remove
                       i.icon-chef-cross
 
               .column.ingredient.show-editable
@@ -174,7 +174,7 @@ block content
                   .editable-container
                     .set-editable(placeholder=__('Add ingredient'), spellcheck='false')
                   .show-editable
-                    .remove-ingredient
+                    .ingredient-remove
                       i.icon-chef-cross
 
             .ingredients-manage.column.hide-editable
@@ -184,7 +184,7 @@ block content
 
         .ingredients-manage.column.show-editable
           .ingredient
-            .ui.button.chef.button-brick
+            .ui.button.chef.button-brick.ingredient-add
               a= __('Add ingredient')
 
       .row
@@ -211,5 +211,5 @@ block content
 
         .step-manage.column.show-editable
           .step
-            .ui.button.chef.button-brick
+            .ui.button.chef.button-brick.step-add
               a= __('Add step')
