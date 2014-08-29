@@ -191,12 +191,11 @@ window.chef.editor = (function(editor) {
           this.elements.pop();
         }
         else {
-          this.elements = this.elements.splice(index, amount || 1);
+          this.elements.splice(index, amount || 1);
         }
       },
       add: function(value) {
         var elem = constructor(this, {}, value);
-        console.log('add', elem, constructor, value);
         this.addElement(elem);
         this.$self.append(elem.$self);
         elem.focus();
@@ -216,8 +215,14 @@ window.chef.editor = (function(editor) {
         }
       },
       focusOn: function(index) {
-        if (this.elements[index]) {
+        if (!index) {
+          _.last(this.elements).focus();
+        }
+        else if (this.elements[index]) {
           this.elements[index].focus();
+        }
+        else {
+          console.warn('Cannot focus on element', index);
         }
       },
       export: function() {

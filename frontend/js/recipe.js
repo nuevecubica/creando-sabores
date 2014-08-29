@@ -281,12 +281,11 @@
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function(ev) {
-        var lastIndex = ingredients.isClearLastElement();
-        if (lastIndex === true) {
+        if (!ingredients.isClearLastElement()) {
           var elem = ingredients.add();
         }
         else {
-          lastIndex.focus();
+          ingredients.focusOn();
         }
       },
       onButtonRemoveIngredientClick: function(ev) {
