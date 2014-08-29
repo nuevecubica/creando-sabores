@@ -355,13 +355,11 @@
     });
 
     $('.checks.all').on('click', function() {
-      $('#ingredients .checks.activated').removeClass('activated');
-      if (!$(this).hasClass('activated')) {
-        console.log('Tiene');
-
-        $('#ingredients .checks.activated').removeClass('activated');
-        $('#ingredients .checks').toggleClass('activated');
-        // $(this).toggleClass('activated');
+      if ($(this).hasClass('activated')) {
+        $('#ingredients .checks').removeClass('activated');
+      }
+      else {
+        $('#ingredients .checks').addClass('activated');
       }
     });
 
