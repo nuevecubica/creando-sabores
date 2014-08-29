@@ -98,8 +98,10 @@
     // ---------- Creates a new step
     window.chef.editor.addType('step', function(parent, optionsStep, value) {
       var tpl = '<div class="step">' +
-        '<div class="icon-chef-tick checks"></div>' +
-        '<div class="ui header index"></div>' +
+        '<div class="icon-chef-tick checks hide-editable"></div>' +
+        '<div class="ui header index">' +
+        '<div class="step-remove show-editable">Eliminar paso</div>' +
+        '</div>' +
         '<div class="ui content set-editable" contenteditable="true" placeholder="Añadir nuevo paso" spellcheck="false">' +
         '</div>' +
         '</div>';
@@ -141,7 +143,7 @@
       options = _.merge(optionsStep, options, _.defaults);
 
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
-      console.log('step', elem);
+
       return elem;
     });
 
@@ -154,7 +156,7 @@
         type: 'procedureList',
         remove: function(index) {
           this.removeElement(index);
-          this.$self.find('.step:nth-child(' + index + ')').hide('300', function() {
+          this.$self.find('.step:nth-child(' + (index + 1) + ')').hide('300', function() {
             $(this).remove();
           });
         }
@@ -240,18 +242,10 @@
         ingredients.recover();
         procedure.recover();
 
-        // First coppy original value in data attribute for each false form component
-        var $procedure = $('#recipe-procedure .set-editable');
-
-        if (!$procedure.data('origvalue')) {
-          $procedure.data('origvalue', $procedure.text());
-        }
-
         // Change to editable mode
         $('body').addClass('mode-editable');
         $('.set-editable:not(.dropdown)').attr('contenteditable', true);
         window.activateDropdown();
-
       },
       onButtonCancelClick: function(ev) {
         title.restore();
@@ -264,9 +258,6 @@
 
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
-
-        var $procedure = $('#recipe-procedure .set-editable');
-        $procedure.text($procedure.data('origvalue'));
       },
       onButtonDeleteClick: function(ev) {
         $('#recipe-remove-form').submit();
@@ -281,6 +272,7 @@
         $('#hidden-portions').attr('value', portions.getValue());
         $('#hidden-description').attr('value', saveArrayText(description.export()));
         $('#hidden-ingredients').attr('value', saveArrayList(ingredients.export()));
+        $('#hidden-procedure').attr('value', saveArrayList(procedure.export()));
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function(ev) {
@@ -311,23 +303,17 @@
         }
       },
       onButtonAddProcedureClick: function(ev) {
-        var lastIndex = procedure.isClearLastElement();
-        console.log('CLEAR LAST INDEX: ' + lastIndex);
-        if (lastIndex === true) {
-          var elem = procedure.add(procedure, procedure.length, '');
+        if (!procedure.isClearLastElement()) {
+          var elem = procedure.add();
         }
         else {
-          procedure.focusOn(procedure.length - 1);
+          procedure.focusOn();
         }
       },
       onButtonRemoveProcedureClick: function(ev) {
-        var lastIndex = procedure.isClearLastElement();
-        if (lastIndex === true) {
-          var elem = procedure.add('');
-        }
-        else {
-          procedure.focusOn(procedure.length - 1);
-        }
+        var index = $(this).closest('.step').index();
+        procedure.remove(index);
+
       }
     };
 
@@ -338,7 +324,7 @@
     $(document).on('click', '.ingredient-add', events.onButtonAddIngredientClick);
     $(document).on('click', '#ingredients .ingredient .ingredient-remove', events.onButtonRemoveIngredientClick);
     $(document).on('click', '.step-add', events.onButtonAddProcedureClick);
-    $(document).on('click', '#steps .steps .step-remove', events.onButtonRemoveProcedureClick);
+    $(document).on('click', '#steps .step .step-remove', events.onButtonRemoveProcedureClick);
     // $(document).on('click', '#steps .step .button', events.onButtonRemoveIngredientClick);
     // $(document).on('keypress', '#ingredients .ingredient .set-editable', events.onKeypressIngredient);
 

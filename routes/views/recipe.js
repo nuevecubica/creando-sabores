@@ -44,6 +44,11 @@ exports = module.exports = function(req, res) {
       var ingr = String(recipe.ingredients);
       data.ingredients = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
     }
+
+    if (recipe.procedure) {
+      var procedure = String(recipe.procedure);
+      data.procedure = _.compact(procedure.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+    }
     return _.defaults(data, recipe);
   };
 
@@ -58,9 +63,7 @@ exports = module.exports = function(req, res) {
       q.exec(function(err, result) {
         if (!err && result) {
 
-          console.log(parseRecipe(result), locals.defaults);
           result = _.defaults(parseRecipe(result), locals.defaults);
-          console.log(result);
 
           // Am I the owner?
           if (req.user) {
