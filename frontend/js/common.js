@@ -77,6 +77,10 @@ $(document).ready(function() {
     $('#messages').transition('fade down');
   });
 
+  setTimeout(function() {
+    $('#messages').transition('fade down');
+  }, 3 * 1000);
+
   // Grid
   var gridResizer = function() {
     var height = $('.wall .recipe.small:visible').eq(0).width();
