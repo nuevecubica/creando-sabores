@@ -196,6 +196,9 @@ window.chef.editor = (function(editor) {
       },
       add: function(value) {
         var elem = constructor(this, {}, value);
+        console.log('add', elem, constructor, value);
+        elem.index = this.elements.length - 1;
+
         this.addElement(elem);
         this.$self.append(elem.$self);
         elem.focus();
