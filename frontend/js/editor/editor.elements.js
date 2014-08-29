@@ -67,15 +67,15 @@ window.chef.editor = (function(editor) {
       // Gets the actual value
       getValue: function() {
         if (this.options.isHtml) {
-          return this._filter(String(this.$self.html() || ''));
+          return this._filter(String(this.$selfEditable.html() || ''));
         }
         else {
-          return this._filter(String(this.$self.text() || ''));
+          return this._filter(String(this.$selfEditable.text() || ''));
         }
       },
       // Sets the actual value
       setValue: function(value) {
-        this.$self.html(value);
+        this.$selfEditable.html(value);
       },
       // Saves a value as original and restores it
       saveValue: function(value) {
@@ -158,7 +158,7 @@ window.chef.editor = (function(editor) {
     };
 
     // Load default options
-    elem.options = _.merge(options || {}, elem.options, _.defaults);
+    elem.options = options;
 
     // Run init
     elem.init.call(elem);
@@ -170,6 +170,17 @@ window.chef.editor = (function(editor) {
 
     return elem;
   };
+
+  // Options getter / setter
+  // Merges the new options with the default ones
+  Object.defineProperty(_newElement.prototype, 'options', {
+    get: function() {
+      return this.options;
+    },
+    set: function(options) {
+      this.options = _.merge(options || {}, this.options, _.defaults);
+    }
+  });
 
   // Creates a new element list
   var _newElemList = function(selector, constructor, options) {
