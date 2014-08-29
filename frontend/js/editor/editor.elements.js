@@ -4,7 +4,7 @@ window.chef.editor = (function(editor) {
   //---------- GENERIC
   // Creates or selects a generic element
   var _newElement = function(selector, options, value) {
-    // console.log('_newElememt', arguments);
+    console.log('_newElememt', arguments);
     var elem = {
       // Self
       type: 'default',
@@ -156,7 +156,7 @@ window.chef.editor = (function(editor) {
     elem.options = _.merge(options || {}, elem.options, _.defaults);
 
     // Run init
-    console.log('init for', elem);
+    // console.log('init for', elem);
     elem.init.call(elem);
 
     // Initial value
@@ -191,7 +191,7 @@ window.chef.editor = (function(editor) {
         }
       },
       add: function(value) {
-        var elem = constructor(value);
+        var elem = constructor(this, this.elements.length, value);
         this.addElement(elem);
         this.$self.append(elem.$self);
         elem.focus();

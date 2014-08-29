@@ -96,10 +96,10 @@
 
     // ========== Procedures
     // ---------- Creates a new step
-    window.chef.editor.addType('step', function(parent, value, optionsStep) {
+    window.chef.editor.addType('step', function(parent, index, value, optionsStep) {
       var tpl = '<div class="step">' +
         '<div class="icon-chef-tick checks"></div>' +
-        '<div class="ui header"></div>' +
+        '<div class="ui header index"></div>' +
         '<div class="ui content set-editable" contenteditable="true" placeholder="Añadir nuevo paso" spellcheck="false">' +
         '</div>' +
         '</div>';
@@ -113,6 +113,8 @@
       var elem = {
         type: 'step',
         parent: parent,
+        selectorIndex: '.index',
+        index: index,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             console.log('onAvoidNewLineKey custom callback');
@@ -139,7 +141,7 @@
       options = _.merge(optionsStep, options, _.defaults);
 
       elem = _.extend(this.newElement('default')(tpl, options, value), elem);
-      // console.log('step', elem);
+      console.log('step', elem);
       return elem;
     });
 
@@ -166,8 +168,8 @@
       var stepsArray = [];
 
       var that = this;
-      _.each(steps, function(element) {
-        stepsArray.push(that.newElement('step')(list, element, {
+      _.each(steps, function(element, index) {
+        stepsArray.push(that.newElement('step')(list, index, element, {
           filters: {
             limitLength: 300,
           }
@@ -310,8 +312,9 @@
       },
       onButtonAddProcedureClick: function(ev) {
         var lastIndex = procedure.isClearLastElement();
+        console.log('CLEAR LAST INDEX: ' + lastIndex);
         if (lastIndex === true) {
-          var elem = procedure.add('');
+          var elem = procedure.add(procedure, procedure.length, '');
         }
         else {
           procedure.focusOn(procedure.length - 1);
@@ -334,8 +337,9 @@
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
     $(document).on('click', '#ingredients .ingredients-manage .button', events.onButtonAddIngredientClick);
     $(document).on('click', '#ingredients .ingredient .remove-ingredient', events.onButtonRemoveIngredientClick);
-    $(document).on('click', '#steps .step .button', events.onButtonAddProcedureClick);
-    $(document).on('click', '#steps .step .button', events.onButtonRemoveIngredientClick);
+    $(document).on('click', '#steps .steps-manage .button', events.onButtonAddProcedureClick);
+    $(document).on('click', '#steps .steps .remove-step', events.onButtonRemoveProcedureClick);
+    // $(document).on('click', '#steps .step .button', events.onButtonRemoveIngredientClick);
     // $(document).on('keypress', '#ingredients .ingredient .set-editable', events.onKeypressIngredient);
 
     $('#recipe-header-select').on('change', function(e) {
