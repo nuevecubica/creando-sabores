@@ -9,21 +9,21 @@ window.chef.editor = (function(editor) {
     },
     // Removes \n and \r from the string
     avoidNewLines: function(str) {
-      console.log('avoidNewLines', str);
+      // console.log('avoidNewLines', str);
       return str.replace(/[\r\n]+/g, ' ');
     },
     // Removes extra spaces
     collapseSpaces: function(str) {
-      console.log('collapseSpaces', str);
+      // console.log('collapseSpaces', str);
       return String(str).replace(/([\s\t ]|&nbsp;|&#x0A;)+/g, ' ').replace(/[\s]+/g, ' ').trim();
     },
     // Keep new lines
     keepMultiline: function(str) {
-      console.log('keepMultiline', str);
+      // console.log('keepMultiline', str);
       return '<p>' + String(str).replace(/[\n\r]+/g, "\n").split("\n").join('</p><p>') + '</p>';
     },
     limitLength: function(str, limit) {
-      return (str.length >= limit);
+      return str.substr(0, limit);
     },
     //----- Events
     // Caller that reads options and returns event functions
@@ -118,14 +118,9 @@ window.chef.editor = (function(editor) {
     },
     // Limits the field length
     onLimitLengthKey: function(ev) {
-      // if (this.options.showLimit && this.options.limit && filter.limitLength(ev.target().text, this.options.limit)) {
-      if (filter.limitLength($(ev.target).text(), this.options.filters.limitLength)) {
+      var text = $(ev.target).text();
+      if (text.length >= this.options.filters.limitLength) {
         ev.preventDefault();
-      }
-      else {
-        if (this.options.limit) {
-          if (this.options.showLimit) {}
-        }
       }
     }
   };

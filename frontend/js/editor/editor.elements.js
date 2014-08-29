@@ -15,17 +15,22 @@ window.chef.editor = (function(editor) {
       parent: null,
       // Init the jQuery selector
       init: function() {
-        if ('object' === typeof this.selector && this.selector.jquery) {
-          this.setSelf(this.selector);
-          this.selector = this.$self.selector;
+        if (this.selector) {
+          if ('object' === typeof this.selector && this.selector.jquery) {
+            this.setSelf(this.selector);
+            this.selector = this.$self.selector;
+          }
+          else {
+            var $self = this.selector ? jQuery(this.selector) : null;
+            if ($self && $self.length > 0) {
+              this.setSelf($self);
+            }
+          }
+          this.bindFilters();
         }
         else {
-          var $self = this.selector ? jQuery(this.selector) : null;
-          if ($self && $self.length > 0) {
-            this.setSelf($self);
-          }
+          console.warn('Missing selector for', this);
         }
-        this.bindFilters();
       },
       // Sets the $self jQuery element
       setSelf: function($self) {
@@ -62,10 +67,10 @@ window.chef.editor = (function(editor) {
       // Gets the actual value
       getValue: function() {
         if (this.options.isHtml) {
-          return this._filter(String(this.$self.html()));
+          return this._filter(String(this.$self.html() || ''));
         }
         else {
-          return this._filter(String(this.$self.text()));
+          return this._filter(String(this.$self.text() || ''));
         }
       },
       // Sets the actual value
@@ -156,7 +161,6 @@ window.chef.editor = (function(editor) {
     elem.options = _.merge(options || {}, elem.options, _.defaults);
 
     // Run init
-    // console.log('init for', elem);
     elem.init.call(elem);
 
     // Initial value
@@ -191,7 +195,10 @@ window.chef.editor = (function(editor) {
         }
       },
       add: function(value) {
-        var elem = constructor(this, this.elements.length, value);
+        var elem = constructor(this, {}, value);
+        console.log('add', elem, constructor, value);
+        elem.index = this.elements.length - 1;
+
         this.addElement(elem);
         this.$self.append(elem.$self);
         elem.focus();
@@ -224,12 +231,21 @@ window.chef.editor = (function(editor) {
         return values;
       },
       isClearLastElement: function() {
-        return (_.last(this.elements).getValue().length <= 0);
+        var elem = _.last(this.elements);
+        return !elem.getValue.call(elem);
       },
       isLastElement: function(current) {
-        return (_.last(this.elements) === current);
+        var elem = _.last(this.elements);
+        return (elem === current);
       }
     };
+
+    var optionsDefault = {
+      filters: {
+        collapseSpaces: false
+      }
+    };
+    options = _.merge(options || {}, optionsDefault, _.defaults);
     return _.extend(this.newElement('default')(selector, options), elemList);
   };
 
@@ -272,7 +288,10 @@ window.chef.editor = (function(editor) {
   // Creates or selects a select element
   var newSelectElement = function(selector, options) {
     var optionsDefault = {
-      isHtml: true
+      isHtml: true,
+      filters: {
+        collapseSpaces: false
+      }
     };
     return _.extend(this.newElement('default')(
       selector, _.merge(options || {}, optionsDefault, _.defaults)
