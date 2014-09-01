@@ -164,7 +164,8 @@ describe 'PRIVATE RECIPE - SAVE', ->
             .end(done)
 
       it 'truncates ingredients', (done) ->
-        ingredients = num for num in [0..60]
+        for num in [0..60]
+          ingredients.push num
 
         request
         .post('/receta/test-recipe-1/save')
