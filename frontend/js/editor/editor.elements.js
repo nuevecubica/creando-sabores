@@ -39,10 +39,11 @@ window.chef.editor = (function(editor) {
         if (this.selectorEditable) {
           if (this.$self.hasClass(this.selectorEditable.slice(1))) {
             // Is it editable by itself?
+            // console.log('Is it editable by itself?');
             this.$selfEditable = this.$self;
           }
           else {
-            // Or is a children editable?
+            // console.log('Or is a children editable?');
             this.$selfEditable = jQuery(this.selectorEditable, this.$self);
           }
           if (this.$selfEditable.length === 0) {
@@ -83,18 +84,17 @@ window.chef.editor = (function(editor) {
         var $self = this.$selfEditable ? this.$selfEditable : this.$self;
         $self.html(value);
       },
-      getIndex: function() {
-        return (this.index) ? this.index : false;
-      },
-      setIndex: function(index) {
-        console.log('INDEX ' + index);
-        this.index = index;
-        this.$self.find(this.selectorIndex).prepend('Paso: ' + this.index);
-      },
       // Saves a value as original and restores it
       saveValue: function(value) {
         this.originalValue = value;
         this.restore();
+      },
+      getIndex: function() {
+        return (this.index) ? this.index : false;
+      },
+      setIndex: function(index) {
+        this.index = index;
+        this.$self.find(this.selectorIndex).prepend('Paso: ' + this.index);
       },
       // Save the actual value as the original value
       backup: function() {
@@ -190,8 +190,30 @@ window.chef.editor = (function(editor) {
     // console.log('_newElemList', arguments);
     var elemList = {
       elements: [],
+      originalElements: [],
       type: 'list',
-      selectorEditable: null,
+      // selectorEditable: null,
+      getValue: function() {
+        var array = [];
+
+        this.elements.map(function(element, index) {
+          array[index] = element.getValue();
+        });
+
+        return array;
+      },
+      backup: function() {
+        this.originalValue = this.$self.html();
+      },
+      restore: function() {
+        this.$self.html(this.originalValue);
+        this.parseElements();
+      },
+      bindFilters: function(overrideFilters) {
+        _.each(this.elements, function(elem) {
+          elem.bindFilters.call(elem, overrideFilters);
+        });
+      },
       addElement: function(element) {
         this.elements.push(element);
       },
@@ -199,8 +221,8 @@ window.chef.editor = (function(editor) {
         var that = this;
         _.each(elementArray, function(element) {
           that.addElement(element);
-          that.backup();
         });
+        this.backup();
       },
       removeElement: function(index, amount) {
         if (index >= 0) {
@@ -243,18 +265,9 @@ window.chef.editor = (function(editor) {
           console.warn('Cannot focus on element', index);
         }
       },
-      export: function() {
-        var values = [];
-        var elems = this.$self.children();
-        elems.each(function(idx, elem) {
-          values.push($(elem).text().trim());
-        });
-        return values;
-      },
       isClearLastElement: function() {
         var elem = _.last(this.elements);
 
-        console.log('---------- ', elem);
         if (elem) {
           return !elem.getValue.call(elem);
         }
@@ -265,10 +278,22 @@ window.chef.editor = (function(editor) {
       isLastElement: function(current) {
         var elem = _.last(this.elements);
         return (elem === current);
+      },
+      parseElements: function() {
+        var ingredients = this.$self.children();
+        var elementsArray = [];
+
+        var that = this;
+        _.each(ingredients, function(element) {
+          elementsArray.push(editor.newElement('default')(that, {}, element));
+        });
+
+        this.elements = elementsArray;
       }
     };
 
     var optionsDefault = {
+      isHtml: true,
       filters: {
         collapseSpaces: false
       }

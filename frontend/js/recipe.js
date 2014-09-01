@@ -18,7 +18,8 @@
       var options = {
         showLimit: true,
         filters: {
-          avoidNewLines: true
+          avoidNewLines: true,
+          limitLength: 40
         }
       };
 
@@ -70,26 +71,25 @@
           this.$self.find('.ingredient:nth-child(' + (index + 1) + ')').hide('300', function() {
             $(this).remove();
           });
+        },
+        parseElements: function() {
+          // Add list ingredients
+          var ingredients = this.$self.find('.ingredient');
+          var ingredientsArray = [];
+
+          var list = this;
+          _.each(ingredients, function(element) {
+            ingredientsArray.push(window.chef.editor.newElement('ingredient')(list, {}, element));
+          });
+
+          this.elements = ingredientsArray;
         }
       };
 
       var list = _.extend(this.newElement('list')(selector, this.newElement('ingredient'), options), elem);
       // console.log('ingredients', list);
 
-      // Add list ingredients
-      var ingredients = list.$self.find('.ingredient');
-      var ingredientsArray = [];
-
-      var that = this;
-      _.each(ingredients, function(element) {
-        ingredientsArray.push(that.newElement('ingredient')(list, {
-          filters: {
-            limitLength: 30
-          }
-        }, element));
-      });
-
-      list.addElements(ingredientsArray);
+      list.parseElements();
 
       return list;
     });
@@ -109,7 +109,8 @@
       var options = {
         showLimit: true,
         filters: {
-          avoidNewLines: true
+          avoidNewLines: true,
+          limitLength: 400
         }
       };
       var elem = {
@@ -159,27 +160,25 @@
           this.$self.find('.step:nth-child(' + (index + 1) + ')').hide('300', function() {
             $(this).remove();
           });
+        },
+        parseElements: function() {
+          // Add list ingredients
+          var steps = this.$self.find('.step');
+          var stepsArray = [];
+
+          var list = this;
+          _.each(steps, function(element) {
+            stepsArray.push(window.chef.editor.newElement('step')(list, {}, element));
+          });
+
+          this.elements = stepsArray;
         }
       };
 
       var list = _.extend(this.newElement('list')(selector, this.newElement('step'), options), elem);
       // console.log('steps', list);
 
-      // Add list steps
-      var steps = list.$self.find('.step');
-      var stepsArray = [];
-
-      var that = this;
-      _.each(steps, function(element) {
-        stepsArray.push(that.newElement('step')(list, {
-            filters: {
-              limitLength: 300,
-            }
-          },
-          element));
-      });
-
-      list.addElements(stepsArray);
+      list.parseElements();
 
       return list;
     });
@@ -194,11 +193,13 @@
 
     //----------- SAVERS
     var saveArrayList = function(arr) {
+      console.log(arr);
       var str = arr.join("\n");
       return str;
     };
 
     var saveArrayText = function(arr) {
+      console.log(arr);
       return arr.join('\n');
     };
 
@@ -228,7 +229,6 @@
       }
     });
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
-    console.log(ingredients);
 
     var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
@@ -272,9 +272,9 @@
         $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
         $('#hidden-time').attr('value', time.getValue());
         $('#hidden-portions').attr('value', portions.getValue());
-        $('#hidden-description').attr('value', saveArrayText(description.export()));
-        $('#hidden-ingredients').attr('value', saveArrayList(ingredients.export()));
-        $('#hidden-procedure').attr('value', saveArrayList(procedure.export()));
+        $('#hidden-description').attr('value', description.getValue());
+        $('#hidden-ingredients').attr('value', saveArrayList(ingredients.getValue()));
+        $('#hidden-procedure').attr('value', saveArrayList(procedure.getValue()));
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function(ev) {
