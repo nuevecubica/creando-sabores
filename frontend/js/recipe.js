@@ -29,16 +29,19 @@
         callbacks: {
           onAvoidNewLineKey: function(ev) {
             // console.log('onAvoidNewLineKey custom callback');
-
-            if (this.parent) {
-              if (this.parent.isLastElement.call(this.parent, this)) {
-                if (!this.parent.isClearLastElement.call(this.parent)) {
-                  this.parent.add.call(this.parent, null);
+            var parent = this.parent;
+            if (parent) {
+              if (parent.isLastElement.call(parent, this)) {
+                if (!parent.isClearLastElement.call(parent)) {
+                  if (!parent.options.filters.limitLength || parent.length < parent.options.filters.limitLength) {
+                    parent.add.call(parent, null);
+                  }
                 }
               }
               else {
-                this.parent.next.call(this.parent, this);
+                parent.next.call(parent, this);
               }
+
             }
             else {
               console.warn('No parent found in', this);
@@ -62,7 +65,10 @@
     // --------- Creates or selects an ingredients list
     window.chef.editor.addType('ingredientList', function(selector) {
       var options = {
-        isHtml: true
+        isHtml: true,
+        filters: {
+          limitElements: 50
+        }
       };
       var elem = {
         type: 'ingredientList',
@@ -100,6 +106,7 @@
       var tpl = '<div class="step">' +
         '<div class="icon-chef-tick checks hide-editable"></div>' +
         '<div class="ui header index">' +
+        '<span class="index-label"></span>' +
         '<div class="step-remove show-editable">Eliminar paso</div>' +
         '</div>' +
         '<div class="ui content set-editable" contenteditable="true" placeholder="Añadir nuevo paso" spellcheck="false">' +
@@ -120,17 +127,23 @@
         index: null,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
-            console.log('onAvoidNewLineKey custom callback');
-
-            if (this.parent) {
-              if (this.parent.isLastElement.call(this.parent, this)) {
-                if (!this.parent.isClearLastElement.call(this.parent)) {
-                  this.parent.add.call(this.parent, '');
+            // console.log('onAvoidNewLineKey custom callback');
+            var parent = this.parent;
+            if (parent) {
+              if (parent.isLastElement.call(parent, this)) {
+                if (!parent.isClearLastElement.call(parent)) {
+                  if (!parent.options.filters.limitLength || parent.length < parent.options.filters.limitLength) {
+                    parent.add.call(parent, '');
+                  }
                 }
               }
               else {
-                this.parent.next.call(this.parent, this);
+                parent.next.call(parent, this);
               }
+
+            }
+            else {
+              console.warn('No parent found in', this);
             }
           }
         }
@@ -151,7 +164,10 @@
     // ---------- Creates or selects an step list
     window.chef.editor.addType('procedureList', function(selector) {
       var options = {
-        isHtml: true
+        isHtml: true,
+        filters: {
+          limitElements: 5
+        }
       };
       var elem = {
         type: 'procedureList',

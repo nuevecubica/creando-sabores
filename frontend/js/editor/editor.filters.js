@@ -25,6 +25,9 @@ window.chef.editor = (function(editor) {
     limitLength: function(str, limit) {
       return str.substr(0, limit);
     },
+    limitElements: function(arr, len) {
+      return arr.slice(0, len);
+    },
     //----- Events
     // Caller that reads options and returns event functions
     on: function(ops) {

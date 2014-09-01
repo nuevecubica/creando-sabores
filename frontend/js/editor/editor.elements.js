@@ -12,7 +12,7 @@ window.chef.editor = (function(editor) {
       $selfEditable: null,
       selectorEditable: '.set-editable',
       parent: null,
-      selectorIndex: '.index',
+      selectorIndex: '.index-label',
       index: null,
       // Init the jQuery selector
       init: function() {
@@ -94,7 +94,7 @@ window.chef.editor = (function(editor) {
       },
       setIndex: function(index) {
         this.index = index;
-        this.$self.find(this.selectorIndex).prepend('Paso: ' + this.index);
+        this.$self.find(this.selectorIndex).text('Paso: ' + this.index);
       },
       // Save the actual value as the original value
       backup: function() {
@@ -154,6 +154,9 @@ window.chef.editor = (function(editor) {
           if (opFilters.limitLength) {
             value = editor.filters.limitLength(value);
           }
+          if (opFilters.limitElements) {
+            value = editor.filters.limitElements(value, opFilters.limitElements);
+          }
         }
         return value;
       },
@@ -201,6 +204,11 @@ window.chef.editor = (function(editor) {
         });
 
         return array;
+      },
+      updateIndex: function() {
+        _.each(this.elements, function(element, index) {
+          element.setIndex(index);
+        });
       },
       backup: function() {
         this.originalValue = this.$self.html();
