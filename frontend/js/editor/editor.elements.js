@@ -128,6 +128,7 @@ window.chef.editor = (function(editor) {
         if (!this.$selfEditable) {
           this.setSelfEditable();
         }
+
         if (this.$selfEditable) {
           this.$selfEditable.focus();
         }
