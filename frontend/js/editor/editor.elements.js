@@ -93,7 +93,7 @@ window.chef.editor = (function(editor) {
         return (this.index) ? this.index : false;
       },
       setIndex: function(index) {
-        this.index = index;
+        this.index = index || 1;
         this.$self.find(this.selectorIndex).text('Paso: ' + this.index);
       },
       // Save the actual value as the original value
