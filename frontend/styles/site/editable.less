@@ -20,10 +20,12 @@
 }
 
 .show-editable-ani {
-  transition: visibility @ani-time ease-in, opacity @ani-time ease-in, height @ani-time ease-in;
+  transition: visibility @ani-time ease-in, opacity @ani-time ease-in, height @ani-time ease-in, margin @ani-time ease-in;
   visibility: hidden;
   opacity: 0;
   height: 0;
+  margin:0 !important;
+  overflow: hidden;
 }
 
 .hide-editable {
