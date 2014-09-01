@@ -164,6 +164,7 @@ describe 'PRIVATE RECIPE - SAVE', ->
             .end(done)
 
       it 'truncates ingredients', (done) ->
+        ingredients = []
         for num in [0..60]
           ingredients.push num
 
