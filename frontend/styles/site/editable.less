@@ -8,24 +8,34 @@
 }
 
 .disable-editable {
-  transition: opacity 300ms ease-in;
+  transition: opacity @ani-time ease-in;
   opacity: 0.5;
 }
 
-.hide-editable {
-  transition: visibility 300ms ease-in, opacity 300ms ease-in;
+.hide-editable-ani {
+  transition: visibility @ani-time ease-in, opacity @ani-time ease-in, height @ani-time ease-in;
   visibility: visible;
   opacity: 1;
+  height: auto;
+}
+
+.show-editable-ani {
+  transition: visibility @ani-time ease-in, opacity @ani-time ease-in, height @ani-time ease-in;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+}
+
+.hide-editable {
+  .hide-editable-ani;
 }
 
 .show-editable {
-  transition: visibility 300ms ease-in, opacity 300ms ease-in;
-  visibility: hidden;
-  opacity: 0;
+  .show-editable-ani;
 }
 
 .set-editable {
-  transition: box-shadow 300ms ease-in, padding 300ms ease-in;
+  transition: box-shadow @ani-time ease-in, padding @ani-time ease-in;
   outline: none;
 
   .options {
@@ -37,21 +47,21 @@
 #manage-wrapper {
   visibility: visible;
   opacity: 1;
-  transition: opacity 300ms ease-in;
+  transition: opacity @ani-time ease-in;
 }
 
 #actions-wrapper {
   top: -150px;
   right: 20px;
   position: absolute;
-  transition: top 300ms ease-in;
+  transition: top @ani-time ease-in;
 }
 
 #menu-wrapper {
   visibility: visible;
   opacity: 1;
-  transition: opacity 150ms ease-in;
-  transition-delay: 150ms;
+  transition: opacity (@ani-time / 2) ease-in;
+  transition-delay: (@ani-time / 2);
 }
 
 .mode-editable {
@@ -77,7 +87,7 @@
   // In recipe page this image has a shadow for highlight the title
   .promoted {
     .shadow-layer {
-      transition: opacity 300ms ease-in;
+      transition: opacity @ani-time ease-in;
       opacity: 1 !important;
     }
   }
@@ -107,20 +117,19 @@
     }
   }
 
+  /*
+  Ask msanchez, I don't know.
+  */
   .hide-editable {
-    transition: visibility 300ms ease-in, opacity 300ms ease-in;
-    visibility: hidden;
-    opacity: 0;
+    .show-editable-ani;
   }
 
   .show-editable {
-    transition: visibility 300ms ease-in, opacity 300ms ease-in;
-    visibility: visible;
-    opacity: 1;
+    .hide-editable-ani;
   }
 
   .set-editable {
-    transition: box-shadow 300ms ease-in, padding 300ms ease-in;
+    transition: box-shadow @ani-time ease-in, padding @ani-time ease-in;
 
     border: 1px solid lighten(@editable-border, 60%);
     box-shadow: 0px 2px 4px -2px @editable-border-shadow !important;
@@ -134,7 +143,7 @@
   }
 
   .file-select {
-    transition: all 300ms ease-in;
+    transition: all @ani-time ease-in;
     overflow: hidden;
     position: relative;
 
@@ -159,7 +168,7 @@
       z-index: 100;
 
       &.show {
-        transition: box-shadow 300ms ease-in, padding 300ms ease-in;
+        transition: box-shadow @ani-time ease-in, padding @ani-time ease-in;
         box-shadow: 0px 0px 45px -10px @editable-border-shadow !important;
         display: block;
 

@@ -49,6 +49,9 @@ window.chef.editor = (function(editor) {
             console.warn('this.$selfEditable empty for ', this.$self);
           }
         }
+        else {
+          this.$selfEditable = null;
+        }
       },
       // Default options
       options: {
@@ -67,16 +70,18 @@ window.chef.editor = (function(editor) {
       tpl: null,
       // Gets the actual value
       getValue: function() {
+        var $self = this.$selfEditable ? this.$selfEditable : this.$self;
         if (this.options.isHtml) {
-          return this._filter(String(this.$selfEditable.html() || ''));
+          return this._filter(String($self.html() || ''));
         }
         else {
-          return this._filter(String(this.$selfEditable.text() || ''));
+          return this._filter(String($self.text() || ''));
         }
       },
       // Sets the actual value
       setValue: function(value) {
-        this.$selfEditable.html(value);
+        var $self = this.$selfEditable ? this.$selfEditable : this.$self;
+        $self.html(value);
       },
       getIndex: function() {
         return (this.index) ? this.index : false;
@@ -92,7 +97,7 @@ window.chef.editor = (function(editor) {
         this.restore();
       },
       // Save the actual value as the original value
-      recover: function() {
+      backup: function() {
         this.originalValue = this.getValue();
       },
       // Restores the original value as the actual value
@@ -101,7 +106,7 @@ window.chef.editor = (function(editor) {
       },
       // Saves the value and puts focus on it
       edit: function(putFocus) {
-        this.save();
+        this.backup();
         if (putFocus) {
           this.focus();
         }
@@ -186,6 +191,7 @@ window.chef.editor = (function(editor) {
     var elemList = {
       elements: [],
       type: 'list',
+      selectorEditable: null,
       addElement: function(element) {
         this.elements.push(element);
       },
@@ -193,6 +199,7 @@ window.chef.editor = (function(editor) {
         var that = this;
         _.each(elementArray, function(element) {
           that.addElement(element);
+          that.backup();
         });
       },
       removeElement: function(index, amount) {

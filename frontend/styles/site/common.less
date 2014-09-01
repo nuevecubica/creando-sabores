@@ -7,6 +7,8 @@
 
 @bars-padding: 30px;
 
+@ani-time: 300ms;
+
 /*******************************
           Animations
 *******************************/
@@ -412,7 +414,7 @@ body {
           opacity: 0;
           font-size: @recipe-font-text;
           color: @chef-color-white;
-          transition: background-color 300ms ease-out;
+          transition: background-color @ani-time ease-out;
           text-transform: capitalize;
         }
 

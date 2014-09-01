@@ -27,7 +27,7 @@
         parent: parent,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
-            console.log('onAvoidNewLineKey custom callback');
+            // console.log('onAvoidNewLineKey custom callback');
 
             if (this.parent) {
               if (this.parent.isLastElement.call(this.parent, this)) {
@@ -221,12 +221,14 @@
       }
     });
     var description = window.chef.editor.newElement('text')('#recipe-description .set-editable', {
-      showLimit: true,
       filters: {
+        avoidNewLines: true,
+        keepMultiline: false,
         limitLength: 400
       }
     });
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
+    console.log(ingredients);
 
     var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
@@ -234,13 +236,13 @@
     var events = {
       // Actives the edit mode
       onButtonEditClick: function(ev) {
-        title.recover(true);
-        difficulty.recover();
-        time.recover();
-        portions.recover();
-        description.recover();
-        ingredients.recover();
-        procedure.recover();
+        title.backup(true);
+        difficulty.backup();
+        time.backup();
+        portions.backup();
+        description.backup();
+        ingredients.backup();
+        procedure.backup();
 
         // Change to editable mode
         $('body').addClass('mode-editable');
@@ -341,13 +343,11 @@
     });
 
     $('.checks.all').on('click', function() {
-      $('#ingredients .checks.activated').removeClass('activated');
-      if (!$(this).hasClass('activated')) {
-        console.log('Tiene');
-
-        $('#ingredients .checks.activated').removeClass('activated');
-        $('#ingredients .checks').toggleClass('activated');
-        // $(this).toggleClass('activated');
+      if ($(this).hasClass('activated')) {
+        $('#ingredients .checks').removeClass('activated');
+      }
+      else {
+        $('#ingredients .checks').addClass('activated');
       }
     });
 
