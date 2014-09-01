@@ -123,7 +123,6 @@
       var elem = {
         type: 'step',
         parent: parent,
-        selectorIndex: '.index',
         index: null,
         callbacks: {
           onAvoidNewLineKey: function(ev) {
@@ -248,22 +247,26 @@
 
     var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
+    window.chef.setEditableModeOn = function() {
+      title.backup(true);
+      difficulty.backup();
+      time.backup();
+      portions.backup();
+      description.backup();
+      ingredients.backup();
+      procedure.backup();
+
+      // Change to editable mode
+      $('body').addClass('mode-editable');
+      $('.set-editable:not(.dropdown)').attr('contenteditable', true);
+      window.activateDropdown();
+    };
+
     // Events' functions
     var events = {
       // Actives the edit mode
       onButtonEditClick: function(ev) {
-        title.backup(true);
-        difficulty.backup();
-        time.backup();
-        portions.backup();
-        description.backup();
-        ingredients.backup();
-        procedure.backup();
-
-        // Change to editable mode
-        $('body').addClass('mode-editable');
-        $('.set-editable:not(.dropdown)').attr('contenteditable', true);
-        window.activateDropdown();
+        window.chef.setEditableModeOn();
       },
       onButtonCancelClick: function(ev) {
         title.restore();
