@@ -138,7 +138,7 @@ mixin header(data, section)
 
 	else if section === 'new-recipe'
 		- var title = ''
-		- var author = data.recipe ? data.recipe.author.name : data.recipe.author.username
+		- var author = (user.name || user.username)
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
