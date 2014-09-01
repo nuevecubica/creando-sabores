@@ -13,6 +13,7 @@
 	"Admin": "Administrador",
 	"Admin panel": "Panel",
 	"Already registered?": "¿Ya estás registrado?",
+	"Add step": "Añadir paso",
 	"Are you sure remove account?": "¿Seguro que quieres eliminar tu cuenta?",
 	"Bio": "Biografía",
 	"Change image": "Cambiar imagen",
@@ -108,6 +109,7 @@
 	"Register": "Registro",
 	"Register with social networks": "Regístrate en un solo click...",
 	"Remove account": "Eliminar cuenta",
+	"Remove step": "Eliminar paso",
 	"Required": "Requerido.",
 	"Save": "Guardar",
 	"Save changes": "Guardar cambios",
@@ -135,5 +137,9 @@
 	"Videorecipes": "Videorecetas",
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"You don't have rights to access that page": "No tienes permiso para acceder a esa página."
+	"You don't have rights to access that page": "No tienes permiso para acceder a esa página.",
+	"Muy Fácil": "Muy Fácil",
+	"Fácil": "Fácil",
+	"Difícil": "Difícil",
+	"Muy Difícil": "Muy Difícil"
 }

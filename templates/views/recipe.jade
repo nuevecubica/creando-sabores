@@ -4,6 +4,8 @@ include ../mixins/recipe
 
 include ../mixins/header
 
+include ../mixins/difficultItems
+
 block css
   link(href='/styles/site.min.css', rel='stylesheet')
 
@@ -59,16 +61,20 @@ block js
 block content
 
   if own
-    input#hidden-title(type='hidden' name='title')
-    input#hidden-difficulty(type='hidden' name='difficulty')
-    input#hidden-time(type='hidden' name='time')
-    input#hidden-portions(type='hidden' name='portions')
-    input#hidden-description(type='hidden' name='description')
-    input#hidden-ingredients(type='hidden' name='ingredients')
-    input(type='hidden' name='_csrf' value='#{csrftoken}')
+    form#recipe-edit-form(action=urlAction + '/save' method='POST' enctype='multipart/form-data')
+      input#hidden-title(type='hidden' name='title')
+      input#hidden-difficulty(type='hidden' name='difficulty')
+      input#hidden-time(type='hidden' name='time')
+      input#hidden-portions(type='hidden' name='portions')
+      input#hidden-description(type='hidden' name='description')
+      input#hidden-ingredients(type='hidden' name='ingredients')
+      input#hidden-procedure(type='hidden' name='procedure')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
 
+    form#recipe-remove-form(action=urlAction + '/remove' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
 
-  +header(data, section)
+  +header(data.recipe, section)
 
   .ui.page.grid
     #recipe-content.ui.grid.segment
@@ -77,9 +83,9 @@ block content
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
-              - var categories = [ __('Dummy'), __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
-              - var difficulty = data.recipe.difficulty
-              - var category = categories[difficulty]
+              - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
+              - var difficulty = data.recipe.difficulty || 2
+              - var category = categories[difficulty - 1]
 
               .itemSelected
                 .item(data-value=difficulty)
@@ -92,45 +98,7 @@ block content
                     .span= category
 
               .options
-                .item(data-value='1')
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.off
-                  i.icon-chef-tenedor.icon.off
-                  i.icon-chef-tenedor.icon.off
-                  i.icon-chef-tenedor.icon.off
-                  .span= __('Very easy')
-
-                .item(data-value='2')
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.off
-                  i.icon-chef-tenedor.icon.off
-                  i.icon-chef-tenedor.icon.off
-                  .span= __('Easy')
-
-                .item(data-value='3')
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.off
-                  i.icon-chef-tenedor.icon.off
-                  .span= __('Normal')
-
-                .item(data-value='4')
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.off
-                  .span= __('Difficult')
-
-                .item(data-value='5')
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  i.icon-chef-tenedor.icon.on
-                  .span= __('Very difficult')
+                +difficultItems(categories)
 
               i.dropdown.icon
 
@@ -139,13 +107,13 @@ block content
               i.icon-chef-time.icon
 
               .editable-container
-                .set-editable.one-line.for-numbers(placeholder=__('Time'), data-length="3")= data.recipe.time
+                .set-editable(placeholder=__('Time'))= data.recipe.time
               .span= __('min')
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
               .editable-container
-                .set-editable.one-line.for-numbers(placeholder=__('Portions'), data-length="2")= data.recipe.portions
+                .set-editable(placeholder=__('Portions'))= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
 
             .rating.hide-editable
@@ -174,7 +142,7 @@ block content
       #recipe-description.row
         .sixteen.wide.column
           .explain
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'), data-length="400")!= data.recipe.description
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.recipe.description
 
       .row
         .sixteen.wide.column
@@ -187,21 +155,21 @@ block content
           #ingredients.sixteen.wide.column
             .ui.three.mobile-one.tablet-two.column.grid
               - var ingredients = data.recipe.ingredients
-              - for(var j = 0, l = ingredients.length; j < l; j++)
+              - for (var j = 0, l = ingredients.length; j < l; j++)
                 .column.ingredient
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable.one-line(placeholder=__('Ingredient'), data-length='40')!= ingredients[j]
+                    .set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
                   .show-editable
-                    .remove-ingredient
+                    .ingredient-remove
                       i.icon-chef-cross
 
               .column.ingredient.show-editable
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable.one-line(placeholder=__('Add ingredient'), data-length='40')!= ingredients[j]
+                    .set-editable(placeholder=__('Add ingredient'), spellcheck='false')
                   .show-editable
-                    .remove-ingredient
+                    .ingredient-remove
                       i.icon-chef-cross
 
             .ingredients-manage.column.hide-editable
@@ -209,20 +177,35 @@ block content
                 .icon-chef-cesta.checks.all
                 .span= __('Select all')
 
-            .ingredients-manage.column.show-editable
-              .ingredient
-                .ui.button.chef.button-brick
-                  a= __('Add ingredient')
+        .ingredients-manage.sixteen.wide.column.show-editable
+          .ingredient
+            .ui.button.chef.button-brick.ingredient-add
+              a= __('Add ingredient')
 
-      .sixteen.wide.column
-        h2.ui.header= __('Procedure')
-      #procedure.row
+      .row
         .sixteen.wide.column
-          #steps
-            if data.recipe.procedure
-              - var array = data.recipe.procedure.split('<p>')
-              - for(var j = 1; j < array.length; j++)
+          h2.ui.header= __('Procedure')
+
+        if data.recipe.procedure
+          #procedure.sixteen.wide.column
+            #steps
+              - var steps = data.recipe.procedure
+              - var j = 0
+              - for (var m = steps.length; j < m; j++)
                 .step
-                  .icon-chef-tick.checks
-                  .ui.header= __('Step:') + ' ' + j
-                  .ui.content.set-editable(spellcheck='false')!= array[j]
+                  .icon-chef-tick.checks.hide-editable
+                  .ui.header.index
+                    = __('Step:') + ' ' + (j + 1)
+                    .step-remove.show-editable= __('Remove step')
+                  .ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
+
+              .step.show-editable
+                .icon-chef-tick.checks.hide-editable
+                .ui.header.index= __('Step:') + ' ' + (j + 1)
+                  .step-remove.show-editable= __('Remove step')
+                .ui.content.set-editable(placeholder=__('Add step'), spellcheck='false')
+
+        .step-manage.sixteen.wide.column.show-editable
+          .step
+            .ui.button.chef.button-brick.step-add
+              a= __('Add step')

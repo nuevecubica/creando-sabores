@@ -41,8 +41,13 @@ exports = module.exports = function(req, res) {
   var parseRecipe = function(recipe) {
     var data = {};
     if (recipe.ingredients) {
-      var ingr = recipe.ingredients;
+      var ingr = String(recipe.ingredients);
       data.ingredients = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+    }
+
+    if (recipe.procedure) {
+      var procedure = String(recipe.procedure);
+      data.procedure = _.compact(procedure.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
     }
     return _.defaults(data, recipe);
   };
@@ -62,7 +67,7 @@ exports = module.exports = function(req, res) {
 
           // Am I the owner?
           if (req.user) {
-            locals.own = (req.user.id.toString() === result.author.id.toString());
+            locals.own = (req.user._id.toString() === result.author._id.toString());
           }
           else {
             locals.own = false;

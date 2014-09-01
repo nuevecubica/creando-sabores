@@ -115,7 +115,7 @@
   }
 
   .rating {
-    transition: opacity 300ms ease-in;
+    transition: opacity @ani-time ease-in;
 
     .span {
       margin-left: 10px;
@@ -210,11 +210,14 @@
       }
 
       .editable-container, .span {
-        transition: all 300ms ease-in;
+        transition: all @ani-time ease-in;
         margin-left: 48px;
         display: block;
+
         .set-editable {
-          line-height: 44px;
+          line-height: 1.2em;
+          padding-top: 12px;
+          padding-bottom: 12px;
         }
       }
 
@@ -222,7 +225,7 @@
         line-height: 44px;
       }
 
-      .remove-ingredient {
+      .ingredient-remove {
         cursor: pointer;
         position: absolute;
         top: 12px;
@@ -237,14 +240,41 @@
   }
 
   #procedure{
-    padding: 45px 0;
+    padding-top: 45px;
+    padding-bottom: 45px;
     background-color: @ingredients-steps-bg;
 
     #steps {
       .step {
-        .ui.header {
-          display: inline;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        position: relative;
+
+        .checks {
+          position: absolute;
+          top: 0;
         }
+
+        .header {
+          transition: all 300ms ease-in;
+          margin: 0;
+          margin-left: 48px;
+          display: block;
+
+          .step-remove {
+            .font-small;
+            display: inline;
+            text-transform: lowercase;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: normal;
+            padding: 0px 15px;
+          }
+        }
+      }
+
+      .set-editable {
+        margin-top: 10px;
       }
     }
   }
@@ -272,11 +302,21 @@
     }
   }
 
+  .step {
+
+    .header {
+      &.index {
+        margin-left: 0 !important;
+        margin-right: 48px;
+      }
+    }
+  }
+
   .set-editable {
     &.dropdown {
 
       &.difficulty {
-        transition: all 300ms ease-in;
+        transition: all @ani-time ease-in;
         width: 180px;
 
         .options {

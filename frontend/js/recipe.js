@@ -1,241 +1,269 @@
 (function() {
-  //---------- GENERIC FUNCTIONS
-  var _generic = {};
 
-  //---------- FILTERS
-  var filters = {
-    onlyNumbers: function(str) {
-      return str.replace(/[^0-9]/, '');
-    },
-    newLines: function(str) {
-      return str.replace(/[\r\n]/, ' ');
-    }
-  };
+  var addTypes = function() {
 
-  //========== ELEMENTS
-  //---------- GENERIC
-  // Creates or selects a generic element
-  var _newElement = function(selector, value) {
-    var elem = {
-      // Self
-      $self: null,
-      selector: selector,
-      selectorEditable: '.set-editable',
-      // Init
-      init: function() {
-        this.$self = selector ? $(selector) : null;
-      },
-      // Default options
-      options: {
-        isHtml: false
-      },
-      // Attributes
-      originalValue: null,
-      tpl: null,
-      // Binds
-      getValue: function() {
-        if (this.options.isHtml) {
-          return this.$self.html();
+    // ========== Ingredients
+    // ---------- Creates a new ingredient
+    window.chef.editor.addType('ingredient', function(parent, optionsIngredient, value) {
+      var tpl = '<div class="ingredient column">' +
+        '<div class="icon-chef-cesta checks hide-editable"></div>' +
+        '<div class="editable-container">' +
+        '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
+        '</div>' +
+        '<div>' +
+        '<div class="ingredient-remove"><i class="icon-chef-cross"></i></div>' +
+        '</div>' +
+        '</div>';
+
+      var options = {
+        showLimit: true,
+        filters: {
+          avoidNewLines: true,
+          limitLength: 40
         }
-        else {
-          return this.$self.text();
+      };
+
+      var elem = {
+        type: 'ingredient',
+        parent: parent,
+        callbacks: {
+          onAvoidNewLineKey: function(ev) {
+            // console.log('onAvoidNewLineKey custom callback');
+            var parent = this.parent;
+            if (parent) {
+              if (parent.isLastElement.call(parent, this)) {
+                if (!parent.isClearLastElement.call(parent)) {
+                  if (!parent.options.filters.limitLength || parent.length < parent.options.filters.limitLength) {
+                    parent.add.call(parent, null);
+                  }
+                }
+              }
+              else {
+                parent.next.call(parent, this);
+              }
+
+            }
+            else {
+              console.warn('No parent found in', this);
+            }
+          }
         }
-      },
-      setValue: function(value) {
-        this.$self.html(value);
-      },
-      saveValue: function(value) {
-        this.originalValue = value;
-        this.restore();
-      },
-      save: function(putFocus) {
-        this.originalValue = this.getValue();
-      },
-      restore: function() {
-        this.setValue(this.originalValue);
-      },
-      edit: function(putFocus) {
-        this.save();
-        if (putFocus) {
-          this.$self.focus();
+      };
+
+      if (value && "object" === typeof value) {
+        tpl = value;
+        value = null;
+      }
+
+      options = _.merge(optionsIngredient || {}, options, _.defaults);
+
+      elem = _.extend(this.newElement('default')(tpl, options, value), elem);
+      // console.log('ingredient', elem);
+      return elem;
+    });
+
+    // --------- Creates or selects an ingredients list
+    window.chef.editor.addType('ingredientList', function(selector) {
+      var options = {
+        isHtml: true,
+        filters: {
+          limitElements: 50
         }
-      },
-      focus: function() {
-        this.$self.find(this.selectorEditable).focus();
-      },
-      cancel: this.restore
-    };
+      };
+      var elem = {
+        type: 'ingredientList',
+        remove: function(index) {
+          this.removeElement(index);
+          this.$self.find('.ingredient:nth-child(' + (index + 1) + ')').hide('300', function() {
+            $(this).remove();
+          });
+        },
+        parseElements: function() {
+          // Add list ingredients
+          var ingredients = this.$self.find('.ingredient');
+          var ingredientsArray = [];
 
-    elem.init();
+          var list = this;
+          _.each(ingredients, function(element) {
+            ingredientsArray.push(window.chef.editor.newElement('ingredient')(list, {}, element));
+          });
 
-    if (value) {
-      elem.saveValue(value);
-    }
-
-    return elem;
-  };
-
-  // Creates a new element list
-  var _newElemList = function(selector, constructor) {
-    var elemList = {
-      elements: [],
-      addElement: function(element) {
-        this.elements.push(element);
-      },
-      removeElement: function(index, amount) {
-        if (!index) {
-          this.elements.pop();
+          this.elements = ingredientsArray;
         }
-        else {
-          this.elements = this.elements.splice(index, amount || 1);
+      };
+
+      var list = _.extend(this.newElement('list')(selector, this.newElement('ingredient'), options), elem);
+      // console.log('ingredients', list);
+
+      list.parseElements();
+
+      return list;
+    });
+
+    // ========== Procedures
+    // ---------- Creates a new step
+    window.chef.editor.addType('step', function(parent, optionsStep, value) {
+      var tpl = '<div class="step">' +
+        '<div class="icon-chef-tick checks hide-editable"></div>' +
+        '<div class="ui header index">' +
+        '<span class="index-label"></span>' +
+        '<div class="step-remove show-editable">Eliminar paso</div>' +
+        '</div>' +
+        '<div class="ui content set-editable" contenteditable="true" placeholder="Añadir nuevo paso" spellcheck="false">' +
+        '</div>' +
+        '</div>';
+
+      var options = {
+        showLimit: true,
+        filters: {
+          avoidNewLines: true,
+          limitLength: 400
         }
-      },
-      add: function(value) {
-        var elem = constructor(value);
-        this.addElement(elem);
-        this.$self.append(elem.$self);
-        elem.focus();
-        return elem;
-      },
-      remove: function(index) {
-        this.removeElement(index);
-      },
-      export: function() {
-        var values = [];
-        var elems = this.$self.children();
-        elems.each(function(idx, elem) {
-          values.push($(elem).text().trim());
-        });
-        console.log(values);
-        return values;
+      };
+      var elem = {
+        type: 'step',
+        parent: parent,
+        selectorIndex: '.index',
+        index: null,
+        callbacks: {
+          onAvoidNewLineKey: function(ev) {
+            // console.log('onAvoidNewLineKey custom callback');
+            var parent = this.parent;
+            if (parent) {
+              if (parent.isLastElement.call(parent, this)) {
+                if (!parent.isClearLastElement.call(parent)) {
+                  if (!parent.options.filters.limitLength || parent.length < parent.options.filters.limitLength) {
+                    parent.add.call(parent, '');
+                  }
+                }
+              }
+              else {
+                parent.next.call(parent, this);
+              }
+
+            }
+            else {
+              console.warn('No parent found in', this);
+            }
+          }
+        }
+      };
+
+      if ("object" === typeof value) {
+        tpl = value;
+        value = null;
       }
-    };
-    return _.extend(_newElement(selector), elemList);
+
+      options = _.merge(optionsStep, options, _.defaults);
+
+      elem = _.extend(this.newElement('default')(tpl, options, value), elem);
+
+      return elem;
+    });
+
+    // ---------- Creates or selects an step list
+    window.chef.editor.addType('procedureList', function(selector) {
+      var options = {
+        isHtml: true,
+        filters: {
+          limitElements: 5
+        }
+      };
+      var elem = {
+        type: 'procedureList',
+        remove: function(index) {
+          this.removeElement(index);
+          this.$self.find('.step:nth-child(' + (index + 1) + ')').hide('300', function() {
+            $(this).remove();
+          });
+        },
+        parseElements: function() {
+          // Add list ingredients
+          var steps = this.$self.find('.step');
+          var stepsArray = [];
+
+          var list = this;
+          _.each(steps, function(element) {
+            stepsArray.push(window.chef.editor.newElement('step')(list, {}, element));
+          });
+
+          this.elements = stepsArray;
+        }
+      };
+
+      var list = _.extend(this.newElement('list')(selector, this.newElement('step'), options), elem);
+      // console.log('steps', list);
+
+      list.parseElements();
+
+      return list;
+    });
   };
 
-  //---------- Specific
-  // Creates or selects an one line input element
-  var newInputElement = function(selector) {
-    var elem = {
-      options: {
-        isHtml: false,
-        onlyNumbers: false,
-        newLines: false
+  //---------- DOCUMENT READY
+  $(document).ready(function() {
+
+    addTypes();
+    window.chef.editor.bindEditables();
+    window.chef.editor.init();
+
+    //----------- SAVERS
+    var saveArrayList = function(arr) {
+      console.log(arr);
+      var str = arr.join("\n");
+      return str;
+    };
+
+    var saveArrayText = function(arr) {
+      console.log(arr);
+      return arr.join('\n');
+    };
+
+    //----------- TITLE
+    var title = window.chef.editor.newElement('input')('#recipe-title', {
+      filters: {
+        limitLength: 60
       }
-    };
-    return _.extend(_newElement(selector), elem);
-  };
+    });
+    var difficulty = window.chef.editor.newElement('select')('#recipe-difficulty');
 
-  // Creates or selects a select element
-  var newSelectElement = function(selector) {
-    var elem = {
-      options: {
-        isHtml: true
+    var time = window.chef.editor.newElement('number')('#recipe-time .set-editable', {
+      filters: {
+        limitLength: 3
       }
-    };
-    return _.extend(_newElement(selector), elem);
-  };
-
-  // Creates or selects a text element
-  var newTextElement = function(selector) {
-    var elem = {
-      export: function() {
-        return this.$self.contents().map(function() {
-          return $(this).text().trim();
-        }).get();
-      },
-      options: {
-        newLines: true
+    });
+    var portions = window.chef.editor.newElement('number')('#recipe-portions .set-editable', {
+      filters: {
+        limitLength: 2
       }
-    };
-    return _.extend(_newElement(selector), elem);
-  };
-
-  // Creates or selects an ingredients list
-  var newIngredientList = function(selector) {
-    var elem = {
-      options: {
-        isHtml: true
-      },
-      remove: function(index) {
-        this.removeElement(index);
-        this.$self.find('.ingredient:nth-child(' + index + ')').hide('300', function() {
-          $(this).remove();
-        });
-      },
-      count: function() {
-        return this.$self.find('.ingredient').length;
-      },
-      focusOn: function(index) {
-        this.$self.find('.ingredient:nth-child(' + index + ') .set-editable').focus();
-      },
-      isClearLastItem: function() {
-        return this.$self.find('.ingredient:last-child .set-editable').text().length > 0 ? true : this.$self.find('.ingredient:last-child .set-editable');
+    });
+    var description = window.chef.editor.newElement('text')('#recipe-description .set-editable', {
+      filters: {
+        avoidNewLines: true,
+        keepMultiline: false,
+        limitLength: 400
       }
-    };
+    });
+    var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
 
-    return _.extend(_newElemList(selector, newIngredient), elem);
-  };
+    var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
-  // Creates a new ingredient
-  var newIngredient = function(value) {
-    var tpl = '<div class="ingredient column">' +
-      '<div class="icon-chef-cesta checks hide-editable"></div>' +
-      '<span class="editable-container">' +
-      '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
-      '</span>' +
-      '<span>' +
-      '<span class="remove-ingredient"><i class="icon-chef-cross"></i></span>' +
-      '</span>' +
-      '</div>';
-
-    return _newElement(tpl, value);
-  };
-
-  //----------- TITLE
-  var title = newInputElement('#recipe-title');
-  var difficulty = newSelectElement('#recipe-difficulty');
-  var time = newInputElement('#recipe-time .set-editable');
-  var portions = newInputElement('#recipe-portions .set-editable');
-  var description = newTextElement('#recipe-description .set-editable');
-  var ingredients = newIngredientList('#ingredients .column.grid');
-
-  //----------- SAVERS
-  var saveArrayList = function(arr) {
-    var str = arr.join("\n");
-    return str;
-  };
-
-  var saveArrayText = function(arr) {
-    console.log(typeof arr, arr);
-    return arr.join('\n');
-  };
-
-  //----------- EDITOR MODE
-  var editorMode = {
     // Events' functions
-    events: {
+    var events = {
       // Actives the edit mode
       onButtonEditClick: function(ev) {
-        title.save(true);
-        difficulty.save();
-        time.save();
-        portions.save();
-        description.save();
-        ingredients.save();
-
-        // First coppy original value in data attribute for each false form component
-        var $procedure = $('#recipe-procedure .set-editable');
-
-        if (!$procedure.data('origvalue')) {
-          $procedure.data('origvalue', $procedure.text());
-        }
+        title.backup(true);
+        difficulty.backup();
+        time.backup();
+        portions.backup();
+        description.backup();
+        ingredients.backup();
+        procedure.backup();
 
         // Change to editable mode
         $('body').addClass('mode-editable');
         $('.set-editable:not(.dropdown)').attr('contenteditable', true);
         window.activateDropdown();
-
       },
       onButtonCancelClick: function(ev) {
         title.restore();
@@ -244,12 +272,10 @@
         portions.restore();
         description.restore();
         ingredients.restore();
+        procedure.restore();
 
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
-
-        var $procedure = $('#recipe-procedure .set-editable');
-        $procedure.text($procedure.data('origvalue'));
       },
       onButtonDeleteClick: function(ev) {
         $('#recipe-remove-form').submit();
@@ -262,34 +288,25 @@
         $('#hidden-difficulty').attr('value', $('#recipe-difficulty .itemSelected .item').attr('data-value'));
         $('#hidden-time').attr('value', time.getValue());
         $('#hidden-portions').attr('value', portions.getValue());
-        $('#hidden-description').attr('value', saveArrayText(description.export()));
-        $('#hidden-ingredients').attr('value', saveArrayList(ingredients.export()));
-
-        // Create and append formAux (contents all inputs text of page) in form in header (content input file) to submitµ all.
-        // var form = $('#recipe-edit-form');
-        // var formAux = $('#recipe-aux-form').html();
-
-        // form.append(formAux);
-
-        // form.submit();
-
+        $('#hidden-description').attr('value', description.getValue());
+        $('#hidden-ingredients').attr('value', saveArrayList(ingredients.getValue()));
+        $('#hidden-procedure').attr('value', saveArrayList(procedure.getValue()));
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function(ev) {
-        var lastIndex = ingredients.isClearLastItem();
-        if (lastIndex === true) {
+        if (!ingredients.isClearLastElement()) {
           var elem = ingredients.add();
         }
         else {
-          lastIndex.focus();
+          ingredients.focusOn();
         }
       },
       onButtonRemoveIngredientClick: function(ev) {
-        var element = $(this).closest('.ingredient').index() + 1;
-        ingredients.remove(element);
+        var index = $(this).closest('.ingredient').index();
+        ingredients.remove(index);
       },
       onKeypressIngredient: function(ev) {
-        var index = $(this).closest('.ingredient').index() + 1;
+        var index = $(this).closest('.ingredient').index();
         if (ev.which === 13) {
           ev.preventDefault();
 
@@ -298,53 +315,39 @@
           }
           else {
             if (ingredients.isClearLastItem() === true) {
-              var elem = ingredients.add();
+              var elem = ingredients.add('');
             }
           }
         }
+      },
+      onButtonAddProcedureClick: function(ev) {
+        if (!procedure.isClearLastElement()) {
+          var elem = procedure.add();
+        }
+        else {
+          procedure.focusOn();
+        }
+      },
+      onButtonRemoveProcedureClick: function(ev) {
+        var index = $(this).closest('.step').index();
+        procedure.remove(index);
+
       }
-    },
-    // Binds the global events
-    bind: function() {
-      $('#edit.button-manage').on('click', editorMode.events.onButtonEditClick);
-      $('#cancel.button-manage').on('click', editorMode.events.onButtonCancelClick);
-      $('#delete.button-manage').on('click', editorMode.events.onButtonDeleteClick);
-      $('#update.button-manage').on('click', editorMode.events.onButtonUpdateClick);
-      $(document).on('click', '#ingredients .ingredients-manage .button', editorMode.events.onButtonAddIngredientClick);
-      $(document).on('click', '#ingredients .ingredient .remove-ingredient', editorMode.events.onButtonRemoveIngredientClick);
-      $(document).on('keypress', '#ingredients .ingredient .set-editable', editorMode.events.onKeypressIngredient);
-    },
-    init: function() {
-      title.init();
-      difficulty.init();
-      time.init();
-      portions.init();
-      description.init();
-    }
-  };
+    };
 
-  //----------- DOCUMENT READY
-  $(document).ready(function() {
-
-    editorMode.init();
-    editorMode.bind();
+    $('#edit.button-manage').on('click', events.onButtonEditClick);
+    $('#cancel.button-manage').on('click', events.onButtonCancelClick);
+    $('#delete.button-manage').on('click', events.onButtonDeleteClick);
+    $('#update.button-manage').on('click', events.onButtonUpdateClick);
+    $(document).on('click', '.ingredient-add', events.onButtonAddIngredientClick);
+    $(document).on('click', '#ingredients .ingredient .ingredient-remove', events.onButtonRemoveIngredientClick);
+    $(document).on('click', '.step-add', events.onButtonAddProcedureClick);
+    $(document).on('click', '#steps .step .step-remove', events.onButtonRemoveProcedureClick);
+    // $(document).on('click', '#steps .step .button', events.onButtonRemoveIngredientClick);
+    // $(document).on('keypress', '#ingredients .ingredient .set-editable', events.onKeypressIngredient);
 
     $('#recipe-header-select').on('change', function(e) {
       setPreview(e.target, $('.promoted'));
-    });
-
-    $('.time .set-editable').on('keyup', function(e) {
-      // if ($(this).html() > 120) {
-      //   $(this).html('120');
-      //   e.preventDefault();
-      // }
-    });
-
-    $('.portions .set-editable').on('keyup', function(e) {
-      // if ($(this).html() > 24) {
-      //   $(this).html(24);
-      //   e.preventDefault();
-      // }
     });
 
     $('.favourite .button').on('click', function() {
@@ -356,16 +359,11 @@
     });
 
     $('.checks.all').on('click', function() {
-      $('#ingredients .checks.activated').removeClass('activated');
-      if (!$(this).hasClass('activated')) {
-        console.log('Tiene');
-
-        $('#ingredients .checks.activated').removeClass('activated');
-        $('#ingredients .checks').toggleClass('activated');
-        // $(this).toggleClass('activated');
+      if ($(this).hasClass('activated')) {
+        $('#ingredients .checks').removeClass('activated');
       }
       else {
-        console.log('NO tiene');
+        $('#ingredients .checks').addClass('activated');
       }
     });
 

@@ -51,20 +51,24 @@ html
 			include ../components/menu
 
 		//- JAVASCRIPT
+		//- Everything globally available goes inside this object!
+		script.
+			window.chef = {}
+
+		//- Load default scripts
 		script(src='/js/libs/jquery.min.js')
 		script(src='/js/libs/jquery.address.js')
 		script(src='/js/libs/semantic.js')
 		script(src='/js/libs/lodash.min.js')
-
-		//- Load default scripts
 
 		script(src='/js/libs/handlebars.min.js')
 		script(src='/js/handlebars/helpers.js')
 		script(src='/js/jquery.functions.js')
 
 		script(src='/js/common.js')
-
-
+		script(src='/js/editor/editor.js')
+		script(src='/js/editor/editor.filters.js')
+		script(src='/js/editor/editor.elements.js')
 
 		//- Include template-specific javascript files by extending the js block
 		block js

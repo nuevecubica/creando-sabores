@@ -23,6 +23,18 @@ var cleaners = {
     return str.substr(0, len);
   },
 
+  maxlinelength: function(str, len) {
+    var ps = str.split("\n");
+    ps.map(function(elem, index) {
+      ps[index] = elem.substr(0, len);
+    });
+    return ps.join("\n");
+  },
+
+  maxlines: function(str, len) {
+    return str.split("\n").slice(0, len).join("\n");
+  },
+
   username: function(str) {
     return str.replace(/([^a-z0-9_\-])/gi, '');
   },
