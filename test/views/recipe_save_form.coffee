@@ -163,6 +163,39 @@ describe 'PRIVATE RECIPE - SAVE', ->
             )
             .end(done)
 
+      it 'truncates ingredients', (done) ->
+        ingredients = num for num in [0..60]
+
+        request
+        .post('/receta/test-recipe-1/save')
+        .set('cookie', cookie)
+        .send({
+          'ingredients': ingredients.join("\n")
+        })
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt '/receta/test-recipe-1/save/..' or
+                res.header['api-response-success'] isnt 'Recipe saved' or
+                res.header['api-response-error'] isnt 'false'
+              return 'Wrong status headers: Error=' +
+                res.header['api-response-error']
+        )
+        .end (err,res) ->
+          if err
+            return done err, res
+          request
+            .get('/receta/test-recipe-1')
+            .set('cookie', cookie)
+            .expect(200)
+            .expect(
+              (res) -> return res.text.must.match ingredients[49]
+            )
+            .expect(
+              (res) -> return res.text.must.not.match ingredients[51]
+            )
+            .end(done)
+
 #------------------------------------------------------------------------------
 
   describe 'POST /nueva-receta/save', ->
