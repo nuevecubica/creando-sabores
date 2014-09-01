@@ -21,12 +21,16 @@ var recipeData = function(req, orig) {
     }
   }
 
-  var j, m = files.length;
-  for (j = 0; j < m; j++) {
-    file = files[j];
-    if (req.files[file]) {
-      something = true;
-      break;
+  if (req.files) {
+    var j, m = files.length;
+    for (j = 0; j < m; j++) {
+      if (files[j]) {
+        file = files[j];
+        if (req.files[file]) {
+          something = true;
+          break;
+        }
+      }
     }
   }
 
