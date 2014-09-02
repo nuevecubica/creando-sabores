@@ -1,0 +1,50 @@
+extends ../layouts/default
+
+include ../mixins/header
+include ../mixins/recipe
+include ../mixins/grid
+
+block js
+  script(src='/js/recipes.js')
+
+block content
+  +header(data, section)
+
+  .ui.page.grid.body
+
+    #current-contest.ui.grid.segment
+      .row
+        .sixteen.wide.column
+          .date-end
+          .title
+          .organizer
+          .prize-jury
+          .prize-public
+          .description
+          .join-action
+            .ui.button.chef.button-brick
+              a(href='/nueva-receta')= __('Join the contest')
+
+    #past-contests.ui.grid
+      .row
+        .ui.grid Mejor sopa de tomate
+        .ui.grid.four.column
+          .column Foto A
+          .column Contido A
+          .column Foto B
+          .column Contido B
+
+      //
+        .ui.grid.segment.list
+          if data.recipes.length
+            each recipe in data.recipes
+              .row.position
+                +recipe(recipe)
+          else
+            | #{__('No recipes yet')}
+
+      .row.loader
+        .sixteen.wide.column.loading= __('Loading more contests')
+        .sixteen.wide.column.load-more
+          .ui.button.chef.button-brick.load-button
+            a(href="#")= __('Load more')

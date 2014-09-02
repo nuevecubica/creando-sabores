@@ -54,7 +54,7 @@ exports = module.exports = function(app) {
   app.get('/terminos', routes.views.terms);
 
   // Profile: Private
-  app.get('/perfil', middleware.requireUser, routes.views['private'].profile);
+  app.get('/perfil/:section(recetas)?', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
@@ -73,6 +73,11 @@ exports = module.exports = function(app) {
   // ---- Edit
   app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
   app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
+  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireUser, routes.views['private'].recipePublish);
+
+  // Contests
+  // -- Public
+  app.get('/concursos', routes.views.contests);
 
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);

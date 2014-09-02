@@ -68,6 +68,7 @@ exports = module.exports = function(req, res) {
           // Am I the owner?
           if (req.user) {
             locals.own = (req.user._id.toString() === result.author._id.toString());
+            locals.own = locals.own || req.user.isAdmin;
           }
           else {
             locals.own = false;
@@ -75,6 +76,10 @@ exports = module.exports = function(req, res) {
 
           // Drafts only for the owner
           if (result.state === 0 && !locals.own) {
+            return res.notfound(res.__('Not found'));
+          }
+          // Banned
+          else if (result.isBanned) {
             return res.notfound(res.__('Not found'));
           }
 

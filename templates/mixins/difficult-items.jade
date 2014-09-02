@@ -1,4 +1,4 @@
-mixin difficultItems(labels)
+mixin difficult-items(labels)
   - for (var j = 0, l = labels.length; j < l; ++j) {
     .item(data-value=(j+1))
       - for (var i = 0; i < l; ++i) {
@@ -7,5 +7,5 @@ mixin difficultItems(labels)
         else
           i.icon-chef-tenedor.icon.off
       - }
-      .span= __(labels[j])
+      .span= labels[j]
   - }

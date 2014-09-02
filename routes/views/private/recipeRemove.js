@@ -11,13 +11,17 @@ exports = module.exports = function(req, res, next) {
     userId = req.user._id,
     recipeSlug = req.params.recipe;
 
+  var query = {
+    slug: recipeSlug,
+  };
+
+  if (!req.user.isAdmin) {
+    query.author = userId;
+  }
+
   if (req.method === 'POST') {
     // Get
-    var q = Recipe.model.findOne({
-      state: 1,
-      slug: recipeSlug,
-      author: userId
-    });
+    var q = Recipe.model.findOne(query);
     q.exec(function(err, recipe) {
       if (err) {
         return formResponse(req, res, backError, 'Error: Unknown error', false);

@@ -4,7 +4,7 @@ include ../mixins/recipe
 
 include ../mixins/header
 
-include ../mixins/difficultItems
+include ../mixins/difficult-items
 
 block css
   link(href='/styles/site.min.css', rel='stylesheet')
@@ -62,7 +62,7 @@ block content
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
-              - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
+              - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
               - var difficulty = data.recipe.difficulty || 2
               - var category = categories[difficulty - 1]
 
@@ -77,7 +77,7 @@ block content
                     .span= category
 
               .options
-                +difficultItems(categories)
+                +difficult-items(categories)
 
               i.dropdown.icon
 

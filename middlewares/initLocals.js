@@ -44,15 +44,15 @@ exports.initLocals = function(req, res, next) {
   locals.navLinksPrivate = [{
     label: res.__('My profile'),
     key: 'perfil',
-    href: '/'
+    href: '/perfil'
   }, {
     label: res.__('Shopping list'),
     key: 'lista-del-super',
     href: '/'
   }, {
     label: res.__('My recipes'),
-    key: 'mis-recetas',
-    href: '/'
+    key: 'recetas',
+    href: '/perfil/recetas'
   }, {
     label: res.__('My menus'),
     key: 'mis-menus',
