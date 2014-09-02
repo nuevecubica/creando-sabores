@@ -81,12 +81,16 @@ var recipeEdit = function(req, res) {
     recipeSlug = req.params.recipe,
     back = '..';
 
-  // Get
-  var q = Recipe.model.findOne({
-    state: 1,
+  var query = {
     slug: recipeSlug,
-    author: userId
-  }).exec(function(err, recipe) {
+  };
+
+  if (!req.user.isAdmin) {
+    query.author = userId;
+  }
+
+  // Get
+  var q = Recipe.model.findOne(query).exec(function(err, recipe) {
     if (err) {
       console.error('recipeEdit:', err);
       return formResponse(req, res, back, 'Error: Unknown error', false);

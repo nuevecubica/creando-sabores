@@ -6,13 +6,12 @@ mixin editable(editable, own)
             #edit.ui.button.chef.button-manage
               a(href='#')= __('Edit')
 
-            if manageable
+            if manageable && data.recipe
               #publish.ui.button.chef.button-manage
-                if recipe && recipe.state == 0
-                  a= __('Publish')
+                if data.recipe.state == 0
+                  a(href="/receta/" + data.recipe.slug + "/publish")= __('Publish')
                 else
-                  a= __('Draft')
-
+                  a(href="/receta/" + data.recipe.slug + "/draft")= __('Draft')
 
     #actions-wrapper.ten.mobile-sixteen.wide.column
       .ui.menu

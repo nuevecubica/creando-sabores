@@ -68,6 +68,7 @@ exports = module.exports = function(req, res) {
           // Am I the owner?
           if (req.user) {
             locals.own = (req.user._id.toString() === result.author._id.toString());
+            locals.own = locals.own || req.user.isAdmin;
           }
           else {
             locals.own = false;
