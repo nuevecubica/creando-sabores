@@ -62,7 +62,7 @@ block content
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
-              - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Difficult'), __('Very difficult') ]
+              - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
               - var difficulty = data.recipe.difficulty || 2
               - var category = categories[difficulty - 1]
 
