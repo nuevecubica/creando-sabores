@@ -75,6 +75,10 @@ exports = module.exports = function(app) {
   app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
   app.get('/receta/:recipe/:state(draft|publish)', middleware.requireUser, routes.views['private'].recipePublish);
 
+  // Contests
+  // -- Public
+  app.get('/concursos', routes.views.contests);
+
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);
   app.get('/salir', routes.views.signout);
