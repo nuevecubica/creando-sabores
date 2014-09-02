@@ -73,6 +73,7 @@ exports = module.exports = function(app) {
   // ---- Edit
   app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
   app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
+  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireUser, routes.views['private'].recipePublish);
 
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);
