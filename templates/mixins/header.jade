@@ -142,7 +142,8 @@ mixin header(data, section)
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle
+
+			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
 					include ../components/header
 
@@ -151,7 +152,7 @@ mixin header(data, section)
 
 				.row.section.title
 					.editable-container
-						#recipe-title.shadow.set-editable.one-line(placeholder=__('Write here recipe name'), data-length="40")= title
+						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
 
 				.row.section.subtitle
 					.author.shadow= author
