@@ -198,6 +198,22 @@ Recipe.add({
     }
   },
 
+  'Contest', {
+    isForContest: {
+      type: Types.Relationship,
+      ref: 'Contest',
+      index: true
+    },
+
+    contest: {
+      state: {
+        type: Types.Select,
+        options: ['none', 'review', 'admited', 'rejected'],
+        default: 'none',
+      }
+    }
+  },
+
   'Promoted', {
     isPromoted: {
       type: Types.Boolean,
@@ -297,6 +313,11 @@ Recipe.schema.pre('save', function(next) {
       // Set isPromoted if recipes is promoted in grids or headers
       if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
         me.isPromoted = true;
+      }
+
+      // Set contest
+      if (me.isForContest && me.contest.state === 'none') {
+        me.join.state = 'review';
       }
 
       next();
