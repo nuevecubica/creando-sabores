@@ -195,7 +195,8 @@
   }
 
   #ingredients {
-    margin: 20px 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     .ingredient {
       &.column {
@@ -239,9 +240,9 @@
     }
   }
 
-  #procedure{
-    padding-top: 45px;
-    padding-bottom: 45px;
+  #procedure {
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-color: @ingredients-steps-bg;
 
     #steps {
@@ -276,6 +277,13 @@
       .set-editable {
         margin-top: 10px;
       }
+    }
+  }
+
+  .manage {
+    &.show-editable {
+      padding-top: 20px;
+      padding-bottom: 20px;
     }
   }
 }
