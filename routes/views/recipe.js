@@ -78,6 +78,10 @@ exports = module.exports = function(req, res) {
           if (result.state === 0 && !locals.own) {
             return res.notfound(res.__('Not found'));
           }
+          // Banned
+          else if (result.isBanned) {
+            return res.notfound(res.__('Not found'));
+          }
 
           locals.data.recipe = result;
           locals.title = result.title + ' - ' + res.__('Recipe');
