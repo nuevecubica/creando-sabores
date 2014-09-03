@@ -69,6 +69,11 @@ Contest.add({
       index: true
     },
 
+    description: {
+      type: Types.Html,
+      wysiwyg: true,
+    },
+
     ingredientRequired: {
       type: Types.Text,
       require: true,
@@ -186,6 +191,13 @@ Contest.add({
     }
   },
 
+  'Legal', {
+    terms: {
+      type: Types.Html,
+      wysiwyg: true
+    }
+  },
+
   'Promoted', {
     isPromoted: {
       type: Types.Boolean,
@@ -234,7 +246,7 @@ Contest.schema.pre('save', function(next) {
   }
 
   // if contest state change to open, fill openDate
-  if (this.state === 'open' && this.openDate === '') {
+  if (this.state === 'open' && !this.openDate) {
     this.openDate = Date.now;
   }
 
