@@ -1,6 +1,7 @@
 var keystone = require('keystone'),
   async = require('async'),
-  Contest = keystone.list('Contest');
+  Contest = keystone.list('Contest'),
+  Recipes = keystone.list('Recipes');
 
 exports = module.exports = function(req, res) {
 
@@ -21,26 +22,62 @@ exports = module.exports = function(req, res) {
   view.on('init', function(next) {
 
     // Query for get a contest
-    var q = Contest.model.findOne({
+    var queryContest = Contest.model.findOne({
       slug: locals.filters.contest
     }).populate('awards.jury.winner', 'awards.community.winner');
 
-    q.exec(function(err, result) {
-      if (!err && result) {
-        console.log(result);
+    async.waterfall([
+      function(callback) {
+        queryContest.exec(function(err, result) {
+          if (!err && result) {
+            console.log(result);
 
-        locals.data.contest = result;
+            locals.data.contest = result;
+            callback(null, result.id);
+          }
+          else {
+            if (err) {
+              callback(err, null);
+            }
+            else {
+              callback(null, null);
+            }
+          }
+        });
+      },
+      function(contestId, callback) {
+        if (contestId) {
+          var queryTop = Recipes.model.find({
+            'contest.id': contestId
+          }).populate('contest.id');
+
+          queryTop.exec(function(err, result) {
+            if (!err && result) {
+              locals.data.top = result;
+            }
+            else {
+              if (err) {
+                callback(err)
+              }
+              else {
+                callback();
+              }
+            }
+          });
+        }
+        else {
+          callback();
+        }
+      }
+    ], function(err, result) {
+      if(!err) {
         next();
       }
       else {
-        if (err) {
-          next(err);
-        }
-        else {
-          next(null);
-        }
+        next(err);
       }
     });
+
   });
 
   // Render the view
