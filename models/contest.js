@@ -55,6 +55,13 @@ var Contest = new keystone.List('Contest', {
 });
 
 Contest.add({
+
+    sponsor: {
+      type: Types.Text,
+      initial: true,
+      required: true
+    },
+
     title: {
       type: Types.Text,
       initial: true,
