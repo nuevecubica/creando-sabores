@@ -9,21 +9,25 @@ exports = module.exports = function(req, res) {
     view = new keystone.View(req, res);
 
   var getPrivateRecipes = function(userId, cb) {
-    var back = '..',
-      query = {
-        author: userId
-      };
+    var back = '..';
 
     // Get
-    var q = Recipe.model.find(query).exec(function(err, recipes) {
-      if (err) {
-        console.error('profileMyRecipes:', err);
-        return formResponse(req, res, back, 'Error: Unknown error', false);
-      }
-      else {
-        cb(recipes);
-      }
-    });
+    var q = Recipe
+      .paginate({
+        page: req.query.page || 1,
+        perPage: 5
+      })
+      .where('author', userId)
+      .sort('-editDate')
+      .exec(function(err, recipes) {
+        if (err) {
+          console.error('profileMyRecipes:', err);
+          return formResponse(req, res, back, 'Error: Unknown error', false);
+        }
+        else {
+          cb(recipes.results);
+        }
+      });
   };
 
   var signinPage = '/acceso';
