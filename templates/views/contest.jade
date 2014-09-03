@@ -8,4 +8,49 @@ block js
 block content
   +header(data, section)
 
-  .ui.page.grid.body
+  .ui.page.grid
+    #contest-content.ui.grid.segment
+      .row
+        #info.eight.tablet-twelve.mobile-eight.wide.column
+          h1.ui.header= data.contest.title
+          span= __('Contest sponsored by {{{sponsor}}}', { sponsor: data.contest.sponsor })
+
+        #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
+          .contest-actions
+            .vote
+              .ui.button.chef.button-brick
+                a= __('Vote for your favourite')
+
+            .favourite
+              .ui.button.chef.button-yellow
+                a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
+
+      #contest-description.row
+        .sixteen.wide.column
+          .ui.header.underline= __('Description')
+
+        .sixteen.wide.column
+          .explain
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.description
+
+      #contest-awards.row
+        .sixteen.wide.column
+          .ui.header.underline= __('Awards')
+
+        .sixteen.wide.column
+          .explain
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.description
+
+        .sixteen.wide.column
+          .explain
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.community
+
+        #ranking.sixteen.wide.column
+
+        #contest-terms.row
+        .sixteen.wide.column
+          .ui.header.underline= __('Terms')
+
+        .sixteen.wide.column
+          .explain
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.terms
