@@ -199,13 +199,13 @@ Recipe.add({
   },
 
   'Contest', {
-    isForContest: {
-      type: Types.Relationship,
-      ref: 'Contest',
-      index: true
-    },
-
     contest: {
+      id: {
+        type: Types.Relationship,
+        ref: 'Contest',
+        index: true
+      },
+
       state: {
         type: Types.Select,
         options: ['none', 'review', 'admited', 'rejected'],
