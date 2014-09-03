@@ -61,6 +61,7 @@ i18n.configure({
 keystone.set('nav', {
   'users': 'users',
   'recipes': 'recipes',
+  'contests': 'contests',
   'configs': 'configs'
 });
 

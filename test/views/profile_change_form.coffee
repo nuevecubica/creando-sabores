@@ -62,7 +62,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
         .send({
           'username': data.users[0].username,
           'email': 'demo@email.com',
-          'isPrivate': 'on'
+          'isPrivate': true
           'old-pass': '',
           'new-pass': ''
         })
@@ -87,7 +87,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
               (res) ->
                 if res.body.user.email isnt 'demo@email.com' or
                     not res.body.user.isPrivate
-                  return 'Edit failed'
+                  return "Edit failed with email #{res.body.user.email}
+ and isPrivate #{res.body.user.isPrivate}"
             )
             .end (err, res) ->
               if err

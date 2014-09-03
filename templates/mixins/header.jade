@@ -4,7 +4,8 @@ mixin header(data, section)
 	- var default_image = '/images/defaul_image.jpg'
 
 	if section === 'home'
-		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
+		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
 		- var image = data.header ? data.header.header.url : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
@@ -31,7 +32,7 @@ mixin header(data, section)
 								.ui.image
 							.tabla2
 								.text
-									.span= titlePromoted
+									a.span(href="#{promotedUrl}")= promotedTitle
 							.tabla3
 								.ui.image
 
@@ -60,7 +61,8 @@ mixin header(data, section)
 								|#{__('Change image')}
 
 	else if section === 'recipes'
-		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
+		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
 		- var image = data.header ? data.header.header.url : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
@@ -90,14 +92,14 @@ mixin header(data, section)
 								.ui.image
 							.tabla2
 								.text
-									.span= titlePromoted
+									a.span(href="#{promotedUrl}")= promotedTitle
 							.tabla3
 								.ui.image
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
 		- var image = data.recipe ? data.recipe.header.url : default_image
-		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : 'Unknow'
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var state = data.recipe ? data.recipe.state : 0
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
@@ -156,3 +158,18 @@ mixin header(data, section)
 				.row.section.subtitle
 					.author.shadow= author
 
+	else if section === 'contest'
+		- var image = data.contest ? data.contest.imageContest.url : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						.shadow= __('Contest')

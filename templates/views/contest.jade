@@ -1,0 +1,11 @@
+extends ../layouts/default
+
+include ../mixins/header
+
+block js
+  script(src='/js/contest.js')
+
+block content
+  +header(data, section)
+
+  .ui.page.grid.body

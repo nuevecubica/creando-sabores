@@ -63,7 +63,7 @@ describe 'PRIVATE PROFILE - UPDATE', ->
         .send({
           'username': data.users[0].username,
           'email': 'demo@email.com',
-          'isPrivate': 'on'
+          'isPrivate': true
           'old-pass': '',
           'new-pass': ''
         })
