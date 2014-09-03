@@ -87,7 +87,8 @@ describe 'PRIVATE PROFILE - CHANGE', ->
               (res) ->
                 if res.body.user.email isnt 'demo@email.com' or
                     not res.body.user.isPrivate
-                  return "Edit failed with email #{res.body.user.email} and isPrivate #{res.body.user.isPrivate}"
+                  return "Edit failed with email #{res.body.user.email}
+ and isPrivate #{res.body.user.isPrivate}"
             )
             .end (err, res) ->
               if err
