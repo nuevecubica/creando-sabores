@@ -31,6 +31,11 @@ paths =
     normal: "public/styles/site.css"
     min: "public/styles/site.min.css"
     src: "frontend/styles/site.less"
+    mapFile: "public/styles/site.css.map"
+    mapBase: "frontend/styles/"
+    mapSource: "public/styles/"
+    mapURL: "/styles/site.css.map"
+    mapRoot: "/less/"
   coffee:
     all: [
       "Gruntfile.coffee"
@@ -218,6 +223,11 @@ module.exports = (grunt) ->
       build:
         options:
           paths: ["public"]
+          sourceMap: true
+          sourceMapFilename: paths.css.mapFile
+          sourceMapURL: paths.css.mapURL
+          # sourceMapBasepath: paths.css.mapBase
+          sourceMapRootpath: paths.css.mapRoot
 
         files: {
           # configured later
@@ -225,8 +235,14 @@ module.exports = (grunt) ->
 
     autoprefixer:
       build:
-        options: {}
+        options:
+          map:
+            prev: paths.css.mapSource
+            annotation: paths.css.mapURL
+            sourceContent: true
+            sourceRoot: paths.css.mapSource
         src: paths.css.normal
+        dest: paths.css.normal
 
     cssmin:
       build:
@@ -257,7 +273,6 @@ module.exports = (grunt) ->
       build:
         src: paths.js.all
 
-
   initConfig.less.build.files[paths.css.normal] = paths.css.src
   initConfig.cssmin.build.files[paths.css.min] = [paths.css.normal]
 
@@ -279,6 +294,13 @@ module.exports = (grunt) ->
           cwd: "frontend/js/"
           src: ["**"]
           dest: "public/js/"
+          filter: "isFile"
+        }
+        {
+          expand: true
+          cwd: "frontend/styles/"
+          src: ["**"]
+          dest: "public/less/"
           filter: "isFile"
         }
         {
@@ -341,7 +363,7 @@ module.exports = (grunt) ->
     grunt.task.run ["lint"]
     grunt.task.run ["less:build"]
     grunt.task.run ["autoprefixer:build"]
-    grunt.task.run ["cssmin:build"]
+    # grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
     grunt.task.run ["copy"]
 
