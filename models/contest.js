@@ -42,7 +42,8 @@ var positions = [{
 
 var Contest = new keystone.List('Contest', {
   map: {
-    name: 'title'
+    name: 'title',
+    idContest: 'id'
   },
 
   autokey: {
@@ -68,12 +69,12 @@ Contest.add({
       label: 'Ingredient required for a contest'
     },
 
-    finishedDate: {
+    deadline: {
       type: Types.Datetime,
       require: true,
       initial: true,
-      label: 'Finish date'
-    },
+      label: 'Deadline'
+    }
   },
 
   'Media', {
@@ -91,7 +92,7 @@ Contest.add({
       type: Types.CloudinaryImage,
       label: 'Image for recipe in contest',
       dependsOn: {
-        state: 'finished'
+        state: 'closed'
       }
     }
   },
@@ -99,16 +100,16 @@ Contest.add({
   'Status', {
     state: {
       type: Types.Select,
-      options: ['draft', 'started', 'finished', 'resolved'],
+      options: ['draft', 'open', 'closed', 'finished'],
       label: 'Contest state',
       default: 'draft'
     },
 
-    startedDate: {
+    openDate: {
       type: Types.Datetime,
       noedit: true,
       dependsOn: {
-        state: 'started'
+        state: 'open'
       },
       label: 'Start date'
     },
@@ -116,80 +117,62 @@ Contest.add({
     schemaVersion: {
       type: Types.Number,
       noedit: true,
+      hidden: true,
       default: process.env.CONTEST_SCHEMA_VERSION
     }
   },
 
   'Awards', {
     awards: {
-      idContest: {
-        type: Types.Text,
-        hidden: true
-      },
-
       jury: {
-        award: {
+        name: {
           type: Types.Text,
-          label: 'Award for jury winner',
-          dependsOn: {
-            state: 'finished'
-          }
+          label: 'Name jury award'
         },
 
-        juryAwardDescription: {
+        description: {
           type: Types.Html,
           wysiwyg: true,
-          label: 'Description for jury award',
+          label: 'Description jury award'
+        },
+
+        winner: {
+          type: Types.Relationship,
+          ref: 'Recipe',
+          filters: {
+            'isForContest': ':id',
+            'contest.state': 'admited'
+          },
+          label: 'Winner',
           dependsOn: {
-            state: 'finished'
+            state: 'closed'
           }
+        }
+      },
+
+      community: {
+        name: {
+          type: Types.Text,
+          label: 'Name community award'
+        },
+
+        description: {
+          type: Types.Html,
+          wysiwyg: true,
+          label: 'Description community award'
         },
 
         winner: {
           type: Types.Relationship,
           ref: 'Recipe',
           noedit: true,
-          many: false,
           filters: {
-            'isForContest': ':idContest',
+            'isForContest': ':id',
             'contest.state': 'admited'
           },
-          label: 'Jury winner',
+          label: 'Winner',
           dependsOn: {
-            state: 'finished'
-          }
-        }
-      },
-
-      users: {
-        award: {
-          type: Types.Text,
-          label: 'Award for users winner',
-          dependsOn: {
-            state: 'finished'
-          }
-        },
-
-        usersAwardDescription: {
-          type: Types.Html,
-          wysiwyg: true,
-          label: 'Description for users award',
-          dependsOn: {
-            state: 'finished'
-          }
-        },
-
-        winner: {
-          type: Types.Relationship,
-          ref: 'Recipe',
-          many: false,
-          filters: {
-            'isForContest': ':idContest',
-            'contest.state': 'admited'
-          },
-          label: 'Users winner',
-          dependsOn: {
-            state: 'finished'
+            state: 'closed'
           }
         }
       }
@@ -238,12 +221,15 @@ Contest.schema.pre('save', function(next) {
     this.isPromoted = true;
   }
 
-  if (this.imageWinners && this.awards.jury.winner && this.awards.users.winner) {
-    this.state = 'resolved';
+  // If state change to finished and imageWinners and jury winner is not define, revoke state change
+  if (this.state === 'finished' && !this.imageWinners && !this.awards.jury.winner) {
+    this.state = 'closed';
   }
 
-  console.log('ID:', this.id, this._id);
-  this.awards.idContest = (this.id || this._id);
+  // if contest state change to open, fill openDate
+  if (this.state === 'open' && this.openDate === '') {
+    this.openDate = Date.now;
+  }
 
   next();
 });
@@ -252,5 +238,5 @@ Contest.schema.pre('save', function(next) {
  * Registration
  * ============
  */
-Contest.defaultColumns = 'title, finishedDate, status';
+Contest.defaultColumns = 'title, finishedDate|20%, state|20%';
 Contest.register();

@@ -61,8 +61,8 @@ i18n.configure({
 keystone.set('nav', {
   'users': 'users',
   'recipes': 'recipes',
-  'configs': 'configs',
-  'contests': 'contests'
+  'contests': 'contests',
+  'configs': 'configs'
 });
 
 /*
