@@ -14,33 +14,52 @@ exports = module.exports = function(req, res) {
   };
   locals.title = res.__('Contests');
 
+  var contests = keystone.list('Contest');
+
   // load contests
   view.on('init', function(next) {
 
-    // Query for get contests for list
-    keystone.list('Contest')
-      .paginate({
-        page: req.query.page || 1,
-        perPage: 5
-      })
-      .where('state', 1)
-      .sort('-endDate').exec(function(err, results) {
+    async.parallel(
+      [
 
-        locals.data.current = results.results;
-        // Query for get current contest
-        keystone.list('Contest')
-          .paginate({
-            page: 1,
-            perPage: 1
-          })
-          .where('state', 1)
-          .sort('-endDate')
-          .exec(function(err, results) {
-            locals.data.contests = results.results;
-            next();
-          });
+        function(cb) {
+          // Query for get contests for list
+          contests
+            .paginate({
+              page: req.query.page || 1,
+              perPage: 5
+            })
+            .where('state', 'open')
+            .sort('-deadline').exec(function(err, results) {
+
+              locals.data.current = results.results;
+              cb(err, results.results);
+            });
+        },
+        function(cb) {
+          // Query for get current contest
+          contests.model
+            .find()
+            .where({
+              state: {
+                $in: ['closed', 'finished']
+              }
+            })
+            .sort('-deadline')
+            .exec(function(err, results) {
+              locals.data.contests = results.results;
+              cb(err, results.results);
+            });
+        }
+      ],
+      function(err, results) {
+        if (err) {
+          console.error("Contests controller", err);
+        }
+        next(err);
       });
   });
+
   // Render the view
   view.render('contests');
 };
