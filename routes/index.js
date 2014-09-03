@@ -95,6 +95,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me', middleware.requireUserApi, routes.api.v1.me.me);
   app.get('/api/v1/me/logout', middleware.requireUserApi, routes.api.v1.me.logout);
   app.put('/api/v1/me/save', middleware.requireUserApi, routes.api.v1.me.save);
+  app.get('/api/v1/me/recipes', middleware.requireUserApi, routes.api.v1.me.recipes);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
