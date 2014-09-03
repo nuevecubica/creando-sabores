@@ -9,8 +9,8 @@ exports = module.exports = function(req, res) {
   var Recipes = keystone.list('Recipe'),
     query = {
       paginate: {
-        page: req.query.page ||  1,
-        perPage: req.query.perPage ||  10
+        page: req.query.page || 1,
+        perPage: req.query.perPage || 10
       }
     },
     answer = {
@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
       var q = Recipes.paginate(query.paginate)
         .where('state', 1)
         .where('isBanned', false)
-        .sort('publishedDate');
+        .sort('-rating');
 
       q.exec(function(err, recipes) {
         //console.log('EXEC ' + JSON.stringify(recipes));
