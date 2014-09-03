@@ -37,6 +37,7 @@ exports = module.exports = function(req, res) {
           .sort('-endDate')
           .exec(function(err, results) {
             locals.data.contests = results.results;
+            next();
           });
       });
   });
