@@ -1,5 +1,6 @@
 var keystone = require('keystone'),
-  async = require('async');
+  async = require('async'),
+  Contest = keystone.list('Contest');
 
 exports = module.exports = function(req, res) {
 
@@ -7,40 +8,41 @@ exports = module.exports = function(req, res) {
     view = new keystone.View(req, res);
 
   // Set locals
-  locals.section = 'contests';
-  locals.data = {
-    contests: [],
-    current: null
+  locals.title = res.__('Contest');
+  locals.section = 'contest';
+
+  locals.data = {};
+
+  locals.filters = {
+    contest: req.params.contest
   };
-  locals.title = res.__('Contests');
 
   // load contests
   view.on('init', function(next) {
 
-    // Query for get contests for list
-    keystone.list('Contest')
-      .paginate({
-        page: req.query.page || 1,
-        perPage: 5
-      })
-      .where('state', 1)
-      .sort('-endDate').exec(function(err, results) {
+    // Query for get a contest
+    var q = Contest.model.findOne({
+      slug: locals.filters.contest
+    }).populate('awards.jury.winner', 'awards.community.winner');
 
-        locals.data.current = results.results;
-        // Query for get current contest
-        keystone.list('Contest')
-          .paginate({
-            page: 1,
-            perPage: 1
-          })
-          .where('state', 1)
-          .sort('-endDate')
-          .exec(function(err, results) {
-            locals.data.contests = results.results;
-            next();
-          });
-      });
+    q.exec(function(err, result) {
+      if (!err && result) {
+        console.log(result);
+
+        locals.data.contest = result;
+        next();
+      }
+      else {
+        if (err) {
+          next(err);
+        }
+        else {
+          next(null);
+        }
+      }
+    });
   });
+
   // Render the view
-  view.render('contests');
+  view.render('contest');
 };
