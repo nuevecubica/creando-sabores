@@ -78,6 +78,7 @@ exports = module.exports = function(app) {
   // Contests
   // -- Public
   app.get('/concursos', routes.views.contests);
+  app.get('/concurso/:contest', routes.views.contest);
 
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);
