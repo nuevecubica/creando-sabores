@@ -158,3 +158,18 @@ mixin header(data, section)
 				.row.section.subtitle
 					.author.shadow= author
 
+	else if section === 'contest'
+		- var image = data.contest ? data.contest.imageContest.url : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						.shadow= __('Contest')
