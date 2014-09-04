@@ -17,9 +17,9 @@
 
 			.explain {
 				.font-large;
-				font-weight: bolder;
+				font-weight: bold;
 				margin-bottom: 20px;
-				text-align: center;
+				text-align: left;
 			}
 
 			.buttons-social {
@@ -27,9 +27,14 @@
 				> .ui.button {
 					display: block;
 					margin-bottom: 5px;
-					text-align: left;
+					text-align: center;
 					position: relative;
 					padding-left: 10px;
+				}
+				.button-fb{
+					i.social {
+						padding-right: 0;
+					}		
 				}
 
 				i.social {
@@ -37,6 +42,7 @@
 					font-size: 40px;
 					vertical-align: middle;
 				}
+
 			}
 
 			.form-signin {
@@ -44,13 +50,14 @@
 
 					label {
 						.font-small.uppercase;
-						font-weight: bolder;
+						font-weight: bold;
 					}
 
 					input {
 						border-radius: 0 !important;
-						box-shadow: 0px 2px 4px -2px #000 !important;
-						height: 45px;
+						box-shadow: 0 -3px 0 @chef-color-gray-bg inset; 
+					
+						height: 60px;
 					}
 
 					#wrapper-show-password {
@@ -76,7 +83,8 @@
 			}
 
 		.info-terms {
-			.font-smaller;
+			margin-top: 5px;
+			.font-normal;
 			text-align: left;
 
 			a {
@@ -99,9 +107,12 @@
 	.dashed {
 		border-left: 2px dashed @separator-color;
 	}
+	.ui.button.chef{
+		padding: 25px ;
+	}
 }
 
-@media screen and (max-width: 980px) and (min-width: 768px) {
+@media screen and (max-width: 1100px) and (min-width: 768px) {
 	.social-reg {
 		display: none;
 	}

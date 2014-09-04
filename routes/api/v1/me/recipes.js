@@ -2,7 +2,7 @@ var async = require('async'),
   keystone = require('keystone');
 
 /*
-	/recipes?page=1&perPage=10
+	/me/recipes?page=1&perPage=10
 */
 
 exports = module.exports = function(req, res) {
@@ -22,9 +22,8 @@ exports = module.exports = function(req, res) {
 
     function(next) {
       var q = Recipes.paginate(query.paginate)
-        .where('state', 1)
-        .where('isBanned', false)
-        .sort('-rating');
+        .where('author', req.user._id)
+        .sort('-editDate');
 
       q.exec(function(err, recipes) {
         //console.log('EXEC ' + JSON.stringify(recipes));

@@ -133,5 +133,7 @@ $(document).ready(function() {
     $('#profile-remove-form').submit();
   });
 
+  /* global makePaginable */
+  makePaginable('/api/v1/me/recipes', 'recipe', '#recipes .list');
 
 });

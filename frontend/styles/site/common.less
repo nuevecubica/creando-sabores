@@ -95,6 +95,7 @@ body {
     font-size: 200px;
     color: white;
     text-decoration: none;
+    vertical-align: bottom;
   }
 }
 
@@ -192,10 +193,10 @@ body {
       > .row {
         margin: 0;
         padding: 0;
-        height: 18%;
+        height: 15%;
 
         &.logo {
-          height: 42%;
+          height: 45%;
         }
       }
     }
@@ -206,10 +207,10 @@ body {
       > .row {
         margin: 0;
         padding: 0;
-        height: 10%;
+        height: 6%;
 
         &.logo {
-          height: 40%;
+          height: 46%;
         }
       }
     }
@@ -287,7 +288,7 @@ body {
         color: @recipes-color-text;
 
         .icon {
-          .font-extra-larger;
+          .font-extra-large;
         }
       }
     }
@@ -319,9 +320,10 @@ body {
       margin: 0 auto;
 
       p {
+        .font-larger;
         margin-left: 10%;
         position: absolute;
-        top: -5px;
+        top: -12px;
         text-transform: uppercase;
       }
       .tabla1{
@@ -409,6 +411,7 @@ body {
         height: 100%;
 
         span {
+          padding:0 5px;
           display: table-cell;
           vertical-align: middle;
           text-align: center;
@@ -416,7 +419,8 @@ body {
           font-size: @recipe-font-text;
           color: @chef-color-white;
           transition: background-color @ani-time ease-out;
-          text-transform: capitalize;
+          text-transform: uppercase;
+          font-weight: bold;
         }
 
         &:hover {
@@ -632,7 +636,7 @@ body {
     padding-top: 0;
   }
 
-  .icon-chef-logo {
+  .icon-chef-logo { 
     color: @icon-logo;
     text-shadow: none;
   }
