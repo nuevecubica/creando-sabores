@@ -19,7 +19,7 @@ block content
           .contest-actions
             .vote
               .ui.button.chef.button-brick
-                a= __('Vote for your favourite')
+                a(href='/concurso/#{data.contest.slug}/candidatos/recientes')= __('Vote for your favourite')
 
             .favourite
               .ui.button.chef.button-yellow
@@ -27,7 +27,7 @@ block content
 
       #contest-description.row
         .sixteen.wide.column
-          .ui.header.underline= __('Description')
+          .ui.header= __('Description')
 
         .sixteen.wide.column
           .explain
@@ -35,7 +35,7 @@ block content
 
       #contest-awards.row
         .sixteen.wide.column
-          .ui.header.underline= __('Awards')
+          .ui.header= __('Awards')
 
         .sixteen.wide.column
           .explain
@@ -43,13 +43,42 @@ block content
 
         .sixteen.wide.column
           .explain
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.community
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
 
-        #ranking.sixteen.wide.column
-
-        #contest-terms.row
+      #ranking.row
         .sixteen.wide.column
-          .ui.header.underline= __('Terms')
+          .ui.header= __('Ranking')
+
+        - var top = data.top
+
+        if top && top.length > 0
+          - for (var i = 0, l = top.length; i < l; i++)
+            .top-recipe.four.tablet-four.mobile-sixteen.wide.column(style='background-image: url(#{top[i].header.url})')
+              .top-rating
+                i.icon-chef-star.icon
+                  span= top[i].rating
+              .top-info
+                span
+                  strong= (i + 1) + '# '
+                  a(href='/receta/#{top.slug}')= top[i].title
+
+                .top-share.center.aligned
+                  a(href='http://twitter.com')
+                      i.icon-chef-twitter.icon
+                  a(href='http://facebook.com')
+                      i.icon-chef-facebook.icon
+
+        else
+          span= __('No recipes for this contest yet')
+
+        .sixteen.wide.column.right.aligned
+          .ui.button.chef.button-green
+            a(href='/concurso/#{data.contest.slug}/candidatos/top')= __('Show all')
+
+
+      #contest-terms.row
+        .sixteen.wide.column
+          .ui.header= __('Terms')
 
         .sixteen.wide.column
           .explain
