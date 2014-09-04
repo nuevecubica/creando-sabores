@@ -310,6 +310,15 @@ module.exports = (grunt) ->
   grunt.initConfig initConfig
 
   grunt.config 'copy',
+    development:
+      files: [
+        {
+          expand: true
+          src: ["frontend/packages/semantic-ui/build/less/**"]
+          dest: "public/less/"
+          filter: "isFile"
+        }
+      ]
     client:
       files: [
         {
@@ -397,7 +406,9 @@ module.exports = (grunt) ->
     grunt.task.run ["autoprefixer:development"]
     grunt.task.run ["replace:development"]
     # grunt.task.run ["cssmin:build"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["copy:development"]
+    grunt.task.run ["copy:config"]
+    grunt.task.run ["copy:client"]
 
   grunt.registerTask "preproduction", ->
     grunt.task.run ["lint"]
@@ -405,7 +416,8 @@ module.exports = (grunt) ->
     grunt.task.run ["less:production"]
     grunt.task.run ["autoprefixer:production"]
     grunt.task.run ["cssmin:build"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["copy:config"]
+    grunt.task.run ["copy:client"]
 
   grunt.registerTask "production", ->
     grunt.task.run ["jshint"]
@@ -413,7 +425,8 @@ module.exports = (grunt) ->
     grunt.task.run ["less:build"]
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["copy:config"]
+    grunt.task.run ["copy:client"]
 
   grunt.registerTask "default", ->
     grunt.task.run [grunt.config("environment")]
