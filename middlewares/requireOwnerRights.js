@@ -26,7 +26,7 @@ exports.requireRecipeOwnerRights = function(req, res, next) {
       next();
     }
     else {
-      req.flash('error', res.__('You don\'t have rights to access this page'));
+      req.flash('error', res.__('Error: You don\'t have rights to access this page'));
       res.redirect(back);
     }
   });

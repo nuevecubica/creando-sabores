@@ -104,6 +104,11 @@ var recipeEdit = function(req, res) {
         return formResponse(req, res, back, 'Missing data', false);
       }
 
+      // If not admin, rejects if admited in a contest
+      if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.contest.state === 'admited') {
+        return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
+      }
+
       // Save
       recipe.getUpdateHandler(req).process(data, {
         fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
@@ -118,7 +123,7 @@ var recipeEdit = function(req, res) {
       });
     }
     else {
-      return formResponse(req, res, back, 'You don\'t have rights to access that page', false);
+      return formResponse(req, res, back, 'Error: You don\'t have rights to access that page', false);
     }
   });
 };

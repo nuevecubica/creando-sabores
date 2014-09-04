@@ -31,9 +31,16 @@ paths =
     normal: "public/styles/site.css"
     min: "public/styles/site.min.css"
     src: "frontend/styles/site.less"
+    map:
+      file: "public/styles/site.css.map"
+      base: "frontend/styles/"
+      source: "public/styles/"
+      sourceRoot: "/less/"
+      root: "/less/"
+      url: "/styles/site.css.map"
   coffee:
+    grunt:["Gruntfile.coffee"]
     all: [
-      "Gruntfile.coffee"
       "utils/**/*.coffee"
       "test/**/*.coffee"
     ]
@@ -43,6 +50,8 @@ paths =
       "public/fonts/basic*"
       "public/fonts/icons.*"
       "public/js/*"
+      "public/less"
+      "public/styles/site.css.map"
       "public/frontend"
       "public/packages"
     ]
@@ -200,12 +209,17 @@ module.exports = (grunt) ->
         files: paths.coffee.all
         tasks: ["coffeelint:all"]
 
+      grunt:
+        files: paths.coffee.grunt
+        tasks: ["default"]
+
       less:
         files: paths.less.src
         tasks: [
-          "less:build"
-          "autoprefixer:build"
-          "cssmin:build"
+          "less:development"
+          "autoprefixer:development"
+          "replace:development"
+          "copy:development"
         ]
 
     clean:
@@ -215,18 +229,40 @@ module.exports = (grunt) ->
         src: paths.clean.config
 
     less:
-      build:
+      development:
         options:
           paths: ["public"]
-
+          sourceMap: true
+          sourceMapFilename: paths.css.map.file
+          sourceMapURL: paths.css.map.url
+          sourceMapBasepath: paths.css.map.base
+          sourceMapRootpath: paths.css.map.root
+        files: {
+          # configured later
+        }
+      production:
+        options:
+          paths: ["public"]
+          sourceMap: false
         files: {
           # configured later
         }
 
     autoprefixer:
-      build:
-        options: {}
+      development:
         src: paths.css.normal
+        dest: paths.css.normal
+        options:
+          map:
+            prev: paths.css.map.source
+            annotation: paths.css.map.url
+            sourceContent: true
+            sourceRoot: paths.css.map.sourceRoot
+      production:
+        src: paths.css.normal
+        dest: paths.css.normal
+        options:
+          map: false
 
     cssmin:
       build:
@@ -257,14 +293,33 @@ module.exports = (grunt) ->
       build:
         src: paths.js.all
 
+    # Fixes an error in the autoprefixer's generated map
+    replace:
+      development:
+        src: [paths.css.map.file]
+        overwrite: true
+        replacements: [
+          from: new RegExp "\"[^\"]+/public/styles/site.css\""
+          to: "\"/styles/site.css\""
+        ]
 
-  initConfig.less.build.files[paths.css.normal] = paths.css.src
+  initConfig.less.development.files[paths.css.normal] = paths.css.src
+  initConfig.less.production.files[paths.css.normal] = paths.css.src
   initConfig.cssmin.build.files[paths.css.min] = [paths.css.normal]
 
   # Project configuration.
   grunt.initConfig initConfig
 
   grunt.config 'copy',
+    development:
+      files: [
+        {
+          expand: true
+          src: ["frontend/packages/semantic-ui/build/less/**"]
+          dest: "public/less/"
+          filter: "isFile"
+        }
+      ]
     client:
       files: [
         {
@@ -279,6 +334,13 @@ module.exports = (grunt) ->
           cwd: "frontend/js/"
           src: ["**"]
           dest: "public/js/"
+          filter: "isFile"
+        }
+        {
+          expand: true
+          cwd: "frontend/styles/"
+          src: ["**"]
+          dest: "public/less/"
           filter: "isFile"
         }
         {
@@ -318,6 +380,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-jsbeautifier"
   grunt.loadNpmTasks "grunt-nodemon"
   grunt.loadNpmTasks "grunt-mocha-test"
+  grunt.loadNpmTasks "grunt-text-replace"
 
   # Time how long tasks take. Can help when optimizing build times
   require("time-grunt") grunt
@@ -339,27 +402,32 @@ module.exports = (grunt) ->
     grunt.task.run ["lint"]
     grunt.task.run ["jsbeautifier:build"]
     grunt.task.run ["lint"]
-    grunt.task.run ["less:build"]
-    grunt.task.run ["autoprefixer:build"]
-    grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["less:development"]
+    grunt.task.run ["autoprefixer:development"]
+    grunt.task.run ["replace:development"]
+    # grunt.task.run ["cssmin:build"]
+    grunt.task.run ["copy:development"]
+    grunt.task.run ["copy:config"]
+    grunt.task.run ["copy:client"]
 
   grunt.registerTask "preproduction", ->
     grunt.task.run ["lint"]
-    grunt.task.run ["less:build"]
-    grunt.task.run ["autoprefixer:build"]
-    grunt.task.run ["cssmin:build"]
     grunt.task.run ["clean"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["less:production"]
+    grunt.task.run ["autoprefixer:production"]
+    grunt.task.run ["cssmin:build"]
+    grunt.task.run ["copy:config"]
+    grunt.task.run ["copy:client"]
 
   grunt.registerTask "production", ->
     grunt.task.run ["jshint"]
+    grunt.task.run ["clean"]
     grunt.task.run ["less:build"]
     grunt.task.run ["autoprefixer:build"]
     grunt.task.run ["cssmin:build"]
-    grunt.task.run ["clean"]
-    grunt.task.run ["copy"]
+    grunt.task.run ["copy:config"]
+    grunt.task.run ["copy:client"]
 
   grunt.registerTask "default", ->
     grunt.task.run [grunt.config("environment")]

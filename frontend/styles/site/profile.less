@@ -54,7 +54,7 @@
         border: @profile-border-size solid @profile-border-color;
       }
 
-      .show-editable{
+      .show-editable, .fake-editable{
         color: @profile-icon-color;
         position: absolute;
         bottom: 0;
@@ -62,9 +62,14 @@
 
         &.rounded {
           border-radius: 100%;
-          background-color: @chef-color-gray-bg;
+          background-color: @chef-color-brick-bg;
           padding: 10px;
           border: @profile-border-size solid white;
+          transition: background-color @ani-time ease-out;
+          &:hover{
+            background-color: @chef-color-red-bg;
+
+          }
         }
         input#profile-img-select{
           position: absolute;
@@ -90,9 +95,21 @@
   }
 }
 
-
+.tab-header{
+  .ui.button.chef.button-green{
+    display: table-block;
+    height: 65px;
+    padding: 25px 5px;
+    a{
+      
+    }
+  }
+}
 .tab-content {
-
+  .ui.button.chef.button-brick{
+    height: 63px;
+    padding: 25px;
+  }
   &#profile {
 
     label.explain {
@@ -103,8 +120,8 @@
       input {
         border-radius: 0px !important;
         border: 1px solid lighten(@profile-editable-border, 60%);
-        box-shadow: 0px 2px 4px -2px @profile-editable-border-shadow !important;
-        height: 45px;
+        box-shadow: 0px 1px 1px -2px @profile-editable-border-shadow !important;
+        height: 60px;
         width: 95%;
         padding:0 0 0 10px;
         .font-large;
@@ -165,6 +182,15 @@
       z-index: 10;
      top: 35px;
      right: 20px;
+    }
+  }
+
+  &#recipes {
+    .tabs{
+      margin-top: 4px;
+    }
+    #search-bar {
+      padding: 0;
     }
   }
 }

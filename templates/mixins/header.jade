@@ -2,6 +2,7 @@ mixin header(data, section)
 
 	//- Change this
 	- var default_image = '/images/defaul_image.jpg'
+	- var randCutlery = Math.floor(Math.random() * 3 + 1);
 
 	if section === 'home'
 		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
@@ -25,7 +26,9 @@ mixin header(data, section)
 
 					.four.wide.column.computer.only
 
+					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
 					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+
 						.tabla
 							p= __('Today promoted')
 							.tabla1
@@ -60,6 +63,18 @@ mixin header(data, section)
 								span
 								|#{__('Change image')}
 
+	else if section === 'publicProfile'
+		- var image = profile ? profile.media.header.url : default_image
+
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
+			.ui.page.grid.head.with-title
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+
 	else if section === 'recipes'
 		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
 		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
@@ -84,7 +99,7 @@ mixin header(data, section)
 							include ../components/share
 
 					.four.wide.column.computer.only
-
+					img.cutlery(src='/images/cutlery.png')
 					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
 						.tabla
 							p= __('Today promoted')

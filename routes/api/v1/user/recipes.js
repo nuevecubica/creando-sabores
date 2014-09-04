@@ -2,11 +2,12 @@ var async = require('async'),
   keystone = require('keystone');
 
 /*
-	/recipes?page=1&perPage=10
+	/chef/recipes?page=1&perPage=10
 */
 
 exports = module.exports = function(req, res) {
   var Recipes = keystone.list('Recipe'),
+    User = keystone.list('User'),
     query = {
       paginate: {
         page: req.query.page || 1,
@@ -18,13 +19,28 @@ exports = module.exports = function(req, res) {
       error: false
     };
 
-  async.series([
+  async.waterfall([
 
     function(next) {
+      var q = User.model.findOne({
+        username: req.params.username
+      });
+      q.exec(function(err, result) {
+        if (err || !result) {
+          res.status(404);
+          answer.error = true;
+          return res.apiResponse(answer);
+        }
+        next(err, result);
+      });
+    },
+
+    function(profile, next) {
       var q = Recipes.paginate(query.paginate)
+        .where('author', profile._id)
         .where('state', 1)
         .where('isBanned', false)
-        .sort('-rating');
+        .sort('-editDate');
 
       q.exec(function(err, recipes) {
         //console.log('EXEC ' + JSON.stringify(recipes));

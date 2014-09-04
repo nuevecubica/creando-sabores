@@ -109,19 +109,23 @@
 
   //.time, .portions, .difficulty, .rating {
   .difficulty {
+    font-size: @icons-font-size;
     .span {
       margin-left: 10px;
     }
-  }
-
-  .rating {
-    transition: opacity @ani-time ease-in;
-
-    .span {
-      margin-left: 10px;
+    .off {
+      opacity: 0.3;
     }
-  }
 
+    .on {
+      color: @recipes-thumbnail-ranking-on;
+    }
+
+    .icon-chef-tenedor:before {
+      width: 4px;
+    }
+
+  }
   .favourite {
     .checks {
       .font-normal;
@@ -135,20 +139,20 @@
       }
     }
   }
-
-  .difficulty, .rating {
+  .rating {
+    transition: opacity @ani-time ease-in;
     font-size: @icons-font-size;
 
+    .span {
+      margin-left: 10px;
+    }
+  
     .off {
       opacity: 0.3;
     }
 
     .on {
-      color: @recipes-thumbnail-ranking-on;
-    }
-
-    .icon-chef-tenedor:before {
-      width: 4px;
+      color: @chef-color-yellow-bg;
     }
 
     .icon-chef-star:before {
@@ -158,6 +162,7 @@
 
   .explain {
     margin-bottom: 20px;
+    .font-larger;
   }
 
   #info {
@@ -198,6 +203,7 @@
     margin: 20px 0;
 
     .ingredient {
+      .font-large;
       &.column {
         margin: 0 0 0.5em 0;
       }
@@ -249,6 +255,7 @@
         margin-top: 20px;
         margin-bottom: 20px;
         position: relative;
+        .font-larger;
 
         .checks {
           position: absolute;

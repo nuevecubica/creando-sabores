@@ -17,7 +17,7 @@ block content
 
 	.ui.page.grid.segment.body
 		.row.tablet.computer.only
-			.five.tabs
+			.five.tabs.tab-header
 				.row
 					.tab
 						div(class="#{subsection === 'profile' ? 'active' : ''}").ui.button.chef.button-green
@@ -35,8 +35,8 @@ block content
 						.ui.button.chef.button-green.disabled
 							a= __('My tips')
 
-		.row
-			if subsection == 'profile'
+		if subsection == 'profile'
+			.row
 				#profile.column.tab-content
 					.row
 						.three.column.stackable.ui.grid
@@ -90,16 +90,27 @@ block content
 									.ui.button.chef.button-brick= __('Remove account')
 							.seven.wide.column
 
-			else if subsection == 'recipes'
-				#recipes.column.tab-content
-					.row.list
+		else if subsection == 'recipes'
+			#recipes.tab-content
+				.row.tablet.computer.only.tab-header
+					.two.tabs
+						.row
+							.tab
+								.active.ui.button.chef.button-green
+									a= __('My recipes')
+							.tab
+								.ui.button.chef.button-green.disabled
+									a= __('Favorites')
+				include ../../components/search
+				.row
+					.ui.grid.segment.list
 						if recipes.length
 							each recipe in recipes
 								.row.position
 									+recipe(recipe)
 						else
 							| #{__('No recipes yet')}
-			//
+
 				.row.loader
 					.sixteen.wide.column.loading= __('Loading more recipes')
 					.sixteen.wide.column.load-more

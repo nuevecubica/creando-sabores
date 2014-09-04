@@ -73,6 +73,11 @@ body {
   padding: 0px;
   color: @chef-color-black;
   text-rendering: optimizeLegibility;
+  .ui.input input{
+    min-height: 60px;
+    font-family: @brandon-fonts;
+  }
+  
 }
 
 .header {
@@ -103,6 +108,7 @@ body {
     font-size: 200px;
     color: white;
     text-decoration: none;
+    vertical-align: bottom;
   }
 }
 
@@ -200,10 +206,10 @@ body {
       > .row {
         margin: 0;
         padding: 0;
-        height: 18%;
+        height: 15%;
 
         &.logo {
-          height: 42%;
+          height: 45%;
         }
       }
     }
@@ -214,10 +220,10 @@ body {
       > .row {
         margin: 0;
         padding: 0;
-        height: 10%;
+        height: 6%;
 
         &.logo {
-          height: 40%;
+          height: 46%;
         }
       }
     }
@@ -232,12 +238,12 @@ body {
 
       .text {
         position: relative;
-        top: 40px;
+        top: 45px;
         font-family: @pinto-fonts;
         text-transform: uppercase;
 
         .span {
-          font-size: 56px;
+          font-size: 45px;
           color: @recipes-color-text;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -295,7 +301,7 @@ body {
         color: @recipes-color-text;
 
         .icon {
-          .font-extra-larger;
+          .font-extra-large;
         }
       }
     }
@@ -313,7 +319,12 @@ body {
       left: 15px;
     }
   }
-
+  img.cutlery{
+    position: absolute;
+    right: 65px;
+    bottom: 50px;
+    z-index: 100000000;
+  }
   .img-title.wide.column{
     padding-top: 10px;
 
@@ -325,11 +336,12 @@ body {
       box-sizing: border-box;
       width: 98%;
       margin: 0 auto;
-
+      
       p {
+        .font-larger;
         margin-left: 10%;
         position: absolute;
-        top: -5px;
+        top: -12px;
         text-transform: uppercase;
       }
       .tabla1{
@@ -417,6 +429,7 @@ body {
         height: 100%;
 
         span {
+          padding:0 5px;
           display: table-cell;
           vertical-align: middle;
           text-align: center;
@@ -424,7 +437,8 @@ body {
           font-size: @recipe-font-text;
           color: @chef-color-white;
           transition: background-color @ani-time ease-out;
-          text-transform: capitalize;
+          text-transform: uppercase;
+          font-weight: bold;
         }
 
         &:hover {
@@ -640,7 +654,7 @@ body {
     padding-top: 0;
   }
 
-  .icon-chef-logo {
+  .icon-chef-logo { 
     color: @icon-logo;
     text-shadow: none;
   }
@@ -688,6 +702,9 @@ body {
   &.five {
     .mixin(5);
   }
+}
+input:focus{
+  outline: 1px solid;
 }
   // Arrows
   .arrow-up {
