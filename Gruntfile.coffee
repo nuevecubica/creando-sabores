@@ -216,9 +216,10 @@ module.exports = (grunt) ->
       less:
         files: paths.less.src
         tasks: [
-          "less:build"
-          "autoprefixer:build"
-          "cssmin:build"
+          "less:development"
+          "autoprefixer:development"
+          "replace:development"
+          "copy:development"
         ]
 
     clean:
