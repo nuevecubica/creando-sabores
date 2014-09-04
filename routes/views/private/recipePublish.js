@@ -67,7 +67,7 @@ var recipePublish = function(req, res) {
       });
     }
     else {
-      return formResponse(req, res, back, 'You don\'t have rights to access that page', false);
+      return formResponse(req, res, back, 'Error: You don\'t have rights to access that page', false);
     }
   });
 };

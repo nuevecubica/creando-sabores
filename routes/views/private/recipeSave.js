@@ -106,7 +106,7 @@ var recipeEdit = function(req, res) {
 
       // If not admin, rejects if admited in a contest
       if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.contest.state === 'admited') {
-        return formResponse(req, res, back, 'You cannot edit a recipe already admited in a contest', false);
+        return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
       }
 
       // Save
@@ -123,7 +123,7 @@ var recipeEdit = function(req, res) {
       });
     }
     else {
-      return formResponse(req, res, back, 'You don\'t have rights to access that page', false);
+      return formResponse(req, res, back, 'Error: You don\'t have rights to access that page', false);
     }
   });
 };

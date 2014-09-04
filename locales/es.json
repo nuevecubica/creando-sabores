@@ -46,6 +46,9 @@
 	"Error: Password not match": "Password erróneo.",
 	"Error: Unknown error": "Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo.",
 	"Error: Username format": "Sólo letras y números.",
+	"Error: You cannot edit a recipe already admited in a contest": "Lo sentimos, no puede editar una receta que participa en un concurso.",
+	"Error: You cannot delete a winner recipe": "Lo sentimos, no puede eliminar una receta ganadora.",
+	"Error: You don't have rights to access that page": "No tiene permiso para acceder a esa página.",
 	"Favorite": "Favorito",
 	"Favorites": "Favoritas",
 	"Follow us on social networks": "Síguenos en las redes sociales",
@@ -142,7 +145,5 @@
 	"Very hard": "Muy difícil",
 	"Videorecipes": "Videorecetas",
 	"Write here recipe name": "Nombre de la receta",
-	"Wrong email or in use.": "Incorrecto o en uso.",
-	"You cannot edit a recipe already admited in a contest": "Lo sentimos, no puedes editar una receta que participa en un concurso.",
-	"You don't have rights to access that page": "No tienes permiso para acceder a esa página."
+	"Wrong email or in use.": "Incorrecto o en uso."
 }

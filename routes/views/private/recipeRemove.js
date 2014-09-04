@@ -27,6 +27,11 @@ exports = module.exports = function(req, res, next) {
         return formResponse(req, res, backError, 'Error: Unknown error', false);
       }
       else if (recipe) {
+
+        if (recipe.isJuryWinner || recipe.isCommunityWinner) {
+          return formResponse(req, res, backError, 'Error: You cannot delete a winner recipe', false);
+        }
+
         // Remove
         recipe.remove(function(err) {
           if (err) {
