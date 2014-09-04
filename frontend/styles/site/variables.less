@@ -39,6 +39,8 @@
 @font-size-larger: 24px;
 @font-size-extra-large: 30px;
 @font-size-extra-larger: 38px;
+@font-size-xxl: 50px;
+@font-size-xxxl: 60px;
 
 @font-uppercase-size-smaller: 14px;
 @font-uppercase-size-small: 16px;
@@ -47,6 +49,8 @@
 @font-uppercase-size-larger: 24px;
 @font-uppercase-size-extra-large: 30px;
 @font-uppercase-size-extra-larger: 38px;
+@font-uppercase-size-xxl: 50px;
+@font-uppercase-size-xxxl: 60px;
 
 .font-smaller {
 	font-size: @font-size-smaller !important;
@@ -100,6 +104,22 @@
 	font-size: @font-size-extra-larger !important;
 	&.uppercase {
 		font-size: @font-uppercase-size-extra-larger !important;
+		text-transform: uppercase;
+	}
+}
+
+.font-xxl {
+	font-size: @font-size-xxl !important;
+	&.uppercase {
+		font-size: @font-uppercase-size-xxl !important;
+		text-transform: uppercase;
+	}
+}
+
+.font-xxxl {
+	font-size: @font-size-xxxl !important;
+	&.uppercase {
+		font-size: @font-uppercase-size-xxxl !important;
 		text-transform: uppercase;
 	}
 }
