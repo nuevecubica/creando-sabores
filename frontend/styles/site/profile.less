@@ -62,9 +62,14 @@
 
         &.rounded {
           border-radius: 100%;
-          background-color: @chef-color-gray-bg;
+          background-color: @chef-color-brick-bg;
           padding: 10px;
           border: @profile-border-size solid white;
+          transition: background-color @ani-time ease-out;
+          &:hover{
+            background-color: @chef-color-brick;
+
+          }
         }
         input#profile-img-select{
           position: absolute;
@@ -93,8 +98,8 @@
 .tab-header{
   .ui.button.chef.button-green{
     display: table-block;
-    height: 75px;
-    padding: 30px 5px;
+    height: 65px;
+    padding: 25px 5px;
     a{
       
     }
@@ -112,7 +117,7 @@
       input {
         border-radius: 0px !important;
         border: 1px solid lighten(@profile-editable-border, 60%);
-        box-shadow: 0px 2px 4px -2px @profile-editable-border-shadow !important;
+        box-shadow: 0px 1px 1px -2px @profile-editable-border-shadow !important;
         height: 45px;
         width: 95%;
         padding:0 0 0 10px;

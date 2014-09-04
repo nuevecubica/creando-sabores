@@ -132,9 +132,9 @@
 
   .set-editable {
     transition: box-shadow @ani-time ease-in, padding @ani-time ease-in;
-
+    border-radius: 2px;
     border: 1px solid lighten(@editable-border, 60%);
-    box-shadow: 0px 2px 4px -2px @editable-border-shadow !important;
+    box-shadow: 0px 1px 1px -2px @editable-border-shadow !important;
     padding: 8px 15px;
     outline:none;
   }
@@ -157,6 +157,10 @@
       left: 0;
       cursor: pointer;
     }
+  }
+  .ui.button.chef.button-gray{
+    bottom: 30px;
+    right: 35px;    
   }
 
   .dropdown {
