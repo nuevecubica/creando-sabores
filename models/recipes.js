@@ -57,7 +57,8 @@ Recipe.add({
       type: Types.Text,
       initial: true,
       required: true,
-      index: true
+      index: true,
+      note: 'Should be less than 12 chars to be promoted'
     },
 
     author: {
