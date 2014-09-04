@@ -17,7 +17,7 @@ exports = module.exports = function(req, res) {
         perPage: 5
       })
       .where('author', userId)
-      .sort('-rating')
+      .sort('-editDate')
       .exec(function(err, recipes) {
         if (err) {
           console.error('chefRecipes:', err);

@@ -40,7 +40,7 @@ exports = module.exports = function(req, res) {
         .where('author', profile._id)
         .where('state', 1)
         .where('isBanned', false)
-        .sort('-rating');
+        .sort('-editDate');
 
       q.exec(function(err, recipes) {
         //console.log('EXEC ' + JSON.stringify(recipes));
