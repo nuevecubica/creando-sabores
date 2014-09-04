@@ -80,7 +80,7 @@ exports = module.exports = function(app) {
   // -- Public
   app.get('/concursos', routes.views.contests);
   app.get('/concurso/:contest', routes.views.contest);
-  app.get('/concurso/:contest/ranking', routes.views.contestRanking);
+  app.get('/concurso/:contest/candidatos/:section(top|reciente)', routes.views.candidates);
 
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);

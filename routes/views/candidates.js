@@ -8,15 +8,16 @@ exports = module.exports = function(req, res) {
     view = new keystone.View(req, res);
 
   // Set locals
-  locals.title = res.__('Ranking');
-  locals.section = 'ranking';
+  locals.title = res.__('Candidates');
+  locals.section = 'candidates';
 
   locals.data = {};
 
   locals.filters = {
-    contest: req.params.contest
+    contest: req.params.contest,
+    section: req.params.section
   };
 
   // Render the view
-  view.render('ranking');
+  view.render('candidates');
 };
