@@ -73,6 +73,11 @@ body {
   padding: 0px;
   color: @chef-color-black;
   text-rendering: optimizeLegibility;
+  .ui.input input{
+    min-height: 60px;
+    font-family: @brandon-fonts;
+  }
+  
 }
 
 .header {
@@ -225,12 +230,12 @@ body {
 
       .text {
         position: relative;
-        top: 40px;
+        top: 45px;
         font-family: @pinto-fonts;
         text-transform: uppercase;
 
         .span {
-          font-size: 56px;
+          font-size: 45px;
           color: @recipes-color-text;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -306,7 +311,12 @@ body {
       left: 15px;
     }
   }
-
+  img.cutlery{
+    position: absolute;
+    right: 65px;
+    bottom: 50px;
+    z-index: 100000000;
+  }
   .img-title.wide.column{
     padding-top: 10px;
 
@@ -318,7 +328,7 @@ body {
       box-sizing: border-box;
       width: 98%;
       margin: 0 auto;
-
+      
       p {
         .font-larger;
         margin-left: 10%;
@@ -684,6 +694,9 @@ body {
   &.five {
     .mixin(5);
   }
+}
+input:focus{
+  outline: 1px solid;
 }
   // Arrows
   .arrow-up {
