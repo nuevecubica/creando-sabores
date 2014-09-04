@@ -8,8 +8,10 @@ var recipePublish = function(req, res) {
     recipeSlug = req.params.recipe,
     back = '..',
     states = ['draft', 'publish'],
+    contestStates = ['draft', 'review'],
     descriptions = ['unpublished', 'published'],
-    data = {};
+    data = {},
+    fields = [];
 
   var query = {
     slug: recipeSlug,
@@ -20,8 +22,8 @@ var recipePublish = function(req, res) {
   }
 
   // Data
+  fields.push('state');
   data.state = states.indexOf(req.params.state);
-
   if (data.state < 0) {
     console.error('recipePublish: Error for unknown state %s', req.params.state);
     return formResponse(req, res, back, 'Error: Unknown error', false);
@@ -35,9 +37,25 @@ var recipePublish = function(req, res) {
     }
     else if (recipe) {
 
+      // Update a contest recipe
+      if (recipe.contest && recipe.contest.id) {
+        if (data.state === 0) { // To draft
+          fields.push('contest.state');
+          data.contest = {
+            state: 'draft'
+          };
+        }
+        else if (data.state === 1 && recipe.contest.state === 'draft') { // To publish
+          fields.push('contest.state');
+          data.contest = {
+            state: 'review'
+          };
+        }
+      }
+
       // Publish
       recipe.getUpdateHandler(req).process(data, {
-        fields: 'state'
+        fields: fields
       }, function(err) {
         if (err) {
           console.error('recipePublish:', err);
