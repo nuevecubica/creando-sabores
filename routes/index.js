@@ -103,6 +103,7 @@ exports = module.exports = function(app) {
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
+  app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   //-- Recipes
   app.get('/api/v1/recipes', routes.api.v1.recipes);
 

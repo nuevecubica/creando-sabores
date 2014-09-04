@@ -4,7 +4,7 @@ include ../mixins/about
 include ../mixins/recipe
 
 block js
-	script(src='/js/profile.js')
+	script(src='/js/chef.js')
 
 block content
 
@@ -21,7 +21,7 @@ block content
 				.row
 					.tab
 						div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
-							a(href='/perfil/recetas')= __('Recipes')
+							a(href='/chef/#{profile.username}/recetas')= __('Recipes')
 					.tab
 						.ui.button.chef.button-green.disabled
 							a= __('Menus')
