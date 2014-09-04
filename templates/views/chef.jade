@@ -20,6 +20,8 @@ block content
 							- profile.media.avatar.url = '../images/test_user.png'
 
 						#profile-img.ui.image.avatar(style="background-image: url(#{profile.media.avatar.url}); background-size: cover; background-position:center; ")
+							if profile.isPrivate
+								.icon-chef-candado.rounded.show-editable
 
 				.twelve.wide.column.info
 					h2.ui.header
