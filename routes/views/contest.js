@@ -1,6 +1,7 @@
 var keystone = require('keystone'),
   async = require('async'),
-  Contest = keystone.list('Contest');
+  Contest = keystone.list('Contest'),
+  Recipe = keystone.list('Recipe');
 
 exports = module.exports = function(req, res) {
 
@@ -20,27 +21,74 @@ exports = module.exports = function(req, res) {
   // load contests
   view.on('init', function(next) {
 
-    // Query for get a contest
-    var q = Contest.model.findOne({
-      slug: locals.filters.contest
-    }).populate('awards.jury.winner', 'awards.community.winner');
+    // In async waterfall, first function return is a param in second function
+    // Thus, second function (Find recipes top for a contest) get id contest from first function.
+    async.waterfall([
+      // First funcion, get id contest
+      function(callback) {
+        // Query for get a contest
+        var queryContest = Contest.model.findOne({
+            slug: locals.filters.contest
+          })
+          .populate('awards.jury.winner', 'awards.community.winner');
 
-    q.exec(function(err, result) {
-      if (!err && result) {
-        console.log(result);
+        queryContest.exec(function(err, result) {
+          if (!err && result) {
+            locals.data.contest = result;
+            // Callback next function with id contest like input param
+            callback(null, result.id);
+          }
+          else {
+            if (err) {
+              callback(err, null);
+            }
+            else {
+              callback(null, null);
+            }
+          }
+        });
+      },
+      function(contestId, callback) {
 
-        locals.data.contest = result;
+        if (contestId) {
+          var queryTop = Recipe.model.find({
+              'contest.id': contestId,
+              'contest.state': 'admited'
+            })
+            .limit(4)
+            .populate('contest.id')
+            .sort('-rating');
+
+          queryTop.exec(function(err, result) {
+
+            if (!err && result) {
+              locals.data.top = result;
+
+              callback(null, locals.data);
+            }
+            else {
+              if (err) {
+                callback(err);
+              }
+              else {
+                callback(null, null);
+              }
+            }
+          });
+        }
+        else {
+          callback(null, null);
+        }
+      }
+    ], function(err, result) {
+      if (!err) {
         next();
       }
       else {
-        if (err) {
-          next(err);
-        }
-        else {
-          next(null);
-        }
+        next(err);
       }
     });
+
   });
 
   // Render the view

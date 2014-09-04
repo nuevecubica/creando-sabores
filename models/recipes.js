@@ -210,6 +210,18 @@ Recipe.add({
         type: Types.Select,
         options: ['none', 'review', 'admited', 'rejected'],
         default: 'none',
+      },
+
+      isJuryWinner: {
+        type: Boolean,
+        hidden: true,
+        default: false
+      },
+
+      isCommunityWinner: {
+        type: Boolean,
+        hidden: true,
+        default: false
       }
     }
   },
