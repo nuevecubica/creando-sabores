@@ -72,8 +72,8 @@ exports = module.exports = function(app) {
   // -- Private
   // ---- New
   app.get('/nueva-receta', middleware.requireUser, routes.views.recipe);
-  app.post('/nueva-receta/:contest', middleware.requireUser, routes.views.recipe);
   app.post('/nueva-receta/save', middleware.requireUser, routes.views['private'].recipeSave.create);
+  app.post('/nueva-receta/:contest', middleware.requireUser, routes.views.recipe);
   // ---- Edit
   app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
   app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
