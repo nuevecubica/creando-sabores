@@ -2,7 +2,7 @@ mixin header(data, section)
 
 	//- Change this
 	- var default_image = '/images/defaul_image.jpg'
-	- var randCutlery = Math.floor(Math.random() * 3 + 1);
+	- var randCutlery = Math.floor(Math.random() * 6 + 1);
 
 	if section === 'home'
 		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
