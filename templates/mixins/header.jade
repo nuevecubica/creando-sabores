@@ -39,7 +39,10 @@ mixin header(data, section)
 								.ui.image
 
 	else if section === 'privateProfile'
-		- var image = user ? user.media.header.url : default_image
+		- var image = "/images/test_recipe_bg.png"
+		- if (user && user.media && user.media.header.url) {
+		-   image = user.media.header.url;
+		- }
 
 		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
 			.ui.page.grid.head.with-title
@@ -47,10 +50,16 @@ mixin header(data, section)
 					include ../components/header
 
 				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
+					if (user && user.media && user.media.header.url)
+						a.test_bg.icon-chef-logo.icon(href="/")
+					else
+						a.test_bg.icon-chef-logo.icon.nopic(href="/")
+					
 				.row.section.title
-					.shadow= __('My recipe book')
+					if (user && user.media && user.media.header.url)
+						.test_bg.shadow= __('My recipe book')
+					else
+						.test_bg.nopic.shadow= __('My recipe book')
 
 				.row
 					.ten.wide.column
