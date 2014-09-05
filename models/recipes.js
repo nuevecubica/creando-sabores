@@ -215,13 +215,13 @@ Recipe.add({
 
       isJuryWinner: {
         type: Boolean,
-        hidden: true,
+        // hidden: true,
         default: false
       },
 
       isCommunityWinner: {
         type: Boolean,
-        hidden: true,
+        // hidden: true,
         default: false
       }
     }
@@ -316,24 +316,67 @@ Recipe.schema.pre('save', function(next) {
             callback(null, false);
           }
         });
-      }
+      },
+      // Check if states recipe has changed
+      state: function(callback) {
+        if (me.isModified('isBanned') && me.isBanned === true ||
+          me.isModified('state') && me.state !== 'publish' ||
+          me.isModified('contest.state') && me.contest.state !== 'admited') {
 
+          keystone.list('Contest').model.findOne({
+            _id: me.contest.id
+          }).exec(function(err, contest) {
+            if (!err && contest) {
+
+              if (me.contest.isJuryWinner) {
+                contest.awards.jury.winner = null;
+              }
+
+              if (me.contest.isCommunityWinner) {
+                contest.awards.community.winner = null;
+              }
+
+              // This will fire contest save pre hook, then is recipe state has
+              // changed, contest will be updated (change community winner
+              //if necessary or change contest status to closed if jury award
+              //recipe has changed its state)
+
+              contest.save(function(err) {
+                callback(err);
+              });
+
+            }
+            else {
+              callback(err, null);
+            }
+
+          });
+        }
+        else {
+          callback();
+        }
+      }
       // Adds some check and test here
     },
     function(err, results) {
-      me.isOfficial = results.official;
+      if (!err) {
+        me.isOfficial = results.official;
 
-      // Set isPromoted if recipes is promoted in grids or headers
-      if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
-        me.isPromoted = true;
+        // Set isPromoted if recipes is promoted in grids or headers
+        if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
+          me.isPromoted = true;
+        }
+
+        // Set contest
+        if (me.isForContest && me.contest.state === 'none') {
+          me.join.state = 'review';
+        }
+
+        next();
       }
-
-      // Set contest
-      if (me.isForContest && me.contest.state === 'none') {
-        me.join.state = 'review';
+      else {
+        next(err);
       }
-
-      next();
     });
 });
 
@@ -351,5 +394,6 @@ Recipe.schema.add({
  * Registration
  * ============
  */
-Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isBanned, isPromoted';
+// Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isBanned, isPromoted';
+Recipe.defaultColumns = 'title, author, contest.isJuryWinner, contest.isCommunityWinner, contest.state';
 Recipe.register();
