@@ -248,7 +248,7 @@
     var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
     window.chef.setEditableModeOn = function() {
-      title.backup(true);
+      title.backup();
       difficulty.backup();
       time.backup();
       portions.backup();
@@ -260,6 +260,8 @@
       $('body').addClass('mode-editable');
       $('.set-editable:not(.dropdown)').attr('contenteditable', true);
       window.activateDropdown();
+
+      title.focus();
     };
 
     // Events' functions
