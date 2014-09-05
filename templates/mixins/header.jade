@@ -1,3 +1,5 @@
+include ../mixins/header-share
+
 mixin header(data, section)
 
 	//- Change this
@@ -22,7 +24,7 @@ mixin header(data, section)
 					.social.four.tablet-seven.wide.column.tablet.computer.only
 						.corner-position.left
 							|#{__('Follow us on social networks')}
-							include ../components/share
+							include ../components/follow
 
 					.four.wide.column.computer.only
 
@@ -96,7 +98,7 @@ mixin header(data, section)
 					.social.four.tablet-seven.wide.column.tablet.computer.only
 						.corner-position.left
 							|#{__('Follow us on social networks')}
-							include ../components/share
+							include ../components/follow
 
 					.four.wide.column.computer.only
 					img.cutlery(src='/images/cutlery.png')
@@ -138,8 +140,8 @@ mixin header(data, section)
 					.row.computer.only.social
 						.four.wide.column
 							.corner-position.left.hide-editable
-								|#{__('Follow us on social networks')}
-								include ../components/share
+								|#{__('Share this recipe')}
+								+header-share()
 
 						.six.wide.column
 
