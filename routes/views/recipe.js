@@ -83,6 +83,7 @@ exports = module.exports = function(req, res) {
             return res.notfound(res.__('Not found'));
           }
 
+          result.url = '/receta/' + result.slug;
           locals.data.recipe = result;
           locals.title = result.title + ' - ' + res.__('Recipe');
         }
