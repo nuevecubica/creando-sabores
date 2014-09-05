@@ -1,0 +1,234 @@
+/****************
+	Menu
+****************/
+
+@chef-menu-text: @chef-color-white;
+@chef-menu-section: @chef-color-brick;
+@chef-menu-text-size: 28px;
+
+@chef-menu-background: @chef-color-brick-bg;
+@chef-menu-background-hover: lighten(@chef-color-brick-bg, 5%);
+
+@chef-menu-over-shadow: 1px 1px 2px rgba(0,0,0,.5);
+
+//====================================
+
+.preload #menu-box {
+	transform: translateY(-100%) !important;
+	visibility: hidden !important;
+}
+
+#manage-wrapper, #actions-wrapper {
+	margin-top: 10px;
+
+	.menu {
+		box-shadow: none;
+		background-color: transparent;
+
+		:before {
+			background-image: none;
+		}
+	}
+}
+
+#menu-wrapper {
+	margin-top: 5px;
+	position: relative;
+	min-height: 52px;
+	vertical-align: middle;
+	z-index: 20;
+
+	.menu {
+		box-shadow: none;
+		background-color: transparent;
+
+		.item {
+			padding: 10px 5px;
+
+			.username {
+				text-shadow: @chef-menu-over-shadow;
+			}
+		}
+
+		:before {
+			background-image: none;
+		}
+	}
+
+	#menu {
+		width: 62px;
+		position: relative;
+		top: 2px;
+
+		@media only screen and (max-width : 767px) {
+			width: 56px;
+			position: relative;
+			top: -4px;
+		}
+
+		&.item {
+			padding: 10px 0px;
+		}
+
+		i:before {
+			font-size: 30px;
+			color: @chef-menu-text;
+			text-shadow: @chef-menu-over-shadow;
+		}
+
+		cursor: pointer;
+	}
+}
+
+#menu-box {
+	.overlay;
+
+	z-index: 999;
+	transform: translateY(-100%);
+	visibility: hidden;
+
+	&.close {
+		animation-name: chefunbounce;
+		animation-duration: 200ms;
+		animation-timing-function: ease-in;
+		animation-fill-mode: both;
+	}
+
+	&.open {
+		animation-name: chefbounce;
+		animation-duration: 400ms;
+		animation-timing-function: linear;
+		animation-fill-mode: both;
+	}
+
+	overflow: hidden;
+
+	background: fade(@chef-menu-background, 90%);
+
+	#menu-close {
+		position: absolute;
+		padding: .83em .95em;
+		right: 10%;
+		top: 12px;
+		z-index: 100;
+
+		i:before {
+			font-size: 30px;
+			color: @chef-menu-text;
+		}
+
+		cursor: pointer;
+	}
+
+	nav {
+		box-sizing: border-box;
+		text-align: center;
+		position: relative;
+		padding-top: 5%;
+		height: 100%;
+		padding-bottom: 1em;
+		//transform: translateY(-50%);
+		max-width: 1440px;
+		margin: 0 auto;
+		overflow: hidden;
+
+		ul.menu {
+			list-style: none;
+			padding: 0;
+			margin: 0 auto;
+			display: inline-block;
+			min-width: 70%;
+
+			&.scroll {
+				height: 96%;
+				overflow-x: hidden;
+				overflow-y: auto;
+
+				scrollbar-face-color: @chef-menu-section;
+				scrollbar-highlight-color: lighten(@chef-menu-section, 10%);
+				scrollbar-shadow-color: darken(@chef-menu-section, 10%);
+				scrollbar-3dlight-color: lighten(@chef-menu-section, 10%);
+				scrollbar-arrow-color: @chef-menu-section;
+				scrollbar-track-color: darken(@chef-menu-section, 10%);
+				scrollbar-darkshadow-color: darken(@chef-menu-section, 10%);
+
+				&::-webkit-scrollbar {
+					height: 10px;
+					width: 10px;
+					background: darken(@chef-menu-background, 10%);
+					-webkit-border-radius: 1ex;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background: darken(@chef-menu-background, 20%);
+					-webkit-border-radius: 1ex;
+				}
+
+				&::-webkit-scrollbar-corner {
+					background: @chef-menu-section;
+				}
+			}
+
+			li {
+				display: block;
+				backface-visibility: hidden;
+				font-size: @chef-menu-text-size;
+
+				&.main {
+					font-weight: 700;
+				}
+
+				&.user {
+					font-weight: 200;
+				}
+
+				&.section {
+					font-weight: 700;
+					color: @chef-menu-section;
+				}
+
+				a {
+					display: block;
+					color: @chef-menu-text;
+					transition: background-color 50ms;
+					text-decoration: none;
+					min-height: (@chef-menu-text-size * 1.2);
+					border-bottom: 1px solid transparent;
+
+					&:hover {
+						background-color: @chef-menu-background-hover;
+					}
+
+					&.home:hover {
+						background-color: transparent;
+					}
+
+					i.icon-chef-logo {
+						font-size: 6em;
+						line-height: 1.2em;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-height: 60em) {
+	#menu-box nav ul.menu li {
+		font-size: (@chef-menu-text-size * 0.8);
+		a {
+			min-height: (@chef-menu-text-size * 0.8);
+		}
+	}
+}
+
+@media screen and (max-height: 50em) {
+		#menu-box nav ul.menu li a i.icon-chef-logo {
+			font-size: 4em;
+		}
+}
+@media screen and (max-height: 35em) {
+		#menu-box nav ul.menu li a i.icon-chef-logo {
+			font-size: 3em;
+		}
+}

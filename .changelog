@@ -1,6 +1,23 @@
-0.0.3-alpha3
+0.0.4-alpha4
 --------------------------------------------------
 
+
+0.0.3-alpha3
+--------------------------------------------------
++ User profile
++ User profile editor
++ Recipes section
++ Recipes promoted at Home
++ Official recipes
++ API calls:
+		recipes
+
+Internal:
++ CSRF protection
++ Removed 'test' app.js version
++ Removed /frontend folder
++ Infinite scroll
++ Handlebars frontend templates
 
 0.0.2-alpha2
 --------------------------------------------------
@@ -18,6 +35,7 @@ Internal:
 + BDD Testing
 + Configuration by environment
 + Code beautifier
++ Translations
 
 0.0.1-alpha1
 --------------------------------------------------

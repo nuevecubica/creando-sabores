@@ -1,56 +1,36 @@
 extends ../layouts/default
 
+include ../mixins/header
 include ../mixins/recipe
+include ../mixins/grid
+
+block js
+	script(src='/js/recipes.js')
 
 block content
-	#recipe.ui.grid.segment
-		.ui.page.grid.head
-			.row
-				include ../components/header
-
-			.row.logo.shadow
-				a.icon-chef-logo.icon(href="/")
-
-			.row.section
-				.title.shadow= __('Recipes')
-
-			.row
-				.social.five.wide.column= __('Follow us on social networks')
-					.ui.four.column.center.aligned.grid
-						.column
-							a.ui.item(href='http://twitter.com')
-								.ui.icon
-									i.icon-chef-twitter.icon
-						.column
-							a.ui.item(href='http://youtube.es')
-								.ui.icon
-									i.icon-chef-google.icon
-						.column
-							a.ui.item(href='http://facebook.com')
-								.ui.icon
-									i.icon-chef-facebook.icon
-						.column
-							a.ui.item(href='http://pinterest.es')
-								.ui.icon
-									i.icon-chef-pinterest.icon
-
-				.three.wide.column
-
-				.img-title.eight.wide.column
-					img.ui.image(src = '../frontend/images/test_recipe.png')
-					.text
-						.span Lasagna del chef
+	+header(data, section)
 
 	.ui.page.grid.body
 
 		include ../components/search
+
+
+		#recipes-grid.ui.grid.segment.wall
+			.row.computer.only
+				+grid(data.grid, data.order.grid_order_desktop_recipes, data.sizes.grid_size_desktop_recipes)
+
+			.row.tablet.only
+				+grid(data.grid, data.order.grid_order_tablet_recipes, data.sizes.grid_size_tablet_recipes)
+
+			.row.mobile.only
+				+grid(data.grid, data.order.grid_order_mobile_recipes, data.sizes.grid_size_mobile_recipes)
 
 		#add-new-bar.ui.grid.segment
 			.row
 				.sixteen.wide.column
 					.span= __('Do you have a new recipe?')
 						.ui.button.chef.button-brick
-							a(href='/')= __('Create recipe')
+							a(href='/nueva-receta')= __('Create recipe')
 
 		#recipes.ui.grid.segment.two.tabs
 			.row
@@ -63,13 +43,15 @@ block content
 
 			.row
 				.ui.grid.segment.list
-					if data.recipes.results.length
-						each recipe in data.recipes.results
-							.row
+					if data.recipes.length
+						each recipe in data.recipes
+							.row.position
 								+recipe(recipe)
 					else
 						| #{__('No recipes yet')}
 
 			.row.loader
-				.sixteen.wide.column
-					.span= __('Loading more recipes')
+				.sixteen.wide.column.loading= __('Loading more recipes')
+				.sixteen.wide.column.load-more
+					.ui.button.chef.button-brick.load-button
+						a(href="#")= __('Load more')

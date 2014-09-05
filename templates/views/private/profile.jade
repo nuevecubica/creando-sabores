@@ -1,0 +1,90 @@
+extends ../../layouts/default
+include ../../mixins/header
+include ../../mixins/about
+
+block js
+	script(src='/js/profile.js')
+
+block content
+
+	+header(data, section)
+
+	.ui.page.grid.segment.body.about
+		.column
+			.ui.stackable.grid
+				+about(user)
+
+	.ui.page.grid.segment.body
+		.row.tablet.computer.only
+			.five.tabs
+				.row
+					.tab
+						.ui.button.chef.button-green
+							a(href='/')= __('My account')
+					.tab
+						.ui.button.chef.button-green.disabled
+							a= __('Shopping list')
+					.tab
+						.ui.button.chef.button-green.disabled
+							a= __('My recipes')
+					.tab
+						.ui.button.chef.button-green.disabled
+							a= __('My menus')
+					.tab
+						.ui.button.chef.button-green.disabled
+							a= __('My tips')
+
+		.row
+			#profile.column.tab-content
+
+				.row
+					.three.column.stackable.ui.grid
+						.column
+							#user-name.field
+								label.explain= __('Username')
+								input(name="username" value="#{user.username}")
+						.column
+							#email.field
+								label.explain= __('Email')
+								input(name="email" value="#{user.email}")
+						.column
+							.password.field
+								.ui.button.chef.button-brick
+									a(href='/')= __('Change password')
+				#pass-row.row
+					.three.column.stackable.ui.grid
+						.column
+							.password.field
+								label.explain= __('Actual password')
+								input#old-pass(name="old-pass" type="password" autocomplete="off")
+						.column
+							.password.field
+								label.explain= __('New password')
+								input#new-pass(name="new-pass" type="password" autocomplete="off")
+						.column
+
+				.row
+					.column
+						label.explain= __('Privacy')
+						#private.field
+							label
+								input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
+								span.icon-chef-tick= __('Private profile?')
+				.row
+					.column.grid
+						#save
+							.ui.button.chef.button-blue= __('Save changes')
+
+				.row
+					.colum.grid.ui
+						.three.wide.column
+							.delete.field
+								a#delete-first(href='#')= __('Remove account')
+
+						#delete-confirm.six.wide.column
+							.arrow-left
+							.delete.message.ui
+								span= __('Are you sure remove account?')
+								p= __('Content will be removed')
+								.ui.button.chef.button-brick= __('Remove account')
+						.seven.wide.column

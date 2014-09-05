@@ -1,8 +1,10 @@
 must = require 'must'
 keystone = require 'keystone'
-config = require __dirname + '/../../config-test.js'
+config = require __dirname + '/../../config.js'
+data = require __dirname + '/../data.json'
+utils = require __dirname + '/../utils.js'
 
-request = require('supertest') config.url
+request = require('supertest') config.keystone.publicUrl
 
 getFormErrors = (text, expected) ->
   errorDetector = new RegExp 'field error\-here', 'ig'
@@ -11,15 +13,15 @@ getFormErrors = (text, expected) ->
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
 
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{text}"
-
 describe 'SIGNUP', ->
+
   before (done) ->
     this.timeout 10000
-    request.get('/').expect 200, done
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
+
+  afterEach (done) ->
+    utils.revertTestDatabase.call this, done
 
   describe 'GET /registro', ->
     it 'responds with the form', (done) ->
@@ -103,8 +105,8 @@ describe 'SIGNUP', ->
         .post('/registro')
         .send({
           'action': 'signup'
-          'signup_email': config.lists.users[0].email
-          'signup_password': config.lists.users[0].password
+          'signup_email': data.users[0].email
+          'signup_password': data.users[0].password
         })
         .expect(302)
         .end(done)
@@ -115,8 +117,8 @@ describe 'SIGNUP', ->
         .send({
           'action': 'signup'
           'signup_name': 'TestDummyName'
-          'signup_email': config.lists.users[0].email
-          'signup_password': config.lists.users[0].password
+          'signup_email': data.users[0].email
+          'signup_password': data.users[0].password
         })
         .expect(302)
         .end(done)

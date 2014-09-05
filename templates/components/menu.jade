@@ -1,18 +1,24 @@
 #menu-box
-	nav(role="navigation")
-		#menu-close.ui.item
-			i.icon-chef-menuquit
+  nav(role="navigation")
+    #menu-close.ui.item
+      i.icon-chef-menuquit
 
-		//- navLinks Array in ./routes/middleware.js
-		ul.menu.scroll
-			li.item.main(class=(section == 'home' ? 'active' : null))
-				a.home(href='/',rel='home')
-					i.icon-chef-logo
-			if user || true
-				li.item.section
-					span.title= __('My recipe book')
-				each link in navLinksPrivate
-					li.item.user(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+    //- navLinks Array in ./middlewares/initLocals.js
+    ul.menu.scroll
+      li.item.main(class=(section == 'home' ? 'active' : null))
+        a.home(href='/',rel='home')
+          i.icon-chef-logo
+      if user || true
+        li.item.section
+          span.title= __('My recipe book')
+        each link in navLinksPrivate
+          li.item.user(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
 
-			each link in navLinks
-				li.item.main(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+      each link in navLinks
+        li.item.main(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+
+      if user
+        if user.canAccessKeystone
+          li.item.main: a(href="/keystone")= __('Admin panel')
+
+        li.item.main: a(href="/salir")= __('To logout')

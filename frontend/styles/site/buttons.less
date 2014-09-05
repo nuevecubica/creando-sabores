@@ -1,0 +1,173 @@
+
+//- Sizes
+@buttons-padding-top: 15px;
+@buttons-padding-left: 25px;
+
+@buttons-border: 4px;
+
+@buttons-manage-color: @chef-color-white;
+@buttons-manage-color-active: @chef-color-black;
+@buttons-manage-background-active: @chef-color-white;
+@buttons-manage-border: @chef-color-white;
+@buttons-manage-border-shadow: @chef-color-black;
+
+.ui.menu:not(.vertical) .item > .button, .ui.button.chef {
+    padding: @buttons-padding-top @buttons-padding-left;
+
+    // For false buttons style (switch) like favourite icon
+    &.switch {
+      transition: none !important;
+      box-shadow: none !important;
+    }
+
+    &.mini {
+      padding: @buttons-padding-top @buttons-padding-left/10;
+    }
+}
+
+.ui.button.chef, .ui.icon.input>.icon.chef {
+  .font-small.uppercase;
+  font-weight: normal;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  letter-spacing: 0.07em;
+  transition: box-shadow @ani-time ease-out;
+
+  i {
+    padding-right: 10px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  &:hover {
+    transition-timing-function: ease-out;
+  }
+
+  &.disabled {
+    box-shadow: none!important;
+    transition: none!important;
+  }
+
+  &.button-brick {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-brick-bg);
+  }
+
+  &.button-pink {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-pink-bg);
+  }
+
+  &.button-pink-side {
+    .buttonAnimatedLeft(@chef-color-white, @chef-color-pink-bg);
+  }
+
+  &.button-green {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-green-bg);
+  }
+
+  &.button-blue {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-blue-bg);
+  }
+
+  &.button-gray {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-gray-bg);
+  }
+
+  &.button-fb {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-fb-bg);
+  }
+
+  &.button-g {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-g-bg);
+  }
+
+  &.button-yellow {
+    .buttonAnimatedBottom(@chef-color-white, @chef-color-yellow-bg);
+  }
+
+  &.button-manage {
+    box-shadow: 0px 0px 0px 3px @buttons-manage-border inset;
+    background-color: transparent;
+    transition: box-shadow @ani-time ease-out, text-shadow @ani-time ease-out;
+    margin: 0 5px;
+
+    a {
+      color: @buttons-manage-color;
+    }
+
+    &:active {
+      box-shadow: 0px 0px 0px 3px @buttons-manage-border inset, 0px 3px 8px -3px @buttons-manage-border-shadow, 0px 8px 7px -5px @buttons-manage-border-shadow inset !important;
+    }
+
+    &:hover {
+      box-shadow: 0px 0px 0px 3px @buttons-manage-border inset, 0px 3px 8px -3px @buttons-manage-border-shadow, 0px 8px 7px -5px @buttons-manage-border-shadow inset;
+      text-shadow: 0px 0px 4px black;
+    }
+  }
+}
+
+@media only screen and (max-width : 991px) {
+  .ui.menu:not(.vertical) .item > .button, .ui.button.chef {
+    padding: @buttons-padding-top/1.2 @buttons-padding-left/1.8;
+
+    &.mini {
+      padding: @buttons-padding-top/1.2 @buttons-padding-left/10;
+    }
+  }
+
+
+  .ui.button.chef, .ui.icon.input>.icon.chef {
+    .font-small.uppercase;
+  }
+}
+
+@media only screen and (max-width : 767px) {
+  .ui.menu:not(.vertical) .item > .button, .ui.button.chef {
+    padding: @buttons-padding-top/1.5 @buttons-padding-left/2;
+
+    &.mini {
+      padding: @buttons-padding-top/1.5 @buttons-padding-left/10;
+    }
+  }
+
+
+
+  .ui.button.chef, .ui.icon.input>.icon.chef {
+    .font-smaller.uppercase;
+  }
+}
+
+
+.ui.button.chef>.icon.chef {
+  margin-right: 0;
+}
+
+.buttonAnimatedBottom(@color, @background) {
+  color: @color;
+  background-color: @background !important;
+  box-shadow: 0px -@buttons-border 0px darken(@background, 10%) inset;
+
+  a {
+    color: @color;
+  }
+
+  &:hover {
+    box-shadow: 0px -100px 0px darken(@background, 10%) inset;
+  }
+}
+
+.buttonAnimatedLeft(@color, @background) {
+  color: @color;
+  background-color: @background !important;
+  box-shadow: @buttons-border 0px 0px darken(@background, 10%) inset;
+
+  a {
+    color: @color;
+  }
+
+  &:hover {
+    box-shadow: 200px 0px 0px darken(@background, 10%) inset;
+  }
+}

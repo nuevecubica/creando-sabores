@@ -1,0 +1,92 @@
+
+// Colors
+@footer-background: @chef-color-green-bg;
+@footer-color: @chef-color-white;
+
+/****************
+  Footer
+****************/
+#footer {
+  .bar;
+
+  overflow: hidden;
+
+  background-color: @footer-background;
+  color: @footer-color;
+
+  img {
+    margin: 0 auto;
+    width: 70%;
+  }
+
+  .block {
+    padding: 5%;
+  }
+
+  .ui.header {
+    .font-larger;
+    font-family: @pinto-fonts;
+    text-transform: uppercase;
+  }
+
+  .ui.list .item {
+    .font-normal;
+  }
+
+  .icon {
+    color: @footer-color;
+  }
+
+  &.mini {
+    padding: 10px;
+    margin-top: 20px;
+
+    .block {
+      padding: 0 5%;
+    }
+    .ui.header {
+      .font-small;
+    }
+  }
+
+  .logo {
+    .icon {
+      font-size: 150px;
+    }
+  }
+}
+
+@media only screen and (max-width : 991px) {
+  #footer .column {
+    text-align: center;
+  }
+}
+
+/****************
+  Social Bar Styles
+****************/
+#social {
+  .bar;
+
+  text-align: center;
+
+  a {
+    color: @social-icon-color;
+    display: inline-block;
+    width: 84px;
+    text-align: center;
+
+    .icon {
+      .font-extra-larger;
+    }
+  }
+}
+
+@media only screen and (max-width : 991px) {
+  #social a {
+    width: 64px;
+    .icon {
+      .font-larger;
+    }
+  }
+}

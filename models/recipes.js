@@ -3,6 +3,38 @@ var _ = require('underscore'),
   Types = keystone.Field.Types,
   async = require('async');
 
+var positions = [{
+  value: 0,
+  label: 'Position 1'
+}, {
+  value: 1,
+  label: 'Position 2'
+}, {
+  value: 2,
+  label: 'Position 3'
+}, {
+  value: 3,
+  label: 'Position 4'
+}, {
+  value: 4,
+  label: 'Position 5'
+}, {
+  value: 5,
+  label: 'Position 6'
+}, {
+  value: 6,
+  label: 'Position 7'
+}, {
+  value: 7,
+  label: 'Position 8'
+}, {
+  value: 8,
+  label: 'Position 9'
+}, {
+  value: 9,
+  label: 'Position 10'
+}];
+
 /**
  * Recipe
  * ======
@@ -15,7 +47,8 @@ var Recipe = new keystone.List('Recipe', {
   autokey: {
     path: 'slug',
     from: 'title',
-    unique: true
+    unique: true,
+    fixed: true
   }
 });
 
@@ -30,12 +63,11 @@ Recipe.add({
     author: {
       type: Types.Relationship,
       ref: 'User',
-      required: true,
       initial: true,
       index: true
     },
 
-    official: {
+    isOfficial: {
       type: Types.Boolean,
       hidden: true
     },
@@ -137,14 +169,12 @@ Recipe.add({
     time: {
       type: Types.Number,
       note: 'In minutes',
-      required: true,
       initial: false,
       default: 0
     },
 
     portions: {
       type: Types.Number,
-      required: true,
       initial: false,
       default: 0
     },
@@ -154,15 +184,76 @@ Recipe.add({
       wysiwyg: true,
       height: 100
     },
+
     ingredients: {
       type: Types.Html,
       wysiwyg: true,
       height: 50
     },
+
     procedure: {
       type: Types.Html,
       wysiwyg: true,
       height: 200
+    }
+  },
+
+  'Promoted', {
+    isPromoted: {
+      type: Types.Boolean,
+      label: 'Promoted',
+      hidden: true,
+      default: false
+    },
+
+    isIndexHeaderPromoted: {
+      type: Types.Boolean,
+      label: 'Index header promoted',
+      default: false
+    },
+
+    isIndexGridPromoted: {
+      value: {
+        type: Types.Boolean,
+        label: 'Index Grid',
+        default: false
+      },
+
+      position: {
+        type: Types.Select,
+        numeric: true,
+        options: positions,
+        label: 'Index Grid Position',
+        dependsOn: {
+          'isIndexGridPromoted.value': true
+        },
+        default: 0
+      }
+    },
+
+    isRecipesHeaderPromoted: {
+      type: Types.Boolean,
+      label: 'Recipes header promoted',
+      default: false
+    },
+
+    isRecipesGridPromoted: {
+      value: {
+        type: Types.Boolean,
+        label: 'Recipes Grid',
+        default: false
+      },
+
+      position: {
+        type: Types.Select,
+        numeric: true,
+        options: positions,
+        label: 'Index Grid Position',
+        dependsOn: {
+          'isRecipesGridPromoted.value': true
+        },
+        default: 0
+      }
     }
   });
 
@@ -189,17 +280,27 @@ Recipe.schema.pre('save', function(next) {
       // Check if user isChef, for official recipe.
       official: function(callback) {
         keystone.list('User').model.findById(me.author).exec(function(err, user) {
-          callback(null, (user.isChef) ? user.isChef : false);
+          if (!err && user) {
+            callback(null, (user.isChef) ? user.isChef : false);
+          }
+          else {
+            callback(null, false);
+          }
         });
       }
 
       // Adds some check and test here
     },
     function(err, results) {
-      me.official = results.official;
+      me.isOfficial = results.official;
+
+      // Set isPromoted if recipes is promoted in grids or headers
+      if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
+        me.isPromoted = true;
+      }
+
       next();
     });
-
 });
 
 // Schema for ranking
@@ -216,5 +317,5 @@ Recipe.schema.add({
  * Registration
  * ============
  */
-Recipe.defaultColumns = 'title, author, publishedDate, official, isBanned';
+Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isBanned, isPromoted';
 Recipe.register();

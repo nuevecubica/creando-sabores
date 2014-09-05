@@ -1,0 +1,144 @@
+{
+  "admins": [{
+    "name": "Admin",
+    "email": "user@keystonejs.com",
+    "password": "admin",
+    "username": "admin",
+    "about": "Admin",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "isAdmin": true,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
+  }],
+  "users": [{
+    "name": "Test User1",
+    "email": "testUser1@glue.gl",
+    "password": "testUser1",
+    "username": "testUser1",
+    "about": "Test User 1",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
+  }, {
+    "name": "Test User2",
+    "email": "testUser2@glue.gl",
+    "username": "testUser2",
+    "about": "Test User 2",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
+  }],
+  "recipes": [{
+    "description": "<p>DESCRIPTION 1</p>",
+    "ingredients": "<p>INGREDIENT 1</p>\r\n<p>INGREDIENT 2</p>\r\n<p>INGREDIENT 3</p>",
+    "isOfficial": false,
+    "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
+    "publishedDate": "2014-07-09T00:00:00.000+0200",
+    "rating": 3,
+    "title": "TEST RECIPE 1",
+    "slug": "test-recipe-1",
+    "review": [],
+    "isRecipesGridPromoted": {
+      "position": 0,
+      "value": true
+    },
+    "isRecipesHeaderPromoted": true,
+    "isIndexGridPromoted": {
+      "position": 0,
+      "value": true
+    },
+    "isIndexHeaderPromoted": false,
+    "isPromoted": true,
+    "portions": 1,
+    "time": 45,
+    "difficulty": 1,
+    "isBanned": false,
+    "state": 1,
+    "header": {
+      "public_id": "sfvqa0wbogqls2lqkbdi",
+      "version": 1405061087,
+      "signature": "9c59fd42ef98be50161c65c7835a31255ea20833",
+      "width": 1046,
+      "height": 490,
+      "format": "png",
+      "resource_type": "image",
+      "url": "http://res.cloudinary.com/keystone-demo/image/upload/v1405061087/sfvqa0wbogqls2lqkbdi.png",
+      "secure_url": "https://res.cloudinary.com/keystone-demo/image/upload/v1405061087/sfvqa0wbogqls2lqkbdi.png"
+    },
+    "author": 1,
+    "schemaVersion": 1
+  }, {
+  "description": "<p>DESCRIPTION 2</p>",
+    "ingredients": "<p>INGREDIENT 1</p>\r\n<p>INGREDIENT 2</p>\r\n<p>INGREDIENT 3</p>",
+    "isOfficial": false,
+    "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
+    "publishedDate": "2014-07-09T00:00:00.000+0200",
+    "rating": 3,
+    "title": "TEST RECIPE 2",
+    "slug": "test-recipe-2",
+    "review": [],
+    "isRecipesGridPromoted": {
+      "position": 0,
+      "value": true
+    },
+    "isRecipesHeaderPromoted": true,
+    "isIndexGridPromoted": {
+      "position": 0,
+      "value": true
+    },
+    "isIndexHeaderPromoted": false,
+    "isPromoted": true,
+    "portions": 5,
+    "time": 60,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "header": {
+      "public_id": "sfvqa0wbogqls2lqkbdi",
+      "version": 1405061087,
+      "signature": "9c59fd42ef98be50161c65c7835a31255ea20833",
+      "width": 1046,
+      "height": 490,
+      "format": "png",
+      "resource_type": "image",
+      "url": "http://res.cloudinary.com/keystone-demo/image/upload/v1405061087/sfvqa0wbogqls2lqkbdi.png",
+      "secure_url": "https://res.cloudinary.com/keystone-demo/image/upload/v1405061087/sfvqa0wbogqls2lqkbdi.png"
+    },
+    "author": 2,
+    "schemaVersion": 1
+  }],
+  "newRecipes": [{
+    "description": "DESCRIPTION NEW 1",
+    "ingredients": "INGREDIENT NEW 1\nINGREDIENT NEW 2\nINGREDIENT NEW 3",
+    "procedure": "PROCEDURE NEW STEP 1\nPROCEDURE NEW STEP 2\nPROCEDURE NEW STEP 3\nPROCEDURE NEW STEP 4",
+    "title": "TEST NEW RECIPE 1",
+    "slug": "test-new-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 1
+  }, {
+    "description": "DESCRIPTION NEW <h1>2</h1>",
+    "title": "TEST NEW RECIPE 2",
+    "slug": "test-new-recipe-2",
+    "portions": 10,
+    "time": 90,
+    "difficulty": 5
+  }, {
+    "description": "DESCRIPTION NEW 3",
+    "portions": 12,
+    "time": 60,
+    "difficulty": 3
+  }]
+}

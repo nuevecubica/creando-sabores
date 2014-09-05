@@ -1,8 +1,9 @@
 must = require 'must'
-keystone = null
-config = require __dirname + '/../../config-test.js'
+config = require __dirname + '/../../config.js'
+data = require __dirname + '/../data.json'
+utils = require __dirname + '/../utils.js'
 
-request = require('supertest') config.url
+request = require('supertest') config.keystone.publicUrl
 
 getFormErrors = (text, expected) ->
   errorDetector = new RegExp 'field error\-here', 'ig'
@@ -11,15 +12,11 @@ getFormErrors = (text, expected) ->
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
 
-antiRegExp = (text, regexp) ->
-  antiRE = new RegExp regexp
-  if text.match(antiRE) isnt null
-    return "text found: #{text}"
-
 describe 'LOGIN', ->
   before (done) ->
     this.timeout 10000
-    request.get('/').expect 200, done
+    request.get('/').expect 200, (err, res) ->
+      utils.revertTestDatabase(done)
 
   describe 'GET /acceso', ->
     it 'responds with the form', (done) ->
@@ -63,7 +60,7 @@ describe 'LOGIN', ->
           (res) -> return getFormErrors res.text, 2
         )
         .expect(
-          (res) -> return antiRegExp res.text, 'TestDummyEmail'
+          (res) -> return res.text.must.not.match 'TestDummyEmail'
         )
         .end(done)
 
@@ -104,8 +101,8 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': config.lists.users[0].email
-          'login_password': config.lists.users[0].password
+          'login_email': data.users[0].email
+          'login_password': data.users[0].password
         })
         .expect(302)
         .end(done)
@@ -116,7 +113,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': config.lists.users[0].email
+          'login_email': data.users[0].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)
@@ -131,7 +128,7 @@ describe 'LOGIN', ->
         .post('/acceso')
         .send({
           'action': 'login'
-          'login_email': config.lists.users[1].email
+          'login_email': data.users[1].email
           'login_password': 'TestDummyPassword'
         })
         .expect(200)

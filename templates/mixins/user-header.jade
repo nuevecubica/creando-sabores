@@ -1,0 +1,31 @@
+mixin user-header(user)
+  .ui.menu
+    .right.menu
+      if user
+        a.ui.item.profile(href='/perfil')
+
+          if !user.media.avatar.url
+            - user.media.avatar.url = '../images/test_user.png'
+
+          img.ui.image.avatar(src="#{user.media.avatar.url}")
+
+          if user.name
+            strong.username #{user.name}
+          else
+            strong.username #{user.username}
+
+        if user.canAccessKeystone
+          .ui.item.admin
+            a.ui.button.chef.button-brick(href="/keystone")= __('Admin panel')
+
+        .ui.item.logout
+          a.ui.button.chef.button-brick(href="/salir")= __('To logout')
+
+      else
+        .ui.item
+          a.ui.button.chef.button-brick(href="/acceso")= __('To login')
+        .ui.item
+          a.ui.button.chef.button-brick(href="/registro")= __('To register')
+
+      #menu.ui.item.menu-icon
+        i.icon-chef-menu

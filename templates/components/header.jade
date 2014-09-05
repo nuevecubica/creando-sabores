@@ -1,33 +1,8 @@
-#header.ui.grid.segment
-	.row
-		.sixteen.wide.column
-			#menu-wrapper
-				.ui.menu
-					.right.menu
-						if user
-							a.ui.item.profile(href='/perfil')
+include ../mixins/editable
+include ../mixins/user-header
 
-								if !user.media.avatar.url
-									- user.media.avatar.url = '../frontend/images/test_user.png'
+.six.tablet-eight.mobile-eleven.wide.column
+	+editable(editable, own)
 
-								img.ui.image.avatar(src="#{user.media.avatar.url}")
-
-								if user.name
-									strong #{user.name}
-								else
-									strong #{user.username}
-
-							if user.canAccessKeystone
-								.ui.item
-									a.ui.button.chef.button-brick(href="/keystone") Admin
-							.ui.item
-								a.ui.button.chef.button-brick(href="/salir") Salir
-
-						else
-							.ui.item
-								a.ui.button.chef.button-brick(href="/acceso") Entrar
-							.ui.item
-								a.ui.button.chef.button-brick(href="/registro") Registrarse
-
-						#menu.ui.item
-							i.icon-chef-menu
+#menu-wrapper.ten.tablet-eight.mobile-five.wide.column
+	+user-header(user)

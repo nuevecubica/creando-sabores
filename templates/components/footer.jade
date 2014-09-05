@@ -5,19 +5,19 @@ block footer
 		.ui.page.grid
 			.row
 				.sixteen.wide.column
-					.ui.three.column.divided.grid
+					.ui.three.column.divided.grid.stackable
 						.block.column
-							.ui.header Jesús Gibaja
+							.ui.header= __('Jesús Gibaja')
 							.ui.inverted.link.list
-								a.item Biografía
-								a.item Medio de comunicación
+								a.item= __('Bio')
+								a.item= __('Press media')
 
 						.logo.column
 							i.icon-chef-logo.icon
 
 						.block.column
-							.ui.header Ayuda
+							.ui.header= __('Help')
 							.ui.inverted.link.list
-								a.item Contacto
-								a.item(href="/terminos") Términos y condiciones
-								a.item Privacidad
+								a.item= __('Contact')
+								a.item(href="/terminos")= __('Terms and conditions')
+								a.item= __('Privacy')

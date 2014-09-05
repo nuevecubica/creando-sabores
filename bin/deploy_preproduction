@@ -1,0 +1,88 @@
+#!/bin/sh
+###
+# Deploy a new version to clubgibaja.byglue.me
+#
+###
+
+if [[ -z "$1" ]]; then
+	echo "-----------------------------------------------"
+	echo "You must provide the release version to deploy"
+	echo "-----------------------------------------------"
+	echo "Example:"
+	echo "$0 0.0.1-alpha1"
+	exit 1
+fi
+
+app_name='chefcito'
+app_repository='origin'
+app_release="$1"
+app_branch="release/$1"
+app_tag="version/$1"
+app_checkout="release/$1"
+
+app_gluerokku_name='chefcito-pre'
+app_gluerokku_env='preproduction'
+app_gluerokku_repository='PRE'
+
+check_dir() {
+	current_dir="$(pwd | awk -F/ '{ print $NF }')"
+	if [[ $current_dir != $app_name ]]; then
+		echo "Invalid directory $current_dir, go to the $app_name app root"
+		exit 1
+	fi
+}
+
+check_remote() {
+	remote="$(git remote | egrep ^$app_gluerokku_repository\$)"
+	if [[ "x$remote" == "x" ]]; then
+		echo "Remote ${app_gluerokku_repository} not found"
+		exit 1
+	fi
+}
+
+set_checkout() {
+	branch=$(git branch --list "$app_branch")
+	if [[ -z "$branch" ]]; then
+		tag=$(git tag --list "$app_tag")
+		if [[ -z "$tag" ]]; then
+			echo "Invalid release version: $app_release"
+			return 1
+		else
+			app_checkout="$app_tag"
+		fi
+	fi
+}
+
+check_branch() {
+	branch=$(git branch --list "$app_branch")
+	if [[ -z "$branch" ]]; then
+		echo "Invalid release version: $app_release"
+		return 1
+	fi
+}
+
+check_tag() {
+	tag=$(git tag --list "$app_tag")
+	if [[ -z "$tag" ]]; then
+		echo "Invalid tag version: $app_release"
+		return 1
+	fi
+}
+
+color_1='\033[0;31m'
+color_2='\033[1;31m'
+color_no='\033[0m'
+color_icon=$'\360\237\215\211'
+
+check_dir
+check_remote
+set_checkout
+echo "${color_icon}  ${color_1}===> ${color_2}Update${color_no}"
+git checkout $app_checkout || exit 1
+git pull "$app_repository" || exit 1
+echo "${color_icon}  ${color_1}===> ${color_2}Build${color_no}"
+grunt "$app_gluerokku_env" || exit 1
+echo "${color_icon}  ${color_1}===> ${color_2}Deploy${color_no}"
+git push -v "$app_gluerokku_repository" "$app_checkout:master" || exit 1
+echo "${color_icon}  ${color_1}===> ${color_2}Done!${color_no}"
+

@@ -1,0 +1,65 @@
+
+// Colors
+@search-bar-input: @chef-color-white-bg;
+@search-button-text-color: @chef-color-white;
+@search-button-background-color: @chef-color-pink-bg;
+
+@add-new-button-text-color: @chef-color-white;
+@add-new-button-background: @chef-color-brick-bg;
+
+@social-icon-color: @chef-color-black;
+
+/****************
+  Search bar Styles
+****************/
+#search-bar {
+  .field {
+    margin: 0;
+
+    input[type="text"] {
+      border: none;
+      height: 3em;
+      font-size: 20px;
+      font-weight: lighter;
+      border-radius: 0;
+      background-color: @search-bar-input;
+
+      &::-webkit-input-placeholder, &::-webkit-input-placeholder, &::-webkit-input-placeholder, &:-webkit-input-placeholder, &:-ms-input-placeholder {
+        font-size: 20px;
+        font-weight: lighter;
+      }
+    }
+
+    i.icon {
+      font-size: 40px !important;
+      opacity: 1;
+      border-radius: 0;
+      cursor: pointer;
+      padding-top: 0.10em;
+
+      .buttonAnimatedLeft(@search-button-text-color, @search-button-background-color);
+    }
+  }
+}
+
+#add-new-bar {
+  .bar;
+
+  .span {
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: center;
+
+    .button {
+      .buttonAnimatedBottom(@add-new-button-text-color, @add-new-button-background);
+
+      margin: 0 30px
+    }
+  }
+}
+
+@media only screen and (min-width : 1500px) {
+  #search-bar {
+    padding: 20px 0;
+  }
+}

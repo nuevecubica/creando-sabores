@@ -1,0 +1,201 @@
+@editable-border-shadow: @chef-color-black;
+@editable-border: @chef-color-gray;
+@editable-border-focus: @chef-color-black;
+@editable-placeholder-color: lighten(@chef-color-gray, 50%);
+
+.editable-container {
+  display: inline-block;
+}
+
+.disable-editable {
+  transition: opacity @ani-time ease-in;
+  opacity: 0.5;
+}
+
+.hide-editable-ani {
+  transition: visibility @ani-time ease-in, opacity @ani-time ease-in, height @ani-time ease-in;
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+}
+
+.show-editable-ani {
+  transition: visibility @ani-time ease-in, opacity @ani-time ease-in, height @ani-time ease-in, margin @ani-time ease-in;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  margin:0 !important;
+  overflow: hidden;
+}
+
+.hide-editable {
+  .hide-editable-ani;
+}
+
+.show-editable {
+  .show-editable-ani;
+}
+
+.set-editable {
+  transition: box-shadow @ani-time ease-in, padding @ani-time ease-in;
+  outline: none;
+
+  .options {
+    position: absolute;
+    display: none;
+  }
+}
+
+#manage-wrapper {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity @ani-time ease-in;
+}
+
+#actions-wrapper {
+  top: -150px;
+  right: 20px;
+  position: absolute;
+  transition: top @ani-time ease-in;
+}
+
+#menu-wrapper {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity (@ani-time / 2) ease-in;
+  transition-delay: (@ani-time / 2);
+}
+
+.mode-editable {
+
+  #manage-wrapper {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  #actions-wrapper {
+    top: 0px;
+    right: 20px;
+    position: absolute;
+  }
+
+  #menu-wrapper {
+    //display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  // This is a header promoted image.
+  // In recipe page this image has a shadow for highlight the title
+  .promoted {
+    .shadow-layer {
+      transition: opacity @ani-time ease-in;
+      opacity: 1 !important;
+    }
+  }
+
+
+  .head {
+    .logo {
+      position: inherit;
+    }
+
+    .section {
+      position: inherit;
+
+      &.title {
+        position: relative;
+
+        .set-editable {
+          box-shadow: none !important;
+          border: none;
+          padding: 0;
+        }
+      }
+    }
+
+    .social {
+      position: inherit;
+    }
+  }
+
+  /*
+  Ask msanchez, I don't know.
+  */
+  .hide-editable {
+    .show-editable-ani;
+  }
+
+  .show-editable {
+    .hide-editable-ani;
+  }
+
+  .set-editable {
+    transition: box-shadow @ani-time ease-in, padding @ani-time ease-in;
+
+    border: 1px solid lighten(@editable-border, 60%);
+    box-shadow: 0px 2px 4px -2px @editable-border-shadow !important;
+    padding: 8px 15px;
+    outline:none;
+  }
+
+  [placeholder]:empty:before {
+    content: attr(placeholder);
+    color: @editable-placeholder-color;
+  }
+
+  .file-select {
+    transition: all @ani-time ease-in;
+    overflow: hidden;
+    position: relative;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      height: 100%;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+  }
+
+  .dropdown {
+    cursor: pointer;
+
+    .options {
+      border: 1px solid #d0cdcb;
+      margin: 15px -18px -15px -16px;
+      padding:  0 15px;
+      background-color: white;
+      z-index: 100;
+
+      &.show {
+        transition: box-shadow @ani-time ease-in, padding @ani-time ease-in;
+        box-shadow: 0px 0px 45px -10px @editable-border-shadow !important;
+        display: block;
+
+        .item {
+          margin: 0 -15px;
+          padding: 0 15px;
+
+          &.selected {
+            background-color: lighten(@editable-border, 70%);
+          }
+
+          &:hover {
+            background-color: lighten(@editable-border, 60%);
+          }
+        }
+      }
+    }
+  }
+
+  .focus {
+    border: 1px solid lighten(@editable-border, 30%);
+  }
+
+  strong.set-editable {
+    padding: 5px;
+  }
+
+}

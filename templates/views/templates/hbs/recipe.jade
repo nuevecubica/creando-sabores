@@ -1,0 +1,32 @@
+.row.position
+	a(href="/receta/{{slug}}").five.wide.column
+		.thumbnail(style = 'background-image: url({{header.url}})')
+			.row
+
+			.row
+
+			.row
+				.ui.three.column.center.aligned.grid
+					.column
+						i.icon-chef-time.icon
+						.span {{formatTime time}}
+
+					.column
+						i.icon-chef-porciones.icon
+						.span {{portions}}
+
+					.difficulty.column {{formatIcons difficulty 'tenedor'}}
+
+	.eleven.wide.column
+		.ui.twelve.column
+			.rating
+				.strong= __('Rating')
+				.span
+					.ui.icon {{formatIcons rating 'star'}}
+
+			a(href="/receta/{{slug}}")
+				h2.ui.header {{title}}
+
+			.ui.content {{{description}}}
+
+			| {{formatOfficial isOfficial}}

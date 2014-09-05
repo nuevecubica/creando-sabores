@@ -1,5 +1,5 @@
 mixin recipe(recipe)
-	.five.wide.column
+	a(href="/receta/#{recipe.slug}").five.wide.column
 		.thumbnail(style = 'background-image: url(' + recipe.header.url + ')')
 			.row
 
@@ -9,7 +9,7 @@ mixin recipe(recipe)
 				.ui.three.column.center.aligned.grid
 					.column
 						i.icon-chef-time.icon
-						.span= (recipe.time < 60) ? recipe.time + ' min' : (recipe.time / 60).toFixed(2) + ' h'
+						.span= recipe.time + ' ' + __('min')
 
 					.column
 						i.icon-chef-porciones.icon
@@ -38,9 +38,12 @@ mixin recipe(recipe)
 								i.icon-chef-star.icon.on
 								- rating = rating - 1;
 
-			h2.ui.header
-				if(recipe.official)
-					!= recipe.title + ' ' + __('Official')
-				else
+			a(href="/receta/#{recipe.slug}")
+				h2.ui.header
 					!= recipe.title
+
 			.ui.content!= recipe.description
+
+			if (recipe.isOfficial)
+				.official
+					img(src='/images/ribbon.png')

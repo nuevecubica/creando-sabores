@@ -1,0 +1,159 @@
+mixin header(data, section)
+
+	//- Change this
+	- var default_image = '/images/defaul_image.jpg'
+
+	if section === 'home'
+		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
+		- var image = data.header ? data.header.header.url : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.simple.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row
+					.social.four.tablet-seven.wide.column.tablet.computer.only
+						.corner-position.left
+							|#{__('Follow us on social networks')}
+							include ../components/share
+
+					.four.wide.column.computer.only
+
+					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+						.tabla
+							p= __('Today promoted')
+							.tabla1
+								.ui.image
+							.tabla2
+								.text
+									.span= titlePromoted
+							.tabla3
+								.ui.image
+
+	else if section === 'privateProfile'
+		- var image = user ? user.media.header.url : default_image
+
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
+			.ui.page.grid.head.with-title
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.shadow= __('My recipe book')
+
+				.row
+					.ten.wide.column
+					.six.wide.column.right.aligned.show-editable
+						.corner-position.right
+							.ui.button.chef.button-gray
+								input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
+								i.social.icon-chef-camera
+								span
+								|#{__('Change image')}
+
+	else if section === 'recipes'
+		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
+		- var image = data.header ? data.header.header.url : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-title.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.shadow= __('Recipes')
+
+				.row
+					.social.four.tablet-seven.wide.column.tablet.computer.only
+						.corner-position.left
+							|#{__('Follow us on social networks')}
+							include ../components/share
+
+					.four.wide.column.computer.only
+
+					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+						.tabla
+							p= __('Today promoted')
+							.tabla1
+								.ui.image
+							.tabla2
+								.text
+									.span= titlePromoted
+							.tabla3
+								.ui.image
+
+	else if section === 'recipe'
+		- var title = data.recipe ? data.recipe.title : ''
+		- var image = data.recipe ? data.recipe.header.url : default_image
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : 'Unknow'
+		- var state = data.recipe ? data.recipe.state : 0
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#recipe-title.shadow.set-editable(data-length="40")= title
+
+				.row.section.subtitle
+					.author.shadow= author
+
+				//- Check if recipe is published to show social buttons
+				if state > 0
+					.row.computer.only.social
+						.four.wide.column
+							.corner-position.left.hide-editable
+								|#{__('Follow us on social networks')}
+								include ../components/share
+
+						.six.wide.column
+
+						.six.wide.column.right.aligned
+							.corner-position.right
+								.ui.button.chef.button-gray.show-editable.file-select
+									if own
+										input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+										i.social.icon-chef-camera
+										span
+										|#{__('Change image')}
+
+
+	else if section === 'new-recipe'
+		- var title = ''
+		- var author = (user.name || user.username)
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
+
+				.row.section.subtitle
+					.author.shadow= author
+

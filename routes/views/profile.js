@@ -4,21 +4,14 @@ var keystone = require('keystone'),
 
 exports = module.exports = function(req, res) {
 
-  var signinPage = '/acceso';
-
-  if (!req.user) {
-    return res.redirect(signinPage);
-  }
-
   var locals = res.locals,
     view = new keystone.View(req, res);
 
   // Init locals
-  locals.section = 'user';
+  locals.section = 'profile';
   locals.filters = {
     user: req.params.user
   };
-  locals.data = {};
 
   // load user
   view.on('init', function(next) {
@@ -29,7 +22,7 @@ exports = module.exports = function(req, res) {
     });
 
     q.exec(function(err, result) {
-      locals.data.user = result;
+      //locals.user = result;
       next(err);
     });
   });
