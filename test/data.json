@@ -45,11 +45,15 @@
     "ingredients": "<p>INGREDIENT 1</p>\r\n<p>INGREDIENT 2</p>\r\n<p>INGREDIENT 3</p>",
     "isOfficial": false,
     "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
-    "publishedDate": "2014-07-09T00:00:00.000+0200",
+    "publishedDate": "2014-01-01T00:00:00.000+0200",
+    "editDate": "2014-04-01T00:00:00.000+0200",
     "rating": 3,
     "title": "TEST RECIPE 1",
     "slug": "test-recipe-1",
-    "review": [],
+    "review": [{
+      "user": 1,
+      "rating": 3
+    }],
     "isRecipesGridPromoted": {
       "position": 0,
       "value": true
@@ -84,11 +88,15 @@
     "ingredients": "<p>INGREDIENT 1</p>\r\n<p>INGREDIENT 2</p>\r\n<p>INGREDIENT 3</p>",
     "isOfficial": false,
     "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
-    "publishedDate": "2014-07-10T00:00:00.000+0200",
+    "publishedDate": "2014-01-01T00:00:00.000+0200",
+    "editDate": "2014-02-01T00:00:00.000+0200",
     "rating": 2,
     "title": "TEST RECIPE 2",
     "slug": "test-recipe-2",
-    "review": [],
+    "review": [{
+      "user": 2,
+      "rating": 2
+    }],
     "isRecipesGridPromoted": {
       "position": 0,
       "value": true
@@ -122,8 +130,13 @@
     "description": "<p>DESCRIPTION 3</p>",
     "ingredients": "<p>INGREDIENT 1</p>",
     "procedure": "<p>PROCEDURE STEP 1</p>",
-    "publishedDate": "2014-07-08T00:00:00.000+0200",
+    "publishedDate": "2014-01-01T00:00:00.000+0200",
+    "editDate": "2014-03-01T00:00:00.000+0200",
     "rating": 1,
+    "review": [{
+      "user": 1,
+      "rating": 1
+    }],
     "title": "TEST RECIPE 3",
     "slug": "test-recipe-3",
     "portions": 2,
@@ -137,8 +150,13 @@
     "description": "<p>DESCRIPTION 4</p>",
     "ingredients": "<p>INGREDIENT 1</p>",
     "procedure": "<p>PROCEDURE STEP 1</p>",
-    "publishedDate": "2014-07-07T00:00:00.000+0200",
+    "publishedDate": "2014-01-02T00:00:00.000+0200",
+    "editDate": "2014-01-01T00:00:00.000+0200",
     "rating": 4,
+    "review": [{
+      "user": 1,
+      "rating": 4
+    }],
     "title": "TEST RECIPE 4",
     "slug": "test-recipe-4",
     "portions": 1,
@@ -152,8 +170,13 @@
     "description": "<p>DESCRIPTION UNPUBLISHED</p>",
     "ingredients": "<p>INGREDIENT 1</p>",
     "procedure": "<p>PROCEDURE STEP 1</p>",
-    "publishedDate": "2014-07-07T00:00:00.000+0200",
+    "publishedDate": "2014-05-01T00:00:00.000+0200",
+    "editDate": "2014-05-01T00:00:00.000+0200",
     "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
     "title": "TEST RECIPE UNPUBLISHED",
     "slug": "test-recipe-unpublished",
     "portions": 1,
@@ -167,8 +190,13 @@
     "description": "<p>DESCRIPTION BANNED</p>",
     "ingredients": "<p>INGREDIENT 1</p>",
     "procedure": "<p>PROCEDURE STEP 1</p>",
-    "publishedDate": "2014-07-07T00:00:00.000+0200",
+    "publishedDate": "2014-05-02T00:00:00.000+0200",
+    "editDate": "2014-05-02T00:00:00.000+0200",
     "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
     "title": "TEST RECIPE BANNED",
     "slug": "test-recipe-banned",
     "portions": 1,
