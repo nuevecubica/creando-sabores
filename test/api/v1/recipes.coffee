@@ -38,45 +38,39 @@ describe 'API v1: /recipes', ->
               return 'No arguments query failed'
             if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
-            if res.body.recipes.results.length < 2
-              many = res.body.recipes.results.length
-              return 'Got too few results (' + many + ')'
-            prevrating = res.body.recipes.results[0].rating
-            for recipe in res.body.recipes.results
-              if recipe.rating > prevrating
-                return 'Unordered results'
-              prevrating = recipe.rating
-              if recipe.state != 1
-                return 'Unpublished recipe received'
-              if recipe.banned
-                return 'Banned recipe received'
+            # Make our independent sorting and filtering
+            recipes = data.recipes.filter (recipe) ->
+              not recipe.isBanned and recipe.state == 1
+            recipes.sort (a,b) -> return b.rating - a.rating
+            if recipes.length > 5
+              recipes = recipes.slice 0, 5
+            # Compare results
+            slugsexpected = (r.slug for r in recipes)
+            slugsgot = (r.slug for r in res.body.recipes.results)
+            slugsgot.must.be.eql(slugsexpected)
         )
         .end(done)
 
     describe 'on normal request', ->
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/recipes?perPage=4')
+        .get('/api/v1/recipes?page=2&perPage=2')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        .end (err, res) ->
-          request
-          .get('/api/v1/recipes?page=2&perPage=2')
-          .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .expect(
-            (res2) ->
-              if res2.body.recipes.results.length != 2
-                return 'Unexpected results number'
-              oldres = res.body.recipes.results
-              newres = res2.body.recipes.results
-              if oldres[2].slug != newres[0].slug or
-                  oldres[3].slug != newres[1].slug
-                return 'Pagination order failure'
-          )
-          .end(done)
+        .expect(
+          (res) ->
+            # Make our independent sorting and filtering
+            recipes = data.recipes.filter (recipe) ->
+              not recipe.isBanned and recipe.state == 1
+            recipes.sort (a,b) -> return b.rating - a.rating
+            recipes = recipes.slice 2, 4
+            # Compare results
+            slugsexpected = (r.slug for r in recipes)
+            slugsgot = (r.slug for r in res.body.recipes.results)
+            slugsgot.must.be.eql(slugsexpected)
+        )
+        .end(done)
 
 
   describe 'GET /user/recipes', ->
@@ -93,44 +87,39 @@ describe 'API v1: /recipes', ->
               return 'No arguments query failed'
             if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
-            if res.body.recipes.results.length < 2
-              many = res.body.recipes.results.length
-              return 'Got too few results (' + many + ')'
-            preveditdate = res.body.recipes.results[0].editDate
-            for recipe in res.body.recipes.results
-              if recipe.editDate > preveditdate
-                return 'Unordered results'
-              prevrating = recipe.rating
-              if recipe.state != 1
-                return 'Unpublished recipe received'
-              if recipe.banned
-                return 'Banned recipe received'
+            # Make our independent sorting and filtering
+            recipes = data.recipes.filter (recipe) ->
+              not recipe.isBanned and recipe.state == 1 and recipe.author == 1
+            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
+            if recipes.length > 5
+              recipes = recipes.slice 0, 5
+            # Compare results
+            slugsexpected = (r.slug for r in recipes)
+            slugsgot = (r.slug for r in res.body.recipes.results)
+            slugsgot.must.be.eql(slugsexpected)
         )
         .end(done)
 
     describe 'on normal request', ->
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/user/testUser1/recipes?perPage=2')
+        .get('/api/v1/user/testUser1/recipes?page=2&perPage=1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        .end (err, res) ->
-          request
-          .get('/api/v1/user/testUser1/recipes?page=2&perPage=1')
-          .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .expect(
-            (res2) ->
-              if res2.body.recipes.results.length != 1
-                return 'Unexpected results number'
-              oldres = res.body.recipes.results
-              newres = res2.body.recipes.results
-              if oldres[1].slug != newres[0].slug
-                return 'Pagination order failure'
-          )
-          .end(done)
+        .expect(
+          (res) ->
+            # Make our independent sorting and filtering
+            recipes = data.recipes.filter (recipe) ->
+              not recipe.isBanned and recipe.state == 1 and recipe.author == 1
+            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
+            recipes = recipes.slice 1, 2
+            # Compare results
+            slugsexpected = (r.slug for r in recipes)
+            slugsgot = (r.slug for r in res.body.recipes.results)
+            slugsgot.must.be.eql(slugsexpected)
+        )
+        .end(done)
 
   describe 'GET /me/recipes', ->
     describe 'on unauthenticated request', ->
@@ -174,47 +163,34 @@ describe 'API v1: /recipes', ->
           (res) ->
             if res.body.success isnt true or res.body.error isnt false
               return 'Unexpected status values'
-            if res.body.recipes.results.length < 2
-              many = res.body.recipes.results.length
-              return 'Got too few results (' + many + ')'
-            anyBanned = false
-            anyDraft = false
-            preveditdate = res.body.recipes.results[0].editDate
-            for recipe in res.body.recipes.results
-              anyBanned = anyBanned or recipe.isBanned
-              anyDraft = anyDraft or recipe.state == 0
-              if recipe.editDate > preveditdate
-                return 'Unordered results'
-              preveditdate = recipe.editDate
-            if not anyBanned
-              return 'Banned recipes not returned'
-            if not anyDraft
-              return 'Recipe drafts not returned'
+            # Make our independent sorting and filtering
+            recipes = data.recipes.filter (recipe) -> recipe.author == 1
+            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
+            if recipes.length > 5
+              recipes = recipes.slice 0, 5
+            # Compare results
+            slugsexpected = (r.slug for r in recipes)
+            slugsgot = (r.slug for r in res.body.recipes.results)
+            slugsgot.must.be.eql(slugsexpected)
         )
         .end(done)
 
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/me/recipes?perPage=4')
+        .get('/api/v1/me/recipes?page=2&perPage=2')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end (err, res) ->
-          request
-          .get('/api/v1/me/recipes?page=2&perPage=2')
-          .set('Accept', 'application/json')
-          .set('cookie', cookie)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .expect(
-            (res2) ->
-              if res2.body.recipes.results.length != 2
-                return 'Unexpected results number'
-              oldres = res.body.recipes.results
-              newres = res2.body.recipes.results
-              if oldres[2].slug != newres[0].slug or
-                  oldres[3].slug != newres[1].slug
-                return 'Pagination order failure'
-          )
-          .end(done)
+        .expect(
+          (res) ->
+            # Make our independent sorting and filtering
+            recipes = data.recipes.filter (recipe) -> recipe.author == 1
+            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
+            recipes = recipes.slice 2, 4
+            # Compare results
+            slugsexpected = (r.slug for r in recipes)
+            slugsgot = (r.slug for r in res.body.recipes.results)
+            slugsgot.must.be.eql(slugsexpected)
+        )
+        .end(done)

@@ -30,7 +30,7 @@ describe 'RECIPES LISTS', ->
               not recipe.isBanned and recipe.state == 1
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
-              recipes.slice 0, 5
+              recipes = recipes.slice 0, 5
             # Compare results
             positions = (res.text.lastIndexOf(r.title) for r in recipes)
             prevpos = 0
@@ -55,7 +55,7 @@ describe 'RECIPES LISTS', ->
               not recipe.isBanned and recipe.state == 1 and recipe.author == 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > 5
-              recipes.slice 0, 5
+              recipes = recipes.slice 0, 5
             # Compare results
             positions = (res.text.lastIndexOf(r.title) for r in recipes)
             prevpos = 0
@@ -94,7 +94,7 @@ describe 'RECIPES LISTS', ->
             recipes = data.recipes.filter (recipe) -> recipe.author == 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > 5
-              recipes.slice 0, 5
+              recipes = recipes.slice 0, 5
             # Compare results
             positions = (res.text.lastIndexOf(r.title) for r in recipes)
             prevpos = 0
