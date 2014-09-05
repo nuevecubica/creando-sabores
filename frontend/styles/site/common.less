@@ -315,7 +315,7 @@ body {
     position: absolute;
     right: 65px;
     bottom: 50px;
-    z-index: 100000000;
+    z-index: 100;
   }
   .img-title.wide.column{
     padding-top: 10px;
@@ -507,6 +507,14 @@ body {
     margin-top: 4px;
     padding-top: 0;
     background-color: @recipes-list-even;
+    &:hover{
+      background-color: @recipes-list-odd;
+      .content {
+        &::after {
+          background: linear-gradient(to bottom, fade(@recipes-list-odd, 0%), @recipes-list-odd 57%);
+        }
+      }
+    }
     .content {
       &::after {
         background: linear-gradient(to bottom, fade(@recipes-list-even, 0%), @recipes-list-even 57%);
@@ -770,6 +778,9 @@ input:focus{
 .hidden {
   display: none !important;
 }
+
+
+
 
 /********************************
         New media queries
