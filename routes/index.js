@@ -72,6 +72,7 @@ exports = module.exports = function(app) {
   // -- Private
   // ---- New
   app.get('/nueva-receta', middleware.requireUser, routes.views.recipe);
+  app.post('/nueva-receta/:contest', middleware.requireUser, routes.views.recipe);
   app.post('/nueva-receta/save', middleware.requireUser, routes.views['private'].recipeSave.create);
   // ---- Edit
   app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
@@ -82,6 +83,7 @@ exports = module.exports = function(app) {
   // -- Public
   app.get('/concursos', routes.views.contests);
   app.get('/concurso/:contest', routes.views.contest);
+  app.get('/concurso/:contest/candidatos/:section(top|reciente)', routes.views.candidates);
 
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);

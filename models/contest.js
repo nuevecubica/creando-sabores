@@ -69,6 +69,11 @@ Contest.add({
       index: true
     },
 
+    description: {
+      type: Types.Html,
+      wysiwyg: true,
+    },
+
     ingredientRequired: {
       type: Types.Text,
       require: true,
@@ -186,6 +191,13 @@ Contest.add({
     }
   },
 
+  'Legal', {
+    terms: {
+      type: Types.Html,
+      wysiwyg: true
+    }
+  },
+
   'Promoted', {
     isPromoted: {
       type: Types.Boolean,
@@ -220,6 +232,80 @@ Contest.add({
     }
   });
 
+// Function to switch recipe state
+// Params:
+// -- field: string with a winner field name to change it (jury or community)
+// -- callback: function callback
+var switcher = function(field, callback) {
+  var me = this;
+
+
+  return async.series([
+    // First change to false isJuryWinner in current recipe.
+    function(next) {
+
+      // Get the current recipe winner  in database
+      keystone.list('Contest').model.findById(me._id).exec(function(err, contest) {
+
+        if (!err && contest) {
+          var oldRecipeId = (field === 'jury') ? contest.awards.jury.winner : contest.awards.community.winner;
+
+
+          keystone.list('Recipe').model.findById(oldRecipeId).exec(function(err, recipe) {
+
+            if (!err && recipe) {
+              if (field === 'jury') {
+                recipe.contest.isJuryWinner = false;
+              }
+              else if (field === 'community') {
+                recipe.contest.isCommunityWinner = false;
+              }
+
+              recipe.save(function(err) {
+                if (err) {}
+                next(err, null);
+              });
+            }
+            else {
+              next(err, null);
+            }
+          });
+        }
+        else {
+          next(err, null);
+        }
+      });
+    },
+    // Change true new recipe winner
+    function(next) {
+      var newRecipeId = (field === 'jury') ? me.awards.jury.winner : me.awards.community.winner;
+
+
+      keystone.list('Recipe').model.findById(newRecipeId).exec(function(err, recipe) {
+
+        if (!err && recipe) {
+          if (field === 'jury') {
+            recipe.contest.isJuryWinner = true;
+          }
+          else if (field === 'community') {
+            recipe.contest.isCommunityWinner = true;
+          }
+
+          recipe.save(function(err) {
+            if (err) {}
+            next(err, null);
+          });
+        }
+        else {
+          next(err, null);
+        }
+      });
+    }
+  ], function(err, result) {
+    callback(err);
+  });
+};
+
 // Check params before save
 Contest.schema.pre('save', function(next) {
 
@@ -229,17 +315,34 @@ Contest.schema.pre('save', function(next) {
   }
 
   // If state change to finished and imageWinners and jury winner is not define, revoke state change
-  if (this.state === 'finished' && !this.imageWinners && !this.awards.jury.winner) {
+  if (this.isModified('state') && this.state === 'finished' && !this.imageWinners && !this.awards.jury.winner) {
     this.state = 'closed';
   }
 
   // if contest state change to open, fill openDate
-  if (this.state === 'open' && this.openDate === '') {
+  if (this.isModified('state') && this.state === 'open') {
     this.openDate = Date.now;
+  }
+
+  if (this.isModified('awards.jury.winner')) {
+    switcher.call(this, 'jury', function(err) {
+      if (err) {
+        next(err);
+      }
+    });
+  }
+
+  if (this.isModified('awards.community.winner')) {
+    switcher.call(this, 'community', function(err) {
+      if (err) {
+        next(err);
+      }
+    });
   }
 
   next();
 });
+
 
 /**
  * Registration
