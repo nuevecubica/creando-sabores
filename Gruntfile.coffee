@@ -436,3 +436,8 @@ module.exports = (grunt) ->
     console.log("------------------------->>> " + process.env.NODE_ENV)
     console.log("------------------------->>> " + grunt.config("environment"))
     grunt.task.run [grunt.config("environment")]
+
+  grunt.registerTask "dev", ->
+    grunt.task.run ["build"]
+    grunt.task.run ["concurrent:test"]
+
