@@ -9,7 +9,7 @@ mixin header(data, section)
 	if section === 'home'
 		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
 		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
-		- var image = data.header ? data.header.header.url : default_image
+		- var image = data.header ? data.header.thumb.header : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -89,7 +89,7 @@ mixin header(data, section)
 	else if section === 'recipes'
 		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
 		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
-		- var image = data.header ? data.header.header.url : default_image
+		- var image = data.header ? data.header.thumb.header : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -124,7 +124,7 @@ mixin header(data, section)
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
-		- var image = data.recipe ? data.recipe.header.url : default_image
+		- var image = data.recipe ? data.recipe.thumb.header : default_image
 		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var state = data.recipe ? data.recipe.state : 0
 
