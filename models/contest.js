@@ -238,18 +238,14 @@ Contest.add({
 // -- callback: function callback
 var switcher = function(field, callback) {
   var me = this;
-
   return async.series([
     // First change to false isJuryWinner in current recipe.
     function(next) {
-
       // Get the oldRecipe winner  in database
       keystone.list('Contest').model.findById(me._id).exec(function(err, contest) {
 
         if (!err && contest) {
           var oldRecipeId = (field === 'jury') ? contest.awards.jury.winner : contest.awards.community.winner;
-
-          console.log('10', oldRecipeId);
 
           // If oldRecipeId does not exists, means that is a "clear winner"
           if (oldRecipeId) {
@@ -263,16 +259,13 @@ var switcher = function(field, callback) {
                   oldRecipe.contest.isCommunityWinner = false;
                 }
 
-                console.log('11');
-                console.log(oldRecipe);
+                // Save recipe
                 oldRecipe.save(function(err) {
                   if (err) {}
-                  console.log('12');
                   next(err, null);
                 });
               }
               else {
-                console.log('-101', err);
                 next(err, null);
               }
             });
@@ -282,7 +275,6 @@ var switcher = function(field, callback) {
           }
         }
         else {
-          console.log('-102', err);
           next(err, null);
         }
       });
@@ -291,7 +283,6 @@ var switcher = function(field, callback) {
     function(next) {
       var newRecipeId = (field === 'jury') ? me.awards.jury.winner : me.awards.community.winner;
 
-      console.log('20', newRecipeId);
       // If newRecipeId does not exists, means that is a "clear winner"
       if (newRecipeId) {
         keystone.list('Recipe').model.findById(newRecipeId).exec(function(err, newRecipe) {
@@ -304,16 +295,13 @@ var switcher = function(field, callback) {
               newRecipe.contest.isCommunityWinner = true;
             }
 
-            console.log('21');
-            console.log(newRecipe);
+            // Save recipe
             newRecipe.save(function(err) {
-              console.log('22');
               if (err) {}
               next(err, null);
             });
           }
           else {
-            console.log('-20');
             next(err, null);
           }
         });
@@ -328,15 +316,17 @@ var switcher = function(field, callback) {
 };
 
 // Set new community winner if current has changed its state
+// - filterid: is a current community winner recipe id. this param remove current id from find result.
 var getNewCommunityWinner = function(callback, filterId) {
-
   var me = this;
-
   var find = {
     'contest.id': me._id,
     'contest.state': 'admited',
     'isBanned': false,
-    'state': 1
+    'state': 1,
+    'rating': {
+      '$gt': 0
+    }
   };
 
   if (filterId) {
@@ -350,9 +340,16 @@ var getNewCommunityWinner = function(callback, filterId) {
       rating: -1
     })
     .exec(function(err, winner) {
-      if (!err && winner) {
+      if (!err) {
+        if (winner) {
+          me.awards.community.winner = winner._id;
+        }
+        else {
+          // if winner is null, means that there is no more recipes with rating > 0
+          me.awards.community.winner = null;
+          me.state = 'closed';
+        }
 
-        me.awards.community.winner = winner._id;
         callback();
       }
       else {
@@ -361,14 +358,11 @@ var getNewCommunityWinner = function(callback, filterId) {
     });
 };
 
-var checkStates = function(callback) {
-  console.log('2');
+// This function check if any state has changed
+var checkState = function(callback) {
+
   var me = this;
-
-  console.log('3');
-
   if (me.isModified('state')) {
-    console.log('4');
 
     if (me.state === 'draft' || me.state === 'open') {
       // If state backs to open/draft from closed
@@ -383,43 +377,24 @@ var checkStates = function(callback) {
       callback();
     }
     else if (me.state === 'closed') {
-      var that = me;
-      keystone.list('Recipe').model.findOne({
-        'contest.id': that._id,
-        'contest.state': 'admited',
-        'isBanned': false,
-        'state': 1
-      })
-        .sort({
-          rating: -1
-        })
-        .exec(function(err, winner) {
-          if (!err && winner) {
-
-            that.awards.community.winner = winner._id;
-
-            callback();
-          }
-          else {
-            callback(err);
-          }
-        });
+      getNewCommunityWinner.call(me, function(err) {
+        callback(err);
+      });
     }
     else if (me.state === 'finished') {
+      // if contest state is changed to finished and not set  imageWinner or jury/community winner, contest state back to closed state
       if (!me.imageWinners || !me.awards.jury.winner || !me.awards.community.winner) {
         me.state = 'closed';
       }
-
       callback();
     }
   }
   else {
-    console.log('5');
     callback();
   }
 };
 
-// Check params before save
+// Pre save HOOK
 Contest.schema.pre('save', function(next) {
 
   // Set isPromoted if recipes is promoted in grids or headers
@@ -429,12 +404,9 @@ Contest.schema.pre('save', function(next) {
 
   var me = this;
   async.series([
-
       // Check if contest state has changed
       function(callback) {
-        console.log('1');
-        checkStates.call(me, function(err) {
-          console.log('7');
+        checkState.call(me, function(err) {
           callback(err);
         });
       },
@@ -451,13 +423,13 @@ Contest.schema.pre('save', function(next) {
       },
       // Check if community jury award has changed
       function(callback) {
-        if (me.isModified('awards.community.winner')) {
-
+        if (me.isModified('awards.community.winner') && me.state !== 'draft' && me.state !== 'open') {
           keystone.list('Contest').model.findOne({
             id: this._id,
           }).exec(function(err, contest) {
 
             if (!err && contest) {
+              // if has changed, get new winner (rating)
               getNewCommunityWinner.call(me, function(err) {
                 if (!err) {
                   switcher.call(me, 'community', function(err) {
@@ -476,7 +448,9 @@ Contest.schema.pre('save', function(next) {
           });
         }
         else {
-          callback();
+          switcher.call(me, 'community', function(err) {
+            callback(err);
+          });
         }
       }
     ],
@@ -489,7 +463,6 @@ Contest.schema.pre('save', function(next) {
       }
     });
 });
-
 
 /**
  * Registration

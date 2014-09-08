@@ -300,10 +300,20 @@ Recipe.schema.path('portions').set(function(value) {
   return (value < 0) ? value * (-1) : value;
 });
 
-// Check params before save
+// Pre Save HOOK
 Recipe.schema.pre('save', function(next) {
 
   var me = this;
+
+  // Set isPromoted if recipes is promoted in grids or headers
+  if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
+    me.isPromoted = true;
+  }
+
+  // Set recipe in review for contest
+  if (me.isForContest && me.contest.state === 'none') {
+    me.contest.state = 'review';
+  }
 
   async.parallel({
       // Check if user isChef, for official recipe.
@@ -323,34 +333,45 @@ Recipe.schema.pre('save', function(next) {
           me.isModified('state') && me.state !== 'publish' ||
           me.isModified('contest.state') && me.contest.state !== 'admited') {
 
-          keystone.list('Contest').model.findOne({
-            _id: me.contest.id
-          }).exec(function(err, contest) {
-            if (!err && contest) {
+          // if recipe has been winner, then have to change contest
+          if (me.contest.isJuryWinner || me.contest.isCommunityWinner) {
 
-              if (me.contest.isJuryWinner) {
-                contest.awards.jury.winner = null;
+            // Search contest in wich is joined for change contest winner
+            keystone.list('Contest').model.findOne({
+              _id: me.contest.id
+            }).exec(function(err, contest) {
+              if (!err && contest) {
+
+                // if this recipe is jury winner, then have to change contest
+                // state to close because recipe winner is not right state
+                if (me.contest.isJuryWinner) {
+                  contest.awards.jury.winner = null;
+                  contest.state = 'closed';
+                }
+
+                // if this recipe is community winner, contest will search
+                // another community winner
+                if (me.contest.isCommunityWinner) {
+                  contest.awards.community.winner = null;
+                }
+
+                // This will fire contest save pre hook, then is recipe state has
+                // changed, contest will be updated (change community winner
+                //if necessary or change contest status to closed if jury award
+                //recipe has changed its state)
+                contest.save(function(err) {
+                  callback(err);
+                });
+
               }
-
-              if (me.contest.isCommunityWinner) {
-                contest.awards.community.winner = null;
+              else {
+                callback(err, null);
               }
-
-              // This will fire contest save pre hook, then is recipe state has
-              // changed, contest will be updated (change community winner
-              //if necessary or change contest status to closed if jury award
-              //recipe has changed its state)
-
-              contest.save(function(err) {
-                callback(err);
-              });
-
-            }
-            else {
-              callback(err, null);
-            }
-
-          });
+            });
+          }
+          else {
+            callback();
+          }
         }
         else {
           callback();
@@ -361,16 +382,6 @@ Recipe.schema.pre('save', function(next) {
     function(err, results) {
       if (!err) {
         me.isOfficial = results.official;
-
-        // Set isPromoted if recipes is promoted in grids or headers
-        if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
-          me.isPromoted = true;
-        }
-
-        // Set contest
-        if (me.isForContest && me.contest.state === 'none') {
-          me.join.state = 'review';
-        }
 
         next();
       }
