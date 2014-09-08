@@ -17,7 +17,7 @@ formErrorsAt = (errfields) ->
     else
       (field+'.error-here').should.not.be.inDOM
 
-describe.only 'WEB SIGNUP', ->
+describe 'WEB SIGNUP', ->
   @timeout 60000
 
   describe 'Home page', ->
