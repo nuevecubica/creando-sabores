@@ -18,79 +18,66 @@ formErrorsAt = (errfields) ->
       (field+'.error-here').should.not.be.inDOM
 
 describe 'WEB LOGIN', ->
-
   @timeout 60000
 
-  describe 'GET /acceso', ->
-    it 'responds with the form', ->
-      casper.start base + '/acceso', ->
+  describe 'Home page', ->
+    it 'links to login form', ->
+      casper.start base, ->
+        'a[href="/acceso"]'.should.be.inDOM
+
+  describe 'Login form', ->
+    it 'shows the login form', ->
+      casper.thenOpen base + '/acceso', ->
         formErrorsAt []
 
-  describe 'POST /acceso', ->
+    it 'shows 2 errors for 2 missing fields', (done) ->
+      casper.thenOpen base + '/acceso', ->
+        @fill 'form[action="acceso"]', {
+          'action': 'login'
+          'login_email': ''
+          'login_password': ''
+        }, true
+      casper.then ->
+        formErrorsAt ['#email', '#password']
 
-    describe 'on empty action', ->
-      it 'responds with the form, no errors', (done) ->
-        casper.thenOpen base + '/acceso', ->
-          @fill 'form[action="acceso"]', {
-            'action': ''
-            'login_email': ''
-            'login_password': ''
-          }, true
-        casper.then ->
-          formErrorsAt []
+    it 'shows password error for missing password', (done) ->
+      casper.thenOpen base + '/acceso', ->
+        @fill 'form[action="acceso"]', {
+          'action': 'login'
+          'login_email': data.users[0].email
+          'login_password': ''
+        }, true
+      casper.then ->
+        formErrorsAt ['#password']
 
+    it 'shows 2 errors for wrong password', (done) ->
+      casper.thenOpen base + '/acceso', ->
+        @fill 'form[action="acceso"]', {
+          'action': 'login'
+          'login_email': data.users[0].email
+          'login_password': 'garbage'
+        }, true
+      casper.then ->
+        formErrorsAt ['#email', '#password']
 
-    describe 'on some fields missing', ->
-      it 'responds with password error for missing password', (done) ->
-        casper.thenOpen base + '/acceso', ->
-          @fill 'form[action="acceso"]', {
-            'action': 'login'
-            'login_email': data.users[0].email
-            'login_password': ''
-          }, true
-        casper.then ->
-          formErrorsAt ['#password']
+    it 'shows 1 error for password if social user (w/no password)', (done) ->
+      casper.thenOpen base + '/acceso', ->
+        @fill 'form[action="acceso"]', {
+          'action': 'login'
+          'login_email': data.users[1].email
+          'login_password': 'garbage'
+        }, true
+      casper.then ->
+        formErrorsAt ['#password']
 
-      it 'responds with 2 errors for 2 empty fields', (done) ->
-        casper.thenOpen base + '/acceso', ->
-          @fill 'form[action="acceso"]', {
-            'action': 'login'
-            'login_email': ''
-            'login_password': ''
-          }, true
-        casper.then ->
-          formErrorsAt ['#email', '#password']
-
-    describe 'on invalid password', ->
-      it 'responds with 2 errors', (done) ->
-        casper.thenOpen base + '/acceso', ->
-          @fill 'form[action="acceso"]', {
-            'action': 'login'
-            'login_email': data.users[0].email
-            'login_password': 'garbage'
-          }, true
-        casper.then ->
-          formErrorsAt ['#email', '#password']
-
-    describe 'on password received for an user without password', ->
-      it 'responds with 1 error', (done) ->
-        casper.thenOpen base + '/acceso', ->
-          @fill 'form[action="acceso"]', {
-            'action': 'login'
-            'login_email': data.users[1].email
-            'login_password': 'garbage'
-          }, true
-        casper.then ->
-          formErrorsAt ['#password']
-
-    describe 'on valid user credentials', ->
-      it 'grants access', (done) ->
-        casper.thenOpen base + '/acceso', ->
-          @fill 'form[action="acceso"]', {
-            'action': 'login'
-            'login_email': data.users[0].email
-            'login_password': data.users[0].password
-          }, true
-        casper.then ->
-          'Chefcito Club Gibaja'.should.matchTitle
-          'a[href="/salir"]'.should.be.inDOM
+    it 'grants access for correct password', (done) ->
+      casper.thenOpen base + '/acceso', ->
+        @fill 'form[action="acceso"]', {
+          'action': 'login'
+          'login_email': data.users[0].email
+          'login_password': data.users[0].password
+        }, true
+      casper.then ->
+        'Chefcito Club Gibaja'.should.matchTitle
+        'a[href="/salir"]'.should.be.inDOM
+      casper.thenOpen base + '/salir'
