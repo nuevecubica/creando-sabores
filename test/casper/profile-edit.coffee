@@ -53,8 +53,8 @@ describe 'WEB Profile Edit', ->
         '#profile-name[contenteditable="true"]'.should.be.inDOM
         '#profile-about[contenteditable="true"]'.should.be.inDOM
         t = @evaluate getUserImages
-        oldAvatar = t[0];
-        oldHeader = t[1];
+        oldAvatar = t[0]
+        oldHeader = t[1]
 
     it 'allows edition in editable mode', ->
       casper.then ->
@@ -97,7 +97,7 @@ describe 'WEB Profile Edit', ->
         # Wait until page reloads. A cleaner way is welcome.
         casper.waitFor ->
           @evaluate ->
-            return document.getElementById('hidden-name').value.length == 0;
+            return document.getElementById('hidden-name').value.length == 0
       casper.thenOpen base + '/perfil', ->
         '#profile-name'.should.have.text userNewName
         '#profile-about'.should.have.text userNewAbout
