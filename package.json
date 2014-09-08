@@ -48,6 +48,7 @@
   "devDependencies": {
     "mocha": "^1.20.1",
     "must": "^0.12.0",
-    "supertest": "^0.13.0"
+    "supertest": "^0.13.0",
+    "grunt-mocha-casperjs": "~0.1.4"
   }
 }
