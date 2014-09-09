@@ -12,48 +12,76 @@ block content
     #contest-content.ui.grid.segment
       .row
         #info.eight.tablet-twelve.mobile-eight.wide.column
-          h1.ui.header= data.contest.title
-          span= __('Contest sponsored by {{{sponsor}}}', { sponsor: data.contest.sponsor })
+          .status
+            .status-tag(class=data.contest.state)
+              = __(data.contest.state)
+
+          .subheader
+            i.icon-chef-heart.icon
+            = __('Contest sponsored by')
+            strong= data.contest.sponsor
 
         #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
-          .contest-actions
-            .vote
+          .contest-actions(class=data.contest.state)
+            .action.vote
               .ui.button.chef.button-brick
                 a(href='/concurso/#{data.contest.slug}/candidatos/recientes')= __('Vote for your favourite')
 
-            .favourite
+            .action.join
               .ui.button.chef.button-yellow
                 a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
 
       #contest-description.row
         .sixteen.wide.column
-          .ui.header= __('Description')
+          .header= __('Description')
 
         .sixteen.wide.column
           .explain
             .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.description
 
-      #contest-awards.row
+      #contest-awards.row(class=data.contest.state)
         .sixteen.wide.column
-          .ui.header= __('Awards')
+          .header= __('Awards')
 
-        .sixteen.wide.column
+        .award.sixteen.wide.column
+          .icon
+            img(src='/images/jury_award.png')
+
           .explain
+            .subheader
+              strong= __('Jury award') + data.contest.awards.jury.name
             .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.description
 
-        .sixteen.wide.column
+        .award.sixteen.wide.column
+          .icon
+            img(src='/images/community_award.png')
+
           .explain
+            .subheader
+              strong= __('Community award') + data.contest.awards.community.name
             .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
+
+      if data.contest.state === 'finished'
+        #winners.row
+          .sixteen.wide.column
+            .header= __('Winners')
+
+          .winner.eight.tablet-eight.mobile-sixteen.wide.column
+
+
+          .winner.eight.tablet-eight.mobile-sixteen.wide.column
+
+
 
       #ranking.row
         .sixteen.wide.column
-          .ui.header= __('Ranking')
+          .header= __('Ranking')
 
         - var top = data.top
 
         if top && top.length > 0
           - for (var i = 0, l = top.length; i < l; i++)
-            .top-recipe.four.tablet-four.mobile-sixteen.wide.column(style='background-image: url(#{top[i].header.url})')
+            .top-contest.four.tablet-four.mobile-sixteen.wide.column(style='background-image: url(#{top[i].header.url})')
               .top-rating
                 i.icon-chef-star.icon
                   span= top[i].rating
@@ -76,9 +104,9 @@ block content
             a(href='/concurso/#{data.contest.slug}/candidatos/top')= __('Show all')
 
 
-      #contest-terms.row
+      #contest-terms.row(class=data.contest.state)
         .sixteen.wide.column
-          .ui.header= __('Terms')
+          .header= __('Terms')
 
         .sixteen.wide.column
           .explain
