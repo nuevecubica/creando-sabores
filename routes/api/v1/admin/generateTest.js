@@ -1,10 +1,14 @@
 var async = require('async'),
-  data = require('../data.json');
+  data = require('./generateTest.json'),
+  answer = {
+    success: false,
+    error: false
+  };
 
 var testMode = function(keystone) {
 
   if (!keystone) {
-    console.error('testMode error: keystone not found');
+    keystone = require('keystone');
   }
 
   var Users = keystone.list('User'),
@@ -160,4 +164,21 @@ var testMode = function(keystone) {
   return resp;
 };
 
-module.exports = exports = testMode;
+module.exports = exports = {
+  middleware: function(req, res) {
+    testMode(require('keystone')).revertDatabase(function(err) {
+      if (err) {
+        answer.error = true;
+      }
+      else {
+        answer.success = true;
+      }
+      return res.apiResponse(answer);
+    });
+  },
+  run: function(keystone, done) {
+    testMode(keystone).revertDatabase(done || function(err) {
+      return err;
+    });
+  }
+};
