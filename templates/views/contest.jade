@@ -63,9 +63,6 @@ block content
 
       if data.contest.state === 'finished'
 
-        - console.log(data.contest.awards.jury.winner);
-        - console.log(data.contest.awards.community.winner);
-
         #winners.row
           .sixteen.wide.column
             .header= __('Winners')
@@ -76,7 +73,7 @@ block content
               img.award(src='/images/jury_award.png')
 
           .recipe-award.four.tablet-four.mobile-eight.wide.column
-            .user= data.contest.awards.jury.winner.author.username
+            .user= (data.contest.awards.jury.winner.author.name || data.contest.awards.jury.winner.author.username)
             .title
               a(href='/receta/#{data.contest.awards.jury.winner.slug}')= data.contest.awards.jury.winner.title
             .subheader
@@ -89,7 +86,7 @@ block content
               img.award(src='/images/community_award.png')
 
           .recipe-award.four.tablet-four.mobile-eight.wide.column
-            .user= data.contest.awards.community.winner.author.username
+            .user= (data.contest.awards.jury.winner.author.name || data.contest.awards.jury.winner.author.username)
             .title
               a(href='/receta/#{data.contest.awards.community.winner.slug}')= data.contest.awards.community.winner.title
             .subheader
