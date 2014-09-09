@@ -146,13 +146,13 @@
 			margin: 0 auto;
 			display: inline-block;
 			max-width: 1440px;//Anteriormente en nav
-			padding-top: 78px;
 			min-width: 70%;
 
 			&.scroll {
-				height: 96%;
+				height: 95%;
 				overflow-x: hidden;
 				overflow-y: auto;
+				margin-top: 78px;
 
 				scrollbar-face-color: @chef-menu-section;
 				scrollbar-highlight-color: lighten(@chef-menu-section, 10%);
@@ -235,8 +235,13 @@
 	}			
 }
 @media screen and (max-height: 60em) {
-	#menu-box nav ul.menu li {
-		font-size: (@chef-menu-text-size * 0.8);
+	#menu-box nav ul.menu {
+		&.scroll{
+			font-size: 4.5em;
+			margin-top: 0px;
+			height: 90%;
+		}
+		
 		a {
 			min-height: (@chef-menu-text-size * 0.8);
 		}
@@ -244,12 +249,33 @@
 }
 
 @media screen and (max-height: 50em) {
-		#menu-box nav ul.menu li a i.icon-chef-logo {
+	#menu-box nav ul.menu {
+		&.scroll{
+			height: 85%;
+			margin-top: 0px;
+
+		}
+		li a i.icon-chef-logo {
 			font-size: 4em;
 		}
+		a{
+			line-height: .2em;
+			.font-normal;
+		}
+	}	
 }
 @media screen and (max-height: 35em) {
-		#menu-box nav ul.menu li a i.icon-chef-logo {
+	#menu-box nav ul.menu {
+		&.scroll{
+			margin-top: 0px;
+			height: 85%;
+		}
+		li a i.icon-chef-logo {
 			font-size: 3em;
 		}
+		a{
+			line-height: .1em;
+			.font-small;
+		}
+	}
 }
