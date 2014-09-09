@@ -108,6 +108,9 @@ exports = module.exports = function(app) {
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   //-- Recipes
   app.get('/api/v1/recipes', routes.api.v1.recipes);
+  //-- Admin
+  app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generateRecipes);
+  app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generateTest.middleware);
 
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);
