@@ -1,9 +1,15 @@
 
-@contest-ranking-recipe-info-background: fade(@chef-color-white, 60%);
-@contest-ranking-recipe-info-color: @chef-color-black;
-@contest-ranking-recipe-rating-color: @chef-color-yellow-bg;
-@contest-ranking-recipe-rating-border: @chef-color-white;
-@contest-ranking-recipe-rating-shadow: @chef-color-black;
+@contest-ranking-info-background: fade(@chef-color-white, 60%);
+@contest-ranking-rating-border: @chef-color-white;
+@contest-ranking-rating-shadow: @chef-color-black;
+@contest-winners-background-color: @chef-color-yellow-bg;
+@contest-winners-header-color: @chef-color-white;
+
+// Font color
+@contest-ranking-info-color: @chef-color-black;
+@contest-ranking-status-color: @chef-color-white;
+@contest-ranking-icon-color: @chef-color-yellow-bg;
+@contest-ranking-rating-color: @chef-color-yellow-bg;
 
 /****************
   Contest Styles
@@ -17,23 +23,84 @@
   }
 
   #info {
-    padding-top: 10px;
+    .status {
+      padding-top: 10px;
+    }
 
+    .subheader {
+      padding-top: 10px;
+
+      .icon {
+        color: @contest-ranking-icon-color;
+        margin-right: 10px;
+      }
+    }
   }
 
   #actions {
     padding-top: 10px;
 
-    .contest-actions > div {
-      display: inline-block;
-      padding-left: .5em;
-      margin-bottom: .5em;
-
-      @media screen and (max-width: 991px) {
-        display: block;
-        .button {
-          width: 100%;
+    .contest-actions {
+      &.programmed, &.closed, &.finished {
+        .action {
+          display: none;
         }
+      }
+
+      &.submission {
+
+      }
+
+      &.votes{
+        .action.join {
+          display: none;
+        }
+      }
+
+      .action {
+        display: inline-block;
+        padding-left: .5em;
+        margin-bottom: .5em;
+
+        @media screen and (max-width: 991px) {
+          display: block;
+          .button {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  #winners {
+    background-color: @contest-winners-background-color;
+
+    .header {
+      color: @contest-winners-header-color;
+    }
+
+    .winner {
+      height: 300px
+    }
+  }
+
+  #contest-awards {
+
+    &.finished {
+      display: none;
+    }
+
+    .award {
+      margin-top: 20px;
+      position: relative;
+
+      .icon {
+        position: absolute;
+        top: 0;
+      }
+
+      .explain {
+        padding-left: 80px;
       }
     }
   }
@@ -43,7 +110,11 @@
     padding-bottom: 20px;
     background-color: @ingredients-steps-bg;
 
-    .top-recipe {
+    &.finished {
+      display: none;
+    }
+
+    .top-contest {
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
@@ -62,21 +133,21 @@
 
         .icon {
           .font-xxl;
-          color: @contest-ranking-recipe-rating-color;
+          color: @contest-ranking-rating-color;
           text-shadow:
-            2px 0 0 @contest-ranking-recipe-rating-border,
-            -2px 0 0 @contest-ranking-recipe-rating-border,
-            0 2px 0 @contest-ranking-recipe-rating-border,
-            0 -2px 0 @contest-ranking-recipe-rating-border,
-            1px 1px @contest-ranking-recipe-rating-border,
-            -1px -1px 0 @contest-ranking-recipe-rating-border,
-            1px -1px 0 @contest-ranking-recipe-rating-border,
-            -1px 1px 0 @contest-ranking-recipe-rating-border,
-            0px 0px 10px @contest-ranking-recipe-rating-shadow;
+            1px 0 0 @contest-ranking-rating-border,
+            -1px 0 0 @contest-ranking-rating-border,
+            0 1px 0 @contest-ranking-rating-border,
+            0 -1px 0 @contest-ranking-rating-border,
+            1px 1px @contest-ranking-rating-border,
+            -1px -1px 0 @contest-ranking-rating-border,
+            1px -1px 0 @contest-ranking-rating-border,
+            -1px 1px 0 @contest-ranking-rating-border,
+            0px 0px 10px @contest-ranking-rating-shadow;
 
           span {
             .font-larger;
-            color: @contest-ranking-recipe-info-color;
+            color: @contest-ranking-info-color;
             text-shadow: none;
             position: absolute;
             top: 20px;
@@ -95,7 +166,7 @@
         bottom: 0px;
         left: 0px;
         padding: 10px;
-        background-color: @contest-ranking-recipe-info-background;
+        background-color: @contest-ranking-info-background;
         box-sizing: border-box;
 
 
@@ -107,7 +178,7 @@
           a {
             .font-large.uppercase;
             font-weight: normal;
-            color: @contest-ranking-recipe-info-color;
+            color: @contest-ranking-info-color;
             text-decoration: none;
 
             @media screen and (max-width: 991px) {
@@ -126,7 +197,7 @@
           }
 
           a {
-            color: @contest-ranking-recipe-info-color;
+            color: @contest-ranking-info-color;
             text-decoration: none;
           }
         }
@@ -141,6 +212,12 @@
       @media screen and (max-width: 767px) {
         text-align: center;
       }
+    }
+  }
+
+  #contest-terms {
+    &.finished {
+      display: none;
     }
   }
 }
