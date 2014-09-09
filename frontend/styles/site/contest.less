@@ -4,12 +4,15 @@
 @contest-ranking-rating-shadow: @chef-color-black;
 @contest-winners-background-color: @chef-color-yellow-bg;
 @contest-winners-header-color: @chef-color-white;
+@contest-ranking-bg: @chef-color-light-bg;
 
 // Font color
 @contest-ranking-info-color: @chef-color-black;
 @contest-ranking-status-color: @chef-color-white;
 @contest-ranking-icon-color: @chef-color-yellow-bg;
 @contest-ranking-rating-color: @chef-color-yellow-bg;
+@contest-user-winner-color: @chef-color-brick-bg;
+
 
 /****************
   Contest Styles
@@ -77,28 +80,61 @@
 
     .header {
       color: @contest-winners-header-color;
+      margin-bottom: 20px;
     }
 
-    .winner {
+    .recipe-winner {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       height: 300px;
 
-      .recipe-winner {
-        width: 50%;
+      .author-winner {
+        position: relative;
+        display: inline-block;
+        margin: 10px 0;
 
-        .author-winner {
-          img {
+        img {
+          &.author {
+            width: 80px;
+            border-radius: 50%;
+            border: 4px solid @contest-ranking-rating-border;
+          }
 
-            &.award {
-              width: 60px;
-              border-radius: 50%;
-              border: 4px solid @contest-ranking-rating-border;
-            }
+          &.award {
+            width: 30px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
           }
         }
       }
+    }
 
-      .recipe-award {
-        width: 50%;
+    .recipe-award {
+      height: 300px;
+      background-color: @contest-ranking-bg;
+      padding-top: 15px;
+
+      .user {
+        .font-large.uppercase;
+        font-family: 'Pinto';
+        color: @contest-user-winner-color;
+      }
+
+      .title {
+
+        a {
+          .font-xxl.uppercase;
+          color: @contest-ranking-info-color;
+          font-family: 'Pinto';
+          line-height: 48px;
+          text-decoration: none;
+        }
+      }
+
+      .award {
+
       }
     }
   }
@@ -127,10 +163,10 @@
   #ranking {
     padding-top: 20px;
     padding-bottom: 20px;
-    background-color: @ingredients-steps-bg;
+    background-color: @contest-ranking-bg;
 
     &.finished {
-      display: none;
+      background-color: transparent;
     }
 
     .top-contest {
