@@ -57,7 +57,7 @@ mixin header(data, section)
 						a.test_bg.icon-chef-logo.icon(href="/")
 					else
 						a.test_bg.icon-chef-logo.icon.nopic(href="/")
-					
+
 				.row.section.title
 					if (user && user.media && user.media.header.url)
 						.test_bg.shadow= __('My recipe book')
@@ -186,6 +186,7 @@ mixin header(data, section)
 					.author.shadow= author
 
 	else if section === 'contest'
+		- var title = data.contest ? data.contest.title : ''
 		- var image = data.contest ? data.contest.imageContest.url : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
@@ -199,4 +200,7 @@ mixin header(data, section)
 
 				.row.section.title
 					.editable-container
-						.shadow= __('Contest')
+						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= title
+
+				.row.section.subtitle
+					.sponsor.shadow= __('Contest')
