@@ -23,7 +23,6 @@ exports = module.exports = function(req, res) {
     function(next) {
       var q = Recipes.paginate(query.paginate)
         .where('author', req.user._id)
-        .where('isBanned', false)
         .where('isRemoved', false)
         .sort('-editDate');
 
