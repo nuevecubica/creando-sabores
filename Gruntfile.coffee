@@ -278,8 +278,18 @@ module.exports = (grunt) ->
       development:
         options:
           reporter: "spec"
+          timeout: 3000
 
-        src: paths.coffee.test
+        src: ['test/mocha/**/*.coffee']
+
+    mocha_casperjs:
+      development:
+        options:
+          timeout: 60000
+          casperTimeout: 60000
+
+        files:
+          src: ['test/casper/**/*.coffee']
 
     jsbeautifier:
       options:
@@ -380,6 +390,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-jsbeautifier"
   grunt.loadNpmTasks "grunt-nodemon"
   grunt.loadNpmTasks "grunt-mocha-test"
+  grunt.loadNpmTasks "grunt-mocha-casperjs"
   grunt.loadNpmTasks "grunt-text-replace"
 
   # Time how long tasks take. Can help when optimizing build times
@@ -394,7 +405,8 @@ module.exports = (grunt) ->
     grunt.task.run ["coffeelint:all"]
 
   grunt.registerTask "test", ->
-    grunt.task.run ["env:test", "lint", "mochaTest:development"]
+    grunt.task.run ["env:test", "lint", "mochaTest:development",
+                    "mocha_casperjs:development"]
 
 ## ======================== ENVIRONMENTS
 
