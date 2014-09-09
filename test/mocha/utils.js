@@ -1,5 +1,5 @@
-var keystone = require(__dirname + '/../app-test-init.js');
-var config = require(__dirname + '/../config.js');
+var keystone = require(__dirname + '/../../app-test-init.js');
+var config = require(__dirname + '/../../config.js');
 
 var testMode = require(__dirname + '/testMode.js');
 

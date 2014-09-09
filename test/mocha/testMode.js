@@ -1,5 +1,5 @@
 var async = require('async'),
-  data = require('./data.json');
+  data = require('../data.json');
 
 var testMode = function(keystone) {
 
