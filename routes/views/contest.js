@@ -81,7 +81,9 @@ exports = module.exports = function(req, res) {
         if (contestId) {
           var queryTop = Recipe.model.find({
               'contest.id': contestId,
-              'contest.state': 'admited'
+              'contest.state': 'admited',
+              'isRemoved': false,
+              'isBanned': false
             })
             .limit(4)
             .populate('contest.id')

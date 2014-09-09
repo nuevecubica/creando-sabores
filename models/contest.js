@@ -326,6 +326,7 @@ var getNewCommunityWinner = function(callback, filterId) {
   var find = {
     'contest.id': me._id,
     'contest.state': 'admited',
+    'isRemoved': false,
     'isBanned': false,
     'state': 1,
     'rating': {
