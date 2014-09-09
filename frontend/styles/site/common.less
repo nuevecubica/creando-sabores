@@ -130,7 +130,7 @@ body {
 
   .icon {
     font-size: 200px;
-    color: white;
+    color: @chef-color-white;
     text-decoration: none;
     vertical-align: bottom;
   }
@@ -265,13 +265,15 @@ body {
         top: 45px;
         font-family: @pinto-fonts;
         text-transform: uppercase;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #fff;
+        font-size: 45px;
 
         .span {
           font-size: 45px;
           color: @recipes-color-text;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
           text-decoration: none;
 
           @media(max-width: 992px) {
@@ -345,7 +347,7 @@ body {
   }
   img.cutlery{
     position: absolute;
-    right: 65px;
+    right: 35px;
     bottom: 50px;
     z-index: 100;
   }
@@ -376,15 +378,14 @@ body {
         background-image: url('/images/tabla1.png');
         background-size: contain;
         z-index: 10;
+        background-repeat: no-repeat;
       }
       .tabla2{
         height: 120px;
         background-image: url('/images/tabla2.png');
         background-size: contain;
-        z-index: 20;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        z-index: 200;
+        
       }
       .tabla3{
         position: absolute;
@@ -395,6 +396,8 @@ body {
         background-image: url('/images/tabla3.png');
         background-size: contain;
         z-index: 10;
+        background-repeat: no-repeat;
+
       }
     }
   }

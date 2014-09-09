@@ -19,7 +19,7 @@ mixin user-header(user)
             a.ui.button.chef.button-brick(href="/keystone")= __('Admin panel')
 
         .ui.item.logout
-          a.ui.button.chef.button-brick(href="/salir")= __('To logout')
+          a(href="/salir")= __('To logout')
 
       else
         .ui.item
