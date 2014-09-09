@@ -25,7 +25,7 @@ block content
           .contest-actions(class=data.contest.state)
             .action.vote
               .ui.button.chef.button-brick
-                a(href='/concurso/#{data.contest.slug}/candidatos/recientes')= __('Vote for your favourite')
+                a(href='/concurso/#{data.contest.slug}/candidatos/reciente')= __('Vote for your favourite')
 
             .action.join
               .ui.button.chef.button-yellow
@@ -120,7 +120,8 @@ block content
                       i.icon-chef-facebook.icon
 
         else
-          span= __('No recipes for this contest yet')
+          .sixteen.wide.column
+            .subheader= __('No recipes for this contest yet')
 
         .sixteen.wide.column.right.aligned
           .ui.button.chef.button-green
