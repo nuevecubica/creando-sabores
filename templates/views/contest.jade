@@ -62,14 +62,32 @@ block content
             .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
 
       if data.contest.state === 'finished'
+
+        - console.log(data.contest.awards.jury.winner);
+        - console.log(data.contest.awards.community.winner);
+
         #winners.row
           .sixteen.wide.column
             .header= __('Winners')
 
           .winner.eight.tablet-eight.mobile-sixteen.wide.column
+            .recipe-winner(style='background-image: url(#{(data.contest.awards.jury.winner.header.url})')
+              .author-winner
+                img(src='#{data.contest.awards.jury.winner.author.avatars.local.url}')
+                img.award(src='/images/jury_award.png')
+
+            .recipe-award
+              = data.contest.awards.jury.winner.author.username
 
 
           .winner.eight.tablet-eight.mobile-sixteen.wide.column
+            .recipe-winner(style='background-image: url(#{data.contest.awards.community.winner.header.url})')
+              .author-winner
+                img(src='#{data.contest.awards.community.winner.author.avatars.local.url}')
+                img.award(src='/images/community_award.png')
+
+            .recipe-award
+              = data.contest.awards.community.winner.author.username
 
 
 
