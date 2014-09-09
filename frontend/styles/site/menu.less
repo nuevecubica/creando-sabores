@@ -60,7 +60,8 @@
 		}
 		.menu{
 			&.right{
-				min-width: 120px;
+				min-width: 270px;
+				
 			}
 		}
 		
@@ -224,13 +225,25 @@
 }
 @media only screen and (max-width : 767px) {
 	#menu-wrapper{
+		
 		#menu {
+			float: right;
 			i:before {
-				font-size: 40px;
-				margin-top: 5px;
+				font-size: 33px;
+				
 
 			}
 			
+		}
+		.menu{
+			.menu{
+				a{
+					&.profile{	
+						position: absolute;
+						right: 50px;	
+					}
+				}
+			}
 		}
 	}			
 }
