@@ -17,7 +17,7 @@ var config = require('./config.js'),
 
 if (config.keystone.test.enabled) {
   // Load function
-  testMode = require('./test/testMode');
+  testMode = require('./test/mocha/testMode');
 
   config.keystone.init = _.extend(config.keystone.init, config.keystone.test.init);
   config.keystone['security'] = _.extend(config.keystone['security'], config.keystone.test['security']);
