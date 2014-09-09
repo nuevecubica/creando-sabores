@@ -82,6 +82,10 @@ exports = module.exports = function(req, res) {
           else if (result.isBanned) {
             return res.notfound(res.__('Not found'));
           }
+          // Removed
+          else if (result.isRemoved) {
+            return res.notfound(res.__('Not found'));
+          }
 
           result.url = '/receta/' + result.slug;
           locals.data.recipe = result;

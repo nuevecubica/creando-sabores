@@ -141,6 +141,13 @@ Recipe.add({
         state: 1
       },
       default: false
+    },
+
+    isRemoved: {
+      type: Types.Boolean,
+      label: 'Removed',
+      note: 'This recipe is no longer available',
+      default: false
     }
   },
 
@@ -288,7 +295,7 @@ Recipe.add({
 
 // Recipe can be shown
 Recipe.schema.virtual('canBeShown').get(function() {
-  return !this.isBanned;
+  return (!this.isBanned && !this.isRemoved);
 });
 
 Recipe.schema.virtual('thumb').get(function() {
@@ -350,6 +357,7 @@ Recipe.schema.pre('save', function(next) {
       // Check if states recipe has changed
       state: function(callback) {
         if (me.isModified('isBanned') && me.isBanned === true ||
+          me.isModified('isRemoved') && me.isRemoved === true ||
           me.isModified('state') && me.state !== 'publish' ||
           me.isModified('contest.state') && me.contest.state !== 'admited') {
 

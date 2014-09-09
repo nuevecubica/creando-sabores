@@ -32,8 +32,8 @@ exports = module.exports = function(req, res, next) {
           return formResponse(req, res, backError, 'Error: You cannot delete a winner recipe', false);
         }
 
-        // Remove
-        recipe.remove(function(err) {
+        recipe.isRemoved = true;
+        recipe.save(function(err) {
           if (err) {
             return formResponse(req, res, backError, 'Error: Unknown error', false);
           }
