@@ -70,30 +70,38 @@ block content
           .sixteen.wide.column
             .header= __('Winners')
 
-          .winner.eight.tablet-eight.mobile-sixteen.wide.column
-            .recipe-winner(style='background-image: url(#{(data.contest.awards.jury.winner.header.url})')
-              .author-winner
-                img(src='#{data.contest.awards.jury.winner.author.avatars.local.url}')
-                img.award(src='/images/jury_award.png')
+          .recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.jury.winner.header.url})')
+            .author-winner
+              img.author(src='#{data.contest.awards.jury.winner.author.avatars.local.url}')
+              img.award(src='/images/jury_award.png')
 
-            .recipe-award
-              = data.contest.awards.jury.winner.author.username
+          .recipe-award.four.tablet-four.mobile-eight.wide.column
+            .user= data.contest.awards.jury.winner.author.username
+            .title
+              a(href='/receta/#{data.contest.awards.jury.winner.slug}')= data.contest.awards.jury.winner.title
+            .subheader
+              strong= __('Jury award')
+            .award= data.contest.awards.community.name
+
+          .recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.community.winner.header.url})')
+            .author-winner
+              img.author(src='#{data.contest.awards.community.winner.author.avatars.local.url}')
+              img.award(src='/images/community_award.png')
+
+          .recipe-award.four.tablet-four.mobile-eight.wide.column
+            .user= data.contest.awards.community.winner.author.username
+            .title
+              a(href='/receta/#{data.contest.awards.community.winner.slug}')= data.contest.awards.community.winner.title
+            .subheader
+              strong= __('Community award')
+            .award= data.contest.awards.community.name
 
 
-          .winner.eight.tablet-eight.mobile-sixteen.wide.column
-            .recipe-winner(style='background-image: url(#{data.contest.awards.community.winner.header.url})')
-              .author-winner
-                img(src='#{data.contest.awards.community.winner.author.avatars.local.url}')
-                img.award(src='/images/community_award.png')
 
-            .recipe-award
-              = data.contest.awards.community.winner.author.username
-
-
-
-      #ranking.row
+      #ranking.row(class=data.contest.state)
         .sixteen.wide.column
           .header= __('Ranking')
+          .subheader= __('Invite your friends')
 
         - var top = data.top
 
