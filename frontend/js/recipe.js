@@ -279,6 +279,10 @@
         ingredients.restore();
         procedure.restore();
 
+        var file = $('#recipe-header-select').get(0);
+        clearFile(file);
+        setPreview(file, $('.promoted'));
+
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
       },
