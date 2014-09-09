@@ -100,6 +100,15 @@ $(document).ready(function() {
     $(window).resize(gridResizer);
     $(window).load(gridResizer);
   }
+
+  $('.social-popup').on('click', function(evt) {
+    var attr = 'height=450,width=500';
+    attr += ',status=no,toolbar=no,menubar=no,scrollbars=no';
+    attr += ',location=no,directories=no';
+    window.open($(this).attr('href'), '', attr);
+    evt.preventDefault();
+  });
+
 });
 
 

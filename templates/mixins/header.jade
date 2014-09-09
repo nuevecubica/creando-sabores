@@ -106,9 +106,8 @@ mixin header(data, section)
 				.row
 					.social.four.tablet-seven.wide.column.tablet.computer.only
 						.corner-position.left
-							|#{__('Follow us on social networks')}
-							include ../components/follow
-
+							|#{__('Share this page')}
+							+header-share()
 					.four.wide.column.computer.only
 					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
 					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
