@@ -176,9 +176,5 @@ module.exports = exports = {
       return res.apiResponse(answer);
     });
   },
-  run: function(keystone, done) {
-    testMode(keystone).revertDatabase(done || function(err) {
-      return err;
-    });
-  }
+  run: testMode
 };
