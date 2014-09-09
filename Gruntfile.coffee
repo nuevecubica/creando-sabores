@@ -166,6 +166,7 @@ module.exports = (grunt) ->
         script: "app.js"
         options:
           nodeArgs: ["--debug"]
+          ignore: ['node_modules/**']
           env:
             PORT: config.port
             APP_TEST: false
@@ -174,6 +175,7 @@ module.exports = (grunt) ->
       server:
         script: "app.js"
         options:
+          ignore: ['node_modules/**']
           env:
             PORT: config.port
             APP_TEST: false
@@ -182,6 +184,7 @@ module.exports = (grunt) ->
       test:
         script: "app.js"
         options:
+          ignore: ['node_modules/**']
           env:
             PORT: config.port
             APP_TEST: true
