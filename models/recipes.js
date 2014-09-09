@@ -291,6 +291,26 @@ Recipe.schema.virtual('canBeShown').get(function() {
   return !this.isBanned;
 });
 
+Recipe.schema.virtual('thumb').get(function() {
+  return {
+    'list': this._.header.src({
+      transformation: 'list_thumb'
+    }),
+    'grid_small': this._.header.src({
+      transformation: 'grid_small_thumb'
+    }),
+    'grid_medium': this._.header.src({
+      transformation: 'grid_medium_thumb'
+    }),
+    'grid_large': this._.header.src({
+      transformation: 'grid_large_thumb'
+    }),
+    'header': this._.header.src({
+      transformation: 'header_thumb'
+    })
+  };
+});
+
 // Check if time and portions values
 Recipe.schema.path('time').set(function(value) {
   return (value < 0) ? value * (-1) : value;
@@ -390,6 +410,10 @@ Recipe.schema.pre('save', function(next) {
       }
     });
 });
+
+// Recipe.schema.set('toJSON', {
+//   virtuals: true
+// });
 
 // Schema for ranking
 var Rating = new keystone.mongoose.Schema({
