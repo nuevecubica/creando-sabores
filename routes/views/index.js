@@ -21,6 +21,7 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isBanned', false)
+      .where('isRemoved', false)
       .where('isIndexGridPromoted.value', true)
       .sort('isIndexGridPromoted.position');
 
@@ -32,6 +33,7 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isBanned', false)
+      .where('isRemoved', false)
       .where('isIndexHeaderPromoted', true)
       .sort('-publishedDate');
 

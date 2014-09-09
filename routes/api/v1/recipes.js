@@ -25,6 +25,7 @@ exports = module.exports = function(req, res) {
       var q = Recipes.paginate(query.paginate)
         .where('state', 1)
         .where('isBanned', false)
+        .where('isRemoved', false)
         .sort('-rating');
 
       q.exec(function(err, recipes) {

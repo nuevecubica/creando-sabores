@@ -41,6 +41,7 @@ exports = module.exports = function(req, res) {
         .where('author', profile._id)
         .where('state', 1)
         .where('isBanned', false)
+        .where('isRemoved', false)
         .sort('-editDate');
 
       q.exec(function(err, recipes) {

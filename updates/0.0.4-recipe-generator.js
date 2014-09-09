@@ -125,6 +125,7 @@ function generateRecipes(from, to) {
       "time": faker.random.number(1, 120),
       "difficulty": faker.random.number(1, 5),
       "isBanned": (faker.random.number(10) >= 9 && !isPromoted),
+      "isRemoved": (faker.random.number(10) >= 9 && !isPromoted),
       "state": ((faker.random.number(10) >= 9 && !isPromoted) ? 0 : 1),
       "header": newHeader(),
       "schemaVersion": 1
