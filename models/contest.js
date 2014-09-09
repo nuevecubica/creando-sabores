@@ -110,12 +110,12 @@ Contest.add({
 
     headerBackgroundRecipe: {
       type: Types.CloudinaryImage,
-      label: 'Image for recipe in contest'
+      label: 'Image for background recipe'
     },
 
     imageWinners: {
       type: Types.CloudinaryImage,
-      label: 'Image for recipe in contest',
+      label: 'Image for finished contest',
       dependsOn: {
         state: 'closed'
       }
