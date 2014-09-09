@@ -30,24 +30,52 @@ exports = module.exports = function(req, res) {
         var queryContest = Contest.model.findOne({
             slug: locals.filters.contest
           })
-          .populate('awards.jury.winner', 'awards.community.winner');
+          .populate('awards.jury.winner awards.community.winner');
 
         queryContest.exec(function(err, result) {
           if (!err && result) {
-            locals.data.contest = result;
-            // Callback next function with id contest like input param
-            callback(null, result.id);
+
+            var optionsJuryAuthor = {
+              path: 'awards.jury.winner.author awards.jury.community.author',
+              model: 'User'
+            };
+
+            var optionsCommunityAuthor = {
+              path: 'awards.community.winner.author',
+              model: 'User'
+            };
+
+            // Populate nested recipe author (jury winner)
+            Contest.model.populate(result, optionsJuryAuthor, function(err, contestJuryPopulated) {
+
+              if (!err) {
+                // Populate nested recipe author (community winner)
+                Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
+                  if (!err) {
+                    locals.data.contest = contestCommunityPopulated;
+
+                    callback(null, result.id);
+                  }
+                  else {
+                    callback(err, null);
+                  }
+                });
+              }
+              else {
+                callback(err, null);
+              }
+            });
           }
           else {
-            if (err) {
-              callback(err, null);
-            }
-            else {
-              callback(null, null);
-            }
+            callback(err, null);
           }
         });
       },
+
+      // function(contestState, contestId, callback) {
+
+      // },
+
       function(contestId, callback) {
 
         if (contestId) {
