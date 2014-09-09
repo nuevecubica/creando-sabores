@@ -81,6 +81,19 @@ Contest.add({
       label: 'Ingredient required for a contest'
     },
 
+  },
+
+  'Dates', {
+    programedDate: {
+      type: Types.Datetime,
+      label: 'Start date'
+    },
+
+    submissionDeadline: {
+      type: Types.Datetime,
+      label: 'Finish submissions'
+    },
+
     deadline: {
       type: Types.Datetime,
       require: true,
@@ -112,18 +125,9 @@ Contest.add({
   'Status', {
     state: {
       type: Types.Select,
-      options: ['draft', 'open', 'closed', 'finished'],
+      options: ['draft', 'programmed', 'submission', 'votes', 'closed', 'finished'],
       label: 'Contest state',
       default: 'draft'
-    },
-
-    openDate: {
-      type: Types.Datetime,
-      noedit: true,
-      dependsOn: {
-        state: 'open'
-      },
-      label: 'Start date'
     },
 
     schemaVersion: {
@@ -364,28 +368,26 @@ var checkState = function(callback) {
   var me = this;
   if (me.isModified('state')) {
 
-    if (me.state === 'draft' || me.state === 'open') {
+    if (me.state === 'draft' || me.state === 'programmed' || me.state === 'submission' || me.state === 'votes') {
       // If state backs to open/draft from closed
       me.awards.jury.winner = null;
       me.awards.community.winner = null;
 
-      if (me.state === 'open') {
-        // if contest state change to open, fill openDate
-        me.openDate = Date.now;
-      }
-
       callback();
     }
-    else if (me.state === 'closed') {
-      getNewCommunityWinner.call(me, function(err) {
-        callback(err);
-      });
-    }
-    else if (me.state === 'finished') {
-      // if contest state is changed to finished and not set  imageWinner or jury/community winner, contest state back to closed state
-      if (!me.imageWinners || !me.awards.jury.winner || !me.awards.community.winner) {
+    else if (me.state === 'closed' || me.state === 'finished') {
+      if (me.state === 'closed' || !me.imageWinners || !me.awards.jury.winner || !me.awards.community.winner) {
         me.state = 'closed';
+
+        getNewCommunityWinner.call(me, function(err) {
+          callback(err);
+        });
       }
+      else {
+        callback();
+      }
+    }
+    else {
       callback();
     }
   }
@@ -400,6 +402,11 @@ Contest.schema.pre('save', function(next) {
   // Set isPromoted if recipes is promoted in grids or headers
   if (this.isIndexGridPromoted.value || this.isIndexHeaderPromoted.value) {
     this.isPromoted = true;
+  }
+
+  // Set contest state to programmed if start date contest is configured
+  if (this.programedDate) {
+    this.state = 'programmed';
   }
 
   var me = this;
@@ -423,7 +430,9 @@ Contest.schema.pre('save', function(next) {
       },
       // Check if community jury award has changed
       function(callback) {
-        if (me.isModified('awards.community.winner') && me.state !== 'draft' && me.state !== 'open') {
+        if (me.isModified('awards.community.winner') && me.state !== 'draft' &&
+          me.state !== 'programmed' && me.state !== 'submission' && me.state !== 'votes') {
+
           keystone.list('Contest').model.findOne({
             id: this._id,
           }).exec(function(err, contest) {
