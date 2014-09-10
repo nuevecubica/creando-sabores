@@ -39,7 +39,7 @@ mixin header(data, section)
 								.ui.image
 
 	else if section === 'privateProfile'
-		- var image = "/images/test_recipe_bg.png"
+		- var image = "/images/default_recipe_bg.png"
 		- if (user && user.media && user.media.header.url) {
 		-   image = user.media.header.url;
 		- }
@@ -51,15 +51,15 @@ mixin header(data, section)
 
 				.row.logo.shadow
 					if (user && user.media && user.media.header.url)
-						a.test_bg.icon-chef-logo.icon(href="/")
+						a.default-bg.icon-chef-logo.icon(href="/")
 					else
-						a.test_bg.icon-chef-logo.icon.nopic(href="/")
+						a.default-bg.icon-chef-logo.icon.nopic(href="/")
 					
 				.row.section.title
 					if (user && user.media && user.media.header.url)
-						.test_bg.shadow= __('My recipe book')
+						.default-bg.shadow= __('My recipe book')
 					else
-						.test_bg.nopic.shadow= __('My recipe book')
+						.default-bg.nopic.shadow= __('My recipe book')
 
 				.row
 					.ten.wide.column

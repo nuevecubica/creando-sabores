@@ -5,7 +5,7 @@ mixin user-header(user)
         a.ui.item.profile(href='/perfil')
 
           if !user.media.avatar.url
-            - user.media.avatar.url = '../images/test_user.png'
+            - user.media.avatar.url = '../images/default_user.png'
 
           img.ui.image.avatar(src="#{user.media.avatar.url}")
 

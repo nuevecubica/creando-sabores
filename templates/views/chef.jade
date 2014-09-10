@@ -17,7 +17,7 @@ block content
 				.four.wide.column.picture-wrapper
 					.picture
 						if !profile.media.avatar.url
-							- profile.media.avatar.url = '../images/test_user.png'
+							- profile.media.avatar.url = '../images/default_user.png'
 
 						#profile-img.ui.image.avatar(style="background-image: url(#{profile.media.avatar.url}); background-size: cover; background-position:center; ")
 							if profile.isPrivate
