@@ -23,8 +23,8 @@ exports = module.exports = function(req, res) {
     section: req.params.section
   };
 
-  var getTopRecipes = function(contestId, callback) {
-    var queryTopRecipes = keystone.list('Recipe')
+  var getRecipes = function(contestId, order, callback) {
+    var queryRecipes = keystone.list('Recipe')
       .paginate({
         page: req.query.page || 1,
         perPage: 5
@@ -35,33 +35,10 @@ exports = module.exports = function(req, res) {
       .where('isBanned', false)
       .where('isRemoved', false)
       // change rating, fake in contest
-      .sort('-rating')
+      .sort(order)
       .exec(function(err, recipes) {
         if (!err && recipes) {
-          locals.data.top = recipes.results;
-          callback();
-        }
-        else {
-          callback(err);
-        }
-      });
-  };
-
-  var getRecentRecipes = function(contestId, callback) {
-    var queryRecentRecipes = keystone.list('Recipe')
-      .paginate({
-        page: req.query.page || 1,
-        perPage: 10
-      })
-      .where('contest.id', contestId)
-      .where('contest.state', 'admited')
-      .where('state', 1)
-      .where('isBanned', false)
-      .where('isRemoved', false)
-      .sort('-publishedDate')
-      .exec(function(err, recipes) {
-        if (!err && recipes) {
-          locals.data.recent = recipes.results;
+          locals.data.recipes = recipes.results;
           callback();
         }
         else {
@@ -90,10 +67,10 @@ exports = module.exports = function(req, res) {
     },
     function(contest, callback) {
       if (locals.subsection === 'top') {
-        getTopRecipes(contest._id, callback);
+        getRecipes(contest._id, '-rating', callback);
       }
       else if (locals.subsection === 'reciente') {
-        getRecentRecipes(contest._id, callback);
+        getRecipes(contest._id, '-top', callback);
       }
     },
   ], function(err) {
