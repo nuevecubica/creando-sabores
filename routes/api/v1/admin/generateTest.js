@@ -62,6 +62,7 @@ var testMode = function(keystone) {
       if (admin.password) {
         userM.password = admin.password;
       }
+      userM.about = admin.about;
       userM.media = admin.media;
       userM.isAdmin = true;
       userM.save(function(err) {
@@ -85,6 +86,7 @@ var testMode = function(keystone) {
       if (user.password) {
         userM.password = user.password;
       }
+      userM.about = user.about;
       userM.media = user.media;
       userM.save(function(err) {
         // console.log('user saved', err);
