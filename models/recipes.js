@@ -298,6 +298,11 @@ Recipe.schema.virtual('canBeShown').get(function() {
   return (!this.isBanned && !this.isRemoved);
 });
 
+// URL
+Recipe.schema.virtual('url').get(function() {
+  return '/receta/' + this.slug;
+});
+
 Recipe.schema.virtual('thumb').get(function() {
   return {
     'list': this._.header.src({

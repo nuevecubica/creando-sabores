@@ -236,6 +236,13 @@ Contest.add({
     }
   });
 
+/**
+URL
+*/
+Contest.schema.virtual('url').get(function() {
+  return '/concurso/' + this.slug;
+});
+
 // Function to switch recipe state
 // Params:
 // -- field: string with a winner field name to change it (jury or community)

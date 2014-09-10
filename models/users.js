@@ -231,6 +231,11 @@ User.schema.virtual('canLogin').get(function() {
   return !this.isBanned;
 });
 
+// URL
+User.schema.virtual('url').get(function() {
+  return '/chef/' + this.username;
+});
+
 //#------------------ PRESAVE
 
 User.schema.pre('save', function(done) {
