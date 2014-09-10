@@ -8,7 +8,7 @@ request = require('supertest') config.keystone.publicUrl
 
 cookie = null
 
-describe 'API v1: /recipes', ->
+describe.only 'API v1: /recipes', ->
 
   before (done) ->
     this.timeout 10000
@@ -40,7 +40,8 @@ describe 'API v1: /recipes', ->
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1
+              not recipe.isBanned and recipe.state == 1 and
+              not recipe.contest
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
               recipes = recipes.slice 0, 5
@@ -62,7 +63,8 @@ describe 'API v1: /recipes', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1
+              not recipe.isBanned and recipe.state == 1 and
+              not recipe.contest
             recipes.sort (a,b) -> return b.rating - a.rating
             recipes = recipes.slice 2, 4
             # Compare results
