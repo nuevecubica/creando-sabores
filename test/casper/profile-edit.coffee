@@ -9,32 +9,39 @@ oldHeader = ''
 clearProfileFields = () ->
   document.getElementById('profile-name').firstChild.nodeValue = ''
   about = document.getElementById('profile-about')
-  while about.firstChild != about.lastChild
-    about.removeChild(about.firstChild)
-  about.firstChild.firstChild.nodeValue=  ''
+  about.innerHTML = ''
 
 getUserImages = () ->
   a = document.getElementById('profile-img').style.backgroundImage
   b = document.getElementById('profile-header').style.backgroundImage
   return [a, b]
 
+revertDB = () ->
+  casper.then ->
+    this.page.cookies = []
+  casper.thenOpen base + '/acceso', ->
+    @fill 'form[action="acceso"]', {
+      'action': 'login'
+      'login_email': data.admins[0].email
+      'login_password': data.admins[0].password
+    }, true
+  casper.thenOpen base + '/api/v1/admin/generate/test', ->
+    this.page.cookies = []
+
+
 describe 'WEB Profile Edit', ->
   @timeout 60000
 
   before (done) ->
-    casper.start base + '/acceso', ->
+    casper.start base, ->
+      # Do Nothing.
+    revertDB()
+    casper.thenOpen base + '/acceso', ->
       @fill 'form[action="acceso"]', {
         'action': 'login'
         'login_email': data.users[0].email
         'login_password': data.users[0].password
       }, true
-    # TODO: Revert using the new method when it is ready
-    casper.thenOpen base + '/perfil', ->
-      @fill 'form#profile-form', {
-        'name': data.users[0].name
-        'about': data.users[0].about
-      }, true
-
   describe 'Home page', ->
     it 'links to profile', ->
       casper.thenOpen base, ->
@@ -101,9 +108,4 @@ describe 'WEB Profile Edit', ->
       casper.thenOpen base + '/perfil', ->
         '#profile-name'.should.have.text userNewName
         '#profile-about'.should.have.text userNewAbout
-      # TODO: Revert using the new method when it is ready
-      casper.then ->
-        @fill 'form#profile-form', {
-          'name': data.users[0].name
-          'about': data.users[0].about
-        }, true
+      revertDB()
