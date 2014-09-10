@@ -207,7 +207,7 @@ mixin header(data, section)
 				.row.section.subtitle
 					.sponsor.shadow= __('Contest')
 
-	else if section === 'candidates'
+	else if section === 'participants'
 		- var title = data.contest ? data.contest.title : ''
 		- var image = data.contest ? data.contest.imageContest.url : default_image
 
