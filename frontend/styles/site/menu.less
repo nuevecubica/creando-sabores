@@ -61,10 +61,10 @@
 		.menu{
 			&.right{
 				min-width: 270px;
-				
+
 			}
 		}
-		
+
 	}
 
 	#menu {
@@ -234,70 +234,72 @@
 }
 @media only screen and (max-width : 767px) {
 	#menu-wrapper{
-		
 		#menu {
 			float: right;
 			i:before {
 				font-size: 33px;
-				
-
 			}
-			
 		}
 		.menu{
 			.menu{
 				a{
-					&.profile{	
+					&.profile{
 						position: absolute;
-						right: 50px;	
+						right: 50px;
 					}
 				}
 			}
 		}
-	}			
+	}
 }
-@media screen and (max-height: 60em) {
+
+@media screen and (max-height: 65em) {
 	#menu-box nav ul.menu {
 		&.scroll{
 			font-size: 4.5em;
-			margin-top: 0px;
+			margin-top: 0;
 			height: 90%;
 		}
-		
-		li a {
-			min-height: (@chef-menu-text-size * 0.8);
+		li {
+			.font-larger;
+			a {
+				min-height: (@chef-menu-text-size * 0.8);
+			}
 		}
 	}
 }
 
-@media screen and (max-height: 50em) {
+@media screen and (max-height: 55em) {
 	#menu-box nav ul.menu {
 		&.scroll{
 			height: 85%;
-			margin-top: 0px;
-
+			margin-top: 0;
 		}
-		li a i.icon-chef-logo {
-			font-size: 4em;
-		}
-		li a{
-			min-height: (@chef-menu-text-size * 0.7);
+		li {
 			.font-normal;
+			a {
+				min-height: (@chef-menu-text-size * 0.7);
+				i.icon-chef-logo {
+					font-size: 4em;
+				}
+			}
 		}
-	}	
+	}
 }
-@media screen and (max-height: 35em) {
+@media screen and (max-height: 40em) {
 	#menu-box nav ul.menu {
 		&.scroll{
-			margin-top: 0px;
-			height: 85%;
+			margin-top: 0;
+			height: 82%;
 		}
-		li a i.icon-chef-logo {
-			font-size: 3em;
-		}
-		li a{
-			min-height: (@chef-menu-text-size * 0.6);
+		li {
 			.font-small;
+			a {
+				min-height: (@chef-menu-text-size * 0.6);
+				i.icon-chef-logo {
+					font-size: 3em;
+				}
+			}
 		}
 	}
 }
