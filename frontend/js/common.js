@@ -139,15 +139,22 @@ $(document).ready(function() {
 
 // Enable pagination on the current page
 /* global Handlebars */
-var makePaginable = function(endpoint, hbsname, appendable) {
+var makePaginable = function(endpoint, hbsname, appendable, extraargs) {
 
   var timeCheckScroll = null,
     counter = 2,
     isStillOnScreen = false,
-    paginationData = {
+    args = {
       page: 2,
       perPage: 5
     };
+  if (extraargs) {
+    for (var key in extraargs) {
+      if (extraargs.hasOwnProperty(key)) {
+        args[key] = extraargs[key];
+      }
+    }
+  }
 
   $(document).on('click', '.load-button', function(e) {
     e.preventDefault();
@@ -190,7 +197,7 @@ var makePaginable = function(endpoint, hbsname, appendable) {
   };
 
   var getNextPage = function() {
-    var url = endpoint + '?' + $.param(paginationData);
+    var url = endpoint + '?' + $.param(args);
 
     var jQXhr = $.getJSON(url).done(function(data) {
 
@@ -213,7 +220,7 @@ var makePaginable = function(endpoint, hbsname, appendable) {
         });
 
         if (data.recipes.next) {
-          paginationData.page = data.recipes.next;
+          args.page = data.recipes.next;
           counter--;
         }
       })
