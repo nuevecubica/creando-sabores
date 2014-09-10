@@ -70,7 +70,7 @@ exports = module.exports = function(req, res) {
         getRecipes(contest._id, '-rating', callback);
       }
       else if (locals.subsection === 'reciente') {
-        getRecipes(contest._id, '-top', callback);
+        getRecipes(contest._id, '-publishedDate', callback);
       }
     },
   ], function(err) {
