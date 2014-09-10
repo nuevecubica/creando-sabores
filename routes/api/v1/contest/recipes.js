@@ -43,7 +43,7 @@ exports = module.exports = function(req, res) {
         .where('state', 1)
         .where('isBanned', false)
         .where('isRemoved', false);
-      if (query.order === 'recent') {
+      if (req.query.order === 'recent') {
         q.sort('-publishedDate');
       }
       else {
