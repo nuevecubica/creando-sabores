@@ -187,6 +187,22 @@ mixin header(data, section)
 				.row.section.subtitle
 					.author.shadow= author
 
+	else if section === 'contests'
+		- var image = data.current ? data.current.imageContest.url : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= __('Contests')
+
 	else if section === 'contest'
 		- var title = data.contest ? data.contest.title : ''
 		- var image = data.contest ? data.contest.imageContest.url : default_image
