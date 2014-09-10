@@ -23,85 +23,82 @@ exports = module.exports = function(req, res) {
     section: req.params.section
   };
 
-  view.on('init', function(next) {
-
-    var queryContest = Contest.model.findOne({
-      'slug': locals.filters.contestSlug
-    });
-
+  var getTopRecipes = function(contestId, callback) {
     var queryTopRecipes = keystone.list('Recipe')
       .paginate({
         page: req.query.page || 1,
-        perPage: 10
+        perPage: 5
       })
-      .where('contest.id', locals.filters.contestId)
-      .where('contest.status', 'admited')
+      .where('contest.id', contestId)
+      .where('contest.state', 'admited')
       .where('state', 1)
       .where('isBanned', false)
       .where('isRemoved', false)
       // change rating, fake in contest
-      .sort('-rating');
+      .sort('-rating')
+      .exec(function(err, recipes) {
+        if (!err && recipes) {
+          locals.data.top = recipes.results;
+          callback();
+        }
+        else {
+          callback(err);
+        }
+      });
+  };
 
-
+  var getRecentRecipes = function(contestId, callback) {
     var queryRecentRecipes = keystone.list('Recipe')
       .paginate({
         page: req.query.page || 1,
         perPage: 10
       })
-      .where('contest.id', locals.filters.contestId)
-      .where('contest.status', 'admited')
+      .where('contest.id', contestId)
+      .where('contest.state', 'admited')
       .where('state', 1)
       .where('isBanned', false)
       .where('isRemoved', false)
-      .sort('-publishedDate');
+      .sort('-publishedDate')
+      .exec(function(err, recipes) {
+        if (!err && recipes) {
+          locals.data.recent = recipes.results;
+          callback();
+        }
+        else {
+          callback(err);
+        }
+      });
+  };
 
-    async.series([
+  async.waterfall([
 
-      function(callback) {
-        queryContest.exec(function(err, contest) {
-          if (!err && contest) {
+    function(callback) {
+      var queryContest = Contest.model.findOne({
+        'slug': locals.filters.contestSlug
+      });
+      queryContest.exec(function(err, contest) {
+        if (!err && contest) {
 
-            // contest.deadline = moment(contest.deadline).format('LLLL');
+          // contest.deadline = moment(contest.deadline).format('LLLL');
 
-            locals.data.contest = contest;
-            locals.filters.contestId = contest._id;
+          locals.data.contest = contest;
+          locals.filters.contestId = contest._id;
 
-            callback();
-          }
-          else {
-            callback(err);
-          }
-        });
-      },
-      function(callback) {
-        queryTopRecipes.exec(function(err, recipes) {
-          if (!err && recipes) {
-            locals.data.top = recipes;
-
-            callback();
-          }
-          else {
-            callback(err);
-          }
-        });
-      },
-      function(callback) {
-        queryRecentRecipes.exec(function(err, recipes) {
-          if (!err && recipes) {
-            locals.data.recent = recipes;
-
-            callback();
-          }
-          else {
-            callback(err);
-          }
-        });
+        }
+        callback(err, contest);
+      });
+    },
+    function(contest, callback) {
+      if (locals.subsection === 'top') {
+        getTopRecipes(contest._id, callback);
       }
-    ], function(err) {
-      next(err);
-    });
+      else if (locals.subsection === 'reciente') {
+        getRecentRecipes(contest._id, callback);
+      }
+    },
+  ], function(err) {
+    // Render the view
+    view.render('participants');
   });
 
-  // Render the view
-  view.render('participants');
 };
