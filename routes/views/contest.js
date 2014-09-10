@@ -36,7 +36,7 @@ exports = module.exports = function(req, res) {
           if (!err && result) {
 
             var optionsJuryAuthor = {
-              path: 'awards.jury.winner.author awards.jury.community.author',
+              path: 'awards.jury.winner.author',
               model: 'User'
             };
 
