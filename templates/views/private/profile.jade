@@ -20,14 +20,16 @@ block content
 			.five.tabs.tab-header
 				.row
 					.tab
-						div(class="#{subsection === 'profile' ? 'active' : ''}").ui.button.chef.button-green
-							a(href='/perfil')= __('My account')
+						a(href='/perfil') 
+							div(class="#{subsection === 'profile' ? 'active' : ''}").ui.button.chef.button-green
+								| #{__('My account')}
 					.tab
 						.ui.button.chef.button-green.disabled
 							a= __('Shopping list')
 					.tab
-						div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
-							a(href='/perfil/recetas')= __('My recipes')
+						a(href='/perfil/recetas')
+							div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
+								| #{__('My recipes')}
 					.tab
 						.ui.button.chef.button-green.disabled
 							a= __('My menus')

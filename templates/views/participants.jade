@@ -1,6 +1,7 @@
 extends ../layouts/default
 
 include ../mixins/header
+include ../mixins/recipe
 
 block js
   script(src='/js/participants.js')
@@ -13,7 +14,7 @@ block content
       .row
         #info.sixteen.wide.column
           .header
-            i.icon-chef-heart.icon
+            i.icon-chef-cup.icon
             = __('Ranking')
 
           .subheader
@@ -29,40 +30,20 @@ block content
               div(class="#{subsection === 'reciente' ? 'active' : 'disabled'}").ui.button.chef.button-brick
                 a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Recent')
 
-      if subsection === 'top'
-        #recipes.tab-content
-          .row
-            .ui.grid.segment.list
-              - var tops = data.top;
+      #recipes.tab-content
+        .row
+          .ui.grid.segment.list
+            - var recipes = data.recipes;
 
-              if tops.length
-                each top in tops
-                  .row.position
-                    +recipe(top)
-              else
-                | #{__('No recipes yet')}
+            if recipes.length
+              each recipe in recipes
+                .row.position
+                  +recipe(recipe)
+            else
+              | #{__('No recipes yet')}
 
-          .row.loader
-            .sixteen.wide.column.loading= __('Loading more recipes')
-            .sixteen.wide.column.load-more
-              .ui.button.chef.button-brick.load-button
-                a(href="#")= __('Load more')
-
-      else if subsection === 'reciente'
-        #recipes.tab-content
-          .row
-            .ui.grid.segment.list
-              - var recents = data.recent;
-
-              if recents.length
-                each recent in recents
-                  .row.position
-                    +recipe(recent)
-              else
-                | #{__('No recipes yet')}
-
-          .row.loader
-            .sixteen.wide.column.loading= __('Loading more recipes')
-            .sixteen.wide.column.load-more
-              .ui.button.chef.button-brick.load-button
-                a(href="#")= __('Load more')
+        .row.loader
+          .sixteen.wide.column.loading= __('Loading more recipes')
+          .sixteen.wide.column.load-more
+            .ui.button.chef.button-brick.load-button
+              a(href="#")= __('Load more')

@@ -30,7 +30,7 @@ exports.initLocals = function(req, res, next) {
   }, {
     label: res.__('Contests'),
     key: 'concursos',
-    href: '/'
+    href: '/concursos'
   }, {
     label: res.__('About the chef'),
     key: 'acerca-del-chef',
