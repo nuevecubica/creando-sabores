@@ -1,15 +1,18 @@
 var keystone = require('keystone'),
   async = require('async'),
+  moment = require('moment'),
   Contest = keystone.list('Contest');
 
 exports = module.exports = function(req, res) {
+
+  moment.locale('es');
 
   var locals = res.locals,
     view = new keystone.View(req, res);
 
   // Set locals
-  locals.title = res.__('Candidates');
-  locals.section = 'candidates';
+  locals.title = res.__('Participants');
+  locals.section = 'participants';
   locals.subsection = req.params.section;
 
   locals.data = {};
@@ -57,13 +60,15 @@ exports = module.exports = function(req, res) {
       function(callback) {
         queryContest.exec(function(err, contest) {
           if (!err && contest) {
+
+            // contest.deadline = moment(contest.deadline).format('LLLL');
+
             locals.data.contest = contest;
             locals.filters.contestId = contest._id;
 
             callback();
           }
           else {
-            console.log('CONTEST', err);
             callback(err);
           }
         });
@@ -85,8 +90,6 @@ exports = module.exports = function(req, res) {
           if (!err && recipes) {
             locals.data.recent = recipes;
 
-            console.log(recipes);
-
             callback();
           }
           else {
@@ -100,5 +103,5 @@ exports = module.exports = function(req, res) {
   });
 
   // Render the view
-  view.render('candidates');
+  view.render('participants');
 };

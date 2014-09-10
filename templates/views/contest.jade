@@ -21,11 +21,11 @@ block content
             = __('Contest sponsored by')
             strong= data.contest.sponsor
 
-        #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
+        #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned
           .contest-actions(class=data.contest.state)
             .action.vote
               .ui.button.chef.button-brick
-                a(href='/concurso/#{data.contest.slug}/candidatos/reciente')= __('Vote for your favourite')
+                a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
 
             .action.join
               .ui.button.chef.button-yellow
@@ -37,7 +37,7 @@ block content
 
         .sixteen.wide.column
           .explain
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.description
+            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.description
 
       #contest-awards.row(class=data.contest.state)
         .sixteen.wide.column
@@ -50,7 +50,7 @@ block content
           .explain
             .subheader
               strong= __('Jury award') + data.contest.awards.jury.name
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.description
+            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.description
 
         .award.sixteen.wide.column
           .icon
@@ -59,7 +59,7 @@ block content
           .explain
             .subheader
               strong= __('Community award') + data.contest.awards.community.name
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
+            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
 
       if data.contest.state === 'finished'
 
@@ -125,7 +125,7 @@ block content
 
         .sixteen.wide.column.right.aligned
           .ui.button.chef.button-green
-            a(href='/concurso/#{data.contest.slug}/candidatos/top')= __('Show all')
+            a(href='/concurso/#{data.contest.slug}/participantes/top')= __('Show all')
 
 
       #contest-terms.row(class=data.contest.state)
@@ -134,4 +134,4 @@ block content
 
         .sixteen.wide.column
           .explain
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.terms
+            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.terms
