@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe.only 'PRIVATE RECIPE - PUBLISH / DRAFT', ->
+describe '(Private) Recipe: Publish & Draft', ->
 
   before (done) ->
     this.timeout 10000
@@ -23,7 +23,7 @@ describe.only 'PRIVATE RECIPE - PUBLISH / DRAFT', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /receta/:recipe/draft', ->
+  describe 'call to /receta/:recipe/draft', ->
     it 'changes a recipe to draft', (done) ->
       request
       .get('/receta/test-recipe-1/draft')
@@ -50,7 +50,7 @@ describe.only 'PRIVATE RECIPE - PUBLISH / DRAFT', ->
 
     it 'changes a contest recipe to draft'
 
-  describe.only 'GET /receta/:recipe/publish', ->
+  describe 'call to /receta/:recipe/publish', ->
     it 'changes a recipe to published', (done) ->
       url = '/receta/test-recipe-unpublished/publish'
       request

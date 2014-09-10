@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'RECIPES LISTS', ->
+describe 'Recipes: Lists', ->
 
   before (done) ->
     this.timeout 10000
@@ -17,7 +17,7 @@ describe 'RECIPES LISTS', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /recetas', ->
+  describe 'get /recetas', ->
     describe 'on normal request', ->
       it 'returns the expected recipes (sorted by rating)', (done) ->
         request
@@ -42,7 +42,7 @@ describe 'RECIPES LISTS', ->
         .end(done)
 
 
-  describe 'GET /chef/recetas', ->
+  describe 'get /chef/recetas', ->
     describe 'on normal request', ->
       it 'returns the expected recipes (sorted by edit date)', (done) ->
         request
@@ -67,7 +67,7 @@ describe 'RECIPES LISTS', ->
         .end(done)
 
 
-  describe 'GET /perfil/recetas', ->
+  describe 'get /perfil/recetas', ->
     describe 'on unauthenticated request', ->
       it 'returns an error', (done) ->
         request

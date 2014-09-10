@@ -1,5 +1,5 @@
 var async = require('async'),
-  data = require('./generateTest.json'),
+  data = require('../../../../test/data.json'),
   answer = {
     success: false,
     error: false

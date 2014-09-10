@@ -13,7 +13,7 @@ getFormErrors = (text, expected) ->
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
 
-describe 'SIGNUP', ->
+describe 'Signup', ->
 
   before (done) ->
     this.timeout 10000
@@ -23,7 +23,7 @@ describe 'SIGNUP', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /registro', ->
+  describe 'get register form', ->
     it 'responds with the form', (done) ->
       request
       .get('/registro')
@@ -33,7 +33,7 @@ describe 'SIGNUP', ->
       .expect(/Correo electrónico/)
       .end(done)
 
-  describe 'POST /registro', ->
+  describe 'submit /registro', ->
     describe 'on empty action', ->
       it 'responds with the form, no errors', (done) ->
         request

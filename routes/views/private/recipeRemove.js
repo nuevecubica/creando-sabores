@@ -37,7 +37,7 @@ exports = module.exports = function(req, res, next) {
           if (err) {
             return formResponse(req, res, backError, 'Error: Unknown error', false);
           }
-          return formResponse(req, res, backDone, 'Recipe removed');
+          return formResponse(req, res, backDone, false, 'Recipe removed');
         });
       }
     });
