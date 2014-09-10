@@ -81,7 +81,7 @@ $(document).ready(function() {
     if (input.files.length === 0) {
       if ($target.data('origsrc')) {
         $target.css('background-image', $target.data('origsrc'));
-        $('.test_bg').removeClass('selected-pic');
+        $('.default-bg').removeClass('selected-pic');
       }
     }
     else {
@@ -91,7 +91,7 @@ $(document).ready(function() {
       var reader = new FileReader();
       reader.onload = function(event) {
         $target.css('background-image', 'url(' + event.target.result + ')');
-        $('.test_bg').addClass('selected-pic');
+        $('.default-bg').addClass('selected-pic');
       };
       reader.readAsDataURL(input.files[0]);
     }
@@ -100,7 +100,7 @@ $(document).ready(function() {
   var clearImages = function(input) {
     try {
       input.value = null;
-      $('.test_bg').removeClass('selected-pic');
+      $('.default-bg').removeClass('selected-pic');
     }
     catch (ex) {}
     if (input.value) {
