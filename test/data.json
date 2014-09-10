@@ -250,5 +250,48 @@
     "portions": 12,
     "time": 60,
     "difficulty": 3
+  }],
+  "contests": [{
+    "slug" : "test-contest-draft",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT DRAFT",
+    "title" : "TEST CONTEST DRAFT",
+    "sponsor" : "TEST SPONSOR DRAFT",
+    "state" : "draft"
+  }, {
+    "slug" : "test-contest-programmed",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT PROGRAMMED",
+    "title" : "TEST CONTEST PROGRAMMED",
+    "sponsor" : "TEST SPONSOR PROGRAMMED",
+    "state" : "programmed"
+  }, {
+    "slug" : "test-contest-submission",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT SUBMISSION",
+    "title" : "TEST CONTEST SUBMISSION",
+    "sponsor" : "TEST SPONSOR SUBMISSION",
+    "state" : "submission"
+  }, {
+    "slug" : "test-contest-votes",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT VOTES",
+    "title" : "TEST CONTEST VOTES",
+    "sponsor" : "TEST SPONSOR VOTES",
+    "state" : "votes"
+  }, {
+    "slug" : "test-contest-closed",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT CLOSED",
+    "title" : "TEST CONTEST CLOSED",
+    "sponsor" : "TEST SPONSOR CLOSED",
+    "state" : "closed"
+  }, {
+    "slug" : "test-contest-finished",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED",
+    "title" : "TEST CONTEST FINISHED",
+    "sponsor" : "TEST SPONSOR FINISHED",
+    "state" : "finished"
   }]
 }

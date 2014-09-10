@@ -21,104 +21,68 @@ exports = module.exports = function(req, res) {
   // load contests
   view.on('init', function(next) {
 
-    // In async waterfall, first function return is a param in second function
-    // Thus, second function (Find recipes top for a contest) get id contest from first function.
-    async.waterfall([
-      // First funcion, get id contest
-      function(callback) {
-        // Query for get a contest
-        var queryContest = Contest.model.findOne({
-            slug: locals.filters.contest
-          })
-          .populate('awards.jury.winner awards.community.winner');
+    // Query for get a contest
+    var queryContest = Contest.model.findOne({
+        slug: locals.filters.contest
+      })
+      .populate('awards.jury.winner awards.community.winner');
 
-        queryContest.exec(function(err, result) {
-          if (!err && result) {
+    queryContest.exec(function(err, result) {
+      if (!err && result) {
 
-            var optionsJuryAuthor = {
-              path: 'awards.jury.winner.author awards.jury.community.author',
-              model: 'User'
-            };
+        if ((!req.user || !req.user.isAdmin) && ['draft', 'programmed'].indexOf(result.state) >= 0) {
+          return res.notfound(res.__('Not found'));
+        }
 
-            var optionsCommunityAuthor = {
-              path: 'awards.community.winner.author',
-              model: 'User'
-            };
-
-            // Populate nested recipe author (jury winner)
-            Contest.model.populate(result, optionsJuryAuthor, function(err, contestJuryPopulated) {
-
-              if (!err) {
-                // Populate nested recipe author (community winner)
-                Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
-                  if (!err) {
-                    locals.data.contest = contestCommunityPopulated;
-
-                    callback(null, result.id);
-                  }
-                  else {
-                    callback(err, null);
-                  }
-                });
-              }
-              else {
-                callback(err, null);
-              }
-            });
+        // Populate nested recipe author (jury winner)
+        var optionsJuryAuthor = {
+          path: 'awards.jury.winner.author awards.jury.community.author',
+          model: 'User'
+        };
+        Contest.model.populate(result, optionsJuryAuthor, function(err, contestJuryPopulated) {
+          if (err) {
+            console.error('Error: Contest.model.populate jury winner');
+            return res.notfound(res.__('Not found'));
           }
-          else {
-            callback(err, null);
-          }
-        });
-      },
 
-      // function(contestState, contestId, callback) {
-
-      // },
-
-      function(contestId, callback) {
-
-        if (contestId) {
-          var queryTop = Recipe.model.find({
-              'contest.id': contestId,
-              'contest.state': 'admited',
-              'isRemoved': false,
-              'isBanned': false
-            })
-            .limit(4)
-            .populate('contest.id')
-            .sort('-rating');
-
-          queryTop.exec(function(err, result) {
-
-            if (!err && result) {
-              locals.data.top = result;
-
-              callback(null, locals.data);
+          // Populate nested recipe author (community winner)
+          var optionsCommunityAuthor = {
+            path: 'awards.community.winner.author',
+            model: 'User'
+          };
+          Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
+            if (err) {
+              console.error('Error: Contest.model.populate community winner');
+              return res.notfound(res.__('Not found'));
             }
-            else {
-              if (err) {
-                callback(err);
-              }
-              else {
-                callback(null, null);
-              }
-            }
+
+            locals.data.contest = contestCommunityPopulated;
+            var queryTop = Recipe.model.find({
+                'contest.id': result.id,
+                'contest.state': 'admited',
+                'isRemoved': false,
+                'isBanned': false
+              })
+              .limit(4)
+              .populate('contest.id')
+              .sort('-rating')
+              .exec(function(err, result) {
+                if (!err && result) {
+                  locals.data.top = result;
+                  next();
+                }
+                else {
+                  return res.notfound(res.__('Not found'));
+                }
+              });
           });
-        }
-        else {
-          callback(null, null);
-        }
-      }
-    ], function(err, result) {
-      if (!err) {
-        next();
+        });
       }
       else {
-        next(err);
+        console.error('Error: queryContest', queryContest);
+        return res.notfound(res.__('Not found'));
       }
     });
-
   });
 
   // Render the view
