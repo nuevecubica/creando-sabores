@@ -228,6 +228,78 @@
     },
     "author": 1,
     "schemaVersion": 1
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R1</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-01-01T00:00:00.000+0200",
+    "editDate": "2015-01-01T00:00:00.000+0200",
+    "rating": 4,
+    "review": [{
+      "user": 1,
+      "rating": 4
+    }],
+    "title": "TEST CONTEST RECIPE 1",
+    "slug": "test-contest-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R2</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-02-01T00:00:00.000+0200",
+    "editDate": "2015-02-01T00:00:00.000+0200",
+    "rating": 3,
+    "review": [{
+      "user": 1,
+      "rating": 3
+    }],
+    "title": "TEST CONTEST RECIPE 2",
+    "slug": "test-contest-recipe-2",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R3</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-31T00:00:00.000+0200",
+    "editDate": "2015-12-31T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 3",
+    "slug": "test-contest-recipe-3",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "rejected"
+    }
   }],
   "newRecipes": [{
     "description": "DESCRIPTION NEW 1",

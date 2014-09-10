@@ -114,6 +114,10 @@ var testMode = function(keystone) {
         if (val === 'author') {
           recipeM['author'] = users[recipe.author - 1];
         }
+        else if (val === 'contest') {
+          recipeM['contest']['id'] = contests[recipe.contest.id];
+          recipeM['contest']['state'] = recipe.contest.state;
+        }
         else {
           recipeM[val] = recipe[val];
         }
@@ -126,6 +130,7 @@ var testMode = function(keystone) {
       });
     };
     var usersList = [];
+    var contests = {};
     for (var i = 0, l = data.users.length; i < l; i++) {
       usersList.push(data.users[i].username);
     }
@@ -142,7 +147,12 @@ var testMode = function(keystone) {
       }
 
       users = results;
-      async.each(data.recipes, add, end(done));
+      Contests.model.find().exec(function(err, results) {
+        for (var i = 0, l = results.length; i < l; i++) {
+          contests[results[i].slug] = results[i];
+        }
+        async.each(data.recipes, add, end(done));
+      });
     });
   };
 
@@ -173,8 +183,8 @@ var testMode = function(keystone) {
       testDrop,
       testAdminsAdd,
       testUsersAdd,
-      testRecipesAdd,
-      testContestsAdd
+      testContestsAdd,
+      testRecipesAdd
     ], end(done));
   };
 
@@ -183,8 +193,8 @@ var testMode = function(keystone) {
       testClean,
       testAdminsAdd,
       testUsersAdd,
-      testRecipesAdd,
-      testContestsAdd
+      testContestsAdd,
+      testRecipesAdd
     ], end(done));
   };
 
