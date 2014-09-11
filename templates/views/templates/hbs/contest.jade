@@ -1,0 +1,30 @@
+.contest-title.sixteen.wide.column
+  .header {{title}}
+
+.contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.jury.winner.header.url}})')
+  .author-winner
+    img.author(src='{{awards.jury.winner.author.avatars.local.url}}')
+    img.award(src='/images/jury_award.png')
+
+.contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
+  .user {{awards.jury.winner.author.name}}
+  //- || awards.jury.winner.author.username)
+  .title
+    a(href='/receta/{{awards.jury.winner.slug}}') {{awards.jury.winner.title}}
+  .subheader
+    strong= __('Jury award')
+  .award {{awards.community.name}}
+
+.contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.community.winner.header.url}})')
+  .author-winner
+    img.author(src='{{awards.community.winner.author.avatars.local.url}}')
+    img.award(src='/images/community_award.png')
+
+.contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
+  .user {{awards.jury.winner.author.name}}
+  //- || awards.jury.winner.author.username)
+  .title
+    a(href='/receta/{{awards.community.winner.slug}}') {{awards.community.winner.title}}
+  .subheader
+    strong= __('Community award')
+  .award {{awards.community.name}}
