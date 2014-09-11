@@ -221,6 +221,15 @@ User.schema.virtual('thumb').get(function() {
   return {
     'header': this._.media.header.src({
       transformation: 'header_thumb'
+    }),
+    'avatar_large': this._.avatar.local.src({
+      transformation: 'user_avatar_large'
+    }),
+    'avatar_medium': this._.avatar.local.src({
+      transformation: 'user_avatar_medium'
+    }),
+    'avatar_small': this._.avatar.local.src({
+      transformation: 'user_avatar_small'
     })
   };
 });
