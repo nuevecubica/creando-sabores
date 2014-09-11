@@ -137,6 +137,6 @@ $(document).ready(function() {
   });
 
   /* global makePaginable */
-  makePaginable('/api/v1/me/recipes', 'recipe', '#recipes .list');
+  makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
 
 });
