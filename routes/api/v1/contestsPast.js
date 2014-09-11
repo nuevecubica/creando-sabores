@@ -40,7 +40,7 @@ exports = module.exports = function(req, res) {
               model: 'User'
             };
 
-            answer.objects = {
+            answer.contests = {
               results: []
             };
 
@@ -56,7 +56,7 @@ exports = module.exports = function(req, res) {
                       if (!err) {
                         answer.success = true;
 
-                        answer.objects.results.push(contestCommunityPopulated);
+                        answer.contests.results.push(contestCommunityPopulated);
 
                         done();
                       }
