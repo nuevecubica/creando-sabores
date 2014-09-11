@@ -56,9 +56,8 @@ exports = module.exports = function(req, res) {
       queryContest.exec(function(err, contest) {
         if (!err && contest) {
 
-          // contest.deadline = moment(contest.deadline).format('LLLL');
-
           locals.data.contest = contest;
+          locals.data.contest.formattedDeadline = moment(contest.deadline).format('L');
           locals.filters.contestId = contest._id;
 
         }

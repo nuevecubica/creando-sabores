@@ -5,6 +5,8 @@
 @contest-winners-background-color: @chef-color-yellow-bg;
 @contest-winners-header-color: @chef-color-white;
 @contest-ranking-bg: @chef-color-light-bg;
+@chef-color-voted: @chef-color-blue-bg;
+@chef-color-vote: @chef-color-brick-bg;
 
 // Font color
 @contest-ranking-info-color: @chef-color-black;
@@ -310,8 +312,61 @@
     }
   }
 }
-
 .mode-editable {
 
 
+}
+//Top rating list
+
+.tab-header{
+  .ui.button.chef.button-brick{
+    display: table-block;
+    height: 65px;
+    padding: 25px 5px;
+    a{
+      
+    }
+  }
+}
+#participants-content{
+  #info{
+    .top-ranking{
+      position: relative;
+      width: 270px;
+      display: block;
+      margin: auto;
+      .icon{
+        position: absolute;
+        top: -5px;
+        left: -80px;
+        font-size: 70px;
+      }
+    }
+  }
+  .rating{
+    height: 100px;
+    margin-top: -40px;
+    float: right;
+    .span{
+      position: relative;
+      bottom: 40px;
+    }
+    p{
+      .font-extra-larger;
+      text-transform: uppercase;
+      font-family: @pinto-fonts;
+      color: @chef-color-vote;
+      &.voted{
+        color: @chef-color-voted;
+      }
+    }
+  }
+  .list a {
+    h2.header {
+    } 
+    span.header{
+      position: relative;
+      top: 10px;
+    }
+  }
 }
