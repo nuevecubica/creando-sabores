@@ -5,57 +5,62 @@ include ../mixins/recipe
 include ../mixins/grid
 
 block js
-  script(src='/js/recipes.js')
+  script(src='/js/contests.js')
 
 block content
   +header(data, section)
 
   .ui.page.grid.body
 
-    #current-contest.row
-      #info.eight.tablet-eight.mobile-sixteen.wide.column
-        .status
-          .status-tag(class=data.current.state)
-            - console.log(data.current.submissionDeadline)
-            = __('Deadline') + data.current.submissionDeadline
+    if data.current
+      #current-contest.row
+        #info.eight.tablet-eight.mobile-sixteen.wide.column
+          .status
+            .status-tag(class=data.current.state)
+              - var date = data.current.submissionDeadline
+              - var states = { programmed: __('Programmed {{{date}}}', { date: date }), submission: __('Submission {{{date}}}', { date: date }), votes: __('Votes {{{date}}}', { date: date }), closed: __('Closed deliberation') }
+              = states[data.current.state]
 
-        .header= data.current.title
+          .header= data.current.title
 
-        .subheader
-          i.icon-chef-heart.icon
-          = __('Contest sponsored by')
-          strong= data.current.sponsor
+          .subheader
+            i.icon-chef-heart.icon
+            = __('Contest sponsored by')
+            strong= data.current.sponsor
 
-      //- #awards
-      .four.tablet-four.mobile-eight.wide.column
-        .award.column
-          .icon
-            img(src='/images/jury_award.png')
+        //- #awards
+        .four.tablet-four.mobile-eight.wide.column
+          .award.column
+            .icon
+              img(src='/images/jury_award.png')
 
-          .explain
-            .subheader
-              strong= __('Jury award')
-              = data.current.awards.jury.name
+            .explain
+              .subheader
+                strong= __('Jury award')
+                = data.current.awards.jury.name
 
-      .four.tablet-four.mobile-eight.wide.column
-        .award.column
-          .icon
-            img(src='/images/community_award.png')
+        .four.tablet-four.mobile-eight.wide.column
+          .award.column
+            .icon
+              img(src='/images/community_award.png')
 
-          .explain
-            .subheader
-              strong= __('Community award')
-              = data.current.awards.community.name
+            .explain
+              .subheader
+                strong= __('Community award')
+                = data.current.awards.community.name
 
-    .row
-      .sixteen.wide.column
-        .description
-          p!= data.current.description
+      .row
+        .sixteen.wide.column
+          .description
+            p!= data.current.description
 
-    .row
+      .row
+        .sixteen.wide.column.center.aligned
+          .ui.button.chef.button-brick
+            a(href='/concurso/#{data.current.slug}')= __('Learn more')
+    else
       .sixteen.wide.column.center.aligned
-        .ui.button.chef.button-brick
-          a(href='/concurso/#{data.current.slug}')= __('Learn more')
+        .subheader= __('No current contest')
 
     #past-contests.row
       .sixteen.wide.column.center.aligned
@@ -94,6 +99,7 @@ block content
             .subheader
               strong= __('Community award')
             .award= contest.awards.community.name
+
       else
         .sixteen.wide.column
           .subheader= __('No past contest')
