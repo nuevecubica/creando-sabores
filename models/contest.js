@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
-  moment = require('moment');
+  moment = require('moment'),
+  modelCleaner = require('../utils/modelCleaner');
 
 var positions = [{
   value: 0,
@@ -240,6 +241,35 @@ Contest.add({
       }
     }
   });
+
+Contest.schema.set('toJSON', {
+  virtuals: true,
+  transform: modelCleaner.transformer
+});
+
+Contest.schema.virtual('thumb').get(function() {
+  return {
+    'list': this._.imageContest.src({
+      transformation: 'list_thumb'
+    }),
+    'grid_small': this._.imageContest.src({
+      transformation: 'grid_small_thumb'
+    }),
+    'grid_medium': this._.imageContest.src({
+      transformation: 'grid_medium_thumb'
+    }),
+    'grid_large': this._.imageContest.src({
+      transformation: 'grid_large_thumb'
+    }),
+    'header': this._.headerBackgroundRecipe.src({
+      transformation: 'header_thumb'
+    })
+  };
+});
+
+Contest.schema.virtual('url').get(function() {
+  return '/concurso/' + this.slug;
+});
 
 // Function to switch recipe state
 // Params:

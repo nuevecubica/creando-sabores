@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
-  async = require('async');
+  async = require('async'),
+  modelCleaner = require('../utils/modelCleaner');
 
 var positions = [{
   value: 0,
@@ -74,22 +75,27 @@ Recipe.add({
     },
 
     rating: {
-      type: Types.Number,
-      noedit: true,
-      watch: true,
-      value: function() {
-        var average = 0;
+      type: Types.Number
 
-        if (this.review.length <= 0) {
-          return 0.00;
-        }
+      /*
+        Waiting for a new approach to votes and ratings
+      */
 
-        for (var rev = 0; rev < this.review.length; rev++) {
-          average += this.review[rev].rating;
-        }
+      // noedit: true,
+      // watch: true,
+      // value: function() {
+      //   var average = 0;
 
-        return (average / this.review.length).toFixed(2);
-      }
+      //   if (this.review.length <= 0) {
+      //     return 0.00;
+      //   }
+
+      //   for (var rev = 0; rev < this.review.length; rev++) {
+      //     average += this.review[rev].rating;
+      //   }
+
+      //   return (average / this.review.length).toFixed(2);
+      // }
     },
 
     schemaVersion: {
@@ -293,9 +299,19 @@ Recipe.add({
     }
   });
 
+Recipe.schema.set('toJSON', {
+  virtuals: true,
+  transform: modelCleaner.transformer
+});
+
 // Recipe can be shown
 Recipe.schema.virtual('canBeShown').get(function() {
   return (!this.isBanned && !this.isRemoved);
+});
+
+// URL
+Recipe.schema.virtual('url').get(function() {
+  return '/receta/' + this.slug;
 });
 
 Recipe.schema.virtual('thumb').get(function() {
@@ -419,19 +435,22 @@ Recipe.schema.pre('save', function(next) {
     });
 });
 
-// Recipe.schema.set('toJSON', {
-//   virtuals: true
-// });
+/*
+  Waiting for a new approach to votes and ratings
+*/
 
 // Schema for ranking
-var Rating = new keystone.mongoose.Schema({
-  user: String,
-  rating: Number
-});
+// var Rating = new keystone.mongoose.Schema({
+//   user: String,
+//   rating: Number
+// });
 
-Recipe.schema.add({
-  review: [Rating]
-});
+// Recipe.schema.add({
+//   review: {
+//     type: [Rating],
+//     select: false
+//   }
+// });
 
 /**
  * Registration

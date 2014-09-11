@@ -37,27 +37,30 @@ block content
           .explain
             .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.description
 
-      #contest-awards.row(class=data.contest.state)
-        .sixteen.wide.column
-          .header= __('Awards')
+      if data.contest.awards.jury.name || data.contest.awards.community.name
+        #contest-awards.row(class=data.contest.state)
+          .sixteen.wide.column
+            .header= __('Awards')
 
-        .award.sixteen.wide.column
-          .icon
-            img(src='/images/jury_award.png')
+          if data.contest.awards.jury.name
+            .award.sixteen.wide.column
+              .icon
+                img(src='/images/jury_award.png')
 
-          .explain
-            .subheader
-              strong= __('Jury award') + data.contest.awards.jury.name
-            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.description
+              .explain
+                .subheader
+                  strong= __('Jury award') + data.contest.awards.jury.name
+                .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.description
 
-        .award.sixteen.wide.column
-          .icon
-            img(src='/images/community_award.png')
+          if data.contest.awards.community.name
+            .award.sixteen.wide.column
+              .icon
+                img(src='/images/community_award.png')
 
-          .explain
-            .subheader
-              strong= __('Community award') + data.contest.awards.community.name
-            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
+              .explain
+                .subheader
+                  strong= __('Community award') + data.contest.awards.community.name
+                .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
 
       if data.contest.state === 'finished'
 
@@ -90,8 +93,6 @@ block content
             .subheader
               strong= __('Community award')
             .award= data.contest.awards.community.name
-
-
 
       #ranking.row(class=data.contest.state)
         .sixteen.wide.column
