@@ -76,32 +76,33 @@ exports = module.exports = function(req, res) {
                           done();
                         }
                         else {
-                          console.log('ERR', err);
-                          done(err);
+                          console.error('Error: Contest.model.populate community winner', err);
+                          return res.notfound(res.__('Not found'));
                         }
                       });
                     }
                     else {
-                      console.log('ERR', err);
-                      done(err);
+                      console.error('Error: Contest.model.populate jury winner', err);
+                      return res.notfound(res.__('Not found'));
                     }
                   });
                 },
                 function(err) {
-                  console.log(locals.data.contests);
-                  callback(err, contests);
+                  console.error('Error: Async each contest', err);
+                  return res.notfound(res.__('Not found'));
                 });
             }
             else {
-              console.log('ERR');
-              callback(err);
+              console.error('Error: Query last contests', err);
+              return res.notfound(res.__('Not found'));
             }
           });
         }
       ],
       function(err, results) {
         if (err) {
-          console.error("Contests controller", err);
+          console.error('Error: Query contests', err);
+          return res.notfound(res.__('Not found'));
         }
         next(err);
       });
