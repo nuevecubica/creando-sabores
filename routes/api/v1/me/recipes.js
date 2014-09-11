@@ -1,5 +1,6 @@
 var async = require('async'),
-  keystone = require('keystone');
+  keystone = require('keystone'),
+  _ = require('underscore');
 
 /*
 	/me/recipes?page=1&perPage=10
@@ -27,15 +28,11 @@ exports = module.exports = function(req, res) {
         .sort('-editDate');
 
       q.exec(function(err, recipes) {
-        //console.log('EXEC ' + JSON.stringify(recipes));
-
         if (err || !recipes) {
-          //console.log('ERROR ' + err);
           res.status(404);
           answer.error = true;
         }
         else if (recipes.total > 0) {
-          //console.log('RECIPES ' + recipes);
           answer.success = true;
           answer.recipes = recipes;
         }
