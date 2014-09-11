@@ -6,7 +6,7 @@ $(document).ready(function() {
   if (order === 'reciente') {
     order = 'recent';
   }
-  makePaginable('/api/v1/contest/' + contest + '/recipes', 'recipe', '#recipes .list', {
+  makePaginable('/api/v1/contest/' + contest + '/recipes', 'contestrecipe', '#recipes .list', {
     'order': order
   });
 

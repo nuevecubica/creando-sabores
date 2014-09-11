@@ -202,11 +202,13 @@ var makePaginable = function(endpoint, hbsname, appendable, extraargs) {
     var jQXhr = $.getJSON(url).done(function(data) {
 
         var items = data.recipes.results;
+        var startPos = data.recipes.first;
 
         getTemplate(hbsname, items, function(tpl, items) {
           var html = '';
 
           for (var i = 0, l = items.length; i < l; i++) {
+            items[i]['i'] = startPos + i;
             html += tpl(items[i]);
           }
 
