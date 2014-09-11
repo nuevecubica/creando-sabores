@@ -1,6 +1,7 @@
 extends ../layouts/default
 
 include ../mixins/header
+include ../mixins/contest-recipe
 
 block js
   script(src='/js/participants.js')
@@ -12,57 +13,40 @@ block content
     #participants-content.ui.grid.segment
       .row
         #info.sixteen.wide.column
-          .header
-            i.icon-chef-heart.icon
-            = __('Ranking')
+          .top-ranking
+            i.icon-chef-cup.icon
+            .header
+              = __('Ranking')
+            .subheader
+              .status-tag.open= __('Deadline at ') + data.contest.formattedDeadline
 
-          .subheader
-            .status-tag.open= __('Deadline at ') + data.contest.deadline
 
       .row.tablet.computer.only
         .two.tabs.tab-header
           .row
             .tab
-              div(class="#{subsection === 'top' ? 'active' : 'disabled'}").ui.button.chef.button-brick
-                a(href='/concurso/#{data.contest.slug}/participantes/top')= __('Top rated')
+              a(href='/concurso/#{data.contest.slug}/participantes/top') 
+                div(class="#{subsection === 'top' ? 'active' : ''}").ui.button.chef.button-brick
+                  | #{__('Top rated')}
             .tab
-              div(class="#{subsection === 'reciente' ? 'active' : 'disabled'}").ui.button.chef.button-brick
-                a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Recent')
+              a(href='/concurso/#{data.contest.slug}/participantes/reciente') 
+                div(class="#{subsection === 'reciente' ? 'active' : ''}").ui.button.chef.button-brick
+                  | #{__('Recent')}
+            
+      #recipes.tab-content
+        .row
+          .ui.grid.segment.list
+            - var recipes = data.recipes;
 
-      if subsection === 'top'
-        #recipes.tab-content
-          .row
-            .ui.grid.segment.list
-              - var tops = data.top;
+            if recipes.length
+              each recipe,i in recipes
+                .row.position
+                  +contest-recipe(recipe,i)
+            else
+              | #{__('No recipes yet')}
 
-              if tops.length
-                each top in tops
-                  .row.position
-                    +recipe(top)
-              else
-                | #{__('No recipes yet')}
-
-          .row.loader
-            .sixteen.wide.column.loading= __('Loading more recipes')
-            .sixteen.wide.column.load-more
-              .ui.button.chef.button-brick.load-button
-                a(href="#")= __('Load more')
-
-      else if subsection === 'reciente'
-        #recipes.tab-content
-          .row
-            .ui.grid.segment.list
-              - var recents = data.recent;
-
-              if recents.length
-                each recent in recents
-                  .row.position
-                    +recipe(recent)
-              else
-                | #{__('No recipes yet')}
-
-          .row.loader
-            .sixteen.wide.column.loading= __('Loading more recipes')
-            .sixteen.wide.column.load-more
-              .ui.button.chef.button-brick.load-button
-                a(href="#")= __('Load more')
+        .row.loader
+          .sixteen.wide.column.loading= __('Loading more recipes')
+          .sixteen.wide.column.load-more
+            .ui.button.chef.button-brick.load-button
+              a(href="#")= __('Load more')

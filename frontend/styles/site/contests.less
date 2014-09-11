@@ -1,0 +1,129 @@
+@contests-past-bg: @chef-color-light-bg;
+@contests-past-background-color: @chef-color-yellow-bg;
+@contests-past-header-color: @chef-color-white;
+@contests-past-rating-border: @chef-color-white;
+
+@contests-info-icon-color: @chef-color-yellow-bg;
+@contests-user-winner-color: @chef-color-brick-bg;
+@contests-past-info-color: @chef-color-black;
+
+
+#current-contest {
+  margin-top: 20px;
+
+  #info {
+    .icon {
+      color: @contests-info-icon-color;
+      margin-right: 10px;
+    }
+
+    @media screen and (max-width: 767px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .award {
+    width: 50%;
+    display: inline;
+    position: relative;
+
+    .icon {
+      position: absolute;
+    }
+
+    .explain {
+      margin-left: 70px;
+
+      strong {
+        display: block;
+      }
+    }
+  }
+}
+
+#past-contests {
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .contest-title {
+    color: @contests-past-header-color;
+    background-color: @contests-past-background-color;
+
+    .header {
+      margin-bottom: 0;
+    }
+  }
+
+  .contest-module {
+    height: 300px;
+
+    @media screen and (max-width: 767px) {
+      height: 200px;
+    }
+  }
+
+  .recipe-winner {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    .author-winner {
+      position: relative;
+      display: inline-block;
+      margin: 10px 0;
+
+      img {
+        &.author {
+          width: 80px;
+          border-radius: 50%;
+          border: 4px solid @contests-past-rating-border;
+        }
+
+        &.award {
+          width: 30px;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+
+  .recipe-award {
+    background-color: @contests-past-bg;
+    padding-top: 15px;
+
+    .user {
+      .font-large.uppercase;
+      font-family: 'Pinto';
+      color: @contests-user-winner-color;
+    }
+
+    .title {
+
+      a {
+        .font-xxl.uppercase;
+        color: @contests-past-info-color;
+        font-family: 'Pinto';
+        line-height: 48px;
+        text-decoration: none;
+
+        @media screen and (max-width: 991px) {
+          .font-extra-larger.uppercase;
+          line-height: 40px;
+        }
+
+        @media screen and (max-width: 767px) {
+          .font-extra-large.uppercase;
+          line-height: 36px;
+        }
+      }
+    }
+
+    .award {
+
+    }
+  }
+}

@@ -39,6 +39,7 @@ exports = module.exports = function(req, res) {
           path: 'awards.jury.winner.author awards.jury.community.author',
           model: 'User'
         };
+
         Contest.model.populate(result, optionsJuryAuthor, function(err, contestJuryPopulated) {
           if (err) {
             console.error('Error: Contest.model.populate jury winner');
@@ -50,6 +51,7 @@ exports = module.exports = function(req, res) {
             path: 'awards.community.winner.author',
             model: 'User'
           };
+
           Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
             if (err) {
               console.error('Error: Contest.model.populate community winner');

@@ -31,6 +31,7 @@
 	"Contests": "Concursos",
 	"Create recipe": "Crear receta",
 	"Deadline at ": "Finaliza el ",
+	"Deadline": "Fecha límite ",
 	"Default": "Default",
 	"Delete": "Eliminar",
 	"Description": "Descripción",
@@ -73,6 +74,7 @@
 	"Join the contest": "Participa",
 	"Jury award": "Premio del jurado: ",
 	"Invalid credentials": "Credenciales no válidas",
+	"Learn more": "Learn more",
 	"Loading more contests": "Cargando más concursos...",
 	"Loading more recipes": "Cargando más recetas...",
 	"Load more": "Cargar más",
@@ -90,6 +92,7 @@
 	"My tips": "Mis tips",
 	"New password": "Contraseña nueva",
 	"No more": "No hay más",
+	"No past contest": "No hay concursos anteriores",
 	"No recipes for this contest yet": "No hay recetas en este concurso todavía.",
 	"No recipes yet": "Ninguna receta.",
 	"No recommendation": "Sin recomendación",
@@ -102,6 +105,7 @@
 	"Participants": "Participantes",
 	"Password": "Contraseña",
 	"Password is not available {{social}}": "Debes acceder con {{social}}.",
+	"Past contest": "Concursos antiguos",
 	"person": {
 		"one": "persona",
 		"other": "personas"
@@ -171,5 +175,7 @@
 	"Winners": "Ganadores",
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"Write here contest name": "Escribe el nombre del concurso aquí"
+	"Write here contest name": "Escribe el nombre del concurso aquí",
+	"Voted recipe": "Voted recipe",
+	"Voted recipe!": "Voted recipe!"
 }

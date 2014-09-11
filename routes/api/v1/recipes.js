@@ -25,6 +25,7 @@ exports = module.exports = function(req, res) {
         .where('state', 1)
         .where('isBanned', false)
         .where('isRemoved', false)
+        .where('contest.id', null)
         .sort('-rating');
 
       q.exec(function(err, recipes) {

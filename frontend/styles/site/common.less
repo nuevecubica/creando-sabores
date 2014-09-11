@@ -107,16 +107,29 @@ body {
     .font-small;
   }
 }
+.explain {
+  .font-larger;
+  strong {
+    font-weight: bold;
+  }
 
+  @media screen and (max-width: 991px) {
+    .font-large;
+  }
+
+  @media screen and (max-width: 767px) {
+    .font-normal;
+  }
+}
+.tab-header{
+  .active.button{
+    opacity: .7;
+  }
+}
 .body {
 
   .content {
     .font-large;
-  }
-
-  .explain {
-    .font-large;
-    font-weight: bolder;
   }
 }
 

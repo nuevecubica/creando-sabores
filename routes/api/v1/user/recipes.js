@@ -42,6 +42,11 @@ exports = module.exports = function(req, res) {
         .where('state', 1)
         .where('isBanned', false)
         .where('isRemoved', false)
+        .or([{
+          'contest.id': null
+        }, {
+          'contest.state': 'admited'
+        }])
         .sort('-editDate');
 
       q.exec(function(err, recipes) {
