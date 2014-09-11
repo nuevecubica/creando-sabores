@@ -1,29 +1,35 @@
 .contest-title.sixteen.wide.column
   .header
-    a(href='/concurso/{{slug}}') {{title}}
+    a(href='{{url}}') {{title}}
 
-.contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.jury.winner.header.url}})')
-  .author-winner
-    img.author(src='{{awards.jury.winner.author.avatars.local.url}}')
-    img.award(src='/images/jury_award.png')
+a(href='{{awards.jury.winner.url}}')
+  .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.jury.winner.thumb.header}})')
+    .author-winner
+      a(href='{{awards.jury.winner.author.url}}')
+        img.author(src='{{awards.jury.winner.author.thumb.list}}')
+      img.award(src='/images/jury_award.png')
 
 .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
-  .user {{#if awards.jury.winner.author.name}} {{awards.jury.winner.author.name}} {{else}} {{awards.jury.winner.author.username}} {{/if}}
+  a(href='{{awards.jury.winner.author.url}}')
+    .user {{#if awards.jury.winner.author.name}} {{awards.jury.winner.author.name}} {{else}} {{awards.jury.winner.author.username}} {{/if}}
   .title
-    a(href='/receta/{{awards.jury.winner.slug}}') {{awards.jury.winner.title}}
+    a(href='{{awards.jury.winner.url}}') {{awards.jury.winner.title}}
   .subheader
     strong= __('Jury award')
   .award {{awards.community.name}}
 
-.contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.community.winner.header.url}})')
-  .author-winner
-    img.author(src='{{awards.community.winner.author.avatars.local.url}}')
-    img.award(src='/images/community_award.png')
+a(href='{{awards.community.winner.url}}')
+  .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.community.winner.thumb.header}})')
+    .author-winner
+      a(href='{{awards.community.winner.author.url}}')
+        img.author(src='{{awards.community.winner.author.thumb.list}}')
+      img.award(src='/images/community_award.png')
 
 .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
-  .user {{#if awards.community.winner.author.name}} {{awards.community.winner.author.name}} {{else}} {{awards.community.winner.author.username}} {{/if}}
+  a(href='{{awards.community.winner.author.url}}')
+    .user {{#if awards.community.winner.author.name}} {{awards.community.winner.author.name}} {{else}} {{awards.community.winner.author.username}} {{/if}}
   .title
-    a(href='/receta/{{awards.community.winner.slug}}') {{awards.community.winner.title}}
+    a(href='{{awards.community.winner.url}}') {{awards.community.winner.title}}
   .subheader
     strong= __('Community award')
   .award {{awards.community.name}}
