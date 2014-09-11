@@ -228,6 +228,102 @@
     },
     "author": 1,
     "schemaVersion": 1
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R1</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-01-01T00:00:00.000+0200",
+    "editDate": "2015-01-01T00:00:00.000+0200",
+    "rating": 4,
+    "review": [{
+      "user": 1,
+      "rating": 4
+    }],
+    "title": "TEST CONTEST RECIPE 1",
+    "slug": "test-contest-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R2</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-02-01T00:00:00.000+0200",
+    "editDate": "2015-02-01T00:00:00.000+0200",
+    "rating": 3,
+    "review": [{
+      "user": 1,
+      "rating": 3
+    }],
+    "title": "TEST CONTEST RECIPE 2",
+    "slug": "test-contest-recipe-2",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R3</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-31T00:00:00.000+0200",
+    "editDate": "2015-12-31T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 3",
+    "slug": "test-contest-recipe-3",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "rejected"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R4</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 4",
+    "slug": "test-contest-recipe-4",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "review"
+    }
   }],
   "newRecipes": [{
     "description": "DESCRIPTION NEW 1",
@@ -253,6 +349,8 @@
   }],
   "contests": [{
     "slug" : "test-contest-draft",
+    "programmedDate" : "2020-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2020-12-30T22:00:00.000Z",
     "deadline" : "2020-12-31T22:00:00.000Z",
     "ingredientRequired" : "TEST CONTEST INGREDIENT DRAFT",
     "title" : "TEST CONTEST DRAFT",
@@ -260,6 +358,8 @@
     "state" : "draft"
   }, {
     "slug" : "test-contest-programmed",
+    "programmedDate" : "2020-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2020-12-30T22:00:00.000Z",
     "deadline" : "2020-12-31T22:00:00.000Z",
     "ingredientRequired" : "TEST CONTEST INGREDIENT PROGRAMMED",
     "title" : "TEST CONTEST PROGRAMMED",
@@ -267,6 +367,8 @@
     "state" : "programmed"
   }, {
     "slug" : "test-contest-submission",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2020-12-30T22:00:00.000Z",
     "deadline" : "2020-12-31T22:00:00.000Z",
     "ingredientRequired" : "TEST CONTEST INGREDIENT SUBMISSION",
     "title" : "TEST CONTEST SUBMISSION",
@@ -274,6 +376,8 @@
     "state" : "submission"
   }, {
     "slug" : "test-contest-votes",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
     "deadline" : "2020-12-31T22:00:00.000Z",
     "ingredientRequired" : "TEST CONTEST INGREDIENT VOTES",
     "title" : "TEST CONTEST VOTES",
@@ -281,14 +385,18 @@
     "state" : "votes"
   }, {
     "slug" : "test-contest-closed",
-    "deadline" : "2020-12-31T22:00:00.000Z",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
     "ingredientRequired" : "TEST CONTEST INGREDIENT CLOSED",
     "title" : "TEST CONTEST CLOSED",
     "sponsor" : "TEST SPONSOR CLOSED",
     "state" : "closed"
   }, {
     "slug" : "test-contest-finished",
-    "deadline" : "2020-12-31T22:00:00.000Z",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
     "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED",
     "title" : "TEST CONTEST FINISHED",
     "sponsor" : "TEST SPONSOR FINISHED",

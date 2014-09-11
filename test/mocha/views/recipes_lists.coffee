@@ -27,7 +27,8 @@ describe 'Recipes: Lists', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1
+              not recipe.isBanned and recipe.state == 1 and
+              not recipe.contest
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
               recipes = recipes.slice 0, 5
@@ -52,7 +53,9 @@ describe 'Recipes: Lists', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1 and recipe.author == 1
+              not recipe.isBanned and recipe.state == 1 and
+              recipe.author == 1 and (not recipe.contest or
+              recipe.contest.state == 'admited')
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > 5
               recipes = recipes.slice 0, 5
