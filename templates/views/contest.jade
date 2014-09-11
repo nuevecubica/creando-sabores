@@ -7,17 +7,14 @@ block js
 
 block content
   +header(data, section)
-
-  .ui.page.grid
-    #contest-content.ui.grid.segment
-      .row
+  .ui.page.grid.bg-grey
+    .row
         #info.eight.tablet-twelve.mobile-eight.wide.column
           .status
             .status-tag(class=data.contest.state)
               = __(data.contest.state)
-
           .subheader
-            i.icon-chef-heart.icon
+            i.icon-chef-cup.icon.font-extra-large
             = __('Contest sponsored by')
             strong= data.contest.sponsor
 
@@ -30,7 +27,8 @@ block content
             .action.join
               .ui.button.chef.button-yellow
                 a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
-
+  .ui.page.grid
+    #contest-content.ui.grid.segment
       #contest-description.row
         .sixteen.wide.column
           .header= __('Description')
@@ -70,12 +68,12 @@ block content
           .sixteen.wide.column
             .header= __('Winners')
 
-          .recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.jury.winner.header.url})')
+          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.jury.winner.header.url})')
             .author-winner
               img.author(src='#{data.contest.awards.jury.winner.author.avatars.local.url}')
               img.award(src='/images/jury_award.png')
 
-          .recipe-award.four.tablet-four.mobile-eight.wide.column
+          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
             .user= (data.contest.awards.jury.winner.author.name || data.contest.awards.jury.winner.author.username)
             .title
               a(href='/receta/#{data.contest.awards.jury.winner.slug}')= data.contest.awards.jury.winner.title
@@ -83,12 +81,12 @@ block content
               strong= __('Jury award')
             .award= data.contest.awards.community.name
 
-          .recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.community.winner.header.url})')
+          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.community.winner.header.url})')
             .author-winner
               img.author(src='#{data.contest.awards.community.winner.author.avatars.local.url}')
               img.award(src='/images/community_award.png')
 
-          .recipe-award.four.tablet-four.mobile-eight.wide.column
+          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
             .user= (data.contest.awards.jury.winner.author.name || data.contest.awards.jury.winner.author.username)
             .title
               a(href='/receta/#{data.contest.awards.community.winner.slug}')= data.contest.awards.community.winner.title
@@ -112,13 +110,13 @@ block content
               .top-info
                 span
                   strong= (i + 1) + '# '
-                  a(href='/receta/#{top.slug}')= top[i].title
+                  a(href='/receta/#{top[i].slug}')= top[i].title
 
                 .top-share.center.aligned
                   a(href='http://twitter.com')
-                      i.icon-chef-twitter.icon
+                    i.icon-chef-twitter.icon
                   a(href='http://facebook.com')
-                      i.icon-chef-facebook.icon
+                    i.icon-chef-facebook.icon
 
         else
           .sixteen.wide.column

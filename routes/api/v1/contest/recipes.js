@@ -3,11 +3,12 @@ var async = require('async'),
   _ = require('underscore');
 
 /*
-	/me/recipes?page=1&perPage=10
+  /contest/recipes?page=1&perPage=10
 */
 
 exports = module.exports = function(req, res) {
   var Recipes = keystone.list('Recipe'),
+    Contest = keystone.list('Contest'),
     query = {
       paginate: {
         page: req.query.page || 1,
@@ -19,13 +20,35 @@ exports = module.exports = function(req, res) {
       error: false
     };
 
-  async.series([
+  async.waterfall([
 
     function(next) {
+      var q = Contest.model.findOne({
+        slug: req.params.contest
+      });
+      q.exec(function(err, result) {
+        if (err || !result) {
+          res.status(404);
+          answer.error = true;
+          return res.apiResponse(answer);
+        }
+        next(err, result);
+      });
+    },
+
+    function(contest, next) {
       var q = Recipes.paginate(query.paginate)
-        .where('author', req.user._id)
-        .where('isRemoved', false)
-        .sort('-editDate');
+        .where('contest.id', contest._id)
+        .where('contest.state', 'admited')
+        .where('state', 1)
+        .where('isBanned', false)
+        .where('isRemoved', false);
+      if (req.query.order === 'recent') {
+        q.sort('-publishedDate');
+      }
+      else {
+        q.sort('-rating');
+      }
 
       q.exec(function(err, recipes) {
         //console.log('EXEC ' + JSON.stringify(recipes));

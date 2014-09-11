@@ -23,85 +23,58 @@ exports = module.exports = function(req, res) {
     section: req.params.section
   };
 
-  view.on('init', function(next) {
-
-    var queryContest = Contest.model.findOne({
-      'slug': locals.filters.contestSlug
-    });
-
-    var queryTopRecipes = keystone.list('Recipe')
+  var getRecipes = function(contestId, order, callback) {
+    var queryRecipes = keystone.list('Recipe')
       .paginate({
         page: req.query.page || 1,
-        perPage: 10
+        perPage: 5
       })
-      .where('contest.id', locals.filters.contestId)
-      .where('contest.status', 'admited')
+      .where('contest.id', contestId)
+      .where('contest.state', 'admited')
       .where('state', 1)
       .where('isBanned', false)
       .where('isRemoved', false)
       // change rating, fake in contest
-      .sort('-rating');
+      .sort(order)
+      .exec(function(err, recipes) {
+        if (!err && recipes) {
+          locals.data.recipes = recipes.results;
+          callback();
+        }
+        else {
+          callback(err);
+        }
+      });
+  };
 
+  async.waterfall([
 
-    var queryRecentRecipes = keystone.list('Recipe')
-      .paginate({
-        page: req.query.page || 1,
-        perPage: 10
-      })
-      .where('contest.id', locals.filters.contestId)
-      .where('contest.status', 'admited')
-      .where('state', 1)
-      .where('isBanned', false)
-      .where('isRemoved', false)
-      .sort('-publishedDate');
+    function(callback) {
+      var queryContest = Contest.model.findOne({
+        'slug': locals.filters.contestSlug
+      });
+      queryContest.exec(function(err, contest) {
+        if (!err && contest) {
 
-    async.series([
+          locals.data.contest = contest;
+          locals.data.contest.formattedDeadline = moment(contest.deadline).format('L');
+          locals.filters.contestId = contest._id;
 
-      function(callback) {
-        queryContest.exec(function(err, contest) {
-          if (!err && contest) {
-
-            // contest.deadline = moment(contest.deadline).format('LLLL');
-
-            locals.data.contest = contest;
-            locals.filters.contestId = contest._id;
-
-            callback();
-          }
-          else {
-            callback(err);
-          }
-        });
-      },
-      function(callback) {
-        queryTopRecipes.exec(function(err, recipes) {
-          if (!err && recipes) {
-            locals.data.top = recipes;
-
-            callback();
-          }
-          else {
-            callback(err);
-          }
-        });
-      },
-      function(callback) {
-        queryRecentRecipes.exec(function(err, recipes) {
-          if (!err && recipes) {
-            locals.data.recent = recipes;
-
-            callback();
-          }
-          else {
-            callback(err);
-          }
-        });
+        }
+        callback(err, contest);
+      });
+    },
+    function(contest, callback) {
+      if (locals.subsection === 'top') {
+        getRecipes(contest._id, '-rating', callback);
       }
-    ], function(err) {
-      next(err);
-    });
+      else if (locals.subsection === 'reciente') {
+        getRecipes(contest._id, '-publishedDate', callback);
+      }
+    },
+  ], function(err) {
+    // Render the view
+    view.render('participants');
   });
 
-  // Render the view
-  view.render('participants');
 };

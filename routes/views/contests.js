@@ -1,5 +1,6 @@
 var keystone = require('keystone'),
-  async = require('async');
+  async = require('async'),
+  Contest = keystone.list('Contest');
 
 exports = module.exports = function(req, res) {
 
@@ -14,42 +15,88 @@ exports = module.exports = function(req, res) {
   };
   locals.title = res.__('Contests');
 
-  var contests = keystone.list('Contest');
-
   // load contests
   view.on('init', function(next) {
 
-    async.parallel(
-      [
+    var queryCurrentContest = Contest.model.findOne({
+      'state': {
+        '$in': ['programmed', 'submission', 'votes']
+      }
+    });
 
-        function(cb) {
-          // Query for get contests for list
-          contests
-            .paginate({
-              page: req.query.page || 1,
-              perPage: 5
-            })
-            .where('state', 'open')
-            .sort('-deadline').exec(function(err, results) {
+    var queryLastContest = Contest
+      .paginate({
+        page: req.query.page || 1,
+        perPage: 5
+      })
+      .populate('awards.jury.winner awards.community.winner')
+      .where('state', 'finished')
+      .sort('-deadline');
 
-              locals.data.current = results.results;
-              cb(err, results.results);
-            });
-        },
-        function(cb) {
+    async.series([
+
+        function(callback) {
           // Query for get current contest
-          contests.model
-            .find()
-            .where({
-              state: {
-                $in: ['closed', 'finished']
-              }
-            })
-            .sort('-deadline')
-            .exec(function(err, results) {
-              locals.data.contests = results.results;
-              cb(err, results.results);
-            });
+          queryCurrentContest.exec(function(err, contest) {
+            locals.data.current = contest;
+
+            callback(err, contest);
+          });
+        },
+
+        function(callback) {
+          queryLastContest.exec(function(err, contests) {
+
+            if (!err && contests) {
+
+              var optionsJuryAuthor = {
+                path: 'awards.jury.winner.author',
+                model: 'User'
+              };
+
+              var optionsCommunityAuthor = {
+                path: 'awards.community.winner.author',
+                model: 'User'
+              };
+
+              async.each(contests.results, function(contest, done) {
+
+                  // Populate nested recipe author (jury winner)
+                  Contest.model.populate(contest, optionsJuryAuthor, function(err, contestJuryPopulated) {
+
+                    if (!err) {
+                      console.log('1st');
+                      // Populate nested recipe author (community winner)
+                      Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
+
+                        if (!err) {
+                          console.log('2st');
+                          locals.data.contests.push(contestCommunityPopulated);
+
+                          done();
+                        }
+                        else {
+                          console.log('ERR 2nd', err);
+                          done(err);
+                        }
+                      });
+                    }
+                    else {
+                      console.log('ERR 1st', err);
+                      done(err);
+                    }
+                  });
+                },
+                function(err) {
+                  console.log(locals.data.contests);
+                  callback(err, contests);
+                });
+            }
+            else {
+              console.log('ERR');
+              callback(err);
+            }
+          });
         }
       ],
       function(err, results) {

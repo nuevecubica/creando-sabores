@@ -12,39 +12,94 @@ block content
 
   .ui.page.grid.body
 
-    #current-contest.ui.grid.segment
-      .row
+    #current-contest.row
+      #info.eight.tablet-eight.mobile-sixteen.wide.column
+        .status
+          .status-tag(class=data.current.state)
+            - console.log(data.current.submissionDeadline)
+            = __('Deadline') + data.current.submissionDeadline
+
+        .header= data.current.title
+
+        .subheader
+          i.icon-chef-heart.icon
+          = __('Contest sponsored by')
+          strong= data.current.sponsor
+
+      //- #awards
+      .four.tablet-four.mobile-eight.wide.column
+        .award.column
+          .icon
+            img(src='/images/jury_award.png')
+
+          .explain
+            .subheader
+              strong= __('Jury award')
+              = data.current.awards.jury.name
+
+      .four.tablet-four.mobile-eight.wide.column
+        .award.column
+          .icon
+            img(src='/images/community_award.png')
+
+          .explain
+            .subheader
+              strong= __('Community award')
+              = data.current.awards.community.name
+
+    .row
+      .sixteen.wide.column
+        .description
+          p!= data.current.description
+
+    .row
+      .sixteen.wide.column.center.aligned
+        .ui.button.chef.button-brick
+          a(href='/concurso/#{data.current.slug}')= __('Learn more')
+
+    #past-contests.row
+      .sixteen.wide.column.center.aligned
+        .header= __('Past contest')
+
+      - var contests = data.contests
+
+      if contests && contests.length > 0
+
+        each contest in contests
+          .contest-title.sixteen.wide.column
+            .header= contest.title
+
+          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.jury.winner.header.url})')
+            .author-winner
+              img.author(src='#{contest.awards.jury.winner.author.avatars.local.url}')
+              img.award(src='/images/jury_award.png')
+
+          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
+            .user= (contest.awards.jury.winner.author.name || contest.awards.jury.winner.author.username)
+            .title
+              a(href='/receta/#{contest.awards.jury.winner.slug}')= contest.awards.jury.winner.title
+            .subheader
+              strong= __('Jury award')
+            .award= contest.awards.community.name
+
+          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.community.winner.header.url})')
+            .author-winner
+              img.author(src='#{contest.awards.community.winner.author.avatars.local.url}')
+              img.award(src='/images/community_award.png')
+
+          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
+            .user= (contest.awards.jury.winner.author.name || contest.awards.jury.winner.author.username)
+            .title
+              a(href='/receta/#{contest.awards.community.winner.slug}')= contest.awards.community.winner.title
+            .subheader
+              strong= __('Community award')
+            .award= contest.awards.community.name
+      else
         .sixteen.wide.column
-          .date-end
-          .title
-          .organizer
-          .prize-jury
-          .prize-public
-          .description
-          .join-action
-            .ui.button.chef.button-brick
-              a(href='/nueva-receta')= __('Join the contest')
+          .subheader= __('No past contest')
 
-    #past-contests.ui.grid
-      .row
-        .ui.grid Mejor sopa de tomate
-        .ui.grid.four.column
-          .column Foto A
-          .column Contido A
-          .column Foto B
-          .column Contido B
-
-      //-
-        .ui.grid.segment.list
-          if data.recipes.length
-            each recipe in data.recipes
-              .row.position
-                +recipe(recipe)
-          else
-            | #{__('No recipes yet')}
-
-      .row.loader
-        .sixteen.wide.column.loading= __('Loading more contests')
-        .sixteen.wide.column.load-more
-          .ui.button.chef.button-brick.load-button
-            a(href="#")= __('Load more')
+    .row.loader
+      .sixteen.wide.column.center.aligned.loading= __('Loading more contests')
+      .sixteen.wide.column.center.aligned.load-more
+        .ui.button.chef.button-brick.load-button
+          a(href="#")= __('Load more')
