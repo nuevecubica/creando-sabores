@@ -139,7 +139,7 @@ $(document).ready(function() {
 
 // Enable pagination on the current page
 /* global Handlebars */
-var makePaginable = function(endpoint, hbsname, appendable, extraargs) {
+var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraargs) {
 
   var timeCheckScroll = null,
     counter = 2,
@@ -201,8 +201,8 @@ var makePaginable = function(endpoint, hbsname, appendable, extraargs) {
 
     var jQXhr = $.getJSON(url).done(function(data) {
 
-        var items = data.recipes.results;
-        var startPos = data.recipes.first;
+        var items = data[retproperty].results;
+        var startPos = data[retproperty].first;
 
         getTemplate(hbsname, items, function(tpl, items) {
           var html = '';
@@ -221,8 +221,8 @@ var makePaginable = function(endpoint, hbsname, appendable, extraargs) {
           $('.loader > .column').removeClass('show');
         });
 
-        if (data.recipes.next) {
-          args.page = data.recipes.next;
+        if (data[retproperty].next) {
+          args.page = data[retproperty].next;
           counter--;
         }
       })
