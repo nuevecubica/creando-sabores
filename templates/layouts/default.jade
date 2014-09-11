@@ -51,6 +51,15 @@ html
 			include ../components/menu
 
 		//- JAVASCRIPT
+		if isTest
+			script.
+				Function.prototype.bind = Function.prototype.bind || function (thisp) {
+				  var fn = this;
+				  return function () {
+				    return fn.apply(thisp, arguments);
+				  };
+				};
+
 		//- Everything globally available goes inside this object!
 		script.
 			window.chef = {}
