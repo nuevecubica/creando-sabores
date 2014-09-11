@@ -144,6 +144,7 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
   var timeCheckScroll = null,
     counter = 2,
     isStillOnScreen = false,
+    isWorking = false,
     args = {
       page: 2,
       perPage: 5
@@ -173,7 +174,7 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
   var checkScroll = function() {
     var isLoaderOnScreen = $('.loader').isOnScreen();
 
-    if (isLoaderOnScreen && !isStillOnScreen) {
+    if (isLoaderOnScreen && !isStillOnScreen && args.page) {
 
       // Show "Loading" message
       $('.loader > .column').removeClass('show');
@@ -197,6 +198,12 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
   };
 
   var getNextPage = function() {
+    if (isWorking) {
+      return;
+    }
+    else {
+      isWorking = true;
+    }
     var url = endpoint + '?' + $.param(args);
 
     var jQXhr = $.getJSON(url).done(function(data) {
@@ -214,17 +221,22 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 
           $(html).css('display', 'none').appendTo(appendable).slideDown('slow', function() {
             // Is loader on screen after append recipes?
-            isStillOnScreen = $('.loader').isOnScreen();
+            //isStillOnScreen = $('.loader').isOnScreen();
+            isStillOnScreen = false; // Always load more if needed...
           });
 
           // hidden all messages
           $('.loader > .column').removeClass('show');
         });
 
+        counter--;
         if (data[retproperty].next) {
           args.page = data[retproperty].next;
-          counter--;
         }
+        else {
+          args.page = null;
+        }
+        isWorking = false;
       })
       .fail(function() {
         console.log('error');
