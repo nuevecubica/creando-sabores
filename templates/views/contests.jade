@@ -17,7 +17,7 @@ block content
         #info.eight.tablet-eight.mobile-sixteen.wide.column
           .status
             .status-tag(class=data.current.state)
-              - var date = data.current.submissionDeadline
+              - var date = data.current.formattedDeadline
               - var states = { programmed: __('Programmed {{{date}}}', { date: date }), submission: __('Submission {{{date}}}', { date: date }), votes: __('Votes {{{date}}}', { date: date }), closed: __('Closed deliberation') }
               = states[data.current.state]
 
@@ -72,7 +72,8 @@ block content
 
         each contest in contests
           .contest-title.sixteen.wide.column
-            .header= contest.title
+            .header
+              a(href='/concurso/#{contest.slug}')= contest.title
 
           .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.jury.winner.header.url})')
             .author-winner
