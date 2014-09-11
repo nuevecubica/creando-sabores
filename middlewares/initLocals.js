@@ -67,5 +67,6 @@ exports.initLocals = function(req, res, next) {
   locals.version = pkg.version + (pkg.versionName ? ('-' + pkg.versionName) : '');
   locals.ksversion = keystone.version;
   locals.env = process.env;
+  locals.isTest = process.env.APP_TEST;
   next();
 };
