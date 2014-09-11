@@ -75,7 +75,7 @@ block content
             .header
               a(href='/concurso/#{contest.slug}')= contest.title
 
-          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.jury.winner.header.url})')
+          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.jury.winner.thumb.list})')
             .author-winner
               img.author(src='#{contest.awards.jury.winner.author.avatars.local.url}')
               img.award(src='/images/jury_award.png')
@@ -88,7 +88,7 @@ block content
               strong= __('Jury award')
             .award= contest.awards.community.name
 
-          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.community.winner.header.url})')
+          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.community.winner.thumb.list})')
             .author-winner
               img.author(src='#{contest.awards.community.winner.author.avatars.local.url}')
               img.award(src='/images/community_award.png')
