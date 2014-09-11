@@ -88,8 +88,11 @@ exports = module.exports = function(req, res) {
                   });
                 },
                 function(err) {
-                  console.error('Error: Async each contest', err);
-                  return res.notfound(res.__('Not found'));
+                  if (err) {
+                    console.error('Error: Async each contest', err);
+                    return res.notfound(res.__('Not found'));
+                  }
+                  callback(err);
                 });
             }
             else {
