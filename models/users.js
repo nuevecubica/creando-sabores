@@ -1,6 +1,7 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
-  Types = keystone.Field.Types;
+  Types = keystone.Field.Types,
+  modelCleaner = require('../utils/modelCleaner');
 
 /**
  * Users
@@ -210,6 +211,20 @@ User.schema.path('username').validate(function(value, done) {
 });
 
 //#------------------ VIRTUALS
+
+User.schema.set('toJSON', {
+  virtuals: true,
+  transform: modelCleaner.transformer
+});
+
+User.schema.virtual('thumb').get(function() {
+  return {
+    'header': this._.media.header.src({
+      transformation: 'header_thumb'
+    })
+  };
+});
+
 
 // Provide access to Keystone
 User.schema.virtual('canAccessKeystone').get(function() {
