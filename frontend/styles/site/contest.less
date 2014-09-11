@@ -147,10 +147,14 @@
       background-color: @contest-ranking-bg;
       padding-top: 15px;
 
-      .user {
-        .font-large.uppercase;
-        font-family: 'Pinto';
-        color: @contest-user-winner-color;
+      a {
+        text-decoration: none;
+
+        .user {
+          .font-large.uppercase;
+          font-family: 'Pinto';
+          color: @contest-user-winner-color;
+        }
       }
 
       .title {
@@ -200,7 +204,11 @@
     background-color: @contest-ranking-bg;
 
     .subheader {
-     .font-larger;
+      .font-larger;
+
+      &.finished {
+        display: none;
+      }
     }
 
     &.finished {
@@ -267,7 +275,7 @@
 
 
         span {
-          
+
           strong {
            .font-large;
            text-align: left;
@@ -275,7 +283,7 @@
 
           a {
             .font-large.uppercase;
-            
+
             font-weight: normal;
             color: @contest-ranking-info-color;
             text-decoration: none;
@@ -332,7 +340,7 @@
     height: 65px;
     padding: 25px 5px;
     a{
-      
+
     }
   }
 }
@@ -371,7 +379,7 @@
   }
   .list a {
     h2.header {
-    } 
+    }
     span.header{
       position: relative;
       top: 10px;
