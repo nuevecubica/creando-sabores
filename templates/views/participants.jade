@@ -1,7 +1,7 @@
 extends ../layouts/default
 
 include ../mixins/header
-include ../mixins/recipe
+include ../mixins/contest-recipe
 
 block js
   script(src='/js/participants.js')
@@ -13,32 +13,35 @@ block content
     #participants-content.ui.grid.segment
       .row
         #info.sixteen.wide.column
-          .header
+          .top-ranking
             i.icon-chef-cup.icon
-            = __('Ranking')
+            .header
+              = __('Ranking')
+            .subheader
+              .status-tag.open= __('Deadline at ') + data.contest.formattedDeadline
 
-          .subheader
-            .status-tag.open= __('Deadline at ') + data.contest.deadline
 
       .row.tablet.computer.only
         .two.tabs.tab-header
           .row
             .tab
-              div(class="#{subsection === 'top' ? 'active' : 'disabled'}").ui.button.chef.button-brick
-                a(href='/concurso/#{data.contest.slug}/participantes/top')= __('Top rated')
+              a(href='/concurso/#{data.contest.slug}/participantes/top') 
+                div(class="#{subsection === 'top' ? 'active' : ''}").ui.button.chef.button-brick
+                  | #{__('Top rated')}
             .tab
-              div(class="#{subsection === 'reciente' ? 'active' : 'disabled'}").ui.button.chef.button-brick
-                a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Recent')
-
+              a(href='/concurso/#{data.contest.slug}/participantes/reciente') 
+                div(class="#{subsection === 'reciente' ? 'active' : ''}").ui.button.chef.button-brick
+                  | #{__('Recent')}
+            
       #recipes.tab-content
         .row
           .ui.grid.segment.list
             - var recipes = data.recipes;
 
             if recipes.length
-              each recipe in recipes
+              each recipe,i in recipes
                 .row.position
-                  +recipe(recipe)
+                  +contest-recipe(recipe,i)
             else
               | #{__('No recipes yet')}
 
