@@ -139,15 +139,22 @@ $(document).ready(function() {
 
 // Enable pagination on the current page
 /* global Handlebars */
-var makePaginable = function(endpoint, hbsname, appendable) {
+var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraargs) {
 
   var timeCheckScroll = null,
     counter = 2,
     isStillOnScreen = false,
-    paginationData = {
+    args = {
       page: 2,
       perPage: 5
     };
+  if (extraargs) {
+    for (var key in extraargs) {
+      if (extraargs.hasOwnProperty(key)) {
+        args[key] = extraargs[key];
+      }
+    }
+  }
 
   $(document).on('click', '.load-button', function(e) {
     e.preventDefault();
@@ -190,16 +197,18 @@ var makePaginable = function(endpoint, hbsname, appendable) {
   };
 
   var getNextPage = function() {
-    var url = endpoint + '?' + $.param(paginationData);
+    var url = endpoint + '?' + $.param(args);
 
     var jQXhr = $.getJSON(url).done(function(data) {
 
-        var items = data.recipes.results;
+        var items = data[retproperty].results;
+        var startPos = data[retproperty].first;
 
         getTemplate(hbsname, items, function(tpl, items) {
           var html = '';
 
           for (var i = 0, l = items.length; i < l; i++) {
+            items[i]['i'] = startPos + i;
             html += tpl(items[i]);
           }
 
@@ -212,8 +221,8 @@ var makePaginable = function(endpoint, hbsname, appendable) {
           $('.loader > .column').removeClass('show');
         });
 
-        if (data.recipes.next) {
-          paginationData.page = data.recipes.next;
+        if (data[retproperty].next) {
+          args.page = data[retproperty].next;
           counter--;
         }
       })

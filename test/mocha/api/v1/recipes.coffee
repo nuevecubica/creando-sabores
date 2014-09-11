@@ -28,7 +28,7 @@ describe 'API v1: /recipes', ->
     describe 'on request without args', ->
       it 'responds with first page, sorted by rating', (done) ->
         request
-        .get('/api/v1/recipes')
+        .get('/api/v1/recipes?perPage=5')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -40,7 +40,8 @@ describe 'API v1: /recipes', ->
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1
+              not recipe.isBanned and recipe.state == 1 and
+              not recipe.contest
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
               recipes = recipes.slice 0, 5
@@ -62,7 +63,8 @@ describe 'API v1: /recipes', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1
+              not recipe.isBanned and recipe.state == 1 and
+              not recipe.contest
             recipes.sort (a,b) -> return b.rating - a.rating
             recipes = recipes.slice 2, 4
             # Compare results
@@ -89,10 +91,12 @@ describe 'API v1: /recipes', ->
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1 and recipe.author == 1
+              not recipe.isBanned and recipe.state == 1 and
+              recipe.author == 1 and (not recipe.contest or
+              recipe.contest.state == 'admited')
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            if recipes.length > 5
-              recipes = recipes.slice 0, 5
+            if recipes.length > res.body.recipes.results.length
+              recipes = recipes.slice 0, res.body.recipes.results.length
             # Compare results
             slugsexpected = (r.slug for r in recipes)
             slugsgot = (r.slug for r in res.body.recipes.results)
@@ -111,7 +115,9 @@ describe 'API v1: /recipes', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1 and recipe.author == 1
+              not recipe.isBanned and recipe.state == 1 and
+              recipe.author == 1  and (not recipe.contest or
+              recipe.contest.state == 'admited')
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             recipes = recipes.slice 1, 2
             # Compare results
@@ -154,7 +160,7 @@ describe 'API v1: /recipes', ->
 
       it 'responds with all recipes (even banned, unpublished)', (done) ->
         request
-        .get('/api/v1/me/recipes')
+        .get('/api/v1/me/recipes?perPage=10')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
@@ -166,8 +172,8 @@ describe 'API v1: /recipes', ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) -> recipe.author == 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            if recipes.length > 5
-              recipes = recipes.slice 0, 5
+            if recipes.length > 10
+              recipes = recipes.slice 0, 10
             # Compare results
             slugsexpected = (r.slug for r in recipes)
             slugsgot = (r.slug for r in res.body.recipes.results)

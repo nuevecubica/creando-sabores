@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'PRIVATE PROFILE - CHANGE', ->
+describe '(Private) Profile: Change', ->
 
   before (done) ->
     request.get('/').expect 200, (err, res) ->
@@ -22,7 +22,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /perfil', ->
+  describe 'get user profile', ->
     it 'responds with the form', (done) ->
       request
       .get('/perfil')
@@ -36,7 +36,7 @@ describe 'PRIVATE PROFILE - CHANGE', ->
       .expect(/isPrivate/)
       .end(done)
 
-  describe 'POST /perfil/change', ->
+  describe 'submit /perfil/change', ->
 
     describe 'on empty action', ->
       it 'returns an error', (done) ->

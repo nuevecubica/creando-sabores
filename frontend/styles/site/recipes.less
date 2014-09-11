@@ -90,7 +90,6 @@
     @media only screen and (max-width : 991px) {
       .font-larger;
     }
-
   }
 
   .span {
@@ -158,7 +157,7 @@
 
   .explain {
     margin-bottom: 20px;
-    .font-larger;
+
   }
 
   #info {
@@ -339,14 +338,17 @@
 }
 
 #image-size-warning {
-  /* Edit me please */
   position: absolute;
   bottom: 15px;
   left: 15px;
-  padding: 5px 15px;
-  border-radius: 4px;
-  background-color: @chef-color-gray-bg;
-  color: @chef-color-white;
+  border: 10px solid transparent;
+  padding: 10px 15px 10px 30px;
+  color: @chef-color-brick;
   font-size: 1.2rem;
   display: none;
+  background-image: url(/images/alert.png);
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-color: @chef-color-yellow-bg;
+  background-origin:padding-box;
 }

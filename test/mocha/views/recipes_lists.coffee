@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'RECIPES LISTS', ->
+describe 'Recipes: Lists', ->
 
   before (done) ->
     this.timeout 10000
@@ -17,7 +17,7 @@ describe 'RECIPES LISTS', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /recetas', ->
+  describe 'get /recetas', ->
     describe 'on normal request', ->
       it 'returns the expected recipes (sorted by rating)', (done) ->
         request
@@ -27,7 +27,8 @@ describe 'RECIPES LISTS', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1
+              not recipe.isBanned and recipe.state == 1 and
+              not recipe.contest
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
               recipes = recipes.slice 0, 5
@@ -42,7 +43,7 @@ describe 'RECIPES LISTS', ->
         .end(done)
 
 
-  describe 'GET /chef/recetas', ->
+  describe 'get /chef/recetas', ->
     describe 'on normal request', ->
       it 'returns the expected recipes (sorted by edit date)', (done) ->
         request
@@ -52,7 +53,9 @@ describe 'RECIPES LISTS', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1 and recipe.author == 1
+              not recipe.isBanned and recipe.state == 1 and
+              recipe.author == 1 and (not recipe.contest or
+              recipe.contest.state == 'admited')
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > 5
               recipes = recipes.slice 0, 5
@@ -67,7 +70,7 @@ describe 'RECIPES LISTS', ->
         .end(done)
 
 
-  describe 'GET /perfil/recetas', ->
+  describe 'get /perfil/recetas', ->
     describe 'on unauthenticated request', ->
       it 'returns an error', (done) ->
         request

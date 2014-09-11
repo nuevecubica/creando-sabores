@@ -1,5 +1,5 @@
 var async = require('async'),
-  data = require('./generateTest.json'),
+  data = require('../../../../test/data.json'),
   answer = {
     success: false,
     error: false
@@ -12,7 +12,8 @@ var testMode = function(keystone) {
   }
 
   var Users = keystone.list('User'),
-    Recipes = keystone.list('Recipe');
+    Recipes = keystone.list('Recipe'),
+    Contests = keystone.list('Contest');
 
   // End function maker
   var end = function(done, caller) {
@@ -34,9 +35,11 @@ var testMode = function(keystone) {
     // console.log('Drop database');
     Recipes.model.collection.drop(function(err1) {
       Users.model.collection.drop(function(err2) {
-        if (callback) {
-          callback(err1 || err2);
-        }
+        Contests.model.collection.drop(function(err3) {
+          if (callback) {
+            callback(err1 || err2 || err3);
+          }
+        });
       });
     });
   };
@@ -45,9 +48,11 @@ var testMode = function(keystone) {
     // console.log('Clean database');
     Recipes.model.remove({}, function(err1) {
       Users.model.remove({}, function(err2) {
-        if (callback) {
-          callback(err1 || err2);
-        }
+        Contests.model.remove({}, function(err3) {
+          if (callback) {
+            callback(err1 || err2 || err3);
+          }
+        });
       });
     });
   };
@@ -109,6 +114,10 @@ var testMode = function(keystone) {
         if (val === 'author') {
           recipeM['author'] = users[recipe.author - 1];
         }
+        else if (val === 'contest') {
+          recipeM['contest']['id'] = contests[recipe.contest.id];
+          recipeM['contest']['state'] = recipe.contest.state;
+        }
         else {
           recipeM[val] = recipe[val];
         }
@@ -121,6 +130,7 @@ var testMode = function(keystone) {
       });
     };
     var usersList = [];
+    var contests = {};
     for (var i = 0, l = data.users.length; i < l; i++) {
       usersList.push(data.users[i].username);
     }
@@ -137,8 +147,31 @@ var testMode = function(keystone) {
       }
 
       users = results;
-      async.each(data.recipes, add, end(done));
+      Contests.model.find().exec(function(err, results) {
+        for (var i = 0, l = results.length; i < l; i++) {
+          contests[results[i].slug] = results[i];
+        }
+        async.each(data.recipes, add, end(done));
+      });
     });
+  };
+
+  // Load all contests
+  var testContestsAdd = function(done) {
+    var add = function(contest, callback) {
+      var contestM = new Contests.model();
+      for (var val in contest) {
+        if (val) {
+          contestM[val] = contest[val];
+        }
+      }
+      contestM.save(function(err) {
+        if (callback) {
+          callback(err);
+        }
+      });
+    };
+    async.each(data.contests, add, end(done));
   };
 
   // Return
@@ -150,6 +183,7 @@ var testMode = function(keystone) {
       testDrop,
       testAdminsAdd,
       testUsersAdd,
+      testContestsAdd,
       testRecipesAdd
     ], end(done));
   };
@@ -159,6 +193,7 @@ var testMode = function(keystone) {
       testClean,
       testAdminsAdd,
       testUsersAdd,
+      testContestsAdd,
       testRecipesAdd
     ], end(done));
   };

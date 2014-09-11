@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'PRIVATE PROFILE - SAVE', ->
+describe '(Private) Profile: Save', ->
 
   before (done) ->
     this.timeout 10000
@@ -23,7 +23,7 @@ describe 'PRIVATE PROFILE - SAVE', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /perfil', ->
+  describe 'get user profile', ->
     it 'responds with the form', (done) ->
       request
       .get('/perfil')
@@ -36,7 +36,7 @@ describe 'PRIVATE PROFILE - SAVE', ->
       .expect(/profile-header-select/)
       .end(done)
 
-  describe 'POST /perfil/save', ->
+  describe 'submit /perfil/save', ->
 
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->

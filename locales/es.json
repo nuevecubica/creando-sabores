@@ -40,7 +40,7 @@
 	"Do you have a new recipe?": "¿Tienes una receta en mente?",
 	"Don't have an account?": "¿Aún no tienes una cuenta?",
 	"Draft": "Borrador",
-	"draft": "Borrador",
+	"draft": "borrador",
 	"Dummy": "Dummy",
 	"Easy and fast": "Fácil y rápido",
 	"Easy": "Fácil",
@@ -174,11 +174,13 @@
 	"Very easy": "Muy Fácil",
 	"Very hard": "Muy difícil",
 	"Videorecipes": "Videorecetas",
+	"Voted recipe": "Voted recipe",
+	"Voted recipe!": "Voted recipe!",
 	"votes": "Votaciones",
 	"Votes {{{date}}}": "Las votaciones finalizan {{{date}}}",
 	"Vote for your favourite": "Vota for tu favorito",
 	"Winners": "Ganadores",
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"Write here contest name": "Escribe el nombre del concurso aquí",
+	"Write here contest name": "Escribe el nombre del concurso aquí"
 }

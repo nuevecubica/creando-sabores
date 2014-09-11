@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'PRIVATE RECIPE - SAVE', ->
+describe '(Private) Recipe: Save', ->
 
   before (done) ->
     this.timeout 10000
@@ -23,14 +23,14 @@ describe 'PRIVATE RECIPE - SAVE', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /receta/:recipe', ->
+  describe 'get /receta/:recipe', ->
     describe 'from author', ->
       it 'responds with the form'
 
     describe 'from another user', ->
       it 'doesn\'t respond with the form'
 
-  describe 'POST /receta/:recipe/save', ->
+  describe 'call to /receta/:recipe/save', ->
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
@@ -198,7 +198,7 @@ describe 'PRIVATE RECIPE - SAVE', ->
 
 #------------------------------------------------------------------------------
 
-  describe 'POST /nueva-receta/save', ->
+  describe 'submit /nueva-receta/save', ->
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request

@@ -7,17 +7,14 @@ block js
 
 block content
   +header(data, section)
-
-  .ui.page.grid
-    #contest-content.ui.grid.segment
-      .row
+  .ui.page.grid.bg-grey
+    .row
         #info.eight.tablet-twelve.mobile-eight.wide.column
           .status
             .status-tag(class=data.contest.state)
               = __(data.contest.state)
-
           .subheader
-            i.icon-chef-heart.icon
+            i.icon-chef-cup.icon.font-extra-large
             = __('Contest sponsored by')
             strong= data.contest.sponsor
 
@@ -30,7 +27,8 @@ block content
             .action.join
               .ui.button.chef.button-yellow
                 a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
-
+  .ui.page.grid
+    #contest-content.ui.grid.segment
       #contest-description.row
         .sixteen.wide.column
           .header= __('Description')
@@ -111,7 +109,7 @@ block content
               .top-info
                 span
                   strong= (i + 1) + '# '
-                  a(href='/receta/#{top.slug}')= top[i].title
+                  a(href='/receta/#{top[i].slug}')= top[i].title
 
                 .top-share.center.aligned
                   a(href='http://twitter.com')

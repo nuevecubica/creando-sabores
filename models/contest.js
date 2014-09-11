@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
-  async = require('async');
+  async = require('async'),
+  moment = require('moment');
 
 var positions = [{
   value: 0,
@@ -84,13 +85,17 @@ Contest.add({
   },
 
   'Dates', {
-    programedDate: {
+    programmedDate: {
       type: Types.Datetime,
+      require: true,
+      initial: true,
       label: 'Start date'
     },
 
     submissionDeadline: {
       type: Types.Datetime,
+      require: true,
+      initial: true,
       label: 'Finish submissions'
     },
 
@@ -374,6 +379,7 @@ var checkState = function(callback) {
       me.awards.jury.winner = null;
       me.awards.community.winner = null;
 
+
       callback();
     }
     else if (me.state === 'closed' || me.state === 'finished') {
@@ -399,18 +405,32 @@ var checkState = function(callback) {
 
 // Pre save HOOK
 Contest.schema.pre('save', function(next) {
+  var me = this;
 
   // Set isPromoted if recipes is promoted in grids or headers
   if (this.isIndexGridPromoted.value || this.isIndexHeaderPromoted.value) {
     this.isPromoted = true;
   }
 
-  // Set contest state to programmed if start date contest is configured
-  if (this.programedDate) {
-    this.state = 'programmed';
+  if (!moment(this.programmedDate).isBefore(this.submissionDeadline) || !moment(this.submissionDeadline).isBefore(this.deadline)) {
+    this.state = 'draft';
   }
 
-  var me = this;
+  if (me.state !== 'draft' && me.state !== 'closed' && me.state !== 'finished') {
+    if (moment().isBefore(this.programmedDate)) {
+      this.state = 'programmed';
+    }
+    else if (moment().isBefore(this.submissionDeadline)) {
+      this.state = 'submission';
+    }
+    else if (moment().isBefore(this.deadline)) {
+      this.state = 'votes';
+    }
+    else {
+      this.state = 'closed';
+    }
+  }
+
   async.series([
       // Check if contest state has changed
       function(callback) {

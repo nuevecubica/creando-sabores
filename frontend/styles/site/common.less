@@ -107,16 +107,24 @@ body {
     .font-small;
   }
 }
+.explain {
+  .font-larger;
+  strong {
+    font-weight: bold;
+  }
 
+  @media screen and (max-width: 991px) {
+    .font-large;
+  }
+
+  @media screen and (max-width: 767px) {
+    .font-normal;
+  }
+}
 .body {
 
   .content {
     .font-large;
-  }
-
-  .explain {
-    .font-large;
-    font-weight: bolder;
   }
 }
 
@@ -389,7 +397,7 @@ body {
       }
       .tabla3{
         position: absolute;
-        right:0;
+        right:1px;
         top:0;
         height: 120px;
         width: 96px;

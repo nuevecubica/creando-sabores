@@ -12,13 +12,13 @@ getFormErrors = (text, expected) ->
   if count isnt expected
     return "invalid number of errors, expected #{expected} found #{count}"
 
-describe 'LOGIN', ->
+describe 'Login', ->
   before (done) ->
     this.timeout 10000
     request.get('/').expect 200, (err, res) ->
       utils.revertTestDatabase(done)
 
-  describe 'GET /acceso', ->
+  describe 'get login form', ->
     it 'responds with the form', (done) ->
       request
       .get('/acceso')
@@ -28,7 +28,7 @@ describe 'LOGIN', ->
       .expect(/Contraseña/)
       .end(done)
 
-  describe 'POST /acceso', ->
+  describe 'submit login data', ->
     describe 'on empty action', ->
       it 'responds with the form, no errors', (done) ->
         request

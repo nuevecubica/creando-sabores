@@ -17,6 +17,14 @@ exports = module.exports = function(req, res) {
         perPage: 5
       })
       .where('author', userId)
+      .where('state', 1)
+      .where('isBanned', false)
+      .where('isRemoved', false)
+      .or([{
+        'contest.id': null
+      }, {
+        'contest.state': 'admited'
+      }])
       .sort('-editDate')
       .exec(function(err, recipes) {
         if (err) {

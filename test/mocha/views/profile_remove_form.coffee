@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe 'PRIVATE PROFILE - REMOVE', ->
+describe '(Private) Profile: Remove', ->
 
   before (done) ->
     this.timeout 10000
@@ -23,7 +23,7 @@ describe 'PRIVATE PROFILE - REMOVE', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'GET /perfil', ->
+  describe 'get user profile', ->
     it 'responds with the form', (done) ->
       request
         .get('/perfil')
@@ -33,7 +33,7 @@ describe 'PRIVATE PROFILE - REMOVE', ->
         .expect(/perfil\/remove/)
         .end(done)
 
-  describe 'POST /perfil/remove', ->
+  describe 'submit /perfil/remove', ->
     afterEach (done) ->
       utils.revertTestDatabase done
 

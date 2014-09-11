@@ -3,12 +3,12 @@ var async = require('async'),
   _ = require('underscore');
 
 /*
-	/chef/recipes?page=1&perPage=10
+  /contest/recipes?page=1&perPage=10
 */
 
 exports = module.exports = function(req, res) {
   var Recipes = keystone.list('Recipe'),
-    User = keystone.list('User'),
+    Contest = keystone.list('Contest'),
     query = {
       paginate: {
         page: req.query.page || 1,
@@ -23,8 +23,8 @@ exports = module.exports = function(req, res) {
   async.waterfall([
 
     function(next) {
-      var q = User.model.findOne({
-        username: req.params.username
+      var q = Contest.model.findOne({
+        slug: req.params.contest
       });
       q.exec(function(err, result) {
         if (err || !result) {
@@ -36,18 +36,19 @@ exports = module.exports = function(req, res) {
       });
     },
 
-    function(profile, next) {
+    function(contest, next) {
       var q = Recipes.paginate(query.paginate)
-        .where('author', profile._id)
+        .where('contest.id', contest._id)
+        .where('contest.state', 'admited')
         .where('state', 1)
         .where('isBanned', false)
-        .where('isRemoved', false)
-        .or([{
-          'contest.id': null
-        }, {
-          'contest.state': 'admited'
-        }])
-        .sort('-editDate');
+        .where('isRemoved', false);
+      if (req.query.order === 'recent') {
+        q.sort('-publishedDate');
+      }
+      else {
+        q.sort('-rating');
+      }
 
       q.exec(function(err, recipes) {
         //console.log('EXEC ' + JSON.stringify(recipes));
