@@ -7,7 +7,7 @@ mixin user-header(user)
           if !user.media.avatar.url
             - user.media.avatar.url = '../images/default_user.png'
 
-          img.ui.image.avatar(src="#{user.media.avatar.url}")
+          img.ui.image.avatar(src="#{user.avatar_small}")
 
           if user.name
             strong.username #{user.name}
