@@ -80,6 +80,22 @@
 /****************
   Recipe Styles
 ****************/
+#recipe-edit-form{
+  #info {
+    .recipe-contest{
+      a{
+        color:@chef-color-black;
+        text-decoration: none;
+      }
+    }
+  }
+  .recipe-contest-ingredient{
+    .font-large{
+      display: inline-block;
+    }
+  }
+}
+
 #recipe-content {
 
   margin-top: 10px;
@@ -98,6 +114,7 @@
     font-weight: normal;
     //text-transform: capitalize;
   }
+
 
   //.time, .portions, .difficulty, .rating {
   .difficulty {
@@ -200,6 +217,11 @@
 
     .ingredient {
       .font-large;
+        .icon-chef-cesta-all{
+          &+.span{
+            .font-large;
+          }
+        }
       &.column {
         margin: 0 0 0.5em 0;
       }
