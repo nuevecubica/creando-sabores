@@ -98,17 +98,35 @@ exports = module.exports = function(req, res) {
               path: 'contest.id',
               model: 'Contest'
             };
-            Contest.model.populate(result, optionsContest, function(err, contestJuryPopulated) {
+            Contest.model.populate(result, optionsContest, function(err, result) {
               if (err) {
                 console.error('Error: Contest.model.populate community winner');
                 return res.notfound(res.__('Not found'));
               }
+              locals.data.contest = result.contest.id;
               next(err);
             });
           }
           else {
             next(err);
           }
+        }
+        else {
+          return res.notfound(res.__('Not found'));
+        }
+      });
+    }
+    else if (req.params.contest) {
+      var q2 = Contest.model.findOne({
+        slug: req.params.contest
+      });
+
+      q2.exec(function(err, result) {
+        if (!err && result) {
+          // TODO: Error if contest in wrong state
+          locals.data.recipe = locals.defaults;
+          locals.data.contest = result;
+          next(err);
         }
         else {
           return res.notfound(res.__('Not found'));
