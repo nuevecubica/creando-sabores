@@ -39,10 +39,11 @@ exports = module.exports = function(req, res) {
         function(callback) {
           // Query for get current contest
           queryCurrentContest.exec(function(err, contest) {
-            locals.data.current = contest;
-            locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
-
-            callback(err, contest);
+            if (!err && contest) {
+              locals.data.current = contest;
+              locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
+            }
+            callback(err, contest || {});
           });
         },
 
