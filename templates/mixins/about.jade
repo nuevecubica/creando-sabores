@@ -1,16 +1,15 @@
 mixin about(user)
-	//- if user privacy settings
-	.four.wide.column.picture-wrapper
-		.picture
-			if !user.thumb.avatar_large
-				- user.thumb.avatar_large = '../images/default_user.png'
+  //- if user privacy settings
+  .four.wide.column.picture-wrapper
+    .picture
+      - var avatar = (!user.thumb.avatar_large || user.thumb.avatar_large.length <= 0) ? '../images/default_user.png' : user.thumb.avatar_large
 
-			#profile-img.ui.image.avatar(style="background-image: url(#{user.thumb.avatar_large}); background-size: cover; background-position:center; ")
-			.icon-chef-camera.rounded.show-editable
-				input#profile-img-select(type="file" name="avatars.local_upload" accept="image/*")
+      #profile-img.ui.image.avatar(style="background-image: url(#{avatar}); background-size: cover; background-position:center; ")
+      .icon-chef-camera.rounded.show-editable
+        input#profile-img-select(type="file" name="avatars.local_upload" accept="image/*")
 
-	.twelve.wide.column.info
-		h2.ui.header= __('Hi user! (prefix)')
-			strong#profile-name.set-editable.one-line.no-paste(data-length="20")= user.name
-			|#{__('Hi user! (postfix)')}
-		#profile-about.ui.content.set-editable(spellcheck="false")!= user.about
+  .twelve.wide.column.info
+    h2.ui.header= __('Hi user! (prefix)')
+      strong#profile-name.set-editable.one-line.no-paste(data-length="20")= user.name
+      |#{__('Hi user! (postfix)')}
+    #profile-about.ui.content.set-editable(spellcheck="false")!= user.about

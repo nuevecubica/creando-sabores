@@ -109,6 +109,11 @@ Contest.add({
   },
 
   'Media', {
+    header: {
+      type: Types.CloudinaryImage,
+      label: 'Image header contest'
+    },
+
     imageContest: {
       type: Types.CloudinaryImage,
       label: 'Image for contest'
@@ -117,15 +122,8 @@ Contest.add({
     headerBackgroundRecipe: {
       type: Types.CloudinaryImage,
       label: 'Image for background recipe'
-    },
-
-    imageWinners: {
-      type: Types.CloudinaryImage,
-      label: 'Image for finished contest',
-      dependsOn: {
-        state: 'closed'
-      }
     }
+
   },
 
   'Status', {
@@ -261,7 +259,10 @@ Contest.schema.virtual('thumb').get(function() {
     'grid_large': this._.imageContest.src({
       transformation: 'grid_large_thumb'
     }),
-    'header': this._.headerBackgroundRecipe.src({
+    'header': this._.header.src({
+      transformation: 'header_thumb'
+    }),
+    'header_recipe': this._.headerBackgroundRecipe.src({
       transformation: 'header_thumb'
     })
   };
@@ -413,7 +414,7 @@ var checkState = function(callback) {
       callback();
     }
     else if (me.state === 'closed' || me.state === 'finished') {
-      if (me.state === 'closed' || !me.imageWinners || !me.awards.jury.winner || !me.awards.community.winner) {
+      if (me.state === 'closed' || !me.awards.jury.winner || !me.awards.community.winner) {
         me.state = 'closed';
 
         getNewCommunityWinner.call(me, function(err) {
