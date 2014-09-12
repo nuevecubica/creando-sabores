@@ -50,12 +50,11 @@ block content
                 strong= __('Community award')
                 = data.current.awards.community.name
 
-      .row
         .sixteen.wide.column
-          .description
-            p!= data.current.description
+          .explain
+            .description
+              p!= data.current.description
 
-      .row
         .sixteen.wide.column.center.aligned
           .ui.button.chef.button-brick
             a(href='/concurso/#{data.current.slug}')= __('Learn more')
