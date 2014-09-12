@@ -3,11 +3,9 @@ mixin user-header(user)
     .right.menu
       if user
         a.ui.item.profile(href='/perfil')
+          - var avatar = (!user.thumb.avatar_small || user.thumb.avatar_small.length <= 0) ? '../images/default_user.png' : user.thumb.avatar_small
 
-          if !user.thumb.avatar_small
-            - user.thumb.avatar_small = '../images/default_user.png'
-
-          img.ui.image.avatar(src="#{user.thumb.avatar_small}")
+          img.ui.image.avatar(src="#{avatar}")
 
           if user.name
             strong.username #{user.name}
