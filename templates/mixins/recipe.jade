@@ -1,17 +1,5 @@
 mixin recipe(recipe)
-	- var classes = [];
-	- classes.push('status-' + recipe.state);
-	- if (recipe.isBanned) classes.push('status-banned');
-	- if (recipe.isRemoved) classes.push('status-removed');
-	- if(recipe.contest && recipe.contest.id) {
-	-		classes.push('contest-recipe');
-	-		classes.push('contest-status-' + contest.state);
-	-		if (recipe.contest.isJuryWinner) classes.push('contest-winner-jury');
-	-		if (recipe.contest.isCommunityWinner) classes.push('contest-winner-community');
-	- }
-	- classes = classes.join(' ');
-
-	div(class="#{classes}").row.position
+	div(class="#{recipe.states}").row.position
 		a(href="/receta/#{recipe.slug}").hover-list
 		.five.wide.column
 			.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')

@@ -340,6 +340,34 @@ Recipe.schema.virtual('thumb').get(function() {
   };
 });
 
+Recipe.schema.virtual('states').get(function() {
+  var classes = [];
+  if (this.isBanned) {
+    classes.push('state-banned');
+  }
+  else if (this.isRemoved) {
+    classes.push('state-removed');
+  }
+  else if (this.state === 1) {
+    classes.push('state-published');
+  }
+  else if (this.state === 0) {
+    classes.push('state-draft');
+  }
+
+  if (this.contest && this.contest.id) {
+    classes.push('contest-recipe');
+    classes.push('contest-state-' + this.contest.state);
+  }
+  if (this.contest.isJuryWinner) {
+    classes.push('contest-winner-jury');
+  }
+  if (this.contest.isCommunityWinner) {
+    classes.push('contest-winner-community');
+  }
+  return classes.join(' ');
+});
+
 // Check if time and portions values
 Recipe.schema.path('time').set(function(value) {
   return (value < 0) ? value * (-1) : value;
