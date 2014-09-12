@@ -1,10 +1,10 @@
 mixin contest(contest)
-  a(href='#{contest.awards.jury.winner.url}')
-    .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.jury.winner.header.url})')
-      .author-winner
-        a(href='#{contest.awards.jury.winner.author.url}')
-          img.author(src='#{contest.awards.jury.winner.author.thumb.avatar_medium}')
-        img.award(src='/images/jury_award.png')
+  .four.tablet-four.mobile-eight.wide.column.contest-module
+    a(href='#{contest.awards.jury.winner.url}').recipe-winner(style='background-image: url(#{contest.awards.jury.winner.thumb.header})')
+    .author-winner
+      a(href='#{contest.awards.jury.winner.author.url}')
+        img.author(src='#{contest.awards.jury.winner.author.thumb.avatar_medium}')
+      img.award(src='/images/jury_award.png')
 
   .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
     a(href='#{contest.awards.jury.winner.author.url}')
@@ -13,14 +13,15 @@ mixin contest(contest)
       a(href='#{contest.awards.jury.winner.url}')= contest.awards.jury.winner.title
     .subheader
       strong= __('Jury award')
-    .award= contest.awards.community.name
+    .award= contest.awards.jury.name
 
-  a(href='#{contest.awards.community.winner.url}')
-    .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.community.winner.header.url})')
-      .author-winner
-        a(href='#{contest.awards.community.winner.author.url}')
-          img.author(src='#{contest.awards.community.winner.author.thumb.avatar_medium}')
-        img.award(src='/images/community_award.png')
+  
+  .four.tablet-four.mobile-eight.wide.column.contest-module
+    a(href='#{contest.awards.community.winner.url}').recipe-winner(style='background-image: url(#{contest.awards.community.winner.thumb.header})')
+    .author-winner
+      a(href='#{contest.awards.community.winner.author.url}')
+        img.author(src='#{contest.awards.community.winner.author.thumb.avatar_medium}')
+      img.award(src='/images/community_award.png')
 
   .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
     a(href='#{contest.awards.community.winner.author.url}')
