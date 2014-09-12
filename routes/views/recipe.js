@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Recipe = keystone.list('Recipe');
+  Recipe = keystone.list('Recipe'),
+  Contest = keystone.list('Contest');
 
 exports = module.exports = function(req, res) {
 
@@ -89,11 +90,29 @@ exports = module.exports = function(req, res) {
 
           locals.data.recipe = result;
           locals.title = result.title + ' - ' + res.__('Recipe');
+
+          // Is it a contest recipe?
+          if (result.contest) {
+            // Populate nested contest
+            var optionsContest = {
+              path: 'contest.id',
+              model: 'Contest'
+            };
+            Contest.model.populate(result, optionsContest, function(err, contestJuryPopulated) {
+              if (err) {
+                console.error('Error: Contest.model.populate community winner');
+                return res.notfound(res.__('Not found'));
+              }
+              next(err);
+            });
+          }
+          else {
+            next(err);
+          }
         }
         else {
           return res.notfound(res.__('Not found'));
         }
-        next(err);
       });
     }
     else {

@@ -47,6 +47,13 @@ block content
         #info.ten.tablet-twelve.mobile-eight.wide.column
           .recipe-attributes
 
+            if (data.recipe.contest.id)
+              .recipe-contest
+                .title= data.recipe.contest.id.title
+                .sponsor
+                  | #{__('Sponsored by')}
+                  | #{data.recipe.contest.id.sponsor}
+
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
               - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
               - var difficulty = data.recipe.difficulty || 2
@@ -114,6 +121,10 @@ block content
           h2.ui.header= __('Ingredients')
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
+
+        if (data.recipe.contest.id)
+          .recipe-contest-ingredient.sixteen.wide.column
+            .ui.content= data.recipe.contest.id.ingredientRequired
 
         #ingredients.sixteen.wide.column
           .ui.three.mobile-one.tablet-two.column.grid
