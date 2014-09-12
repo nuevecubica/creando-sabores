@@ -44,7 +44,7 @@ mixin header(data, section)
 	else if section === 'privateProfile'
 		- var image = "/images/default_recipe_bg.png"
 		- if (user && user.media && user.media.header.url) {
-		-   image = user.media.header.url;
+		-   image = user.thumb.header;
 		- }
 
 		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
@@ -57,7 +57,7 @@ mixin header(data, section)
 						a.default-bg.icon-chef-logo.icon(href="/")
 					else
 						a.default-bg.icon-chef-logo.icon.nopic(href="/")
-					
+
 				.row.section.title
 					if (user && user.media && user.media.header.url)
 						.default-bg.shadow= __('My recipe book')
@@ -188,7 +188,7 @@ mixin header(data, section)
 					.author.shadow= author
 
 	else if section === 'contests'
-		- var image = data.current ? data.current.imageContest.url : default_image
+		- var image = data.current ? data.current.thumb.header : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -205,7 +205,7 @@ mixin header(data, section)
 
 	else if section === 'contest'
 		- var title = data.contest ? data.contest.title : ''
-		- var image = data.contest ? data.contest.imageContest.url : default_image
+		- var image = data.contest ? data.contest.thumb.header : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -225,7 +225,7 @@ mixin header(data, section)
 
 	else if section === 'participants'
 		- var title = data.contest ? data.contest.title : ''
-		- var image = data.contest ? data.contest.imageContest.url : default_image
+		- var image = data.contest ? data.contest.thumb.header : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer

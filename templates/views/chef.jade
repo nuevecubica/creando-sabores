@@ -17,9 +17,9 @@ block content
 				.four.wide.column.picture-wrapper
 					.picture
 						if !profile.media.avatar.url
-							- profile.media.avatar.url = '../images/default_user.png'
+							- profile.thumb.avatar_large = '../images/default_user.png'
 
-						#profile-img.ui.image.avatar(style="background-image: url(#{profile.media.avatar.url}); background-size: cover; background-position:center; ")
+						#profile-img.ui.image.avatar(style="background-image: url(#{profile.thumb.avatar_large}); background-size: cover; background-position:center; ")
 							if profile.isPrivate
 								.icon-chef-candado.rounded.fake-editable
 
