@@ -3,7 +3,7 @@ mixin contest(contest)
     .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.jury.winner.header.url})')
       .author-winner
         a(href='#{contest.awards.jury.winner.author.url}')
-          img.author(src='#{contest.awards.jury.winner.author.avatars.local.url}')
+          img.author(src='#{contest.awards.jury.winner.author.thumb.avatar_medium}')
         img.award(src='/images/jury_award.png')
 
   .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
@@ -19,7 +19,7 @@ mixin contest(contest)
     .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.community.winner.header.url})')
       .author-winner
         a(href='#{contest.awards.community.winner.author.url}')
-          img.author(src='#{contest.awards.community.winner.author.avatars.local.url}')
+          img.author(src='#{contest.awards.community.winner.author.thumb.avatar_medium}')
         img.award(src='/images/community_award.png')
 
   .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
