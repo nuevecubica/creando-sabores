@@ -7,7 +7,7 @@ var async = require('async'),
 var recipeData = function(req, orig) {
   // Clean data
   var data = {};
-  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'portions', 'time', 'difficulty'];
+  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'portions', 'time', 'difficulty', 'contest.id'];
   var file, files = ['header_upload'];
 
   // Something in the request body?
@@ -62,6 +62,7 @@ var recipeData = function(req, orig) {
       ['min', 1]
     ]);
     data.author = req.user.id;
+    data['contest.id'] = req.body['contest.id'];
 
     // Get missing data from original if present
     if (orig) {
@@ -141,7 +142,7 @@ var recipeNew = function(req, res) {
     }
 
     recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header'
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header,contest.id'
       },
       function(err) {
         if (err) {
