@@ -38,6 +38,8 @@ block content
     input#hidden-ingredients(type='hidden' name='ingredients')
     input#hidden-procedure(type='hidden' name='procedure')
     input(type='hidden' name='_csrf' value='#{csrftoken}')
+    if data.contest && isNew
+      input(type='hidden' name='contest.id' value='#{data.contest._id}')
 
   +header(data, section)
 
