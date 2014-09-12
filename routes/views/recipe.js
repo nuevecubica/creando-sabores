@@ -123,7 +123,9 @@ exports = module.exports = function(req, res) {
 
       q2.exec(function(err, result) {
         if (!err && result) {
-          // TODO: Error if contest in wrong state
+          if (result.state !== 'submission') {
+            return res.notfound(res.__('Not found'));
+          }
           locals.data.recipe = locals.defaults;
           locals.data.contest = result;
           next(err);
