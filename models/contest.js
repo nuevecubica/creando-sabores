@@ -85,6 +85,22 @@ Contest.add({
 
   },
 
+  'Status', {
+    state: {
+      type: Types.Select,
+      options: ['draft', 'programmed', 'submission', 'votes', 'closed', 'finished'],
+      label: 'Contest state',
+      default: 'draft'
+    },
+
+    schemaVersion: {
+      type: Types.Number,
+      noedit: true,
+      hidden: true,
+      default: process.env.CONTEST_SCHEMA_VERSION
+    }
+  },
+
   'Dates', {
     programmedDate: {
       type: Types.Datetime,
@@ -124,22 +140,6 @@ Contest.add({
       label: 'Image for background recipe'
     }
 
-  },
-
-  'Status', {
-    state: {
-      type: Types.Select,
-      options: ['draft', 'programmed', 'submission', 'votes', 'closed', 'finished'],
-      label: 'Contest state',
-      default: 'draft'
-    },
-
-    schemaVersion: {
-      type: Types.Number,
-      noedit: true,
-      hidden: true,
-      default: process.env.CONTEST_SCHEMA_VERSION
-    }
   },
 
   'Awards', {
