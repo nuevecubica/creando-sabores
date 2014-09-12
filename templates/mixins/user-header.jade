@@ -4,10 +4,10 @@ mixin user-header(user)
       if user
         a.ui.item.profile(href='/perfil')
 
-          if !user.media.avatar.url
-            - user.media.avatar.url = '../images/default_user.png'
+          if !user.thumb.avatar_small
+            - user.thumb.avatar_small = '../images/default_user.png'
 
-          img.ui.image.avatar(src="#{user.media.avatar.url}")
+          img.ui.image.avatar(src="#{user.thumb.avatar_small}")
 
           if user.name
             strong.username #{user.name}

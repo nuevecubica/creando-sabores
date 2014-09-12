@@ -222,13 +222,13 @@ User.schema.virtual('thumb').get(function() {
     'header': this._.media.header.src({
       transformation: 'header_thumb'
     }),
-    'avatar_large': this._.avatar.local.src({
+    'avatar_large': this._.avatars.local.src({
       transformation: 'user_avatar_large'
     }),
-    'avatar_medium': this._.avatar.local.src({
+    'avatar_medium': this._.avatars.local.src({
       transformation: 'user_avatar_medium'
     }),
-    'avatar_small': this._.avatar.local.src({
+    'avatar_small': this._.avatars.local.src({
       transformation: 'user_avatar_small'
     })
   };

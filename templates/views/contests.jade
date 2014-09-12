@@ -1,11 +1,12 @@
 extends ../layouts/default
 
 include ../mixins/header
+include ../mixins/contest
 include ../mixins/recipe
 include ../mixins/grid
 
 block js
-  script(src='/js/recipes.js')
+  script(src='/js/contests.js')
 
 block content
   +header(data, section)
@@ -17,7 +18,9 @@ block content
         #info.eight.tablet-eight.mobile-sixteen.wide.column
           .status
             .status-tag(class=data.current.state)
-              = __('Deadline') + data.current.submissionDeadline
+              - var date = data.current.formattedDeadline
+              - var states = { programmed: __('Programmed {{{date}}}', { date: date }), submission: __('Submission {{{date}}}', { date: date }), votes: __('Votes {{{date}}}', { date: date }), closed: __('Closed deliberation') }
+              = states[data.current.state]
 
           .header= data.current.title
 
@@ -56,6 +59,9 @@ block content
         .sixteen.wide.column.center.aligned
           .ui.button.chef.button-brick
             a(href='/concurso/#{data.current.slug}')= __('Learn more')
+    else
+      .sixteen.wide.column.center.aligned
+        .subheader= __('No current contest')
 
     #past-contests.row
       .sixteen.wide.column.center.aligned
@@ -67,33 +73,11 @@ block content
 
         each contest in contests
           .contest-title.sixteen.wide.column
-            .header= contest.title
+            .header
+              a(href='/concurso/#{contest.slug}')= contest.title
 
-          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.jury.winner.header.url})')
-            .author-winner
-              img.author(src='#{contest.awards.jury.winner.author.avatars.local.url}')
-              img.award(src='/images/jury_award.png')
+          +contest(contest)
 
-          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
-            .user= (contest.awards.jury.winner.author.name || contest.awards.jury.winner.author.username)
-            .title
-              a(href='/receta/#{contest.awards.jury.winner.slug}')= contest.awards.jury.winner.title
-            .subheader
-              strong= __('Jury award')
-            .award= contest.awards.community.name
-
-          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{contest.awards.community.winner.header.url})')
-            .author-winner
-              img.author(src='#{contest.awards.community.winner.author.avatars.local.url}')
-              img.award(src='/images/community_award.png')
-
-          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
-            .user= (contest.awards.jury.winner.author.name || contest.awards.jury.winner.author.username)
-            .title
-              a(href='/receta/#{contest.awards.community.winner.slug}')= contest.awards.community.winner.title
-            .subheader
-              strong= __('Community award')
-            .award= contest.awards.community.name
       else
         .sixteen.wide.column
           .subheader= __('No past contest')

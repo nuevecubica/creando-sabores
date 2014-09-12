@@ -1,6 +1,7 @@
 extends ../layouts/default
 
 include ../mixins/header
+include ../mixins/contest
 
 block js
   script(src='/js/contest.js')
@@ -68,36 +69,12 @@ block content
           .sixteen.wide.column
             .header= __('Winners')
 
-          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.jury.winner.header.url})')
-            .author-winner
-              img.author(src='#{data.contest.awards.jury.winner.author.avatars.local.url}')
-              img.award(src='/images/jury_award.png')
-
-          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
-            .user= (data.contest.awards.jury.winner.author.name || data.contest.awards.jury.winner.author.username)
-            .title
-              a(href='/receta/#{data.contest.awards.jury.winner.slug}')= data.contest.awards.jury.winner.title
-            .subheader
-              strong= __('Jury award')
-            .award= data.contest.awards.community.name
-
-          .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url(#{data.contest.awards.community.winner.header.url})')
-            .author-winner
-              img.author(src='#{data.contest.awards.community.winner.author.avatars.local.url}')
-              img.award(src='/images/community_award.png')
-
-          .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
-            .user= (data.contest.awards.jury.winner.author.name || data.contest.awards.jury.winner.author.username)
-            .title
-              a(href='/receta/#{data.contest.awards.community.winner.slug}')= data.contest.awards.community.winner.title
-            .subheader
-              strong= __('Community award')
-            .award= data.contest.awards.community.name
+          +contest(data.contest)
 
       #ranking.row(class=data.contest.state)
         .sixteen.wide.column
           .header= __('Ranking')
-          .subheader= __('Invite your friends')
+          .subheader(class=data.contest.state)= __('Invite your friends')
 
         - var top = data.top
 

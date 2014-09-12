@@ -109,6 +109,7 @@ exports = module.exports = function(app) {
   //-- Recipes
   app.get('/api/v1/recipes', routes.api.v1.recipes);
   //-- Contests
+  app.get('/api/v1/contestsPast', routes.api.v1.contestsPast);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generateRecipes);

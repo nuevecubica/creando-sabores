@@ -1,5 +1,6 @@
 var keystone = require('keystone'),
   async = require('async'),
+  moment = require('moment'),
   Contest = keystone.list('Contest');
 
 exports = module.exports = function(req, res) {
@@ -39,6 +40,7 @@ exports = module.exports = function(req, res) {
           // Query for get current contest
           queryCurrentContest.exec(function(err, contest) {
             locals.data.current = contest;
+            locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
 
             callback(err, contest);
           });
@@ -65,43 +67,45 @@ exports = module.exports = function(req, res) {
                   Contest.model.populate(contest, optionsJuryAuthor, function(err, contestJuryPopulated) {
 
                     if (!err) {
-                      console.log('1st');
                       // Populate nested recipe author (community winner)
                       Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
 
                         if (!err) {
-                          console.log('2st');
                           locals.data.contests.push(contestCommunityPopulated);
 
                           done();
                         }
                         else {
-                          console.log('ERR 2nd', err);
-                          done(err);
+                          console.error('Error: Contest.model.populate community winner', err);
+                          return res.notfound(res.__('Not found'));
                         }
                       });
                     }
                     else {
-                      console.log('ERR 1st', err);
-                      done(err);
+                      console.error('Error: Contest.model.populate jury winner', err);
+                      return res.notfound(res.__('Not found'));
                     }
                   });
                 },
                 function(err) {
-                  console.log(locals.data.contests);
-                  callback(err, contests);
+                  if (err) {
+                    console.error('Error: Async each contest', err);
+                    return res.notfound(res.__('Not found'));
+                  }
+                  callback(err);
                 });
             }
             else {
-              console.log('ERR');
-              callback(err);
+              console.error('Error: Query last contests', err);
+              return res.notfound(res.__('Not found'));
             }
           });
         }
       ],
       function(err, results) {
         if (err) {
-          console.error("Contests controller", err);
+          console.error('Error: Query contests', err);
+          return res.notfound(res.__('Not found'));
         }
         next(err);
       });
