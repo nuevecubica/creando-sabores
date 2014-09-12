@@ -45,9 +45,7 @@ block content
 				.ui.grid.segment.list.stackable
 					if data.recipes.length
 						each recipe in data.recipes
-
-							.row.position
-								+recipe(recipe)
+							+recipe(recipe)
 
 					else
 						| #{__('No recipes yet')}

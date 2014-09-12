@@ -108,8 +108,7 @@ block content
 					.ui.grid.segment.list
 						if recipes.length
 							each recipe in recipes
-								.row.position
-									+recipe(recipe)
+								+recipe(recipe)
 						else
 							| #{__('No recipes yet')}
 

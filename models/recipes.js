@@ -121,6 +121,12 @@ Recipe.add({
       }, {
         value: 1,
         label: 'published'
+        // }, {
+        //   value: 2,
+        //   label: 'removed'
+        // }, {
+        //   value: 3,
+        //   label: 'banned'
       }],
       default: 0
     },

@@ -1,50 +1,63 @@
 mixin recipe(recipe)
-	a(href="/receta/#{recipe.slug}").hover-list
-	.five.wide.column
-		.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
-			.row
+	- var classes = [];
+	- classes.push('status-' + recipe.state);
+	- if (recipe.isBanned) classes.push('status-banned');
+	- if (recipe.isRemoved) classes.push('status-removed');
+	- if(recipe.contest && recipe.contest.id) {
+	-		classes.push('contest-recipe');
+	-		classes.push('contest-status-' + contest.state);
+	-		if (recipe.contest.isJuryWinner) classes.push('contest-winner-jury');
+	-		if (recipe.contest.isCommunityWinner) classes.push('contest-winner-community');
+	- }
+	- classes = classes.join(' ');
 
-			.row
+	div(class="#{classes}").row.position
+		a(href="/receta/#{recipe.slug}").hover-list
+		.five.wide.column
+			.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
+				.row
 
-			.row
-				.ui.three.column.center.aligned.grid
-					.column
-						i.icon-chef-time.icon
-						.span= recipe.time + ' ' + __('min')
+				.row
 
-					.column
-						i.icon-chef-porciones.icon
-						.span= recipe.portions
+				.row
+					.ui.three.column.center.aligned.grid
+						.column
+							i.icon-chef-time.icon
+							.span= recipe.time + ' ' + __('min')
 
-					.difficulty.column
-						- var difficulty = recipe.difficulty
-						- for(var x = 0; x < 5; x++)
-							if(difficulty == 0)
-								i.icon-chef-tenedor.icon.off
-							else
-								i.icon-chef-tenedor.icon.on
-								- difficulty = difficulty - 1;
+						.column
+							i.icon-chef-porciones.icon
+							.span= recipe.portions
 
-	.eleven.wide.column
-		.ui.twelve.column
-			.rating
-				.strong= __('Rating')
-				.span
-					.ui.icon
-						- var rating = Math.floor(recipe.rating) || 0
-						- for(var x = 0; x < 5; x++)
-							if(rating == 0)
-								i.icon-chef-star.icon.off
-							else
-								i.icon-chef-star.icon.on
-								- rating = rating - 1;
+						.difficulty.column
+							- var difficulty = recipe.difficulty
+							- for(var x = 0; x < 5; x++)
+								if(difficulty == 0)
+									i.icon-chef-tenedor.icon.off
+								else
+									i.icon-chef-tenedor.icon.on
+									- difficulty = difficulty - 1;
 
-			a(href="/receta/#{recipe.slug}")
-				h2.ui.header
-					!= recipe.title
+		.eleven.wide.column
+			.ui.twelve.column
+				.rating
+					.strong= __('Rating')
+					.span
+						.ui.icon
+							- var rating = Math.floor(recipe.rating) || 0
+							- for(var x = 0; x < 5; x++)
+								if(rating == 0)
+									i.icon-chef-star.icon.off
+								else
+									i.icon-chef-star.icon.on
+									- rating = rating - 1;
 
-			.ui.content!= recipe.description
+				a(href="/receta/#{recipe.slug}")
+					h2.ui.header
+						!= recipe.title
 
-			if (recipe.isOfficial)
-				.official
-					img(src='/images/ribbon.png')
+				.ui.content!= recipe.description
+
+				if (recipe.isOfficial)
+					.official
+						img(src='/images/ribbon.png')
