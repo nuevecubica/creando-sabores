@@ -7,9 +7,9 @@ mixin grid(recipes, gridPositions, gridSizes)
 		- for (var i = 0, l = positions.length; i < l; i++)
 			- var recipe = recipes[positions[i] - 1]
 			- var title = 'Vacio'
-			- var image = 'default_recipe.jpg'
+			- var image = '/images/default_recipe.jpg'
 			- var url = '/'
-			- var classes = sizes[i]
+			- var classes = 'recipe ' + sizes[i]
 
 			if recipe
 				- title = recipe.title
