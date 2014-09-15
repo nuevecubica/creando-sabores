@@ -143,24 +143,24 @@ mixin header(data, section)
 				.row.section.subtitle
 					.author.shadow= author
 
-				//- Check if recipe is published to show social buttons
-				if state > 0
-					.row.computer.only.social
-						.four.wide.column
+				.row.computer.only.social
+					.four.wide.column
+						//- Check if recipe is published to show social buttons
+						if state > 0
 							.corner-position.left.hide-editable
 								|#{__('Share this recipe')}
 								+header-share()
 
-						.six.wide.column
+					.six.wide.column
 
-						.six.wide.column.right.aligned
-							.corner-position.right
-								.ui.button.chef.button-gray.show-editable.file-select
-									if own
-										input#recipe-header-select(type="file" name="header_upload" accept="image/*")
-										i.social.icon-chef-camera
-										span
-										|#{__('Change image')}
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-gray.show-editable.file-select
+								if own
+									input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
 
 			#image-size-warning
 				|*#{__('Select bigger image')}
