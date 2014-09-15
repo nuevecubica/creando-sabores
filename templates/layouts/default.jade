@@ -1,6 +1,9 @@
 include ../mixins/flash-messages
 include ../mixins/form-wrapper
 
+- var bodyClasses = [];
+block vars
+
 doctype html
 html
 
@@ -25,7 +28,7 @@ html
 		block head
 
 	//- HTML BODY
-	body.preload.ui.segment.grid
+	body(class=bodyClasses).preload.ui.segment.grid
 
 		//- Flash messages allow you to display once-off status messages to users, e.g. form
 		//- validation errors, success messages, etc.

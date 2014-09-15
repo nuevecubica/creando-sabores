@@ -6,6 +6,9 @@ include ../mixins/header
 
 include ../mixins/difficult-items
 
+block vars
+  - bodyClasses = data.recipe.states
+
 block js
   //- JAVASCRIPT
   script(src='/js/recipe.js')
