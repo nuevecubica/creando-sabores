@@ -3,7 +3,7 @@
     a(href='{{url}}') {{title}}
 
 .four.tablet-four.mobile-eight.wide.column.contest-module
-  a(href='{{awards.jury.winner.url}}').recipe-winner(style='background-image: url({{awards.jury.winner.thumb.header}})')
+  a.recipe-winner(href='{{awards.jury.winner.url}}',style='background-image: url({{awards.jury.winner.thumb.header}})')
   .author-winner
     a(href='{{awards.jury.winner.author.url}}')
       img.author(src='{{awards.jury.winner.author.thumb.avatar_medium}}')
@@ -21,7 +21,7 @@
 
 
 .four.tablet-four.mobile-eight.wide.column.contest-module
-  a(href='{{awards.community.winner.url}}').recipe-winner(style='background-image: url({{awards.community.winner.thumb.header}})')
+  a.recipe-winner(href='{{awards.community.winner.url}}',style='background-image: url({{awards.community.winner.thumb.header}})')
   .author-winner
     a(href='{{awards.community.winner.author.url}}')
       img.author(src='{{awards.community.winner.author.thumb.avatar_medium}}')

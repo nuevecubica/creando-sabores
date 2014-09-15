@@ -253,15 +253,28 @@
     }
   }
   #winners {
-    background-color: @contest-winners-background-color;
-
     .header {
-      color: @contest-winners-header-color;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
+
+    .contest-title {
+      color: @contests-past-header-color;
+      background-color: @contests-past-background-color;
+      margin-top: 10px;
+
+      .header {
+        margin-bottom: 0;
+
+      }
+    }
+
+    
 
     .contest-module {
       height: 300px;
+      padding: 0;
+      margin-bottom: 5px;
+
 
       @media screen and (max-width: 767px) {
         height: 200px;
@@ -272,61 +285,69 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 300px;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+    }
 
-      .author-winner {
-        position: relative;
-        display: inline-block;
-        margin: 10px 0;
 
-        img {
-          &.author {
-            height: 80px;
-            width: 80px;
-            border-radius: 50%;
-            border: 4px solid @contest-ranking-rating-border;
-          }
+    .author-winner {
+      position: relative;
+      display: inline-block;
+      margin: 0 10px;
+      bottom: 100%;
 
-          &.award {
-            width: 30px;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-          }
+      img {
+        &.author {
+          height: 80px;
+          width: 80px;
+          border-radius: 50%;
+          border: 4px solid @contest-ranking-rating-border;
+        }
+
+        &.award {
+          width: 30px;
+          position: absolute;
+          bottom: 0;
+          right: 0;
         }
       }
     }
-
     .recipe-award {
-      height: 300px;
-      background-color: @contest-ranking-bg;
-      padding-top: 15px;
-
-      a {
+      background-color: @contests-past-bg;
+      padding: 15px;
+      a{
         text-decoration: none;
-
-        .user {
-          .font-large.uppercase;
-          font-family: 'Pinto';
-          color: @contest-user-winner-color;
-        }
       }
-
+      .user {
+        .font-large.uppercase;
+        font-family: 'Pinto';
+        color: @contests-user-winner-color;
+      }
       .title {
 
         a {
           .font-xxl.uppercase;
-          color: @contest-ranking-info-color;
+          color: @contests-past-info-color;
           font-family: 'Pinto';
           line-height: 48px;
           text-decoration: none;
+
+          @media screen and (max-width: 991px) {
+            .font-extra-larger.uppercase;
+            line-height: 40px;
+          }
+
+          @media screen and (max-width: 767px) {
+            .font-extra-large.uppercase;
+            line-height: 36px;
+          }
         }
       }
-
       .award {
 
       }
-    }
+    }   
   }
 
   #contest-awards {
@@ -401,7 +422,7 @@
     .top-rating {
       position: absolute;
       right: 0;
-      top: 10px;
+      top: 20px;
 
       .icon {
         .font-xxl;
