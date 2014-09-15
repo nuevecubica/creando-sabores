@@ -123,7 +123,7 @@ mixin header(data, section)
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
-		- var image = data.recipe ? data.recipe.thumb.header : default_image
+		- var image = data.recipe && data.recipe.thumb.header ? data.recipe.thumb.header : default_image
 		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var state = data.recipe ? data.recipe.state : 0
 
@@ -143,8 +143,8 @@ mixin header(data, section)
 				.row.section.subtitle
 					.author.shadow= author
 
-				.row.computer.only.social
-					.four.wide.column
+				.row
+					.four.wide.column.computer.only.social
 						//- Check if recipe is published to show social buttons
 						if state > 0
 							.corner-position.left.hide-editable
@@ -186,6 +186,17 @@ mixin header(data, section)
 
 				.row.section.subtitle
 					.author.shadow= author
+
+				.row
+					.ten.wide.column
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-gray.show-editable.file-select
+								input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+								i.social.icon-chef-camera
+								span
+								|#{__('Change image')}
+
 
 	else if section === 'contests'
 		- var image = data.current ? data.current.thumb.header : default_image
