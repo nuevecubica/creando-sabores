@@ -760,6 +760,7 @@ input:focus{
   // Arrows & ribbons
 .status-recipe{
   display: none;
+  text-align: center;
 
   .general-state{
     position: absolute;
@@ -778,7 +779,16 @@ input:focus{
     height: 50px;
     width: 50px;
   }
-
+   .ribbon:before{
+    content: "";
+    width: 100%;
+    height: 4px;
+    background-color: black;
+    opacity: 0.3;
+    position: absolute;
+    left: 0;
+    top:0;
+  }
   .ribbon:after{
     content: "";
     width: 0;
