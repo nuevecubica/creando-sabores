@@ -15,6 +15,9 @@
 @icon-heart-font-size: 18px;
 @recipe-font-text: @font-uppercase-size-larger;
 
+
+
+
 /****************
   Recipes
 ****************/
@@ -373,4 +376,152 @@
   background-repeat: no-repeat;
   background-color: @chef-color-yellow-bg;
   background-origin:padding-box;
+}
+
+
+/****************
+  Recipes status
+****************/
+
+#profile-form{
+  .state-removed{
+      opacity:0.07;
+  }
+  .state-banned{
+    opacity:0.2;
+    .status{
+      display: block;
+      .general-state{
+        margin-top: 10px;
+        background-color: @chef-color-red-bg;
+        span{
+          text-align: center;
+          &:before {
+            line-height: 1.7em;
+            .icon-chef-cross-before;
+            .font-larger;
+            color: #fff;
+          }
+        }
+      }
+    }
+    &.contest-recipe {
+      opacity:0.2;
+      .status{
+        display: block;
+        .ribbon{
+          border-color: @chef-color-brick-bg;
+          background-color: @chef-color-brick-bg;
+          span{
+            text-align: center;
+            &:before {
+              line-height: 1.7em;
+              .icon-chef-cup-draft-before;
+              .font-larger;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .state-published {
+    &.contest-recipe {
+      &.contest-state-admited {
+        .status{
+          display: block;
+          .ribbon{
+            border-color: @chef-color-blue-bg;
+            background-color: @chef-color-blue-bg;
+            span{
+              text-align: center;
+              &:before {
+                line-height: 1.7em;
+                .icon-chef-cup-before;
+                .font-larger;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+      &.contest-state-rejected {
+        opacity:0.2;
+        .status{
+          display: block;
+          .ribbon{
+            border-color: @chef-color-brick-bg;
+            background-color: @chef-color-brick-bg;
+            span{
+              text-align: center;
+              &:before {
+                line-height: 1.7em;
+                .icon-chef-cup-draft-before;
+                .font-larger;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .state-draft {
+    opacity:0.7;
+    .status{
+      display: block;
+      .general-state{
+        margin-top: 10px;
+        background-color: @chef-color-gray-bg;
+        span{
+          text-align: center;
+          &:before {
+            line-height: 1.7em;
+            .icon-chef-draft-before;
+            .font-larger;
+            color: #fff;
+          }
+        }
+      }
+    } 
+    &.contest-recipe {
+      &.contest-state-none {
+        .status{
+          display: block;
+          .ribbon{
+            border-color: @chef-color-pink-bg;
+            background-color: @chef-color-pink-bg;
+            span{
+              text-align: center;
+              &:before {
+                line-height: 1.7em;
+                .icon-chef-cup-draft-before;
+                .font-larger;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+      &.contest-state-review {
+        .status{
+          display: block;
+          .ribbon{
+            border-color: @chef-color-gray-bg;
+            background-color: @chef-color-gray-bg;
+            span{
+              text-align: center;
+              &:before {
+                line-height: 1.7em;
+                .icon-chef-cup-time-before;
+                .font-larger;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

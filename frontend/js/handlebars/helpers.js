@@ -62,3 +62,13 @@ Handlebars.registerHelper('join', function(items, block) {
     return [].concat(items).slice(start, end).join(delimiter);
   }
 });
+
+Handlebars.registerHelper('stateIcon', function(classes) {
+  var css = classes.split(' ');
+  if (css.indexOf('contest-recipe') >= 0) {
+    return '<div class="ribbon"><span class="icon-chef-var"></span></div>';
+  }
+  else if (css.indexOf('state-published') === -1) {
+    return '<div class="general-state"><span class="icon-chef-var"></span></div>';
+  }
+});

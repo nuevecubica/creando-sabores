@@ -758,17 +758,45 @@ input:focus{
   outline: 1px solid;
 }
   // Arrows & ribbons
-.ribbon:after{
-  content: "";
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-color: inherit inherit transparent;
-  border-width: 0px 50px 50px;
-  position: absolute;
-  left: 0;
-  bottom: -50px;
+.status{
+  display: none;
+
+  .general-state{
+    position: absolute;
+    top: 0px;
+    right: 50px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+  
+  .ribbon{
+    border-width: 0px;
+    position: absolute;
+    top: 0px;
+    right: 50px;
+    height: 50px;
+    width: 50px;
+  }
+
+  .ribbon:after{
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-top-color: inherit;
+    border-right-color: inherit;
+    border-left-color: inherit;
+    border-bottom-color: transparent;
+    border-width: 0px 25px 25px;
+    position: absolute;
+    left: 0;
+    bottom: -25px;
+  }
 }
+
+
+
 .arrow-up {
   width: 0;
   height: 0;

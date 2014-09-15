@@ -38,6 +38,13 @@ mixin recipe(recipe)
 							else
 								i.icon-chef-star.icon.on
 								- rating = rating - 1;
+				.status
+					if recipe.contest && recipe.contest.id
+						.ribbon
+							span.icon-chef-var
+					else if recipe.state !== 'published'
+						.general-state
+							span.icon-chef-var
 
 			a(href=recipe.url)
 				h2.ui.header

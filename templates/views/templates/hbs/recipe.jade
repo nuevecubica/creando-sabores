@@ -24,6 +24,8 @@ div(class="{{classes}}").row.position
 				.strong= __('Rating')
 				.span
 					.ui.icon {{formatIcons rating 'star'}}
+				.status
+					{{{stateIcon classes}}}
 
 			a(href="{{url}}")
 				h2.ui.header {{title}}
