@@ -14,7 +14,7 @@ mixin grid(recipes, gridPositions, gridSizes)
 			if recipe
 				- title = recipe.title
 				- image = recipe.thumb['grid_' + sizes[i]]
-				- slug = recipe.url
+				- url = recipe.url
 				- classes = sizes[i] + ' ' + recipe.classes
 
 			div(class=classes, style="background-image: url(#{image}); background-position:center; background-size:cover;")
