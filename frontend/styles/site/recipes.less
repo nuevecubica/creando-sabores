@@ -389,7 +389,7 @@
   }
   .state-banned{
     opacity:0.2;
-    .status{
+    .status-recipe{
       display: block;
       .general-state{
         margin-top: 10px;
@@ -400,13 +400,13 @@
             line-height: 1.7em;
             .icon-chef-cross-before;
             .font-extra-large;
-            color: #fff;
+            color: @chef-color-white;
           }
         }
       }
     }
     &.contest-recipe {
-      .status{
+      .status-recipe{
         display: block;
         .ribbon{
           border-color: @chef-color-brick-bg;
@@ -417,7 +417,7 @@
               line-height: 1.7em;
               .icon-chef-cup-banned-before;
               .font-extra-large;
-              color: #fff;
+              color: @chef-color-white;
             }
           }
         }
@@ -428,7 +428,7 @@
   .state-published {
     &.contest-recipe {
       &.contest-state-admited {
-        .status{
+        .status-recipe{
           display: block;
           .ribbon{
             border-color: @chef-color-blue-bg;
@@ -439,7 +439,7 @@
                 line-height: 1.7em;
                 .icon-chef-cup-before;
                 .font-extra-large;
-                color: #fff;
+                color: @chef-color-white;
               }
             }
           }
@@ -447,7 +447,7 @@
       }
       &.contest-state-rejected {
         opacity:0.2;
-        .status{
+        .status-recipe{
           display: block;
           .ribbon{
             border-color: @chef-color-brick-bg;
@@ -458,7 +458,7 @@
                 line-height: 1.7em;
                 .icon-chef-cup-banned-before;
                 .font-extra-large;
-                color: #fff;
+                color: @chef-color-white;
               }
             }
           }
@@ -479,7 +479,7 @@
             line-height: 1.7em;
             .icon-chef-draft-before;
             .font-extra-large;
-            color: #fff;
+            color: @chef-color-white;
           }
         }
       }
@@ -497,7 +497,7 @@
                 line-height: 1.7em;
                 .icon-chef-cup-draft-before;
                 .font-extra-large;
-                color: #fff;
+                color:@chef-color-white;
               }
             }
           }
@@ -515,7 +515,7 @@
                 line-height: 1.7em;
                 .icon-chef-cup-time-before;
                 .font-extra-large;
-                color: #fff;
+                color: @chef-color-white;
               }
             }
           }
