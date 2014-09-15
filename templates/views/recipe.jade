@@ -70,11 +70,11 @@ block content
               .itemSelected
                 .item(data-value=difficulty)
                   - for(var i = 0; i < 5; i++)
-                      if(difficulty == 0)
+                      if difficulty == 0
                         i.icon-chef-tenedor.icon.off
                       else
                         i.icon-chef-tenedor.icon.on
-                        - difficulty = difficulty - 1;
+                        - difficulty = difficulty - 1
                     .span= category
 
               .options
@@ -100,13 +100,13 @@ block content
               - var rating = Math.floor(data.recipe.rating)
               - var r = rating
               - for(var x = 0; x < 5; x++)
-                if(r == 0)
+                if r == 0
                   i.icon-chef-star.icon.off
                 else
                   i.icon-chef-star.icon.on
                   - --r;
 
-              .span= rating
+              .span.skip.mobile= rating
 
         #actions.six.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
           .recipe-actions
@@ -130,11 +130,10 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
-        if (data.contest)
+        if data.contest
           .recipe-contest-ingredient.sixteen.wide.column
             .icon-chef-cesta.checks
             .ui.content.font-large= data.contest.ingredientRequired
-            
 
         #ingredients.sixteen.wide.column
           .ui.three.mobile-one.tablet-two.column.grid

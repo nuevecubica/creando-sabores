@@ -15,16 +15,19 @@
 	background-color: lighten(@chef-color-brick-bg, 30%);
 }
 
-// Horizontal space invisible when verticalized
-@media screen and (max-width: 767px) {
-	.ui.stackable.grid > .row > .column.space {
-		display: none !important;
-	}
-}
-
 //--------------------------------------------------------
 
 @media only screen and (max-width : 767px) {
+	// Horizontal space invisible when verticalized
+	.ui.stackable.grid > .row > .column.space {
+		display: none !important;
+	}
+
+	// Hide when mobile
+	.skip.mobile {
+		display: none !important;
+	}
+
 	/*-------------------
 	    Column Width
 	--------------------*/
@@ -215,6 +218,10 @@
 }
 
 @media only screen and (min-width : 768px) and (max-width : 991px) {
+	.skip.tablet {
+		display: none !important;
+	}
+
 	/*-------------------
 	    Column Width
 	--------------------*/
@@ -401,5 +408,11 @@
 	.ui.tablet-sixteen.column.grid > .column,
 	.ui.grid > .sixteen.column.row > .column {
 	  width: 6.25%;
+	}
+}
+
+@media only screen and (min-width : 991px) {
+	.skip.computer {
+		display: none !important;
 	}
 }
