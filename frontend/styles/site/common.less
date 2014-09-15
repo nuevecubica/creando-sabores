@@ -79,6 +79,13 @@ body {
   }
 }
 
+@media only screen and (max-width: 767px) {
+  .ui.stackable.grid > .row > .column, .ui.stackable.grid > .column {
+    padding-left: 1.5% !important;
+    padding-right: 1.5% !important;
+  }
+}
+
 .header {
   .font-extra-large.uppercase;
   font-weight: bold;
@@ -403,7 +410,6 @@ body {
         background-image: url('/images/tabla2.png');
         background-size: contain;
         z-index: 200;
-        
       }
       .tabla3{
         position: absolute;
@@ -578,8 +584,11 @@ body {
     height: 196px;
     background-image: url(http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg);
     background-size: cover;
-    // Fix row pading left
-    margin-left: -15px;
+
+    @media screen and (min-width: 768px) {
+      // Fix row pading left
+      margin-left: -15px;
+    }
 
     > .row:first-child {
       height: 25%;
@@ -642,7 +651,7 @@ body {
     .span {
       display: inline-block;
 
-      i.icon {
+      i.icon {
 
         font-size: 20px;
 
@@ -696,7 +705,7 @@ body {
     padding-top: 0;
   }
 
-  .icon-chef-logo { 
+  .icon-chef-logo {
     color: @icon-logo;
     text-shadow: none;
   }
@@ -831,9 +840,6 @@ input:focus{
 .hidden {
   display: none !important;
 }
-
-
-
 
 /********************************
         New media queries
