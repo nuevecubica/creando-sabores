@@ -41,8 +41,20 @@ block content
     input#hidden-ingredients(type='hidden' name='ingredients')
     input#hidden-procedure(type='hidden' name='procedure')
     input(type='hidden' name='_csrf' value='#{csrftoken}')
+    if data.contest && isNew
+      input(type='hidden' name='contest.id' value='#{data.contest._id}')
 
   +header(data, section)
+  if (data.contest)
+    .ui.page.grid.bg-grey
+      .row
+        #info.eight.tablet-twelve.mobile-eight.wide.column
+          .recipe-contest
+            a.title.header.font-extra-larger.uppercase(href=data.contest.url)= data.contest.title
+            .subheader
+              i.icon-chef-cup.icon.font-extra-large
+              = __('Contest sponsored by')
+              strong= data.contest.sponsor
 
   .ui.page.grid
     #recipe-content.ui.grid.segment
@@ -117,6 +129,12 @@ block content
           h2.ui.header= __('Ingredients')
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
+
+        if (data.contest)
+          .recipe-contest-ingredient.sixteen.wide.column
+            .icon-chef-cesta.checks
+            .ui.content.font-large= data.contest.ingredientRequired
+            
 
         #ingredients.sixteen.wide.column
           .ui.three.mobile-one.tablet-two.column.grid
