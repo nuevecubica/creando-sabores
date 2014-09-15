@@ -2,12 +2,12 @@
   .header
     a(href='{{url}}') {{title}}
 
-a(href='{{awards.jury.winner.url}}')
-  .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.jury.winner.thumb.header}})')
-    .author-winner
-      a(href='{{awards.jury.winner.author.url}}')
-        img.author(src='{{awards.jury.winner.author.thumb.avatar_medium}}')
-      img.award(src='/images/jury_award.png')
+.four.tablet-four.mobile-eight.wide.column.contest-module
+  a.recipe-winner(href='{{awards.jury.winner.url}}',style='background-image: url({{awards.jury.winner.thumb.header}})')
+  .author-winner
+    a(href='{{awards.jury.winner.author.url}}')
+      img.author(src='{{awards.jury.winner.author.thumb.avatar_medium}}')
+    img.award(src='/images/jury_award.png')
 
 .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
   a(href='{{awards.jury.winner.author.url}}')
@@ -16,14 +16,16 @@ a(href='{{awards.jury.winner.url}}')
     a(href='{{awards.jury.winner.url}}') {{awards.jury.winner.title}}
   .subheader
     strong= __('Jury award')
-  .award {{awards.community.name}}
+  .award {{awards.jury.name}}
 
-a(href='{{awards.community.winner.url}}')
-  .contest-module.recipe-winner.four.tablet-four.mobile-eight.wide.column(style='background-image: url({{awards.community.winner.thumb.header}})')
-    .author-winner
-      a(href='{{awards.community.winner.author.url}}')
-        img.author(src='{{awards.community.winner.author.thumb.avatar_medium}}')
-      img.award(src='/images/community_award.png')
+
+
+.four.tablet-four.mobile-eight.wide.column.contest-module
+  a.recipe-winner(href='{{awards.community.winner.url}}',style='background-image: url({{awards.community.winner.thumb.header}})')
+  .author-winner
+    a(href='{{awards.community.winner.author.url}}')
+      img.author(src='{{awards.community.winner.author.thumb.avatar_medium}}')
+    img.award(src='/images/community_award.png')
 
 .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
   a(href='{{awards.community.winner.author.url}}')

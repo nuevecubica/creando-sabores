@@ -10,24 +10,24 @@ block content
   +header(data, section)
   .ui.page.grid.bg-grey
     .row
-        #info.eight.tablet-twelve.mobile-eight.wide.column
-          .status
-            .status-tag(class=data.contest.state)
-              = __(data.contest.state)
-          .subheader
-            i.icon-chef-cup.icon.font-extra-large
-            = __('Contest sponsored by')
-            strong= data.contest.sponsor
+      #info.eight.tablet-twelve.mobile-eight.wide.column
+        .status
+          .status-tag(class=data.contest.state)
+            = __(data.contest.state)
+        .subheader
+          i.icon-chef-cup.icon.font-extra-large
+          = __('Contest sponsored by')
+          strong= data.contest.sponsor
 
-        #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned
-          .contest-actions(class=data.contest.state)
-            .action.vote
-              .ui.button.chef.button-brick
-                a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
+      #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned
+        .contest-actions(class=data.contest.state)
+          .action.vote
+            .ui.button.chef.button-brick
+              a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
 
-            .action.join
-              .ui.button.chef.button-yellow
-                a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
+          .action.join
+            .ui.button.chef.button-yellow
+              a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
   .ui.page.grid
     #contest-content.ui.grid.segment
       #contest-description.row
@@ -66,7 +66,7 @@ block content
       if data.contest.state === 'finished'
 
         #winners.row
-          .sixteen.wide.column
+          .contest-title.sixteen.wide.column
             .header= __('Winners')
 
           +contest(data.contest)
@@ -80,7 +80,8 @@ block content
 
         if top && top.length > 0
           - for (var i = 0, l = top.length; i < l; i++)
-            .top-contest.four.tablet-four.mobile-sixteen.wide.column(style='background-image: url(#{top[i].thumb.header})')
+            .four.tablet-four.mobile-sixteen.wide.column.ranking-module
+              a.top-contest(href='/receta/#{top[i].slug}',style='background-image: url(#{top[i].thumb.header})')
               .top-rating
                 i.icon-chef-star.icon
                   span= top[i].rating

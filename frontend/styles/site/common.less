@@ -748,8 +748,19 @@ body {
 input:focus{
   outline: 1px solid;
 }
-  // Arrows
-  .arrow-up {
+  // Arrows & ribbons
+.ribbon:after{
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: inherit inherit transparent;
+  border-width: 0px 50px 50px;
+  position: absolute;
+  left: 0;
+  bottom: -50px;
+}
+.arrow-up {
   width: 0;
   height: 0;
   border-left: 20px solid transparent;
