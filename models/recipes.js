@@ -340,8 +340,8 @@ Recipe.schema.virtual('thumb').get(function() {
   };
 });
 
-Recipe.schema.virtual('states').get(function() {
-  var classes = [];
+Recipe.schema.virtual('classes').get(function() {
+  var classes = ['recipe'];
   if (this.isBanned) {
     classes.push('state-banned');
   }
@@ -365,6 +365,7 @@ Recipe.schema.virtual('states').get(function() {
   if (this.contest.isCommunityWinner) {
     classes.push('contest-winner-community');
   }
+  // return classes;
   return classes.join(' ');
 });
 

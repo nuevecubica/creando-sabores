@@ -152,7 +152,7 @@ var recipeNew = function(req, res) {
             return formResponse(req, res, back, 'Error: Unknown error', false);
           }
           else {
-            return formResponse(req, res, '/receta/' + recipe.slug, false, 'Recipe saved');
+            return formResponse(req, res, recipe.url, false, 'Recipe saved');
           }
         });
     };

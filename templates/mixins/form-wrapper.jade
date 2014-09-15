@@ -1,12 +1,11 @@
 mixin form-wrapper(section, data)
 
   if section === 'recipe' && data.recipe
-    - var urlAction = '/receta/' + data.recipe.slug
 
-    form#recipe-remove-form(action=urlAction + '/remove' method='POST' enctype='multipart/form-data')
+    form#recipe-remove-form(action=data.recipe.url + '/remove' method='POST' enctype='multipart/form-data')
       input(type='hidden' name='_csrf' value='#{csrftoken}')
 
-    form#recipe-edit-form(action=urlAction + '/save' method='POST' enctype='multipart/form-data')
+    form#recipe-edit-form(action=data.recipe.url + '/save' method='POST' enctype='multipart/form-data')
       block content
 
   else if section === 'new-recipe'

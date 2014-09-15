@@ -1,5 +1,5 @@
 mixin contest-recipe(recipe,i)
-	a(href="/receta/#{recipe.slug}").hover-list
+	a(href=recipe.url).hover-list
 	.five.wide.column
 		.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
 			.row
@@ -39,9 +39,9 @@ mixin contest-recipe(recipe,i)
 								i.icon-chef-star.icon.on
 								- rating = rating - 1;
 
-			a(href="/receta/#{recipe.slug}")
+			a(href=recipe.url)
 				span.ui.header= (i + 1) + '#'
-				h2.ui.header 
+				h2.ui.header
 					!= recipe.title
 
 			.ui.content!= recipe.description

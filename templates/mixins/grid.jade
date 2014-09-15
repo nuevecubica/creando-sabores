@@ -8,14 +8,16 @@ mixin grid(recipes, gridPositions, gridSizes)
 			- var recipe = recipes[positions[i] - 1]
 			- var title = 'Vacio'
 			- var image = 'default_recipe.jpg'
-			- var slug = '/'
+			- var url = '/'
+			- var classes = sizes[i]
 
 			if recipe
 				- title = recipe.title
 				- image = recipe.thumb['grid_' + sizes[i]]
-				- slug = '/receta/' + recipe.slug
+				- slug = recipe.url
+				- classes = sizes[i] + ' ' + recipe.classes
 
-			div(class="recipe #{sizes[i]}", style="background-image: url(#{image}); background-position:center; background-size:cover;")
-				a(href="#{slug}")
+			div(class=classes, style="background-image: url(#{image}); background-position:center; background-size:cover;")
+				a(href=url)
 					.content
 						span= title

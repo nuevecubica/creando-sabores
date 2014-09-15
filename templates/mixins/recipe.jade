@@ -1,6 +1,6 @@
 mixin recipe(recipe)
-	div(class="#{recipe.states}").row.position
-		a(href="/receta/#{recipe.slug}").hover-list
+	div(class=recipe.classes).row.position
+		a(href=recipe.url).hover-list
 		.five.wide.column
 			.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
 				.row
@@ -20,7 +20,7 @@ mixin recipe(recipe)
 						.difficulty.column
 							- var difficulty = recipe.difficulty
 							- for(var x = 0; x < 5; x++)
-								if(difficulty == 0)
+								if difficulty == 0
 									i.icon-chef-tenedor.icon.off
 								else
 									i.icon-chef-tenedor.icon.on
@@ -34,13 +34,13 @@ mixin recipe(recipe)
 						.ui.icon
 							- var rating = Math.floor(recipe.rating) || 0
 							- for(var x = 0; x < 5; x++)
-								if(rating == 0)
+								if rating == 0
 									i.icon-chef-star.icon.off
 								else
 									i.icon-chef-star.icon.on
 									- rating = rating - 1;
 
-				a(href="/receta/#{recipe.slug}")
+				a(href=recipe.url)
 					h2.ui.header
 						!= recipe.title
 

@@ -1,5 +1,5 @@
-div(class="{{states}}").row.position
-	a(href="/receta/{{slug}}").hover-list
+div(class="{{classes}}").row.position
+	a(href="{{url}}").hover-list
 	.five.wide.column
 		.thumbnail(style = 'background-image: url({{thumb.list}})')
 			.row
@@ -25,7 +25,7 @@ div(class="{{states}}").row.position
 				.span
 					.ui.icon {{formatIcons rating 'star'}}
 
-			a(href="/receta/{{slug}}")
+			a(href="{{url}}")
 				h2.ui.header {{title}}
 
 			.ui.content {{{description}}}
