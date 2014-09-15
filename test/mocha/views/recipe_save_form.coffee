@@ -198,7 +198,40 @@ describe '(Private) Recipe: Save', ->
 
 #------------------------------------------------------------------------------
 
-  describe 'submit /nueva-receta/save', ->
+  describe 'get /nueva-receta', ->
+    describe 'on non-contest', ->
+      it 'responds with the form', (done) ->
+        request
+        .get('/nueva-receta')
+        .set('cookie', cookie)
+        .expect(200)
+        .expect(
+          (res) -> return res.text.must.match 'recipe-edit-form'
+        )
+        .end(done)
+
+    describe 'on submission state contest', ->
+      it 'responds with the form', (done) ->
+        request
+        .get('/nueva-receta/' + data.contests[2].slug)
+        .set('cookie', cookie)
+        .expect(200)
+        .expect(
+          (res) -> return res.text.must.match 'recipe-edit-form'
+        )
+        .end(done)
+
+    describe 'on non-submission state contest', ->
+      it 'responds with error', (done) ->
+        request
+        .get('/nueva-receta' + data.contests[1].slug)
+        .set('cookie', cookie)
+        .expect(404)
+        .end(done)
+
+
+
+  describe 'call to /nueva-receta/save', ->
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
