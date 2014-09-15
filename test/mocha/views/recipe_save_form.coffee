@@ -198,7 +198,40 @@ describe '(Private) Recipe: Save', ->
 
 #------------------------------------------------------------------------------
 
-  describe 'submit /nueva-receta/save', ->
+  describe 'get /nueva-receta', ->
+    describe 'on non-contest', ->
+      it 'responds with the form', (done) ->
+        request
+        .get('/nueva-receta')
+        .set('cookie', cookie)
+        .expect(200)
+        .expect(
+          (res) -> return res.text.must.match 'recipe-edit-form'
+        )
+        .end(done)
+
+    describe 'on submission state contest', ->
+      it 'responds with the form', (done) ->
+        request
+        .get('/nueva-receta/' + data.contests[2].slug)
+        .set('cookie', cookie)
+        .expect(200)
+        .expect(
+          (res) -> return res.text.must.match 'recipe-edit-form'
+        )
+        .end(done)
+
+    describe 'on non-submission state contest', ->
+      it 'responds with error', (done) ->
+        request
+        .get('/nueva-receta' + data.contests[1].slug)
+        .set('cookie', cookie)
+        .expect(404)
+        .end(done)
+
+
+
+  describe 'call to /nueva-receta/save', ->
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
@@ -296,3 +329,71 @@ describe '(Private) Recipe: Save', ->
               return 'Wrong status headers'
         )
         .end(done)
+
+    describe 'on contest recipe, submission state', ->
+      it 'saves it and associates it to the contest', (done) ->
+        keystone.list('Contest').model.findOne {
+          slug: data.contests[2].slug
+        }
+        .exec (err, contest) ->
+          must(err).be.null()
+          tdata = data.newRecipes[0]
+          tdata['contest.id'] = contest._id
+
+          url = '/receta/' + tdata.slug
+          request
+          .post('/nueva-receta/save')
+          .set('cookie', cookie)
+          .send(tdata)
+          .expect(302)
+          .expect(
+            (res) ->
+              if res.header['location'] isnt url or
+                  res.header['api-response-success'] isnt 'Recipe saved' or
+                  res.header['api-response-error'] isnt 'false'
+                console.error res.header
+                return 'Wrong status headers'
+          )
+          .end (err,res) ->
+            if err
+              return done err, res
+            request
+              .get(url)
+              .set('cookie', cookie)
+              .expect(200)
+              .expect(
+                (res) -> return res.text.must.match tdata.title
+              )
+              .expect(
+                (res) -> return res.text.must.match 'contest-recipe'
+              )
+              .expect(
+                (res) -> return res.text.must.match 'contest-state-none'
+              )
+              .end(done)
+
+    describe 'on contest recipe, other state', ->
+      it 'returns an error', (done) ->
+        keystone.list('Contest').model.findOne {
+          slug: data.contests[1].slug
+        }
+        .exec (err, contest) ->
+          must(err).be.null()
+          tdata = data.newRecipes[0]
+          tdata['contest.id'] = contest._id
+
+          url = '/receta/' + tdata.slug
+          request
+          .post('/nueva-receta/save')
+          .set('cookie', cookie)
+          .send(tdata)
+          .expect(302)
+          .expect(
+            (res) ->
+              msg = 'Error: Invalid contest state'
+              if res.header['api-response-success'] isnt 'false' or
+                  res.header['api-response-error'] isnt msg
+                console.error res.header
+                return 'Wrong status headers'
+          )
+          .end done
