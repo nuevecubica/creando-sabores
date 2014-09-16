@@ -3,7 +3,8 @@ var _ = require('underscore'),
   Types = keystone.Field.Types,
   async = require('async'),
   moment = require('moment'),
-  modelCleaner = require('../utils/modelCleaner');
+  modelCleaner = require('../utils/modelCleaner'),
+  imageQuality = require('../utils/imageQuality');
 
 var positions = [{
   value: 0,
@@ -127,7 +128,8 @@ Contest.add({
   'Media', {
     header: {
       type: Types.CloudinaryImage,
-      label: 'Image header contest'
+      label: 'Image header contest',
+      note: 'Minimum resolution: 1280 x 800'
     },
 
     imageContest: {
@@ -264,7 +266,8 @@ Contest.schema.virtual('thumb').get(function() {
     }),
     'header_recipe': this._.headerBackgroundRecipe.src({
       transformation: 'header_limit_thumb'
-    })
+    }),
+    'hasQuality': imageQuality(this.header).hasQuality
   };
 });
 

@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
-  modelCleaner = require('../utils/modelCleaner');
+  modelCleaner = require('../utils/modelCleaner'),
+  imageQuality = require('../utils/imageQuality');
 
 /**
  * Users
@@ -92,7 +93,8 @@ User.add({
       }
     },
     header: {
-      type: Types.CloudinaryImage
+      type: Types.CloudinaryImage,
+      note: 'Minimum resolution: 1280 x 800'
     }
   }
 }, 'Permissions', {
@@ -230,7 +232,8 @@ User.schema.virtual('thumb').get(function() {
     }),
     'avatar_small': this._.avatars.local.src({
       transformation: 'user_avatar_small'
-    })
+    }),
+    'hasQuality': imageQuality(this.media.header).hasQuality
   };
 });
 

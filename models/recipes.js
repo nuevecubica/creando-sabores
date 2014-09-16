@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
-  modelCleaner = require('../utils/modelCleaner');
+  modelCleaner = require('../utils/modelCleaner'),
+  imageQuality = require('../utils/imageQuality');
 
 var positions = [{
   value: 0,
@@ -107,7 +108,8 @@ Recipe.add({
 
   'Media', {
     header: {
-      type: Types.CloudinaryImage
+      type: Types.CloudinaryImage,
+      note: 'Minimum resolution: 1280 x 800'
     }
   },
 
@@ -336,7 +338,8 @@ Recipe.schema.virtual('thumb').get(function() {
     }),
     'header': this._.header.src({
       transformation: 'header_limit_thumb'
-    })
+    }),
+    'hasQuality': imageQuality(this.header).hasQuality
   };
 });
 
