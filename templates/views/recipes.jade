@@ -50,8 +50,9 @@ block content
 					else
 						| #{__('No recipes yet')}
 
-			.row.loader
-				.sixteen.wide.column.loading= __('Loading more recipes')
-				.sixteen.wide.column.load-more
-					.ui.button.chef.button-brick.load-button
-						a(href="#")= __('Load more')
+			.row
+				.loader
+					.sixteen.wide.column.loading= __('Loading more recipes')
+					.sixteen.wide.column.load-more
+						.ui.button.chef.button-brick.load-button
+							a(href="#")= __('Load more')
