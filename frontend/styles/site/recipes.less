@@ -388,20 +388,14 @@
       opacity:0.07;
   }
   .state-banned{
-    opacity:0.2;
+    opacity:0.4;
     .status-recipe{
       display: block;
       .general-state{
-        margin-top: 10px;
         background-color: @chef-color-red-bg;
         span{
-          text-align: center;
           &:before {
-            margin-left: 0;
-            line-height: 1.8em;
-            .icon-chef-cross-before;
-            .font-extra-large;
-            color: @chef-color-white;
+            .icon-chef-menuquit-before;
           }
         }
       }
@@ -413,20 +407,14 @@
           border-color: @chef-color-brick-bg;
           background-color: @chef-color-brick-bg;
           span{
-            text-align: center;
             &:before {
-              margin-left: 0;
-              line-height: 1.8em;
               .icon-chef-cup-banned-before;
-              .font-extra-large;
-              color: @chef-color-white;
             }
           }
         }
       }
     }
   }
-
   .state-published {
     &.contest-recipe {
       &.contest-state-admited {
@@ -436,33 +424,23 @@
             border-color: @chef-color-blue-bg;
             background-color: @chef-color-blue-bg;
             span{
-              text-align: center;
               &:before {
-                margin-left: 0;
-                line-height: 1.8em;
                 .icon-chef-cup-before;
-                .font-extra-large;
-                color: @chef-color-white;
               }
             }
           }
         }
       }
       &.contest-state-rejected {
-        opacity:0.2;
+        opacity:0.4;
         .status-recipe{
           display: block;
           .ribbon{
             border-color: @chef-color-brick-bg;
             background-color: @chef-color-brick-bg;
             span{
-              text-align: center;
               &:before {
-                margin-left: 0;
-                line-height: 1.8em;
                 .icon-chef-cup-banned-before;
-                .font-extra-large;
-                color: @chef-color-white;
               }
             }
           }
@@ -471,58 +449,42 @@
     }
   }
   .state-draft {
-    opacity:0.7;
-    .status{
+    opacity:0.75;
+    .status-recipe{
       display: block;
       .general-state{
-        margin-top: 10px;
-        background-color: @chef-color-gray-bg;
+        background-color: @chef-color-gray;
         span{
-          text-align: center;
           &:before {
-            margin-left: 0;
-            line-height: 1.8em;
             .icon-chef-draft-before;
-            .font-extra-large;
-            color: @chef-color-white;
           }
         }
       }
     } 
     &.contest-recipe {
-      &.contest-state-none {
-        .status{
+      &.contest-state-none, &.contest-state-admited {
+        .status-recipe{
           display: block;
           .ribbon{
             border-color: @chef-color-pink-bg;
             background-color: @chef-color-pink-bg;
             span{
-              text-align: center;
               &:before {
-                margin-left: 0;
-                line-height: 1.8em;
                 .icon-chef-cup-draft-before;
-                .font-extra-large;
-                color:@chef-color-white;
               }
             }
           }
         }
       }
       &.contest-state-review {
-        .status{
+        .status-recipe{
           display: block;
           .ribbon{
-            border-color: @chef-color-gray-bg;
-            background-color: @chef-color-gray-bg;
+            border-color: @chef-color-gray;
+            background-color: @chef-color-gray;
             span{
-              text-align: center;
               &:before {
-                margin-left: 0;
-                line-height: 1.8em;
                 .icon-chef-cup-time-before;
-                .font-extra-large;
-                color: @chef-color-white;
               }
             }
           }
