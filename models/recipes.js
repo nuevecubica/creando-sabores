@@ -99,6 +99,10 @@ Recipe.add({
       // }
     },
 
+    likes: {
+      type: Types.Number
+    },
+
     schemaVersion: {
       type: Types.Number,
       noedit: true,
