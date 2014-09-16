@@ -1,0 +1,1110 @@
+{
+  "admins": [{
+    "name": "Admin",
+    "email": "user@keystonejs.com",
+    "password": "admin",
+    "username": "admin",
+    "about": "Admin",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "isAdmin": true,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
+  }],
+  "users": [{
+    "name": "Test User1",
+    "email": "testUser1@glue.gl",
+    "password": "testUser1",
+    "username": "testUser1",
+    "about": "Test User 1",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
+  }, {
+    "name": "Test User2",
+    "email": "testUser2@glue.gl",
+    "username": "testUser2",
+    "about": "Test User 2",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
+  }],
+  "recipes": [{
+    "description": "<p>DESCRIPTION 1</p>",
+    "ingredients": "<p>INGREDIENT 1</p>\r\n<p>INGREDIENT 2</p>\r\n<p>INGREDIENT 3</p>",
+    "isOfficial": false,
+    "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
+    "publishedDate": "2014-01-01T00:00:00.000+0200",
+    "editDate": "2014-04-01T00:00:00.000+0200",
+    "rating": 3,
+    "title": "TEST RECIPE 1",
+    "slug": "test-recipe-1",
+    "review": [{
+      "user": 1,
+      "rating": 3
+    }],
+    "isRecipesGridPromoted": {
+      "position": 4,
+      "value": true
+    },
+    "isRecipesHeaderPromoted": true,
+    "isIndexGridPromoted": {
+      "position": 0,
+      "value": true
+    },
+    "isIndexHeaderPromoted": false,
+    "isPromoted": true,
+    "portions": 1,
+    "time": 45,
+    "difficulty": 1,
+    "isBanned": false,
+    "state": 1,
+    "header": {
+      "public_id" : "eoshasibtc05k6bbuynv",
+      "version" : 1410166679,
+      "signature" : "16683a7809364cb1c68e2881d4f7e69219f27811",
+      "width" : 3143,
+      "height" : 2142,
+      "format" : "jpg",
+      "resource_type" : "image",
+      "url" : "http://res.cloudinary.com/glue/image/upload/v1410166679/eoshasibtc05k6bbuynv.jpg",
+      "secure_url" : "https://res.cloudinary.com/glue/image/upload/v1410166679/eoshasibtc05k6bbuynv.jpg"
+    },
+    "author": 1,
+    "schemaVersion": 1
+  }, {
+  "description": "<p>DESCRIPTION 2</p>",
+    "ingredients": "<p>INGREDIENT 1</p>\r\n<p>INGREDIENT 2</p>\r\n<p>INGREDIENT 3</p>",
+    "isOfficial": false,
+    "procedure": "<p>PROCEDURE STEP 1</p>\r\n<p>PROCEDURE STEP 2</p>\r\n<p>PROCEDURE STEP 3</p>\r\n<p>PROCEDURE STEP 4</p>",
+    "publishedDate": "2014-01-01T00:00:00.000+0200",
+    "editDate": "2014-02-01T00:00:00.000+0200",
+    "rating": 2,
+    "title": "TEST RECIPE 2",
+    "slug": "test-recipe-2",
+    "review": [{
+      "user": 2,
+      "rating": 2
+    }],
+    "isRecipesGridPromoted": {
+      "position": 1,
+      "value": true
+    },
+    "isRecipesHeaderPromoted": true,
+    "isIndexGridPromoted": {
+      "position": 0,
+      "value": true
+    },
+    "isIndexHeaderPromoted": false,
+    "isPromoted": true,
+    "portions": 5,
+    "time": 60,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "header": {
+      "public_id" : "wgch9xe86vhstv4vzgnj",
+      "version" : 1410168331,
+      "signature" : "58d9b010194ae7696a1a5d62ea8f61516210db84",
+      "width" : 1600,
+      "height" : 1200,
+      "format" : "jpg",
+      "resource_type" : "image",
+      "url" : "http://res.cloudinary.com/glue/image/upload/v1410168331/wgch9xe86vhstv4vzgnj.jpg",
+      "secure_url" : "https://res.cloudinary.com/glue/image/upload/v1410168331/wgch9xe86vhstv4vzgnj.jpg"
+    },
+    "author": 2,
+    "schemaVersion": 1
+  }, {
+    "description": "<p>DESCRIPTION 3</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2014-01-01T00:00:00.000+0200",
+    "editDate": "2014-03-01T00:00:00.000+0200",
+    "rating": 1,
+    "review": [{
+      "user": 1,
+      "rating": 1
+    }],
+    "title": "TEST RECIPE 3",
+    "slug": "test-recipe-3",
+    "portions": 2,
+    "time": 4.5,
+    "difficulty": 1,
+    "isBanned": false,
+    "state": 1,
+    "header": {
+      "public_id" : "mlp4jff2fudhffrtva7k",
+      "version" : 1410168358,
+      "signature" : "84feda2713bfa6ec9bcaf6c688fe9ce96ac7039b",
+      "width" : 1600,
+      "height" : 1179,
+      "format" : "jpg",
+      "resource_type" : "image",
+      "url" : "http://res.cloudinary.com/glue/image/upload/v1410168358/mlp4jff2fudhffrtva7k.jpg",
+      "secure_url" : "https://res.cloudinary.com/glue/image/upload/v1410168358/mlp4jff2fudhffrtva7k.jpg"
+    },
+    "author": 1,
+    "schemaVersion": 1
+  }, {
+    "description": "<p>DESCRIPTION 4</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2014-01-02T00:00:00.000+0200",
+    "editDate": "2014-01-01T00:00:00.000+0200",
+    "rating": 4,
+    "review": [{
+      "user": 1,
+      "rating": 4
+    }],
+    "title": "TEST RECIPE 4",
+    "slug": "test-recipe-4",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1
+  }, {
+    "description": "<p>DESCRIPTION UNPUBLISHED</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2014-05-01T00:00:00.000+0200",
+    "editDate": "2014-05-01T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST RECIPE UNPUBLISHED",
+    "slug": "test-recipe-unpublished",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 0,
+    "author": 1,
+    "schemaVersion": 1
+  }, {
+    "description": "<p>DESCRIPTION BANNED</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2014-05-02T00:00:00.000+0200",
+    "editDate": "2014-05-02T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST RECIPE BANNED",
+    "slug": "test-recipe-banned",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": true,
+    "state": 1,
+    "header" : {
+      "public_id" : "mbh7vjbhe6jq6cumudpo",
+      "version" : 1410168489,
+      "signature" : "eeae3d321f6f672daee92033334bb7a98eaad94e",
+      "width" : 3504,
+      "height" : 2336,
+      "format" : "jpg",
+      "resource_type" : "image",
+      "url" : "http://res.cloudinary.com/glue/image/upload/v1410168489/mbh7vjbhe6jq6cumudpo.jpg",
+      "secure_url" : "https://res.cloudinary.com/glue/image/upload/v1410168489/mbh7vjbhe6jq6cumudpo.jpg"
+    },
+    "author": 1,
+    "schemaVersion": 1
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R1</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-01-01T00:00:00.000+0200",
+    "editDate": "2015-01-01T00:00:00.000+0200",
+    "rating": 4,
+    "review": [{
+      "user": 1,
+      "rating": 4
+    }],
+    "title": "TEST CONTEST RECIPE 1",
+    "slug": "test-contest-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R2</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-02-01T00:00:00.000+0200",
+    "editDate": "2015-02-01T00:00:00.000+0200",
+    "rating": 3,
+    "review": [{
+      "user": 1,
+      "rating": 3
+    }],
+    "title": "TEST CONTEST RECIPE 2",
+    "slug": "test-contest-recipe-2",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R3</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-31T00:00:00.000+0200",
+    "editDate": "2015-12-31T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 3",
+    "slug": "test-contest-recipe-3",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "rejected"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R4</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 4",
+    "slug": "test-contest-recipe-4",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-submission",
+      "state": "review"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R5</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 5",
+    "slug": "test-contest-recipe-5",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-1",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R6</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 6",
+    "slug": "test-contest-recipe-6",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-1",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R7</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 7",
+    "slug": "test-contest-recipe-7",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-1",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R8</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 8",
+    "slug": "test-contest-recipe-8",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-2",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R9</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 9",
+    "slug": "test-contest-recipe-9",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-2",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R10</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 10",
+    "slug": "test-contest-recipe-10",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-2",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R11</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 11",
+    "slug": "test-contest-recipe-11",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-3",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R12</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 12",
+    "slug": "test-contest-recipe-12",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-3",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R13</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 13",
+    "slug": "test-contest-recipe-13",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-3",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R14</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 14",
+    "slug": "test-contest-recipe-14",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-4",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R15</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 15",
+    "slug": "test-contest-recipe-15",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-4",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R16</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 16",
+    "slug": "test-contest-recipe-16",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-4",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R17</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 17",
+    "slug": "test-contest-recipe-17",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-5",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R18</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 18",
+    "slug": "test-contest-recipe-18",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-5",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R19</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 19",
+    "slug": "test-contest-recipe-19",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-6",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R20</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 20",
+    "slug": "test-contest-recipe-20",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-6",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R21</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 21",
+    "slug": "test-contest-recipe-21",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-6",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R22</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 22",
+    "slug": "test-contest-recipe-22",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-7",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R23</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 23",
+    "slug": "test-contest-recipe-23",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-7",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R24</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 24",
+    "slug": "test-contest-recipe-24",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-7",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R25</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 25",
+    "slug": "test-contest-recipe-25",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-8",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R26</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 26",
+    "slug": "test-contest-recipe-26",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-8",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R27</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 27",
+    "slug": "test-contest-recipe-27",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-8",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R28</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 28",
+    "slug": "test-contest-recipe-28",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-9",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R29</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 29",
+    "slug": "test-contest-recipe-29",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-9",
+      "state": "admited"
+    }
+  }, {
+    "description": "<p>DESCRIPTION CONTEST R30</p>",
+    "ingredients": "<p>INGREDIENT 1</p>",
+    "procedure": "<p>PROCEDURE STEP 1</p>",
+    "publishedDate": "2015-12-30T00:00:00.000+0200",
+    "editDate": "2015-12-30T00:00:00.000+0200",
+    "rating": 5,
+    "review": [{
+      "user": 1,
+      "rating": 5
+    }],
+    "title": "TEST CONTEST RECIPE 30",
+    "slug": "test-contest-recipe-30",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 3,
+    "isBanned": false,
+    "state": 1,
+    "author": 1,
+    "schemaVersion": 1,
+    "contest": {
+      "id": "test-contest-finished-9",
+      "state": "admited"
+    }
+  }],
+  "newRecipes": [{
+    "description": "DESCRIPTION NEW 1",
+    "ingredients": "INGREDIENT NEW 1\nINGREDIENT NEW 2\nINGREDIENT NEW 3",
+    "procedure": "PROCEDURE NEW STEP 1\nPROCEDURE NEW STEP 2\nPROCEDURE NEW STEP 3\nPROCEDURE NEW STEP 4",
+    "title": "TEST NEW RECIPE 1",
+    "slug": "test-new-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 1
+  }, {
+    "description": "DESCRIPTION NEW <h1>2</h1>",
+    "title": "TEST NEW RECIPE 2",
+    "slug": "test-new-recipe-2",
+    "portions": 10,
+    "time": 90,
+    "difficulty": 5
+  }, {
+    "description": "DESCRIPTION NEW 3",
+    "portions": 12,
+    "time": 60,
+    "difficulty": 3
+  }],
+  "contests": [{
+    "slug" : "test-contest-draft",
+    "programmedDate" : "2020-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2020-12-30T22:00:00.000Z",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT DRAFT",
+    "title" : "TEST CONTEST DRAFT",
+    "sponsor" : "TEST SPONSOR DRAFT",
+    "state" : "draft"
+  }, {
+    "slug" : "test-contest-programmed",
+    "programmedDate" : "2020-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2020-12-30T22:00:00.000Z",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT PROGRAMMED",
+    "title" : "TEST CONTEST PROGRAMMED",
+    "sponsor" : "TEST SPONSOR PROGRAMMED",
+    "state" : "programmed"
+  }, {
+    "slug" : "test-contest-submission",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2020-12-30T22:00:00.000Z",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT SUBMISSION",
+    "title" : "TEST CONTEST SUBMISSION",
+    "sponsor" : "TEST SPONSOR SUBMISSION",
+    "state" : "submission"
+  }, {
+    "slug" : "test-contest-votes",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2020-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT VOTES",
+    "title" : "TEST CONTEST VOTES",
+    "sponsor" : "TEST SPONSOR VOTES",
+    "state" : "votes"
+  }, {
+    "slug" : "test-contest-closed",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT CLOSED",
+    "title" : "TEST CONTEST CLOSED",
+    "sponsor" : "TEST SPONSOR CLOSED",
+    "state" : "closed"
+  }, {
+    "slug" : "test-contest-finished",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED",
+    "title" : "TEST CONTEST FINISHED",
+    "sponsor" : "TEST SPONSOR FINISHED",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-1",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 1",
+    "title" : "TEST CONTEST FINISHED 1",
+    "sponsor" : "TEST SPONSOR FINISHED 1",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-2",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 2",
+    "title" : "TEST CONTEST FINISHED 2",
+    "sponsor" : "TEST SPONSOR FINISHED 2",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-3",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 3",
+    "title" : "TEST CONTEST FINISHED2 3",
+    "sponsor" : "TEST SPONSOR FINISHED 3",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-4",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 4",
+    "title" : "TEST CONTEST FINISHED 4",
+    "sponsor" : "TEST SPONSOR FINISHED 4",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-5",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 5",
+    "title" : "TEST CONTEST FINISHED 5",
+    "sponsor" : "TEST SPONSOR FINISHED 5",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-6",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 6",
+    "title" : "TEST CONTEST FINISHED 6",
+    "sponsor" : "TEST SPONSOR FINISHED 6",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-7",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 7",
+    "title" : "TEST CONTEST FINISHED 7",
+    "sponsor" : "TEST SPONSOR FINISHED 7",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-8",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 8",
+    "title" : "TEST CONTEST FINISHED 8",
+    "sponsor" : "TEST SPONSOR FINISHED 8",
+    "state" : "finished"
+  }, {
+    "slug" : "test-contest-finished-9",
+    "programmedDate" : "2000-12-29T22:00:00.000Z",
+    "submissionDeadline" : "2000-12-30T22:00:00.000Z",
+    "deadline" : "2000-12-31T22:00:00.000Z",
+    "ingredientRequired" : "TEST CONTEST INGREDIENT FINISHED 9",
+    "title" : "TEST CONTEST FINISHED 9",
+    "sponsor" : "TEST SPONSOR FINISHED 9",
+    "state" : "finished"
+  }]
+}
