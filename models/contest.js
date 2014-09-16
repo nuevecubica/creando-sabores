@@ -260,10 +260,10 @@ Contest.schema.virtual('thumb').get(function() {
       transformation: 'grid_large_thumb'
     }),
     'header': this._.header.src({
-      transformation: 'header_thumb'
+      transformation: 'header_limit_thumb'
     }),
     'header_recipe': this._.headerBackgroundRecipe.src({
-      transformation: 'header_thumb'
+      transformation: 'header_limit_thumb'
     })
   };
 });

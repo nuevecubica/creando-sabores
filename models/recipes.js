@@ -335,7 +335,7 @@ Recipe.schema.virtual('thumb').get(function() {
       transformation: 'grid_large_thumb'
     }),
     'header': this._.header.src({
-      transformation: 'header_thumb'
+      transformation: 'header_limit_thumb'
     })
   };
 });

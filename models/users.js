@@ -220,7 +220,7 @@ User.schema.set('toJSON', {
 User.schema.virtual('thumb').get(function() {
   return {
     'header': this._.media.header.src({
-      transformation: 'header_thumb'
+      transformation: 'header_limit_thumb'
     }),
     'avatar_large': this._.avatars.local.src({
       transformation: 'user_avatar_large'
