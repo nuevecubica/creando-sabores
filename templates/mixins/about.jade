@@ -2,9 +2,7 @@ mixin about(user)
   //- if user privacy settings
   .four.wide.column.picture-wrapper
     .picture
-      - var avatar = (!user.thumb.avatar_large || user.thumb.avatar_large.length <= 0) ? '../images/default_user.png' : user.thumb.avatar_large
-
-      #profile-img.ui.image.avatar(style="background-image: url(#{avatar}); background-size: cover; background-position:center; ")
+      #profile-img.ui.image.avatar(style="background-image: url(#{user.thumb.avatar_large}); background-size: cover; background-position:center; ")
       .icon-chef-camera.rounded.show-editable
         input#profile-img-select(type="file" name="avatars.local_upload" accept="image/*")
 

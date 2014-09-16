@@ -3,7 +3,6 @@ include ../mixins/header-share
 mixin header(data, section)
 
 	//- Change this
-	- var default_image = '/images/defaul_image.jpg'
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
 
 	if section === 'home'
@@ -42,12 +41,8 @@ mixin header(data, section)
 								.ui.image
 
 	else if section === 'privateProfile'
-		- var image = "/images/default_recipe_bg.png"
-		- if (user && user.media && user.media.header.url) {
-		-   image = user.thumb.header;
-		- }
 
-		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.thumb.header});")
 			.ui.page.grid.head.with-title
 				#header.row
 					include ../components/header
