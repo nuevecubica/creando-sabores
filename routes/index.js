@@ -116,7 +116,7 @@ exports = module.exports = function(app) {
   //-- Recipes
   app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireUserApi, routes.api.v1.recipeAction);
   //-- Contests
-  app.get('/api/v1/contestsPast', routes.api.v1.contestsPast);
+  app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generateRecipes);

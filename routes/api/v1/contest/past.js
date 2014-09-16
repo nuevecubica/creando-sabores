@@ -4,7 +4,7 @@ var async = require('async'),
   Contest = keystone.list('Contest');
 
 /*
-  /contestsPast?page=1&perPage=10
+  /contests/past?page=1&perPage=5
 */
 
 exports = module.exports = function(req, res) {
@@ -23,12 +23,17 @@ exports = module.exports = function(req, res) {
     .where('state', 'finished')
     .sort('-deadline');
 
+  var finalResults = [];
+
   async.series([
 
       function(callback) {
         queryLastContest.exec(function(err, contests) {
 
-          if (!err && contests) {
+          // Paginate object
+          answer.contests = contests;
+
+          if (!err && contests.results && contests.results.length > 0) {
 
             var optionsJuryAuthor = {
               path: 'awards.jury.winner.author',
@@ -40,56 +45,77 @@ exports = module.exports = function(req, res) {
               model: 'User'
             };
 
-            answer.contests = {
-              results: []
-            };
+            console.log('PAGINATE', contests);
 
             async.each(contests.results, function(contest, done) {
+
+                console.log('CONTEST', contest);
 
                 // Populate nested recipe author (jury winner)
                 Contest.model.populate(contest, optionsJuryAuthor, function(err, contestJuryPopulated) {
 
-                  if (!err) {
+                  console.log('POPULATE 1', contestJuryPopulated);
+
+                  if (!err && contestJuryPopulated) {
                     // Populate nested recipe author (community winner)
                     Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
 
-                      if (!err) {
+                      console.log('POPULATE 2', contestCommunityPopulated);
+
+                      if (!err && contestCommunityPopulated) {
                         answer.success = true;
 
-                        answer.contests.results.push(contestCommunityPopulated);
+                        finalResults.push(contestCommunityPopulated);
 
-                        done();
+                        console.log('DONE ???????', answer.contests);
+
+                        done(err, finalResults);
                       }
                       else {
                         answer.error = true;
-                        res.status(404);
+                        return res.notfound(res.__('Not found'));
                       }
                     });
                   }
                   else {
                     answer.error = true;
-                    res.status(404);
+                    return res.notfound(res.__('Not found'));
                   }
                 });
               },
               function(err) {
+
                 if (err) {
                   answer.error = true;
-                  res.status(404);
+                  return res.notfound(res.__('Not found'));
                 }
                 else {
-                  callback();
+                  answer.contests.results = finalResults;
+                  answer.success = true;
                 }
+
+                console.log('CASO1 ->');
+
+                callback(err);
               });
           }
           else {
-            answer.error = true;
-            res.status(404);
+            if (err) {
+              answer.error = true;
+            }
+            else {
+              answer.success = true;
+            }
+
+            console.log('CASO2 ->');
+
+            callback(err);
           }
         });
       }
     ],
     function(err, results) {
+      console.log('SALE ->', answer);
       return res.apiResponse(answer);
     });
 };
