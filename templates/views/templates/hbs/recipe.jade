@@ -19,17 +19,16 @@ div(class="{{classes}}").row.position
 					.difficulty.column {{formatIcons difficulty 'tenedor'}}
 
 	.eleven.wide.column
-		.ui.twelve.column
-			.rating
-				.strong= __('Rating')
-				.span
-					.ui.icon {{formatIcons rating 'star'}}
-				.status-recipe
-					{{{stateIcon classes}}}
+		.rating
+			.strong= __('Rating')
+			.span
+				.ui.icon {{formatIcons rating 'star'}}
+			.status-recipe
+				{{{stateIcon classes}}}
 
-			a(href="{{url}}")
-				h2.ui.header {{title}}
+		a(href="{{url}}")
+			h2.ui.header {{title}}
 
-			.ui.content {{{description}}}
+		.ui.content {{{description}}}
 
-			| {{formatOfficial isOfficial}}
+		| {{formatOfficial isOfficial}}
