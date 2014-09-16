@@ -389,7 +389,7 @@
   }
   .state-banned{
     opacity:0.2;
-    .status{
+    .status-recipe{
       display: block;
       .general-state{
         margin-top: 10px;
@@ -399,15 +399,14 @@
           &:before {
             line-height: 1.7em;
             .icon-chef-cross-before;
-            .font-larger;
-            color: #fff;
+            .font-extra-large;
+            color: @chef-color-white;
           }
         }
       }
     }
     &.contest-recipe {
-      opacity:0.2;
-      .status{
+      .status-recipe{
         display: block;
         .ribbon{
           border-color: @chef-color-brick-bg;
@@ -416,9 +415,9 @@
             text-align: center;
             &:before {
               line-height: 1.7em;
-              .icon-chef-cup-draft-before;
-              .font-larger;
-              color: #fff;
+              .icon-chef-cup-banned-before;
+              .font-extra-large;
+              color: @chef-color-white;
             }
           }
         }
@@ -429,7 +428,7 @@
   .state-published {
     &.contest-recipe {
       &.contest-state-admited {
-        .status{
+        .status-recipe{
           display: block;
           .ribbon{
             border-color: @chef-color-blue-bg;
@@ -439,8 +438,8 @@
               &:before {
                 line-height: 1.7em;
                 .icon-chef-cup-before;
-                .font-larger;
-                color: #fff;
+                .font-extra-large;
+                color: @chef-color-white;
               }
             }
           }
@@ -448,7 +447,7 @@
       }
       &.contest-state-rejected {
         opacity:0.2;
-        .status{
+        .status-recipe{
           display: block;
           .ribbon{
             border-color: @chef-color-brick-bg;
@@ -457,9 +456,9 @@
               text-align: center;
               &:before {
                 line-height: 1.7em;
-                .icon-chef-cup-draft-before;
-                .font-larger;
-                color: #fff;
+                .icon-chef-cup-banned-before;
+                .font-extra-large;
+                color: @chef-color-white;
               }
             }
           }
@@ -479,8 +478,8 @@
           &:before {
             line-height: 1.7em;
             .icon-chef-draft-before;
-            .font-larger;
-            color: #fff;
+            .font-extra-large;
+            color: @chef-color-white;
           }
         }
       }
@@ -497,8 +496,8 @@
               &:before {
                 line-height: 1.7em;
                 .icon-chef-cup-draft-before;
-                .font-larger;
-                color: #fff;
+                .font-extra-large;
+                color:@chef-color-white;
               }
             }
           }
@@ -515,8 +514,8 @@
               &:before {
                 line-height: 1.7em;
                 .icon-chef-cup-time-before;
-                .font-larger;
-                color: #fff;
+                .font-extra-large;
+                color: @chef-color-white;
               }
             }
           }
