@@ -10,6 +10,15 @@ var _ = require('underscore'),
  */
 var User = new keystone.List('User');
 
+// ===== Defaults
+// Define user defaults
+var defaults = {
+  images: {
+    header: '/images/default_user_profile.jpg',
+    user: '/images/default_user.png'
+  }
+};
+
 //#------------------ SCHEMA
 
 User.add({
@@ -239,16 +248,16 @@ User.schema.virtual('thumb').get(function() {
   return {
     'header': this._.media.header.src({
       transformation: 'header_limit_thumb'
-    }),
+    }) || defaults.images.header,
     'avatar_large': this._.avatars.local.src({
       transformation: 'user_avatar_large'
-    }),
+    }) || defaults.images.user,
     'avatar_medium': this._.avatars.local.src({
       transformation: 'user_avatar_medium'
-    }),
+    }) || defaults.images.user,
     'avatar_small': this._.avatars.local.src({
       transformation: 'user_avatar_small'
-    }),
+    }) || defaults.images.user,
     'hasQuality': imageQuality(this.media.header).hasQuality
   };
 });

@@ -5,37 +5,44 @@ var _ = require('underscore'),
   modelCleaner = require('../utils/modelCleaner'),
   imageQuality = require('../utils/imageQuality');
 
-var positions = [{
-  value: 0,
-  label: 'Position 1'
-}, {
-  value: 1,
-  label: 'Position 2'
-}, {
-  value: 2,
-  label: 'Position 3'
-}, {
-  value: 3,
-  label: 'Position 4'
-}, {
-  value: 4,
-  label: 'Position 5'
-}, {
-  value: 5,
-  label: 'Position 6'
-}, {
-  value: 6,
-  label: 'Position 7'
-}, {
-  value: 7,
-  label: 'Position 8'
-}, {
-  value: 8,
-  label: 'Position 9'
-}, {
-  value: 9,
-  label: 'Position 10'
-}];
+// ===== Defaults
+// Define recipe defaults
+var defaults = {
+  images: {
+    header: '/images/default_recipe.jpg'
+  },
+  positions: [{
+    value: 0,
+    label: 'Position 1'
+  }, {
+    value: 1,
+    label: 'Position 2'
+  }, {
+    value: 2,
+    label: 'Position 3'
+  }, {
+    value: 3,
+    label: 'Position 4'
+  }, {
+    value: 4,
+    label: 'Position 5'
+  }, {
+    value: 5,
+    label: 'Position 6'
+  }, {
+    value: 6,
+    label: 'Position 7'
+  }, {
+    value: 7,
+    label: 'Position 8'
+  }, {
+    value: 8,
+    label: 'Position 9'
+  }, {
+    value: 9,
+    label: 'Position 10'
+  }]
+};
 
 /**
  * Recipe
@@ -276,7 +283,7 @@ Recipe.add({
       position: {
         type: Types.Select,
         numeric: true,
-        options: positions,
+        options: defaults.positions,
         label: 'Index Grid Position',
         dependsOn: {
           'isIndexGridPromoted.value': true
@@ -301,7 +308,7 @@ Recipe.add({
       position: {
         type: Types.Select,
         numeric: true,
-        options: positions,
+        options: defaults.positions,
         label: 'Index Grid Position',
         dependsOn: {
           'isRecipesGridPromoted.value': true
@@ -330,19 +337,19 @@ Recipe.schema.virtual('thumb').get(function() {
   return {
     'list': this._.header.src({
       transformation: 'list_thumb'
-    }),
+    }) || defaults.images.header,
     'grid_small': this._.header.src({
       transformation: 'grid_small_thumb'
-    }),
+    }) || defaults.images.header,
     'grid_medium': this._.header.src({
       transformation: 'grid_medium_thumb'
-    }),
+    }) || defaults.images.header,
     'grid_large': this._.header.src({
       transformation: 'grid_large_thumb'
-    }),
+    }) || defaults.images.header,
     'header': this._.header.src({
       transformation: 'header_limit_thumb'
-    }),
+    }) || defaults.images.header,
     'hasQuality': imageQuality(this.header).hasQuality
   };
 });
