@@ -1,7 +1,8 @@
 var keystone = require('keystone'),
   async = require('async'),
   Contest = keystone.list('Contest'),
-  Recipe = keystone.list('Recipe');
+  Recipe = keystone.list('Recipe'),
+  moment = require('moment');
 
 exports = module.exports = function(req, res) {
 
@@ -29,6 +30,15 @@ exports = module.exports = function(req, res) {
 
     queryContest.exec(function(err, result) {
       if (!err && result) {
+
+        if ((result.state === 'programmed' &&
+            moment().isAfter(result.programmedDate)) ||
+          (result.state === 'submission' &&
+            moment().isAfter(result.submissionDeadline)) ||
+          (result.state === 'votes' &&
+            moment().isAfter(result.deadline))) {
+          result.save();
+        }
 
         if ((!req.user || !req.user.isAdmin) && ['draft', 'programmed'].indexOf(result.state) >= 0) {
           return res.notfound(res.__('Not found'));

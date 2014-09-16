@@ -34,18 +34,29 @@ exports = module.exports = function(req, res) {
       .where('state', 'finished')
       .sort('-deadline');
 
+    var getCurrentContest = function(callback) {
+      // Query for get current contest
+      queryCurrentContest.exec(function(err, contest) {
+        if (!err && contest) {
+          if ((contest.state === 'programmed' &&
+              moment().isAfter(contest.programmedDate)) ||
+            (contest.state === 'submission' &&
+              moment().isAfter(contest.submissionDeadline)) ||
+            (contest.state === 'votes' &&
+              moment().isAfter(contest.deadline))) {
+            contest.save();
+            return getCurrentContest(callback);
+          }
+          locals.data.current = contest;
+          locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
+        }
+        callback(err, contest || {});
+      });
+    };
+
     async.series([
 
-        function(callback) {
-          // Query for get current contest
-          queryCurrentContest.exec(function(err, contest) {
-            if (!err && contest) {
-              locals.data.current = contest;
-              locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
-            }
-            callback(err, contest || {});
-          });
-        },
+        getCurrentContest,
 
         function(callback) {
           queryLastContest.exec(function(err, contests) {
