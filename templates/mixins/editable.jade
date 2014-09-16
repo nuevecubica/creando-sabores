@@ -4,7 +4,7 @@ mixin editable(editable, own)
       .ui.menu
         .menu
             #edit.ui.button.chef.button-manage
-              a(href='#')= __('Edit')
+              a= __('Edit')
 
             if manageable && data.recipe
               #publish.ui.button.chef.button-manage
