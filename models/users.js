@@ -173,6 +173,22 @@ User.add({
       }
     }
   }
+}, 'Lists', {
+  favourites: {
+    type: Types.Relationship,
+    ref: 'Recipe',
+    many: true
+  },
+  likes: {
+    type: Types.Relationship,
+    ref: 'Recipe',
+    many: true
+  },
+  shopping: {
+    type: Types.Relationship,
+    ref: 'Recipe',
+    many: true
+  }
 });
 
 //#------------------ VALUES AND VALIDATION
