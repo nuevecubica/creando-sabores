@@ -207,6 +207,8 @@ describe 'API v1: /recipes', ->
     describe 'if it has a vote from the user already', ->
       it 'keeps the recipe\'s like count'
       it 'keeps the users\'s `likes` list'
+    describe 'if it comes from an invalid referer', ->
+      it 'ignores this call'
 
   describe 'PUT /recipe/:recipe/unlike', ->
     describe 'if it does not have a vote from the user', ->
@@ -215,3 +217,5 @@ describe 'API v1: /recipes', ->
     describe 'if it has a vote from the user', ->
       it 'substracts one from the recipe\'s like counter'
       it 'takes away the recipe from the user\'s `likes` list'
+    describe 'if it comes from an invalid referer', ->
+      it 'ignores this call'
