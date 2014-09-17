@@ -554,12 +554,17 @@
     .like{
       margin-top: 40px;
       float: right;
+      cursor: pointer;
+      .icon{
+        margin-right: 10px;
+      }
       
     }
     .span{
 
     }
     .voted{
+      display: block;
       text-align: right;
       width: 175px;
       position: absolute;
@@ -567,9 +572,23 @@
       .font-extra-larger;
       text-transform: uppercase;
       font-family: @pinto-fonts;
-      color: @chef-color-vote;
+      color: @chef-color-voted;
       &.on{
-        color: @chef-color-voted;
+        display:none;
+        color: @chef-color-vote;
+      }
+    }
+    &.liked{
+      .voted{
+        display: none;
+        &.on{
+          display:block;
+        }
+      }
+      .like{
+        .icon{
+          color: @chef-color-voted;
+        }
       }
     }
   }

@@ -26,12 +26,12 @@ mixin contest-recipe(recipe,i)
 								- difficulty = difficulty - 1;
 
 	.eleven.wide.column
-			.rating
+			.rating(data-slug=recipe.slug)
 				.voted.on= __('Unlike recipe!')
 				.voted= __('Like recipe!')
 				.ui.icon.like.font-larger
 					i.icon-chef-like.icon.like-button.font-larger
-					span.like-counter= recipe.likes || 1208
+					span.like-counter= recipe.likes || 0
 					
 			a(href=recipe.url)
 				span.ui.header= (i + 1) + '#'
