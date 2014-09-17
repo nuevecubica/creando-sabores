@@ -1,0 +1,33 @@
+mixin recipe-shopping(recipe)
+	.row.position
+		a(href=recipe.url).hover-lis
+		.five.wide.column
+			.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
+				.row
+
+				.row
+
+				.row
+					.center.aligned
+						a(href=recipe.url)
+							h2.ui.header
+								!= recipe.title
+
+		.eleven.wide.column
+			
+			
+			#ingredients.ui.grid
+				.thirteen.column.wide
+					.row.remaining
+						span=8
+						span= __(' remaining ingredients in the list')
+					.ui.two.mobile-one.column.grid
+						if recipe.ingredients
+							- var ingredients = recipe.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>')
+							- for (var j = 0, l = ingredients.length; j < l; j++)
+								.column.ingredient
+									.icon-chef-cesta.checks
+									| #{ingredients[j]}
+				.three.wide.column
+					| hola
+					
