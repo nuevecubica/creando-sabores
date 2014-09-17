@@ -1,0 +1,30 @@
+#!/bin/bash
+
+db='chefcito-test'
+target='./db_dumps/'
+
+# Target folder
+if [ ! -d $target ]; then
+  mkdir -p $target
+fi
+
+# Collections from mongodb
+dbcollections=$(mongo "chefcito" --eval "printjson(db.getCollectionNames())" --quiet)
+collections=$(node -e "console.log(${dbcollections}.join(' '))")
+
+# DB from params
+if [ "x$1" != "x" ]; then
+  db="$1"
+fi
+
+# Override collections from params
+if [ "x$2" != "x" ]; then
+  collections="$2"
+fi
+
+# Dump everything
+for collection in $collections; do
+  echo "Exporting $collection..."
+  mongoexport --db "${db}" --collection "${collection}" --out "${target}${collection}.json"
+done
+
