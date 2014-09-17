@@ -505,6 +505,6 @@ Recipe.schema.pre('save', function(next) {
  * Registration
  * ============
  */
-// Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isBanned, isPromoted';
-Recipe.defaultColumns = 'title, author, contest.isJuryWinner, contest.isCommunityWinner, contest.state';
+Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isBanned, isPromoted';
+// Recipe.defaultColumns = 'title, author, isPromoted, isIndexHeaderPromoted, isRecipesHeaderPromoted';
 Recipe.register();
