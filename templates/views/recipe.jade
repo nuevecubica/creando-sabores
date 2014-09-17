@@ -45,17 +45,30 @@ block content
       input(type='hidden' name='contest.id' value='#{data.contest._id}')
 
   +header(data, section)
+  #color-bar.ui.grid.show-editable
+    .five.column.row
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
   if (data.contest)
     .ui.page.grid.bg-grey
       .row
         #info.eight.tablet-twelve.mobile-eight.wide.column
           .recipe-contest
-            a.title.header.font-extra-larger.uppercase(href=data.contest.url)= data.contest.title
+            a.title.header.font-extra-larger.uppercase.remove-editable(href=data.contest.url)= data.contest.title
+            span.title.header.font-extra-larger.uppercase.display-editable= data.contest.title
             .subheader
               i.icon-chef-cup.icon.font-extra-large
               = __('Contest sponsored by')
               strong= data.contest.sponsor
-
+  
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
@@ -118,7 +131,7 @@ block content
             .add-menu
               .ui.button.chef.button-brick
                 a= __('Add to menu')
-
+            
       #recipe-description.row
         .sixteen.wide.column
           .explain
