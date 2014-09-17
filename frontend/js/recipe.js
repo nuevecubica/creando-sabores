@@ -280,11 +280,8 @@
         procedure.restore();
 
         var file = $('#recipe-header-select').get(0);
-        if (file) {
-          clearFile(file);
-          setPreview(file, $('.promoted'));
-        }
-        $('#image-size-warning').css('display', 'none');
+        clearFile(file);
+        setPreview(file, $('.promoted'));
 
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
@@ -380,26 +377,28 @@
     });
 
     var setPreview = function(input, $target) {
+      var $warning = $('#image-size-warning');
       if (input.files.length === 0) {
         if ($target.data('origsrc')) {
           $target.css('background-image', $target.data('origsrc'));
-          $('#image-size-warning').css('display', 'none');
+          $warning.css('display', $target.data('origdisplay'));
         }
       }
       else {
         if (!$target.data('origsrc')) {
           $target.data('origsrc', $target.css('background-image'));
+          $target.data('origdisplay', $warning.css('display'));
         }
         var url = URL.createObjectURL(input.files[0]);
         $target.css('background-image', 'url(' + url + ')');
         // Min size detection
         var image = new Image();
         image.onload = function(evt) {
-          if (evt.target.width < 1920) {
-            $('#image-size-warning').css('display', 'block');
+          if (evt.target.width < 1280 || evt.target.height < 800) {
+            $warning.css('display', 'block');
           }
           else {
-            $('#image-size-warning').css('display', 'none');
+            $warning.css('display', 'none');
           }
         };
         image.src = url;

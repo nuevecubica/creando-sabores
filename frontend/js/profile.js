@@ -68,7 +68,7 @@ $(document).ready(function() {
 
   // ---------- Change header image: Save data account form (email, password...)
   $('#profile-header-select').on('change', function(e) {
-    setImagesPreview(e.target, $('#profile-header'));
+    setImagesPreview(e.target, $('#profile-header'), true);
   });
 
   // ---------- Change profile image: Save data account form (email, password...)
@@ -77,23 +77,40 @@ $(document).ready(function() {
   });
 
   // ---------- Header and profile images preview
-  var setImagesPreview = function(input, $target) {
+  var setImagesPreview = function(input, $target, warn) {
+    var $warning = $('#image-size-warning');
     if (input.files.length === 0) {
       if ($target.data('origsrc')) {
         $target.css('background-image', $target.data('origsrc'));
         $('.default-bg').removeClass('selected-pic');
+        if (warn) {
+          $warning.css('display', $target.data('origdisplay'));
+        }
       }
     }
     else {
       if (!$target.data('origsrc')) {
         $target.data('origsrc', $target.css('background-image'));
+        if (warn) {
+          $target.data('origdisplay', $warning.css('display'));
+        }
       }
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        $target.css('background-image', 'url(' + event.target.result + ')');
-        $('.default-bg').addClass('selected-pic');
-      };
-      reader.readAsDataURL(input.files[0]);
+      var url = URL.createObjectURL(input.files[0]);
+      $target.css('background-image', 'url(' + url + ')');
+      $('.default-bg').addClass('selected-pic');
+      // Min size detection
+      if (warn) {
+        var image = new Image();
+        image.onload = function(evt) {
+          if (evt.target.width < 1280 || evt.target.height < 800) {
+            $warning.css('display', 'block');
+          }
+          else {
+            $warning.css('display', 'none');
+          }
+        };
+        image.src = url;
+      }
     }
   };
 
