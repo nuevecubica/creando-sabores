@@ -12,22 +12,28 @@ $(document).ready(function() {
 
   $('.like-button').click(function() {
     var $this = $(this);
-    var slug = $this.closest('.column').find('a').first().prop('href').split('/')[4];
-    var action = $this.data('action') ? $this.data('action') : 'like';
-    if (action !== 'like' && action !== 'unlike') {
+    var $rating = $this.closest('.rating');
+    var slug = $rating.data('slug');
+    var action = $rating.hasClass('liked') ? 'unlike' : 'like';
+    if ($rating.data('lock')) {
       return;
     }
+    $rating.data('lock', true);
     var url = '/api/v1/recipe/' + slug + '/' + action;
-    $this.data('action', 'none');
-    console.log(action);
     var jQXhr = $.ajax({
       url: url,
       type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
-        var $counter = $this.siblings('.like-counter');
+        if (!data.success) {
+          console.log('Something went wrong!');
+          $rating.data('lock', null);
+          return;
+        }
+        var $counter = $rating.find('.like-counter');
         $counter.html(data.likes);
-        $this.data('action', action === 'like' ? 'unlike' : 'like');
+        $rating.toggleClass('liked', action === 'like');
+        $rating.data('lock', null);
       }
     });
   });
