@@ -6,37 +6,46 @@ var _ = require('underscore'),
   modelCleaner = require('../utils/modelCleaner'),
   imageQuality = require('../utils/imageQuality');
 
-var positions = [{
-  value: 0,
-  label: 'Position 1'
-}, {
-  value: 1,
-  label: 'Position 2'
-}, {
-  value: 2,
-  label: 'Position 3'
-}, {
-  value: 3,
-  label: 'Position 4'
-}, {
-  value: 4,
-  label: 'Position 5'
-}, {
-  value: 5,
-  label: 'Position 6'
-}, {
-  value: 6,
-  label: 'Position 7'
-}, {
-  value: 7,
-  label: 'Position 8'
-}, {
-  value: 8,
-  label: 'Position 9'
-}, {
-  value: 9,
-  label: 'Position 10'
-}];
+// ===== Defaults
+// Define recipe defaults
+var defaults = {
+  images: {
+    imageContest: '/images/default_contest.jpg',
+    header: '/images/default_contest.jpg',
+    headerBackgroundRecipe: '/images/default_contest.jpg'
+  },
+  positions: [{
+    value: 0,
+    label: 'Position 1'
+  }, {
+    value: 1,
+    label: 'Position 2'
+  }, {
+    value: 2,
+    label: 'Position 3'
+  }, {
+    value: 3,
+    label: 'Position 4'
+  }, {
+    value: 4,
+    label: 'Position 5'
+  }, {
+    value: 5,
+    label: 'Position 6'
+  }, {
+    value: 6,
+    label: 'Position 7'
+  }, {
+    value: 7,
+    label: 'Position 8'
+  }, {
+    value: 8,
+    label: 'Position 9'
+  }, {
+    value: 9,
+    label: 'Position 10'
+  }]
+};
 
 /**
  * Contest
@@ -232,7 +241,7 @@ Contest.add({
       position: {
         type: Types.Select,
         numeric: true,
-        options: positions,
+        options: defaults.positions,
         label: 'Index Grid Position',
         dependsOn: {
           'isIndexGridPromoted.value': true
@@ -251,22 +260,22 @@ Contest.schema.virtual('thumb').get(function() {
   return {
     'list': this._.imageContest.src({
       transformation: 'list_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'grid_small': this._.imageContest.src({
       transformation: 'grid_small_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'grid_medium': this._.imageContest.src({
       transformation: 'grid_medium_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'grid_large': this._.imageContest.src({
       transformation: 'grid_large_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'header': this._.header.src({
       transformation: 'header_limit_thumb'
-    }),
+    }) || defaults.images.header,
     'header_recipe': this._.headerBackgroundRecipe.src({
       transformation: 'header_limit_thumb'
-    }),
+    }) || defaults.images.headerBackgroundRecipe,
     'hasQuality': imageQuality(this.header).hasQuality
   };
 });
