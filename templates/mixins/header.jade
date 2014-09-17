@@ -169,12 +169,13 @@ mixin header(data, section)
 									span
 									|#{__('Change image')}
 
-			if !data.recipe.thumb.hasQuality
-				#image-size-warning(style="display: block;")
-					|*#{__('Select bigger image')}
-			else
-				#image-size-warning
-					|*#{__('Select bigger image')}
+			if own
+				if !data.recipe.thumb.hasQuality
+					#image-size-warning(style="display: block;")
+						|*#{__('Select bigger image')}
+				else
+					#image-size-warning
+						|*#{__('Select bigger image')}
 
 	else if section === 'new-recipe'
 		- var title = ''
