@@ -366,7 +366,7 @@
       $(this).toggleClass('activated');
     });
 
-    $('.checks:not(.all)').on('click', function() {
+    $(document).on('click', '.checks:not(.all)', function() {
       $(this).toggleClass('activated');
     });
 
