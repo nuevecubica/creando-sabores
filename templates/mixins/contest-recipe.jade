@@ -30,15 +30,9 @@ mixin contest-recipe(recipe,i)
 			.rating
 				p.voted= __('Voted recipe!')
 				.span
+					p=1234
 					.ui.icon
-						- var rating = Math.floor(recipe.rating) || 0
-						- for(var x = 0; x < 5; x++)
-							if(rating == 0)
-								i.icon-chef-star.icon.off
-							else
-								i.icon-chef-star.icon.on
-								- rating = rating - 1;
-
+						i.icon-chef-star.icon.off
 			a(href=recipe.url)
 				span.ui.header= (i + 1) + '#'
 				h2.ui.header
