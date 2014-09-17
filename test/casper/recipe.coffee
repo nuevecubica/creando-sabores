@@ -22,4 +22,4 @@ describe 'Recipe page', ->
       casper.thenOpen base + '/receta/test-recipe-1', ->
         (selectors.header).should.be.inDOM.and.visible
         bgImage = @evaluate getHeaderImage
-        bgImage.should.be.equal 'url(http://res.cloudinary.com/glue/image/upload/f_auto,t_header_thumb/eoshasibtc05k6bbuynv.jpg)'
+        bgImage.should.be.equal 'url(http://res.cloudinary.com/glue/image/upload/f_auto,t_header_limit_thumb/eoshasibtc05k6bbuynv.jpg)'
