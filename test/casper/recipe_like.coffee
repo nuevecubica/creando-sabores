@@ -19,7 +19,6 @@ describe 'Recipe receives a like or unlike', ->
       it 'keeps the recipe\'s like count (nothing changes)'
 
   describe 'from an authenticated user,', ->
-
     before (done) ->
       casper.start base, ->
         # Do Nothing.
@@ -36,9 +35,13 @@ describe 'Recipe receives a like or unlike', ->
         it 'adds one to the recipe\'s like counter'
       describe 'but recipe has a vote from the user already', ->
         it 'keeps the recipe\'s like count'
+      describe 'from an unknown referer', ->
+        it 'ignores it'
 
     describe 'user gives an unlike', ->
       describe 'and recipe does not have a vote from the user', ->
         it 'keeps the recipe\'s like count'
       describe 'but recipe has a vote from the user', ->
         it 'substracts one from the recipe\'s like counter'
+      describe 'from an unknown referer', ->
+        it 'ignores it'
