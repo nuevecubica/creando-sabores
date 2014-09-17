@@ -1,7 +1,7 @@
 var util = require('util');
 
 /**
- * Removes a property from the object, goes deeper if is inside another object
+ * Removes a property from the object, goes deeper if it's inside another object
  * @param  {model} obj
  * @param  {string} prop
  * @return {model}

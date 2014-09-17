@@ -199,3 +199,19 @@ describe 'API v1: /recipes', ->
             slugsgot.must.be.eql(slugsexpected)
         )
         .end(done)
+
+  describe 'PUT /recipe/:recipe/like', ->
+    describe 'if it does not have a vote from the user', ->
+      it 'adds one to the recipe\'s like counter'
+      it 'adds the recipe to the user\'s `likes` list'
+    describe 'if it has a vote from the user already', ->
+      it 'keeps the recipe\'s like count'
+      it 'keeps the users\'s `likes` list'
+
+  describe 'PUT /recipe/:recipe/unlike', ->
+    describe 'if it does not have a vote from the user', ->
+      it 'keeps the recipe\'s like count'
+      it 'keeps the users\'s `likes` list'
+    describe 'if it has a vote from the user', ->
+      it 'substracts one from the recipe\'s like counter'
+      it 'takes away the recipe from the user\'s `likes` list'
