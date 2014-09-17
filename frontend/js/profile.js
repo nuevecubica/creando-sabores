@@ -153,7 +153,14 @@ $(document).ready(function() {
     $('#profile-remove-form').submit();
   });
 
+  var section = window.location.pathname.split('/')[2];
+
   /* global makePaginable */
-  makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
+  if (section === 'recetas') {
+    makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
+  }
+  else if (section === 'compra') {
+    makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe', '#shopping .list');
+  }
 
 });

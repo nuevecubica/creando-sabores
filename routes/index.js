@@ -102,6 +102,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me/logout', middleware.requireUserApi, routes.api.v1.me.logout);
   app.put('/api/v1/me/save', middleware.requireUserApi, routes.api.v1.me.save);
   app.get('/api/v1/me/recipes', middleware.requireUserApi, routes.api.v1.me.recipes);
+  app.get('/api/v1/me/shopping/list', middleware.requireUserApi, routes.api.v1.me.shoppingList);
   app.get('/api/v1/me/shopping/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.shopping);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users

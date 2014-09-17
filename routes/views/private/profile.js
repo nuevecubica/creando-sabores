@@ -1,6 +1,5 @@
 var keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  User = keystone.list('User'),
   formResponse = require('../../../utils/formResponse.js');
 
 
@@ -32,19 +31,24 @@ exports = module.exports = function(req, res) {
   };
 
   var getShoppingRecipes = function(user, cb) {
-    var optionsShopping = {
-      path: 'shopping',
-      model: 'Recipe'
-    };
-    User.model.populate(user, optionsShopping, function(err, populatedUser) {
-      if (err) {
-        console.error('Error: User.model.populate shopping', err);
-        return res.notfound(res.__('Not found'));
+    var page = req.query.page || 1,
+      perPage = 5,
+      recipeIds = req.user.shopping.slice((page - 1) * perPage, perPage);
+
+    Recipe.model.find({
+      '_id': {
+        $in: recipeIds
       }
-      else {
-        cb(populatedUser.shopping);
-      }
-    });
+    })
+      .exec(function(err, recipes) {
+        if (err) {
+          console.error('Error: recipes loading failed', err);
+          return res.notfound(res.__('Not found'));
+        }
+        else {
+          cb(recipes);
+        }
+      });
   };
 
   var signinPage = '/acceso';

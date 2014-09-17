@@ -1,6 +1,5 @@
 var async = require('async'),
-  keystone = require('keystone'),
-  _ = require('underscore');
+  keystone = require('keystone');
 
 /*
 	/me/shopping/add/slug
@@ -42,7 +41,7 @@ exports = module.exports = function(req, res) {
           }
           answer.success = true;
         }
-        return next(err, recipe);
+        return next(err);
       });
     }
   ], function(err) {
