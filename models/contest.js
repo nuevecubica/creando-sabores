@@ -10,9 +10,9 @@ var _ = require('underscore'),
 // Define recipe defaults
 var defaults = {
   images: {
-    imageContest: '',
+    imageContest: '/images/default_contest.jpg',
     header: '/images/default_contest.jpg',
-    headerBackgroundRecipe: ''
+    headerBackgroundRecipe: '/images/default_contest.jpg'
   },
   positions: [{
     value: 0,
