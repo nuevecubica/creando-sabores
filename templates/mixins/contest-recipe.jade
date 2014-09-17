@@ -29,9 +29,9 @@ mixin contest-recipe(recipe,i)
 			.rating
 				.voted.on= __('Unlike recipe!')
 				.voted= __('Like recipe!')
-				.ui.icon.like
-					i.icon-chef-heart.icon.like-button
-					span.like-counter= recipe.likes || 120
+				.ui.icon.like.font-larger
+					i.icon-chef-like.icon.like-button.font-larger
+					span.like-counter= recipe.likes || 1208
 					
 			a(href=recipe.url)
 				span.ui.header= (i + 1) + '#'
