@@ -10,7 +10,7 @@ mixin header(data, section)
 	if section === 'home'
 		- var image = data.header ? data.header.thumb.header : defaults.images.index
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#index-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.simple.with-social
 				#header.row
@@ -46,7 +46,7 @@ mixin header(data, section)
 
 	else if section === 'privateProfile'
 
-		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{user.thumb.header});")
+		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{user.thumb.header});")
 			.ui.page.grid.head.with-title
 				#header.row
 					include ../components/header
@@ -83,7 +83,7 @@ mixin header(data, section)
 	else if section === 'publicProfile'
 		- var image = profile ? profile.media.header.url : defaults.images.index
 
-		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{profile.media.header.url});")
+		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{profile.media.header.url});")
 			.ui.page.grid.head.with-title
 				#header.row
 					include ../components/header
@@ -95,7 +95,7 @@ mixin header(data, section)
 	else if section === 'recipes'
 		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#recipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
 				#header.row
@@ -136,7 +136,7 @@ mixin header(data, section)
 		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var state = data.recipe ? data.recipe.state : 0
 
-		.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
+		#recipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
 			.shadow-layer
 
 			.ui.page.grid.head.with-subtitle.with-social
@@ -182,9 +182,9 @@ mixin header(data, section)
 	else if section === 'new-recipe'
 		- var title = ''
 		- var author = (user.name || user.username)
-		- var image = data.contest ? data.contest.thumb.headerBackgroundRecipe : defaults.images.recipe
+		- var image = data.contest ? data.contest.thumb.header_recipe : defaults.images.recipe
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#new-recipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 
 			.ui.page.grid.head.with-subtitle.with-social
@@ -214,7 +214,7 @@ mixin header(data, section)
 	else if section === 'contests'
 		- var image = data.current ? data.current.thumb.header : defaults.images.contests
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#contests-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -231,7 +231,7 @@ mixin header(data, section)
 		- var title = data.contest ? data.contest.title : ''
 		- var image = data.contest ? data.contest.thumb.header : defaults.images.contest
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#contest-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -251,7 +251,7 @@ mixin header(data, section)
 		- var title = data.contest ? data.contest.title : ''
 		- var image = data.contest ? data.contest.thumb.header : defaults.images.contest
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#participants-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
