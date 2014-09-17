@@ -245,6 +245,7 @@ User.schema.set('toJSON', {
 });
 
 User.schema.virtual('thumb').get(function() {
+
   return {
     'header': this._.media.header.src({
       transformation: 'header_limit_thumb'
