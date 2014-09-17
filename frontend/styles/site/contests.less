@@ -549,23 +549,26 @@
   }
   .rating{
     height: 70px;
-    width: 180px;
+    width: 175px;
     float: right;
     .like{
       margin-top: 40px;
+      float: right;
+      
     }
     .span{
+
     }
     .voted{
+      text-align: right;
+      width: 175px;
       position: absolute;
-      top: 0;
+      top: 10px;
       .font-extra-larger;
       text-transform: uppercase;
       font-family: @pinto-fonts;
       color: @chef-color-vote;
       &.on{
-        position: absolute;
-        top: 0;
         color: @chef-color-voted;
       }
     }
