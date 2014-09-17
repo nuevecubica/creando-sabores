@@ -57,7 +57,42 @@
     }
   }
 }
+#color-bar.show-editable{
+  height:0px;
+}
+.mode-editable{
+  #color-bar.show-editable {
+    height: 10px;
+    transition: opacity @ani-time ease-out, height 0.25s ease-out ;
+    .five.column.row{
+      margin-bottom: 0rem;
+      .column{
+        &:nth-child(1) {
+          background-color: @chef-color-green-bg;
+        }
+        &:nth-child(2) {
+          background-color: @chef-color-pink-bg;
+        }
+        &:nth-child(3) {
+          background-color: @chef-color-yellow-bg;
+        }
+        &:nth-child(4) {
+          background-color: @chef-color-brick-bg;
+        }
+        &:nth-child(5){
+          background-color: @chef-color-blue-bg;
+        }
+        .color-bar{
+          height: 10px;
+          width: auto;
+        }
+      } 
+    }
+  }
+}
 
+
+  
 @media only screen and (min-width : 1500px) {
   #search-bar {
     padding: 20px 0;
