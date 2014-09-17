@@ -1,5 +1,6 @@
 var keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
+  User = keystone.list('User'),
   formResponse = require('../../../utils/formResponse.js');
 
 
@@ -30,6 +31,22 @@ exports = module.exports = function(req, res) {
       });
   };
 
+  var getShoppingRecipes = function(user, cb) {
+    var optionsShopping = {
+      path: 'shopping',
+      model: 'Recipe'
+    };
+    User.model.populate(user, optionsShopping, function(err, populatedUser) {
+      if (err) {
+        console.error('Error: User.model.populate shopping', err);
+        return res.notfound(res.__('Not found'));
+      }
+      else {
+        cb(populatedUser.shopping);
+      }
+    });
+  };
+
   var signinPage = '/acceso';
 
   if (!req.user) {
@@ -45,6 +62,13 @@ exports = module.exports = function(req, res) {
     case 'recetas':
       getPrivateRecipes(req.user._id, function(recipes) {
         locals.subsection = 'recipes';
+        locals.recipes = recipes || [];
+        view.render('private/profile');
+      });
+      break;
+    case 'compra':
+      getShoppingRecipes(req.user, function(recipes) {
+        locals.subsection = 'shopping';
         locals.recipes = recipes || [];
         view.render('private/profile');
       });
