@@ -50,7 +50,7 @@
 	"Error removing profile": "Error eliminando perfil.",
 	"Error signing in": "Error accediendo, inténtalo de nuevo.",
 	"Error: Email format": "Debe ser un correo electrónico válido.",
-  "Error: Invalid contest state": "El concurso no admite nuevas recetas en este momento.",
+	"Error: Invalid contest state": "El concurso no admite nuevas recetas en este momento.",
 	"Error: Password format": "Mínimo 8 caracteres.",
 	"Error: Password not match": "Password erróneo.",
 	"Error: Unknown error": "Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo.",
@@ -184,5 +184,6 @@
 	"Winners": "Ganadores",
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"Write here contest name": "Escribe el nombre del concurso aquí"
+	"Write here contest name": "Escribe el nombre del concurso aquí",
+	" remaining ingredients in the list": " remaining ingredients in the list"
 }
