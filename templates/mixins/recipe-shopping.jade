@@ -28,14 +28,16 @@ mixin recipe-shopping(recipe)
 
 		.eleven.wide.column
 			
-			#ingredients.ui.three.grid
-				.ui.two.column.wide
-					.ui.two.mobile-one.column.grid
-						if recipe.ingredients
-							- var ingredients = recipe.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>')
-							- for (var j = 0, l = ingredients.length; j < l; j++)
-								.column.ingredient
-									.icon-chef-cesta.checks
-									| #{ingredients[j]}
-				.ui.one.column.wide
-					| hola
+			#ingredients.ui.grid
+				.row
+					.thirteen.column.wide
+						.ui.two.mobile-one.column.grid
+							if recipe.ingredients
+								- var ingredients = recipe.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>')
+								- for (var j = 0, l = ingredients.length; j < l; j++)
+									.column.ingredient
+										.icon-chef-cesta.checks
+										| #{ingredients[j]}
+					.three.wide.column
+						| hola
+					
