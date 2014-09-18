@@ -80,6 +80,7 @@ exports = module.exports = function(req, res) {
                   recipe.save();
                 }
               }
+              answer.id = recipe.id;
               answer.likes = recipe.likes;
               answer.success = true;
               return next(err);
