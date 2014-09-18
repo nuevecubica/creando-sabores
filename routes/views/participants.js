@@ -38,7 +38,11 @@ exports = module.exports = function(req, res) {
       .sort(order)
       .exec(function(err, recipes) {
         if (!err && recipes) {
-          locals.data.recipes = recipes.results;
+          var res = recipes.results;
+          for (var i = 0, l = res.length; i < l; i++) {
+            res[i].liked = req.user.likes.indexOf(res[i]._id) !== -1;
+          }
+          locals.data.recipes = res;
           callback();
         }
         else {
