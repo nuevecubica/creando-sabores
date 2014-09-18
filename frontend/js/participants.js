@@ -26,7 +26,11 @@ $(document).ready(function() {
       contentType: 'application/json',
       success: function(data) {
         if (!data.success) {
-          console.log('Something went wrong!');
+          var msg = 'Something went wrong!';
+          if (data.details) {
+            msg += ' Reason: ' + data.details;
+          }
+          console.log(msg);
           $rating.data('lock', null);
           return;
         }
