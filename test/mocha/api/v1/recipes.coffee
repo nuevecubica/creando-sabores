@@ -200,30 +200,133 @@ describe 'API v1: /recipes', ->
         )
         .end(done)
 
-  describe 'PUT /recipe/:recipe/like', ->
+  describe.only 'PUT /api/v1/recipe/:recipe/like', ->
 
     describe 'if it does not have a vote from the user', ->
 
+      recipe = data.recipes[6]
+      recipeVoted = null
+      recipeLikes = recipe.likes || 0
+
       beforeEach (done) ->
-        recipe = data.recipes.filter
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+
+          request
+          .put('/api/v1/recipe/' + recipe.slug + '/like')
+          .set('Accept', 'application/json')
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              recipeLikes = res.body.likes
+              recipeVoted = res.body.id
+          )
+          .end(done)
 
       it 'adds one to the recipe\'s like counter', (done) ->
+        recipeLikes.must.be.eql(1)
+        done()
+
+      it 'adds the recipe to the user\'s `likes` list' #, (done) ->
+        # request
+        # .get('/api/v1/me')
+        # .set('Accept', 'application/json')
+        # .set('cookie', cookie)
+        # .expect('Content-Type', /json/)
+        # .expect(200)
+        # .expect(
+        #   (res) ->
+        #     res.body.user.likes.length.must.be.eql(1)
+        #     res.body.user.likes[res.body.user.likes.length - 1].must.be.eql(recipeVoted)
+        # )
+        # .end(done)
+
+    describe 'if it has a vote from the user already', ->
+
+      recipe = data.recipes[6]
+      recipeVoted = null
+      recipeLikes = recipe.likes || 0
+
+      beforeEach (done) ->
         request
-        .get('')
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+
+          request
+          .put('/api/v1/recipe/' + recipe.slug + '/like')
+          .set('Accept', 'application/json')
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              recipeLikes = res.body.likes
+              recipeVoted = res.body.id
+          )
+          .end(done)
+
+      it 'keeps the recipe\'s like count', (done) ->
+        request
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
         .expect(
           (res) ->
+            res.body.likes.must.be.eql(recipeLikes)
         )
         .end(done)
 
-      it 'adds the recipe to the user\'s `likes` list'
 
-    describe 'if it has a vote from the user already', ->
-      it 'keeps the recipe\'s like count'
-      it 'keeps the users\'s `likes` list'
+      it 'keeps the users\'s `likes` list', (done) ->
+        request
+        .get('/api/v1/me')
+        .set('Accept', 'application/json')
+        .set('cookie', cookie)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          userLikesFirst = res.body.user.likes
+          request
+          .put('/api/v1/recipe/' + recipe.slug + '/like')
+          .set('Accept', 'application/json')
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
+            request
+            .get('/api/v1/me')
+            .set('Accept', 'application/json')
+            .set('cookie', cookie)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(
+              (res) ->
+                userLikesFirst.must.be.eql(res.body.user.likes)
+            )
+            .end(done)
 
     describe 'if it comes from an invalid referer', ->
       it 'ignores this call'
