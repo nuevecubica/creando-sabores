@@ -1,15 +1,10 @@
 mixin recipe-shopping(recipe)
-	.row.position(data-slug= recipe.slug)
-		a(href=recipe.url).hover-lis
+	.row.position.thumbnail(data-slug= recipe.slug , style = 'background-image: url(' + recipe.thumb.shopping_list + ')')
 		.five.wide.column.mobile-sixteen
-			.thumbnail(style = 'background-image: url(' + recipe.thumb.shopping_list + ')')
-				.row
-				.row
-				.row
-					.center.aligned
-						a(href=recipe.url)
-							h2.ui.header
-								!= recipe.title
+			.center.aligned
+				a(href=recipe.url)
+					h2.ui.header
+						!= recipe.title
 
 		.ingredients.eleven.wide.column
 			#shopping-header.ui.grid
