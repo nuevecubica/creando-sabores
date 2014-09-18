@@ -17,7 +17,7 @@ var testMode = function(keystone) {
       if (!err) {
         source.find().toArray(function cb(err, elems) {
           if (!err && elems) {
-            async.each(elems, function insertElement(elem, next) {
+            async.eachSeries(elems, function insertElement(elem, next) {
               // console.log('Inserting %s in %s', elem._id, orig);
               dest.insert(elem, function cb(err, reply) {
                 next(err);
