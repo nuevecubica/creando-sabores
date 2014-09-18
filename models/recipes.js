@@ -343,6 +343,9 @@ Recipe.schema.virtual('thumb').get(function() {
     'header': this._.header.src({
       transformation: 'header_limit_thumb'
     }),
+    'shopping_list': this._.header.src({
+      transformation: 'shopping_list_thumb'
+    }),
     'hasQuality': imageQuality(this.header).hasQuality
   };
 });
