@@ -3,14 +3,14 @@
 db='chefcito-test'
 target='./test/db_dump/'
 
-# DB from params
+# Target from params
 if [ "x$1" != "x" ]; then
-  db="$1"
+  target="$1"
 fi
 
-# Target from params
+# DB from params
 if [ "x$2" != "x" ]; then
-  target="$2"
+  db="$2"
 fi
 
 # Target folder
