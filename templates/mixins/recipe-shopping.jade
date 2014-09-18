@@ -4,9 +4,9 @@ mixin recipe-shopping(recipe)
 		.five.wide.column
 			.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
 				.row
-
 				.row
-
+				.row
+				.row
 				.row
 					.center.aligned
 						a(href=recipe.url)
@@ -19,8 +19,9 @@ mixin recipe-shopping(recipe)
 			#ingredients.ui.grid
 				.thirteen.column.wide
 					.row.remaining
-						span=8
-						span= __(' remaining ingredients in the list')
+						span= __('Remaining ingredients before')
+						span=10
+						span= __('Remaining ingredients after')
 					.ui.two.mobile-one.column.grid
 						if recipe.ingredients
 							- var ingredients = recipe.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>')
