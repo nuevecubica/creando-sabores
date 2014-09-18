@@ -1,5 +1,6 @@
 var async = require('async'),
   keystone = require('keystone'),
+  modelCleaner = require('../../../../utils/modelCleaner'),
   _ = require('underscore');
 
 /*
@@ -56,6 +57,14 @@ exports = module.exports = function(req, res) {
           answer.error = true;
         }
         else if (recipes.total > 0) {
+          for (var i = 0, l = recipes.results.length; i < l; i++) {
+            recipes.results[i] = recipes.results[i].toObject({
+              virtuals: true,
+              transform: modelCleaner.transformer
+            });
+            var liked = req.user.likes.indexOf(recipes.results[i]._id) !== -1;
+            recipes.results[i].liked = liked;
+          }
           answer.success = true;
           answer.recipes = recipes;
         }

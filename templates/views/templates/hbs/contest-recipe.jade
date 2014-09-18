@@ -19,12 +19,12 @@ div(class="{{classes}}").row.position
 					.difficulty.column {{formatIcons difficulty 'tenedor'}}
 
 	.eleven.wide.column
-		.rating
+		.rating(data-slug = "{{slug}}", class = "{{#if liked}}liked{{/if}}")
 			.voted.on= __('Unlike recipe!')
 			.voted= __('Like recipe!')
 			.ui.icon.like.font-larger
 				i.icon-chef-like.icon.like-button.font-larger
-				span.like-counter {{likes}}
+				span.like-counter {{#if likes}}{{likes}}{{else}}0{{/if}}
 
 		a(href="{{url}}")
 			span.ui.header {{i}}#

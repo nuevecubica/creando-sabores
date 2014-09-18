@@ -10,7 +10,7 @@ $(document).ready(function() {
     'order': order
   });
 
-  $('.like-button').click(function() {
+  var likeClick = function() {
     var $this = $(this);
     var $rating = $this.closest('.rating');
     var slug = $rating.data('slug');
@@ -40,6 +40,10 @@ $(document).ready(function() {
         $rating.data('lock', null);
       }
     });
-  });
+  };
 
+  $('.like-button').click(likeClick);
+  $(document).bind('ajaxSuccess', function() {
+    $('.like-button').click(likeClick);
+  });
 });
