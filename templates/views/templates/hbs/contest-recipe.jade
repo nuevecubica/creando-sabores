@@ -1,5 +1,5 @@
 div(class="{{classes}}").row.position
-	a(href="{{url}}").hover-list
+
 	.five.wide.column
 		.thumbnail(style = 'background-image: url({{thumb.list}})')
 			.row
@@ -19,16 +19,16 @@ div(class="{{classes}}").row.position
 					.difficulty.column {{formatIcons difficulty 'tenedor'}}
 
 	.eleven.wide.column
-		.ui.twelve.column
-			.rating
-				p.voted= __('Voted recipe!')
-				.span
-					.ui.icon {{formatIcons rating 'star'}}
+		.rating(data-slug = "{{slug}}", class = "{{#if liked}}liked{{/if}}")
+			.voted.on= __('Unlike recipe!')
+			.voted= __('Like recipe!')
+			.ui.icon.like.font-larger
+				i.icon-chef-like.icon.like-button.font-larger
+				span.like-counter {{#if likes}}{{likes}}{{else}}0{{/if}}
 
-			a(href="{{url}}")
-				span.ui.header {{i}}#
-				h2.ui.header {{title}}
+		a(href="{{url}}")
+			span.ui.header {{i}}#
+			h2.ui.header {{title}}
 
-			.ui.content {{{description}}}
-
-			| {{formatOfficial isOfficial}}
+		.ui.content {{{description}}}
+		| {{formatOfficial isOfficial}}

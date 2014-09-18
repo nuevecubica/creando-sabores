@@ -68,11 +68,11 @@ block content
               i.icon-chef-cup.icon.font-extra-large
               = __('Contest sponsored by')
               strong= data.contest.sponsor
-  
+
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
-        #info.ten.tablet-twelve.mobile-eight.wide.column
+        #info.seven.tablet-twelve.mobile-eight.wide.column
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
@@ -108,21 +108,24 @@ block content
               .editable-container
                 .set-editable(placeholder=__('Portions'))= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
-
-            .rating.hide-editable
-              - var rating = Math.floor(data.recipe.rating)
-              - var r = rating
-              - for(var x = 0; x < 5; x++)
-                if r == 0
-                  i.icon-chef-star.icon.off
-                else
-                  i.icon-chef-star.icon.on
-                  - --r;
-
-              .span.skip.mobile= rating
-
-        #actions.six.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
+            if (!data.contest)
+              .rating.hide-editable
+                - var rating = Math.floor(data.recipe.rating)
+                - var r = rating
+                - for(var x = 0; x < 5; x++)
+                  if r == 0
+                    i.icon-chef-star.icon.off
+                  else
+                    i.icon-chef-star.icon.on
+                    - --r;
+                .span.skip.mobile= rating
+          
+        #actions.nine.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
           .recipe-actions
+            .rating(data-slug=data.recipe.slug)
+              .ui.icon.like.font-larger
+                i.icon-chef-like.icon.like-button.font-extra-larger
+                span.like-counter= data.recipe.likes || 0
             .favourite
               .ui.button.chef.button-yellow.switch
                 i.icon-chef-heart.icon.checks.chef
