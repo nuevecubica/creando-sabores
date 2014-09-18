@@ -1,6 +1,6 @@
 #!/bin/bash
 
-db='chefcito-test-orig'
+db='chefcito-test'
 target='./test/db_dump/'
 
 # Target from params
@@ -29,9 +29,9 @@ color_icon=$'\xF0\x9F\x92\xBE'
 
 # Dump everything
 echo -e "${color_icon}  ${color_1}===> ${color_2}Restoring dumps of ${db}${color_4} from ${target}"
-mongo "${db}" --eval "printjson(db.dropDatabase())" --quiet
 for file in ${target}*.json; do
-  collection=$(basename $file .json)
+  collection="$(basename $file .json)_orig"
+  mongo "${db}" --eval "printjson(db.dropCollection(${collection}))" --quiet > /dev/null
   mongo=$(mongoimport --db "${db}" --collection "${collection}" --file "${file}" --upsert | grep -vi "connected")
   echo -e "${color_icon}  ${color_1}---> ${color_3}Importing collection ${color_2}${collection}${color_4}"
   echo "${mongo}"
