@@ -1,0 +1,15 @@
+{ "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "chefcito-test.configs" }
+{ "v" : 1, "unique" : true, "key" : { "name" : 1 }, "name" : "name_1", "ns" : "chefcito-test.configs", "background" : true, "safe" : null }
+{ "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "chefcito-test.recipes" }
+{ "v" : 1, "key" : { "title" : 1 }, "name" : "title_1", "ns" : "chefcito-test.recipes", "background" : true, "safe" : null }
+{ "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "chefcito-test.users" }
+{ "v" : 1, "unique" : true, "key" : { "email" : 1 }, "name" : "email_1", "ns" : "chefcito-test.users", "background" : true, "safe" : null }
+{ "v" : 1, "unique" : true, "key" : { "slug" : 1 }, "name" : "slug_1", "ns" : "chefcito-test.recipes", "background" : true, "safe" : null }
+{ "v" : 1, "unique" : true, "key" : { "username" : 1 }, "name" : "username_1", "ns" : "chefcito-test.users", "background" : true, "safe" : null }
+{ "v" : 1, "key" : { "social.facebook.profileId" : 1 }, "name" : "social.facebook.profileId_1", "ns" : "chefcito-test.users", "background" : true, "safe" : null }
+{ "v" : 1, "key" : { "social.google.profileId" : 1 }, "name" : "social.google.profileId_1", "ns" : "chefcito-test.users", "background" : true, "safe" : null }
+{ "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "chefcito-test.app_updates" }
+{ "v" : 1, "key" : { "key" : 1 }, "name" : "key_1", "ns" : "chefcito-test.app_updates", "background" : true, "safe" : null }
+{ "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "chefcito-test.contests" }
+{ "v" : 1, "key" : { "title" : 1 }, "name" : "title_1", "ns" : "chefcito-test.contests", "background" : true, "safe" : null }
+{ "v" : 1, "unique" : true, "key" : { "slug" : 1 }, "name" : "slug_1", "ns" : "chefcito-test.contests", "background" : true, "safe" : null }
