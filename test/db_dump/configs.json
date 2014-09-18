@@ -2,11 +2,11 @@
 { "_id" : { "$oid" : "53fd8be82e5069181674964c" }, "name" : "grid_size_desktop_home", "value" : "small, small, small, medium, large, small, small, small, medium, small", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e5069181674964d" }, "name" : "grid_order_tablet_home", "value" : "1, 2, 3, 5, 6, 7, 8, 4, 9, 10", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e5069181674964e" }, "name" : "grid_size_tablet_home", "value" : "small, small, small, large, small, small, small, medium, medium, small", "__v" : 0 }
-{ "_id" : { "$oid" : "53fd8be82e5069181674964f" }, "name" : "grid_order_mobile_home", "value" : "1, 2, 5, 3, 6, 4, 7, 8, 9, 10", "__v" : 0 }
+{ "_id" : { "$oid" : "53fd8be82e5069181674964f" }, "name" : "grid_order_mobile_home", "value" : "1, 2, 5, 3, 6, 4, 7, 8, 9", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749650" }, "name" : "grid_size_mobile_home", "value" : "small, small, large, small, small, medium, small, small, medium, small", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749651" }, "name" : "grid_order_desktop_recipes", "value" : "1, 2, 3, 4, 5, 6, 7, 8, 9, 10", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749652" }, "name" : "grid_size_desktop_recipes", "value" : "small, small, small, medium, large, small, small, small, medium, small", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749653" }, "name" : "grid_order_tablet_recipes", "value" : "1, 2, 3, 5, 6, 7, 8, 4, 9, 10", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749654" }, "name" : "grid_size_tablet_recipes", "value" : "small, small, small, large, small, small, small, medium, medium, small", "__v" : 0 }
-{ "_id" : { "$oid" : "53fd8be82e50691816749655" }, "name" : "grid_order_mobile_recipes", "value" : "1, 2, 5, 3, 6, 4, 7, 8, 9, 10", "__v" : 0 }
+{ "_id" : { "$oid" : "53fd8be82e50691816749655" }, "name" : "grid_order_mobile_recipes", "value" : "1, 2, 5, 3, 6, 4, 7, 8, 9", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749656" }, "name" : "grid_size_mobile_recipes", "value" : "small, small, large, small, small, medium, small, small, medium, small", "__v" : 0 }
