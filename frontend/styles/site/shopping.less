@@ -19,17 +19,27 @@
 #shopping {
 
   .thumbnail{
-    height: 400px;
+    height: 430px;
   }
   .ingredients{
-    .remaning{
-      .counter{
-
+    #shopping-header{
+      &.ui.grid >.row >.column{
+       
       }
+      .remaining{
+        font-weight: bold;
+        .counter{
+          color: @ingredients-color-check-enabled;
+
+        }
+      }
+    }
+    #shopping-ingredients{
+      margin-top: -25px;
     }
     .button{
       float: right;
-      padding: 15px 10px;
+      padding: 10px;
       height: inherit;
     }
     .shopping-mail{
@@ -46,7 +56,6 @@
     }
     .shopping-remove{
       &.button{
-   
       }
 
     }

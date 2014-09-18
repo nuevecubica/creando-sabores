@@ -1,7 +1,7 @@
 mixin recipe-shopping(recipe)
 	.row.position(data-slug= recipe.slug)
 		a(href=recipe.url).hover-lis
-		.five.wide.column
+		.five.wide.column.mobile-sixteen
 			.thumbnail(style = 'background-image: url(' + recipe.thumb.shopping_list + ')')
 				.row
 				.row
@@ -12,28 +12,24 @@ mixin recipe-shopping(recipe)
 								!= recipe.title
 
 		.ingredients.eleven.wide.column
-			.ui.grid
+			#shopping-header.ui.grid
 				.ten.column.wide
-					if recipe.ingredients
-						- var ingredients = recipe.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>')
-					else
-						- var ingredients = []
-					.row.remaining
+					em.row.remaining.font-large
 						span= __('Remaining ingredients before') + " "
-						span.counter= ingredients.length
+						span.counter= recipe.ingredients.length
 						span= " " + __('Remaining ingredients after')
 				.six.wide.column
 					.ui.button.chef.button-brick.shopping-remove
-						i.icon-chef-cross.icon.chef
+						i.icon-chef-cross.icon.chef.font-large
 					.ui.button.chef.button-yellow.shopping-print
-						i.icon-chef-impresora.icon.chef
+						i.icon-chef-impresora.icon.chef.font-large
 					.ui.button.chef.button-green.shopping-mail
-						i.icon-chef-mails.icon.chef
-			.ui.grid
+						i.icon-chef-mails.icon.chef.font-large
+			#shopping-ingredients.ui.grid
 				.sixteen.column.wide
 					.ui.three.mobile-one.tablet-two.column.grid
 						if recipe.ingredients
-							- for (var j = 0, l = ingredients.length; j < l; j++)
+							- for (var j = 0, l = recipe.ingredients.length; j < l; j++)
 								.column.ingredient
 									.icon-chef-cesta.checks
-									| #{ingredients[j]}
+									| #{recipe.ingredients[j]}
