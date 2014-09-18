@@ -178,7 +178,7 @@ $(document).ready(function() {
     var $this = $(this);
     var $container = $this.closest('.row.position');
     var slug = $container.data('slug');
-    var url = '/api/v1/me/shopping/add/' + slug;
+    var url = '/api/v1/me/shopping/remove/' + slug;
     var jQXhr = $.ajax({
       url: url,
       type: 'GET',

@@ -1,6 +1,7 @@
 var async = require('async'),
   keystone = require('keystone'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  modelCleaner = require('../../../../utils/modelCleaner.js');
 
 /*
   /contest/recipes?page=1&perPage=10
@@ -26,14 +27,15 @@ exports = module.exports = function(req, res) {
       var q = Contest.model.findOne({
         slug: req.params.contest
       });
-      q.exec(function(err, result) {
-        if (err || !result) {
-          res.status(404);
-          answer.error = true;
-          return res.apiResponse(answer);
-        }
-        next(err, result);
-      });
+      q.sort('title')
+        .exec(function(err, result) {
+          if (err || !result) {
+            res.status(404);
+            answer.error = true;
+            return res.apiResponse(answer);
+          }
+          next(err, result);
+        });
     },
 
     function(contest, next) {
@@ -56,6 +58,15 @@ exports = module.exports = function(req, res) {
           answer.error = true;
         }
         else if (recipes.total > 0) {
+          for (var i = 0, l = recipes.results.length; i < l; i++) {
+            recipes.results[i] = recipes.results[i].toObject({
+              virtuals: true,
+              transform: modelCleaner.transformer
+            });
+            var ingr = recipes.results[i].ingredients;
+            ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+            recipes.results[i].ingredients = ingr;
+          }
           answer.success = true;
           answer.recipes = recipes;
         }

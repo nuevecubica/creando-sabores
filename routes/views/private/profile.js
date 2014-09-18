@@ -32,20 +32,48 @@ exports = module.exports = function(req, res) {
       });
   };
 
+  var getShoppingListQuery = function(ids) {
+    var q = keystone.list('Recipe').model.find({
+        '_id': {
+          $in: ids
+        }
+      })
+      .where('state', 1)
+      .where('isBanned', false)
+      .where('isRemoved', false)
+      .sort('title');
+    return q;
+  };
+
+  var cleanShoppingList = function(next) {
+    getShoppingListQuery(req.user.shopping)
+      .exec(function(err, recipes) {
+        if (err || !recipes) {
+          return res.notfound(res.__('Not found'));
+        }
+        else {
+          req.user.shopping = recipes;
+          req.user.save();
+          next(null);
+        }
+      });
+  };
+
   var getShoppingRecipes = function(user, cb) {
     var page = req.query.page || 1,
       perPage = 5,
       recipeIds = req.user.shopping.slice((page - 1) * perPage, perPage);
 
-    Recipe.model.find({
-      '_id': {
-        $in: recipeIds
-      }
-    })
+    getShoppingListQuery(recipeIds)
       .exec(function(err, recipes) {
         if (err) {
           console.error('Error: recipes loading failed', err);
           return res.notfound(res.__('Not found'));
+        }
+        else if (recipes.length !== recipeIds.length) {
+          cleanShoppingList(function(err) {
+            getShoppingRecipes(user, cb);
+          });
         }
         else {
           for (var i = 0, l = recipes.length; i < l; i++) {
