@@ -167,7 +167,11 @@ $(document).ready(function() {
   }
 
   $('.checks:not(.all)').on('click', function() {
-    $(this).toggleClass('activated');
+    var $this = $(this);
+    $this.toggleClass('activated');
+    var $container = $this.closest('.ingredients');
+    var remaining = $container.find('.checks:not(.activated)').length;
+    $container.find('.counter').html(remaining);
   });
 
 });
