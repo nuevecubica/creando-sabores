@@ -548,20 +548,47 @@
     }
   }
   .rating{
-    height: 100px;
-    margin-top: -40px;
+    height: 70px;
+    width: 175px;
     float: right;
-    .span{
-      position: relative;
-      bottom: 40px;
+    .like{
+      margin-top: 40px;
+      float: right;
+      cursor: pointer;
+      .icon{
+        margin-right: 10px;
+      }
+      
     }
-    p{
+    .span{
+
+    }
+    .voted{
+      display: block;
+      text-align: right;
+      width: 175px;
+      position: absolute;
+      top: 10px;
       .font-extra-larger;
       text-transform: uppercase;
       font-family: @pinto-fonts;
-      color: @chef-color-vote;
-      &.voted{
-        color: @chef-color-voted;
+      color: @chef-color-voted;
+      &.on{
+        display:none;
+        color: @chef-color-vote;
+      }
+    }
+    &.liked{
+      .voted{
+        display: none;
+        &.on{
+          display:block;
+        }
+      }
+      .like{
+        .icon{
+          color: @chef-color-vote;
+        }
       }
     }
   }

@@ -1,5 +1,5 @@
 mixin contest-recipe(recipe,i)
-	a(href=recipe.url).hover-list
+
 	.five.wide.column
 		.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
 			.row
@@ -26,19 +26,13 @@ mixin contest-recipe(recipe,i)
 								- difficulty = difficulty - 1;
 
 	.eleven.wide.column
-		.ui.twelve.column
-			.rating
-				p.voted= __('Voted recipe!')
-				.span
-					.ui.icon
-						- var rating = Math.floor(recipe.rating) || 0
-						- for(var x = 0; x < 5; x++)
-							if(rating == 0)
-								i.icon-chef-star.icon.off
-							else
-								i.icon-chef-star.icon.on
-								- rating = rating - 1;
-
+			.rating(data-slug = recipe.slug, class = recipe.liked ? 'liked' : '')
+				.voted.on= __('Unlike recipe!')
+				.voted= __('Like recipe!')
+				.ui.icon.like.font-larger
+					i.icon-chef-like.icon.like-button.font-larger
+					span.like-counter= recipe.likes || 0
+					
 			a(href=recipe.url)
 				span.ui.header= (i + 1) + '#'
 				h2.ui.header
