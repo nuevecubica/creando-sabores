@@ -15,12 +15,11 @@ mixin recipe-shopping(recipe)
 
 		.eleven.wide.column
 			
-			
 			#ingredients.ui.grid
 				.thirteen.column.wide
 					.row.remaining
 						span= __('Remaining ingredients before')
-						span=10
+						span.counter=10
 						span= __('Remaining ingredients after')
 					.ui.two.mobile-one.column.grid
 						if recipe.ingredients
@@ -30,5 +29,9 @@ mixin recipe-shopping(recipe)
 									.icon-chef-cesta.checks
 									| #{ingredients[j]}
 				.three.wide.column
-					| hola
-					
+					.ui.button.chef.button-green
+						i.icon-chef-mails.icon.chef
+					.ui.button.chef.button-yellow
+						i.icon-chef-impresora.icon.chef
+					.ui.button.chef.button-brick
+						i.icon-chef-cross.icon.chef
