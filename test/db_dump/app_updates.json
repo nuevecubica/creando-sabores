@@ -1,5 +1,0 @@
-{ "_id" : { "$oid" : "53fd8be82e5069181674964a" }, "key" : "0.0.1-admins", "appliedOn" : { "$date" : "2014-08-27T09:42:32.406+0200" }, "__v" : 0 }
-{ "_id" : { "$oid" : "53fd8dc72a01bfb51710179c" }, "key" : "0.0.3-configs", "appliedOn" : { "$date" : "2014-08-27T09:50:31.656+0200" }, "__v" : 0 }
-{ "_id" : { "$oid" : "53fd8dc72a01bfb5171017b6" }, "key" : "0.0.3-recipes", "appliedOn" : { "$date" : "2014-08-27T09:50:31.732+0200" }, "__v" : 0 }
-{ "_id" : { "$oid" : "540eca626f8d484b2d79954f" }, "key" : "0.0.4-recipe-generator", "appliedOn" : { "$date" : "2014-09-09T11:37:38.145+0200" }, "__v" : 0 }
-{ "_id" : { "$oid" : "5412a1ddf2bf71f8158ef7f1" }, "key" : "0.0.5-recipe-generator", "appliedOn" : { "$date" : "2014-09-12T09:33:49.508+0200" }, "__v" : 0 }
