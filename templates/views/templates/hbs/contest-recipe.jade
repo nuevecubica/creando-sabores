@@ -1,0 +1,34 @@
+div(class="{{classes}}").row.position
+	a(href="{{url}}").hover-list
+	.five.wide.column
+		.thumbnail(style = 'background-image: url({{thumb.list}})')
+			.row
+
+			.row
+
+			.row
+				.ui.three.column.center.aligned.grid
+					.column
+						i.icon-chef-time.icon
+						.span {{formatTime time}}
+
+					.column
+						i.icon-chef-porciones.icon
+						.span {{portions}}
+
+					.difficulty.column {{formatIcons difficulty 'tenedor'}}
+
+	.eleven.wide.column
+		.ui.twelve.column
+			.rating
+				p.voted= __('Voted recipe!')
+				.span
+					.ui.icon {{formatIcons rating 'star'}}
+
+			a(href="{{url}}")
+				span.ui.header {{i}}#
+				h2.ui.header {{title}}
+
+			.ui.content {{{description}}}
+
+			| {{formatOfficial isOfficial}}

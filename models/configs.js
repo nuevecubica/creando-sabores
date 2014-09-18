@@ -7,7 +7,9 @@ var _ = require('underscore'),
  * Config
  * =====
  */
-var Config = new keystone.List('Config');
+var Config = new keystone.List('Config', {
+  nodelete: true
+});
 
 Config.add({
   name: {

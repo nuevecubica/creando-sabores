@@ -15,6 +15,7 @@ node_modules
 frontend/packages
 public/js
 public/styles
+public/less
 
 .DS_Store
 

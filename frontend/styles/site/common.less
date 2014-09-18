@@ -73,13 +73,75 @@ body {
   padding: 0px;
   color: @chef-color-black;
   text-rendering: optimizeLegibility;
+  .ui.input input{
+    min-height: 60px;
+    font-family: @brandon-fonts;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.stackable.grid > .row > .column, .ui.stackable.grid > .column {
+    padding-left: 1.5% !important;
+    padding-right: 1.5% !important;
+  }
 }
 
 .header {
   .font-extra-large.uppercase;
+  font-weight: bold;
+
+  a{
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 991px) {
+    .font-larger.uppercase;
+  }
+
+  @media screen and (max-width: 767px) {
+    .font-large.uppercase;
+  }
+}
+
+.subheader {
+  .font-large;
 
   strong {
     font-weight: bold;
+  }
+
+  @media screen and (max-width: 991px) {
+    .font-normal;
+  }
+
+  @media screen and (max-width: 767px) {
+    .font-small;
+  }
+}
+.explain {
+  .font-larger;
+  strong {
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 991px) {
+    .font-large;
+  }
+
+  @media screen and (max-width: 767px) {
+    .font-normal;
+  }
+}
+.tab-header{
+  .active.button{
+    opacity: .7;
+  }
+}
+.body {
+
+  .content {
+    .font-large;
   }
 }
 
@@ -93,8 +155,9 @@ body {
 
   .icon {
     font-size: 200px;
-    color: white;
+    color: @chef-color-white;
     text-decoration: none;
+    vertical-align: bottom;
   }
 }
 
@@ -169,7 +232,7 @@ body {
 
   &.with-social {
     > .row:not(.tablet):last-child, > .row:not(.mobile):last-child {
-      height: 30% !important;
+      height: 28% !important;
     }
 
     //- Without title and subtitle
@@ -181,7 +244,7 @@ body {
         height: 0%;
 
         &.logo {
-          height: 60%;
+          height: 62%;
         }
       }
     }
@@ -192,10 +255,10 @@ body {
       > .row {
         margin: 0;
         padding: 0;
-        height: 18%;
+        height: 15%;
 
         &.logo {
-          height: 42%;
+          height: 45%;
         }
       }
     }
@@ -206,10 +269,10 @@ body {
       > .row {
         margin: 0;
         padding: 0;
-        height: 10%;
+        min-height: 6%;
 
         &.logo {
-          height: 40%;
+          height: 46%;
         }
       }
     }
@@ -224,16 +287,19 @@ body {
 
       .text {
         position: relative;
-        top: 40px;
+        top: 45px;
         font-family: @pinto-fonts;
         text-transform: uppercase;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #fff;
+        font-size: 45px;
 
         .span {
-          font-size: 56px;
+          font-size: 45px;
           color: @recipes-color-text;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
+          text-decoration: none;
 
           @media(max-width: 992px) {
             .font-extra-larger;
@@ -265,7 +331,7 @@ body {
         text-transform: uppercase;
       }
 
-      .author {
+      .author, .sponsor {
         .font-extra-larger;
         font-weight: normal;
         text-transform: none;
@@ -286,7 +352,7 @@ body {
         color: @recipes-color-text;
 
         .icon {
-          .font-extra-larger;
+          .font-extra-large;
         }
       }
     }
@@ -304,7 +370,12 @@ body {
       left: 15px;
     }
   }
-
+  img.cutlery{
+    position: absolute;
+    right: 47px;
+    bottom: 40px;
+    z-index: 100;
+  }
   .img-title.wide.column{
     padding-top: 10px;
 
@@ -318,51 +389,42 @@ body {
       margin: 0 auto;
 
       p {
+        .font-larger;
         margin-left: 10%;
         position: absolute;
-        top: -5px;
+        top: -12px;
         text-transform: uppercase;
       }
       .tabla1{
         position: absolute;
-        left:0;
+        left:0px;
         height: 120px;
         width: 21px;
         background-image: url('/images/tabla1.png');
-        background-size: contain;
+     
         z-index: 10;
+        background-repeat: no-repeat;
       }
       .tabla2{
         height: 120px;
         background-image: url('/images/tabla2.png');
-        background-size: contain;
-        z-index: 20;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        background-repeat: repeat-x;
+  
+        z-index: 200;
       }
       .tabla3{
         position: absolute;
-        right:0;
+        right:1px;
         top:0;
         height: 120px;
-        width: 96px;
+        width: 95px;
         background-image: url('/images/tabla3.png');
-        background-size: contain;
+
         z-index: 10;
+        background-repeat: no-repeat;
+
       }
     }
-  }
-}
-
-.body {
-  .content {
-    .font-large;
-  }
-
-  .explain {
-    .font-large;
-    font-weight: bolder;
   }
 }
 
@@ -408,6 +470,7 @@ body {
         height: 100%;
 
         span {
+          padding:0 5px;
           display: table-cell;
           vertical-align: middle;
           text-align: center;
@@ -415,7 +478,8 @@ body {
           font-size: @recipe-font-text;
           color: @chef-color-white;
           transition: background-color @ani-time ease-out;
-          text-transform: capitalize;
+          text-transform: uppercase;
+          font-weight: bold;
         }
 
         &:hover {
@@ -492,6 +556,14 @@ body {
     margin-top: 4px;
     padding-top: 0;
     background-color: @recipes-list-even;
+    &:hover{
+      background-color: @recipes-list-odd;
+      .content {
+        &::after {
+          background: linear-gradient(to bottom, fade(@recipes-list-odd, 0%), @recipes-list-odd 57%);
+        }
+      }
+    }
     .content {
       &::after {
         background: linear-gradient(to bottom, fade(@recipes-list-even, 0%), @recipes-list-even 57%);
@@ -513,8 +585,11 @@ body {
     height: 196px;
     background-image: url(http://mimundo.philips.es/wp-content/uploads/2012/09/masa_pizza_robot_amasador_philips.jpg);
     background-size: cover;
-    // Fix row pading left
-    margin-left: -15px;
+
+    @media screen and (min-width: 768px) {
+      // Fix row pading left
+      margin-left: -15px;
+    }
 
     > .row:first-child {
       height: 25%;
@@ -577,7 +652,7 @@ body {
     .span {
       display: inline-block;
 
-      i.icon {
+      i.icon {
 
         font-size: 20px;
 
@@ -680,8 +755,79 @@ body {
     .mixin(5);
   }
 }
-  // Arrows
-  .arrow-up {
+input:focus{
+  outline: 1px solid;
+}
+  // Arrows & ribbons
+.status-recipe{
+  display: none;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+
+  .general-state{
+    position: absolute;
+    top: 20px;
+    right: 1.5%;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    span{
+      text-align: center;
+      &:before {
+        line-height: 1.8em;
+       .font-larger;
+        color: @chef-color-white;
+      }
+    }
+  }
+  
+  .ribbon{
+    border-width: 0px;
+    position: absolute;
+    top: 0px;
+    right: 1.5%;
+    height: 50px;
+    width: 50px;
+    span{
+      text-align: center;
+      &:before {
+        margin-left: 0;
+        line-height: 1.8em;
+       .font-extra-large;
+        color: @chef-color-white;
+      }
+    }
+  }
+   .ribbon:before{
+    content: "";
+    width: 100%;
+    height: 4px;
+    background-color: black;
+    opacity: 0.2;
+    position: absolute;
+    left: 0;
+    top:0;
+  }
+  .ribbon:after{
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-top-color: inherit;
+    border-right-color: inherit;
+    border-left-color: inherit;
+    border-bottom-color: transparent;
+    border-width: 0px 25px 25px;
+    position: absolute;
+    left: 0;
+    bottom: -25px;
+  }
+}
+
+
+
+.arrow-up {
   width: 0;
   height: 0;
   border-left: 20px solid transparent;

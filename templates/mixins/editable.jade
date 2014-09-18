@@ -9,9 +9,9 @@ mixin editable(editable, own)
             if manageable && data.recipe
               #publish.ui.button.chef.button-manage
                 if data.recipe.state == 0
-                  a(href="/receta/" + data.recipe.slug + "/publish")= __('Publish')
+                  a(href=data.recipe.url + "/publish")= __('Publish')
                 else
-                  a(href="/receta/" + data.recipe.slug + "/draft")= __('Draft')
+                  a(href=data.recipe.url + "/draft")= __('Draft')
 
     #actions-wrapper.ten.mobile-sixteen.wide.column
       .ui.menu

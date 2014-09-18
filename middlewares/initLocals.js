@@ -30,7 +30,7 @@ exports.initLocals = function(req, res, next) {
   }, {
     label: res.__('Contests'),
     key: 'concursos',
-    href: '/'
+    href: '/concursos'
   }, {
     label: res.__('About the chef'),
     key: 'acerca-del-chef',
@@ -44,15 +44,15 @@ exports.initLocals = function(req, res, next) {
   locals.navLinksPrivate = [{
     label: res.__('My profile'),
     key: 'perfil',
-    href: '/'
+    href: '/perfil'
   }, {
     label: res.__('Shopping list'),
     key: 'lista-del-super',
     href: '/'
   }, {
     label: res.__('My recipes'),
-    key: 'mis-recetas',
-    href: '/'
+    key: 'recetas',
+    href: '/perfil/recetas'
   }, {
     label: res.__('My menus'),
     key: 'mis-menus',
@@ -67,5 +67,6 @@ exports.initLocals = function(req, res, next) {
   locals.version = pkg.version + (pkg.versionName ? ('-' + pkg.versionName) : '');
   locals.ksversion = keystone.version;
   locals.env = process.env;
+  locals.isTest = process.env.APP_TEST;
   next();
 };

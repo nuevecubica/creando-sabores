@@ -54,10 +54,13 @@ exports = module.exports = function(app) {
   app.get('/terminos', routes.views.terms);
 
   // Profile: Private
-  app.get('/perfil', middleware.requireUser, routes.views['private'].profile);
+  app.get('/perfil/:section(recetas)?', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
+
+  // Profile: Public
+  app.get('/chef/:username/:section(recetas)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
@@ -70,10 +73,17 @@ exports = module.exports = function(app) {
   // ---- New
   app.get('/nueva-receta', middleware.requireUser, routes.views.recipe);
   app.post('/nueva-receta/save', middleware.requireUser, routes.views['private'].recipeSave.create);
+  app.get('/nueva-receta/:contest', middleware.requireUser, routes.views.recipe);
   // ---- Edit
   app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
   app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
   app.get('/receta/:recipe/:state(draft|publish)', middleware.requireUser, routes.views['private'].recipePublish);
+
+  // Contests
+  // -- Public
+  app.get('/concursos', routes.views.contests);
+  app.get('/concurso/:contest', routes.views.contest);
+  app.get('/concurso/:contest/participantes/:section(top|reciente)', routes.views.participants);
 
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);
@@ -91,11 +101,19 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me', middleware.requireUserApi, routes.api.v1.me.me);
   app.get('/api/v1/me/logout', middleware.requireUserApi, routes.api.v1.me.logout);
   app.put('/api/v1/me/save', middleware.requireUserApi, routes.api.v1.me.save);
+  app.get('/api/v1/me/recipes', middleware.requireUserApi, routes.api.v1.me.recipes);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
+  app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   //-- Recipes
   app.get('/api/v1/recipes', routes.api.v1.recipes);
+  //-- Contests
+  app.get('/api/v1/contestsPast', routes.api.v1.contestsPast);
+  app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
+  //-- Admin
+  app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generateRecipes);
+  app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generateTest.middleware);
 
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);

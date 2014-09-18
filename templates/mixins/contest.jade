@@ -1,0 +1,33 @@
+mixin contest(contest)
+  .four.tablet-four.mobile-eight.wide.column.contest-module
+    a.recipe-winner(href='#{contest.awards.jury.winner.url}',style='background-image: url(#{contest.awards.jury.winner.thumb.header})')
+    .author-winner
+      a(href='#{contest.awards.jury.winner.author.url}')
+        img.author(src='#{contest.awards.jury.winner.author.thumb.avatar_medium}')
+      img.award(src='/images/jury_award.png')
+
+  .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
+    a(href='#{contest.awards.jury.winner.author.url}')
+      .user= (contest.awards.jury.winner.author.name || contest.awards.jury.winner.author.username)
+    .title
+      a(href='#{contest.awards.jury.winner.url}')= contest.awards.jury.winner.title
+    .subheader
+      strong= __('Jury award')
+    .award= contest.awards.jury.name
+
+  
+  .four.tablet-four.mobile-eight.wide.column.contest-module
+    a.recipe-winner(href='#{contest.awards.community.winner.url}',style='background-image: url(#{contest.awards.community.winner.thumb.header})')
+    .author-winner
+      a(href='#{contest.awards.community.winner.author.url}')
+        img.author(src='#{contest.awards.community.winner.author.thumb.avatar_medium}')
+      img.award(src='/images/community_award.png')
+
+  .contest-module.recipe-award.four.tablet-four.mobile-eight.wide.column
+    a(href='#{contest.awards.community.winner.author.url}')
+      .user= (contest.awards.community.winner.author.name || contest.awards.community.winner.author.username)
+    .title
+      a(href='/receta/#{contest.awards.community.winner.slug}')= contest.awards.community.winner.title
+    .subheader
+      strong= __('Community award')
+    .award= contest.awards.community.name

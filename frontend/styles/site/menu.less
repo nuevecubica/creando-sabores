@@ -39,11 +39,16 @@
 	z-index: 20;
 
 	.menu {
+		a{
+			&.profile{
+				padding-right: 15px;
+			}
+		}
 		box-shadow: none;
 		background-color: transparent;
 
 		.item {
-			padding: 10px 5px;
+			padding: 10px 1px;
 
 			.username {
 				text-shadow: @chef-menu-over-shadow;
@@ -53,17 +58,25 @@
 		:before {
 			background-image: none;
 		}
+		.menu{
+			&.right{
+				min-width: 270px;
+
+			}
+		}
+
 	}
 
 	#menu {
 		width: 62px;
 		position: relative;
-		top: 2px;
+		top: 0px;
 
 		@media only screen and (max-width : 767px) {
 			width: 56px;
 			position: relative;
 			top: -4px;
+
 		}
 
 		&.item {
@@ -71,7 +84,7 @@
 		}
 
 		i:before {
-			font-size: 30px;
+			font-size: 45px;
 			color: @chef-menu-text;
 			text-shadow: @chef-menu-over-shadow;
 		}
@@ -82,7 +95,6 @@
 
 #menu-box {
 	.overlay;
-
 	z-index: 999;
 	transform: translateY(-100%);
 	visibility: hidden;
@@ -106,11 +118,9 @@
 	background: fade(@chef-menu-background, 90%);
 
 	#menu-close {
-		position: absolute;
-		padding: .83em .95em;
-		right: 10%;
-		top: 12px;
+		float: right;
 		z-index: 100;
+		padding-right: 2%;
 
 		i:before {
 			font-size: 30px;
@@ -124,11 +134,10 @@
 		box-sizing: border-box;
 		text-align: center;
 		position: relative;
-		padding-top: 5%;
+		padding-top: 17px;
 		height: 100%;
 		padding-bottom: 1em;
 		//transform: translateY(-50%);
-		max-width: 1440px;
 		margin: 0 auto;
 		overflow: hidden;
 
@@ -137,12 +146,14 @@
 			padding: 0;
 			margin: 0 auto;
 			display: inline-block;
+			max-width: 1440px;//Anteriormente en nav
 			min-width: 70%;
 
 			&.scroll {
-				height: 96%;
+				height: 95%;
 				overflow-x: hidden;
 				overflow-y: auto;
+				margin-top: 78px;
 
 				scrollbar-face-color: @chef-menu-section;
 				scrollbar-highlight-color: lighten(@chef-menu-section, 10%);
@@ -204,7 +215,7 @@
 					}
 
 					i.icon-chef-logo {
-						font-size: 6em;
+						font-size: 7em;
 						line-height: 1.2em;
 					}
 				}
@@ -212,23 +223,83 @@
 		}
 	}
 }
-
-@media screen and (max-height: 60em) {
-	#menu-box nav ul.menu li {
-		font-size: (@chef-menu-text-size * 0.8);
-		a {
-			min-height: (@chef-menu-text-size * 0.8);
+.ui.menu .ui.item.logout{
+	a{
+		padding: 30px;
+		 color: @chef-color-white;
+		 &:hover{
+		 	color: @chef-color-brick-bg;
+		 }
+	}
+}
+@media only screen and (max-width : 767px) {
+	#menu-wrapper{
+		#menu {
+			float: right;
+			i:before {
+				font-size: 33px;
+			}
+		}
+		.menu{
+			.menu{
+				a{
+					&.profile{
+						position: absolute;
+						right: 50px;
+					}
+				}
+			}
 		}
 	}
 }
 
-@media screen and (max-height: 50em) {
-		#menu-box nav ul.menu li a i.icon-chef-logo {
-			font-size: 4em;
+@media screen and (max-height: 65em) {
+	#menu-box nav ul.menu {
+		&.scroll{
+			font-size: 4.5em;
+			margin-top: 0;
+			height: 90%;
 		}
+		li {
+			.font-larger;
+			a {
+				min-height: (@chef-menu-text-size * 0.8);
+			}
+		}
+	}
 }
-@media screen and (max-height: 35em) {
-		#menu-box nav ul.menu li a i.icon-chef-logo {
-			font-size: 3em;
+
+@media screen and (max-height: 55em) {
+	#menu-box nav ul.menu {
+		&.scroll{
+			height: 85%;
+			margin-top: 0;
 		}
+		li {
+			.font-normal;
+			a {
+				min-height: (@chef-menu-text-size * 0.7);
+				i.icon-chef-logo {
+					font-size: 4em;
+				}
+			}
+		}
+	}
+}
+@media screen and (max-height: 40em) {
+	#menu-box nav ul.menu {
+		&.scroll{
+			margin-top: 0;
+			height: 82%;
+		}
+		li {
+			.font-small;
+			a {
+				min-height: (@chef-menu-text-size * 0.6);
+				i.icon-chef-logo {
+					font-size: 3em;
+				}
+			}
+		}
+	}
 }

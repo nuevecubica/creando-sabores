@@ -1,6 +1,9 @@
 include ../mixins/flash-messages
 include ../mixins/form-wrapper
 
+- var bodyClasses = [];
+block vars
+
 doctype html
 html
 
@@ -12,7 +15,7 @@ html
 
 		- var pageTitle = (title ? (title + ' - ') : '') + __('Chefcito title')
 		title #{pageTitle}
-		link(href="/styles/site.min.css", rel="stylesheet")
+		link(href="/styles/site.css", rel="stylesheet")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
 		if user && user.canAccessKeystone
@@ -25,7 +28,7 @@ html
 		block head
 
 	//- HTML BODY
-	body.preload.ui.segment.grid
+	body(class=bodyClasses).preload.ui.segment.grid
 
 		//- Flash messages allow you to display once-off status messages to users, e.g. form
 		//- validation errors, success messages, etc.
@@ -45,12 +48,21 @@ html
 		if !footerType || footerType === 'full'
 			include ../components/footer
 		else if footerType === 'mini'
-			include ../components/footerMini
+			include ../components/footer-mini
 
 		if !hideMenu
 			include ../components/menu
 
 		//- JAVASCRIPT
+		if isTest
+			script.
+				Function.prototype.bind = Function.prototype.bind || function (thisp) {
+				  var fn = this;
+				  return function () {
+				    return fn.apply(thisp, arguments);
+				  };
+				};
+
 		//- Everything globally available goes inside this object!
 		script.
 			window.chef = {}

@@ -1,0 +1,114 @@
+extends ../layouts/default
+
+include ../mixins/header
+include ../mixins/contest
+
+block js
+  script(src='/js/contest.js')
+
+block content
+  +header(data, section)
+  .ui.page.grid.bg-grey
+    .row
+      #info.eight.tablet-twelve.mobile-eight.wide.column
+        .status
+          .status-tag(class=data.contest.state)
+            = __(data.contest.state)
+        .subheader
+          i.icon-chef-cup.icon.font-extra-large
+          = __('Contest sponsored by')
+          strong= data.contest.sponsor
+
+      #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned
+        .contest-actions(class=data.contest.state)
+          .action.vote
+            .ui.button.chef.button-brick
+              a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
+
+          .action.join
+            .ui.button.chef.button-yellow
+              a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
+  .ui.page.grid
+    #contest-content.ui.grid.segment
+      #contest-description.row
+        .sixteen.wide.column
+          .header= __('Description')
+
+        .sixteen.wide.column
+          .explain
+            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.description
+
+      if data.contest.awards.jury.name || data.contest.awards.community.name
+        #contest-awards.row(class=data.contest.state)
+          .sixteen.wide.column
+            .header= __('Awards')
+
+          if data.contest.awards.jury.name
+            .award.sixteen.wide.column
+              .icon
+                img(src='/images/jury_award.png')
+
+              .explain
+                .subheader
+                  strong= __('Jury award') + data.contest.awards.jury.name
+                .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.jury.description
+
+          if data.contest.awards.community.name
+            .award.sixteen.wide.column
+              .icon
+                img(src='/images/community_award.png')
+
+              .explain
+                .subheader
+                  strong= __('Community award') + data.contest.awards.community.name
+                .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.awards.community.description
+
+      if data.contest.state === 'finished'
+
+        #winners.row
+          .contest-title.sixteen.wide.column
+            .header= __('Winners')
+
+          +contest(data.contest)
+
+      #ranking.row(class=data.contest.state)
+        .sixteen.wide.column
+          .header= __('Ranking')
+          .subheader(class=data.contest.state)= __('Invite your friends')
+
+        - var top = data.top
+
+        if top && top.length > 0
+          - for (var i = 0, l = top.length; i < l; i++)
+            .four.tablet-four.mobile-sixteen.wide.column.ranking-module
+              a.top-contest(href='/receta/#{top[i].slug}',style='background-image: url(#{top[i].thumb.header})')
+              .top-rating
+                i.icon-chef-star.icon
+                  span= top[i].rating
+              .top-info
+                span
+                  strong= (i + 1) + '# '
+                  a(href='/receta/#{top[i].slug}')= top[i].title
+
+                .top-share.center.aligned
+                  a(href='http://twitter.com')
+                    i.icon-chef-twitter.icon
+                  a(href='http://facebook.com')
+                    i.icon-chef-facebook.icon
+
+        else
+          .sixteen.wide.column
+            .subheader= __('No recipes for this contest yet')
+
+        .sixteen.wide.column.right.aligned
+          .ui.button.chef.button-green
+            a(href='/concurso/#{data.contest.slug}/participantes/top')= __('Show all')
+
+
+      #contest-terms.row(class=data.contest.state)
+        .sixteen.wide.column
+          .header= __('Terms')
+
+        .sixteen.wide.column
+          .explain
+            .ui.content(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.contest.terms

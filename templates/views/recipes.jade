@@ -33,7 +33,7 @@ block content
 							a(href='/nueva-receta')= __('Create recipe')
 
 		#recipes.ui.grid.segment.two.tabs
-			.row
+			.row.tab-header
 				.tab
 					.ui.button.chef.button-green
 						a(href='/recetas')= __('Popular')
@@ -42,11 +42,11 @@ block content
 						a= __('Season')
 
 			.row
-				.ui.grid.segment.list
+				.ui.grid.segment.list.stackable
 					if data.recipes.length
 						each recipe in data.recipes
-							.row.position
-								+recipe(recipe)
+							+recipe(recipe)
+
 					else
 						| #{__('No recipes yet')}
 

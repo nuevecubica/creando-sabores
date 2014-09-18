@@ -24,6 +24,8 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isBanned', false)
+      .where('isRemoved', false)
+      .where('contest.id', null)
       .sort('-rating');
 
     // Query for get header promoted recipe
@@ -34,6 +36,7 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isBanned', false)
+      .where('isRemoved', false)
       .where('isRecipesHeaderPromoted', true)
       .sort('-publishedDate');
 
@@ -45,6 +48,7 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isBanned', false)
+      .where('isRemoved', false)
       .where('isRecipesGridPromoted.value', true)
       .sort('isRecipesGridPromoted.position');
 
@@ -56,6 +60,7 @@ exports = module.exports = function(req, res) {
       })
       .where('state', 1)
       .where('isOfficial', true)
+      .where('isRemoved', false)
       .where('isRecipesGridPromoted.value', false)
       .sort('-publishedDate');
 

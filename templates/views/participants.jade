@@ -1,0 +1,52 @@
+extends ../layouts/default
+
+include ../mixins/header
+include ../mixins/contest-recipe
+
+block js
+  script(src='/js/participants.js')
+
+block content
+  +header(data, section)
+
+  .ui.page.grid
+    #participants-content.ui.grid.segment
+      .row
+        #info.sixteen.wide.column
+          .top-ranking
+            i.icon-chef-cup.icon
+            .header
+              = __('Ranking')
+            .subheader
+              .status-tag.open= __('Deadline at ') + data.contest.formattedDeadline
+
+
+      .row.tablet.computer.only
+        .two.tabs.tab-header
+          .row
+            .tab
+              a(href='/concurso/#{data.contest.slug}/participantes/top') 
+                div(class="#{subsection === 'top' ? 'active' : ''}").ui.button.chef.button-brick
+                  | #{__('Top rated')}
+            .tab
+              a(href='/concurso/#{data.contest.slug}/participantes/reciente') 
+                div(class="#{subsection === 'reciente' ? 'active' : ''}").ui.button.chef.button-brick
+                  | #{__('Recent')}
+            
+      #recipes.tab-content
+        .row
+          .ui.grid.segment.list
+            - var recipes = data.recipes;
+
+            if recipes.length
+              each recipe,i in recipes
+                .row.position
+                  +contest-recipe(recipe,i)
+            else
+              | #{__('No recipes yet')}
+
+        .row.loader
+          .sixteen.wide.column.loading= __('Loading more recipes')
+          .sixteen.wide.column.load-more
+            .ui.button.chef.button-brick.load-button
+              a(href="#")= __('Load more')

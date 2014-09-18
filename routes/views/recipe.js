@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Recipe = keystone.list('Recipe');
+  Recipe = keystone.list('Recipe'),
+  Contest = keystone.list('Contest');
 
 exports = module.exports = function(req, res) {
 
@@ -78,14 +79,60 @@ exports = module.exports = function(req, res) {
           if (result.state === 0 && !locals.own) {
             return res.notfound(res.__('Not found'));
           }
+          // Banned
+          else if (result.isBanned) {
+            return res.notfound(res.__('Not found'));
+          }
+          // Removed
+          else if (result.isRemoved) {
+            return res.notfound(res.__('Not found'));
+          }
 
           locals.data.recipe = result;
           locals.title = result.title + ' - ' + res.__('Recipe');
+
+          // Is it a contest recipe?
+          if (result.contest) {
+            // Populate nested contest
+            var optionsContest = {
+              path: 'contest.id',
+              model: 'Contest'
+            };
+            Contest.model.populate(result, optionsContest, function(err, result) {
+              if (err) {
+                console.error('Error: Contest.model.populate community winner');
+                return res.notfound(res.__('Not found'));
+              }
+              locals.data.contest = result.contest.id;
+              next(err);
+            });
+          }
+          else {
+            next(err);
+          }
         }
         else {
           return res.notfound(res.__('Not found'));
         }
-        next(err);
+      });
+    }
+    else if (req.params.contest) {
+      var q2 = Contest.model.findOne({
+        slug: req.params.contest
+      });
+
+      q2.exec(function(err, result) {
+        if (!err && result) {
+          if (result.state !== 'submission') {
+            return res.notfound(res.__('Not found'));
+          }
+          locals.data.recipe = locals.defaults;
+          locals.data.contest = result;
+          next(err);
+        }
+        else {
+          return res.notfound(res.__('Not found'));
+        }
       });
     }
     else {

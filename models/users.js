@@ -1,6 +1,7 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
-  Types = keystone.Field.Types;
+  Types = keystone.Field.Types,
+  modelCleaner = require('../utils/modelCleaner');
 
 /**
  * Users
@@ -211,6 +212,29 @@ User.schema.path('username').validate(function(value, done) {
 
 //#------------------ VIRTUALS
 
+User.schema.set('toJSON', {
+  virtuals: true,
+  transform: modelCleaner.transformer
+});
+
+User.schema.virtual('thumb').get(function() {
+  return {
+    'header': this._.media.header.src({
+      transformation: 'header_thumb'
+    }),
+    'avatar_large': this._.avatars.local.src({
+      transformation: 'user_avatar_large'
+    }),
+    'avatar_medium': this._.avatars.local.src({
+      transformation: 'user_avatar_medium'
+    }),
+    'avatar_small': this._.avatars.local.src({
+      transformation: 'user_avatar_small'
+    })
+  };
+});
+
+
 // Provide access to Keystone
 User.schema.virtual('canAccessKeystone').get(function() {
   return this.isAdmin;
@@ -229,6 +253,11 @@ User.schema.virtual('canAdmin').get(function() {
 // Rights to login
 User.schema.virtual('canLogin').get(function() {
   return !this.isBanned;
+});
+
+// URL
+User.schema.virtual('url').get(function() {
+  return '/chef/' + this.username;
 });
 
 //#------------------ PRESAVE

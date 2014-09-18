@@ -279,6 +279,13 @@
         ingredients.restore();
         procedure.restore();
 
+        var file = $('#recipe-header-select').get(0);
+        if (file) {
+          clearFile(file);
+          setPreview(file, $('.promoted'));
+        }
+        $('#image-size-warning').css('display', 'none');
+
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
       },
@@ -359,7 +366,7 @@
       $(this).toggleClass('activated');
     });
 
-    $('.checks:not(.all)').on('click', function() {
+    $(document).on('click', '.checks:not(.all)', function() {
       $(this).toggleClass('activated');
     });
 
@@ -376,27 +383,38 @@
       if (input.files.length === 0) {
         if ($target.data('origsrc')) {
           $target.css('background-image', $target.data('origsrc'));
+          $('#image-size-warning').css('display', 'none');
         }
       }
       else {
         if (!$target.data('origsrc')) {
           $target.data('origsrc', $target.css('background-image'));
         }
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          $target.css('background-image', 'url(' + event.target.result + ')');
+        var url = URL.createObjectURL(input.files[0]);
+        $target.css('background-image', 'url(' + url + ')');
+        // Min size detection
+        var image = new Image();
+        image.onload = function(evt) {
+          if (evt.target.width < 1920) {
+            $('#image-size-warning').css('display', 'block');
+          }
+          else {
+            $('#image-size-warning').css('display', 'none');
+          }
         };
-        reader.readAsDataURL(input.files[0]);
+        image.src = url;
       }
     };
 
     var clearFile = function(input) {
-      try {
-        input.value = null;
-      }
-      catch (ex) {}
-      if (input.value) {
-        input.parentNode.replaceChild(input.cloneNode(true), input);
+      if (input) {
+        try {
+          input.value = null;
+        }
+        catch (ex) {}
+        if (input.value) {
+          input.parentNode.replaceChild(input.cloneNode(true), input);
+        }
       }
     };
 

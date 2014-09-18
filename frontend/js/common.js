@@ -100,6 +100,15 @@ $(document).ready(function() {
     $(window).resize(gridResizer);
     $(window).load(gridResizer);
   }
+
+  $('.social-popup').on('click', function(evt) {
+    var attr = 'height=450,width=500';
+    attr += ',status=no,toolbar=no,menubar=no,scrollbars=no';
+    attr += ',location=no,directories=no';
+    window.open($(this).attr('href'), '', attr);
+    evt.preventDefault();
+  });
+
 });
 
 
@@ -126,3 +135,122 @@ $(document).ready(function() {
     }
   }
 }());
+
+
+// Enable pagination on the current page
+/* global Handlebars */
+var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraargs) {
+
+  var timeCheckScroll = null,
+    counter = 2,
+    isStillOnScreen = false,
+    isWorking = false,
+    args = {
+      page: 2,
+      perPage: 5
+    };
+  if (extraargs) {
+    for (var key in extraargs) {
+      if (extraargs.hasOwnProperty(key)) {
+        args[key] = extraargs[key];
+      }
+    }
+  }
+
+  $(document).on('click', '.load-button', function(e) {
+    e.preventDefault();
+    getNextPage();
+  });
+
+  $(window).on('scroll', function() {
+    clearTimeout(timeCheckScroll);
+
+    timeCheckScroll = setTimeout(function() {
+      checkScroll();
+    }, 50);
+
+  });
+
+  var checkScroll = function() {
+    var isLoaderOnScreen = $('.loader').isOnScreen();
+
+    if (isLoaderOnScreen && !isStillOnScreen && args.page) {
+
+      // Show "Loading" message
+      $('.loader > .column').removeClass('show');
+      $('.loader .loading').addClass('show');
+
+      if (counter > 0) {
+
+        isStillOnScreen = true;
+
+        setTimeout(function() {
+          getNextPage();
+        }, 500);
+      }
+      else {
+        // Show "Load more" button
+        $('.loader > .column').removeClass('show');
+        $('.loader .load-more').addClass('show');
+        isStillOnScreen = true;
+      }
+    }
+  };
+
+  var getNextPage = function() {
+    if (isWorking) {
+      return;
+    }
+    else {
+      isWorking = true;
+    }
+    var url = endpoint + '?' + $.param(args);
+
+    var jQXhr = $.getJSON(url).done(function(data) {
+
+        var items = data[retproperty].results;
+        var startPos = data[retproperty].first;
+
+        getTemplate(hbsname, items, function(tpl, items) {
+          var html = '';
+
+          for (var i = 0, l = items.length; i < l; i++) {
+            items[i]['i'] = startPos + i;
+            html += tpl(items[i]);
+          }
+
+          $(html).css('display', 'none').appendTo(appendable).slideDown('slow', function() {
+            // Is loader on screen after append recipes?
+            //isStillOnScreen = $('.loader').isOnScreen();
+            isStillOnScreen = false; // Always load more if needed...
+          });
+
+          // hidden all messages
+          $('.loader > .column').removeClass('show');
+        });
+
+        counter--;
+        if (data[retproperty].next) {
+          args.page = data[retproperty].next;
+        }
+        else {
+          args.page = null;
+        }
+        isWorking = false;
+      })
+      .fail(function() {
+        console.log('error');
+
+        setTimeout(function() {
+          getNextPage();
+        }, 3000);
+      });
+  };
+
+  function getTemplate(name, items, callback) {
+    return $.get('/templates/hbs/' + name + '.hbs').then(function(src) {
+      callback(Handlebars.compile(src), items);
+    });
+  }
+
+};

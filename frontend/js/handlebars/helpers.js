@@ -27,3 +27,48 @@ Handlebars.registerHelper('formatIcons', function(number, icon) {
 
   return new Handlebars.SafeString(ret);
 });
+
+/*
+Handlebars "join" block helper that supports arrays of objects or strings.
+If "delimiter" is not speficified, then it defaults to " ".  You can use "start",
+and "end" to do a "slice" of the array.
+*/
+Handlebars.registerHelper('join', function(items, block) {
+  var delimiter = block.hash.delimiter || " ",
+    start = block.hash.start || 0,
+    len = items ? items.length : 0,
+    end = block.hash.end || len,
+    out = "";
+
+  if (end > len) {
+    end = len;
+  }
+
+  if ('function' === typeof block) {
+    for (var i = start; i < end; i++) {
+      if (i > start) {
+        out += delimiter;
+      }
+      if ('string' === typeof items[i]) {
+        out += items[i];
+      }
+      else {
+        out += block(items[i]);
+      }
+    }
+    return out;
+  }
+  else {
+    return [].concat(items).slice(start, end).join(delimiter);
+  }
+});
+
+Handlebars.registerHelper('stateIcon', function(classes) {
+  var css = classes.split(' ');
+  if (css.indexOf('contest-recipe') >= 0) {
+    return '<div class="ribbon"><span class="icon-chef-var"></span></div>';
+  }
+  else if (css.indexOf('state-published') === -1) {
+    return '<div class="general-state"><span class="icon-chef-var"></span></div>';
+  }
+});

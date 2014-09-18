@@ -1,0 +1,88 @@
+extends ../layouts/default
+
+include ../mixins/header
+include ../mixins/contest
+include ../mixins/recipe
+include ../mixins/grid
+
+block js
+  script(src='/js/contests.js')
+
+block content
+  +header(data, section)
+
+  .ui.page.grid.body
+
+    if data.current
+      #current-contest.row
+        #info.eight.tablet-eight.mobile-sixteen.wide.column
+          .status
+            .status-tag(class=data.current.state)
+              - var date = data.current.formattedDeadline
+              - var states = { programmed: __('Programmed {{{date}}}', { date: date }), submission: __('Submission {{{date}}}', { date: date }), votes: __('Votes {{{date}}}', { date: date }), closed: __('Closed deliberation') }
+              = states[data.current.state]
+
+          .header= data.current.title
+
+          .subheader
+            i.icon-chef-cup.icon
+            = __('Contest sponsored by')
+            strong= data.current.sponsor
+
+        //- #awards
+        .four.tablet-four.mobile-eight.wide.column
+          .award.column
+            .icon
+              img(src='/images/jury_award.png')
+
+            .explain
+              .subheader
+                strong= __('Jury award')
+                = data.current.awards.jury.name
+
+        .four.tablet-four.mobile-eight.wide.column
+          .award.column
+            .icon
+              img(src='/images/community_award.png')
+
+            .explain
+              .subheader
+                strong= __('Community award')
+                = data.current.awards.community.name
+
+        .sixteen.wide.column
+          .explain
+            .description
+              p!= data.current.description
+
+        .sixteen.wide.column.center.aligned
+          .ui.button.chef.button-brick
+            a(href='/concurso/#{data.current.slug}')= __('Learn more')
+    else
+      .sixteen.wide.column.center.aligned
+        .subheader= __('No current contest')
+
+    #past-contests.row
+      .sixteen.wide.column.center.aligned
+        .header= __('Past contest')
+
+      - var contests = data.contests
+
+      if contests && contests.length > 0
+
+        each contest in contests
+          .contest-title.sixteen.wide.column
+            .header
+              a(href='/concurso/#{contest.slug}')= contest.title
+
+          +contest(contest)
+
+      else
+        .sixteen.wide.column
+          .subheader= __('No past contest')
+
+    .row.loader
+      .sixteen.wide.column.center.aligned.loading= __('Loading more contests')
+      .sixteen.wide.column.center.aligned.load-more
+        .ui.button.chef.button-brick.load-button
+          a(href="#")= __('Load more')

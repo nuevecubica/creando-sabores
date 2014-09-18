@@ -1,11 +1,15 @@
+include ../mixins/header-share
+
 mixin header(data, section)
 
 	//- Change this
 	- var default_image = '/images/defaul_image.jpg'
+	- var randCutlery = Math.floor(Math.random() * 6 + 1);
 
 	if section === 'home'
-		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
-		- var image = data.header ? data.header.header.url : default_image
+		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
+		- var image = data.header ? data.header.thumb.header : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -20,23 +24,28 @@ mixin header(data, section)
 					.social.four.tablet-seven.wide.column.tablet.computer.only
 						.corner-position.left
 							|#{__('Follow us on social networks')}
-							include ../components/share
+							include ../components/follow
 
 					.four.wide.column.computer.only
 
+					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
 					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+
 						.tabla
 							p= __('Today promoted')
 							.tabla1
 								.ui.image
 							.tabla2
 								.text
-									.span= titlePromoted
+									a.span(href="#{promotedUrl}")= promotedTitle
 							.tabla3
 								.ui.image
 
 	else if section === 'privateProfile'
-		- var image = user ? user.media.header.url : default_image
+		- var image = "/images/default_recipe_bg.png"
+		- if (user && user.media && user.media.header.url) {
+		-   image = user.thumb.header;
+		- }
 
 		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
 			.ui.page.grid.head.with-title
@@ -44,10 +53,16 @@ mixin header(data, section)
 					include ../components/header
 
 				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+					if (user && user.media && user.media.header.url)
+						a.default-bg.icon-chef-logo.icon(href="/")
+					else
+						a.default-bg.icon-chef-logo.icon.nopic(href="/")
 
 				.row.section.title
-					.shadow= __('My recipe book')
+					if (user && user.media && user.media.header.url)
+						.default-bg.shadow= __('My recipe book')
+					else
+						.default-bg.nopic.shadow= __('My recipe book')
 
 				.row
 					.ten.wide.column
@@ -59,9 +74,22 @@ mixin header(data, section)
 								span
 								|#{__('Change image')}
 
+	else if section === 'publicProfile'
+		- var image = profile ? profile.media.header.url : default_image
+
+		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
+			.ui.page.grid.head.with-title
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+
 	else if section === 'recipes'
-		- var titlePromoted = data.header ? data.header.title : __('No recommendation')
-		- var image = data.header ? data.header.header.url : default_image
+		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
+		- var image = data.header ? data.header.thumb.header : default_image
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -78,11 +106,10 @@ mixin header(data, section)
 				.row
 					.social.four.tablet-seven.wide.column.tablet.computer.only
 						.corner-position.left
-							|#{__('Follow us on social networks')}
-							include ../components/share
-
+							|#{__('Share this page')}
+							+header-share()
 					.four.wide.column.computer.only
-
+					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
 					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
 						.tabla
 							p= __('Today promoted')
@@ -90,14 +117,14 @@ mixin header(data, section)
 								.ui.image
 							.tabla2
 								.text
-									.span= titlePromoted
+									a.span(href="#{promotedUrl}")= promotedTitle
 							.tabla3
 								.ui.image
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
-		- var image = data.recipe ? data.recipe.header.url : default_image
-		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : 'Unknow'
+		- var image = data.recipe && data.recipe.thumb.header ? data.recipe.thumb.header : default_image
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var state = data.recipe ? data.recipe.state : 0
 
 		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
@@ -116,24 +143,27 @@ mixin header(data, section)
 				.row.section.subtitle
 					.author.shadow= author
 
-				//- Check if recipe is published to show social buttons
-				if state > 0
-					.row.computer.only.social
-						.four.wide.column
+				.row
+					.four.wide.column.computer.only.social
+						//- Check if recipe is published to show social buttons
+						if state > 0
 							.corner-position.left.hide-editable
-								|#{__('Follow us on social networks')}
-								include ../components/share
+								|#{__('Share this recipe')}
+								+header-share()
 
-						.six.wide.column
+					.six.wide.column
 
-						.six.wide.column.right.aligned
-							.corner-position.right
-								.ui.button.chef.button-gray.show-editable.file-select
-									if own
-										input#recipe-header-select(type="file" name="header_upload" accept="image/*")
-										i.social.icon-chef-camera
-										span
-										|#{__('Change image')}
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-gray.show-editable.file-select
+								if own
+									input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
+			#image-size-warning
+				|*#{__('Select bigger image')}
 
 
 	else if section === 'new-recipe'
@@ -157,3 +187,68 @@ mixin header(data, section)
 				.row.section.subtitle
 					.author.shadow= author
 
+				.row
+					.ten.wide.column
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-gray.show-editable.file-select
+								input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+								i.social.icon-chef-camera
+								span
+								|#{__('Change image')}
+
+
+	else if section === 'contests'
+		- var image = data.current ? data.current.thumb.header : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= __('Contests')
+
+	else if section === 'contest'
+		- var title = data.contest ? data.contest.title : ''
+		- var image = data.contest ? data.contest.thumb.header : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= title
+
+				.row.section.subtitle
+					.sponsor.shadow= __('Contest')
+
+	else if section === 'participants'
+		- var title = data.contest ? data.contest.title : ''
+		- var image = data.contest ? data.contest.thumb.header : default_image
+
+		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= title
+
+				.row.section.subtitle

@@ -1,14 +1,15 @@
 #menu-box
   nav(role="navigation")
-    #menu-close.ui.item
-      i.icon-chef-menuquit
+    .ui.page.grid
+      #menu-close.ui.item
+        i.icon-chef-menuquit
 
     //- navLinks Array in ./middlewares/initLocals.js
     ul.menu.scroll
       li.item.main(class=(section == 'home' ? 'active' : null))
         a.home(href='/',rel='home')
           i.icon-chef-logo
-      if user || true
+      if user
         li.item.section
           span.title= __('My recipe book')
         each link in navLinksPrivate

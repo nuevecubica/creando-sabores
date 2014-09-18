@@ -81,6 +81,7 @@ $(document).ready(function() {
     if (input.files.length === 0) {
       if ($target.data('origsrc')) {
         $target.css('background-image', $target.data('origsrc'));
+        $('.default-bg').removeClass('selected-pic');
       }
     }
     else {
@@ -90,6 +91,7 @@ $(document).ready(function() {
       var reader = new FileReader();
       reader.onload = function(event) {
         $target.css('background-image', 'url(' + event.target.result + ')');
+        $('.default-bg').addClass('selected-pic');
       };
       reader.readAsDataURL(input.files[0]);
     }
@@ -98,6 +100,7 @@ $(document).ready(function() {
   var clearImages = function(input) {
     try {
       input.value = null;
+      $('.default-bg').removeClass('selected-pic');
     }
     catch (ex) {}
     if (input.value) {
@@ -133,5 +136,7 @@ $(document).ready(function() {
     $('#profile-remove-form').submit();
   });
 
+  /* global makePaginable */
+  makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
 
 });

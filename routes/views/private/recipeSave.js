@@ -1,13 +1,14 @@
 var async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
+  Contest = keystone.list('Contest'),
   clean = require('../../../utils/cleanText.js'),
   formResponse = require('../../../utils/formResponse.js');
 
 var recipeData = function(req, orig) {
   // Clean data
   var data = {};
-  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'portions', 'time', 'difficulty'];
+  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'portions', 'time', 'difficulty', 'contest.id'];
   var file, files = ['header_upload'];
 
   // Something in the request body?
@@ -62,6 +63,7 @@ var recipeData = function(req, orig) {
       ['min', 1]
     ]);
     data.author = req.user.id;
+    data['contest.id'] = req.body['contest.id'];
 
     // Get missing data from original if present
     if (orig) {
@@ -104,6 +106,11 @@ var recipeEdit = function(req, res) {
         return formResponse(req, res, back, 'Missing data', false);
       }
 
+      // If not admin, rejects if admited in a contest
+      if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.contest.state === 'admited') {
+        return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
+      }
+
       // Save
       recipe.getUpdateHandler(req).process(data, {
         fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
@@ -118,7 +125,7 @@ var recipeEdit = function(req, res) {
       });
     }
     else {
-      return formResponse(req, res, back, 'You don\'t have rights to access that page', false);
+      return formResponse(req, res, back, 'Error: You don\'t have rights to access that page', false);
     }
   });
 };
@@ -135,18 +142,37 @@ var recipeNew = function(req, res) {
       return formResponse(req, res, back, 'Missing data', false);
     }
 
-    recipe.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header'
-      },
-      function(err) {
+    var addRecipe = function() {
+      recipe.getUpdateHandler(req).process(data, {
+          fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header,contest.id'
+        },
+        function(err) {
+          if (err) {
+            console.error('recipeNew:', err);
+            return formResponse(req, res, back, 'Error: Unknown error', false);
+          }
+          else {
+            return formResponse(req, res, recipe.url, false, 'Recipe saved');
+          }
+        });
+    };
+
+    if (data['contest.id']) {
+      Contest.model.findOne({
+        _id: data['contest.id']
+      }).exec(function(err, contest) {
         if (err) {
-          console.error('recipeNew:', err);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
-        else {
-          return formResponse(req, res, '/receta/' + recipe.slug, false, 'Recipe saved');
+        if (contest.state !== 'submission') {
+          return formResponse(req, res, back, 'Error: Invalid contest state', false);
         }
+        addRecipe();
       });
+    }
+    else {
+      addRecipe();
+    }
   }
   else {
     console.log(req);
