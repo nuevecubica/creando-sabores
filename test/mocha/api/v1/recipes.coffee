@@ -201,21 +201,42 @@ describe 'API v1: /recipes', ->
         .end(done)
 
   describe 'PUT /recipe/:recipe/like', ->
+
     describe 'if it does not have a vote from the user', ->
-      it 'adds one to the recipe\'s like counter'
+
+      beforeEach (done) ->
+        recipe = data.recipes.filter
+
+      it 'adds one to the recipe\'s like counter', (done) ->
+        request
+        .get('')
+        .set('Accept', 'application/json')
+        .set('cookie', cookie)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+        )
+        .end(done)
+
       it 'adds the recipe to the user\'s `likes` list'
+
     describe 'if it has a vote from the user already', ->
       it 'keeps the recipe\'s like count'
       it 'keeps the users\'s `likes` list'
+
     describe 'if it comes from an invalid referer', ->
       it 'ignores this call'
 
   describe 'PUT /recipe/:recipe/unlike', ->
+
     describe 'if it does not have a vote from the user', ->
       it 'keeps the recipe\'s like count'
       it 'keeps the users\'s `likes` list'
+
     describe 'if it has a vote from the user', ->
       it 'substracts one from the recipe\'s like counter'
       it 'takes away the recipe from the user\'s `likes` list'
+
     describe 'if it comes from an invalid referer', ->
       it 'ignores this call'
