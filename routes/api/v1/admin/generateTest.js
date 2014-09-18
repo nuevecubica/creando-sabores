@@ -1,5 +1,6 @@
 var async = require('async'),
   data = require('../../../../test/data.json'),
+  _ = require('underscore'),
   answer = {
     success: false,
     error: false
@@ -11,192 +12,62 @@ var testMode = function(keystone) {
     keystone = require('keystone');
   }
 
-  var Users = keystone.list('User'),
-    Recipes = keystone.list('Recipe'),
-    Contests = keystone.list('Contest');
-
-  // End function maker
-  var end = function(done, caller) {
-    return function(err) {
-      if (err) {
-        console.error('Error on done from %s: ', caller || 'unknown', err);
-      }
-      // console.log('Database reset done');
-      if (done) {
-        return done(err);
-      }
-      return err;
-    };
-  };
-
-  // 'drop' destroys the indexes and, while they are
-  // regenerating, 'unique' property won't be checked
-  var testDrop = function(callback) {
-    // console.log('Drop database');
-    Recipes.model.collection.drop(function(err1) {
-      Users.model.collection.drop(function(err2) {
-        Contests.model.collection.drop(function(err3) {
-          if (callback) {
-            callback(err1 || err2 || err3);
-          }
-        });
-      });
-    });
-  };
-
-  var testClean = function(callback) {
-    // console.log('Clean database');
-    Recipes.model.remove({}, function(err1) {
-      Users.model.remove({}, function(err2) {
-        Contests.model.remove({}, function(err3) {
-          if (callback) {
-            callback(err1 || err2 || err3);
-          }
-        });
-      });
-    });
-  };
-
-  // Load all the users
-  var testAdminsAdd = function(done) {
-    var add = function(admin, callback) {
-      var userM = new Users.model();
-      userM.name = admin.name;
-      userM.username = admin.username;
-      userM.email = admin.email;
-      if (admin.password) {
-        userM.password = admin.password;
-      }
-      userM.about = admin.about;
-      userM.media = admin.media;
-      userM.isAdmin = true;
-      userM.save(function(err) {
-        // console.log('admin saved', err);
-        if (callback) {
-          callback(err);
-        }
-      });
-    };
-
-    async.each(data.admins, add, end(done));
-  };
-
-  // Load all the users
-  var testUsersAdd = function(done) {
-    var add = function(user, callback) {
-      var userM = new Users.model();
-      userM.name = user.name;
-      userM.username = user.username;
-      userM.email = user.email;
-      if (user.password) {
-        userM.password = user.password;
-      }
-      userM.about = user.about;
-      userM.media = user.media;
-      userM.save(function(err) {
-        // console.log('user saved', err);
-        if (callback) {
-          callback(err);
-        }
-      });
-    };
-
-    async.eachSeries(data.users, add, end(done));
-  };
-
-  // Load all the recipes
-  var testRecipesAdd = function(done) {
-    // console.log('Adding test recipes');
-    var users = null;
-    var add = function(recipe, callback) {
-      var recipeM = new Recipes.model();
-      for (var val in recipe) {
-        if (val === 'author') {
-          recipeM['author'] = users[recipe.author - 1];
-        }
-        else if (val === 'contest') {
-          recipeM['contest']['id'] = contests[recipe.contest.id];
-          recipeM['contest']['state'] = recipe.contest.state;
-        }
-        else {
-          recipeM[val] = recipe[val];
-        }
-      }
-      recipeM.save(function(err) {
-        // console.log('recipe saved', err);
-        if (callback) {
-          callback(err);
-        }
-      });
-    };
-    var usersList = [];
-    var contests = {};
-    for (var i = 0, l = data.users.length; i < l; i++) {
-      usersList.push(data.users[i].username);
-    }
-
-    Users.model.find({
-      username: {
-        '$in': usersList
-      }
-    }).sort({
-      username: 1
-    }).exec(function(err, results) {
-      if (err) {
-        console.log(err);
-      }
-
-      users = results;
-      Contests.model.find().exec(function(err, results) {
-        for (var i = 0, l = results.length; i < l; i++) {
-          contests[results[i].slug] = results[i];
-        }
-        async.each(data.recipes, add, end(done));
-      });
-    });
-  };
-
-  // Load all contests
-  var testContestsAdd = function(done) {
-    var add = function(contest, callback) {
-      var contestM = new Contests.model();
-      for (var val in contest) {
-        if (val) {
-          contestM[val] = contest[val];
-        }
-      }
-      contestM.save(function(err) {
-        if (callback) {
-          callback(err);
-        }
-      });
-    };
-    async.each(data.contests, add, end(done));
-  };
-
   // Return
   var resp = {};
 
   // Run loaders
-  resp.resetDatabase = function(done) {
-    async.series([
-      testDrop,
-      testAdminsAdd,
-      testUsersAdd,
-      testContestsAdd,
-      testRecipesAdd
-    ], end(done));
+  resp.revertDatabase = function(end) {
+    keystone.mongoose.connection.db.collections(function getCollections(err, collections) {
+      if (!err) {
+        // console.log('Collections', collections.length);
+        async.each(collections, function(collection, done) {
+          var name = collection.collectionName;
+          var orig = name.substr(0, name.length - 5);
+          if (name === orig + '_orig') {
+            keystone.mongoose.connection.db.collection(orig, function getCollection(err, collectionOrig) {
+              if (!err) {
+                // console.log('Restoring %s', name);
+                async.series([
+
+                  function remove(cb) {
+                    collectionOrig.remove({}, function(err, reply) {
+                      cb(err);
+                    });
+                  },
+                  function insert(cb) {
+                    collection.find().toArray(function(err, elems) {
+                      if (!err) {
+                        async.each(elems, function insertElement(elem, _cb) {
+                          // console.log('Inserting %s in %s', elem._id, orig);
+                          collectionOrig.insert(elem, function(err, reply) {
+                            _cb(err);
+                          });
+                        }, cb);
+                      }
+                      else {
+                        cb(err);
+                      }
+                    });
+                  }
+                ], done);
+              }
+              else {
+                end(err);
+              }
+            });
+          }
+          else {
+            done();
+          }
+        }, end);
+      }
+      else {
+        end(err);
+      }
+    });
   };
 
-  resp.revertDatabase = function(done) {
-    async.series([
-      testClean,
-      testAdminsAdd,
-      testUsersAdd,
-      testContestsAdd,
-      testRecipesAdd
-    ], end(done));
-  };
+  resp.resetDatabase = resp.revertDatabase;
 
   return resp;
 };
