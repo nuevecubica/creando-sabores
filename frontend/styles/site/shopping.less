@@ -1,0 +1,54 @@
+
+@recipes-color-text: @chef-color-white;
+@recipes-grid-border: @chef-color-white;
+
+@ingredients-color-check-enabled: @chef-color-brick-bg;
+@ingredients-color-check-disabled: @chef-color-gray-bg;
+@ingredients-border-check-enabled: @chef-color-black;
+@ingredients-border-check-disabled: @chef-color-gray-bg;
+@ingredients-steps-bg: @chef-color-light-bg;
+
+@ingredients-color-remove: @chef-color-gray-bg;
+@ingredients-color-remove-hover: darken(@ingredients-color-remove, 60%);
+
+
+/****************
+  Shopping
+****************/
+
+#shopping {
+
+  .thumbnail{
+    height: 400px;
+  }
+  .ingredients{
+    .remaning{
+      .counter{
+
+      }
+    }
+    .button{
+      float: right;
+      padding: 15px 10px;
+      height: inherit;
+    }
+    .shopping-mail{
+      &.button{
+       
+      }
+
+    }
+    .shopping-print{
+      &.button{
+      
+      }
+
+    }
+    .shopping-remove{
+      &.button{
+   
+      }
+
+    }
+  }
+}
