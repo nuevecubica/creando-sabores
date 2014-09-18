@@ -77,6 +77,7 @@
 	"Jury award": "Premio del jurado: ",
 	"Invalid credentials": "Credenciales no válidas",
 	"Learn more": "Saber más",
+	"Like recipe!": "Vota ahora!",
 	"Loading more contests": "Cargando más concursos...",
 	"Loading more recipes": "Cargando más recetas...",
 	"Load more": "Cargar más",
@@ -170,6 +171,7 @@
 	"Top rated": "Más votados",
 	"Unknown author": "Autor desconocido",
 	"Unknown social site": "una red social",
+	"Unlike recipe!": "Receta votada!",
 	"User already exists with that email address": "Ya existe un usuario con ese correo electrónico.",
 	"User already exists with that username": "Ya existe un usuario con ese nombre.",
 	"Username": "Nombre de usuario",
@@ -184,6 +186,5 @@
 	"Winners": "Ganadores",
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"Write here contest name": "Escribe el nombre del concurso aquí",
-	" remaining ingredients in the list": " remaining ingredients in the list"
+	"Write here contest name": "Escribe el nombre del concurso aquí"
 }
