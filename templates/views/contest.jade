@@ -22,12 +22,10 @@ block content
       #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned
         .contest-actions(class=data.contest.state)
           .action.vote
-            .ui.button.chef.button-brick
-              a(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
+            a.ui.button.chef.button-brick(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
 
           .action.join
-            .ui.button.chef.button-yellow
-              a(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
+            a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
   .ui.page.grid
     #contest-content.ui.grid.segment
       #contest-description.row

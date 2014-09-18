@@ -68,7 +68,11 @@ block content
               i.icon-chef-cup.icon.font-extra-large
               = __('Contest sponsored by')
               strong= data.contest.sponsor
-  
+        #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned
+          .contest-actions(class=data.contest.state)
+            .action.vote
+              a.ui.button.chef.button-green(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
+                i.icon-chef-like.icon
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
