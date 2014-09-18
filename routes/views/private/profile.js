@@ -1,6 +1,8 @@
 var keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  formResponse = require('../../../utils/formResponse.js');
+  formResponse = require('../../../utils/formResponse.js'),
+  _ = require('underscore'),
+  modelCleaner = require('../../../utils/modelCleaner.js');
 
 
 exports = module.exports = function(req, res) {
@@ -46,6 +48,15 @@ exports = module.exports = function(req, res) {
           return res.notfound(res.__('Not found'));
         }
         else {
+          for (var i = 0, l = recipes.length; i < l; i++) {
+            recipes[i] = recipes[i].toObject({
+              virtuals: true,
+              transform: modelCleaner.transformer
+            });
+            var ingr = recipes[i].ingredients;
+            ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+            recipes[i].ingredients = ingr;
+          }
           cb(recipes);
         }
       });
