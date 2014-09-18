@@ -2,7 +2,7 @@ include ../mixins/header-share
 
 mixin header(data, section)
 
-	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg' } }
+	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg' } }
 
 	//- Change this
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
@@ -182,24 +182,21 @@ mixin header(data, section)
 	else if section === 'new-recipe'
 		- var title = ''
 		- var author = (user.name || user.username)
-		- var image = data.contest ? data.contest.thumb.header_recipe : defaults.images.recipe
+		- var image = data.contest ? data.contest.thumb.header_recipe : defaults.images.newRecipe
 
 		#new-recipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
 					include ../components/header
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+				.row.logo.corner
+					.icon-chef-logo.icon
 
 				.row.section.title
 					.editable-container
 						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
 
 				.row.section.subtitle
-					.author.shadow= author
 
 				.row
 					.ten.wide.column
