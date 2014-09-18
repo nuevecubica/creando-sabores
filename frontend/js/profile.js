@@ -153,6 +153,9 @@ $(document).ready(function() {
     $('#profile-remove-form').submit();
   });
 
+
+
+  // ========== Subsections
   var section = window.location.pathname.split('/')[2];
 
   /* global makePaginable */
@@ -162,5 +165,9 @@ $(document).ready(function() {
   else if (section === 'compra') {
     makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe', '#shopping .list');
   }
+
+  $('.checks:not(.all)').on('click', function() {
+    $(this).toggleClass('activated');
+  });
 
 });
