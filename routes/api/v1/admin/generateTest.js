@@ -12,6 +12,29 @@ var testMode = function(keystone) {
     keystone = require('keystone');
   }
 
+  var copyCollection = function(source, dest, callback) {
+    dest.remove({}, function cb(err, reply) {
+      if (!err) {
+        source.find().toArray(function cb(err, elems) {
+          if (!err && elems) {
+            async.each(elems, function insertElement(elem, next) {
+              // console.log('Inserting %s in %s', elem._id, orig);
+              dest.insert(elem, function cb(err, reply) {
+                next(err);
+              });
+            }, callback);
+          }
+          else {
+            callback(err);
+          }
+        });
+      }
+      else {
+        callback(err);
+      }
+    });
+  };
+
   // Return
   var resp = {};
 
@@ -20,36 +43,14 @@ var testMode = function(keystone) {
     keystone.mongoose.connection.db.collections(function getCollections(err, collections) {
       if (!err) {
         // console.log('Collections', collections.length);
-        async.each(collections, function(collection, done) {
-          var name = collection.collectionName;
-          var orig = name.substr(0, name.length - 5);
-          if (name === orig + '_orig') {
-            keystone.mongoose.connection.db.collection(orig, function getCollection(err, collectionOrig) {
+        async.each(collections, function each(source, next) {
+          var sourceName = source.collectionName;
+          var destName = sourceName.substr(0, sourceName.length - 5);
+          if (sourceName === destName + '_orig') {
+            keystone.mongoose.connection.db.collection(destName, function getCollection(err, dest) {
               if (!err) {
                 // console.log('Restoring %s', name);
-                async.series([
-
-                  function remove(cb) {
-                    collectionOrig.remove({}, function(err, reply) {
-                      cb(err);
-                    });
-                  },
-                  function insert(cb) {
-                    collection.find().toArray(function(err, elems) {
-                      if (!err) {
-                        async.each(elems, function insertElement(elem, _cb) {
-                          // console.log('Inserting %s in %s', elem._id, orig);
-                          collectionOrig.insert(elem, function(err, reply) {
-                            _cb(err);
-                          });
-                        }, cb);
-                      }
-                      else {
-                        cb(err);
-                      }
-                    });
-                  }
-                ], done);
+                copyCollection(source, dest, next);
               }
               else {
                 end(err);
@@ -57,7 +58,7 @@ var testMode = function(keystone) {
             });
           }
           else {
-            done();
+            next();
           }
         }, end);
       }
