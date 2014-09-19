@@ -62,7 +62,7 @@ var getRecipe = function(options, callback) {
 
           if (options.user) {
             // Am I the owner?
-            own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
+            data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
             // Is it on my shopping list?
             data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
             // Has it my like?
