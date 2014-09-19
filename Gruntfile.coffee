@@ -411,7 +411,7 @@ module.exports = (grunt) ->
   grunt.registerTask "test:backend", ->
     grunt.task.run ["env:test", "lint", "mochaTest:development"]
 
-  grunt.registerTask "test:fontend", ->
+  grunt.registerTask "test:frontend", ->
     grunt.task.run ["env:test", "lint", "mocha_casperjs:development"]
 
   grunt.registerTask "test", ->
