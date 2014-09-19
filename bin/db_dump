@@ -3,14 +3,14 @@
 db='chefcito-test'
 target='./test/db_dump/'
 
-# DB from params
+# Target from params
 if [ "x$1" != "x" ]; then
-  db="$1"
+  target="$1"
 fi
 
-# Target from params
+# DB from params
 if [ "x$2" != "x" ]; then
-  target="$2"
+  db="$2"
 fi
 
 # Target folder
@@ -41,6 +41,9 @@ color_icon=$'\xF0\x9F\x92\xBE'
 # Dump everything
 echo -e "${color_icon}  ${color_1}===> ${color_2}Generating dump of ${db}${color_4} in ${target}"
 for collection in $(collections); do
-  echo -e "${color_icon}  ${color_1}---> ${color_3}Exporting collection ${color_2}${collection}${color_4} >" $(mongoexport --db "${db}" --collection "${collection}" --out "${target}${collection}.json" | grep -vi "connected")
+  if [[ $collection != 'app_updates' && $collection != 'system.indexes' && ! -z $(echo $collection | grep -v 'orig') ]]; then
+    mongo=$(mongoexport --db "${db}" --collection "${collection}" --out "${target}${collection}.json" | grep -vi "connected")
+    echo -e "${color_icon}  ${color_1}---> ${color_3}Exporting collection ${color_2}${collection}${color_4} > ${mongo}"
+  fi
 done
 echo -ne ${color_no}

@@ -8,7 +8,7 @@
 @contest-winners-header-color: @chef-color-white;
 @contest-ranking-bg: @chef-color-light-bg;
 @chef-color-voted: @chef-color-blue-bg;
-@chef-color-vote: @chef-color-brick-bg;
+@chef-color-vote: @chef-color-gray-bg;
 
 // Font color
 @contest-ranking-info-color: @chef-color-black;
@@ -549,33 +549,50 @@
   }
   .rating{
     height: 70px;
-    width: 175px;
+    width: 150px;
     float: right;
+    .like-button{
+      cursor: pointer;
+    }
     .like{
       margin-top: 40px;
       float: right;
-      cursor: pointer;
       .icon{
-        margin-right: 10px;
+        margin-right: 20px;
+        color: @chef-color-vote;
+        .font-extra-large;
       }
-      
     }
-    .span{
-
+    .like-counter{
+      position: relative;
+      display: inline-block;
+      background-color:  @chef-color-vote;
+      padding:5px 10px;
+      &:before{
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid;
+        border-right-color: @chef-color-vote;
+        left: -15px;
+        top: 6.8px;
+      }
     }
     .voted{
       display: block;
       text-align: right;
-      width: 175px;
+      width: 155px;
       position: absolute;
       top: 10px;
-      .font-extra-larger;
+      .font-extra-large;
       text-transform: uppercase;
       font-family: @pinto-fonts;
-      color: @chef-color-voted;
       &.on{
         display:none;
-        color: @chef-color-vote;
+        color: @chef-color-voted;
       }
     }
     &.liked{
@@ -585,9 +602,14 @@
           display:block;
         }
       }
-      .like{
-        .icon{
-          color: @chef-color-vote;
+      .like-button{
+        color: @chef-color-voted;
+      }
+      .like-counter{
+        color: #fff;
+        background-color: @chef-color-voted;
+        &:before{
+          border-right-color: @chef-color-voted;
         }
       }
     }

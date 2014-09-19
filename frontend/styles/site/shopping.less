@@ -1,0 +1,87 @@
+
+@recipes-color-text: @chef-color-white;
+@recipes-grid-border: @chef-color-white;
+
+@ingredients-color-check-enabled: @chef-color-brick-bg;
+@ingredients-color-check-disabled: @chef-color-gray-bg;
+@ingredients-border-check-enabled: @chef-color-black;
+@ingredients-border-check-disabled: @chef-color-gray-bg;
+@ingredients-steps-bg: @chef-color-light-bg;
+
+@ingredients-color-remove: @chef-color-gray-bg;
+@ingredients-color-remove-hover: darken(@ingredients-color-remove, 60%);
+
+
+/****************
+  Shopping
+****************/
+
+#shopping {
+  
+  .thumbnail{
+    height: auto;
+    background-size: contain;
+    margin-left: 0;
+    h2.header{
+      background-color: #fff;
+      opacity: .6;
+      font-family: pinto;
+      padding: 12px;
+      margin: auto;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      width: 29.25%;
+      left:0;
+    }
+  }
+  .ingredients{
+    background-color: inherit;
+    min-height: 350px;
+    #shopping-header{
+      &.ui.grid .row .column{
+      }
+      .remaining{
+        font-weight: bold;
+        .counter{
+          color: @ingredients-color-check-enabled;
+        }
+      }
+    }
+    #shopping-ingredients{
+      margin-top: -15px;
+      &.ui.grid .column.ingredient{
+        margin: 10px 0;
+      }
+    }
+    .button{
+      float: right;
+      padding: 10px;
+      height: inherit;
+      margin-left: 3px;
+      .icon{
+      
+        &:before{
+          margin: 0;
+        }
+      }
+    }
+    .shopping-mail{
+      &.button{
+       
+      }
+    }
+    .shopping-print{
+      &.button{
+      
+      }
+    }
+    .shopping-remove{
+      &.button{
+        .icon{
+          padding: 2px;
+        }
+      }
+    }
+  }
+}

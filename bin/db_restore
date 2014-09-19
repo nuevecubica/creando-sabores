@@ -1,0 +1,39 @@
+#!/bin/bash
+
+db='chefcito-test'
+target='./test/db_dump/'
+
+# Target from params
+if [ "x$1" != "x" ]; then
+  target="$1"
+fi
+
+# DB from params
+if [ "x$2" != "x" ]; then
+  db="$2"
+fi
+
+# Target folder
+if [ ! -d $target ]; then
+  echo "Error: Target ${target} does not exist"
+  exit 1
+fi
+
+# Colors
+color_1='\033[1;34m'
+color_2='\033[1;37m'
+color_3='\033[0;37m'
+color_4='\033[1;30m'
+color_no='\033[0m'
+color_icon=$'\xF0\x9F\x92\xBE'
+
+# Dump everything
+echo -e "${color_icon}  ${color_1}===> ${color_2}Restoring dumps of ${db}${color_4} from ${target}"
+for file in ${target}*.json; do
+  collection="$(basename $file .json)_orig"
+  mongo "${db}" --eval "printjson(db.dropCollection(${collection}))" --quiet > /dev/null
+  mongo=$(mongoimport --db "${db}" --collection "${collection}" --file "${file}" --upsert | grep -vi "connected")
+  echo -e "${color_icon}  ${color_1}---> ${color_3}Importing collection ${color_2}${collection}${color_4}"
+  echo "${mongo}"
+done
+echo -ne ${color_no}

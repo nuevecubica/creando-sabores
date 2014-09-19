@@ -1,3 +1,4 @@
+/* global likeClick */
 (function() {
 
   var addTypes = function() {
@@ -376,6 +377,25 @@
       }
     });
 
+    $('.shopping-add').on('click', function() {
+      var $this = $(this);
+      var slug = $this.data('slug');
+      var url = '/api/v1/me/shopping/add/' + slug;
+      var jQXhr = $.ajax({
+        url: url,
+        type: 'GET',
+        contentType: 'application/json',
+        success: function(data) {
+          if (!data.success) {
+            var msg = 'Something went wrong!';
+            console.log(msg);
+            return;
+          }
+          $this.addClass('disabled');
+        }
+      });
+    });
+
     var setPreview = function(input, $target) {
       var $warning = $('#image-size-warning');
       if (input.files.length === 0) {
@@ -416,6 +436,8 @@
         }
       }
     };
+
+    $('.rating:not(.disabled) .like-button').click(likeClick);
 
   });
 })();

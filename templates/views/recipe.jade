@@ -72,7 +72,7 @@ block content
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
-        #info.seven.tablet-twelve.mobile-eight.wide.column
+        #info.tablet-twelve.mobile-eight.wide.column(class = data.contest ? 'seven' : 'ten')
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
@@ -120,12 +120,17 @@ block content
                     - --r;
                 .span.skip.mobile= rating
           
-        #actions.nine.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
+        #actions.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable(class = data.contest ? 'nine' : 'six')
           .recipe-actions
-            .rating(data-slug=data.recipe.slug)
-              .ui.icon.like.font-larger
-                i.icon-chef-like.icon.like-button.font-extra-larger
-                span.like-counter= data.recipe.likes || 0
+            if (data.contest)
+              - var ratingclasses = []
+              - if (data.liked) ratingclasses.push('liked')
+              - if (['submission', 'votes'].indexOf(data.contest.state) === -1) ratingclasses.push('disabled')
+              - ratingclasses = ratingclasses.join(' ')
+              .rating(data-slug=data.recipe.slug , class = ratingclasses)
+                .ui.icon.like.font-larger
+                  i.icon-chef-like.icon.like-button.font-extra-larger
+                  span.like-counter= data.recipe.likes || 0
             .favourite
               .ui.button.chef.button-yellow.switch
                 i.icon-chef-heart.icon.checks.chef
@@ -145,6 +150,9 @@ block content
           h2.ui.header= __('Ingredients')
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
+
+          .ui.button.chef.button-green.shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
+            a= __('Add to shopping basket')
 
         if data.contest
           .recipe-contest-ingredient.sixteen.wide.column
