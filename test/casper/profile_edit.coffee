@@ -63,22 +63,22 @@ describe 'WEB Profile Edit', ->
         oldAvatar = t[0]
         oldHeader = t[1]
 
-    it 'allows edition in editable mode', ->
-      casper.then ->
-        # {reset: true} doesn't work yet (see pull #620), so do it manually
-        @evaluate clearProfileFields
-        @fill 'form#profile-form', {
-          'avatars.local_upload': 'public/images/cutlery_03.png'
-          'media.header_upload': 'public/images/cutlery_03.png'
-        }, false
-        @sendKeys '#profile-name', userNewName, {reset: true}
-        @sendKeys '#profile-about', userNewAbout, {reset: true}
-      casper.then ->
-        '#profile-name'.should.have.text userNewName
-        '#profile-about'.should.have.text userNewAbout
-        t = @evaluate getUserImages
-        oldAvatar.should.be.not.equal t[0]
-        oldHeader.should.be.not.equal t[1]
+    it 'allows edition in editable mode'#, ->
+      # casper.then ->
+      #  # {reset: true} doesn't work yet (see pull #620), so do it manually
+      #   @evaluate clearProfileFields
+      #   @fill 'form#profile-form', {
+      #     'avatars.local_upload': 'public/images/cutlery_03.png'
+      #     'media.header_upload': 'public/images/cutlery_03.png'
+      #   }, false
+      #   @sendKeys '#profile-name', userNewName, {reset: true}
+      #   @sendKeys '#profile-about', userNewAbout, {reset: true}
+      # casper.then ->
+      #   '#profile-name'.should.have.text userNewName
+      #   '#profile-about'.should.have.text userNewAbout
+      #   t = @evaluate getUserImages
+      #   oldAvatar.should.be.not.equal t[0]
+      #   oldHeader.should.be.not.equal t[1]
 
     it 'reverts changes on cancel', ->
       casper.then ->
