@@ -12,6 +12,6 @@ $(document).ready(function() {
 
   $('.like-button').click(likeClick);
   $(document).bind('ajaxSuccess', function() {
-    $('.like-button').click(likeClick);
+    $('#recipes:not(.no-more-votes) .like-button').click(likeClick);
   });
 });
