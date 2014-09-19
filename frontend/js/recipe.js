@@ -390,7 +390,7 @@
             console.log(msg);
             return;
           }
-          $this.addClass('added');
+          $this.addClass('disabled');
         }
       });
     });
