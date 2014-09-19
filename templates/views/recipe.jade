@@ -123,7 +123,11 @@ block content
         #actions.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable(class = data.contest ? 'nine' : 'six')
           .recipe-actions
             if (data.contest)
-              .rating(data-slug=data.recipe.slug , class = data.liked ? 'liked' : '')
+              - var ratingclasses = []
+              - if (data.liked) ratingclasses.push('liked')
+              - if (['submission', 'votes'].indexOf(data.contest.state) === -1) ratingclasses.push('disabled')
+              - ratingclasses = ratingclasses.join(' ')
+              .rating(data-slug=data.recipe.slug , class = ratingclasses)
                 .ui.icon.like.font-larger
                   i.icon-chef-like.icon.like-button.font-extra-larger
                   span.like-counter= data.recipe.likes || 0
