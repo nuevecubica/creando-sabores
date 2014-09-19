@@ -89,6 +89,7 @@ exports = module.exports = function(req, res) {
           }
 
           locals.data.recipe = result;
+          locals.data.liked = req.user.likes.indexOf(result._id) !== -1;
           locals.title = result.title + ' - ' + res.__('Recipe');
 
           // Is it a contest recipe?
