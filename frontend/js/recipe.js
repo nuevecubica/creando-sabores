@@ -437,7 +437,7 @@
       }
     };
 
-    $('.like-button').click(likeClick);
+    $('.like-button:not(.disabled)').click(likeClick);
 
   });
 })();
