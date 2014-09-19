@@ -27,8 +27,8 @@ mixin contest-recipe(recipe,i)
 
 	.eleven.wide.column
 			.rating(data-slug = recipe.slug, class = recipe.liked ? 'liked' : '')
-				.voted.on= __('Unlike recipe!')
-				.voted= __('Like recipe!')
+				.voted.on.like-button= __('Unlike recipe!')
+				.voted.like-button= __('Like recipe!')
 				.ui.icon.like.font-larger
 					i.icon-chef-like.icon.like-button.font-larger
 					span.like-counter= recipe.likes || 0
