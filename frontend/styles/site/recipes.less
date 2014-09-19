@@ -495,3 +495,54 @@
     }
   }
 }
+.rating{
+    
+    .like-button{
+      cursor: pointer;
+    }
+    .like{
+
+      
+      .icon{
+        margin-right: 20px;
+        color: @chef-color-vote;
+        .font-extra-large;
+      }
+    }
+    .like-counter{
+      position: relative;
+      display: inline-block;
+      background-color:  @chef-color-vote;
+      padding:3px 5px;
+      &:before{
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid;
+        border-right-color: @chef-color-vote;
+        left: -15px;
+        top: 6.8px;
+      }
+    }
+    &.liked{
+      .voted{
+        display: none;
+        &.on{
+          display:block;
+        }
+      }
+      .like-button{
+        color: @chef-color-voted;
+      }
+      .like-counter{
+        color: #fff;
+        background-color: @chef-color-voted;
+        &:before{
+          border-right-color: @chef-color-voted;
+        }
+      }
+    }
+  }

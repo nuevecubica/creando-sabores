@@ -26,7 +26,7 @@ mixin contest-recipe(recipe,i)
 								- difficulty = difficulty - 1;
 
 	.eleven.wide.column
-			.rating(data-slug = recipe.slug, class = recipe.liked ? 'liked' : '')
+			.rating(data-slug = recipe.slug , class = recipe.liked ? 'liked' : '')
 				.voted.on.like-button= __('Unlike recipe!')
 				.voted.like-button= __('Like recipe!')
 				.ui.icon.like.font-larger
