@@ -62,8 +62,10 @@ var read = function(options, callback) {
 
           // Am I the owner?
           if (options.user) {
-            data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
+            own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
           }
+
+          data.own = own;
 
           if (
             (result.state === 0 && !data.own) || // Drafts only for the owner

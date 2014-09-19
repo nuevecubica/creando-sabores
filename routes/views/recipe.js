@@ -34,11 +34,14 @@ exports = module.exports = function(req, res) {
 
     if (!locals.isNew) {
       service.recipe.read({
-        recipe: locals.filters.recipe
+        recipe: locals.filters.recipe,
+        user: req.user
       }, function(err, result) {
         if (!err && result) {
           locals.data = result;
+          locals.own = result.own;
           locals.title = result.recipe.title + ' - ' + res.__('Recipe');
+          console.log(locals);
           console.log('no error no new');
           next(null);
         }
