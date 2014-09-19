@@ -41,12 +41,9 @@ exports = module.exports = function(req, res) {
           locals.data = result;
           locals.own = result.own;
           locals.title = result.recipe.title + ' - ' + res.__('Recipe');
-          console.log(locals);
-          console.log('no error no new');
           next(null);
         }
         else {
-          console.log('error no new', err);
           return res.notfound(res.__('Not found'));
         }
       });
@@ -57,11 +54,9 @@ exports = module.exports = function(req, res) {
       }, function(err, result) {
         if (!err && result) {
           locals.data = result;
-          console.log('no error new');
           next(null);
         }
         else {
-          console.log('error new', err);
           return res.notfound(res.__('Not found'));
         }
       });
