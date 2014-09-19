@@ -33,7 +33,7 @@ exports = module.exports = function(req, res) {
   view.on('init', function(next) {
 
     if (!locals.isNew) {
-      service.recipe.read({
+      service.recipe.get({
         recipe: locals.filters.recipe,
         user: req.user
       }, function(err, result) {
@@ -49,7 +49,7 @@ exports = module.exports = function(req, res) {
       });
     }
     else {
-      service.recipe.create({
+      service.recipe.get.new({
         contest: locals.filters.contest
       }, function(err, result) {
         if (!err && result) {

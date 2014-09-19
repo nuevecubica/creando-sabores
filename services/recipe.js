@@ -29,12 +29,12 @@ var defaults = {
 };
 
 /*
-Return example:
-  data: {
-    recipe: {},
-    contest: {},
-    own: {}
-  }
+  Result example:
+    data: {
+      recipe: {},
+      contest: {},
+      own: {}
+    }
  */
 
 /**
@@ -43,7 +43,7 @@ Return example:
  * @param  {Function} callback
  * @return {null}
  */
-var read = function(options, callback) {
+var getRecipe = function(options, callback) {
   var own = false,
     data = {};
 
@@ -118,7 +118,7 @@ var read = function(options, callback) {
  * @param  {Function} callback
  * @return {null}
  */
-var create = function(options, callback) {
+var getRecipeNew = function(options, callback) {
   var data = {};
 
   options = options || {};
@@ -149,9 +149,12 @@ var create = function(options, callback) {
   }
 };
 
-exports = module.exports = {
-  create: create,
-  read: read,
-  update: null,
-  remove: null
+/*
+  Set exportable object
+ */
+var servicesRecipe = {
+  get: getRecipe
 };
+servicesRecipe.get.new = getRecipeNew;
+
+exports = module.exports = servicesRecipe;
