@@ -15,11 +15,12 @@ paths =
       "app-test-init.js"
       "configs/**/*.js"
       "middlewares/**/*.js"
-      "routes/**/*.js"
       "models/**/*.js"
+      "routes/**/*.js"
+      "services/**/*.js"
+      "test/**/*.js"
       "updates/**/*.js"
       "utils/**/*.js"
-      "test/**/*.js"
     ]
     config: [
       "configs/**/*.js"
@@ -406,6 +407,12 @@ module.exports = (grunt) ->
     grunt.task.run ["jshint:server"]
     grunt.task.run ["jshint:client"]
     grunt.task.run ["coffeelint:all"]
+
+  grunt.registerTask "test:backend", ->
+    grunt.task.run ["env:test", "lint", "mochaTest:development"]
+
+  grunt.registerTask "test:fontend", ->
+    grunt.task.run ["env:test", "lint", "mocha_casperjs:development"]
 
   grunt.registerTask "test", ->
     grunt.task.run ["env:test", "lint", "mochaTest:development",
