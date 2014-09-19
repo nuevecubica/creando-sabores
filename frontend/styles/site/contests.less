@@ -622,4 +622,18 @@
       top: 10px;
     }
   }
+  #recipes{
+    &.no-more-votes{
+      .rating{
+        opacity: 0.3;
+        cursor: not-allowed;
+        i.icon.like-button{
+          cursor: not-allowed;
+        }
+        .voted{
+          display: none;
+        }
+      }
+    }
+  }
 }

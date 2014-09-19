@@ -10,7 +10,7 @@ $(document).ready(function() {
     'order': order
   });
 
-  $('.like-button').click(likeClick);
+  $('#recipes:not(.no-more-votes) .like-button').click(likeClick);
   $(document).bind('ajaxSuccess', function() {
     $('#recipes:not(.no-more-votes) .like-button').click(likeClick);
   });
