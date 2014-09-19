@@ -408,6 +408,12 @@ module.exports = (grunt) ->
     grunt.task.run ["jshint:client"]
     grunt.task.run ["coffeelint:all"]
 
+  grunt.registerTask "test:backend", ->
+    grunt.task.run ["env:test", "lint", "mochaTest:development"]
+
+  grunt.registerTask "test:fontend", ->
+    grunt.task.run ["env:test", "lint", "mocha_casperjs:development"]
+
   grunt.registerTask "test", ->
     grunt.task.run ["env:test", "lint", "mochaTest:development",
                     "mocha_casperjs:development"]
