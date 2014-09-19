@@ -31,7 +31,7 @@
       display: block;
       position: absolute;
       bottom: 0;
-      width: 29.5%;
+      width: 29.25%;
       left:0;
     }
   }
@@ -58,6 +58,13 @@
       float: right;
       padding: 10px;
       height: inherit;
+      margin-left: 3px;
+      .icon{
+      
+        &:before{
+          margin: 0;
+        }
+      }
     }
     .shopping-mail{
       &.button{
@@ -71,7 +78,9 @@
     }
     .shopping-remove{
       &.button{
-
+        .icon{
+          padding: 2px;
+        }
       }
     }
   }
