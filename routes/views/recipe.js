@@ -92,6 +92,10 @@ exports = module.exports = function(req, res) {
           locals.data.liked = req.user.likes.indexOf(result._id) !== -1;
           locals.title = result.title + ' - ' + res.__('Recipe');
 
+          // On my shopping list?
+          var inShoppingList = req.user.shopping.indexOf(result._id) !== -1;
+          locals.data.inShoppingList = inShoppingList;
+
           // Is it a contest recipe?
           if (result.contest) {
             // Populate nested contest

@@ -27,14 +27,15 @@ exports = module.exports = function(req, res) {
       var q = Contest.model.findOne({
         slug: req.params.contest
       });
-      q.exec(function(err, result) {
-        if (err || !result) {
-          res.status(404);
-          answer.error = true;
-          return res.apiResponse(answer);
-        }
-        next(err, result);
-      });
+      q.sort('title')
+        .exec(function(err, result) {
+          if (err || !result) {
+            res.status(404);
+            answer.error = true;
+            return res.apiResponse(answer);
+          }
+          next(err, result);
+        });
     },
 
     function(contest, next) {
@@ -64,6 +65,9 @@ exports = module.exports = function(req, res) {
             });
             var liked = req.user.likes.indexOf(recipes.results[i]._id) !== -1;
             recipes.results[i].liked = liked;
+            var ingr = recipes.results[i].ingredients;
+            ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+            recipes.results[i].ingredients = ingr;
           }
           answer.success = true;
           answer.recipes = recipes;

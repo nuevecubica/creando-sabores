@@ -146,6 +146,9 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
+          .ui.button.chef.button-green.shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
+            a= __('Add to shopping basket')
+
         if data.contest
           .recipe-contest-ingredient.sixteen.wide.column
             .icon-chef-cesta.checks

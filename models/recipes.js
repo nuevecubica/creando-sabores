@@ -350,6 +350,9 @@ Recipe.schema.virtual('thumb').get(function() {
     'header': this._.header.src({
       transformation: 'header_limit_thumb'
     }) || defaults.images.header,
+    'shopping_list': this._.header.src({
+      transformation: 'shopping_list_thumb'
+    }) || defaults.images.header,
     'hasQuality': imageQuality(this.header).hasQuality
   };
 });
