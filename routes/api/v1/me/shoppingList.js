@@ -1,5 +1,7 @@
 var async = require('async'),
-  keystone = require('keystone');
+  keystone = require('keystone'),
+  modelCleaner = require('../../../../utils/modelCleaner.js'),
+  _ = require('underscore');
 
 /*
 	/me/shopping/add/slug
@@ -61,6 +63,15 @@ exports = module.exports = function(req, res) {
           });
         }
         else {
+          for (var i = 0, l = recipes.length; i < l; i++) {
+            recipes[i] = recipes[i].toObject({
+              virtuals: true,
+              transform: modelCleaner.transformer
+            });
+            var ingr = recipes[i].ingredients;
+            ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+            recipes[i].ingredients = ingr;
+          }
           var totalPages = Math.ceil(req.user.shopping.length / perPage);
           answer.recipes = {
             total: req.user.shopping.length,

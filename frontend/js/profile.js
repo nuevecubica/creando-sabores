@@ -163,7 +163,7 @@ $(document).ready(function() {
     makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
   }
   else if (section === 'compra') {
-    makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe', '#shopping .list');
+    makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe-shopping', '#shopping .list');
   }
 
   $('.checks:not(.all)').on('click', function() {
