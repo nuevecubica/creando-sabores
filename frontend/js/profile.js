@@ -153,7 +153,52 @@ $(document).ready(function() {
     $('#profile-remove-form').submit();
   });
 
+
+
+  // ========== Subsections
+  var section = window.location.pathname.split('/')[2];
+
   /* global makePaginable */
-  makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
+  if (section === 'recetas') {
+    makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
+  }
+  else if (section === 'compra') {
+    makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe-shopping', '#shopping .list');
+  }
+
+  $('.checks:not(.all)').on('click', function() {
+    var $this = $(this);
+    $this.toggleClass('activated');
+    var $container = $this.closest('.ingredients');
+    var remaining = $container.find('.checks:not(.activated)').length;
+    $container.find('.counter').html(remaining);
+  });
+
+  var removeClick = function() {
+    var $this = $(this);
+    var $container = $this.closest('.row.position');
+    var slug = $container.data('slug');
+    var url = '/api/v1/me/shopping/remove/' + slug;
+    var jQXhr = $.ajax({
+      url: url,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(data) {
+        if (!data.success) {
+          var msg = 'Something went wrong!';
+          console.log(msg);
+          return;
+        }
+        $container.hide(400, function() {
+          $container.remove();
+        });
+      }
+    });
+  };
+
+  $('.shopping-remove').click(removeClick);
+  $(document).bind('ajaxSuccess', function() {
+    $('.shopping-remove').click(removeClick);
+  });
 
 });

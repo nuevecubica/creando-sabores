@@ -60,12 +60,17 @@ var getRecipe = function(options, callback) {
 
           data.recipe = _.defaults(parseRecipe(result), defaults);
 
+          data.inShoppingList = false;
+          data.liked = false;
+          date.own = false;
+
           // Am I the owner?
           if (options.user) {
             own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
+            // On my shopping list?
+            data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
+            data.liked = (options.user.likes.indexOf(result._id) !== -1);
           }
-
-          data.own = own;
 
           if (
             (result.state === 0 && !data.own) || // Drafts only for the owner

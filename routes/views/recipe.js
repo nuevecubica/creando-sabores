@@ -39,7 +39,6 @@ exports = module.exports = function(req, res) {
       }, function(err, result) {
         if (!err && result) {
           locals.data = result;
-          locals.data.liked = req.user.likes.indexOf(result._id) !== -1;
           locals.own = result.own;
           locals.title = result.recipe.title + ' - ' + res.__('Recipe');
           next(null);
