@@ -2,21 +2,48 @@ data = require './../data.json'
 base = 'http://localhost:3000'  # We're outside node, so no keystone
 utils = require '../utils/casper-editor.coffee'
 
-selectors = [
-  '#recipe-title',
-  '#recipe-time .set-editable',
-  '#recipe-portions .set-editable',
-  '#recipe-description .set-editable'
-]
+selectors = {
+  recipes: '#recipes',
+  recipe: '#recipes .like-counter'
+  recipeButton: '#recipes .row.position:first-child .like-button'
+}
+
+getRecipeLikeCounters = () ->
+  # console.log 'INDEX-----', index, document.getElementsByClassName('like-counter'), document.getElementsByClassName('like-counter').length, document.getElementsByClassName('like-counter').toArray()
+  return document.getElementsByClassName('like-counter')[1].innerText
 
 describe 'Recipe receives a like or unlike', ->
   @timeout 60000
 
+  before (done) ->
+    casper.start base, ->
+      # Do Nothing.
+    utils.revertDB()
+
   describe 'from an anonymous user,', ->
-    describe 'user gives a like', ->
-      it 'keeps the recipe\'s like count (nothing changes)'
+    describe.only 'user gives a like', ->
+      it 'keeps the recipe\'s like count (nothing changes)', ->
+        casper.thenOpen base + '/concurso/' + data.contests[2].slug + '/participantes/reciente', ->
+          (selectors.recipes).should.be.inDOM.and.visible
+
+          console.log(actualLikes = @evaluate getRecipeLikeCounters)
+
+          @click selectors.recipeButton
+          @then =>
+            newLikes = @evaluate getRecipeLikeCounters
+            newLikes.should.be.eql actualLikes
+
     describe 'user gives an unlike', ->
-      it 'keeps the recipe\'s like count (nothing changes)'
+      it 'keeps the recipe\'s like count (nothing changes)', ->
+        casper.thenOpen base + '/concurso/' + data.contests[2].slug + '/participantes/reciente', ->
+          (selectors.recipes).should.be.inDOM.and.visible
+
+          actualLikes = @evaluate getRecipeLikeCounters 1
+
+          @click selectors.recipeButton
+          @then =>
+            newLikes = @evaluate getRecipeLikeCounters 1
+            newLikes.should.be.eql actualLikes
 
   describe 'from an authenticated user,', ->
     before (done) ->
@@ -32,7 +59,17 @@ describe 'Recipe receives a like or unlike', ->
 
     describe 'user gives a like', ->
       describe 'and recipe does not have a vote from the user', ->
-        it 'adds one to the recipe\'s like counter'
+        it 'adds one to the recipe\'s like counter', ->
+          casper.thenOpen base + '/concurso/' + data.contests[2].slug + '/participantes/reciente', ->
+            (selectors.recipes).should.be.inDOM.and.visible
+
+            actualLikes = @evaluate getRecipeLikeCounters 0
+
+            @click selectors.recipeButton
+            @then =>
+              newLikes = @evaluate getRecipeLikeCounters 0
+              newLikes.should.be.eql actualLikes + 1
+
       describe 'but recipe has a vote from the user already', ->
         it 'keeps the recipe\'s like count'
       describe 'from an unknown referer', ->

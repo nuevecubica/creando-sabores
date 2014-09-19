@@ -40,7 +40,9 @@ exports = module.exports = function(req, res) {
         if (!err && recipes) {
           var res = recipes.results;
           for (var i = 0, l = res.length; i < l; i++) {
-            res[i].liked = req.user.likes.indexOf(res[i]._id) !== -1;
+            if (req.user) {
+              res[i].liked = req.user.likes.indexOf(res[i]._id) !== -1;
+            }
           }
           locals.data.recipes = res;
           callback();

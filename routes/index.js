@@ -110,7 +110,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   //-- Recipes
   app.get('/api/v1/recipes', routes.api.v1.recipes);
-  app.put('/api/v1/recipe/:recipe/:action(like|unlike)', routes.api.v1.recipeAction);
+  app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireUserApi, routes.api.v1.recipeAction);
   //-- Contests
   app.get('/api/v1/contestsPast', routes.api.v1.contestsPast);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
