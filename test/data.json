@@ -39,6 +39,19 @@
         "origin": "none"
       }
     }
+  }, {
+    "name": "Test User3",
+    "email": "testUser3@glue.gl",
+    "password": "testUser3",
+    "username": "testUser3",
+    "about": "Test User 3",
+    "isPrivate": false,
+    "isDeactivated": false,
+    "media": {
+      "avatar": {
+        "origin": "none"
+      }
+    }
   }],
   "recipes": [{
     "description": "<p>DESCRIPTION 1</p>",
