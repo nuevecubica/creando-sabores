@@ -122,7 +122,7 @@ block content
           
         #actions.nine.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
           .recipe-actions
-            .rating(data-slug=data.recipe.slug)
+            .rating(data-slug=data.recipe.slug , class = data.liked ? 'liked' : '')
               .ui.icon.like.font-larger
                 i.icon-chef-like.icon.like-button.font-extra-larger
                 span.like-counter= data.recipe.likes || 0
