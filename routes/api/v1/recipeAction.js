@@ -52,8 +52,6 @@ exports = module.exports = function(req, res) {
               return next(err);
             }
             else if (['submission', 'votes'].indexOf(contest.state) === -1) {
-              console.log(contest.state);
-              console.log(contest);
               res.status(403);
               answer.error = true;
               answer.details = 'Contest is closed for voting.';
