@@ -49,7 +49,7 @@ exports = module.exports = function(req, res) {
         q.sort('-publishedDate');
       }
       else {
-        q.sort('-rating');
+        q.sort('-likes');
       }
 
       q.exec(function(err, recipes) {

@@ -376,10 +376,7 @@ var getNewCommunityWinner = function(callback, filterId) {
     'contest.state': 'admited',
     'isRemoved': false,
     'isBanned': false,
-    'state': 1,
-    'rating': {
-      '$gt': 0
-    }
+    'state': 1
   };
 
   if (filterId) {
@@ -390,7 +387,7 @@ var getNewCommunityWinner = function(callback, filterId) {
 
   return keystone.list('Recipe').model.findOne(find)
     .sort({
-      rating: -1
+      likes: -1
     })
     .exec(function(err, winner) {
       if (!err) {

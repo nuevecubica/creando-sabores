@@ -255,7 +255,7 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 
 };
 
-var likeClick = function() {
+var likeClick = function(e) {
   var $this = $(this);
   var $rating = $this.closest('.rating');
   var slug = $rating.data('slug');
@@ -285,4 +285,5 @@ var likeClick = function() {
       $rating.data('lock', null);
     }
   });
+  e.preventDefault();
 };
