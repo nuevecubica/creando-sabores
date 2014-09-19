@@ -377,7 +377,7 @@
       }
     });
 
-    $('.shopping-add').on('click', function() {
+    $('.shopping-add').on('click', function(e) {
       var $this = $(this);
       var slug = $this.data('slug');
       var url = '/api/v1/me/shopping/add/' + slug;
@@ -394,6 +394,7 @@
           $this.addClass('disabled');
         }
       });
+      e.preventDefault();
     });
 
     var setPreview = function(input, $target) {
