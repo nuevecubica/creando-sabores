@@ -15,11 +15,12 @@ paths =
       "app-test-init.js"
       "configs/**/*.js"
       "middlewares/**/*.js"
-      "routes/**/*.js"
       "models/**/*.js"
+      "routes/**/*.js"
+      "services/**/*.js"
+      "test/**/*.js"
       "updates/**/*.js"
       "utils/**/*.js"
-      "test/**/*.js"
     ]
     config: [
       "configs/**/*.js"
