@@ -27,7 +27,7 @@ mixin header(data, section)
 
 					if data.header
 						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
+						- var promotedUrl = data.header ? data.header.url : '/recetas'
 
 						.four.wide.column.computer.only
 
@@ -117,7 +117,7 @@ mixin header(data, section)
 
 					if data.header
 						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.slug : '/recetas'
+						- var promotedUrl = data.header ? data.header.url : '/recetas'
 
 						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
 						.img-title.eight.tablet-nine.mobile-sixteen.wide.column

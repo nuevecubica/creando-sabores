@@ -1,3 +1,4 @@
+/* global likeClick */
 (function() {
 
   var addTypes = function() {
@@ -416,6 +417,8 @@
         }
       }
     };
+
+    $('.like-button').click(likeClick);
 
   });
 })();
