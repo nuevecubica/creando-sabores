@@ -158,6 +158,13 @@
   .rating {
     transition: opacity @ani-time ease-in;
     font-size: @icons-font-size;
+    &.disabled{
+      opacity: 0.3;
+      cursor: not-allowed;
+      i.icon.like-button{
+        cursor: not-allowed;
+      }
+    }
 
     .span {
       margin-left: 10px;
