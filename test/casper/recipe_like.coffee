@@ -9,7 +9,8 @@ selectors = {
 
 getRecipeLikeCounters = () ->
   # return document.getElementsByClassName('like-counter').length
-  return parseInt(document.getElementsByClassName('like-counter').item(0).innerText)
+  return parseInt(
+    document.getElementsByClassName('like-counter').item(0).innerText)
 
 describe 'Recipe receives a like or unlike', ->
   @timeout 60000
