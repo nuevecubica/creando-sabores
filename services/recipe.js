@@ -4,6 +4,21 @@ var _ = require('underscore'),
   Recipe = keystone.list('Recipe'),
   Contest = keystone.list('Contest');
 
+var defaults = {
+  rating: 0,
+  time: 30,
+  portions: 2,
+  difficulty: 3,
+  description: '',
+  procedure: '',
+  state: 0
+};
+
+/**
+ * Coonverts paragraphs to lines
+ * @param  {model} recipe
+ * @return {model}
+ */
 var parseRecipe = function(recipe) {
   var data = {};
   if (recipe.ingredients) {
@@ -16,16 +31,6 @@ var parseRecipe = function(recipe) {
     data.procedure = _.compact(procedure.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
   }
   return _.defaults(data, recipe);
-};
-
-var defaults = {
-  rating: 0,
-  time: 30,
-  portions: 2,
-  difficulty: 3,
-  description: '',
-  procedure: '',
-  state: 0
 };
 
 /*
@@ -159,9 +164,9 @@ var getRecipeNew = function(options, callback) {
 /*
   Set exportable object
  */
-var servicesRecipe = {
+var _service = {
   get: getRecipe
 };
-servicesRecipe.get.new = getRecipeNew;
+_service.get.new = getRecipeNew;
 
-exports = module.exports = servicesRecipe;
+exports = module.exports = _service;
