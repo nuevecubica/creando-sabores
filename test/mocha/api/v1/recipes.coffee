@@ -405,60 +405,58 @@ describe 'API v1: /recipes', ->
             done()
         )
 
-      it 'keeps the recipe\'s like count'#, (done) ->
+      it 'keeps the recipe\'s like count', (done) ->
+        request
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
+        .set('Accept', 'application/json')
+        .set('Referer', config.keystone.publicUrl)
+        .set('cookie', cookie)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(
+          (err, res) ->
+            recipeLikes = res.body.likes
 
-        # request
-        # .put('/api/v1/recipe/' + recipe.slug + '/like')
-        # .set('Accept', 'application/json')
-        # .set('Referer', config.keystone.publicUrl)
-        # .set('cookie', cookie)
-        # .expect('Content-Type', /json/)
-        # .expect(200)
-        # .end(
-        #   (err, res) ->
-        #     recipeLikes = res.body.likes
+            request
+            .get('/api/v1/me/logout')
+            .set('Accept', 'application/json')
+            .set('cookie', cookie)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(
+              (err, res) ->
+                cookie = res.headers['set-cookie']
+                return 'error' if not res.body.success or res.body.error
 
-        #     request
-        #     .get('/api/v1/me/logout')
-        #     .set('Accept', 'application/json')
-        #     .set('cookie', cookie)
-        #     .expect('Content-Type', /json/)
-        #     .expect(200)
-        #     .end(
-        #       (err, res) ->
-        #         cookie = res.headers['set-cookie']
-        #         return 'error' if not res.body.success or res.body.error
+                request
+                .post('/api/v1/login')
+                .send({
+                  email: user1.email,
+                  password: user1.password
+                })
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(
+                  (err, res) ->
+                    return 'error' if not res.body.success or res.body.error
+                    cookie = res.headers['set-cookie']
 
-        #         request
-        #         .post('/api/v1/login')
-        #         .send({
-        #           email: user1.email,
-        #           password: user1.password
-        #         })
-        #         .set('Accept', 'application/json')
-        #         .expect('Content-Type', /json/)
-        #         .expect(200)
-        #         .end(
-        #           (err, res) ->
-        #             return 'error' if not res.body.success or res.body.error
-        #             cookie = res.headers['set-cookie']
-
-        #             request
-        #             .put('/api/v1/recipe/' + recipe.slug + '/unlike')
-        #             .set('Accept', 'application/json')
-        #             .set('Referer', config.keystone.publicUrl)
-        #             .set('cookie', cookie)
-        #             .expect('Content-Type', /json/)
-        #             .expect(200)
-        #             .expect(
-        #               (res) ->
-        #                 console.log '---------', res
-        #                 res.body.likes.must.be.eql(recipeLikes)
-        #             )
-        #             .end(done)
-        #         )
-        #     )
-        # )
+                    request
+                    .put('/api/v1/recipe/' + recipe.slug + '/unlike')
+                    .set('Accept', 'application/json')
+                    .set('Referer', config.keystone.publicUrl)
+                    .set('cookie', cookie)
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .expect(
+                      (res) ->
+                        res.body.likes.must.be.eql(recipeLikes)
+                    )
+                    .end(done)
+                )
+            )
+        )
 
 
       it 'keeps the users\'s `likes` list', (done) ->
