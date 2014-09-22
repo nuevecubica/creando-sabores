@@ -425,7 +425,6 @@ describe 'API v1: /me/', ->
           .end(cb)
 
         async.each data.recipes.slice(0,4), addToShoppingList, ->
-          console.log 'Async helps YOU'
           request
           .get('/api/v1/me/shopping/list?page=1&perPage=4')
           .set('cookie', cookie)
