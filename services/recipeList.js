@@ -42,7 +42,6 @@ var getRecipes = function(options, callback) {
   }
 
   if (options.userId) {
-    console.log('author', options.userId);
     query.where('author', options.userId);
   }
 

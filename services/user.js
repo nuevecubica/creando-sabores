@@ -3,7 +3,8 @@ var _ = require('underscore'),
   async = require('async'),
   User = keystone.list('User'),
   Recipe = keystone.list('Recipe'),
-  modelCleaner = require('../utils/modelCleaner.js');
+  modelCleaner = require('../utils/modelCleaner.js'),
+  service = require('./index');
 
 /**
  * Reads the user's shopping list from the database
@@ -90,12 +91,40 @@ var getShoppingList = function(options, callback) {
     });
 };
 
+var getUserByUsername = function(options, callback) {
+  options = options || {};
+
+  User.model.findOne({
+    username: options.username
+  }, callback);
+};
+
+var getUserRecipeList = function(options, callback) {
+
+  options = options || {};
+
+  service.recipeList.get({
+    sort: '-editDate',
+    page: options.page || 1,
+    perPage: options.perPage || 5,
+    fromContests: true,
+    userId: options.userId
+  }, callback);
+};
+
 /*
   Set exportable object
  */
-var servicesUser = {
-  shopping: {}
+var _service = {
+  get: getUserByUsername,
+  shopping: {
+    get: getShoppingList
+  },
+  recipeList: {
+    get: getUserRecipeList
+  }
 };
-servicesUser.shopping.get = getShoppingList;
 
-exports = module.exports = servicesUser;
+_service.get.byUsername = getUserByUsername;
+
+exports = module.exports = _service;
