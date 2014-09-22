@@ -245,3 +245,149 @@ describe 'API v1: /me/', ->
                   return 'Save failed'
             )
             .end(done)
+
+  #*---------- SHOPPING LIST ----------*
+  describe 'GET /me/shopping/:action/:recipe', ->
+    describe 'on not logged in', ->
+      it 'should response an error', (done) ->
+        request
+        .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+        .set('cookie','')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(done)
+
+    describe 'on logged in', ->
+
+      before (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+          done()
+
+      describe 'on shopping list add', (done) ->
+        it 'should response with success', (done) ->
+          request
+          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(
+            (err, res) ->
+              request
+              .get('/api/v1/me/shopping/list')
+              .set('cookie', cookie)
+              .set('Accept', 'application/json')
+              .expect('Content-Type', /json/)
+              .expect(200)
+              .expect(
+                (res) ->
+                  res.body.recipes.total.must.be.equal 1
+                  slug = res.body.recipes.results[0].slug
+                  slug.must.be.equal data.recipes[0].slug
+              ).end(done)
+          )
+
+        it 'should ignore duplicate requests', (done) ->
+          request
+          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(
+            (err, res) ->
+              request
+              .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+              .set('cookie', cookie)
+              .set('Accept', 'application/json')
+              .expect('Content-Type', /json/)
+              .expect(200)
+              .end(
+                (err, res) ->
+                  request
+                  .get('/api/v1/me/shopping/list')
+                  .set('cookie', cookie)
+                  .set('Accept', 'application/json')
+                  .expect('Content-Type', /json/)
+                  .expect(200)
+                  .expect(
+                    (res) ->
+                      res.body.recipes.total.must.be.equal 1
+                      slug = res.body.recipes.results[0].slug
+                      slug.must.be.equal data.recipes[0].slug
+                  )
+                  .end(done)
+              )
+          )
+
+        it 'should return error for missing recipe', (done) ->
+          request
+          .get('/api/v1/me/shopping/add/testDummyRecipe')
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(404)
+          .end(done)
+
+
+
+      describe 'on shopping list remove', (done) ->
+        it 'should response with success', (done) ->
+          request
+          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(
+            (err, res) ->
+              request
+              .get('/api/v1/me/shopping/remove/' + data.recipes[0].slug)
+              .set('cookie', cookie)
+              .set('Accept', 'application/json')
+              .expect('Content-Type', /json/)
+              .expect(200)
+              .end(
+                (err, res) ->
+                  request
+                  .get('/api/v1/me/shopping/list')
+                  .set('cookie', cookie)
+                  .set('Accept', 'application/json')
+                  .expect('Content-Type', /json/)
+                  .expect(200)
+                  .expect(
+                    (res) ->
+                      res.body.recipes.total.must.be.equal 0
+                  ).end(done)
+              )
+          )
+
+        it 'should ignore duplicate requests', (done) ->
+          request
+          .get('/api/v1/me/shopping/remove/' + data.recipes[0].slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(done)
+
+        it 'should return error for missing recipe', (done) ->
+          request
+          .get('/api/v1/me/shopping/remove/testDummyRecipe')
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(404)
+          .end(done)
