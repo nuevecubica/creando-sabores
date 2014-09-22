@@ -1,5 +1,5 @@
 data = require './../data.json'
-base = 'http://localhost:3000'  # We're outside node, so no keystone
+base = 'http://0.0.0.0:3000'  # We're outside node, so no keystone
 utils = require '../utils/casper-editor.coffee'
 
 selectors = {
@@ -8,8 +8,9 @@ selectors = {
   recipeButton: '#recipes .row.position:first-child .like-button'
 }
 
-getRecipeLikeCounters = () ->
-  return document.getElementsByClassName('like-counter')[1].innerText
+getRecipeLikeCounters = (ind) ->
+  # return document.getElementsByClassName('like-counter').length
+  return document.getElementsByClassName('like-counter').item(1).innerText
 
 describe 'Recipe receives a like or unlike', ->
   @timeout 60000
@@ -19,19 +20,20 @@ describe 'Recipe receives a like or unlike', ->
       # Do Nothing.
     utils.revertDB()
 
-  describe 'from an anonymous user,', ->
+  describe.only 'from an anonymous user,', ->
     describe 'user gives a like', ->
-      it 'keeps the recipe\'s like count (nothing changes)'#, ->
-      #   casper.thenOpen base + '/concurso/' + data.contests[2].slug +
-      #     '/participantes/reciente', ->
-      #     (selectors.recipes).should.be.inDOM.and.visible
+      it 'keeps the recipe\'s like count (nothing changes)', ->
+        casper.thenOpen base + '/concurso/' + data.contests[2].slug +
+        '/participantes/reciente', ->
+          (selectors.recipes).should.be.inDOM.and.visible
 
-      #     console.log(actualLikes = @evaluate getRecipeLikeCounters)
+          actualLikes = @evaluate getRecipeLikeCounters(0)
+          console.log actualLikes
 
-      #     @click selectors.recipeButton
-      #     @then =>
-      #       newLikes = @evaluate getRecipeLikeCounters
-      #       newLikes.should.be.eql actualLikes
+          @click selectors.recipeButton
+          @then =>
+            newLikes = @evaluate getRecipeLikeCounters
+            newLikes.should.be.eql actualLikes
 
     describe 'user gives an unlike', ->
       it 'keeps the recipe\'s like count (nothing changes)'#, ->
