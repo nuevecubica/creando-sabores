@@ -65,26 +65,18 @@ exports = module.exports = function(req, res) {
       .sort('-publishedDate');
 
     // Query for get order of grid
-    var queryGridOrder = keystone.list('Config')
-      .paginate()
-      .or([{
-        name: 'grid_order_desktop_recipes'
-      }, {
-        name: 'grid_order_tablet_recipes'
-      }, {
-        name: 'grid_order_mobile_recipes'
-      }]);
-
-    // Query for get size of grid
-    var queryGridSize = keystone.list('Config')
-      .paginate()
-      .or([{
-        name: 'grid_size_desktop_recipes'
-      }, {
-        name: 'grid_size_tablet_recipes'
-      }, {
-        name: 'grid_size_mobile_recipes'
-      }]);
+    var queryGridOrder = keystone.list('Config').model.find({
+      name: {
+        $in: [
+          'grid_order_desktop_recipes',
+          'grid_order_tablet_recipes',
+          'grid_order_mobile_recipes',
+          'grid_size_desktop_recipes',
+          'grid_size_tablet_recipes',
+          'grid_size_mobile_recipes'
+        ]
+      }
+    });
 
     async.series([
         // Function for get recipes
@@ -145,31 +137,21 @@ exports = module.exports = function(req, res) {
             });
           });
         },
-        // Function for get order grid
+        // Gets grid orders and sizes
         function(callback) {
           queryGridOrder.exec(function(err, results) {
-
-            var result = results.results;
-
             locals.data.order = {};
-            for (var i = 0, l = result.length; i < l; i++) {
-              locals.data.order[result[i].name] = result[i].value;
-            }
-
-            callback(err);
-          });
-        },
-        // Function for get sizes grid
-        function(callback) {
-          queryGridSize.exec(function(err, results) {
-
-            var result = results.results;
-
             locals.data.sizes = {};
-            for (var i = 0, l = result.length; i < l; i++) {
-              locals.data.sizes[result[i].name] = result[i].value;
+            if (!err && results) {
+              for (var i = 0, l = results.length; i < l; i++) {
+                if (results[i].name.indexOf('grid_order') >= 0) {
+                  locals.data.order[results[i].name] = results[i].value;
+                }
+                else {
+                  locals.data.sizes[results[i].name] = results[i].value;
+                }
+              }
             }
-
             callback(err);
           });
         }
