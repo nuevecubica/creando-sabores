@@ -2,6 +2,7 @@ must = require 'must'
 config = require __dirname + '/../../../../config.js'
 data = require __dirname + '/../../../data.json'
 utils = require __dirname + '/../../utils.js'
+async = require 'async'
 
 supertest = require 'supertest'
 request = supertest.agent config.keystone.publicUrl
@@ -283,8 +284,35 @@ describe 'API v1: /me/', ->
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-          .end(
-            (err, res) ->
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/shopping/list')
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(
+              (res) ->
+                res.body.recipes.total.must.be.equal 1
+                slug = res.body.recipes.results[0].slug
+                slug.must.be.equal data.recipes[0].slug
+            ).end(done)
+
+        it 'should ignore duplicate requests', (done) ->
+          request
+          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end (err, res) ->
               request
               .get('/api/v1/me/shopping/list')
               .set('cookie', cookie)
@@ -296,41 +324,8 @@ describe 'API v1: /me/', ->
                   res.body.recipes.total.must.be.equal 1
                   slug = res.body.recipes.results[0].slug
                   slug.must.be.equal data.recipes[0].slug
-              ).end(done)
-          )
-
-        it 'should ignore duplicate requests', (done) ->
-          request
-          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
-          .set('cookie', cookie)
-          .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end(
-            (err, res) ->
-              request
-              .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
-              .set('cookie', cookie)
-              .set('Accept', 'application/json')
-              .expect('Content-Type', /json/)
-              .expect(200)
-              .end(
-                (err, res) ->
-                  request
-                  .get('/api/v1/me/shopping/list')
-                  .set('cookie', cookie)
-                  .set('Accept', 'application/json')
-                  .expect('Content-Type', /json/)
-                  .expect(200)
-                  .expect(
-                    (res) ->
-                      res.body.recipes.total.must.be.equal 1
-                      slug = res.body.recipes.results[0].slug
-                      slug.must.be.equal data.recipes[0].slug
-                  )
-                  .end(done)
               )
-          )
+              .end(done)
 
         it 'should return error for missing recipe', (done) ->
           request
@@ -351,28 +346,24 @@ describe 'API v1: /me/', ->
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-          .end(
-            (err, res) ->
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/shopping/remove/' + data.recipes[0].slug)
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end (err, res) ->
               request
-              .get('/api/v1/me/shopping/remove/' + data.recipes[0].slug)
+              .get('/api/v1/me/shopping/list')
               .set('cookie', cookie)
               .set('Accept', 'application/json')
               .expect('Content-Type', /json/)
               .expect(200)
-              .end(
-                (err, res) ->
-                  request
-                  .get('/api/v1/me/shopping/list')
-                  .set('cookie', cookie)
-                  .set('Accept', 'application/json')
-                  .expect('Content-Type', /json/)
-                  .expect(200)
-                  .expect(
-                    (res) ->
-                      res.body.recipes.total.must.be.equal 0
-                  ).end(done)
-              )
-          )
+              .expect(
+                (res) ->
+                  res.body.recipes.total.must.be.equal 0
+              ).end(done)
 
         it 'should ignore duplicate requests', (done) ->
           request
@@ -391,3 +382,73 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(404)
           .end(done)
+
+
+  describe 'GET /me/shopping/list', ->
+    describe 'on not logged in', ->
+      it 'should response an error', (done) ->
+        request
+        .get('/api/v1/me/shopping/list')
+        .set('cookie','')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(done)
+
+    describe 'on logged in', ->
+      this.timeout 20000
+
+      before (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+          done()
+
+      it 'should paginate properly', (done) ->
+
+        addToShoppingList = (recipe, cb) ->
+          request
+          .get('/api/v1/me/shopping/add/' + recipe.slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(cb)
+
+        async.each data.recipes.slice(0,4), addToShoppingList, ->
+          console.log 'Async helps YOU'
+          request
+          .get('/api/v1/me/shopping/list?page=1&perPage=4')
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              res.body.recipes.total.must.be.equal 4
+              res.body.recipes.results.length.must.be.equal 4
+          )
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/shopping/list?page=2&perPage=2')
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(
+              (res2) ->
+                res2.body.recipes.total.must.be.equal 4
+                res2.body.recipes.results.length.must.be.equal 2
+                part = res.body.recipes.results.slice(2,5)
+                res2.body.recipes.results.must.be.eql part
+            )
+            .end(done)
