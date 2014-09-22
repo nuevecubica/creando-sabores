@@ -23,6 +23,6 @@ describe 'Recipe page', ->
         (selectors.header).should.be.inDOM.and.visible
         bgImage = @evaluate getHeaderImage
         host = 'http://res.cloudinary.com'
-        path = '/glue/image/upload/f_auto,t_header_limit_thumb/'
+        path = '/glue/image/upload/f_auto,t_header_limit_thumb/v1410166679/'
         image = 'eoshasibtc05k6bbuynv.jpg'
         bgImage.should.be.equal 'url(' + host + path + image + ')'
