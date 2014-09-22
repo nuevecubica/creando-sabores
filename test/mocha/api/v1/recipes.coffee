@@ -202,7 +202,73 @@ describe 'API v1: /recipes', ->
 
   describe 'PUT /api/v1/recipe/:recipe/like', ->
 
-    describe 'if it does not have a vote from the user', ->
+    describe 'if recipe does not have a valid state', ->
+
+      recipe = data.recipes[4]
+
+      beforeEach (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(
+          (err, res) ->
+            return 'error' if not res.body.success or res.body.error
+            cookie = res.headers['set-cookie']
+            done()
+        )
+
+      it 'ignores this call', (done) ->
+        request
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
+        .set('Accept', 'application/json')
+        .set('Referer',
+            config.keystone.publicUrl +
+            '/api/v1/recipe/' + recipe.slug + '/like')
+        .set('cookie', cookie)
+        .expect('Content-Type', /json/)
+        .expect(403)
+        .end(done)
+
+    describe 'if recipe contest does not have a valid state', ->
+
+      recipe = data.recipes[10]
+
+      beforeEach (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(
+          (err, res) ->
+            return 'error' if not res.body.success or res.body.error
+            cookie = res.headers['set-cookie']
+            done()
+        )
+
+      it 'ignores this call', (done) ->
+        request
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
+        .set('Accept', 'application/json')
+        .set('Referer',
+            config.keystone.publicUrl +
+            '/api/v1/recipe/' + recipe.slug + '/like')
+        .set('cookie', cookie)
+        .expect('Content-Type', /json/)
+        .expect(403)
+        .end(done)
+
+    describe 'if recipe does not have a vote from the user', ->
 
       recipe = data.recipes[6]
       recipeVoted = null
@@ -231,12 +297,10 @@ describe 'API v1: /recipes', ->
           .set('cookie', cookie)
           .expect('Content-Type', /json/)
           .expect(200)
-          .end(
-            (err, res) ->
-              recipeLikes = res.body.likes
-              recipeVoted = res.body.id
-              done()
-          )
+          .end (err, res) ->
+            recipeLikes = res.body.likes
+            recipeVoted = res.body.id
+            done()
 
       it 'adds one to the recipe\'s like counter', (done) ->
         recipeLikes.must.be.eql(1)
@@ -249,15 +313,13 @@ describe 'API v1: /recipes', ->
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(
-          (err, res) ->
-            length = res.body.user.likes.length
-            length.must.be.eql(1)
-            res.body.user.likes[length - 1].must.be.eql(recipeVoted)
-            done()
-        )
+        .end (err, res) ->
+          length = res.body.user.likes.length
+          length.must.be.eql(1)
+          res.body.user.likes[length - 1].must.be.eql(recipeVoted)
+          done()
 
-    describe 'if it has a vote from the user already', ->
+    describe 'if recipe has a vote from the user already', ->
 
       recipe = data.recipes[6]
       recipeVoted = null
@@ -381,7 +443,7 @@ describe 'API v1: /recipes', ->
 
   describe 'PUT /recipe/:recipe/unlike', ->
 
-    describe 'if it does not have a vote from the user', ->
+    describe 'if recipe does not have a vote from the user', ->
       @timeout 20000
 
       recipe = data.recipes[6]
@@ -493,7 +555,7 @@ describe 'API v1: /recipes', ->
             )
         )
 
-    describe 'if it has a vote from the user', ->
+    describe 'if recipe has a vote from the user', ->
       recipe = data.recipes[6]
       recipeVoted = null
       recipeLikes = recipe.likes || 0
