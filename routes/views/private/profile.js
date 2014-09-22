@@ -32,10 +32,8 @@ exports = module.exports = function(req, res) {
 
   var getShoppingRecipes = function(user, cb) {
     service.user.shopping.get({
-      query: {
-        page: req.query.page || 1,
-        perPage: 5
-      },
+      page: req.query.page || 1,
+      perPage: 5,
       user: req.user
     }, function(err, result) {
       if (!err && result) {

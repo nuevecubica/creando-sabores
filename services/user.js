@@ -5,22 +5,19 @@ var _ = require('underscore'),
   Recipe = keystone.list('Recipe'),
   modelCleaner = require('../utils/modelCleaner.js');
 
-/*
-  Result example:
-    data: {
-      recipe: {},
-      contest: {},
-      own: {}
-    }
- */
-
 /**
- * Reads a recipe from the database
- * @param  {Object}   options
- * @param  {Function} callback
+ * Reads the user's shopping list from the database
+ * @param  {Object}   options { user: null, page: 1, perPage: 10 }
+ * @param  {Function} callback (err, results)
  * @return {null}
  */
 var getShoppingList = function(options, callback) {
+
+  options = _.defaults(options || {}, {
+    user: null,
+    page: 1,
+    perPage: 10
+  });
 
   var getShoppingListQuery = function(ids) {
     var q = keystone.list('Recipe').model.find({
@@ -35,8 +32,8 @@ var getShoppingList = function(options, callback) {
     return q;
   };
 
-  var page = parseInt(options.query.page) || 1,
-    perPage = parseInt(options.query.perPage) || 10,
+  var page = options.page || 1,
+    perPage = options.perPage || 10,
     first = (page - 1) * perPage;
 
   if (!options.user) {

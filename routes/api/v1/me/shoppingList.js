@@ -17,10 +17,8 @@ exports = module.exports = function(req, res) {
 
     function(next) {
       service.user.shopping.get({
-        query: {
-          page: req.query.page || 1,
-          perPage: req.query.perPage || 5
-        },
+        page: parseInt(req.query.page) || 1,
+        perPage: parseInt(req.query.perPage) || 5,
         user: req.user
       }, function(err, result) {
         if (!err && result) {
