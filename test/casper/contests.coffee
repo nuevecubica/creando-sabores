@@ -24,3 +24,15 @@ describe 'Contests page', ->
         bgImage = @evaluate getHeaderImage
         isImage = (/(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i).test bgImage
         isImage.should.be.not.equal false
+
+  describe 'Current contest', ->
+    it 'exists all the content in current contest', ->
+      casper.then ->
+        ('#current-contest').should.be.inDOM.and.visible
+        ('#info').should.be.inDOM.and.visible
+        ('#info .award.column').should.be.inDOM.and.visible
+        ('#info .status').should.be.inDOM.and.visibl
+        ('#info .status-tag').should.be.inDOM.and.visible
+        ('#info .status .header').should.be.inDOM.and.visible
+        ('#info .status .subheader').should.be.inDOM.and.visible
+        ('#info .status .subheader strong').should.be.inDOM.and.visible
