@@ -289,7 +289,7 @@ Recipe.schema.set('toJSON', {
 
 // Recipe can be shown
 Recipe.schema.virtual('canBeShown').get(function() {
-  return (!this.isBanned && !this.isRemoved);
+  return (this.state !== 'banned' && this.state !== 'removed');
 });
 
 // URL
@@ -359,11 +359,6 @@ Recipe.schema.pre('save', function(next) {
     me.isPromoted = true;
   }
 
-  // Set recipe in review for contest
-  if (me.isForContest && me.contest.state === 'none') {
-    me.contest.state = 'review';
-  }
-
   async.parallel({
       // Check if user isChef, for official recipe.
       official: function(callback) {
@@ -378,10 +373,7 @@ Recipe.schema.pre('save', function(next) {
       },
       // Check if states recipe has changed
       state: function(callback) {
-        if (me.isModified('isBanned') && me.isBanned === true ||
-          me.isModified('isRemoved') && me.isRemoved === true ||
-          me.isModified('state') && me.state !== 'published' ||
-          me.isModified('contest.state') && me.contest.state !== 'admited') {
+        if (me.isModified('state') && me.state !== 'publish') {
 
           // if recipe has been winner, then have to change contest
           if (me.contest.isJuryWinner || me.contest.isCommunityWinner) {
@@ -462,6 +454,6 @@ Recipe.schema.pre('save', function(next) {
  * Registration
  * ============
  */
-Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isBanned, isPromoted';
+Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isPromoted';
 // Recipe.defaultColumns = 'title, author, isPromoted, isIndexHeaderPromoted, isRecipesHeaderPromoted';
 Recipe.register();

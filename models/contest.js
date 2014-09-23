@@ -373,10 +373,7 @@ var getNewCommunityWinner = function(callback, filterId) {
   var me = this;
   var find = {
     'contest.id': me._id,
-    'contest.state': 'admited',
-    'isRemoved': false,
-    'isBanned': false,
-    'state': 1
+    'state': 'published'
   };
 
   if (filterId) {
