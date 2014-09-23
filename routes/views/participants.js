@@ -30,10 +30,7 @@ exports = module.exports = function(req, res) {
         perPage: 5
       })
       .where('contest.id', contestId)
-      .where('contest.state', 'admited')
-      .where('state', 1)
-      .where('isBanned', false)
-      .where('isRemoved', false)
+      .where('state', 'published')
       // change rating, fake in contest
       .sort(order)
       .exec(function(err, recipes) {
