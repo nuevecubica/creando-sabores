@@ -81,8 +81,7 @@
     "portions": 1,
     "time": 45,
     "difficulty": 1,
-    "isBanned": false,
-    "state": 1,
+    "state": "published",
     "header": {
       "public_id" : "eoshasibtc05k6bbuynv",
       "version" : 1410166679,
@@ -124,8 +123,7 @@
     "portions": 5,
     "time": 60,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 1,
+    "state": "published",
     "header": {
       "public_id" : "wgch9xe86vhstv4vzgnj",
       "version" : 1410168331,
@@ -155,8 +153,7 @@
     "portions": 2,
     "time": 4.5,
     "difficulty": 1,
-    "isBanned": false,
-    "state": 1,
+    "state": "published",
     "header": {
       "public_id" : "mlp4jff2fudhffrtva7k",
       "version" : 1410168358,
@@ -186,8 +183,7 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 1,
+    "state": "published",
     "author": 1,
     "schemaVersion": 1
   }, {
@@ -206,8 +202,7 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 0,
+    "state": "draft",
     "author": 1,
     "schemaVersion": 1
   }, {
@@ -226,8 +221,7 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": true,
-    "state": 1,
+    "state": "banned",
     "header" : {
       "public_id" : "mbh7vjbhe6jq6cumudpo",
       "version" : 1410168489,
@@ -257,13 +251,11 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 1,
+    "state": "published",
     "author": 1,
     "schemaVersion": 1,
     "contest": {
-      "id": "test-contest-submission",
-      "state": "admited"
+      "id": "test-contest-submission"
     }
   }, {
     "description": "<p>DESCRIPTION CONTEST R2</p>",
@@ -281,13 +273,11 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 1,
+    "state": "published",
     "author": 1,
     "schemaVersion": 1,
     "contest": {
-      "id": "test-contest-submission",
-      "state": "admited"
+      "id": "test-contest-submission"
     }
   }, {
     "description": "<p>DESCRIPTION CONTEST R3</p>",
@@ -305,13 +295,11 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 1,
+    "state": "banned",
     "author": 1,
     "schemaVersion": 1,
     "contest": {
-      "id": "test-contest-submission",
-      "state": "rejected"
+      "id": "test-contest-submission"
     }
   }, {
     "description": "<p>DESCRIPTION CONTEST R4</p>",
@@ -329,13 +317,11 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 1,
+    "state": "review",
     "author": 1,
     "schemaVersion": 1,
     "contest": {
-      "id": "test-contest-submission",
-      "state": "review"
+      "id": "test-contest-submission"
     }
   }, {
     "description": "<p>DESCRIPTION CONTEST R5</p>",
@@ -353,13 +339,11 @@
     "portions": 1,
     "time": 30,
     "difficulty": 3,
-    "isBanned": false,
-    "state": 1,
+    "state": "published",
     "author": 1,
     "schemaVersion": 1,
     "contest": {
-      "id": "test-contest-closed",
-      "state": "admited"
+      "id": "test-contest-closed"
     }
   }],
   "newRecipes": [{
