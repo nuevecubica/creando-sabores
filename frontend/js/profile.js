@@ -162,6 +162,9 @@ $(document).ready(function() {
   if (section === 'recetas') {
     makePaginable('/api/v1/me/recipes', 'recipes', 'recipe', '#recipes .list');
   }
+  else if (section === 'favoritas') {
+    makePaginable('/api/v1/me/favourites/list', 'recipes', 'recipe', '#recipes .list');
+  }
   else if (section === 'compra') {
     makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe-shopping', '#shopping .list');
   }

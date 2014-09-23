@@ -8,19 +8,20 @@ var _ = require('underscore'),
 
 /**
  * Reads the user's shopping list from the database
- * @param  {Object}   options { user: null, page: 1, perPage: 10 }
+ * @param  {Object}   options { field: null, user: null, page: 1, perPage: 10 }
  * @param  {Function} callback (err, results)
  * @return {null}
  */
-var getShoppingList = function(options, callback) {
+var getUserList = function(options, callback) {
 
   options = _.defaults(options || {}, {
+    field: null,
     user: null,
     page: 1,
     perPage: 10
   });
 
-  var getShoppingListQuery = function(ids) {
+  var getUserListQuery = function(ids) {
     var q = keystone.list('Recipe').model.find({
         '_id': {
           $in: ids
@@ -41,23 +42,28 @@ var getShoppingList = function(options, callback) {
     return callback('Not allowed', null);
   }
 
-  var last = Math.min(first + perPage, options.user.shopping.length);
-  var recipeIds = options.user.shopping.slice(first, last);
+  if (!options.field) {
+    return callback('Bad request', null);
+  }
 
-  getShoppingListQuery(recipeIds)
+  var userlist = options.user[options.field];
+  var last = Math.min(first + perPage, userlist.length);
+  var recipeIds = userlist.slice(first, last);
+
+  getUserListQuery(recipeIds)
     .exec(function(err, recipes) {
       if (err || !recipes) {
         return callback(err || 'Not found', null);
       }
       else if (recipes.length !== recipeIds.length) {
         // One or more recipes disapeared. Update triggered.
-        getShoppingListQuery(options.user.shopping)
+        getUserListQuery(userlist)
           .exec(function(err, allRecipes) {
             if (err || !allRecipes) {
               return callback(err || 'Not found', null);
             }
             else {
-              options.user.shopping = allRecipes;
+              options.user[options.field] = allRecipes;
               options.user.save();
               recipes = allRecipes.slice(first, last);
             }
@@ -75,9 +81,9 @@ var getShoppingList = function(options, callback) {
         recipes[i].ingredients = ingr;
       }
       // Return a paginable-like structure
-      var totalPages = Math.ceil(options.user.shopping.length / perPage);
+      var totalPages = Math.ceil(userlist.length / perPage);
       var ret = {
-        total: options.user.shopping.length,
+        total: userlist.length,
         results: recipes,
         currentPage: page,
         totalPages: totalPages,
@@ -89,6 +95,16 @@ var getShoppingList = function(options, callback) {
       };
       return callback(null, ret);
     });
+};
+
+var getShoppingList = function(options, callback) {
+  options.field = 'shopping';
+  return getUserList(options, callback);
+};
+
+var getFavouritesList = function(options, callback) {
+  options.field = 'favourites';
+  return getUserList(options, callback);
 };
 
 var getUserByUsername = function(options, callback) {
@@ -119,6 +135,9 @@ var _service = {
   get: getUserByUsername,
   shopping: {
     get: getShoppingList
+  },
+  favourites: {
+    get: getFavouritesList
   },
   recipeList: {
     get: getUserRecipeList
