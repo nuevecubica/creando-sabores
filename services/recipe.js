@@ -11,7 +11,7 @@ var defaults = {
   difficulty: 3,
   description: '',
   procedure: '',
-  state: 0
+  state: 'draft'
 };
 
 /**
@@ -83,9 +83,8 @@ var getRecipe = function(options, callback) {
           }
 
           if (
-            (result.state === 0 && !data.own) || // Drafts only for the owner
-            result.isBanned ||
-            result.isRemoved
+            (result.state === 'draft' && !data.own) || // Drafts only for the owner
+            ['removed', 'banned'].indexOf(result.state) >= 0
           ) {
             return callback(err || 'Not found', null);
           }
