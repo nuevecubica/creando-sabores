@@ -134,14 +134,14 @@ Recipe.add({
     publishedDate: {
       type: Types.Date,
       dependsOn: {
-        state: 1
+        state: 'published'
       }
     },
 
     editDate: {
       type: Types.Date,
       dependsOn: {
-        state: 1
+        state: 'published'
       }
     }
   },
@@ -323,25 +323,16 @@ Recipe.schema.virtual('thumb').get(function() {
 
 Recipe.schema.virtual('classes').get(function() {
   var classes = ['recipe'];
-  if (this.isBanned) {
-    classes.push('state-banned');
-  }
-  else if (this.isRemoved) {
-    classes.push('state-removed');
-  }
-  else if (this.state === 1) {
-    classes.push('state-published');
-  }
-  else if (this.state === 0) {
-    classes.push('state-draft');
-  }
+  classes.push('state-' + this.state);
+
   if (this.contest && this.contest.id) {
     classes.push('contest-recipe');
-    classes.push('contest-state-' + this.contest.state);
   }
+
   if (this.contest.isJuryWinner) {
     classes.push('contest-winner-jury');
   }
+
   if (this.contest.isCommunityWinner) {
     classes.push('contest-winner-community');
   }
