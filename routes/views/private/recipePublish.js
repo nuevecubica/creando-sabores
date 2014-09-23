@@ -8,7 +8,6 @@ var recipePublish = function(req, res) {
     recipeSlug = req.params.recipe,
     back = '..',
     states = ['draft', 'publish'],
-    contestStates = ['draft', 'review'],
     descriptions = ['unpublished', 'published'],
     data = {},
     fields = [];
@@ -37,20 +36,9 @@ var recipePublish = function(req, res) {
     }
     else if (recipe) {
 
-      // Update a contest recipe
-      if (recipe.contest && recipe.contest.id) {
-        if (data.state === 0) { // To draft
-          fields.push('contest.state');
-          data.contest = {
-            state: 'draft'
-          };
-        }
-        else if (data.state === 1 && recipe.contest.state === 'draft') { // To publish
-          fields.push('contest.state');
-          data.contest = {
-            state: 'review'
-          };
-        }
+      // If is in a contest, update state to 'review'
+      if (recipe.contest && recipe.contest.id && data.state === 'published') {
+        data.state = 'review';
       }
 
       // Publish
