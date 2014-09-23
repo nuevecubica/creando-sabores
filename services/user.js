@@ -29,8 +29,7 @@ var getUserList = function(options, callback) {
       })
       .where('state', 1)
       .where('isBanned', false)
-      .where('isRemoved', false)
-      .sort('title');
+      .where('isRemoved', false);
     return q;
   };
 
@@ -80,6 +79,17 @@ var getUserList = function(options, callback) {
         ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
         recipes[i].ingredients = ingr;
       }
+      // Sort it in the same order as our list, or order will be block-level
+      var recipes2 = [];
+      var recipeIdsStr = _.map(recipeIds, String);
+      var recipesStr = _.map(recipes, function(r) {
+        return String(r._id);
+      });
+      for (i = 0, l = recipes.length; i < l; i++) {
+        var pos = recipeIdsStr.indexOf(recipesStr[i]);
+        recipes2[pos] = recipes[i];
+      }
+      recipes = recipes2;
       // Return a paginable-like structure
       var totalPages = Math.ceil(userlist.length / perPage);
       var ret = {
