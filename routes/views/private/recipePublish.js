@@ -7,8 +7,8 @@ var recipePublish = function(req, res) {
   var userId = req.user._id,
     recipeSlug = req.params.recipe,
     back = '..',
-    states = ['draft', 'published', 'review', 'removed', 'banned'],
-    descriptions = ['unpublished', 'published', 'in review'],
+    states = ['draft', 'publish'],
+    descriptions = ['unpublished', 'published'],
     data = {},
     fields = [];
 
@@ -36,11 +36,9 @@ var recipePublish = function(req, res) {
     }
     else if (recipe) {
 
-      // Update a contest recipe
-      if (recipe.contest && recipe.contest.id) {
-        if (data.state !== 'draft') {
-          data.state = 'review';
-        }
+      // If is in a contest, update state to 'review'
+      if (recipe.contest && recipe.contest.id && data.state === 'published') {
+        data.state = 'review';
       }
 
       // Publish
