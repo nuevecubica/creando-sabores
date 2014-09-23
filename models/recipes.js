@@ -128,20 +128,8 @@ Recipe.add({
     state: {
       type: Types.Select,
       numeric: true,
-      options: [{
-        value: 0,
-        label: 'draft'
-      }, {
-        value: 1,
-        label: 'published'
-        // }, {
-        //   value: 2,
-        //   label: 'removed'
-        // }, {
-        //   value: 3,
-        //   label: 'banned'
-      }],
-      default: 0
+      options: ['draft', 'published', 'review', 'removed', 'banned'],
+      default: 'draft'
     },
 
     publishedDate: {
@@ -156,23 +144,6 @@ Recipe.add({
       dependsOn: {
         state: 1
       }
-    },
-
-    isBanned: {
-      type: Types.Boolean,
-      label: 'Ban',
-      note: 'This recipe contains something evil',
-      dependsOn: {
-        state: 1
-      },
-      default: false
-    },
-
-    isRemoved: {
-      type: Types.Boolean,
-      label: 'Removed',
-      note: 'This recipe is no longer available',
-      default: false
     }
   },
 
@@ -237,12 +208,6 @@ Recipe.add({
         type: Types.Relationship,
         ref: 'Contest',
         index: true
-      },
-
-      state: {
-        type: Types.Select,
-        options: ['none', 'review', 'admited', 'rejected'],
-        default: 'none',
       },
 
       isJuryWinner: {
@@ -371,7 +336,6 @@ Recipe.schema.virtual('classes').get(function() {
   else if (this.state === 0) {
     classes.push('state-draft');
   }
-
   if (this.contest && this.contest.id) {
     classes.push('contest-recipe');
     classes.push('contest-state-' + this.contest.state);
