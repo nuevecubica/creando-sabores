@@ -7,7 +7,7 @@ var _ = require('underscore'),
  * Reads recipes from the database
  * @param  {Object}   options { userId: null, all: false, sort: '-rating',
  *                              flags: [], page: 1, perPage: 10, limit: 10,
- *                              fromContests: false }
+ *                              fromContests: false, states: ['published'] }
  * @param  {Function} callback (err, results)
  * @return {null}
  */
@@ -23,7 +23,8 @@ var getRecipes = function(options, callback) {
     page: 1,
     perPage: 10,
     limit: 10,
-    fromContests: false
+    fromContests: false,
+    states: ['published']
   });
 
   var query = {};
@@ -45,22 +46,20 @@ var getRecipes = function(options, callback) {
     query.where('author', options.userId);
   }
 
-  if (!options.all) {
-    query.where('isBanned', false);
-    query.where('state', 1);
+  var states = options.states || [];
+
+  if (options.all) {
+    states.push('draft');
+    states.push('review');
+    states.push('banned');
   }
 
-  query.where('isRemoved', false);
+  if (states.length) {
+    query.in('state', states);
+  }
 
   if (!options.fromContests) {
     query.where('contest.id', null);
-  }
-  else if (!options.all) {
-    query.or([{
-      'contest.id': null
-    }, {
-      'contest.state': 'admited'
-    }]);
   }
 
   if (options.flags && options.flags.length > 0) {
