@@ -171,8 +171,8 @@ Contest.add({
           type: Types.Relationship,
           ref: 'Recipe',
           filters: {
-            'isForContest': ':id',
-            'contest.state': 'admited'
+            'contest.id': ':_id',
+            'state': 'published'
           },
           label: 'Winner',
           dependsOn: {
@@ -198,8 +198,8 @@ Contest.add({
           ref: 'Recipe',
           noedit: true,
           filters: {
-            'isForContest': ':id',
-            'contest.state': 'admited'
+            'contest.id': ':_id',
+            'state': 'published'
           },
           label: 'Winner',
           dependsOn: {
