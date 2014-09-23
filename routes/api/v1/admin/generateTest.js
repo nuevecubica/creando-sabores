@@ -53,7 +53,7 @@ var testMode = function(keystone) {
                 copyCollection(source, dest, next);
               }
               else {
-                end(err);
+                next(err);
               }
             });
           }
@@ -78,6 +78,7 @@ module.exports = exports = {
     testMode(require('keystone')).revertDatabase(function(err) {
       if (err) {
         answer.error = true;
+        answer.errorMessage = err;
       }
       else {
         answer.success = true;
