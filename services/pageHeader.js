@@ -5,7 +5,7 @@ var _ = require('underscore'),
 
 /**
  * Gets the recipe for the Recipes section header
- * @param  {Object}   options { all: false, sort: '-publishDate' }
+ * @param  {Object}   options { sort: '-publishDate' }
  * @param  {Function} callback
  * @return {null}
  */
@@ -14,18 +14,12 @@ var getHeaderRecipe = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    all: false,
     sort: '-publishedDate'
   });
 
   var query = Recipe.model.findOne();
 
-  if (!options.all) {
-    query.where('isBanned', false);
-    query.where('isRemoved', false);
-    query.where('state', 1);
-  }
-
+  query.where('state', 'published');
   query.where('isRecipesHeaderPromoted', true);
 
   if (options.sort) {
@@ -37,7 +31,7 @@ var getHeaderRecipe = function(options, callback) {
 
 /**
  * Gets the recipe for the Homepage header
- * @param  {Object}   options { all: false, sort: '-publishDate' }
+ * @param  {Object}   options { sort: '-publishDate' }
  * @param  {Function} callback
  * @return {null}
  */
@@ -46,18 +40,12 @@ var getHeaderHome = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    all: false,
     sort: '-publishedDate'
   });
 
   var query = Recipe.model.findOne();
 
-  if (!options.all) {
-    query.where('isBanned', false);
-    query.where('isRemoved', false);
-    query.where('state', 1);
-  }
-
+  query.where('state', 'published');
   query.where('isIndexHeaderPromoted', true);
 
   if (options.sort) {
