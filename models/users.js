@@ -200,6 +200,19 @@ User.add({
   }
 });
 
+// Schema for ranking
+var Rating = new keystone.mongoose.Schema({
+  recipe: String,
+  rating: Number
+});
+
+User.schema.add({
+  review: {
+    type: [Rating],
+    select: false
+  }
+});
+
 //#------------------ VALUES AND VALIDATION
 
 // user.name defaults to user.username
