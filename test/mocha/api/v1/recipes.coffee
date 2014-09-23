@@ -39,8 +39,7 @@ describe 'API v1: /recipes', ->
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              not recipe.contest
+              recipe.state is 'published'
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
               recipes = recipes.slice 0, 5
@@ -62,8 +61,7 @@ describe 'API v1: /recipes', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              not recipe.contest
+              recipe.state is 'published'
             recipes.sort (a,b) -> return b.rating - a.rating
             recipes = recipes.slice 2, 4
             # Compare results
@@ -74,7 +72,7 @@ describe 'API v1: /recipes', ->
         .end(done)
 
 
-  describe 'GET /user/recipes', ->
+  describe.only 'GET /user/recipes', ->
     describe 'on request without args', ->
       it 'responds with first page, sorted by edit date', (done) ->
         request
@@ -90,9 +88,7 @@ describe 'API v1: /recipes', ->
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              recipe.author is 1 and (not recipe.contest or
-              recipe.contest.state is 'admited')
+              recipe.state is 'published'
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > res.body.recipes.results.length
               recipes = recipes.slice 0, res.body.recipes.results.length
@@ -114,9 +110,7 @@ describe 'API v1: /recipes', ->
           (res) ->
             # Make our independent sorting and filtering
             recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              recipe.author is 1  and (not recipe.contest or
-              recipe.contest.state is 'admited')
+              recipe.state is 'published' and recipe.author is 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             recipes = recipes.slice 1, 2
             # Compare results
