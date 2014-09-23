@@ -91,6 +91,11 @@ function generateRecipes(from, to) {
   }
 
   /*
+    States
+  */
+  var states = ['draft', 'published', 'review', 'removed', 'banned'];
+
+  /*
     New grid positions
   */
   var homeGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -128,9 +133,7 @@ function generateRecipes(from, to) {
       "portions": faker.random.number(1, 15),
       "time": faker.random.number(1, 120),
       "difficulty": faker.random.number(1, 5),
-      "isBanned": (faker.random.number(10) >= 9 && !isPromoted),
-      "isRemoved": (faker.random.number(10) >= 9 && !isPromoted),
-      "state": ((faker.random.number(10) >= 9 && !isPromoted) ? 0 : 1),
+      "state": (!isPromoted) ? states[faker.random.number(0, 4)] : states[faker.random.number(1, 4)],
       "header": newHeader(),
       "schemaVersion": 1
     };
