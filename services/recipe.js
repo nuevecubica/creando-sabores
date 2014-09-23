@@ -80,9 +80,10 @@ var getRecipe = function(options, callback) {
           }
 
           if (
-            (result.state === 'draft' && !data.own) || // Drafts only for the owner
+            (['draft', 'review'].indexOf(result.state) >= 0 && !data.own) || // Drafts only for the owner
             ['removed', 'banned'].indexOf(result.state) >= 0
           ) {
+            console.log('CHUNGO', result.state);
             return callback(err || 'Not found', null);
           }
 
