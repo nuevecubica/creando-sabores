@@ -16,7 +16,7 @@ var configs = [{
   value: 'small, small, small, large, small, small, small, medium, medium, small'
 }, {
   name: 'grid_order_mobile_home',
-  value: '1, 2, 5, 3, 6, 4, 7, 8, 9, 10'
+  value: '1, 2, 5, 3, 6, 4, 7, 8, 9'
 }, {
   name: 'grid_size_mobile_home',
   value: 'small, small, large, small, small, medium, small, small, medium, small'
@@ -34,7 +34,7 @@ var configs = [{
   value: 'small, small, small, large, small, small, small, medium, medium, small'
 }, {
   name: 'grid_order_mobile_recipes',
-  value: '1, 2, 5, 3, 6, 4, 7, 8, 9, 10'
+  value: '1, 2, 5, 3, 6, 4, 7, 8, 9'
 }, {
   name: 'grid_size_mobile_recipes',
   value: 'small, small, large, small, small, medium, small, small, medium, small'
