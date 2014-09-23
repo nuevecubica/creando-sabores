@@ -68,7 +68,7 @@ Handlebars.registerHelper('stateIcon', function(classes) {
   if (css.indexOf('contest-recipe') >= 0) {
     return '<div class="ribbon"><span class="icon-chef-var"></span></div>';
   }
-  else if (css.indexOf('state-published') === -1) {
+  else {
     return '<div class="general-state"><span class="icon-chef-var"></span></div>';
   }
 });
