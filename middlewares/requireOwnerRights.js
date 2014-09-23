@@ -12,7 +12,7 @@ exports.requireRecipeOwnerRights = function(req, res, next) {
   console.log(req.user);
 
   var q = Recipe.model.findOne({
-    state: 1,
+    state: 'published',
     slug: recipeSlug,
     author: userId
   });
