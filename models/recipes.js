@@ -127,7 +127,6 @@ Recipe.add({
   'Status', {
     state: {
       type: Types.Select,
-      numeric: true,
       options: ['draft', 'published', 'review', 'removed', 'banned'],
       default: 'draft'
     },
