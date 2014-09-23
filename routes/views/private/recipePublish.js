@@ -36,11 +36,9 @@ var recipePublish = function(req, res) {
     }
     else if (recipe) {
 
-      // Update a contest recipe
-      if (recipe.contest && recipe.contest.id) {
-        if (data.state !== 'draft') {
-          data.state = 'review';
-        }
+      // If is in a contest, update state to 'review'
+      if (recipe.contest && recipe.contest.id && data.state === 'published') {
+        data.state = 'review';
       }
 
       // Publish
