@@ -1,7 +1,7 @@
 data = require './../data.json'
 base = 'http://localhost:3000'  # We're outside node, so no keystone
 utils = require '../utils/casper-editor.coffee'
-_ = require 'underscore' 
+_ = require 'underscore'
 
 selectors = {
   header: '#contests-header',
@@ -37,7 +37,7 @@ describe 'Contests page', ->
         ('#info .subheader').should.be.inDOM.and.visible
         ('#info .subheader strong').should.be.inDOM.and.visible
         ('#current-contest .chef.button-brick a').should.be.inDOM.and.visible
-    #it 'works contests award', -> 
+    #it 'works contests award', ->
       #casper.then ->
         #info = @getElementsInfo('#info div.award');
         #info[0].text.should.be.equal 'premio1';
@@ -45,27 +45,33 @@ describe 'Contests page', ->
     it 'works status-tag', ->
       casper.then ->
         classes = @getElementAttribute('#info .status-tag', 'class').split(' ')
-        _.intersection(classes, ['programmed','voted','submission']).should.be.not.empty
+        _.intersection(classes, ['programmed','voted',
+          'submission']).should.be.not.empty
     it 'works link to recipes list', ->
       casper.then ->
-        @getElementAttribute('#current-contest .chef.button-brick a', 'href').should.be.equal '/concurso/test-contest-programmed'
+        @getElementAttribute('#current-contest .chef.button-brick a',
+          'href').should.be.equal '/concurso/test-contest-programmed'
 
   describe 'finished contest', ->
     it 'exists finished contest', ->
       casper.then ->
         ('#past-contests').should.be.inDOM.and.visible
         ('#past-contests .contest-title a').should.be.inDOM.and.visible
-        @getElementAttribute('#past-contests .contest-title a', 'href').should.be.equal '/concurso/test-contest-finished'
-    it 'works finished contest', -> 
+        @getElementAttribute('#past-contests .contest-title a',
+          'href').should.be.equal '/concurso/test-contest-finished'
+    it 'works finished contest', ->
       casper.then ->
         ('#past-contests .award').should.be.inDOM.and.visible
         ('#past-contests .author-winner a').should.be.inDOM.and.visible
-        @getElementAttribute('#past-contests .author-winner a', 'href').should.be.equal '/chef/testUser2'
-        @getElementAttribute('#past-contests .recipe-award>a', 'href').should.be.equal '/chef/testUser2'
-        @getElementAttribute('#past-contests .recipe-award .title a', 'href').should.be.equal '/receta/test-contest-recipe-5'
+        @getElementAttribute('#past-contests .author-winner a',
+          'href').should.be.equal '/chef/testUser2'
+        @getElementAttribute('#past-contests .recipe-award>a',
+          'href').should.be.equal '/chef/testUser2'
+        @getElementAttribute('#past-contests .recipe-award .title a',
+          'href').should.be.equal '/receta/test-contest-recipe-5'
         ('#past-contests div.award').should.be.inDOM.and.visible
-    it 'works contests award2', -> 
+    it 'works contests award2', ->
       casper.then ->
-        info2 = @getElementsInfo('#past-contests div.award');
-        info2[0].text.should.be.equal 'premio1';
-        info2[1].text.should.be.equal 'premio2';
+        info2 = @getElementsInfo('#past-contests div.award')
+        info2[0].text.should.be.equal 'premio1'
+        info2[1].text.should.be.equal 'premio2'
