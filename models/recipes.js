@@ -82,32 +82,18 @@ Recipe.add({
       hidden: true
     },
 
-    rating: {
-      type: Types.Number
-
-      /*
-        Waiting for a new approach to votes and ratings
-      */
-
-      // noedit: true,
-      // watch: true,
-      // value: function() {
-      //   var average = 0;
-
-      //   if (this.review.length <= 0) {
-      //     return 0.00;
-      //   }
-
-      //   for (var rev = 0; rev < this.review.length; rev++) {
-      //     average += this.review[rev].rating;
-      //   }
-
-      //   return (average / this.review.length).toFixed(2);
-      // }
-    },
-
     likes: {
       type: Types.Number
+    },
+
+    scoreTotal: {
+      type: Types.Number,
+      hidden: true
+    },
+
+    scoreCount: {
+      type: Types.Number,
+      hidden: true
     },
 
     schemaVersion: {
@@ -287,6 +273,11 @@ Recipe.schema.set('toJSON', {
   transform: modelCleaner.transformer
 });
 
+// Score
+Recipe.schema.virtual('rating').get(function() {
+  return (this.scoreTotal / this.scoreCount);
+});
+
 // Recipe can be shown
 Recipe.schema.virtual('canBeShown').get(function() {
   return (!this.isBanned && !this.isRemoved);
@@ -440,23 +431,6 @@ Recipe.schema.pre('save', function(next) {
       }
     });
 });
-
-/*
-  Waiting for a new approach to votes and ratings
-*/
-
-// Schema for ranking
-// var Rating = new keystone.mongoose.Schema({
-//   user: String,
-//   rating: Number
-// });
-
-// Recipe.schema.add({
-//   review: {
-//     type: [Rating],
-//     select: false
-//   }
-// });
 
 /**
  * Registration
