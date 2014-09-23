@@ -1,5 +1,6 @@
 var keystone = require(__dirname + '/../../app-test-init.js');
 var config = require(__dirname + '/../../config.js');
+var _ = require('underscore');
 
 var testMode = require(__dirname + '/testMode.js');
 
@@ -37,6 +38,30 @@ function resetTestDatabase(done) {
   }
 }
 
+function readTestDatabase(done) {
+  if (this && this.timeout) {
+    this.timeout(10000);
+  }
+  if (!keystone.mongoose.connection.readyState) {
+    // console.warn('Mongoose connection NOT ready');
+    keystone.mongoose.connect(config.keystone.test.init['mongo url']);
+    keystone.mongoose.connection.on('open', function() {
+      // console.info('Mongoose connection opened');
+      return testMode(keystone).getDatabase(done);
+    });
+  }
+  else {
+    return testMode(keystone).getDatabase(done);
+  }
+}
+
+function getTestData(done) {
+  readTestDatabase(function(err, reply) {
+    var data = require('../data');
+    done(err, _.extend(data, reply));
+  });
+}
+
 function loginUser(user, request, callback) {
   request.post('/acceso').send({
     'action': 'login',
@@ -60,6 +85,8 @@ function generateText(len) {
 exports = module.exports = {
   revertTestDatabase: revertTestDatabase,
   resetTestDatabase: resetTestDatabase,
+  readTestDatabase: readTestDatabase,
+  getTestData: getTestData,
   loginUser: loginUser,
   generateText: generateText
 };

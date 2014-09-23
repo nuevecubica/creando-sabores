@@ -84,7 +84,10 @@ MongoDB Environment:
 
 keystone.start(function() {
   if (config.keystone.test.enabled) {
-    testMode(keystone, function() {});
+    var tm = testMode(keystone);
+    tm.getDatabase(function(err, data) {
+      console.log(err, data.recipes[4]);
+    });
   }
 });
 
