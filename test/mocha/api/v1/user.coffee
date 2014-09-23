@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = null
 config = require __dirname + '/../../../../config.js'
-data = require __dirname + '/../../../data.json'
+data = require __dirname + '/../../../data.js'
 utils = require __dirname + '/../../utils.js'
 
 request = require('supertest') config.keystone.publicUrl

@@ -1,6 +1,6 @@
 must = require 'must'
 config = require __dirname + '/../../../../config.js'
-data = require __dirname + '/../../../data.json'
+data = require __dirname + '/../../../data.js'
 utils = require __dirname + '/../../utils.js'
 async = require 'async'
 

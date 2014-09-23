@@ -380,7 +380,7 @@ Recipe.schema.pre('save', function(next) {
       state: function(callback) {
         if (me.isModified('isBanned') && me.isBanned === true ||
           me.isModified('isRemoved') && me.isRemoved === true ||
-          me.isModified('state') && me.state !== 'publish' ||
+          me.isModified('state') && me.state !== 'published' ||
           me.isModified('contest.state') && me.contest.state !== 'admited') {
 
           // if recipe has been winner, then have to change contest
