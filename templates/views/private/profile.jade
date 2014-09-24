@@ -100,12 +100,13 @@ block content
 					.two.tabs
 						.row
 							.tab
-								.ui.button.chef.button-green(class="#{subsection === 'recipes' ? 'active' : ''}")
-									a(href='/perfil/recetas')= __('My recipes')
+								a(href='/perfil/recetas')
+									div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
+										| #{('My recipes')}
 							.tab
-								.ui.button.chef.button-green(class="#{subsection === 'favourites' ? 'active' : ''}")
-									a(href='/perfil/favoritas')= __('Favorites')
-				include ../../components/search
+								a(href='/perfil/favoritas')
+									div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
+										| #{__('Favorites')}
 				.row
 					.ui.grid.segment.list.stackable
 						if recipes.length
