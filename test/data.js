@@ -41,8 +41,8 @@ var data = {
  * Returns an array of objects
  * @param  {String} collection Collection name
  * @param  {String} field      Field name
- * @param  {Any}    value      Value to compare or a callback
- * @param  {String} orderBy    Optional. Order criteria, leaded with minus (-) or plus (+)
+ * @param  {Mixed}  value      Value to compare or a callback
+ * @param  {Mixed}  orderBy    Optional. Order criteria, function or string leaded with minus (-) or plus (+)
  * @return {Array}             List of documents
  */
 data.getBy = function(collection, field, value, orderBy) {
@@ -59,19 +59,34 @@ data.getBy = function(collection, field, value, orderBy) {
   });
 
   if (orderBy) {
-    if (orderBy[0] === '-') {
-      orderBy = orderBy.substr(1);
-      reply.sort(function sort(a, b) {
-        return (b[orderBy] > a[orderBy] ? -1 : 1);
-      });
+    if ('function' === typeof orderBy) {
+      reply.sort(orderBy);
     }
     else {
-      if (orderBy[0] === '+') {
+      if (orderBy[0] === '-') {
         orderBy = orderBy.substr(1);
+        reply.sort(function sort(a, b) {
+          if (b[orderBy] === a[orderBy]) {
+            return 0;
+          }
+          else {
+            return (b[orderBy] > a[orderBy] ? -1 : 1);
+          }
+        });
       }
-      reply.sort(function sort(a, b) {
-        return (b[orderBy] > a[orderBy] ? 1 : -1);
-      });
+      else {
+        if (orderBy[0] === '+') {
+          orderBy = orderBy.substr(1);
+        }
+        reply.sort(function sort(a, b) {
+          if (b[orderBy] === a[orderBy]) {
+            return 0;
+          }
+          else {
+            return (b[orderBy] > a[orderBy] ? 1 : -1);
+          }
+        });
+      }
     }
   }
 
@@ -82,7 +97,7 @@ data.getBy = function(collection, field, value, orderBy) {
  * Subfunction example that returns one document by its slug
  * @param  {String} collection Collection name
  * @param  {String} slug       Value to look for
- * @param  {String} orderBy    Optional. Fixes the order.
+ * @param  {Mixed}  orderBy    Optional. Fixes the order.
  * @return {Object}            Document
  */
 data.getBySlug = function(collection, slug, orderBy) {
