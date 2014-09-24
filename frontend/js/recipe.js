@@ -1,4 +1,5 @@
 /* global likeClick */
+/* global ratingClick */
 (function() {
 
   var addTypes = function() {
@@ -456,6 +457,9 @@
     };
 
     $('.rating:not(.disabled) .like-button').click(likeClick);
+
+    $('.ui.rating').rating();
+    $('.rating:not(.disabled) .icon-chef-star').click(ratingClick);
 
   });
 })();
