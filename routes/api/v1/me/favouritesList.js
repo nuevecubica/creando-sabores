@@ -3,7 +3,7 @@ var async = require('async'),
   service = require('../../../../services');
 
 /*
-	/me/shopping/list
+	/me/favourites/list
 */
 
 exports = module.exports = function(req, res) {
@@ -16,7 +16,7 @@ exports = module.exports = function(req, res) {
   async.series([
 
     function(next) {
-      service.user.shopping.get({
+      service.user.favourites.get({
         page: parseInt(req.query.page) || 1,
         perPage: parseInt(req.query.perPage) || 5,
         user: req.user

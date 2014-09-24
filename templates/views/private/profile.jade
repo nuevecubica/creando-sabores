@@ -94,17 +94,17 @@ block content
 									.ui.button.chef.button-brick= __('Remove account')
 							.seven.wide.column
 
-		else if subsection == 'recipes'
+		else if subsection == 'recipes' || subsection == 'favourites'
 			#recipes.tab-content
 				.row.tablet.computer.only.tab-header
 					.two.tabs
 						.row
 							.tab
-								.active.ui.button.chef.button-green
-									a= __('My recipes')
+								.ui.button.chef.button-green(class="#{subsection === 'recipes' ? 'active' : ''}")
+									a(href='/perfil/recetas')= __('My recipes')
 							.tab
-								.ui.button.chef.button-green.disabled
-									a= __('Favorites')
+								.ui.button.chef.button-green(class="#{subsection === 'favourites' ? 'active' : ''}")
+									a(href='/perfil/favoritas')= __('Favorites')
 				include ../../components/search
 				.row
 					.ui.grid.segment.list

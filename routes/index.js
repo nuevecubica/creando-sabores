@@ -54,7 +54,7 @@ exports = module.exports = function(app) {
   app.get('/terminos', routes.views.terms);
 
   // Profile: Private
-  app.get('/perfil/:section(recetas|compra)?', middleware.requireUser, routes.views['private'].profile);
+  app.get('/perfil/:section(recetas|favoritas|compra)?', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
@@ -104,6 +104,8 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me/recipes', middleware.requireUserApi, routes.api.v1.me.recipes);
   app.get('/api/v1/me/shopping/list', middleware.requireUserApi, routes.api.v1.me.shoppingList);
   app.get('/api/v1/me/shopping/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.shopping);
+  app.get('/api/v1/me/favourites/list', middleware.requireUserApi, routes.api.v1.me.favouritesList);
+  app.get('/api/v1/me/favourites/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.favourites);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);

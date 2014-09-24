@@ -45,6 +45,21 @@ exports = module.exports = function(req, res) {
     });
   };
 
+  var getFavouriteRecipes = function(user, cb) {
+    service.user.favourites.get({
+      page: req.query.page || 1,
+      perPage: 5,
+      user: req.user
+    }, function(err, result) {
+      if (!err && result) {
+        cb(result.results);
+      }
+      else {
+        return res.notfound(res.__('Not found'));
+      }
+    });
+  };
+
   var signinPage = '/acceso';
 
   if (!req.user) {
@@ -60,6 +75,13 @@ exports = module.exports = function(req, res) {
     case 'recetas':
       getPrivateRecipes(req.user._id, function(recipes) {
         locals.subsection = 'recipes';
+        locals.recipes = recipes || [];
+        view.render('private/profile');
+      });
+      break;
+    case 'favoritas':
+      getFavouriteRecipes(req.user._id, function(recipes) {
+        locals.subsection = 'favourites';
         locals.recipes = recipes || [];
         view.render('private/profile');
       });

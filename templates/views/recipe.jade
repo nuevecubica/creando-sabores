@@ -132,7 +132,7 @@ block content
                   i.icon-chef-like.icon.like-button.font-extra-larger
                   span.like-counter= data.recipe.likes || 0
             .favourite
-              .ui.button.chef.button-yellow.switch
+              .ui.button.chef.button-yellow.switch(data-slug = data.recipe.slug, class = data.favourited ? 'activated' : '')
                 i.icon-chef-heart.icon.checks.chef
                 | #{__('Favorite')}
 

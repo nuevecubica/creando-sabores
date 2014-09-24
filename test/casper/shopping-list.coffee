@@ -1,19 +1,6 @@
 data = require './../data.json'
 base = 'http://localhost:3000'  # We're outside node, so no keystone
-
-
-revertDB = () ->
-  casper.then ->
-    this.page.cookies = []
-  casper.thenOpen base + '/acceso', ->
-    @fill 'form[action="acceso"]', {
-      'action': 'login'
-      'login_email': data.admins[0].email
-      'login_password': data.admins[0].password
-    }, true
-  casper.thenOpen base + '/api/v1/admin/generate/test', ->
-    this.page.cookies = []
-
+utils = require '../utils/casper-editor.coffee'
 
 describe 'WEB Shopping-list', ->
   @timeout 60000
