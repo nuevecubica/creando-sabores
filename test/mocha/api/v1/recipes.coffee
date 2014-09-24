@@ -8,10 +8,10 @@ request = require('supertest') config.keystone.publicUrl
 
 cookie = null
 
-describe 'API v1: /recipes', ->
+describe.only 'API v1: /recipes', ->
 
   before (done) ->
-    this.timeout 10000
+    this.timeout 5000
     request.get('/').expect 200, (err, res) ->
       utils.revertTestDatabase(done)
 
@@ -32,39 +32,42 @@ describe 'API v1: /recipes', ->
               return 'No arguments query failed'
             if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
-            # Make our independent sorting and filtering
-            recipes = data.db.recipes.filter (recipe) ->
-              recipe.state is 'published'
-            recipes.sort (a,b) -> return b.rating - a.rating
-            if recipes.length > 5
-              recipes = recipes.slice 0, 5
-            # Compare results
-            slugsexpected = (r.slug for r in recipes)
-            slugsgot = (r.slug for r in res.body.recipes.results)
-            slugsgot.must.be.eql(slugsexpected)
+
+            res.body.recipes.results.length.must.be.lte 5
+            past = 5
+            for recipe, i in res.body.recipes.results
+              if recipe.rating > past
+                return "Rating order failed: #{recipe.rating} > #{past}"
+              past = recipe.rating
         )
         .end(done)
 
     describe 'on normal request', ->
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/recipes?page=2&perPage=2')
+        .get('/api/v1/recipes?page=1&perPage=4')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
         .expect(
           (res) ->
-            # Make our independent sorting and filtering
-            recipes = data.db.recipes.filter (recipe) ->
-              recipe.state is 'published'
-            recipes.sort (a,b) -> return b.rating - a.rating
-            recipes = recipes.slice 2, 4
-            # Compare results
-            slugsexpected = (r.slug for r in recipes)
-            slugsgot = (r.slug for r in res.body.recipes.results)
-            slugsgot.must.be.eql(slugsexpected)
+            res.body.recipes.results.length.must.be.eql 4
         )
-        .end(done)
+        .end (err, res) ->
+          total = res.body.recipes.results
+
+          request
+          .get('/api/v1/recipes?page=2&perPage=2')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              slugsexpected = (r.slug for r in total).slice(2, 4)
+              slugsgot = (r.slug for r in res.body.recipes.results)
+              slugsgot.must.be.eql(slugsexpected)
+          )
+          .end(done)
 
 
   describe 'GET /user/recipes', ->
@@ -433,7 +436,7 @@ describe 'API v1: /recipes', ->
   describe 'PUT /recipe/:recipe/unlike', ->
 
     describe 'if recipe does not have a vote from the user', ->
-      @timeout 20000
+      @timeout 10000
 
       recipe = data.db.recipes[6]
       user0 = data.users[0]
