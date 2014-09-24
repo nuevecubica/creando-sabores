@@ -28,6 +28,7 @@ exports = module.exports = function(req, res) {
     res.status(403);
     answer.error = true;
     answer.details = 'Invalid score.';
+    return res.apiResponse(answer);
   }
 
   async.series([
@@ -49,36 +50,40 @@ exports = module.exports = function(req, res) {
           return next(err);
         }
         else {
-          // TODO: nada de indexof, son elementos {id,rating}
-          console.log(req.user);
-          //req.user.review = [{recipe: 'test-recipe-1', rating: 5}];
-          //req.user.save();
-          return next(null);
-          var pos = req.user.review.indexOf(recipe._id);
           if (!recipe.scoreCount) {
             recipe.scoreCount = 0;
           }
           if (!recipe.scoreTotal) {
             recipe.scoreTotal = 0;
           }
-          if (req.params.action === 'like') {
-            if (pos === -1) {
-              req.user.likes.push(recipe._id);
-              req.user.save();
-              recipe.likes += 1;
-              recipe.save();
+          var reviews = req.user.review;
+          var pos = -1;
+          for (var i = 0, l = reviews.length; i < l; i++) {
+            if (String(reviews[i].recipe) === String(recipe._id)) {
+              pos = i;
+              break;
             }
           }
-          else if (req.params.action === 'unlike') {
-            if (pos !== -1) {
-              req.user.likes.splice(pos, 1);
-              req.user.save();
-              recipe.likes -= 1;
-              recipe.save();
-            }
+          if (pos === -1) {
+            var review = {
+              recipe: recipe._id,
+              rating: req.params.score
+            };
+            req.user.review.push(review);
+            recipe.scoreCount += 1;
+            recipe.scoreTotal += req.params.score;
+            req.user.save();
+            recipe.save();
+          }
+          else {
+            var diff = req.params.score - reviews[pos].rating;
+            req.user.review[pos].rating = req.params.score;
+            recipe.scoreTotal += diff;
+            req.user.save();
+            recipe.save();
           }
           answer.id = recipe.id;
-          answer.likes = recipe.likes;
+          answer.rating = recipe.rating;
           answer.success = true;
           return next(err);
         }
