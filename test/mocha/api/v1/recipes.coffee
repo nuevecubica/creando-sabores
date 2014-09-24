@@ -669,3 +669,112 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(403)
         .end(done)
+
+
+
+  describe.only 'PUT /api/v1/recipe/:recipe/vote/:score', ->
+
+    recipeGood = 'test-recipe-1'
+    recipeContest = 'test-contest-recipe-1'
+    recipeMiss = 'dummy-recipe-slug'
+
+    describe 'if not logged in', ->
+      it 'returns an error', (done) ->
+        request
+        .put('/api/v1/recipe/' + recipeGood + '/vote/5')
+        .set('Accept', 'application/json')
+        .set('Referer',
+            config.keystone.publicUrl + '/receta/' + recipeGood)
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(done)
+
+    describe 'if logged in', ->
+      this.timeout 10000
+
+      before (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+          done()
+
+      describe 'on missing recipe', ->
+        it 'returns an error', (done) ->
+          request
+          .put('/api/v1/recipe/' + recipeMiss + '/vote/5')
+          .set('Accept', 'application/json')
+          .set('Referer',
+            config.keystone.publicUrl + '/receta/' + recipeMiss)
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(404)
+          .end(done)
+
+      describe 'on contest recipe', ->
+        it 'returns an error', (done) ->
+          request
+          .put('/api/v1/recipe/' + recipeContest + '/vote/5')
+          .set('Accept', 'application/json')
+          .set('Referer',
+            config.keystone.publicUrl + '/receta/' + recipeContest)
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(403)
+          .end(done)
+
+      describe 'on valid recipe', ->
+        it 'rejects invalid scores', (done) ->
+          request
+          .put('/api/v1/recipe/' + recipeGood + '/vote/6')
+          .set('Accept', 'application/json')
+          .set('Referer',
+            config.keystone.publicUrl + '/receta/' + recipeGood)
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(403)
+          .end(done)
+
+        it 'counts correctly the vote', (done) ->
+          request
+          .put('/api/v1/recipe/' + recipeGood + '/vote/5')
+          .set('Accept', 'application/json')
+          .set('Referer',
+            config.keystone.publicUrl + '/receta/' + recipeGood)
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
+            res.body.rating.must.be.equal 5
+            done()
+
+        it 'updates the rating if voted before', (done) ->
+          request
+          .put('/api/v1/recipe/' + recipeGood + '/vote/5')
+          .set('Accept', 'application/json')
+          .set('Referer',
+            config.keystone.publicUrl + '/receta/' + recipeGood)
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
+            res.body.rating.must.be.equal 5
+            request
+            .put('/api/v1/recipe/' + recipeGood + '/vote/3')
+            .set('Accept', 'application/json')
+            .set('Referer',
+                 config.keystone.publicUrl + '/receta/' + recipeGood)
+            .set('cookie', cookie)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end (err, res) ->
+              res.body.rating.must.be.equal 3
+              done()
