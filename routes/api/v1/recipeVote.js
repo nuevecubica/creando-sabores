@@ -16,7 +16,7 @@ exports = module.exports = function(req, res) {
     };
 
   var ref = req.headers.referer;
-  if (false) { //(!ref || ref.split('/')[2] !== req.headers.host) {
+  if (!ref || ref.split('/')[2] !== req.headers.host) {
     res.status(403);
     answer.error = true;
     answer.details = 'Missing or wrong referer.';

@@ -113,7 +113,7 @@ exports = module.exports = function(app) {
   //-- Recipes
   app.get('/api/v1/recipes', routes.api.v1.recipes);
   app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireUserApi, routes.api.v1.recipeAction);
-  app.get('/api/v1/recipe/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
+  app.put('/api/v1/recipe/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
   //-- Contests
   app.get('/api/v1/contestsPast', routes.api.v1.contestsPast);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
