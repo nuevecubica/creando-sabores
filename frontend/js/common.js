@@ -255,6 +255,46 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 
 };
 
+var ratingClick = function(e) {
+  var $this = $(this);
+  var $rating = $this.closest('.rating');
+  var slug = $rating.data('slug');
+  var score = $('i.icon-chef-star.icon.active').length;
+
+  console.log('SLUG ', slug);
+  console.log('SCORE', score);
+
+  $rating.data('lock', true);
+  var url = '/api/v1/recipe/' + slug + '/vote/' + score;
+  var jQXhr = $.ajax({
+    url: url,
+    type: 'PUT',
+    contentType: 'application/json',
+    success: function(data) {
+      if (!data.success) {
+        var msg = 'Something went wrong!';
+        if (data.details) {
+          msg += ' Reason: ' + data.details;
+        }
+        console.log(msg);
+        return;
+      }
+      var $value = $rating.find('.rating-value');
+      $value.html(data.rating.toFixed(2).replace(/[.,]00$/, ""));
+
+      var value = Math.floor(data.rating);
+      var $stars = $('i.icon-chef-star.icon');
+      $stars.removeClass('active');
+
+      for (var i = 0; i < value; i++) {
+        $stars.eq(i).addClass('active');
+      }
+
+    }
+  });
+  e.preventDefault();
+};
+
 var likeClick = function(e) {
   var $this = $(this);
   var $rating = $this.closest('.rating');
