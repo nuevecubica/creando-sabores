@@ -105,4 +105,14 @@ data.getBySlug = function(collection, slug, orderBy) {
   return reply.length ? reply[0] : null;
 };
 
+/**
+ * Subfunction that returns one user by its username
+ * @param  {String} username   Value to look for
+ * @return {Object}            Document
+ */
+data.getUserByUsername = function(username) {
+  var reply = data.getBy('users', 'username', username);
+  return reply.length ? reply[0] : null;
+};
+
 module.exports = data;

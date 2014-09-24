@@ -84,39 +84,47 @@ describe.only 'API v1: /recipes', ->
               return 'No arguments query failed'
             if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
-            # Make our independent sorting and filtering
-            recipes = data.db.recipes.filter (recipe) ->
-              recipe.state is 'published'
-            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            if recipes.length > res.body.recipes.results.length
-              recipes = recipes.slice 0, res.body.recipes.results.length
-            # Compare results
-            slugsexpected = (r.slug for r in recipes)
-            slugsgot = (r.slug for r in res.body.recipes.results)
-            slugsgot.must.be.eql(slugsexpected)
+
+            res.body.recipes.results.length.must.be.gte 2
+            past = null
+            user = data.getUserByUsername 'testUser1'
+            for recipe, i in res.body.recipes.results
+              if recipe.author isnt user._id
+                return "Wrong username: #{recipe.author}"
+              if past && recipe.editDate > past
+                return "editDate order failed: #{recipe.editDate} > #{past}"
+              past = recipe.editDate
         )
         .end(done)
 
     describe 'on normal request', ->
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/user/testUser1/recipes?page=2&perPage=1')
+        .get('/api/v1/user/testUser1/recipes?page=1&perPage=2')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
         .expect(
           (res) ->
-            # Make our independent sorting and filtering
-            recipes = data.db.recipes.filter (recipe) ->
-              recipe.state is 'published' and recipe.author is 1
-            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            recipes = recipes.slice 1, 2
-            # Compare results
-            slugsexpected = (r.slug for r in recipes)
-            slugsgot = (r.slug for r in res.body.recipes.results)
-            slugsgot.must.be.eql(slugsexpected)
+            res.body.recipes.results.length.must.be.eql 2
         )
-        .end(done)
+        .end (err, res) ->
+
+          total = res.body.recipes.results
+
+          request
+          .get('/api/v1/user/testUser1/recipes?page=2&perPage=1')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              # Compare results
+              slugsexpected = (r.slug for r in total.slice(1, 2))
+              slugsgot = (r.slug for r in res.body.recipes.results)
+              slugsgot.must.be.eql(slugsexpected)
+          )
+          .end(done)
 
   describe 'GET /me/recipes', ->
     describe 'on unauthenticated request', ->
