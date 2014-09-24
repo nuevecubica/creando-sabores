@@ -7,7 +7,8 @@ var recipePublish = function(req, res) {
   var userId = req.user._id,
     recipeSlug = req.params.recipe,
     back = '..',
-    states = ['draft', 'publish'],
+    actions = ['draft', 'publish'],
+    states = ['draft', 'published'],
     descriptions = ['unpublished', 'published'],
     data = {},
     fields = [];
@@ -21,11 +22,13 @@ var recipePublish = function(req, res) {
   }
 
   // Data
-  fields.push('state');
-  data.state = req.params.state;
-  if (states.indexOf(data.state) < 0) {
-    console.error('recipePublish: Error for unknown state %s', data.state);
+  if (actions.indexOf(req.params.state) < 0) {
+    console.error('recipePublish: Error for unknown action %s', req.params.state);
     return formResponse(req, res, back, 'Error: Unknown error', false);
+  }
+  else {
+    fields.push('state');
+    data.state = states[actions.indexOf(req.params.state)];
   }
 
   // Get
