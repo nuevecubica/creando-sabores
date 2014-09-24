@@ -27,9 +27,8 @@ var getUserList = function(options, callback) {
           $in: ids
         }
       })
-      .where('state', 1)
-      .where('isBanned', false)
-      .where('isRemoved', false);
+      .where('state', 'published')
+      .sort('title');
     return q;
   };
 

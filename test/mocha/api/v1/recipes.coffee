@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = null
 config = require __dirname + '/../../../../config.js'
-data = require __dirname + '/../../../data.json'
+data = require __dirname + '/../../../data'
 utils = require __dirname + '/../../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
@@ -18,11 +18,6 @@ describe 'API v1: /recipes', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  before (done) ->
-    this.timeout 10000
-    request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
-
   describe 'GET /recipes', ->
     describe 'on request without args', ->
       it 'responds with first page, sorted by rating', (done) ->
@@ -38,9 +33,8 @@ describe 'API v1: /recipes', ->
             if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              not recipe.contest
+            recipes = data.db.recipes.filter (recipe) ->
+              recipe.state is 'published'
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
               recipes = recipes.slice 0, 5
@@ -61,9 +55,8 @@ describe 'API v1: /recipes', ->
         .expect(
           (res) ->
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              not recipe.contest
+            recipes = data.db.recipes.filter (recipe) ->
+              recipe.state is 'published'
             recipes.sort (a,b) -> return b.rating - a.rating
             recipes = recipes.slice 2, 4
             # Compare results
@@ -89,10 +82,8 @@ describe 'API v1: /recipes', ->
             if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              recipe.author is 1 and (not recipe.contest or
-              recipe.contest.state is 'admited')
+            recipes = data.db.recipes.filter (recipe) ->
+              recipe.state is 'published'
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > res.body.recipes.results.length
               recipes = recipes.slice 0, res.body.recipes.results.length
@@ -113,10 +104,8 @@ describe 'API v1: /recipes', ->
         .expect(
           (res) ->
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state is 1 and
-              recipe.author is 1  and (not recipe.contest or
-              recipe.contest.state is 'admited')
+            recipes = data.db.recipes.filter (recipe) ->
+              recipe.state is 'published' and recipe.author is 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             recipes = recipes.slice 1, 2
             # Compare results
@@ -169,7 +158,7 @@ describe 'API v1: /recipes', ->
             if res.body.success isnt true or res.body.error isnt false
               return 'Unexpected status values'
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) -> recipe.author is 1
+            recipes = data.db.recipes.filter (recipe) -> recipe.author is 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > 10
               recipes = recipes.slice 0, 10
@@ -190,7 +179,7 @@ describe 'API v1: /recipes', ->
         .expect(
           (res) ->
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) -> recipe.author is 1
+            recipes = data.db.recipes.filter (recipe) -> recipe.author is 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             recipes = recipes.slice 2, 4
             # Compare results
@@ -204,7 +193,7 @@ describe 'API v1: /recipes', ->
 
     describe 'if recipe does not have a valid state', ->
 
-      recipe = data.recipes[4]
+      recipe = data.db.recipes[4]
 
       beforeEach (done) ->
         request
@@ -237,7 +226,7 @@ describe 'API v1: /recipes', ->
 
     describe 'if recipe contest does not have a valid state', ->
 
-      recipe = data.recipes[10]
+      recipe = data.db.recipes[10]
 
       beforeEach (done) ->
         request
@@ -270,7 +259,7 @@ describe 'API v1: /recipes', ->
 
     describe 'if recipe does not have a vote from the user', ->
 
-      recipe = data.recipes[6]
+      recipe = data.db.recipes[6]
       recipeVoted = null
       recipeLikes = recipe.likes || 0
 
@@ -321,7 +310,7 @@ describe 'API v1: /recipes', ->
 
     describe 'if recipe has a vote from the user already', ->
 
-      recipe = data.recipes[6]
+      recipe = data.db.recipes[6]
       recipeVoted = null
       recipeLikes = recipe.likes || 0
 
@@ -411,7 +400,7 @@ describe 'API v1: /recipes', ->
 
     describe 'if it comes from an invalid referer', ->
 
-      recipe = data.recipes[6]
+      recipe = data.db.recipes[6]
 
       beforeEach (done) ->
         request
@@ -446,9 +435,9 @@ describe 'API v1: /recipes', ->
     describe 'if recipe does not have a vote from the user', ->
       @timeout 20000
 
-      recipe = data.recipes[6]
+      recipe = data.db.recipes[6]
       user0 = data.users[0]
-      user1 = data.users[2]
+      user1 = data.users[1]
 
       beforeEach (done) ->
         request
@@ -556,7 +545,7 @@ describe 'API v1: /recipes', ->
         )
 
     describe 'if recipe has a vote from the user', ->
-      recipe = data.recipes[6]
+      recipe = data.db.recipes[6]
       recipeVoted = null
       recipeLikes = recipe.likes || 0
 
@@ -641,7 +630,7 @@ describe 'API v1: /recipes', ->
         )
 
     describe 'if it comes from an invalid referer', ->
-      recipe = data.recipes[6]
+      recipe = data.db.recipes[6]
 
       beforeEach (done) ->
         request

@@ -71,9 +71,7 @@ exports = module.exports = function(req, res) {
             locals.data.contest = contestCommunityPopulated;
             var queryTop = Recipe.model.find({
                 'contest.id': result.id,
-                'contest.state': 'admited',
-                'isRemoved': false,
-                'isBanned': false
+                'state': 'published'
               })
               .limit(4)
               .populate('contest.id')

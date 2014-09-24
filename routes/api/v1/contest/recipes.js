@@ -41,10 +41,8 @@ exports = module.exports = function(req, res) {
     function(contest, next) {
       var q = Recipes.paginate(query.paginate)
         .where('contest.id', contest._id)
-        .where('contest.state', 'admited')
-        .where('state', 1)
-        .where('isBanned', false)
-        .where('isRemoved', false);
+        .where('state', 'published');
+
       if (req.query.order === 'recent') {
         q.sort('-publishedDate');
       }

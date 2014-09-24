@@ -1,4 +1,4 @@
-data = require './../data.json'
+data = require './../data'
 base = 'http://localhost:3000'  # We're outside node, so no keystone
 
 userNewName = 'Canary User Name'

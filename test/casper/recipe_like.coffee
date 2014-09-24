@@ -1,4 +1,4 @@
-data = require './../data.json'
+data = require './../data'
 base = 'http://localhost:3000'  # We're outside node, so no keystone
 utils = require '../utils/casper-editor.coffee'
 
@@ -23,7 +23,7 @@ describe 'Recipe receives a like or unlike', ->
   describe 'from an anonymous user,', ->
     describe 'user gives a like', ->
       it 'keeps the recipe\'s like count (nothing changes)', ->
-        casper.thenOpen base + '/concurso/' + data.contests[2].slug +
+        casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
         '/participantes/reciente', ->
           (selectors.recipes).should.be.inDOM.and.visible
 
@@ -49,7 +49,7 @@ describe 'Recipe receives a like or unlike', ->
     describe 'user gives a like', ->
       describe 'and recipe does not have a vote from the user', ->
         it 'adds one to the recipe\'s like counter', ->
-          casper.thenOpen base + '/concurso/' + data.contests[2].slug +
+          casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
           '/participantes/reciente', ->
             (selectors.recipes).should.be.inDOM.and.visible
 
@@ -63,7 +63,7 @@ describe 'Recipe receives a like or unlike', ->
     describe 'user gives an unlike', ->
       describe 'and recipe has a vote from the user', ->
         it 'substracts one from the recipe\'s like counter', ->
-          casper.thenOpen base + '/concurso/' + data.contests[2].slug +
+          casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
           '/participantes/reciente', ->
             (selectors.recipes).should.be.inDOM.and.visible
 

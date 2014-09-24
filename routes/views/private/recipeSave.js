@@ -107,7 +107,7 @@ var recipeEdit = function(req, res) {
       }
 
       // If not admin, rejects if admited in a contest
-      if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.contest.state === 'admited') {
+      if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.state === 'published') {
         return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
       }
 

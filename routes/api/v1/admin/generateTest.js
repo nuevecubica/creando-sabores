@@ -1,5 +1,4 @@
 var async = require('async'),
-  data = require('../../../../test/data.json'),
   _ = require('underscore'),
   answer = {
     success: false,
@@ -53,7 +52,7 @@ var testMode = function(keystone) {
                 copyCollection(source, dest, next);
               }
               else {
-                end(err);
+                next(err);
               }
             });
           }
@@ -70,6 +69,37 @@ var testMode = function(keystone) {
 
   resp.resetDatabase = resp.revertDatabase;
 
+  // Run loaders
+  resp.getDatabase = function(end) {
+    var data = {};
+    keystone.mongoose.connection.db.collections(function getCollections(err, collections) {
+      if (!err) {
+        // console.log('Collections', collections.length);
+        async.each(collections, function each(source, next) {
+          var sourceName = source.collectionName;
+          if (sourceName.indexOf('_orig') === -1) {
+            source.find().toArray(function cb(err, reply) {
+              if (!err && reply) {
+                data[sourceName] = reply;
+              }
+              next(err);
+            });
+          }
+          else {
+            next();
+          }
+        }, function(err) {
+          end(err, data);
+        });
+      }
+      else {
+        end(err, data);
+      }
+    });
+  };
+
+  resp.getDatabase = resp.getDatabase;
+
   return resp;
 };
 
@@ -78,6 +108,7 @@ module.exports = exports = {
     testMode(require('keystone')).revertDatabase(function(err) {
       if (err) {
         answer.error = true;
+        answer.errorMessage = err;
       }
       else {
         answer.success = true;

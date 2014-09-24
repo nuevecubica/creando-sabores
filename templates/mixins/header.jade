@@ -134,7 +134,7 @@ mixin header(data, section)
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
 		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
-		- var state = data.recipe ? data.recipe.state : 0
+		- var state = data.recipe ? data.recipe.state : 'draft'
 
 		#recipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
 			.shadow-layer
@@ -155,7 +155,7 @@ mixin header(data, section)
 				.row
 					.four.wide.column.computer.only.social
 						//- Check if recipe is published to show social buttons
-						if state > 0
+						if state == 'published'
 							.corner-position.left.hide-editable
 								|#{__('Share this recipe')}
 								+header-share()

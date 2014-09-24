@@ -1,6 +1,6 @@
 must = require 'must'
 config = require __dirname + '/../../../../config.js'
-data = require __dirname + '/../../../data.json'
+data = require __dirname + '/../../../data'
 utils = require __dirname + '/../../utils.js'
 async = require 'async'
 
@@ -252,7 +252,7 @@ describe 'API v1: /me/', ->
     describe 'on not logged in', ->
       it 'should response an error', (done) ->
         request
-        .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+        .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
         .set('cookie','')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -279,7 +279,7 @@ describe 'API v1: /me/', ->
       describe 'on shopping list add', (done) ->
         it 'should response with success', (done) ->
           request
-          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+          .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -295,19 +295,19 @@ describe 'API v1: /me/', ->
               (res) ->
                 res.body.recipes.total.must.be.equal 1
                 slug = res.body.recipes.results[0].slug
-                slug.must.be.equal data.recipes[0].slug
+                slug.must.be.equal data.db.recipes[0].slug
             ).end(done)
 
         it 'should ignore duplicate requests', (done) ->
           request
-          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+          .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
             request
-            .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+            .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -323,7 +323,7 @@ describe 'API v1: /me/', ->
                 (res) ->
                   res.body.recipes.total.must.be.equal 1
                   slug = res.body.recipes.results[0].slug
-                  slug.must.be.equal data.recipes[0].slug
+                  slug.must.be.equal data.db.recipes[0].slug
               )
               .end(done)
 
@@ -339,14 +339,14 @@ describe 'API v1: /me/', ->
       describe 'on shopping list remove', (done) ->
         it 'should response with success', (done) ->
           request
-          .get('/api/v1/me/shopping/add/' + data.recipes[0].slug)
+          .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
             request
-            .get('/api/v1/me/shopping/remove/' + data.recipes[0].slug)
+            .get('/api/v1/me/shopping/remove/' + data.db.recipes[0].slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -365,7 +365,7 @@ describe 'API v1: /me/', ->
 
         it 'should ignore duplicate requests', (done) ->
           request
-          .get('/api/v1/me/shopping/remove/' + data.recipes[0].slug)
+          .get('/api/v1/me/shopping/remove/' + data.db.recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -421,7 +421,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .end(cb)
 
-        async.each data.recipes.slice(0,4), addToShoppingList, ->
+        async.each data.db.recipes.slice(0,4), addToShoppingList, ->
           request
           .get('/api/v1/me/shopping/list?page=1&perPage=4')
           .set('cookie', cookie)
