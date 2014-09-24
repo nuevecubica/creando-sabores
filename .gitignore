@@ -26,3 +26,4 @@ site.min.css
 /config-test.js
 test/db_dump/app_updates.json
 test/db_dump/system.indexes.json
+test/database.json

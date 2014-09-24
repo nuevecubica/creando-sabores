@@ -26,7 +26,7 @@ describe 'Recipes: Lists', ->
         .expect(
           (res) ->
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
+            recipes = data.db.recipes.filter (recipe) ->
               recipe.state is 'published'
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5
@@ -51,7 +51,7 @@ describe 'Recipes: Lists', ->
         .expect(
           (res) ->
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
+            recipes = data.db.recipes.filter (recipe) ->
               recipe.state is 'published' and recipe.author == 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > 5
@@ -91,7 +91,7 @@ describe 'Recipes: Lists', ->
         .expect(
           (res) ->
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) -> recipe.author == 1
+            recipes = data.db.recipes.filter (recipe) -> recipe.author == 1
             recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
             if recipes.length > 5
               recipes = recipes.slice 0, 5

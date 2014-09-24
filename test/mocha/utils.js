@@ -55,13 +55,6 @@ function readTestDatabase(done) {
   }
 }
 
-function getTestData(done) {
-  readTestDatabase(function(err, reply) {
-    var data = require('../data');
-    done(err, _.extend(data, reply));
-  });
-}
-
 function loginUser(user, request, callback) {
   request.post('/acceso').send({
     'action': 'login',
@@ -86,7 +79,6 @@ exports = module.exports = {
   revertTestDatabase: revertTestDatabase,
   resetTestDatabase: resetTestDatabase,
   readTestDatabase: readTestDatabase,
-  getTestData: getTestData,
   loginUser: loginUser,
   generateText: generateText
 };
