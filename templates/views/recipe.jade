@@ -108,18 +108,20 @@ block content
               .editable-container
                 .set-editable(placeholder=__('Portions'))= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
+
             if (!data.contest)
               .rating.hide-editable
-                - var rating = Math.floor(data.recipe.rating)
-                - var r = rating
-                - for(var x = 0; x < 5; x++)
-                  if r == 0
-                    i.icon-chef-star.icon.off
-                  else
-                    i.icon-chef-star.icon.on
-                    - --r;
-                .span.skip.mobile= rating
-          
+                .ui.rating(data-slug=data.recipe.slug)
+                  - var rating = Math.floor(data.recipe.rating)
+                  - var r = rating
+                  - for(var x = 0; x < 5; x++)
+                    if r == 0
+                      i.icon-chef-star.icon
+                    else
+                      i.icon-chef-star.icon.active
+                      - --r;
+                  .rating-value.span.skip.mobile= data.recipe.rating.toFixed(2).replace(/[.,]00$/, "")
+
         #actions.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable(class = data.contest ? 'nine' : 'six')
           .recipe-actions
             if (data.contest)
@@ -139,7 +141,7 @@ block content
             .add-menu
               .ui.button.chef.button-brick
                 a= __('Add to menu')
-            
+
       #recipe-description.row
         .sixteen.wide.column
           .explain
@@ -201,7 +203,7 @@ block content
                 .step
                   .icon-chef-tick.checks.hide-editable
                   .ui.header.index
-                    span.index-label= __('Step:') + ' ' + (j + 1)
+                    span.index-label= __('Step') + ' ' + (j + 1) + ': '
                     .step-remove.show-editable= __('Remove step')
                   .ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
 
