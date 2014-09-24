@@ -64,6 +64,7 @@ var getRecipe = function(options, callback) {
         if (!err && result) {
 
           data.recipe = _.defaults(parseRecipe(result), defaults);
+          data.recipe._document = result;
 
           if (options.user) {
             // Am I the owner?

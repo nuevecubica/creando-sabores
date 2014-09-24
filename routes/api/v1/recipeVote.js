@@ -48,48 +48,41 @@ exports = module.exports = function(req, res) {
           return next(err);
         }
         else {
-          if (!result.recipe.scoreCount) {
-            result.recipe.scoreCount = 0;
+          var recipe = result.recipe._document;
+          if (!recipe.scoreCount) {
+            recipe.scoreCount = 0;
           }
-          if (!result.recipe.scoreTotal) {
-            result.recipe.scoreTotal = 0;
+          if (!recipe.scoreTotal) {
+            recipe.scoreTotal = 0;
           }
           var reviews = req.user.review;
           var pos = -1;
           for (var i = 0, l = reviews.length; i < l; i++) {
-            if (String(reviews[i].recipe) === String(result.recipe._id)) {
+            if (String(reviews[i].recipe) === String(recipe._id)) {
               pos = i;
               break;
             }
           }
           if (pos === -1) {
             var review = {
-              recipe: result.recipe._id,
+              recipe: recipe._id,
               rating: req.params.score
             };
             req.user.review.push(review);
-            result.recipe.scoreCount += 1;
-            result.recipe.scoreTotal += req.params.score;
+            recipe.scoreCount += 1;
+            recipe.scoreTotal += req.params.score;
           }
           else {
             var diff = req.params.score - reviews[pos].rating;
             req.user.review[pos].rating = req.params.score;
-            result.recipe.scoreTotal += diff;
+            recipe.scoreTotal += diff;
           }
-          // /* Esto no debería hacer falta, ya que está en el modelo...
-          result.recipe.set('scoreCount', result.recipe.scoreCount, {
-            strict: true
-          });
-          result.recipe.set('scoreTotal', result.recipe.scoreTotal, {
-            strict: true
-          });
-          // */
 
           var finish = function(err) {
             if (!err) {
-              answer.id = result.recipe._id;
-              //answer.rating = result.recipe.rating;
-              var rating = result.recipe.scoreTotal / result.recipe.scoreCount;
+              answer.id = recipe._id;
+              //answer.rating = recipe.rating;
+              var rating = recipe.scoreTotal / recipe.scoreCount;
               answer.rating = rating;
               answer.success = true;
             }
@@ -106,7 +99,7 @@ exports = module.exports = function(req, res) {
               finish(err);
             }
             else {
-              result.recipe.save(function(err) {
+              recipe.save(function(err) {
                 finish(err);
               });
             }
