@@ -285,7 +285,7 @@ describe.only 'API v1: /recipes', ->
     describe 'and recipe does not have a vote from the user', ->
 
       recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
-      recipeVoted = null
+      recipeVotedId = null
       recipeLikes = recipe.likes || 0
 
       beforeEach (done) ->
@@ -313,11 +313,11 @@ describe.only 'API v1: /recipes', ->
           .expect(200)
           .end (err, res) ->
             recipeLikes = res.body.likes
-            recipeVoted = res.body.id
+            recipeVotedId = res.body.id
             done()
 
       it 'adds one to the recipe\'s like counter', (done) ->
-        recipeLikes.must.be.eql(1)
+        recipeLikes.must.be.eql 1
         done()
 
       it 'adds the recipe to the user\'s `likes` list', (done) ->
@@ -328,9 +328,18 @@ describe.only 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
-          length = res.body.user.likes.length
-          length.must.be.eql(1)
-          res.body.user.likes[length - 1].must.be.eql(recipeVoted)
+          isLiked = 0
+          for like in res.body.user.likes
+            if like is recipeVotedId
+              ++isLiked
+              break
+
+          if not isLiked
+            return "It's not on the list"
+
+          if isLiked > 1
+            return "Recipe duplicated"
+
           done()
 
     describe 'if recipe has a vote from the user already', ->
@@ -458,7 +467,7 @@ describe.only 'API v1: /recipes', ->
   describe 'PUT /recipe/:recipe/unlike', ->
 
     describe 'if recipe does not have a vote from the user', ->
-      @timeout 10000
+      @timeout 5000
 
       recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
       user0 = data.users[0]
@@ -483,57 +492,16 @@ describe.only 'API v1: /recipes', ->
 
       it 'keeps the recipe\'s like count', (done) ->
         request
-        .put('/api/v1/recipe/' + recipe.slug + '/like')
+        .put('/api/v1/recipe/' + recipe.slug + '/unlike')
         .set('Accept', 'application/json')
         .set('Referer', config.keystone.publicUrl)
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(
-          (err, res) ->
-            recipeLikes = res.body.likes
-
-            request
-            .get('/api/v1/me/logout')
-            .set('Accept', 'application/json')
-            .set('cookie', cookie)
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(
-              (err, res) ->
-                cookie = res.headers['set-cookie']
-                return 'error' if not res.body.success or res.body.error
-
-                request
-                .post('/api/v1/login')
-                .send({
-                  email: user1.email,
-                  password: user1.password
-                })
-                .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end(
-                  (err, res) ->
-                    return 'error' if not res.body.success or res.body.error
-                    cookie = res.headers['set-cookie']
-
-                    request
-                    .put('/api/v1/recipe/' + recipe.slug + '/unlike')
-                    .set('Accept', 'application/json')
-                    .set('Referer', config.keystone.publicUrl)
-                    .set('cookie', cookie)
-                    .expect('Content-Type', /json/)
-                    .expect(200)
-                    .expect(
-                      (res) ->
-                        res.body.likes.must.be.eql(recipeLikes)
-                    )
-                    .end(done)
-                )
-            )
-        )
-
+        .expect (res) ->
+          if (recipe.likes || 0) isnt res.body.likes
+            return "Different like count: #{recipe.likes} <> #{res.body.likes}"
+        .end(done)
 
       it 'keeps the users\'s `likes` list', (done) ->
         request
@@ -542,32 +510,27 @@ describe.only 'API v1: /recipes', ->
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(
-          (err, res) ->
-            userLikesFirst = res.body.user.likes
+        .end (err, res) ->
 
+          origLikes = res.body.user.likes
+
+          request
+          .put('/api/v1/recipe/' + recipe.slug + '/unlike')
+          .set('Accept', 'application/json')
+          .set('Referer', config.keystone.publicUrl)
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
             request
-            .put('/api/v1/recipe/' + recipe.slug + '/unlike')
+            .get('/api/v1/me')
             .set('Accept', 'application/json')
-            .set('Referer', config.keystone.publicUrl)
             .set('cookie', cookie)
             .expect('Content-Type', /json/)
             .expect(200)
-            .end(
-              (err, res) ->
-                request
-                .get('/api/v1/me')
-                .set('Accept', 'application/json')
-                .set('cookie', cookie)
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end(
-                  (err, res) ->
-                    res.body.user.likes.must.be.eql(userLikesFirst)
-                    done()
-                )
-            )
-        )
+            .expect (res) ->
+              res.body.user.likes.must.be.eql origLikes
+            .end done
 
     describe 'if recipe has a vote from the user', ->
       recipe = data.getBySlug 'recipes', 'test-contest-recipe-liked'
