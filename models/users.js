@@ -208,8 +208,7 @@ var Rating = new keystone.mongoose.Schema({
 
 User.schema.add({
   review: {
-    type: [Rating],
-    select: false
+    type: [Rating]
   }
 });
 
