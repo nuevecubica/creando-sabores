@@ -8,7 +8,7 @@ supertest = require 'supertest'
 request = supertest.agent config.keystone.publicUrl
 cookie = null
 
-describe 'API v1: /me/', ->
+describe.only 'API v1: /me/', ->
   this.timeout 5000
 
   before (done) ->
@@ -278,8 +278,12 @@ describe 'API v1: /me/', ->
 
       describe 'on shopping list add', (done) ->
         it 'should response with success', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
+          .get('/api/v1/me/shopping/add/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -295,19 +299,23 @@ describe 'API v1: /me/', ->
               (res) ->
                 res.body.recipes.total.must.be.equal 1
                 slug = res.body.recipes.results[0].slug
-                slug.must.be.equal data.db.recipes[0].slug
+                slug.must.be.equal recipes[0].slug
             ).end(done)
 
         it 'should ignore duplicate requests', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
+          .get('/api/v1/me/shopping/add/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
             request
-            .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
+            .get('/api/v1/me/shopping/add/' + recipes[0].slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -323,7 +331,7 @@ describe 'API v1: /me/', ->
                 (res) ->
                   res.body.recipes.total.must.be.equal 1
                   slug = res.body.recipes.results[0].slug
-                  slug.must.be.equal data.db.recipes[0].slug
+                  slug.must.be.equal recipes[0].slug
               )
               .end(done)
 
@@ -338,15 +346,19 @@ describe 'API v1: /me/', ->
 
       describe 'on shopping list remove', (done) ->
         it 'should response with success', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/shopping/add/' + data.db.recipes[0].slug)
+          .get('/api/v1/me/shopping/add/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
             request
-            .get('/api/v1/me/shopping/remove/' + data.db.recipes[0].slug)
+            .get('/api/v1/me/shopping/remove/' + recipes[0].slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -364,8 +376,12 @@ describe 'API v1: /me/', ->
               ).end(done)
 
         it 'should ignore duplicate requests', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/shopping/remove/' + data.db.recipes[0].slug)
+          .get('/api/v1/me/shopping/remove/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -421,7 +437,10 @@ describe 'API v1: /me/', ->
           .expect(200)
           .end(cb)
 
-        async.each data.db.recipes.slice(0,4), addToShoppingList, ->
+        recipes = data.db.recipes.filter (recipe) ->
+          recipe.state is 'published'
+
+        async.each recipes.slice(0, 4), addToShoppingList, ->
           request
           .get('/api/v1/me/shopping/list?page=1&perPage=4')
           .set('cookie', cookie)
@@ -453,8 +472,12 @@ describe 'API v1: /me/', ->
   describe 'GET /me/favourites/:action/:recipe', ->
     describe 'on not logged in', ->
       it 'should response an error', (done) ->
+
+        recipes = data.db.recipes.filter (recipe) ->
+          recipe.state is 'published'
+
         request
-        .get('/api/v1/me/favourites/add/' + data.recipes[0].slug)
+        .get('/api/v1/me/favourites/add/' + recipes[0].slug)
         .set('cookie','')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -480,8 +503,12 @@ describe 'API v1: /me/', ->
 
       describe 'on favourites list add', (done) ->
         it 'should response with success', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/favourites/add/' + data.recipes[0].slug)
+          .get('/api/v1/me/favourites/add/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -497,19 +524,23 @@ describe 'API v1: /me/', ->
               (res) ->
                 res.body.recipes.total.must.be.equal 1
                 slug = res.body.recipes.results[0].slug
-                slug.must.be.equal data.recipes[0].slug
+                slug.must.be.equal recipes[0].slug
             ).end(done)
 
         it 'should ignore duplicate requests', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/favourites/add/' + data.recipes[0].slug)
+          .get('/api/v1/me/favourites/add/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
             request
-            .get('/api/v1/me/favourites/add/' + data.recipes[0].slug)
+            .get('/api/v1/me/favourites/add/' + recipes[0].slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -525,7 +556,7 @@ describe 'API v1: /me/', ->
                 (res) ->
                   res.body.recipes.total.must.be.equal 1
                   slug = res.body.recipes.results[0].slug
-                  slug.must.be.equal data.recipes[0].slug
+                  slug.must.be.equal recipes[0].slug
               )
               .end(done)
 
@@ -540,15 +571,19 @@ describe 'API v1: /me/', ->
 
       describe 'on favourites list remove', (done) ->
         it 'should response with success', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/favourites/add/' + data.recipes[0].slug)
+          .get('/api/v1/me/favourites/add/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
             request
-            .get('/api/v1/me/favourites/remove/' + data.recipes[0].slug)
+            .get('/api/v1/me/favourites/remove/' + recipes[0].slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -566,8 +601,12 @@ describe 'API v1: /me/', ->
               ).end(done)
 
         it 'should ignore duplicate requests', (done) ->
+
+          recipes = data.db.recipes.filter (recipe) ->
+            recipe.state is 'published'
+
           request
-          .get('/api/v1/me/favourites/remove/' + data.recipes[0].slug)
+          .get('/api/v1/me/favourites/remove/' + recipes[0].slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -623,7 +662,10 @@ describe 'API v1: /me/', ->
           .expect(200)
           .end(cb)
 
-        async.each data.recipes.slice(0,4), addToShoppingList, ->
+        recipes = data.db.recipes.filter (recipe) ->
+          recipe.state is 'published'
+
+        async.each recipes.slice(0,4), addToShoppingList, ->
           request
           .get('/api/v1/me/favourites/list?page=1&perPage=4')
           .set('cookie', cookie)
