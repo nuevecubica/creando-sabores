@@ -8,12 +8,12 @@ mixin recipe-shopping(recipe)
 
 		.ingredients.eleven.wide.column
 			#shopping-header.ui.grid
-				.ten.column.wide
+				.eight.column.wide
 					em.row.remaining.font-large
 						span= __('Remaining ingredients before') + " "
 						span.counter= recipe.ingredients.length
 						span= " " + __('Remaining ingredients after')
-				.six.wide.column
+				.eight.wide.column
 					.ui.button.chef.button-brick.shopping-remove
 						i.icon-chef-cross.icon.chef.font-large
 					.ui.button.chef.button-yellow.shopping-print

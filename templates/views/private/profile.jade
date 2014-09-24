@@ -107,7 +107,7 @@ block content
 									a(href='/perfil/favoritas')= __('Favorites')
 				include ../../components/search
 				.row
-					.ui.grid.segment.list
+					.ui.grid.segment.list.stackable
 						if recipes.length
 							each recipe in recipes
 								+recipe(recipe)
@@ -123,7 +123,7 @@ block content
 		else if subsection == 'shopping'
 			#shopping.tab-content
 				.row
-					.ui.grid.segment.list
+					.ui.grid.segment.list.stackable
 						if recipes.length
 							each recipe in recipes
 								+recipe-shopping(recipe)

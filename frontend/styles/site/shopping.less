@@ -22,6 +22,9 @@
     height: auto;
     background-size: contain;
     margin-left: 0;
+    .five.wide.column.mobile-sixteen{
+      min-height: 200px;
+    }
     h2.header{
       background-color: #fff;
       opacity: .6;
@@ -31,8 +34,16 @@
       display: block;
       position: absolute;
       bottom: 0;
-      width: 29.25%;
+      width: 29.35%;
       left:0;
+    }
+    @media only screen and (max-width : 770px) {
+      h2.header{
+        width: 100%;
+        top:0;
+        bottom: auto;
+
+      }
     }
   }
   .ingredients{
