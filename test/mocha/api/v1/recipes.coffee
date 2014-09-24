@@ -122,7 +122,7 @@ describe.only 'API v1: /recipes', ->
               # Compare results
               slugsexpected = (r.slug for r in total.slice(1, 2))
               slugsgot = (r.slug for r in res.body.recipes.results)
-              slugsgot.must.be.eql(slugsexpected)
+              slugsgot.must.be.eql slugsexpected
           )
           .end(done)
 
@@ -159,7 +159,7 @@ describe.only 'API v1: /recipes', ->
 
       it 'responds with all recipes (even banned, unpublished)', (done) ->
         request
-        .get('/api/v1/me/recipes?perPage=10')
+        .get('/api/v1/me/recipes?perPage=20')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
@@ -168,43 +168,57 @@ describe.only 'API v1: /recipes', ->
           (res) ->
             if res.body.success isnt true or res.body.error isnt false
               return 'Unexpected status values'
-            # Make our independent sorting and filtering
-            recipes = data.db.recipes.filter (recipe) -> recipe.author is 1
-            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            if recipes.length > 10
-              recipes = recipes.slice 0, 10
-            # Compare results
-            slugsexpected = (r.slug for r in recipes)
-            slugsgot = (r.slug for r in res.body.recipes.results)
-            slugsgot.must.be.eql(slugsexpected)
+
+            res.body.recipes.results.length.must.be.lte 20
+
+            user = data.getUserByUsername 'testUser1'
+            banOrDraft = false
+            for recipe in res.body.recipes.results
+              if recipe.author isnt user._id
+                return "Wrong username: #{recipe.author}"
+              if ['draft', 'banned', 'review'].indexOf(recipe.state) >= 0
+                banOrDraft = true
+                break
+
+            if not banOrDraft
+              return 'No private recipes found. Test unsuccesful?'
         )
         .end(done)
 
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/me/recipes?page=2&perPage=2')
+        .get('/api/v1/me/recipes?page=1&perPage=4')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
         .expect(
           (res) ->
-            # Make our independent sorting and filtering
-            recipes = data.db.recipes.filter (recipe) -> recipe.author is 1
-            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            recipes = recipes.slice 2, 4
-            # Compare results
-            slugsexpected = (r.slug for r in recipes)
-            slugsgot = (r.slug for r in res.body.recipes.results)
-            slugsgot.must.be.eql(slugsexpected)
+            res.body.recipes.results.length.must.be.eql 4
         )
-        .end(done)
+        .end (err, res) ->
+
+          total = res.body.recipes.results
+
+          request
+          .get('/api/v1/me/recipes?page=2&perPage=2')
+          .set('Accept', 'application/json')
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              slugsexpected = (r.slug for r in total.slice(2, 4))
+              slugsgot = (r.slug for r in res.body.recipes.results)
+              slugsgot.must.be.eql slugsexpected
+          )
+          .end(done)
 
   describe 'PUT /api/v1/recipe/:recipe/like', ->
 
     describe 'if recipe does not have a valid state', ->
 
-      recipe = data.db.recipes[4]
+      recipe = data.getBySlug 'recipes', 'test-recipe-banned'
 
       beforeEach (done) ->
         request
@@ -235,9 +249,9 @@ describe.only 'API v1: /recipes', ->
         .expect(403)
         .end(done)
 
-    describe 'if recipe contest does not have a valid state', ->
+    describe 'and recipe contest does not have a valid state', ->
 
-      recipe = data.db.recipes[10]
+      recipe = data.getBySlug 'recipes', 'test-contest-closed-recipe'
 
       beforeEach (done) ->
         request
@@ -268,9 +282,9 @@ describe.only 'API v1: /recipes', ->
         .expect(403)
         .end(done)
 
-    describe 'if recipe does not have a vote from the user', ->
+    describe 'and recipe does not have a vote from the user', ->
 
-      recipe = data.db.recipes[6]
+      recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
       recipeVoted = null
       recipeLikes = recipe.likes || 0
 
@@ -321,7 +335,7 @@ describe.only 'API v1: /recipes', ->
 
     describe 'if recipe has a vote from the user already', ->
 
-      recipe = data.db.recipes[6]
+      recipe = data.getBySlug 'recipes', 'test-contest-recipe-liked'
       recipeVoted = null
       recipeLikes = recipe.likes || 0
 
@@ -411,7 +425,7 @@ describe.only 'API v1: /recipes', ->
 
     describe 'if it comes from an invalid referer', ->
 
-      recipe = data.db.recipes[6]
+      recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
 
       beforeEach (done) ->
         request
@@ -446,7 +460,7 @@ describe.only 'API v1: /recipes', ->
     describe 'if recipe does not have a vote from the user', ->
       @timeout 10000
 
-      recipe = data.db.recipes[6]
+      recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
       user0 = data.users[0]
       user1 = data.users[1]
 
@@ -556,7 +570,7 @@ describe.only 'API v1: /recipes', ->
         )
 
     describe 'if recipe has a vote from the user', ->
-      recipe = data.db.recipes[6]
+      recipe = data.getBySlug 'recipes', 'test-contest-recipe-liked'
       recipeVoted = null
       recipeLikes = recipe.likes || 0
 
@@ -641,7 +655,7 @@ describe.only 'API v1: /recipes', ->
         )
 
     describe 'if it comes from an invalid referer', ->
-      recipe = data.db.recipes[6]
+      recipe = recipe = data.getBySlug 'recipes', 'test-contest-recipe-liked'
 
       beforeEach (done) ->
         request
