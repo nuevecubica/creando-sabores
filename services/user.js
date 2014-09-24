@@ -32,6 +32,36 @@ var getUserList = function(options, callback) {
     return q;
   };
 
+  var sortRecipes = function(recipes, recipeIds, ret, done) {
+    // We got the recipes (one way or another...)
+    // Fix the ingredient list
+    for (var i = 0, l = recipes.length; i < l; i++) {
+      recipes[i] = recipes[i].toObject({
+        virtuals: true,
+        transform: modelCleaner.transformer
+      });
+      var ingr = recipes[i].ingredients;
+      ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+      recipes[i].ingredients = ingr;
+    }
+    // Sort it in the same order as our list, or order will be block-level
+    var recipes2 = [];
+    var recipeIdsStr = _.map(recipeIds, String);
+    var recipesStr = _.map(recipes, function(r) {
+      return String(r._id);
+    });
+
+    for (i = 0, l = recipes.length; i < l; i++) {
+      var pos = recipeIdsStr.indexOf(recipesStr[i]);
+      recipes2[pos] = recipes[i];
+    }
+
+    recipes = recipes2;
+
+    ret.results = recipes;
+    done(null, ret);
+  };
+
   var page = options.page || 1,
     perPage = options.perPage || 10,
     first = (page - 1) * perPage;
@@ -48,8 +78,22 @@ var getUserList = function(options, callback) {
   var last = Math.min(first + perPage, userlist.length);
   var recipeIds = userlist.slice(first, last);
 
+  // Return a paginable-like structure
+  var totalPages = Math.ceil(userlist.length / perPage);
+  var ret = {
+    total: userlist.length,
+    currentPage: page,
+    totalPages: totalPages,
+    pages: [],
+    previous: page > 1 ? page - 1 : false,
+    next: page < totalPages ? page + 1 : false,
+    first: first + 1,
+    last: last
+  };
+
   getUserListQuery(recipeIds)
     .exec(function(err, recipes) {
+
       if (err || !recipes) {
         return callback(err || 'Not found', null);
       }
@@ -57,6 +101,7 @@ var getUserList = function(options, callback) {
         // One or more recipes disapeared. Update triggered.
         getUserListQuery(userlist)
           .exec(function(err, allRecipes) {
+
             if (err || !allRecipes) {
               return callback(err || 'Not found', null);
             }
@@ -64,45 +109,21 @@ var getUserList = function(options, callback) {
               options.user[options.field] = allRecipes;
               options.user.save();
               recipes = allRecipes.slice(first, last);
+              recipeIds = _.map(recipes, function(recipe) {
+                return recipe._id;
+              });
             }
+
+            sortRecipes(recipes, recipeIds, ret, function(err, ret) {
+              return callback(err, ret);
+            });
           });
       }
-      // We got the recipes (one way or another...)
-      // Fix the ingredient list
-      for (var i = 0, l = recipes.length; i < l; i++) {
-        recipes[i] = recipes[i].toObject({
-          virtuals: true,
-          transform: modelCleaner.transformer
+      else {
+        sortRecipes(recipes, recipeIds, ret, function(err, ret) {
+          return callback(err, ret);
         });
-        var ingr = recipes[i].ingredients;
-        ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
-        recipes[i].ingredients = ingr;
       }
-      // Sort it in the same order as our list, or order will be block-level
-      var recipes2 = [];
-      var recipeIdsStr = _.map(recipeIds, String);
-      var recipesStr = _.map(recipes, function(r) {
-        return String(r._id);
-      });
-      for (i = 0, l = recipes.length; i < l; i++) {
-        var pos = recipeIdsStr.indexOf(recipesStr[i]);
-        recipes2[pos] = recipes[i];
-      }
-      recipes = recipes2;
-      // Return a paginable-like structure
-      var totalPages = Math.ceil(userlist.length / perPage);
-      var ret = {
-        total: userlist.length,
-        results: recipes,
-        currentPage: page,
-        totalPages: totalPages,
-        pages: [],
-        previous: page > 1 ? page - 1 : false,
-        next: page < totalPages ? page + 1 : false,
-        first: first + 1,
-        last: last
-      };
-      return callback(null, ret);
     });
 };
 
