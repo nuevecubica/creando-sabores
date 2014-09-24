@@ -394,7 +394,7 @@
       background-color: transparent;
     }
     .ranking-module {
-      height: 300px;
+      height: 220px;
       padding: 0;
       margin-bottom: 5px;
       display: inline-block;
@@ -555,12 +555,15 @@
       cursor: pointer;
     }
     .like{
-      margin-top: 40px;
+      margin-top: 10px;
       float: right;
       .icon{
         margin-right: 20px;
         color: @chef-color-vote;
         .font-extra-large;
+      }
+      @media only screen and (max-width : 770px) {
+        margin-top: -40px;
       }
     }
     .like-counter{
@@ -585,7 +588,7 @@
       display: block;
       text-align: right;
       width: 155px;
-      position: absolute;
+      position: relative;
       top: 10px;
       .font-extra-large;
       text-transform: uppercase;
@@ -593,6 +596,9 @@
       &.on{
         display:none;
         color: @chef-color-voted;
+      }
+      @media only screen and (max-width : 770px) {
+        top: -40px;
       }
     }
     &.liked{
