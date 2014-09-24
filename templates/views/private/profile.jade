@@ -33,11 +33,14 @@ block content
 							div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My recipes')}
 					.tab
-						.ui.button.chef.button-green.disabled
-							a= __('My menus')
+						a(href='#')
+							.ui.button.chef.button-green.disabled
+								| #{('My menus')}
 					.tab
-						.ui.button.chef.button-green.disabled
-							a= __('My tips')
+						a(href='#')
+							.ui.button.chef.button-green.disabled
+								| #{('My tips')}
+
 
 		if subsection == 'profile'
 			.row
