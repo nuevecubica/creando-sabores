@@ -1,6 +1,7 @@
 var async = require('async'),
   keystone = require('keystone'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  service = require('../../../services');
 
 /*
 	/recipe/:slug/vote/:score
@@ -8,12 +9,10 @@ var async = require('async'),
 
 exports = module.exports = function(req, res) {
 
-  var Recipes = keystone.list('Recipe'),
-    Contests = keystone.list('Contest'),
-    answer = {
-      success: false,
-      error: false,
-    };
+  var answer = {
+    success: false,
+    error: false,
+  };
 
   var ref = req.headers.referer;
   if (!ref || ref.split('/')[2] !== req.headers.host) {
@@ -34,22 +33,22 @@ exports = module.exports = function(req, res) {
   async.series([
 
     function(next) {
-      var q = Recipes.model.findOne({
-        'slug': req.params.recipe
-      });
-      q.exec(function(err, recipe) {
-        if (err || !recipe) {
+      service.recipe.get({
+        recipe: req.params.recipe
+      }, function(err, result) {
+        if (err || !result) {
           res.status(404);
           answer.error = true;
           return next(err);
         }
-        else if (recipe.contest && recipe.contest.id) {
+        else if (result.contest && result.contest.id) {
           res.status(403);
           answer.error = true;
           answer.details = 'Recipe is in a contest.';
           return next(err);
         }
         else {
+          var recipe = result.recipe._document;
           if (!recipe.scoreCount) {
             recipe.scoreCount = 0;
           }
@@ -72,20 +71,39 @@ exports = module.exports = function(req, res) {
             req.user.review.push(review);
             recipe.scoreCount += 1;
             recipe.scoreTotal += req.params.score;
-            req.user.save();
-            recipe.save();
           }
           else {
             var diff = req.params.score - reviews[pos].rating;
             req.user.review[pos].rating = req.params.score;
             recipe.scoreTotal += diff;
-            req.user.save();
-            recipe.save();
           }
-          answer.id = recipe.id;
-          answer.rating = recipe.rating;
-          answer.success = true;
-          return next(err);
+
+          var finish = function(err) {
+            if (!err) {
+              answer.id = recipe._id;
+              //answer.rating = recipe.rating;
+              var rating = recipe.scoreTotal / recipe.scoreCount;
+              answer.rating = rating;
+              answer.success = true;
+            }
+            else {
+              res.status(500);
+              answer.error = true;
+              answer.errorMessage = err;
+            }
+            next(err);
+          };
+
+          req.user.save(function(err) {
+            if (err) {
+              finish(err);
+            }
+            else {
+              recipe.save(function(err) {
+                finish(err);
+              });
+            }
+          });
         }
       });
     }
