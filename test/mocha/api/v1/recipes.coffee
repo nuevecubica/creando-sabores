@@ -18,11 +18,6 @@ describe 'API v1: /recipes', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  before (done) ->
-    this.timeout 10000
-    request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
-
   describe 'GET /recipes', ->
     describe 'on request without args', ->
       it 'responds with first page, sorted by rating', (done) ->
@@ -38,7 +33,7 @@ describe 'API v1: /recipes', ->
             if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
             # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
+            recipes = data.db.recipes.filter (recipe) ->
               recipe.state is 'published'
             recipes.sort (a,b) -> return b.rating - a.rating
             if recipes.length > 5

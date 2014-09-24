@@ -213,7 +213,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on submission state contest', ->
       it 'responds with the form', (done) ->
         request
-        .get('/nueva-receta/' + data.contests[2].slug)
+        .get('/nueva-receta/' + data.db.contests[2].slug)
         .set('cookie', cookie)
         .expect(200)
         .expect(
@@ -224,7 +224,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on non-submission state contest', ->
       it 'responds with error', (done) ->
         request
-        .get('/nueva-receta' + data.contests[1].slug)
+        .get('/nueva-receta' + data.db.contests[1].slug)
         .set('cookie', cookie)
         .expect(404)
         .end(done)
@@ -333,7 +333,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on contest recipe, submission state', ->
       it 'saves it and associates it to the contest', (done) ->
         keystone.list('Contest').model.findOne {
-          slug: data.contests[2].slug
+          slug: data.db.contests[2].slug
         }
         .exec (err, contest) ->
           must(err).be.null()
@@ -375,7 +375,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on contest recipe, other state', ->
       it 'returns an error', (done) ->
         keystone.list('Contest').model.findOne {
-          slug: data.contests[1].slug
+          slug: data.db.contests[1].slug
         }
         .exec (err, contest) ->
           must(err).be.null()
