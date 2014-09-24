@@ -83,17 +83,20 @@ Recipe.add({
     },
 
     likes: {
-      type: Types.Number
+      type: Types.Number,
+      default: 0
     },
 
     scoreTotal: {
       type: Types.Number,
-      hidden: true
+      noedit: true,
+      default: 0
     },
 
     scoreCount: {
       type: Types.Number,
-      hidden: true
+      noedit: true,
+      default: 0
     },
 
     schemaVersion: {
@@ -275,6 +278,9 @@ Recipe.schema.set('toJSON', {
 
 // Score
 Recipe.schema.virtual('rating').get(function() {
+  if (this.scoreCount === undefined || this.scoreCount === 0) {
+    return 0;
+  }
   return (this.scoreTotal / this.scoreCount);
 });
 

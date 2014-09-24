@@ -661,7 +661,7 @@ describe 'API v1: /recipes', ->
 
 
 
-  describe.only 'PUT /api/v1/recipe/:recipe/vote/:score', ->
+  describe 'PUT /api/v1/recipe/:recipe/vote/:score', ->
 
     recipeGood = 'test-recipe-1'
     recipeContest = 'test-contest-recipe-1'
