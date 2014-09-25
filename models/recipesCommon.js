@@ -256,11 +256,6 @@ var shown = function() {
   return (this.state !== 'banned' && this.state !== 'removed');
 };
 
-
-var url = function() {
-  return '/receta/' + this.slug;
-};
-
 var thumbs = function() {
   return {
     'list': this._.header.src({
@@ -291,14 +286,15 @@ var classes = function() {
 
   if (this.contest && this.contest.id) {
     classes.push('contest-recipe');
-  }
 
-  if (this.contest.isJuryWinner) {
-    classes.push('contest-winner-jury');
-  }
+    if (this.contest.isJuryWinner) {
+      classes.push('contest-winner-jury');
+    }
 
-  if (this.contest.isCommunityWinner) {
-    classes.push('contest-winner-community');
+    if (this.contest.isCommunityWinner) {
+      classes.push('contest-winner-community');
+    }
+
   }
   // return classes;
   return classes.join(' ');
@@ -322,7 +318,6 @@ module.exports = {
   toJSON: toJSON,
   rating: rating,
   shown: shown,
-  url: url,
   thumbs: thumbs,
   classes: classes,
   valueChecker: valueChecker

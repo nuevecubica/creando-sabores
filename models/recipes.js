@@ -52,7 +52,9 @@ Recipe.schema.virtual('rating').get(recipe.rating);
 Recipe.schema.virtual('canBeShown').get(recipe.shown);
 
 // URL
-Recipe.schema.virtual('url').get(recipe.url);
+Recipe.schema.virtual('url').get(function() {
+  return '/receta/' + this.slug;
+});
 
 // Thumbs
 Recipe.schema.virtual('thumb').get(recipe.thumbs);

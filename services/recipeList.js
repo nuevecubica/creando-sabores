@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Recipe = keystone.list('Recipe');
+  Recipe = keystone.list('Recipe'),
+  Videorecipe = keystone.list('Videorecipe');
 
 /**
  * Reads recipes from the database
@@ -24,19 +25,20 @@ var getRecipes = function(options, callback) {
     perPage: 10,
     limit: 10,
     fromContests: false,
+    collection: Recipe,
     states: ['published']
   });
 
   var query = {};
 
   if (!options.page) {
-    query = Recipe.model.find();
+    query = options.collection.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);
     }
   }
   else {
-    query = Recipe.paginate({
+    query = options.collection.paginate({
       page: options.page,
       perPage: options.perPage
     });
@@ -84,6 +86,14 @@ var getRecipes = function(options, callback) {
 };
 
 /**
+ * Reads videorecipes from the database. Uses getRecipes internally.
+ */
+var getVideoRecipes = function(options, callback) {
+  options.collection = Videorecipe;
+  getRecipes(options, callback);
+};
+
+/**
  * Gets a list of recipes for the grid
  * @param  {Object}   options { section: 'Recipes' }
  * @param  {Function} callback (err, results)
@@ -95,44 +105,73 @@ var getRecipesGrid = function(options, callback) {
     section: 'Recipes'
   });
 
-  getRecipes({
-    page: 0,
-    limit: 10,
-    flags: ['is' + options.section + 'GridPromoted.value'],
-    sort: 'is' + options.section + 'GridPromoted.position'
-  }, function(err, resultsGrid) {
+  var getSectionPromoted = function(next) {
+    getRecipes({
+      page: 0,
+      limit: 10,
+      flags: ['is' + options.section + 'GridPromoted.value'],
+      sort: 'is' + options.section + 'GridPromoted.position'
+    }, next);
+  };
+
+  var getVideoSectionPromoted = function(next) {
+    getVideoRecipes({
+      page: 0,
+      limit: 10,
+      flags: ['is' + options.section + 'GridPromoted.value'],
+      sort: 'is' + options.section + 'GridPromoted.position'
+    }, next);
+  };
+
+  var getOfficials = function(next) {
     getRecipes({
       page: 0,
       limit: 10,
       flags: ['isOfficial', 'is' + options.section + 'GridPromoted.value'],
       sort: 'is' + options.section + 'GridPromoted.position'
-    }, function(err, resultsChef) {
-      // Initialize empty array
-      var results = new Array(10);
+    }, next);
+  };
 
-      // Load official recipes
-      for (var i = 0, l = resultsChef.length; i < l; i++) {
-        results[resultsChef[i].isRecipesGridPromoted.position] = resultsChef[i];
-      }
-      // Load regular recipes on empty spaces
-      for (var j = 0, m = resultsGrid.length; j < m; j++) {
-        if (!results[resultsGrid[j].isRecipesGridPromoted.position]) {
-          results[resultsGrid[j].isRecipesGridPromoted.position] = resultsGrid[j];
+  var makeGrid = function(err, results) {
+    // Initialize empty array
+    var grid = new Array(10);
+
+    // Load in descending priority order
+    var criteria = 'is' + options.section + 'GridPromoted';
+    for (var i = 0, l = results.length; i < l; i++) {
+      var result = results[i];
+      for (var j = 0, l2 = result.length; j < l2; j++) {
+        var pos = result[j][criteria].position;
+        if (!grid[pos]) {
+          grid[pos] = result[j];
         }
       }
-      callback(err, results);
-    });
-  });
+    }
+    callback(err, grid);
+  };
+
+  var fillers = [getOfficials, getSectionPromoted];
+  if (options.section === 'Videorecipes') {
+    fillers = [getVideoSectionPromoted];
+  }
+  else if (options.section === 'Index') {
+    fillers = [getVideoSectionPromoted, getOfficials, getSectionPromoted];
+  }
+  async.parallel(fillers, makeGrid);
+
 };
 
 /*
   Set exportable object
  */
 var _service = {
-  get: getRecipes
-};
-_service.grid = {
-  get: getRecipesGrid
+  get: getRecipes,
+  grid: {
+    get: getRecipesGrid
+  },
+  video: {
+    get: getVideoRecipes
+  }
 };
 
 exports = module.exports = _service;
