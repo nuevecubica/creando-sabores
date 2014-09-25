@@ -75,7 +75,7 @@ exports = module.exports = function(req, res) {
               })
               .limit(4)
               .populate('contest.id')
-              .sort('-rating')
+              .sort('-likes')
               .exec(function(err, result) {
                 if (!err && result) {
                   locals.data.top = result;
