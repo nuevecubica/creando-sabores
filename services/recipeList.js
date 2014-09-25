@@ -1,18 +1,17 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Recipe = keystone.list('Recipe'),
-  Videorecipe = keystone.list('Videorecipe');
+  Recipe = keystone.list('Recipe');
 
 /**
- * Reads recipes from the database
+ * Reads both recipes and videorecipes from the database
  * @param  {Object}   options { userId: null, all: false, sort: '-rating',
  *                              flags: [], page: 1, perPage: 10, limit: 10,
  *                              fromContests: false, states: ['published'] }
  * @param  {Function} callback (err, results)
  * @return {null}
  */
-var getRecipes = function(options, callback) {
+var getAllRecipes = function(options, callback) {
   var own = false,
     data = {};
 
@@ -25,20 +24,19 @@ var getRecipes = function(options, callback) {
     perPage: 10,
     limit: 10,
     fromContests: false,
-    collection: Recipe,
     states: ['published']
   });
 
   var query = {};
 
   if (!options.page) {
-    query = options.collection.model.find();
+    query = Recipe.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);
     }
   }
   else {
-    query = options.collection.paginate({
+    query = Recipe.paginate({
       page: options.page,
       perPage: options.perPage
     });
@@ -86,11 +84,29 @@ var getRecipes = function(options, callback) {
 };
 
 /**
- * Reads videorecipes from the database. Uses getRecipes internally.
+ * Reads only videorecipes from the database. Uses getAllRecipes internally.
  */
 var getVideoRecipes = function(options, callback) {
-  options.collection = Videorecipe;
-  getRecipes(options, callback);
+  if (!options.flags) {
+    options.flags = ['+isVideorecipe'];
+  }
+  else {
+    options.flags.push('+isVideorecipe');
+  }
+  getAllRecipes(options, callback);
+};
+
+/**
+ * Reads only recipes from the database. Uses getAllRecipes internally.
+ */
+var getRecipes = function(options, callback) {
+  if (!options.flags) {
+    options.flags = ['-isVideorecipe'];
+  }
+  else {
+    options.flags.push('-isVideorecipe');
+  }
+  getAllRecipes(options, callback);
 };
 
 /**
@@ -165,12 +181,15 @@ var getRecipesGrid = function(options, callback) {
   Set exportable object
  */
 var _service = {
-  get: getRecipes,
+  get: getAllRecipes,
   grid: {
     get: getRecipesGrid
   },
-  video: {
+  videorecipe: {
     get: getVideoRecipes
+  },
+  recipe: {
+    get: getRecipes
   }
 };
 

@@ -2,7 +2,6 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe'),
-  Videorecipe = keystone.list('Videorecipe'),
   Contest = keystone.list('Contest');
 
 var defaults = {
@@ -49,20 +48,33 @@ var parseRecipe = function(recipe) {
  * @param  {Function} callback
  * @return {null}
  */
-var getRecipe = function(options, callback) {
+var getAllRecipe = function(options, callback) {
   var own = false,
     data = {};
 
   options = options || {};
-  if (!options.collection) {
-    options.collection = Recipe;
-  }
 
   if (options.recipe) {
 
-    options.collection.model.findOne({
+    var query = Recipe.model.findOne({
       slug: options.recipe
-    })
+    });
+
+    if (options.flags && options.flags.length > 0) {
+      _.each(options.flags, function(flag) {
+        if (flag[0] === '-') {
+          query.where(flag.substr(1), false);
+        }
+        else if (flag[0] === '+') {
+          query.where(flag.substr(1), true);
+        }
+        else {
+          query.where(flag, true);
+        }
+      });
+    }
+
+    query
       .populate('author')
       .exec(function(err, result) {
         if (!err && result) {
@@ -73,6 +85,9 @@ var getRecipe = function(options, callback) {
           if (options.user) {
             // Am I the owner?
             data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
+            if (data.recipe.isVideorecipe) {
+              data.own = false;
+            }
             // Is it on my shopping list?
             data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
             // Is it on my favourites list?
@@ -132,11 +147,29 @@ var getRecipe = function(options, callback) {
 };
 
 /**
- * Reads a videorecipe from the database. Uses getRecipe internally.
+ * Reads a videorecipe from the database. Uses getAllRecipe internally.
  */
 var getVideoRecipe = function(options, callback) {
-  options.collection = Videorecipe;
-  getRecipe(options, callback);
+  if (!options.flags) {
+    options.flags = ['+isVideorecipe'];
+  }
+  else {
+    options.flags.push('+isVideorecipe');
+  }
+  getAllRecipe(options, callback);
+};
+
+/**
+ * Reads a recipe from the database. Uses getAllRecipe internally.
+ */
+var getRecipe = function(options, callback) {
+  if (!options.flags) {
+    options.flags = ['-isVideorecipe'];
+  }
+  else {
+    options.flags.push('-isVideorecipe');
+  }
+  getAllRecipe(options, callback);
 };
 
 /**
@@ -180,9 +213,12 @@ var getRecipeNew = function(options, callback) {
   Set exportable object
  */
 var _service = {
-  get: getRecipe,
-  video: {
+  get: getAllRecipe,
+  videorecipe: {
     get: getVideoRecipe
+  },
+  recipe: {
+    get: getRecipe
   }
 };
 _service.get.new = getRecipeNew;

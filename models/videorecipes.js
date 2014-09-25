@@ -52,9 +52,7 @@ Videorecipe.schema.virtual('rating').get(recipe.rating);
 Videorecipe.schema.virtual('canBeShown').get(recipe.shown);
 
 // URL
-Videorecipe.schema.virtual('url').get(function() {
-  return '/videoreceta/' + this.slug;
-});
+Videorecipe.schema.virtual('url').get(recipe.url);
 
 // Thumbs
 Videorecipe.schema.virtual('thumb').get(recipe.thumbs);
@@ -76,8 +74,6 @@ Videorecipe.schema.pre('save', function(next) {
   if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
     me.isPromoted = true;
   }
-
-  next();
 });
 
 /**
