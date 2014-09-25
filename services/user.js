@@ -32,7 +32,7 @@ var getUserList = function(options, callback) {
     return q;
   };
 
-  var sortRecipes = function(recipes, recipeIds, ret, done) {
+  var sortRecipes = function(recipes, recipeIds, done) {
     // We got the recipes (one way or another...)
     // Fix the ingredient list
     for (var i = 0, l = recipes.length; i < l; i++) {
@@ -57,7 +57,19 @@ var getUserList = function(options, callback) {
     }
 
     recipes = recipes2;
-
+    // Return a paginable-like structure
+    var total = userlist.length,
+      totalPages = Math.ceil(total / perPage),
+      ret = {
+        total: total,
+        currentPage: page,
+        totalPages: totalPages,
+        pages: [],
+        previous: page > 1 ? page - 1 : false,
+        next: page < totalPages ? page + 1 : false,
+        first: first + 1,
+        last: last
+      };
     ret.results = recipes;
     done(null, ret);
   };
@@ -78,19 +90,6 @@ var getUserList = function(options, callback) {
   var last = Math.min(first + perPage, userlist.length);
   var recipeIds = userlist.slice(first, last);
 
-  // Return a paginable-like structure
-  var totalPages = Math.ceil(userlist.length / perPage);
-  var ret = {
-    total: userlist.length,
-    currentPage: page,
-    totalPages: totalPages,
-    pages: [],
-    previous: page > 1 ? page - 1 : false,
-    next: page < totalPages ? page + 1 : false,
-    first: first + 1,
-    last: last
-  };
-
   getUserListQuery(recipeIds)
     .exec(function(err, recipes) {
 
@@ -108,21 +107,19 @@ var getUserList = function(options, callback) {
             else {
               options.user[options.field] = allRecipes;
               options.user.save();
-              recipes = allRecipes.slice(first, last);
-              recipeIds = _.map(recipes, function(recipe) {
+              userlist = _.map(allRecipes, function(recipe) {
                 return recipe._id;
               });
+              last = Math.min(first + perPage, userlist.length);
+              recipes = allRecipes.slice(first, last);
+              recipeIds = userlist.slice(first, last);
             }
 
-            sortRecipes(recipes, recipeIds, ret, function(err, ret) {
-              return callback(err, ret);
-            });
+            sortRecipes(recipes, recipeIds, callback);
           });
       }
       else {
-        sortRecipes(recipes, recipeIds, ret, function(err, ret) {
-          return callback(err, ret);
-        });
+        sortRecipes(recipes, recipeIds, callback);
       }
     });
 };
