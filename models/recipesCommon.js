@@ -258,10 +258,7 @@ var shown = function() {
 
 
 var url = function() {
-
-  return function() {
-    return '/receta/' + this.slug;
-  };
+  return '/receta/' + this.slug;
 };
 
 var thumbs = function() {
