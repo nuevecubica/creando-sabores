@@ -65,10 +65,10 @@ exports = module.exports = function(app) {
   // Home
   app.get('/', routes.views.index);
 
-  // Recipes
+  // Recipes + Videorecipes
   // -- Public
-  app.get('/recetas', routes.views.recipes);
-  app.get('/receta/:recipe', routes.views.recipe);
+  app.get('/:type(recetas|videorecetas)', routes.views.recipes);
+  app.get('/:type(receta|videoreceta)/:recipe', routes.views.recipe);
   // -- Private
   // ---- New
   app.get('/nueva-receta', middleware.requireUser, routes.views.recipe);
@@ -101,7 +101,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me', middleware.requireUserApi, routes.api.v1.me.me);
   app.get('/api/v1/me/logout', middleware.requireUserApi, routes.api.v1.me.logout);
   app.put('/api/v1/me/save', middleware.requireUserApi, routes.api.v1.me.save);
-  app.get('/api/v1/me/recipes', middleware.requireUserApi, routes.api.v1.me.recipes);
+  app.get('/api/v1/me/:type(recipes|videorecipes)', middleware.requireUserApi, routes.api.v1.me.recipes);
   app.get('/api/v1/me/shopping/list', middleware.requireUserApi, routes.api.v1.me.shoppingList);
   app.get('/api/v1/me/shopping/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.shopping);
   app.get('/api/v1/me/favourites/list', middleware.requireUserApi, routes.api.v1.me.favouritesList);
@@ -110,10 +110,11 @@ exports = module.exports = function(app) {
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
+  //-- Recipes + Videorecipes
+  app.get('/api/v1/:type(recipes|videorecipes)', routes.api.v1.recipes);
+  app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
   //-- Recipes
-  app.get('/api/v1/recipes', routes.api.v1.recipes);
   app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireUserApi, routes.api.v1.recipeAction);
-  app.put('/api/v1/recipe/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
   //-- Contests
   app.get('/api/v1/contestsPast', routes.api.v1.contestsPast);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
