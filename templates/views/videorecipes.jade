@@ -1,0 +1,58 @@
+extends ../layouts/default
+
+include ../mixins/header
+include ../mixins/recipe
+include ../mixins/grid
+
+block js
+	script(src='/js/recipes.js')
+
+block content
+	+header(data, section)
+
+	.ui.page.grid.body
+
+		include ../components/search
+
+
+		#recipes-grid.ui.grid.segment.wall
+			.row.computer.only
+				+grid(data.grid, data.order.grid_order_desktop_recipes, data.sizes.grid_size_desktop_recipes)
+
+			.row.tablet.only
+				+grid(data.grid, data.order.grid_order_tablet_recipes, data.sizes.grid_size_tablet_recipes)
+
+			.row.mobile.only
+				+grid(data.grid, data.order.grid_order_mobile_recipes, data.sizes.grid_size_mobile_recipes)
+
+		#add-new-bar.ui.grid.segment
+			.row
+				.sixteen.wide.column
+					.span= __('Do you have a new recipe?')
+						.ui.button.chef.button-brick
+							a(href='/nueva-receta')= __('Create recipe')
+
+		#recipes.ui.grid.segment.two.tabs
+			.row.tab-header
+				.tab
+					.ui.button.chef.button-green
+						a(href='/recetas')= __('Popular')
+				.tab
+					.ui.button.chef.button-green.disabled
+						a= __('Season')
+
+			.row
+				.ui.grid.segment.list.stackable
+					if data.recipes.length
+						each recipe in data.recipes
+							+recipe(recipe)
+
+					else
+						| #{__('No recipes yet')}
+
+			.row
+				.loader
+					.sixteen.wide.column.loading= __('Loading more recipes')
+					.sixteen.wide.column.load-more
+						.ui.button.chef.button-brick.load-button
+							a(href="#")= __('Load more')

@@ -9,10 +9,12 @@ exports = module.exports = function(req, res) {
 
   // Set locals
   locals.section = 'recipes';
+
+  var type = locals.type = (req.params.type || 'recipe');
   locals.data = {
     recipes: []
   };
-  locals.title = res.__('Recipes');
+  locals.title = (type === 'recipe' ? res.__('Recipes') : res.__('Videorecipes'));
 
   // load recipes
   view.on('init', function(next) {
@@ -21,7 +23,7 @@ exports = module.exports = function(req, res) {
     async.series([
         // Function for get recipes
         function(callback) {
-          service.recipeList.get({
+          service.recipeList[type].get({
             page: req.query.page || 1,
             perPage: 5
           }, function(err, results) {
@@ -31,14 +33,14 @@ exports = module.exports = function(req, res) {
         },
         // Function for get header recipe
         function(callback) {
-          service.pageHeader.recipe.get({}, function(err, result) {
+          service.pageHeader[type].get({}, function(err, result) {
             locals.data.header = result;
             callback(err);
           });
         },
         // Function for get recipes grid
         function(callback) {
-          service.recipeList.grid.get({}, function(err, results) {
+          service.recipeList[type].grid.get({}, function(err, results) {
             locals.data.grid = results;
             callback(err);
           });
@@ -58,5 +60,5 @@ exports = module.exports = function(req, res) {
   });
 
   // Render the view
-  view.render('recipes');
+  view.render(type + 's');
 };
