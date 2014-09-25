@@ -68,7 +68,7 @@ describe 'Contests page', ->
         @getElementAttribute('#past-contests .recipe-award>a',
           'href').should.be.equal '/chef/testUser2'
         @getElementAttribute('#past-contests .recipe-award .title a',
-          'href').should.be.equal '/receta/test-contest-recipe-5'
+          'href').should.be.equal '/receta/test-contest-closed-recipe'
         ('#past-contests div.award').should.be.inDOM.and.visible
     it 'works contests award2', ->
       casper.then ->

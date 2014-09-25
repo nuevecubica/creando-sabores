@@ -8,7 +8,7 @@ describe 'WEB Shopping-list', ->
   before (done) ->
     casper.start base, ->
       # Do Nothing.
-    revertDB()
+    utils.revertDB()
     casper.thenOpen base + '/acceso', ->
       @fill 'form[action="acceso"]', {
         'action': 'login'
@@ -18,18 +18,18 @@ describe 'WEB Shopping-list', ->
 
   describe 'Recipe page', ->
     it 'shows the add shopping-list button', ->
-      casper.thenOpen base + '/receta/test-contest-recipe-1', ->
+      casper.thenOpen base + '/receta/test-contest-recipe-liked', ->
         '.shopping-add:not(.disabled)'.should.be.inDOM
         @click '.shopping-add:not(.disabled)'
       casper.waitForSelector '.shopping-add.disabled', ->
         '.shopping-add.disabled'.should.be.inDOM
-      casper.thenOpen base + '/receta/test-contest-recipe-1', ->
+      casper.thenOpen base + '/receta/test-contest-recipe-liked', ->
         '.shopping-add.disabled'.should.be.inDOM
 
   describe 'Shoping-list page' , ->
     it 'shows the shopping-list recipes', ->
       casper.thenOpen base + '/perfil/compra' , ->
-        '#shopping [data-slug="test-contest-recipe-1"]'.should.be.inDOM
+        '#shopping [data-slug="test-contest-recipe-liked"]'.should.be.inDOM
     it 'allows to check ingredients', ->
       casper.then ->
         counter=@fetchText '#shopping span.counter'

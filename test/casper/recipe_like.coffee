@@ -15,6 +15,8 @@ getRecipeLikeCounters = () ->
 describe 'Recipe receives a like or unlike', ->
   @timeout 60000
 
+  contest = data.getBySlug('contests', 'test-contest-submission')
+
   before (done) ->
     casper.start base, ->
       # Do Nothing.
@@ -23,7 +25,7 @@ describe 'Recipe receives a like or unlike', ->
   describe 'from an anonymous user,', ->
     describe 'user gives a like', ->
       it 'keeps the recipe\'s like count (nothing changes)', ->
-        casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
+        casper.thenOpen base + '/concurso/' + contest.slug +
         '/participantes/reciente', ->
           (selectors.recipes).should.be.inDOM.and.visible
 
@@ -49,7 +51,7 @@ describe 'Recipe receives a like or unlike', ->
     describe 'user gives a like', ->
       describe 'and recipe does not have a vote from the user', ->
         it 'adds one to the recipe\'s like counter', ->
-          casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
+          casper.thenOpen base + '/concurso/' + contest.slug +
           '/participantes/reciente', ->
             (selectors.recipes).should.be.inDOM.and.visible
 
@@ -63,7 +65,7 @@ describe 'Recipe receives a like or unlike', ->
     describe 'user gives an unlike', ->
       describe 'and recipe has a vote from the user', ->
         it 'substracts one from the recipe\'s like counter', ->
-          casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
+          casper.thenOpen base + '/concurso/' + contest.slug +
           '/participantes/reciente', ->
             (selectors.recipes).should.be.inDOM.and.visible
 
