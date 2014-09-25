@@ -30,6 +30,12 @@ var data = {
     "username": "testUser2",
     "password": "testUser2",
     "name": "Test User2"
+  }, {
+    "about": "Test Bad User",
+    "email": "testBadUser@glue.gl",
+    "username": "testBadUser",
+    "password": "testBadUser",
+    "name": "Test Bad User"
   }],
   /**
    * This object is extended with the data from the database
@@ -40,14 +46,17 @@ var data = {
 /**
  * Returns an array of objects
  * @param  {String} collection Collection name
- * @param  {String} field      Field name
+ * @param  {Mixed}  field      Field name or a callback
  * @param  {Mixed}  value      Value to compare or a callback
  * @param  {Mixed}  orderBy    Optional. Order criteria, function or string leaded with minus (-) or plus (+)
  * @return {Array}             List of documents
  */
 data.getBy = function(collection, field, value, orderBy) {
   var reply = data.db[collection].filter(function filter(doc) {
-    if (doc.hasOwnProperty(field)) {
+    if ('function' === typeof field) {
+      return !!field(doc);
+    }
+    else if (doc.hasOwnProperty(field)) {
       if ('function' === typeof value) {
         return !!value(doc[field]);
       }

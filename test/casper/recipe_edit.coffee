@@ -33,8 +33,9 @@ describe 'WEB Recipe Edit', ->
       }, true
 
   describe 'Recipe page - Basics', ->
+    recipe = data.getBySlug('recipes', 'test-recipe-1')
     it 'enters editable mode on edit click', ->
-      casper.thenOpen base + '/receta/' + data.db.recipes[4].slug, ->
+      casper.thenOpen base + '/receta/' + recipe.slug, ->
         '#manage-wrapper'.should.be.visible
         'body.mode-editable'.should.not.be.inDOM
         'div[contenteditable="true"]'.should.not.be.inDOM

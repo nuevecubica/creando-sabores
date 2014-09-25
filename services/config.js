@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Config = keystone.list('Config');
+  Config = keystone.list('Config'),
+  defaults = require('./config.defaults');
 
 /**
  * Returns config parameters, optionally filtered by an array
@@ -40,15 +41,16 @@ var getConfigsGrid = function(options, callback) {
     section: 'home'
   });
 
+  var names = [
+    'grid_order_desktop_' + options.section,
+    'grid_order_tablet_' + options.section,
+    'grid_order_mobile_' + options.section,
+    'grid_size_desktop_' + options.section,
+    'grid_size_tablet_' + options.section,
+    'grid_size_mobile_' + options.section
+  ];
   getConfigs({
-    names: [
-      'grid_order_desktop_' + options.section,
-      'grid_order_tablet_' + options.section,
-      'grid_order_mobile_' + options.section,
-      'grid_size_desktop_' + options.section,
-      'grid_size_tablet_' + options.section,
-      'grid_size_mobile_' + options.section
-    ]
+    names: names
   }, function(err, results) {
     var order = {};
     var sizes = {};
@@ -59,6 +61,18 @@ var getConfigsGrid = function(options, callback) {
         }
         else {
           sizes[results[i].name] = results[i].value;
+        }
+      }
+      for (var j = 0, m = names.length; j < m; j++) {
+        if (names[j].indexOf('grid_order') >= 0) {
+          if (!order[names[j]]) {
+            order[names[j]] = defaults[names[j]];
+          }
+        }
+        else {
+          if (!order[names[j]]) {
+            sizes[names[j]] = defaults[names[j]];
+          }
         }
       }
     }

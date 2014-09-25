@@ -5,6 +5,7 @@ utils = require '../utils/casper-editor.coffee'
 selectors = {
   recipes: '#recipes',
   recipeFirstButton: '#recipes .row.position:nth-child(1) .like-button'
+  recipeFirstLike: '#recipes .row.position:nth-child(1) .like-counter'
 }
 
 getRecipeLikeCounters = () ->
@@ -15,6 +16,8 @@ getRecipeLikeCounters = () ->
 describe 'Recipe receives a like or unlike', ->
   @timeout 60000
 
+  contest = data.getBySlug('contests', 'test-contest-submission')
+
   before (done) ->
     casper.start base, ->
       # Do Nothing.
@@ -23,16 +26,17 @@ describe 'Recipe receives a like or unlike', ->
   describe 'from an anonymous user,', ->
     describe 'user gives a like', ->
       it 'keeps the recipe\'s like count (nothing changes)', ->
-        casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
+        actualLikes = null
+        casper.thenOpen base + '/concurso/' + contest.slug +
         '/participantes/reciente', ->
           (selectors.recipes).should.be.inDOM.and.visible
 
           actualLikes = @evaluate getRecipeLikeCounters
 
           @click selectors.recipeFirstButton
-          @then =>
-            newLikes = @evaluate getRecipeLikeCounters
-            newLikes.should.be.eql actualLikes
+        casper.waitForSelectorTextChange selectors.recipeFirstLike, ->
+          newLikes = @evaluate getRecipeLikeCounters
+          newLikes.should.be.eql actualLikes
 
   describe 'from an authenticated user,', ->
     before (done) ->
@@ -49,27 +53,29 @@ describe 'Recipe receives a like or unlike', ->
     describe 'user gives a like', ->
       describe 'and recipe does not have a vote from the user', ->
         it 'adds one to the recipe\'s like counter', ->
-          casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
+          actualLikes = null
+          casper.thenOpen base + '/concurso/' + contest.slug +
           '/participantes/reciente', ->
             (selectors.recipes).should.be.inDOM.and.visible
 
             actualLikes = @evaluate getRecipeLikeCounters
 
             @click selectors.recipeFirstButton
-            @then =>
-              newLikes = @evaluate getRecipeLikeCounters
-              newLikes.should.be.eql actualLikes + 1
+          casper.waitForSelectorTextChange selectors.recipeFirstLike, ->
+            newLikes = @evaluate getRecipeLikeCounters
+            newLikes.should.be.eql actualLikes + 1
 
     describe 'user gives an unlike', ->
       describe 'and recipe has a vote from the user', ->
         it 'substracts one from the recipe\'s like counter', ->
-          casper.thenOpen base + '/concurso/' + data.db.contests[2].slug +
+          actualLikes = null
+          casper.thenOpen base + '/concurso/' + contest.slug +
           '/participantes/reciente', ->
             (selectors.recipes).should.be.inDOM.and.visible
 
             actualLikes = @evaluate getRecipeLikeCounters
 
             @click selectors.recipeFirstButton
-            @then =>
-              newLikes = @evaluate getRecipeLikeCounters
-              newLikes.should.be.eql actualLikes - 1
+          casper.waitForSelectorTextChange selectors.recipeFirstLike, ->
+            newLikes = @evaluate getRecipeLikeCounters
+            newLikes.should.be.eql actualLikes - 1

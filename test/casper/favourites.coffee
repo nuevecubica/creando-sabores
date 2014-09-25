@@ -1,4 +1,4 @@
-data = require './../data.json'
+data = require './../data'
 base = 'http://localhost:3000'  # We're outside node, so no keystone
 
 
@@ -31,12 +31,12 @@ describe 'WEB Favourites-list', ->
 
   describe 'Recipe page', ->
     it 'shows the add favourite button', ->
-      casper.thenOpen base + '/receta/test-contest-recipe-1', ->
+      casper.thenOpen base + '/receta/test-contest-recipe-liked', ->
         '.favourite .button:not(.activated)'.should.be.inDOM
         @click '.favourite .button:not(.activated)'
       casper.waitForSelector '.favourite .button.activated', ->
         '.favourite .button.activated'.should.be.inDOM
-      casper.thenOpen base + '/receta/test-contest-recipe-1', ->
+      casper.thenOpen base + '/receta/test-contest-recipe-liked', ->
         '.favourite .button.activated'.should.be.inDOM
 
     it 'appears on the favourites list when added', ->
@@ -44,7 +44,7 @@ describe 'WEB Favourites-list', ->
         '#recipes .recipe'.should.be.inDOM
 
     it 'removes favourites with the same button', ->
-      casper.thenOpen base + '/receta/test-contest-recipe-1', ->
+      casper.thenOpen base + '/receta/test-contest-recipe-liked', ->
         @click '.favourite .button.activated'
       casper.waitForSelector '.favourite .button:not(.activated)', ->
         '.favourite .button:not(.activated)'.should.be.inDOM
