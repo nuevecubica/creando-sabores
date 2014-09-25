@@ -2,6 +2,7 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe'),
+  Videorecipe = keystone.list('Videorecipe'),
   Contest = keystone.list('Contest');
 
 var defaults = {
@@ -53,10 +54,13 @@ var getRecipe = function(options, callback) {
     data = {};
 
   options = options || {};
+  if (!options.collection) {
+    options.collection = Recipe;
+  }
 
   if (options.recipe) {
 
-    Recipe.model.findOne({
+    options.collection.model.findOne({
       slug: options.recipe
     })
       .populate('author')
@@ -128,6 +132,14 @@ var getRecipe = function(options, callback) {
 };
 
 /**
+ * Reads a videorecipe from the database. Uses getRecipe internally.
+ */
+var getVideoRecipe = function(options, callback) {
+  options.collection = Videorecipe;
+  getRecipe(options, callback);
+};
+
+/**
  * Returns an empty recipe
  * @param  {Object}   options
  * @param  {Function} callback
@@ -168,7 +180,10 @@ var getRecipeNew = function(options, callback) {
   Set exportable object
  */
 var _service = {
-  get: getRecipe
+  get: getRecipe,
+  video: {
+    get: getVideoRecipe
+  }
 };
 _service.get.new = getRecipeNew;
 
