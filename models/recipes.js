@@ -109,9 +109,9 @@ Recipe.add({
   'Video', {
     isVideorecipe: {
       type: Types.Boolean,
-      label: 'Is a videoripe'
+      label: 'Is a videorecipe'
     },
-    youtubeUrl: {
+    videoUrl: {
       type: Types.Url,
       label: 'Youtube Url',
       note: 'Copy & paste youtube video url',
@@ -306,7 +306,7 @@ Recipe.schema.virtual('canBeShown').get(function() {
 
 // URL
 Recipe.schema.virtual('url').get(function() {
-  return '/receta/' + this.slug;
+  return (this.isVideorecipe) ? '/videoreceta/' + this.slug : '/receta/' + this.slug;
 });
 
 Recipe.schema.virtual('thumb').get(function() {
@@ -361,39 +361,45 @@ Recipe.schema.path('portions').set(function(value) {
   return (value < 0) ? value * (-1) : value;
 });
 
-Recipe.schema.path('youtubeUrl').set(function(url) {
-  var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
-  var isEmbed = (url.indexOf('iframe') < 0) ? false : true;
+Recipe.schema.path('videoUrl').set(function(url) {
+  var ytUrl = null;
 
-  var parsed = isEmbed ? url.split(' ')[3].replace(/["']/g, '').split('/') : parse_url.exec(url);
-  var id = null;
-  var host = null;
+  if (url) {
+    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+    var isEmbed = (url.indexOf('iframe') < 0) ? false : true;
 
-  console.log(parsed);
+    var parsed = isEmbed ? url.split(' ')[3].replace(/["']/g, '').split('/') : parse_url.exec(url);
+    var id = null;
+    var host = null;
 
-  if (parsed === false) {
-    id = false;
-  }
-  else {
-    host = isEmbed ? parsed[2] : parsed[3];
-  }
+    console.log(parsed);
 
-  switch (host) {
-    case 'youtu.be':
-      id = parsed[5];
-      break;
-    case 'youtube.com':
-      id = parsed[6].split('=')[1];
-      break;
-    case 'www.youtube.com':
-      id = isEmbed ? parsed[4] : parsed[3];
-      break;
-    default:
+    if (parsed === false) {
       id = false;
-      break;
+    }
+    else {
+      host = isEmbed ? parsed[2] : parsed[3];
+    }
+
+    switch (host) {
+      case 'youtu.be':
+        id = parsed[5];
+        break;
+      case 'youtube.com':
+        id = parsed[6].split('=')[1];
+        break;
+      case 'www.youtube.com':
+        id = isEmbed ? parsed[4] : parsed[3];
+        break;
+      default:
+        id = false;
+        break;
+    }
+
+    ytUrl = 'https://www.youtube.com/watch?v=' + id;
   }
 
-  return 'https://www.youtube.com/watch?v=' + id;
+  return ytUrl;
 });
 
 // Pre Save HOOK
