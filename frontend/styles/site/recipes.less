@@ -297,6 +297,11 @@
           position: absolute;
           top: 0;
           user-select: none;
+          @media screen and (max-width: 770px) {
+            line-height: 1em;
+            .font-normal;
+
+          }
         }
 
         .header {
@@ -304,6 +309,9 @@
           margin: 0;
           margin-left: 48px;
           display: block;
+          @media screen and (max-width: 990px) {
+            line-height: 2em;
+          }
 
           .step-remove {
             .font-small;
