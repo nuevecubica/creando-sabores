@@ -8,7 +8,7 @@ exports = module.exports = function(req, res) {
   var locals = res.locals,
     view = new keystone.View(req, res);
 
-  var type = locals.type = (req.params.type || 'recipe');
+  var type = locals.type = (req.params.type === 'videoreceta' ? 'videorecipe' : 'recipe');
   locals.data = {};
 
   // Init locals

@@ -8,9 +8,8 @@ exports = module.exports = function(req, res) {
     view = new keystone.View(req, res);
 
   // Set locals
-  locals.section = 'recipes';
-
-  var type = locals.type = (req.params.type || 'recipe');
+  var type = locals.type = (req.params.type === 'videoreceta' ? 'videorecipe' : 'recipe');
+  locals.section = type + 's';
   locals.data = {
     recipes: []
   };
@@ -33,14 +32,16 @@ exports = module.exports = function(req, res) {
         },
         // Function for get header recipe
         function(callback) {
-          service.pageHeader[type].get({}, function(err, result) {
+          service.pageHeader.recipe.get({}, function(err, result) {
             locals.data.header = result;
             callback(err);
           });
         },
         // Function for get recipes grid
         function(callback) {
-          service.recipeList[type].grid.get({}, function(err, results) {
+          service.recipeList.grid.get({
+            section: (type === 'videorecipe' ? 'Videorecipes' : 'Recipes')
+          }, function(err, results) {
             locals.data.grid = results;
             callback(err);
           });
