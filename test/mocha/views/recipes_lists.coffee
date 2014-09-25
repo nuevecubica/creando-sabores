@@ -30,7 +30,7 @@ describe 'Recipes: Lists', ->
                 (!doc.contest or !doc.contest.id)
               )
             recipes = {}
-            for r in data.getBy 'recipes', filter
+            for r in data.getRecipesBy filter
               title = r.title.trim().toUpperCase()
               recipes[title] = r
 
@@ -69,7 +69,7 @@ describe 'Recipes: Lists', ->
                 (doc.author is user._id)
               )
             recipes = {}
-            for r in data.getBy 'recipes', filter
+            for r in data.getRecipesBy filter
               title = r.title.trim().toUpperCase()
               recipes[title] = r
 
@@ -122,7 +122,7 @@ describe 'Recipes: Lists', ->
             user = data.getUserByUsername data.users[0].username
 
             recipes = {}
-            for r in data.getBy 'recipes', 'author', user._id
+            for r in data.getRecipesBy 'author', user._id
               title = r.title.trim().toUpperCase()
               recipes[title] = r
 

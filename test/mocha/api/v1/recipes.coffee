@@ -613,8 +613,6 @@ describe 'API v1: /recipes', ->
         .expect(403)
         .end(done)
 
-
-
   describe 'PUT /api/v1/recipe/:recipe/vote/:score', ->
 
     recipeGood = 'test-recipe-1'
