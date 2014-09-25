@@ -181,15 +181,15 @@ var getRecipesGrid = function(options, callback) {
   Set exportable object
  */
 var _service = {
-  get: getRecipes,
+  get: getAllRecipes,
   grid: {
     get: getRecipesGrid
   },
-  video: {
+  videorecipe: {
     get: getVideoRecipes
   },
-  all: {
-    get: getAllRecipes
+  recipe: {
+    get: getRecipes
   }
 };
 

@@ -48,14 +48,11 @@ var parseRecipe = function(recipe) {
  * @param  {Function} callback
  * @return {null}
  */
-var getRecipe = function(options, callback) {
+var getAllRecipe = function(options, callback) {
   var own = false,
     data = {};
 
-  options = _.defaults(options || {}, {
-    flags: ['-isVideorecipe'],
-  });
-
+  options = options || {};
 
   if (options.recipe) {
 
@@ -88,6 +85,9 @@ var getRecipe = function(options, callback) {
           if (options.user) {
             // Am I the owner?
             data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
+            if (data.recipe.isVideorecipe) {
+              data.own = false;
+            }
             // Is it on my shopping list?
             data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
             // Is it on my favourites list?
@@ -147,7 +147,7 @@ var getRecipe = function(options, callback) {
 };
 
 /**
- * Reads a videorecipe from the database. Uses getRecipe internally.
+ * Reads a videorecipe from the database. Uses getAllRecipe internally.
  */
 var getVideoRecipe = function(options, callback) {
   if (!options.flags) {
@@ -156,7 +156,20 @@ var getVideoRecipe = function(options, callback) {
   else {
     options.flags.push('+isVideorecipe');
   }
-  getRecipe(options, callback);
+  getAllRecipe(options, callback);
+};
+
+/**
+ * Reads a recipe from the database. Uses getAllRecipe internally.
+ */
+var getRecipe = function(options, callback) {
+  if (!options.flags) {
+    options.flags = ['-isVideorecipe'];
+  }
+  else {
+    options.flags.push('-isVideorecipe');
+  }
+  getAllRecipe(options, callback);
 };
 
 /**
@@ -200,9 +213,12 @@ var getRecipeNew = function(options, callback) {
   Set exportable object
  */
 var _service = {
-  get: getRecipe,
-  video: {
+  get: getAllRecipe,
+  videorecipe: {
     get: getVideoRecipe
+  },
+  recipe: {
+    get: getRecipe
   }
 };
 _service.get.new = getRecipeNew;
