@@ -52,7 +52,15 @@ var data = {
  * @return {Array}             List of documents
  */
 data.getBy = function(collection, field, value, orderBy) {
-  var reply = data.db[collection].filter(function filter(doc) {
+  var sub = [];
+  if ('object' === typeof collection) {
+    sub = collection;
+  }
+  else {
+    sub = data.db[collection];
+  }
+
+  var reply = sub.filter(function filter(doc) {
     if ('function' === typeof field) {
       return !!field(doc);
     }
@@ -121,6 +129,32 @@ data.getBySlug = function(collection, slug, orderBy) {
  */
 data.getUserByUsername = function(username) {
   var reply = data.getBy('users', 'username', username);
+  return reply.length ? reply[0] : null;
+};
+
+/**
+ * Subfunction that returns recipes
+ * @param  {Mixed}  field      Field name or a callback
+ * @param  {Mixed}  value      Value to compare or a callback
+ * @param  {Mixed}  orderBy    Optional. Order criteria, function or string leaded with minus (-) or plus (+)
+ * @return {Array}             List of documents
+ */
+data.getRecipesBy = function(field, value, orderBy) {
+  var sub = data.getBy('recipes', 'isVideorecipe', false);
+  var reply = data.getBy(sub, field, value, orderBy);
+  return reply.length ? reply[0] : null;
+};
+
+/**
+ * Subfunction that returns videorecipes
+ * @param  {Mixed}  field      Field name or a callback
+ * @param  {Mixed}  value      Value to compare or a callback
+ * @param  {Mixed}  orderBy    Optional. Order criteria, function or string leaded with minus (-) or plus (+)
+ * @return {Array}             List of documents
+ */
+data.getVideorecipesBy = function(field, value, orderBy) {
+  var sub = data.getBy('recipes', 'isVideorecipe', true);
+  var reply = data.getBy(sub, field, value, orderBy);
   return reply.length ? reply[0] : null;
 };
 

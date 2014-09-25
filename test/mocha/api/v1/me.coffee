@@ -449,7 +449,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .end(cb)
 
-        recipes = data.getBy 'recipes', 'state', 'published'
+        recipes = data.getRecipesBy 'state', 'published'
 
         async.each recipes.slice(0, 4), addToShoppingList, ->
           request
@@ -696,7 +696,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .end(cb)
 
-        recipes = data.getBy 'recipes', 'state', 'published'
+        recipes = data.getRecipesBy 'state', 'published'
 
         async.each recipes.slice(0,4), addToShoppingList, ->
           request
