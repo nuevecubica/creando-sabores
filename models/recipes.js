@@ -2,47 +2,13 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
+  recipe = require('./recipesCommon'),
   modelCleaner = require('../utils/modelCleaner'),
   imageQuality = require('../utils/imageQuality');
 
 // ===== Defaults
 // Define recipe defaults
-var defaults = {
-  images: {
-    header: '/images/default_recipe.jpg'
-  },
-  positions: [{
-    value: 0,
-    label: 'Position 1'
-  }, {
-    value: 1,
-    label: 'Position 2'
-  }, {
-    value: 2,
-    label: 'Position 3'
-  }, {
-    value: 3,
-    label: 'Position 4'
-  }, {
-    value: 4,
-    label: 'Position 5'
-  }, {
-    value: 5,
-    label: 'Position 6'
-  }, {
-    value: 6,
-    label: 'Position 7'
-  }, {
-    value: 7,
-    label: 'Position 8'
-  }, {
-    value: 8,
-    label: 'Position 9'
-  }, {
-    value: 9,
-    label: 'Position 10'
-  }]
-};
+var defaults = recipe.defaults;
 
 /**
  * Recipe
@@ -61,290 +27,43 @@ var Recipe = new keystone.List('Recipe', {
   }
 });
 
-Recipe.add({
-    title: {
-      type: Types.Text,
-      initial: true,
-      required: true,
-      index: true,
-      note: 'Should be less than 12 chars to be promoted'
-    },
-
-    author: {
-      type: Types.Relationship,
-      ref: 'User',
-      initial: true,
-      index: true
-    },
-
-    isOfficial: {
-      type: Types.Boolean,
-      hidden: true
-    },
-
-    likes: {
-      type: Types.Number,
-      default: 0
-    },
-
-    scoreTotal: {
-      type: Types.Number,
-      noedit: true,
-      default: 0
-    },
-
-    scoreCount: {
-      type: Types.Number,
-      noedit: true,
-      default: 0
-    },
-
-    schemaVersion: {
-      type: Types.Number,
-      noedit: true,
-      default: process.env.RECIPES_SCHEMA_VERSION
-    }
-  },
-
-  'Media', {
-    header: {
-      type: Types.CloudinaryImage,
-      note: 'Minimum resolution: 1280 x 800'
-    }
-  },
-
-  'Status', {
-    state: {
-      type: Types.Select,
-      options: ['draft', 'published', 'review', 'removed', 'banned'],
-      default: 'draft'
-    },
-
-    publishedDate: {
-      type: Types.Date,
-      dependsOn: {
-        state: 'published'
-      }
-    },
-
-    editDate: {
-      type: Types.Date,
-      dependsOn: {
-        state: 'published'
-      }
-    }
-  },
-
-  'Procedure', {
-    difficulty: {
-      type: Types.Select,
-      numeric: true,
-      options: [{
-        value: 1,
-        label: 'Muy Bajo'
-      }, {
-        value: 2,
-        label: 'Bajo'
-      }, {
-        value: 3,
-        label: 'Medio'
-      }, {
-        value: 4,
-        label: 'Alto'
-      }, {
-        value: 5,
-        label: 'Muy Alto'
-      }],
-      default: 0
-    },
-
-    time: {
-      type: Types.Number,
-      note: 'In minutes',
-      initial: false,
-      default: 0
-    },
-
-    portions: {
-      type: Types.Number,
-      initial: false,
-      default: 0
-    },
-
-    description: {
-      type: Types.Html,
-      wysiwyg: true,
-      height: 100
-    },
-
-    ingredients: {
-      type: Types.Html,
-      wysiwyg: true,
-      height: 50
-    },
-
-    procedure: {
-      type: Types.Html,
-      wysiwyg: true,
-      height: 200
-    }
-  },
-
-  'Contest', {
-    contest: {
-      id: {
-        type: Types.Relationship,
-        ref: 'Contest',
-        index: true
-      },
-
-      isJuryWinner: {
-        type: Boolean,
-        // hidden: true,
-        default: false
-      },
-
-      isCommunityWinner: {
-        type: Boolean,
-        // hidden: true,
-        default: false
-      }
-    }
-  },
-
-  'Promoted', {
-    isPromoted: {
-      type: Types.Boolean,
-      label: 'Promoted',
-      hidden: true,
-      default: false
-    },
-
-    isIndexHeaderPromoted: {
-      type: Types.Boolean,
-      label: 'Index header promoted',
-      default: false
-    },
-
-    isIndexGridPromoted: {
-      value: {
-        type: Types.Boolean,
-        label: 'Index Grid',
-        default: false
-      },
-
-      position: {
-        type: Types.Select,
-        numeric: true,
-        options: defaults.positions,
-        label: 'Index Grid Position',
-        dependsOn: {
-          'isIndexGridPromoted.value': true
-        },
-        default: 0
-      }
-    },
-
-    isRecipesHeaderPromoted: {
-      type: Types.Boolean,
-      label: 'Recipes header promoted',
-      default: false
-    },
-
-    isRecipesGridPromoted: {
-      value: {
-        type: Types.Boolean,
-        label: 'Recipes Grid',
-        default: false
-      },
-
-      position: {
-        type: Types.Select,
-        numeric: true,
-        options: defaults.positions,
-        label: 'Index Grid Position',
-        dependsOn: {
-          'isRecipesGridPromoted.value': true
-        },
-        default: 0
-      }
-    }
-  });
-
-Recipe.schema.set('toJSON', {
-  virtuals: true,
-  transform: modelCleaner.transformer
+var info = _.extend(recipe.info(), {
+  likes: {
+    type: Types.Number,
+    default: 0
+  }
 });
+
+Recipe.add(
+  info,
+  'Media', recipe.media('recipe'),
+  'Status', recipe.status(),
+  'Procedure', recipe.procedure(),
+  'Contest', recipe.contest(),
+  'Promoted', recipe.promoted()
+);
+
+Recipe.schema.set('toJSON', recipe.toJSON);
 
 // Score
-Recipe.schema.virtual('rating').get(function() {
-  if (this.scoreCount === undefined || this.scoreCount === 0) {
-    return 0;
-  }
-  return (this.scoreTotal / this.scoreCount);
-});
+Recipe.schema.virtual('rating').get(recipe.rating);
 
 // Recipe can be shown
-Recipe.schema.virtual('canBeShown').get(function() {
-  return (this.state !== 'banned' && this.state !== 'removed');
-});
+Recipe.schema.virtual('canBeShown').get(recipe.shown);
 
 // URL
-Recipe.schema.virtual('url').get(function() {
-  return '/receta/' + this.slug;
-});
+Recipe.schema.virtual('url').get(recipe.url);
 
-Recipe.schema.virtual('thumb').get(function() {
-  return {
-    'list': this._.header.src({
-      transformation: 'list_thumb'
-    }) || defaults.images.header,
-    'grid_small': this._.header.src({
-      transformation: 'grid_small_thumb'
-    }) || defaults.images.header,
-    'grid_medium': this._.header.src({
-      transformation: 'grid_medium_thumb'
-    }) || defaults.images.header,
-    'grid_large': this._.header.src({
-      transformation: 'grid_large_thumb'
-    }) || defaults.images.header,
-    'header': this._.header.src({
-      transformation: 'header_limit_thumb'
-    }) || defaults.images.header,
-    'shopping_list': this._.header.src({
-      transformation: 'shopping_list_thumb'
-    }) || defaults.images.header,
-    'hasQuality': imageQuality(this.header).hasQuality
-  };
-});
+// Thumbs
+Recipe.schema.virtual('thumb').get(recipe.thumbs);
 
-Recipe.schema.virtual('classes').get(function() {
-  var classes = ['recipe'];
-  classes.push('state-' + this.state);
-
-  if (this.contest && this.contest.id) {
-    classes.push('contest-recipe');
-  }
-
-  if (this.contest.isJuryWinner) {
-    classes.push('contest-winner-jury');
-  }
-
-  if (this.contest.isCommunityWinner) {
-    classes.push('contest-winner-community');
-  }
-  // return classes;
-  return classes.join(' ');
-});
+//Classes
+Recipe.schema.virtual('classes').get(recipe.classes);
 
 // Check if time and portions values
-Recipe.schema.path('time').set(function(value) {
-  return (value < 0) ? value * (-1) : value;
-});
+Recipe.schema.path('time').set(recipe.valueChecker());
 
-Recipe.schema.path('portions').set(function(value) {
-  return (value < 0) ? value * (-1) : value;
-});
+Recipe.schema.path('portions').set(recipe.valueChecker());
 
 // Pre Save HOOK
 Recipe.schema.pre('save', function(next) {
@@ -435,5 +154,4 @@ Recipe.schema.pre('save', function(next) {
  * ============
  */
 Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isPromoted';
-// Recipe.defaultColumns = 'title, author, isPromoted, isIndexHeaderPromoted, isRecipesHeaderPromoted';
 Recipe.register();
