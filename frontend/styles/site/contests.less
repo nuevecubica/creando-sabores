@@ -152,20 +152,31 @@
         line-height: 48px;
         text-decoration: none;
 
-        @media screen and (max-width: 991px) {
+        @media screen and (max-width: 1001px) {
           .font-extra-larger.uppercase;
-          line-height: 40px;
+          line-height: 38px;
         }
 
         @media screen and (max-width: 767px) {
           .font-extra-large.uppercase;
-          line-height: 36px;
+          line-height: 35px;
+        }
+        @media screen and (max-width: 481px) {
+          .font-larger;
+          line-height: 26px;
         }
       }
     }
 
     .award {
-
+      @media screen and (max-width: 767px) {
+        .font-normal;
+        line-height: 1em;
+      }
+      @media screen and (max-width: 481px) {
+        .font-small;
+        line-height: 1em;
+      }
     }
   }
 }
