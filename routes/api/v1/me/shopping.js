@@ -28,9 +28,15 @@ exports = module.exports = function(req, res) {
         else {
           var pos = req.user.shopping.indexOf(recipe._id);
           if (req.params.action === 'add') {
-            if (pos === -1) {
-              req.user.shopping.push(recipe._id);
-              req.user.save();
+            if (recipe.state === 'published') {
+              if (pos === -1) {
+                req.user.shopping.push(recipe._id);
+                req.user.save();
+              }
+            }
+            else {
+              res.status(401);
+              answer.error = true;
             }
           }
           else if (req.params.action === 'remove') {
