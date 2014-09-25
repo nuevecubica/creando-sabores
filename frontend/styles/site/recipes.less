@@ -195,6 +195,9 @@
       display: inline-block;
       margin: 0 6px;
       outline: none;
+      .rating-value{
+        .font-larger;
+      }
 
       // Horizontal space invisible when verticalized
       @media screen and (max-width: 767px) {
@@ -252,8 +255,8 @@
 
         .set-editable {
           line-height: 1.2em;
-          padding-top: 12px;
-          padding-bottom: 12px;
+          padding-top: 10px;
+          padding-bottom: 10px;
         }
       }
 
@@ -264,12 +267,15 @@
       .ingredient-remove {
         cursor: pointer;
         position: absolute;
-        top: 12px;
+        top: 10px;
         right: 32px;
         z-index: 20;
         opacity: .5;
         &:hover {
           opacity: 1;
+        }
+        @media screen and (max-width: 770px) {
+          right: 20px;
         }
       }
     }
@@ -319,8 +325,8 @@
 
   .manage {
     &.show-editable {
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
 }
