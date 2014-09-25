@@ -39,6 +39,9 @@
 ****************/
 #current-contest {
   margin-top: 20px;
+  @media screen and (max-width: 767px) {
+      margin-top: 0;
+    }
 
   #info {
     .icon {
@@ -187,14 +190,19 @@
 ****************/
 .bg-grey{
   background-color: @chef-color-light-bg;
-
 }
 #info {
   .status {
     padding-top: 10px;
     padding-bottom: 5px;
-    div{
+    .status-tag{
       .font-large;
+    }
+    @media screen and (max-width: 771px) {
+      .status-tag {
+        .font-smaller;
+        padding: 17.5px;
+      }
     }
   }
 
@@ -206,7 +214,6 @@
       color: @contest-ranking-icon-color;
       margin-right: 10px;
     }
-
   }
 }
 
@@ -240,10 +247,12 @@
         height: 55px;
       }
 
-      @media screen and (max-width: 991px) {
+      @media screen and (max-width: 771px) {
         display: block;
+        margin-top: 0;
         .button {
           width: 100%;
+          margin-bottom: 10px;
         }
       }
     }
@@ -379,6 +388,18 @@
         p{
           margin:5px 0;
         }
+      }
+      @media screen and (max-width: 767px) {
+        .icon img{
+            right: 20px;
+            width: 40px;
+          } 
+        .explain{
+          padding-left: 60px;
+          .subheader strong{
+            .font-normal;
+          }
+        }    
       }
     }
   }

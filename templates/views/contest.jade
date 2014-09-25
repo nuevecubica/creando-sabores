@@ -9,8 +9,8 @@ block js
 block content
   +header(data, section)
   .ui.page.grid.bg-grey
-    .row
-      #info.eight.tablet-twelve.mobile-eight.wide.column
+    .row.computer.tablet.only
+      #info.eight.tablet-ten.mobile-eight.wide.column
         .status
           .status-tag(class=data.contest.state)
             = __(data.contest.state)
@@ -19,13 +19,31 @@ block content
           = __('Contest sponsored by')
           strong= data.contest.sponsor
 
-      #actions.eight.tablet-four.mobile-eight.wide.column.right.aligned
+      #actions.eight.tablet-six.mobile-eight.wide.column.right.aligned
         .contest-actions(class=data.contest.state)
           .action.vote
             a.ui.button.chef.button-brick(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
 
           .action.join
             a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
+
+    .row.mobile.only
+      #info.six.wide.column
+        .status
+          .status-tag(class=data.contest.state)
+            = __(data.contest.state)
+      #actions.ten.wide.column.right.aligned
+        .contest-actions(class=data.contest.state)
+          .action.vote
+            a.ui.button.chef.button-brick(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
+
+          .action.join
+            a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
+      .subheader
+          i.icon-chef-cup.icon.font-larger
+          span.font-large= __('Contest sponsored by')
+          strong.font-larger= data.contest.sponsor
+
   .ui.page.grid
     #contest-content.ui.grid.segment
       #contest-description.row
@@ -72,7 +90,8 @@ block content
       #ranking.row(class=data.contest.state)
         .sixteen.wide.column
           .header= __('Ranking')
-          .subheader(class=data.contest.state)= __('Invite your friends')
+          .explain
+            p(class=data.contest.state)= __('Invite your friends')
 
         - var top = data.top
 
