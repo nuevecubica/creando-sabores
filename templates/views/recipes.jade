@@ -35,11 +35,13 @@ block content
 		#recipes.ui.grid.segment.two.tabs
 			.row.tab-header
 				.tab
-					.ui.button.chef.button-green
-						a(href='/recetas')= __('Popular')
+					a(href='/recetas')
+						.ui.button.chef.button-green
+							| #{('Popular')}
 				.tab
-					.ui.button.chef.button-green.disabled
-						a= __('Season')
+					a(href='#')
+						.ui.button.chef.button-green.disabled
+							| #{('Season')}
 
 			.row
 				.ui.grid.segment.list.stackable

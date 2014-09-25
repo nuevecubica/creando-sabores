@@ -35,7 +35,7 @@ block content
             
       #recipes.tab-content(class = ['submission', 'votes'].indexOf(data.contest.state) === -1 ? 'no-more-votes' : '')
         .row
-          .ui.grid.segment.list
+          .ui.grid.segment.list.stackable
             - var recipes = data.recipes;
 
             if recipes.length

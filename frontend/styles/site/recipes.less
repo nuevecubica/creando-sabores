@@ -195,6 +195,9 @@
       display: inline-block;
       margin: 0 6px;
       outline: none;
+      .rating-value{
+        .font-larger;
+      }
 
       // Horizontal space invisible when verticalized
       @media screen and (max-width: 767px) {
@@ -252,8 +255,8 @@
 
         .set-editable {
           line-height: 1.2em;
-          padding-top: 12px;
-          padding-bottom: 12px;
+          padding-top: 10px;
+          padding-bottom: 10px;
         }
       }
 
@@ -264,12 +267,15 @@
       .ingredient-remove {
         cursor: pointer;
         position: absolute;
-        top: 12px;
+        top: 10px;
         right: 32px;
         z-index: 20;
         opacity: .5;
         &:hover {
           opacity: 1;
+        }
+        @media screen and (max-width: 770px) {
+          right: 20px;
         }
       }
     }
@@ -291,6 +297,11 @@
           position: absolute;
           top: 0;
           user-select: none;
+          @media screen and (max-width: 770px) {
+            line-height: 1em;
+            .font-normal;
+
+          }
         }
 
         .header {
@@ -298,6 +309,9 @@
           margin: 0;
           margin-left: 48px;
           display: block;
+          @media screen and (max-width: 990px) {
+            line-height: 2em;
+          }
 
           .step-remove {
             .font-small;
@@ -319,8 +333,8 @@
 
   .manage {
     &.show-editable {
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
 }

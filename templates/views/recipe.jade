@@ -169,7 +169,7 @@ block content
                 .column.ingredient
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
+                    .explain.set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
                   .show-editable
                     .ingredient-remove
                       i.icon-chef-cross
@@ -177,7 +177,7 @@ block content
             .column.ingredient.show-editable
                 .icon-chef-cesta.checks.hide-editable
                 .editable-container
-                  .set-editable(placeholder=__('Add ingredient'), spellcheck='false')
+                  .explain.set-editable(placeholder=__('Add ingredient'), spellcheck='false')
                 .show-editable
                   .ingredient-remove
                     i.icon-chef-cross
@@ -205,7 +205,7 @@ block content
                   .ui.header.index
                     span.index-label= __('Step') + ' ' + (j + 1) + ': '
                     .step-remove.show-editable= __('Remove step')
-                  .ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
+                  .explain.ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
 
             .step.show-editable
               .icon-chef-tick.checks.hide-editable

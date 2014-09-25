@@ -33,11 +33,14 @@ block content
 							div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My recipes')}
 					.tab
-						.ui.button.chef.button-green.disabled
-							a= __('My menus')
+						a(href='#')
+							.ui.button.chef.button-green.disabled
+								| #{('My menus')}
 					.tab
-						.ui.button.chef.button-green.disabled
-							a= __('My tips')
+						a(href='#')
+							.ui.button.chef.button-green.disabled
+								| #{('My tips')}
+
 
 		if subsection == 'profile'
 			.row
@@ -82,11 +85,11 @@ block content
 
 					.row
 						.colum.grid.ui
-							.three.wide.column
+							.three.wide.column.mobile-seven
 								.delete.field
 									a#delete-first(href='#')= __('Remove account')
 
-							#delete-confirm.six.wide.column
+							#delete-confirm.six.wide.column.mobile-nine
 								.arrow-left
 								.delete.message.ui
 									span= __('Are you sure remove account?')
@@ -100,14 +103,15 @@ block content
 					.two.tabs
 						.row
 							.tab
-								.ui.button.chef.button-green(class="#{subsection === 'recipes' ? 'active' : ''}")
-									a(href='/perfil/recetas')= __('My recipes')
+								a(href='/perfil/recetas')
+									div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
+										| #{('My recipes')}
 							.tab
-								.ui.button.chef.button-green(class="#{subsection === 'favourites' ? 'active' : ''}")
-									a(href='/perfil/favoritas')= __('Favorites')
-				include ../../components/search
+								a(href='/perfil/favoritas')
+									div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
+										| #{__('Favorites')}
 				.row
-					.ui.grid.segment.list
+					.ui.grid.segment.list.stackable
 						if recipes.length
 							each recipe in recipes
 								+recipe(recipe)
@@ -123,7 +127,7 @@ block content
 		else if subsection == 'shopping'
 			#shopping.tab-content
 				.row
-					.ui.grid.segment.list
+					.ui.grid.segment.list.stackable
 						if recipes.length
 							each recipe in recipes
 								+recipe-shopping(recipe)
