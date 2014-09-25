@@ -8,11 +8,12 @@ exports = module.exports = function(req, res) {
   var locals = res.locals,
     view = new keystone.View(req, res);
 
+  var type = locals.type = (req.params.type || 'recipe');
   locals.data = {};
 
   // Init locals
   if (req.params.recipe) {
-    locals.section = 'recipe';
+    locals.section = type;
     locals.isNew = false;
   }
   else {
@@ -33,14 +34,14 @@ exports = module.exports = function(req, res) {
   view.on('init', function(next) {
 
     if (!locals.isNew) {
-      service.recipe.get({
+      service.recipe[type].get({
         recipe: locals.filters.recipe,
         user: req.user
       }, function(err, result) {
         if (!err && result) {
           locals.data = result;
           locals.own = result.own;
-          locals.title = result.recipe.title + ' - ' + res.__('Recipe');
+          locals.title = result.recipe.title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
           next(null);
         }
         else {
@@ -64,5 +65,5 @@ exports = module.exports = function(req, res) {
   });
 
   // Render the view
-  view.render('recipe');
+  view.render(type);
 };
