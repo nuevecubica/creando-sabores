@@ -80,9 +80,9 @@ block content
           - for (var i = 0, l = top.length; i < l; i++)
             .four.tablet-four.mobile-sixteen.wide.column.ranking-module
               a.top-contest(href='/receta/#{top[i].slug}',style='background-image: url(#{top[i].thumb.header})')
-              .top-rating
-                i.icon-chef-star.icon
-                  span= top[i].likes
+              .top-rating.like
+                  i.icon-chef-like.icon
+                  span.like-counter= top[i].likes
               .top-info
                 span
                   strong= (i + 1) + '# '
