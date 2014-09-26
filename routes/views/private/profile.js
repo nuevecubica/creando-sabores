@@ -12,22 +12,20 @@ exports = module.exports = function(req, res) {
     var back = '..';
 
     // Get
-    var q = Recipe
-      .paginate({
-        page: req.query.page || 1,
-        perPage: 5
-      })
-      .where('author', userId)
-      .sort('-editDate')
-      .exec(function(err, recipes) {
-        if (err) {
-          console.error('profileMyRecipes:', err);
-          return formResponse(req, res, back, 'Error: Unknown error', false);
-        }
-        else {
-          cb(recipes.results);
-        }
-      });
+    service.recipeList.recipe.get({
+      page: req.query.page || 1,
+      perPage: 5,
+      userId: userId,
+      sort: '-editDate'
+    }, function(err, recipes) {
+      if (err) {
+        console.error('profileMyRecipes:', err);
+        return formResponse(req, res, back, 'Error: Unknown error', false);
+      }
+      else {
+        cb(recipes.results);
+      }
+    });
   };
 
   var getShoppingRecipes = function(user, cb) {
