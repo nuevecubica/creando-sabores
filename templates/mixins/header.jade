@@ -197,6 +197,33 @@ mixin header(data, section)
 						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
 
 				.row.section.subtitle
+					.author.shadow= author
+
+				.row
+					.ten.wide.column
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-gray.show-editable.file-select
+								input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+								i.social.icon-chef-camera
+								span
+								|#{__('Change image')}
+
+	else if section === 'videorecipes'
+
+	else if section === 'videorecipe'
+		.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.corner
+					.icon-chef-logo.icon
+
+				.row.section.title
+					.editable-container
+						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
+
+				.row.section.subtitle
 
 				.row
 					.ten.wide.column
