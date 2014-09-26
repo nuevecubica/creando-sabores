@@ -21,6 +21,34 @@ var getHeaderRecipe = function(options, callback) {
 
   query.where('state', 'published');
   query.where('isRecipesHeaderPromoted', true);
+  query.where('isVideorecipe', false);
+
+  if (options.sort) {
+    query.sort(options.sort);
+  }
+
+  query.exec(callback || function() { /* dummy */ });
+};
+
+/**
+ * Gets the recipe for the Videorecipes section header
+ * @param  {Object}   options { sort: '-publishDate' }
+ * @param  {Function} callback
+ * @return {null}
+ */
+var getHeaderVideorecipe = function(options, callback) {
+  var own = false,
+    data = {};
+
+  options = _.defaults(options || {}, {
+    sort: '-publishedDate'
+  });
+
+  var query = Recipe.model.findOne();
+
+  query.where('state', 'published');
+  query.where('isRecipesHeaderPromoted', true);
+  query.where('isVideorecipe', true);
 
   if (options.sort) {
     query.sort(options.sort);
@@ -59,13 +87,16 @@ var getHeaderHome = function(options, callback) {
   Set exportable object
  */
 var _service = {
-  get: getHeaderHome
-};
-_service.recipe = {
-  get: getHeaderRecipe
-};
-_service.home = {
-  get: getHeaderHome
+  get: getHeaderHome,
+  recipe: {
+    get: getHeaderRecipe
+  },
+  videorecipe: {
+    get: getHeaderVideorecipe
+  },
+  home: {
+    get: getHeaderHome
+  }
 };
 
 exports = module.exports = _service;
