@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe.only 'Videorecipe: View', ->
+describe 'Videorecipe: View', ->
 
   before (done) ->
     this.timeout 10000
