@@ -10,6 +10,8 @@ block js
 block content
 	+header(data, section)
 
+	- var randCutlery = Math.floor(Math.random() * 6 + 1);
+
 	.ui.page.grid.body
 
 		include ../components/search
@@ -31,22 +33,36 @@ block content
 						.ui.button.chef.button-brick
 							a(href='/nueva-receta')= __('Create recipe')
 
-		#video.ui.grid.segment
-			.row
+		if data.videorecipes.last
+			- var videoRecipeTitle = data.videorecipes.last.title
+			- var videoRecipedUrl = data.videorecipes.last.url
+			- var videoRecipeDate = data.videorecipes.lastFormattedDate
+			- var image = data.videorecipes.last.thumb.header
 
-			.row
-				.six.wide.column
-				.logo.four.wide.column
-					img.ui.image.play(src = '/images/test_play.png')
+			#video.ui.grid.segment.with-social(style="background-image:url('#{image}')")
+				.row
 
-			.row
-				.eight.wide.column
-				.title.eight.wide.column
-					img.ui.image(src = '/images/test_video_recipe.png')
-					.text
-						.span Lasagna del chef
-					.date
-						.span 13 Mayo de 2014
+				.row
+					.six.wide.column
+					.logo.four.wide.column
+						a(href="#{videoRecipedUrl}")
+							i.icon-chef-play.icon.play
+
+				.row
+					.six.wide.column
+					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+					.img-title.ten.mobile-sixteen.wide.column
+
+						.tabla
+							.tabla1
+								.ui.image
+							.tabla2
+								.text
+									a.span(href="#{videoRecipedUrl}")= videoRecipeTitle
+								.date
+									.span= videoRecipeDate
+							.tabla3
+								.ui.image
 
 		#recipes.ui.grid.segment
 
