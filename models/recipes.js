@@ -370,8 +370,6 @@ Recipe.schema.path('videoUrl').set(function(url) {
 
     var parsed = isEmbed ? url.split(' ')[3].replace(/["']/g, '').split('/') : parse_url.exec(url);
 
-    console.log(parsed);
-
     if (parsed) {
       var id = null;
       var host = isEmbed ? parsed[2] : parsed[3];
