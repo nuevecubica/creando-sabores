@@ -32,7 +32,7 @@ exports = module.exports = function(req, res) {
         },
         // Function for get header recipe
         function(callback) {
-          service.pageHeader.recipe.get({}, function(err, result) {
+          service.pageHeader[type].get({}, function(err, result) {
             locals.data.header = result;
             callback(err);
           });
