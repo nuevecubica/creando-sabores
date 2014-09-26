@@ -1,7 +1,8 @@
 var async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  formResponse = require('../../../utils/formResponse.js');
+  formResponse = require('../../../utils/formResponse.js'),
+  service = require('../../../services');
 
 var recipePublish = function(req, res) {
   var userId = req.user._id,
@@ -13,16 +14,18 @@ var recipePublish = function(req, res) {
     data = {},
     fields = [];
 
-  var query = {
+  var options = {
     slug: recipeSlug,
+    states: ['published', 'draft', 'review'],
+    fromContest: true
   };
 
   if (!req.user.isAdmin) {
-    query.author = userId;
+    options.userId = userId;
   }
 
   // Data
-  if (actions.indexOf(req.params.state) < 0) {
+  if (actions.indexOf(req.params.state) === -1) {
     console.error('recipePublish: Error for unknown action %s', req.params.state);
     return formResponse(req, res, back, 'Error: Unknown error', false);
   }
@@ -32,12 +35,13 @@ var recipePublish = function(req, res) {
   }
 
   // Get
-  var q = Recipe.model.findOne(query).exec(function(err, recipe) {
+  service.recipe.recipe.get(options, function(err, result) {
     if (err) {
-      console.error('recipePublish:', err);
+      console.error('recipePublish:', err, options);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }
-    else if (recipe) {
+    else if (result) {
+      var recipe = result.recipe;
 
       // If is in a contest, update state to 'review'
       if (recipe.contest && recipe.contest.id && data.state === 'published') {
@@ -45,7 +49,7 @@ var recipePublish = function(req, res) {
       }
 
       // Publish
-      recipe.getUpdateHandler(req).process(data, {
+      recipe._document.getUpdateHandler(req).process(data, {
         fields: fields
       }, function(err) {
         if (err) {

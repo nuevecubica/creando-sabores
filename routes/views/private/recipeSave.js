@@ -85,7 +85,9 @@ var recipeEdit = function(req, res) {
     back = '..';
 
   var options = {
-    slug: recipeSlug
+    slug: recipeSlug,
+    states: ['published', 'draft', 'review'],
+    fromContest: true
   };
 
   if (!req.user.isAdmin) {
