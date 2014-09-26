@@ -135,6 +135,7 @@ function generateRecipes(from, to) {
       "difficulty": faker.random.number(1, 5),
       "state": (!isPromoted) ? states[faker.random.number(0, 4)] : states[faker.random.number(1, 4)],
       "header": newHeader(),
+      "isVideorecipe": false,
       "schemaVersion": 1
     };
   }
