@@ -142,7 +142,7 @@ data.getUserByUsername = function(username) {
 data.getRecipesBy = function(field, value, orderBy) {
   var sub = data.getBy('recipes', 'isVideorecipe', false);
   var reply = data.getBy(sub, field, value, orderBy);
-  return reply.length ? reply[0] : null;
+  return reply;
 };
 
 /**
@@ -155,7 +155,7 @@ data.getRecipesBy = function(field, value, orderBy) {
 data.getVideorecipesBy = function(field, value, orderBy) {
   var sub = data.getBy('recipes', 'isVideorecipe', true);
   var reply = data.getBy(sub, field, value, orderBy);
-  return reply.length ? reply[0] : null;
+  return reply;
 };
 
 module.exports = data;

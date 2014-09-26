@@ -30,14 +30,18 @@ exports = module.exports = function(req, res) {
     contest: req.params.contest || null
   };
 
+  var options = {
+    slug: locals.filters.recipe,
+    user: req.user,
+    states: ['published', 'draft', 'review'],
+    fromContest: true
+  };
+
   // load recipe
   view.on('init', function(next) {
 
     if (!locals.isNew) {
-      service.recipe[type].get({
-        recipe: locals.filters.recipe,
-        user: req.user
-      }, function(err, result) {
+      service.recipe[type].get(options, function(err, result) {
         if (!err && result) {
           locals.data = result;
           locals.own = result.own;
