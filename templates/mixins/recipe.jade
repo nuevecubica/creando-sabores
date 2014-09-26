@@ -2,6 +2,10 @@ mixin recipe(recipe)
 	div(class=recipe.classes).row.position
 		a(href=recipe.url).hover-list
 		.five.wide.column
+			if recipe.isVideorecipe
+				.play
+					i.icon-chef-tv.icon
+
 			.thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
 				.row
 
@@ -9,6 +13,7 @@ mixin recipe(recipe)
 
 				.row
 					.ui.three.column.center.aligned.grid
+		
 						.column
 							i.icon-chef-time.icon
 							.span= recipe.time + ' ' + __('min')
@@ -52,6 +57,6 @@ mixin recipe(recipe)
 
 			.ui.content!= recipe.description
 
-			if (recipe.isOfficial)
+			if recipe.isOfficial
 				.official
 					img(src='/images/ribbon.png')

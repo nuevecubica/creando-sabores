@@ -1,6 +1,10 @@
 div(class="{{classes}}").row.position
 	a(href="{{url}}").hover-list
 	.five.wide.column
+		{{#if isVideorecipe}}
+		.play
+			i.icon-chef-tv.icon
+		{{/if}}
 		.thumbnail(style = 'background-image: url({{thumb.list}})')
 			.row
 
