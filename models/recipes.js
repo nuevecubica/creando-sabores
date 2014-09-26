@@ -369,34 +369,28 @@ Recipe.schema.path('videoUrl').set(function(url) {
     var isEmbed = (url.indexOf('iframe') < 0) ? false : true;
 
     var parsed = isEmbed ? url.split(' ')[3].replace(/["']/g, '').split('/') : parse_url.exec(url);
-    var id = null;
-    var host = null;
 
     console.log(parsed);
 
-    if (parsed === false) {
-      id = false;
-    }
-    else {
-      host = isEmbed ? parsed[2] : parsed[3];
-    }
+    if (parsed) {
+      var id = null;
+      var host = isEmbed ? parsed[2] : parsed[3];
 
-    switch (host) {
-      case 'youtu.be':
-        id = parsed[5];
-        break;
-      case 'youtube.com':
-        id = parsed[6].split('=')[1];
-        break;
-      case 'www.youtube.com':
-        id = isEmbed ? parsed[4] : parsed[3];
-        break;
-      default:
-        id = false;
-        break;
-    }
+      switch (host) {
+        case 'youtu.be':
+          id = parsed[5];
+          break;
+        case 'youtube.com':
+        case 'www.youtube.com':
+          id = isEmbed ? parsed[4] : parsed[6].split('=')[1];
+          break;
+        default:
+          id = false;
+          break;
+      }
 
-    ytUrl = 'https://www.youtube.com/watch?v=' + id;
+      ytUrl = 'https://www.youtube.com/watch?v=' + id;
+    }
   }
 
   return ytUrl;
