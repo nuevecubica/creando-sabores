@@ -167,6 +167,10 @@ body {
     color: @chef-color-white;
     text-decoration: none;
     vertical-align: bottom;
+
+    @media only screen and (max-width : 767px) {
+      font-size: 120px;
+    }
   }
 }
 
@@ -176,6 +180,10 @@ body {
   background-position: center center;
   height: 600px;
 
+  @media only screen and (max-width : 767px) {
+    height: 450px;
+  }
+  
   .shadow-layer {
     opacity: 0;
     background-color: @editable-alpha;
@@ -253,7 +261,7 @@ body {
         height: 0%;
 
         &.logo {
-          height: 62%;
+          height: 60%;
         }
       }
     }
@@ -313,6 +321,9 @@ body {
           @media(max-width: 992px) {
             .font-extra-larger;
           }
+          @media(max-width: 767px) {
+            .font-extra-large;
+          }
         }
       }
     }
@@ -325,6 +336,9 @@ body {
       .font-extra-large.uppercase;
       font-weight: bold;
       text-align: center;
+      @media(max-width: 767px) {
+        .font-larger;
+      }
 
       .shadow {
         text-shadow: 1px 2px 4px #000;
@@ -334,6 +348,9 @@ body {
     &.subtitle {
       .font-larger;
       text-align: center;
+      @media(max-width: 767px) {
+        .font-large;
+      }
 
       .shadow {
         text-shadow: 1px 2px 4px #000;
@@ -344,6 +361,9 @@ body {
         .font-extra-larger;
         font-weight: normal;
         text-transform: none;
+        @media(max-width: 767px) {
+          .font-extra-large;
+        }
       }
     }
   }
@@ -384,6 +404,9 @@ body {
     right: 47px;
     bottom: 40px;
     z-index: 100;
+    @media only screen and (max-width : 767px) {
+      bottom: 1px;
+    }
   }
   .img-title.wide.column{
     padding-top: 10px;
@@ -403,6 +426,11 @@ body {
         position: absolute;
         top: -12px;
         text-transform: uppercase;
+        @media only screen and (max-width : 767px) {
+          .font-large;
+          margin-left: 0;
+          margin-top: 40px;
+        }
       }
       .tabla1{
         position: absolute;
