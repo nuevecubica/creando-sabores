@@ -40,10 +40,22 @@ describe 'Contest', ->
         .end(done)
 
     describe 'on votes', ->
-      it 'returns the contest'
+      it 'returns the contest', (done) ->
+        request
+        .get('/concurso/test-contest-votes')
+        .expect(200)
+        .end(done)
 
     describe 'on closed', ->
-      it 'returns the contest'
+      it 'returns the contest', (done) ->
+        request
+        .get('/concurso/test-contest-closed')
+        .expect(200)
+        .end(done)
 
     describe 'on finished', ->
-      it 'returns the contest'
+      it 'returns the contest', (done) ->
+        request
+        .get('/concurso/test-contest-finished')
+        .expect(200)
+        .end(done)
