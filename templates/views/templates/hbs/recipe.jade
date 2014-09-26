@@ -1,11 +1,11 @@
 div(class="{{classes}}").row.position
 	a(href="{{url}}").hover-list
 	.five.wide.column
-		{{#if isVideorecipe}}
+		| {{#if isVideorecipe}}
 		.play
 			i.icon-chef-play.icon
-		{{/if}}
-		.thumbnail(style = 'background-image: url({{thumb.list}})')
+		| {{/if}}
+		.thumbnail(style='background-image: url({{thumb.list}})')
 			.row
 
 			.row
@@ -28,7 +28,7 @@ div(class="{{classes}}").row.position
 			.span
 				.ui.icon {{formatIcons rating 'star'}}
 			.status-recipe
-				{{{stateIcon classes}}}
+				| {{{stateIcon classes}}}
 
 		a(href="{{url}}")
 			h2.ui.header {{title}}
