@@ -75,7 +75,7 @@ var getAllRecipe = function(options, callback) {
 
   if (options.slug) {
 
-    service.recipeList.recipe.get(options, function(err, result) {
+    service.recipeList.get(options, function(err, result) {
       if (!err && result) {
 
         data.recipe = _.defaults(parseRecipe(result), defaults);
