@@ -89,8 +89,10 @@ var recipeEdit = function(req, res) {
     fromContest: true
   };
 
+  options.user = req.user;
+
   if (!req.user.isAdmin) {
-    options.user = req.user;
+    options.authorId = req.user._id;
   }
 
   // Get
