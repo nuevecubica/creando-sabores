@@ -68,7 +68,7 @@ var getHeaderHome = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    sort: '-publishedDate'
+    sort: '-isVideorecipe -isOfficial -publishedDate'
   });
 
   var query = Recipe.model.findOne();
