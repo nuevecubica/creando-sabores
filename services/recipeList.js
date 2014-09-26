@@ -127,16 +127,26 @@ var getRecipesGrid = function(options, callback) {
       limit: 10,
       flags: ['is' + options.section + 'GridPromoted.value'],
       sort: 'is' + options.section + 'GridPromoted.position'
-    }, next);
+    }, function(err, res) {
+      next(err, {
+        criteria: 'is' + options.section + 'GridPromoted',
+        entries: res
+      });
+    });
   };
 
   var getVideoSectionPromoted = function(next) {
     getVideoRecipes({
       page: 0,
       limit: 10,
-      flags: ['is' + options.section + 'GridPromoted.value'],
-      sort: 'is' + options.section + 'GridPromoted.position'
-    }, next);
+      flags: ['isRecipesGridPromoted.value'],
+      sort: 'isRecipesGridPromoted.position'
+    }, function(err, res) {
+      next(err, {
+        criteria: 'isRecipesGridPromoted',
+        entries: res
+      });
+    });
   };
 
   var getOfficials = function(next) {
@@ -145,7 +155,12 @@ var getRecipesGrid = function(options, callback) {
       limit: 10,
       flags: ['isOfficial', 'is' + options.section + 'GridPromoted.value'],
       sort: 'is' + options.section + 'GridPromoted.position'
-    }, next);
+    }, function(err, res) {
+      next(err, {
+        criteria: 'is' + options.section + 'GridPromoted',
+        entries: res
+      });
+    });
   };
 
   var makeGrid = function(err, results) {
@@ -153,13 +168,13 @@ var getRecipesGrid = function(options, callback) {
     var grid = new Array(10);
 
     // Load in descending priority order
-    var criteria = 'is' + options.section + 'GridPromoted';
     for (var i = 0, l = results.length; i < l; i++) {
-      var result = results[i];
-      for (var j = 0, l2 = result.length; j < l2; j++) {
-        var pos = result[j][criteria].position;
+      var entries = results[i].entries;
+      var criteria = results[i].criteria;
+      for (var j = 0, l2 = entries.length; j < l2; j++) {
+        var pos = entries[j][criteria].position;
         if (!grid[pos]) {
-          grid[pos] = result[j];
+          grid[pos] = entries[j];
         }
       }
     }
