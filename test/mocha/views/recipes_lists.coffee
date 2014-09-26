@@ -43,7 +43,8 @@ describe 'Recipes: Lists', ->
               title = found[1].trim()
               # Exists
               if not recipes[title]
-                return "Invalid recipe #{title} in #{recipes.keys().join(',')}"
+                keys = Object.keys(recipes).join(',')
+                return "Invalid recipe #{title} in #{keys}"
               # Order
               if last isnt null and recipes[title].rating > last
                 return "Invalid order #{recipes[title].rating} > #{last}"
@@ -82,7 +83,8 @@ describe 'Recipes: Lists', ->
               title = found[1].trim()
               # Exists
               if not recipes[title]
-                return "Invalid recipe #{title} in #{recipes.keys().join(',')}"
+                keys = Object.keys(recipes).join(',')
+                return "Invalid recipe #{title} in #{keys}"
               # Owner
               if recipes[title].author isnt user._id
                 return "Invalid author #{recipes[title].author} <> #{user._id}"
@@ -135,7 +137,8 @@ describe 'Recipes: Lists', ->
               title = found[1].trim()
               # Exists
               if not recipes[title]
-                return "Invalid recipe #{title} in #{recipes.keys().join(',')}"
+                keys = Object.keys(recipes).join(',')
+                return "Invalid recipe #{title} in #{keys}"
               # Owner
               if recipes[title].author isnt user._id
                 return "Invalid author #{recipes[title].author} <> #{user._id}"
