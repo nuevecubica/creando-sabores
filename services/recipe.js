@@ -62,7 +62,7 @@ var getAllRecipe = function(options, callback) {
     all: false,
     sort: null,
     flags: [],
-    fromContests: false,
+    fromContests: true,
     states: ['published']
   });
 
