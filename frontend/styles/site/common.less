@@ -1,6 +1,8 @@
 @recipes-list-odd: @chef-color-white-bg;
 @recipes-list-even: @chef-color-light-bg;
 
+@icon-play-background-color: @chef-color-white;
+
 @editable-alpha: fade(@chef-color-black, 60%);
 
 @grid-hover-background: @chef-color-green-bg;
@@ -150,7 +152,7 @@ body {
   color: @chef-color-white;
 
   &.corner {
-    .icon {
+    .icon-chef-logo.icon {
       position: absolute !important;
       font-size: 160px;
       top: 0;
@@ -162,6 +164,7 @@ body {
     text-shadow: 1px 2px 4px #000;
   }
 
+
   .icon {
     font-size: 200px;
     color: @chef-color-white;
@@ -171,6 +174,21 @@ body {
     @media only screen and (max-width : 767px) {
       font-size: 120px;
     }
+
+    &.clickable {
+      color: fade(@icon-play-background-color, 50%);
+      cursor: pointer;
+      transition: color 300ms;
+
+      &:hover {
+        color: @icon-play-background-color;
+        transition: color 300ms;
+      }
+    }
+  }
+
+  .icon-overlay {
+    position: absolute;
   }
 }
 
@@ -183,7 +201,7 @@ body {
   @media only screen and (max-width : 767px) {
     height: 450px;
   }
-  
+
   .shadow-layer {
     opacity: 0;
     background-color: @editable-alpha;
@@ -389,7 +407,14 @@ body {
 
   .corner-position {
     position: absolute;
-    bottom: 15px;
+
+    &.top {
+      top: 15px;
+    }
+
+    &.bottom {
+      bottom: 15px;
+    }
 
     &.right {
       right: 15px;
@@ -438,7 +463,6 @@ body {
         height: 120px;
         width: 21px;
         background-image: url('/images/tabla1.png');
-     
         z-index: 10;
         background-repeat: no-repeat;
       }
@@ -446,7 +470,6 @@ body {
         height: 120px;
         background-image: url('/images/tabla2.png');
         background-repeat: repeat-x;
-  
         z-index: 200;
       }
       .tabla3{
