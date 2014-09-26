@@ -19,7 +19,8 @@ exports = module.exports = function(req, res) {
       if (!err && resultUser) {
         locals.profile = resultUser;
         service.user.recipeList.get({
-          user: resultUser
+          authorId: resultUser,
+          user: req.user
         }, function(err, resultRecipeList) {
           if (!err && resultRecipeList) {
             locals.subsection = 'recipes';

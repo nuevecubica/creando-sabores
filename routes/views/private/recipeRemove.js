@@ -17,8 +17,10 @@ exports = module.exports = function(req, res, next) {
     fromContest: true
   };
 
+  options.user = req.user;
+
   if (!req.user.isAdmin) {
-    options.user = req.user;
+    options.authorId = req.user._id;
   }
 
   if (req.method === 'POST') {

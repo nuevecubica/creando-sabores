@@ -91,6 +91,14 @@ function generateRecipes(from, to) {
   }
 
   /*
+    New header image
+  */
+  function newVideo() {
+    var headerVideos = require('./generateRecipes-headerVideos.json');
+    return faker.random.array_element(headerVideos);
+  }
+
+  /*
     States
   */
   var states = ['draft', 'published', 'review', 'removed', 'banned'];
@@ -100,15 +108,17 @@ function generateRecipes(from, to) {
   */
   var homeGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   var sectionGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var sectionVideoGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   /*
     New final recipe object
   */
   function generateNewRecipe() {
+    var isVideorecipe = (faker.random.number(1000) >= 800);
     var homeHeader = (faker.random.number(1000) >= 800);
     var homeGridPos = faker.random.array_element_pop(homeGrid);
     var sectionHeader = (faker.random.number(1000) >= 800);
-    var sectionGridPos = faker.random.array_element_pop(sectionGrid);
+    var sectionGridPos = faker.random.array_element_pop(isVideorecipe ? sectionVideoGrid : sectionGrid);
     var isPromoted = (homeHeader || sectionHeader || homeGridPos > 0 || sectionGridPos > 0);
 
     return {
@@ -118,7 +128,7 @@ function generateRecipes(from, to) {
       'procedure': newProcedure(),
       'publishedDate': newDate(),
       'rating': faker.random.number(0, 6),
-      'title': firstUpperCase(faker.Recipe.findRecipe()),
+      'title': (isVideorecipe ? 'Videorecipe ' : '') + firstUpperCase(faker.Recipe.findRecipe()),
       "isRecipesGridPromoted": {
         "position": (sectionGridPos || 0),
         "value": (sectionGridPos !== null)
@@ -135,7 +145,8 @@ function generateRecipes(from, to) {
       "difficulty": faker.random.number(1, 5),
       "state": (!isPromoted) ? states[faker.random.number(0, 4)] : states[faker.random.number(1, 4)],
       "header": newHeader(),
-      "isVideorecipe": false,
+      "isVideorecipe": isVideorecipe,
+      "videoUrl": (isVideorecipe ? newVideo() : null),
       "schemaVersion": 1
     };
   }
@@ -174,7 +185,7 @@ function createRecipe(recipe, done) {
 }
 
 exports = module.exports = function(req, res) {
-  var recipes = generateRecipes(20, 60);
+  var recipes = generateRecipes(40, 80);
   // Clean collection
   Recipes.model.remove({}, function(err) {
     // Get an user

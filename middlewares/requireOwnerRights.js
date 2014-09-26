@@ -11,7 +11,7 @@ exports.requireRecipeOwnerRights = function(req, res, next) {
 
   service.recipe.recipe.get({
     slug: recipeSlug,
-    user: req.user
+    authorId: req.user._id
   }, function(err, result) {
     if (err) {
       req.flash('error', res.__('Error: Unknown error'));
