@@ -12,7 +12,7 @@ exports = module.exports = function(req, res) {
     error: false
   };
 
-  service.recipeList.get({
+  service.recipeList[req.params.type].get({
     page: req.query.page || 1,
     perPage: req.query.perPage || 10
   }, function(err, recipes) {
