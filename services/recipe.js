@@ -55,7 +55,6 @@ var getAllRecipe = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    userId: null,
     user: null,
     slug: null,
     populate: ['author'],

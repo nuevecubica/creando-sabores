@@ -5,8 +5,7 @@ var async = require('async'),
   service = require('../../../services');
 
 var recipePublish = function(req, res) {
-  var userId = req.user._id,
-    recipeSlug = req.params.recipe,
+  var recipeSlug = req.params.recipe,
     back = '..',
     actions = ['draft', 'publish'],
     states = ['draft', 'published'],
@@ -21,7 +20,7 @@ var recipePublish = function(req, res) {
   };
 
   if (!req.user.isAdmin) {
-    options.userId = userId;
+    options.user = req.user;
   }
 
   // Data
