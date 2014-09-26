@@ -152,7 +152,7 @@ var getVideoRecipe = function(options, callback) {
   if (!options.flags) {
     options.flags = ['+isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('+isVideorecipe') === -1) {
     options.flags.push('+isVideorecipe');
   }
   getAllRecipe(options, callback);
@@ -165,7 +165,7 @@ var getRecipe = function(options, callback) {
   if (!options.flags) {
     options.flags = ['-isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('-isVideorecipe') === -1) {
     options.flags.push('-isVideorecipe');
   }
   getAllRecipe(options, callback);

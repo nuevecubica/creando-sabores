@@ -25,12 +25,16 @@ var getAllRecipes = function(options, callback) {
     flags: [],
     page: 1,
     perPage: 10,
-    limit: 10,
+    limit: null,
     fromContests: false,
     states: ['published']
   });
 
   var query = {};
+
+  if (options.limit) {
+    options.perPage = options.limit;
+  }
 
   if (options.limit === 1) {
     query = Recipe.model.findOne();
@@ -115,7 +119,7 @@ var getVideoRecipes = function(options, callback) {
   if (!options.flags) {
     options.flags = ['+isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('+isVideorecipe') === -1) {
     options.flags.push('+isVideorecipe');
   }
   getAllRecipes(options, callback);
@@ -128,7 +132,7 @@ var getRecipes = function(options, callback) {
   if (!options.flags) {
     options.flags = ['-isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('-isVideorecipe') === -1) {
     options.flags.push('-isVideorecipe');
   }
   getAllRecipes(options, callback);
