@@ -251,7 +251,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on non-submission state contest', ->
       it 'responds with error', (done) ->
         request
-        .get('/nueva-receta' + data.db.contests[1].slug)
+        .get('/nueva-receta/' + data.db.contests[1].slug)
         .set('cookie', cookie)
         .expect(404)
         .end(done)
