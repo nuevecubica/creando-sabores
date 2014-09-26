@@ -46,8 +46,8 @@ exports = module.exports = function(req, res) {
           }, function(err, results) {
 
             locals.data.videorecipes = {
-              last = results.results.shift(),
-              lastest = results.results
+              last: results.results.shift(),
+              lastest: results.results
             };
 
             callback(err);
