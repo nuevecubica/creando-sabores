@@ -11,37 +11,16 @@ var defaults = {
   images: {
     header: '/images/default_recipe.jpg'
   },
-  positions: [{
-    value: 0,
-    label: 'Position 1'
-  }, {
-    value: 1,
-    label: 'Position 2'
-  }, {
-    value: 2,
-    label: 'Position 3'
-  }, {
-    value: 3,
-    label: 'Position 4'
-  }, {
-    value: 4,
-    label: 'Position 5'
-  }, {
-    value: 5,
-    label: 'Position 6'
-  }, {
-    value: 6,
-    label: 'Position 7'
-  }, {
-    value: 7,
-    label: 'Position 8'
-  }, {
-    value: 8,
-    label: 'Position 9'
-  }, {
-    value: 9,
-    label: 'Position 10'
-  }]
+  positions: (function() {
+    var arr = [];
+    for (var i = 0; i < 10; ++i) {
+      arr.push({
+        value: i,
+        label: "Position " + (i + 1)
+      });
+    }
+    return arr;
+  })()
 };
 
 /**
@@ -109,7 +88,8 @@ Recipe.add({
   'Video', {
     isVideorecipe: {
       type: Types.Boolean,
-      label: 'Is a videorecipe'
+      label: 'Is a videorecipe',
+      default: false
     },
     videoUrl: {
       type: Types.Url,

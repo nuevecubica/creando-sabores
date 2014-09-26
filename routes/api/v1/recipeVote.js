@@ -34,7 +34,7 @@ exports = module.exports = function(req, res) {
 
     function(next) {
       service.recipe.get({
-        recipe: req.params.recipe
+        slug: req.params.recipe
       }, function(err, result) {
         if (err || !result) {
           res.status(404);

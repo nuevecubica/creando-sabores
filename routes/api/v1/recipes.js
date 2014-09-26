@@ -20,7 +20,7 @@ exports = module.exports = function(req, res) {
       res.status(404);
       answer.error = true;
     }
-    else if (recipes.total > 0) {
+    else {
       answer.success = true;
       answer.recipes = recipes;
     }

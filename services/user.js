@@ -146,12 +146,12 @@ var getUserRecipeList = function(options, callback) {
 
   options = options || {};
 
-  service.recipeList.get({
+  service.recipeList.recipe.get({
     sort: '-editDate',
     page: options.page || 1,
     perPage: options.perPage || 5,
     fromContests: true,
-    userId: options.userId
+    user: options.user
   }, callback);
 };
 

@@ -30,15 +30,15 @@ describe 'API v1: /videorecipes', ->
           (res) ->
             if res.body.success isnt true or res.body.error isnt false
               return 'No arguments query failed'
-            if res.body.videorecipes.currentPage != 1
+            if res.body.recipes.currentPage != 1
               return 'Got unexpected results page'
 
-            res.body.videorecipes.results.length.must.be.gte 2
-            past = null
-            for videorecipe, i in res.body.videorecipes.results
-              if past && videorecipe.editDate > past
-                return "editDate order failed: #{videorecipe.editDate} > #{past}"
-              past = videorecipe.editDate
+            res.body.recipes.results.length.must.be.gte 2
+            past = 5
+            for videorecipe, i in res.body.recipes.results
+              if videorecipe.rating > past
+                return "Rating order failed: #{videorecipe.rating} > #{past}"
+              past = videorecipe.rating
         )
         .end(done)
 
@@ -51,10 +51,10 @@ describe 'API v1: /videorecipes', ->
         .expect(200)
         .expect(
           (res) ->
-            res.body.videorecipes.results.length.must.be.eql 4
+            res.body.recipes.results.length.must.be.eql 4
         )
         .end (err, res) ->
-          total = res.body.videorecipes.results
+          total = res.body.recipes.results
 
           request
           .get('/api/v1/videorecipes?page=2&perPage=2')
@@ -64,28 +64,14 @@ describe 'API v1: /videorecipes', ->
           .expect(
             (res) ->
               slugsexpected = (r.slug for r in total).slice(2, 4)
-              slugsgot = (r.slug for r in res.body.videorecipes.results)
+              slugsgot = (r.slug for r in res.body.recipes.results)
               slugsgot.must.be.eql(slugsexpected)
           )
           .end(done)
 
-  describe 'PUT /api/v1/videorecipe/:videorecipe/like', ->
-    it 'returns an error', (done) ->
-      request
-      .put('/api/v1/videorecipe/' + videorecipe.slug + '/like')
-      .set('Accept', 'application/json')
-      .set('Referer',
-          config.keystone.publicUrl +
-          '/api/v1/videorecipe/' + videorecipe.slug + '/like')
-      .set('cookie', cookie)
-      .expect('Content-Type', /json/)
-      .expect(401)
-      .end(done)
-
   describe 'PUT /api/v1/videorecipe/:videorecipe/vote/:score', ->
 
     videorecipeGood = 'test-videorecipe-1'
-    videorecipeContest = 'test-contest-videorecipe-no-likes'
     videorecipeMiss = 'dummy-videorecipe-slug'
 
     describe 'if not logged in', ->
@@ -127,18 +113,6 @@ describe 'API v1: /videorecipes', ->
           .set('cookie', cookie)
           .expect('Content-Type', /json/)
           .expect(404)
-          .end(done)
-
-      describe 'on contest videorecipe', ->
-        it 'returns an error', (done) ->
-          request
-          .put('/api/v1/videorecipe/' + videorecipeContest + '/vote/5')
-          .set('Accept', 'application/json')
-          .set('Referer',
-            config.keystone.publicUrl + '/videoreceta/' + videorecipeContest)
-          .set('cookie', cookie)
-          .expect('Content-Type', /json/)
-          .expect(403)
           .end(done)
 
       describe 'on valid videorecipe', ->

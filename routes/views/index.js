@@ -1,6 +1,7 @@
 var keystone = require('keystone'),
   async = require('async'),
-  service = require('../../services');
+  service = require('../../services'),
+  moment = require('moment');
 
 exports = module.exports = function(req, res) {
 
@@ -44,9 +45,10 @@ exports = module.exports = function(req, res) {
           service.recipeList.videorecipe.get({
             sort: '-publishedDate'
           }, function(err, results) {
-
+            var last = results.results.shift();
             locals.data.videorecipes = {
-              last: results.results.shift(),
+              last: last,
+              lastFormattedDate: moment(last.publishedDate).format('L'),
               lastest: results.results
             };
             callback(err);

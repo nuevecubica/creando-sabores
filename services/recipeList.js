@@ -5,7 +5,7 @@ var _ = require('underscore'),
 
 /**
  * Reads both recipes and videorecipes from the database
- * @param  {Object}   options { userId: null, all: false, sort: '-rating',
+ * @param  {Object}   options { user: null, all: false, sort: '-rating',
  *                              flags: [], page: 1, perPage: 10, limit: 10,
  *                              fromContests: false, states: ['published'] }
  * @param  {Function} callback (err, results)
@@ -16,20 +16,29 @@ var getAllRecipes = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    userId: null,
+    user: null,
+    slug: null, // to query one recipe
+    populate: [],
     all: false,
     sort: '-rating',
     flags: [],
     page: 1,
     perPage: 10,
-    limit: 10,
+    limit: null,
     fromContests: false,
     states: ['published']
   });
 
   var query = {};
 
-  if (!options.page) {
+  if (options.limit) {
+    options.perPage = options.limit;
+  }
+
+  if (options.limit === 1) {
+    query = Recipe.model.findOne();
+  }
+  else if (!options.page) {
     query = Recipe.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);
@@ -42,8 +51,16 @@ var getAllRecipes = function(options, callback) {
     });
   }
 
+  if (options.slug) {
+    query.where('slug', options.slug);
+  }
+
   if (options.userId) {
+    console.warn('Deprecated call on service.recipeList with options:', options);
     query.where('author', options.userId);
+  }
+  else if (options.user) {
+    query.where('author', options.user._id);
   }
 
   var states = options.states || [];
@@ -55,7 +72,13 @@ var getAllRecipes = function(options, callback) {
   }
 
   if (states.length) {
+    states = _.unique(states);
     query.in('state', states);
+
+    // Just in case it requests review recipes, forces fromContest
+    if (states.indexOf('review') !== -1) {
+      options.fromContests = true;
+    }
   }
 
   if (!options.fromContests) {
@@ -80,6 +103,12 @@ var getAllRecipes = function(options, callback) {
     query.sort(options.sort);
   }
 
+  if (options.populate && options.populate.length) {
+    options.populate.forEach(function(pop) {
+      query.populate(pop);
+    });
+  }
+
   query.exec(callback || function() { /* dummy */ });
 };
 
@@ -90,7 +119,7 @@ var getVideoRecipes = function(options, callback) {
   if (!options.flags) {
     options.flags = ['+isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('+isVideorecipe') === -1) {
     options.flags.push('+isVideorecipe');
   }
   getAllRecipes(options, callback);
@@ -103,7 +132,7 @@ var getRecipes = function(options, callback) {
   if (!options.flags) {
     options.flags = ['-isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('-isVideorecipe') === -1) {
     options.flags.push('-isVideorecipe');
   }
   getAllRecipes(options, callback);

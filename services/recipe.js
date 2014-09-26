@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe'),
-  Contest = keystone.list('Contest');
+  Contest = keystone.list('Contest'),
+  service = require('./index');
 
 var defaults = {
   rating: 0,
@@ -11,7 +12,8 @@ var defaults = {
   difficulty: 3,
   description: '',
   procedure: '',
-  state: 'draft'
+  state: 'draft',
+  isVideorecipe: false
 };
 
 /**
@@ -52,94 +54,90 @@ var getAllRecipe = function(options, callback) {
   var own = false,
     data = {};
 
-  options = options || {};
+  options = _.defaults(options || {}, {
+    user: null,
+    slug: null,
+    populate: ['author'],
+    all: false,
+    sort: null,
+    flags: [],
+    fromContests: true,
+    states: ['published']
+  });
+
+  options.limit = 1; // forced
 
   if (options.recipe) {
+    console.warn('Deprecated call on service.recipe with options:', options);
+    options.slug = options.recipe;
+  }
 
-    var query = Recipe.model.findOne({
-      slug: options.recipe
-    });
+  if (options.slug) {
 
-    if (options.flags && options.flags.length > 0) {
-      _.each(options.flags, function(flag) {
-        if (flag[0] === '-') {
-          query.where(flag.substr(1), false);
-        }
-        else if (flag[0] === '+') {
-          query.where(flag.substr(1), true);
-        }
-        else {
-          query.where(flag, true);
-        }
-      });
-    }
+    service.recipeList.get(options, function(err, result) {
+      if (!err && result) {
 
-    query
-      .populate('author')
-      .exec(function(err, result) {
-        if (!err && result) {
+        data.recipe = _.defaults(parseRecipe(result), defaults);
+        data.recipe._document = result;
 
-          data.recipe = _.defaults(parseRecipe(result), defaults);
-          data.recipe._document = result;
-
-          if (options.user) {
-            // Am I the owner?
-            data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
-            if (data.recipe.isVideorecipe) {
-              data.own = false;
-            }
-            // Is it on my shopping list?
-            data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
-            // Is it on my favourites list?
-            data.favourited = (options.user.favourites.indexOf(result._id) !== -1);
-            // Has it my like?
-            data.liked = (options.user.likes.indexOf(result._id) !== -1);
-          }
-          else {
-            data.inShoppingList = false;
-            data.liked = false;
-            data.favourited = false;
+        if (options.user) {
+          // Am I the owner?
+          data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
+          if (data.recipe.isVideorecipe) {
             data.own = false;
           }
-
-          if (
-            (['draft', 'review'].indexOf(result.state) >= 0 && !data.own) || // Drafts only for the owner
-            ['removed', 'banned'].indexOf(result.state) >= 0
-          ) {
-            return callback(err || 'Not found', null);
-          }
-
-          // Is it a contest recipe?
-          if (result.contest) {
-            // Populate nested contest
-            var optionsContest = {
-              path: 'contest.id',
-              model: 'Contest'
-            };
-            Contest.model.populate(result, optionsContest, function(err, result) {
-              if (!err && result) {
-                data.contest = result.contest.id;
-                return callback(null, data);
-              }
-              else {
-                if (err) {
-                  console.error('Error service.recipe.read Contest.model.populate community winner', err);
-                }
-                return callback(err || 'Not found', {});
-              }
-            });
-          }
-          else {
-            return callback(null, data);
-          }
+          // Is it on my shopping list?
+          data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
+          // Is it on my favourites list?
+          data.favourited = (options.user.favourites.indexOf(result._id) !== -1);
+          // Has it my like?
+          data.liked = (options.user.likes.indexOf(result._id) !== -1);
         }
         else {
-          if (err) {
-            console.error('Error service.recipe.read find', err);
-          }
-          return callback(err || 'Not found', {});
+          data.inShoppingList = false;
+          data.liked = false;
+          data.favourited = false;
+          data.own = false;
         }
-      });
+
+        if (
+          (['draft', 'review'].indexOf(result.state) >= 0 && !data.own) || // Drafts only for the owner
+          ['removed', 'banned'].indexOf(result.state) >= 0
+        ) {
+          return callback(err || 'Not found', null);
+        }
+
+        // Is it a contest recipe?
+        if (result.contest) {
+          // Populate nested contest
+          var optionsContest = {
+            path: 'contest.id',
+            model: 'Contest'
+          };
+          Contest.model.populate(result, optionsContest, function(err, result) {
+            if (!err && result) {
+              data.contest = result.contest.id;
+              return callback(null, data);
+            }
+            else {
+              if (err) {
+                console.error('Error service.recipe.read Contest.model.populate community winner', err);
+              }
+              return callback(err || 'Not found', {});
+            }
+          });
+        }
+        else {
+          return callback(null, data);
+        }
+      }
+      else {
+        if (err) {
+          console.error('Error service.recipe.read find', err);
+        }
+        return callback(err || 'Not found', {});
+      }
+    });
   }
   else {
     return callback('Not found', data);
@@ -153,7 +151,7 @@ var getVideoRecipe = function(options, callback) {
   if (!options.flags) {
     options.flags = ['+isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('+isVideorecipe') === -1) {
     options.flags.push('+isVideorecipe');
   }
   getAllRecipe(options, callback);
@@ -166,7 +164,7 @@ var getRecipe = function(options, callback) {
   if (!options.flags) {
     options.flags = ['-isVideorecipe'];
   }
-  else {
+  else if (options.flags.indexOf('-isVideorecipe') === -1) {
     options.flags.push('-isVideorecipe');
   }
   getAllRecipe(options, callback);
