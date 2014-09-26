@@ -45,8 +45,10 @@ exports = module.exports = function(req, res) {
             sort: '-publishedDate'
           }, function(err, results) {
 
-            locals.data.videorecipes.last = results.results.shift();
-            locals.data.videorecipes.lastest = results.results;
+            locals.data.videorecipes = {
+              last = results.results.shift(),
+              lastest = results.results
+            };
 
             callback(err);
           });
