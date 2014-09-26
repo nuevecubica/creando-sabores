@@ -16,6 +16,7 @@ exports = module.exports = function(req, res) {
       page: req.query.page || 1,
       perPage: 5,
       user: req.user,
+      authorId: req.user._id,
       sort: '-editDate'
     }, function(err, recipes) {
       if (err) {
@@ -32,7 +33,8 @@ exports = module.exports = function(req, res) {
     service.user.shopping.get({
       page: req.query.page || 1,
       perPage: 5,
-      user: req.user
+      user: req.user,
+      authorId: req.user._id
     }, function(err, result) {
       if (!err && result) {
         cb(result.results);
@@ -47,7 +49,8 @@ exports = module.exports = function(req, res) {
     service.user.favourites.get({
       page: req.query.page || 1,
       perPage: 5,
-      user: req.user
+      user: req.user,
+      authorId: req.user._id
     }, function(err, result) {
       if (!err && result) {
         cb(result.results);
