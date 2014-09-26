@@ -189,8 +189,7 @@ mixin header(data, section)
 				#header.row
 					include ../components/header
 
-				.row.logo.corner
-					.icon-chef-logo.icon
+				.row.logo
 
 				.row.section.title
 					.editable-container
@@ -212,28 +211,29 @@ mixin header(data, section)
 	else if section === 'videorecipes'
 
 	else if section === 'videorecipe'
-		.ui.page.grid.head.with-subtitle.with-social
+		- var title = data.recipe ? data.recipe.title : ''
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+		- var video = data.recipe ? data.recipe.videoUrl : null
+
+		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
+			#video-player
+
+			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
 					include ../components/header
 
-				.row.logo.corner
-					.icon-chef-logo.icon
+				.row.logo
+					.icon-chef-play.icon.clickable(data-video="#{video}")
 
 				.row.section.title
 					.editable-container
-						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
+						#recipe-title.shadow= title
 
 				.row.section.subtitle
+					.author.shadow= author
 
 				.row
 					.ten.wide.column
-					.six.wide.column.right.aligned
-						.corner-position.right
-							.ui.button.chef.button-gray.show-editable.file-select
-								input#recipe-header-select(type="file" name="header_upload" accept="image/*")
-								i.social.icon-chef-camera
-								span
-								|#{__('Change image')}
 
 	else if section === 'contests'
 		- var image = data.current ? data.current.thumb.header : defaults.images.contests
