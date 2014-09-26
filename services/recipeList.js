@@ -17,6 +17,9 @@ var getAllRecipes = function(options, callback) {
 
   options = _.defaults(options || {}, {
     userId: null,
+    user: null,
+    slug: null, // to query one recipe
+    populate: [],
     all: false,
     sort: '-rating',
     flags: [],
@@ -29,7 +32,10 @@ var getAllRecipes = function(options, callback) {
 
   var query = {};
 
-  if (!options.page) {
+  if (options.limit === 1) {
+    query = Recipe.model.findOne();
+  }
+  else if (!options.page) {
     query = Recipe.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);
@@ -42,8 +48,15 @@ var getAllRecipes = function(options, callback) {
     });
   }
 
+  if (options.slug) {
+    query.where('slug', options.slug);
+  }
+
   if (options.userId) {
     query.where('author', options.userId);
+  }
+  else if (options.user) {
+    query.where('author', options.user._id);
   }
 
   var states = options.states || [];
@@ -55,7 +68,13 @@ var getAllRecipes = function(options, callback) {
   }
 
   if (states.length) {
+    states = _.unique(states);
     query.in('state', states);
+
+    // Just in case it requests review recipes, forces fromContest
+    if (states.indexOf('review') !== -1) {
+      options.fromContests = true;
+    }
   }
 
   if (!options.fromContests) {
@@ -78,6 +97,12 @@ var getAllRecipes = function(options, callback) {
 
   if (options.sort) {
     query.sort(options.sort);
+  }
+
+  if (options.populate && options.populate.length) {
+    options.populate.forEach(function(pop) {
+      query.populate(pop);
+    });
   }
 
   query.exec(callback || function() { /* dummy */ });
