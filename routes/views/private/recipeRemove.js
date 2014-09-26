@@ -9,7 +9,6 @@ exports = module.exports = function(req, res, next) {
 
   var backDone = '/',
     backError = '..',
-    userId = req.user._id,
     recipeSlug = req.params.recipe;
 
   var options = {
@@ -19,7 +18,7 @@ exports = module.exports = function(req, res, next) {
   };
 
   if (!req.user.isAdmin) {
-    options.userId = userId;
+    options.user = req.user;
   }
 
   if (req.method === 'POST') {

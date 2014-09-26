@@ -80,8 +80,7 @@ var recipeData = function(req, orig) {
 };
 
 var recipeEdit = function(req, res) {
-  var userId = req.user._id,
-    recipeSlug = req.params.recipe,
+  var recipeSlug = req.params.recipe,
     back = '..';
 
   var options = {
@@ -91,7 +90,7 @@ var recipeEdit = function(req, res) {
   };
 
   if (!req.user.isAdmin) {
-    options.author = userId;
+    options.user = req.user;
   }
 
   // Get

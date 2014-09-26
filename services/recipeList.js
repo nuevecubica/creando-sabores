@@ -5,7 +5,7 @@ var _ = require('underscore'),
 
 /**
  * Reads both recipes and videorecipes from the database
- * @param  {Object}   options { userId: null, all: false, sort: '-rating',
+ * @param  {Object}   options { user: null, all: false, sort: '-rating',
  *                              flags: [], page: 1, perPage: 10, limit: 10,
  *                              fromContests: false, states: ['published'] }
  * @param  {Function} callback (err, results)
@@ -16,7 +16,6 @@ var getAllRecipes = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    userId: null,
     user: null,
     slug: null, // to query one recipe
     populate: [],
@@ -57,6 +56,7 @@ var getAllRecipes = function(options, callback) {
   }
 
   if (options.userId) {
+    console.warn('Deprecated call on service.recipeList with options:', options);
     query.where('author', options.userId);
   }
   else if (options.user) {
