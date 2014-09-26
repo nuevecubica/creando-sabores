@@ -42,11 +42,12 @@ exports = module.exports = function(req, res) {
         // Function for get last videorecipes
         function(callback) {
           service.recipeList.videorecipe.get({
-            sort: '-publishDate'
+            sort: '-publishedDate'
           }, function(err, results) {
-            console.log('RESULTS', results);
-            // locals.data.order = results.order;
-            // locals.data.sizes = results.sizes;
+
+            locals.data.videorecipes.last = results.results.shift();
+            locals.data.videorecipes.lastest = results.results;
+
             callback(err);
           });
         }
