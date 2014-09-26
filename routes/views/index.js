@@ -38,6 +38,18 @@ exports = module.exports = function(req, res) {
             locals.data.sizes = results.sizes;
             callback(err);
           });
+        },
+        // Function for get last videorecipes
+        function(callback) {
+          service.recipeList.videorecipe.get({
+            sort: '-publishedDate'
+          }, function(err, results) {
+
+            locals.data.videorecipes.last = results.results.shift();
+            locals.data.videorecipes.lastest = results.results;
+
+            callback(err);
+          });
         }
       ],
       function(err) {
