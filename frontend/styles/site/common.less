@@ -147,6 +147,11 @@ body {
   }
 }
 
+.floating {
+  position: absolute;
+  top: 0px;
+}
+
 .logo {
   text-align: center !important;
   color: @chef-color-white;
@@ -154,9 +159,8 @@ body {
   &.corner {
     .icon-chef-logo.icon {
       position: absolute !important;
-      font-size: 160px;
+      font-size: 140px;
       top: 0;
-      left: 0;
     }
   }
 
@@ -184,6 +188,15 @@ body {
         color: @icon-play-background-color;
         transition: color 300ms;
       }
+    }
+  }
+
+  &.videorecipe {
+    padding-top: 85px !important;
+    box-sizing: border-box;
+
+    .icon {
+      font-size: 130px;
     }
   }
 

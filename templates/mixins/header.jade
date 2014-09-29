@@ -108,14 +108,14 @@ mixin header(data, section)
 					.shadow= __('Recipes')
 
 				.row
-					.social.four.tablet-seven.wide.column.tablet.computer.only
-						.corner-position.left
-							|#{__('Share this page')}
-							+header-share()
-
-					.four.wide.column.computer.only
-
 					if data.header
+						.social.four.tablet-seven.wide.column.tablet.computer.only
+							.corner-position.left
+								|#{__('Share this page')}
+								+header-share()
+
+						.four.wide.column.computer.only
+
 						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
 						- var promotedUrl = data.header ? data.header.url : '/recetas'
 
@@ -191,6 +191,10 @@ mixin header(data, section)
 
 				.row.logo
 
+				.floating
+					.logo.corner
+						.icon-chef-logo.icon
+
 				.row.section.title
 					.editable-container
 						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
@@ -215,25 +219,35 @@ mixin header(data, section)
 		- var promotedUrl = data.header ? data.header.url : null
 		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
 
-		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#videorecipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			#video-player
 
 			.ui.page.grid.head.simple.with-social
 				#header.row
 					include ../components/header
 
-				.row.logo
-					a.icon-chef-play.icon.clickable(href="#{promotedUrl}")
+				if data.header
+					.row.logo.videorecipe
+						a.icon-chef-play.icon.clickable(href="#{promotedUrl}")
+
+					.floating
+						.logo.corner
+							a.icon-chef-logo.icon(href="/")
+
+				else
+					.row.logo.shadow
+						a.icon-chef-logo.icon(href="/")
+
 
 				.row
-					.social.four.tablet-seven.wide.column.tablet.computer.only
-						.corner-position.left
-							|#{__('Share this page')}
-							+header-share()
-
-					.four.wide.column.computer.only
-
 					if data.header
+						.social.four.tablet-seven.wide.column.tablet.computer.only
+							.corner-position.left
+								|#{__('Share this page')}
+								+header-share()
+
+						.four.wide.column.computer.only
+
 						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
 						- var promotedUrl = data.header ? data.header.url : '/recetas'
 
@@ -258,11 +272,15 @@ mixin header(data, section)
 			#video-player
 
 			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
+				#header.row.keep-pointer
 					include ../components/header
 
-				.row.logo
+				.row.logo.videorecipe
 					a.icon-chef-play.icon.clickable(data-video="#{video}")
+
+				.floating.keep-pointer
+					.logo.corner
+						a.icon-chef-logo.icon(href="/")
 
 				.row.section.title
 					.editable-container
@@ -272,7 +290,10 @@ mixin header(data, section)
 					.author.shadow= author
 
 				.row
-					.ten.wide.column
+					.four.wide.column.computer.only.social
+						.corner-position.left
+							|#{__('Share this recipe')}
+							+header-share()
 
 	else if section === 'contests'
 		- var image = data.current ? data.current.thumb.header : defaults.images.contests
