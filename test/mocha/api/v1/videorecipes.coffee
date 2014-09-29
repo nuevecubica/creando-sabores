@@ -54,6 +54,8 @@ describe 'API v1: /videorecipes', ->
             res.body.recipes.results.length.must.be.eql 4
         )
         .end (err, res) ->
+          return done(err) if err
+
           total = res.body.recipes.results
 
           request
@@ -150,6 +152,8 @@ describe 'API v1: /videorecipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             request
             .put('/api/v1/videorecipe/' + videorecipeGood + '/vote/3')
@@ -160,5 +164,6 @@ describe 'API v1: /videorecipes', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
               res.body.rating.must.be.equal 3
               done()
