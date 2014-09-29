@@ -96,40 +96,9 @@ var testMode = function(keystone) {
         end(err, data);
       }
     });
-<<<<<<< HEAD
   };
 
   resp.getDatabase = resp.getDatabase;
-=======
-
-  };
-
-  // Return
-  var resp = {};
-
-  // Run loaders
-  resp.resetDatabase = function(done) {
-    async.series([
-      testDrop,
-      testAdminsAdd,
-      testUsersAdd,
-      testContestsAdd,
-      testRecipesAdd,
-      testRecipeContests
-    ], end(done));
-  };
-
-  resp.revertDatabase = function(done) {
-    async.series([
-      testClean,
-      testAdminsAdd,
-      testUsersAdd,
-      testContestsAdd,
-      testRecipesAdd,
-      testRecipeContests
-    ], end(done));
-  };
->>>>>>> data.json: Updated contest data
 
   return resp;
 };
