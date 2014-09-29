@@ -17,7 +17,9 @@ exports = module.exports = function(req, res) {
       perPage: 5,
       user: user,
       authorId: user._id,
-      sort: '-editDate'
+      sort: '-editDate',
+      all: true,
+      fromContests: true
     }, function(err, recipes) {
       if (err) {
         console.error('profileMyRecipes:', err);

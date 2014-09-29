@@ -24,7 +24,7 @@ exports = module.exports = function(req, res) {
       return res.apiResponse(answer);
     }
     else {
-      service.recipeList.get({
+      service.recipeList.recipe.get({
         page: req.query.page || 1,
         perPage: req.query.perPage || 10,
         user: req.user,
