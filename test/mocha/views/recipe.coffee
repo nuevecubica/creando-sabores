@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe.only 'Recipe: View', ->
+describe 'Recipe: View', ->
 
   cookie1 = null
   cookie2 = null
