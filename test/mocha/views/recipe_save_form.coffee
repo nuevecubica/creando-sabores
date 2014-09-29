@@ -52,10 +52,27 @@ describe '(Private) Recipe: Save', ->
 
   describe 'get /receta/:recipe', ->
     describe 'from author', ->
-      it 'responds with the form'
+      it 'responds with the form', (done) ->
+        request
+        .get('/receta/test-recipe-1')
+        .set('cookie', cookie)
+        .expect(200)
+        .expect(/recipe-edit-form/)
+        .end(done)
+
 
     describe 'from another user', ->
-      it 'doesn\'t respond with the form'
+      it 'doesn\'t respond with the form', (done) ->
+        utils.loginUser data.users[2], request, (err, res) ->
+          cookie2 = res.headers['set-cookie']
+          request
+          .get('/receta/test-recipe-1')
+          .set('cookie', cookie2)
+          .expect(200)
+          .expect(
+            (res) -> return res.text.must.not.match 'recipe-edit-form'
+          )
+          .end(done)
 
   describe 'call to /receta/:recipe/save', ->
     describe 'on empty action', ->
