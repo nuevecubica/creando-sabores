@@ -40,7 +40,7 @@ exports = module.exports = function(req, res) {
           result.save();
         }
 
-        if ((!req.user || !req.user.isAdmin) && ['draft', 'programmed'].indexOf(result.state) >= 0) {
+        if ((!req.user || !req.user.isAdmin) && ['draft'].indexOf(result.state) >= 0) {
           return res.notfound(res.__('Not found'));
         }
 

@@ -26,10 +26,10 @@ describe 'Contest', ->
         .end(done)
 
     describe 'on programmed', ->
-      it 'returns not found', (done) ->
+      it 'returns the contest', (done) ->
         request
         .get('/concurso/test-contest-programmed')
-        .expect(404)
+        .expect(200)
         .end(done)
 
     describe 'on submission', ->
@@ -59,3 +59,30 @@ describe 'Contest', ->
         .get('/concurso/test-contest-finished')
         .expect(200)
         .end(done)
+
+    describe 'on overdue programmed visit', ->
+      it 'changes it to submission', (done) ->
+        request
+        .get('/concurso/test-contest-overdue-programmed')
+        .expect(200)
+        .expect(/status-tag submission/)
+        .end(done)
+
+    describe 'on overdue submission visit', ->
+      it 'changes it to votes', (done) ->
+        request
+        .get('/concurso/test-contest-overdue-submission')
+        .expect(200)
+        .expect(/status-tag votes/)
+        .end(done)
+
+    describe 'on overdue votes visit', ->
+      it 'changes it to closed', (done) ->
+        request
+        .get('/concurso/test-contest-overdue-votes')
+        .expect(200)
+        .expect(/status-tag closed/)
+        .end(done)
+
+    describe 'on overdue contests list visit', ->
+      it 'updates them and returns the new promoted one'
