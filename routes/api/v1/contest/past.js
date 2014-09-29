@@ -17,7 +17,7 @@ exports = module.exports = function(req, res) {
   var queryLastContest = Contest
     .paginate({
       page: req.query.page || 1,
-      perPage: 5
+      perPage: req.query.perPage || 5
     })
     .populate('awards.jury.winner awards.community.winner')
     .where('state', 'finished')
@@ -45,29 +45,19 @@ exports = module.exports = function(req, res) {
               model: 'User'
             };
 
-            console.log('PAGINATE', contests);
-
             async.each(contests.results, function(contest, done) {
-
-                console.log('CONTEST', contest);
 
                 // Populate nested recipe author (jury winner)
                 Contest.model.populate(contest, optionsJuryAuthor, function(err, contestJuryPopulated) {
-
-                  console.log('POPULATE 1', contestJuryPopulated);
 
                   if (!err && contestJuryPopulated) {
                     // Populate nested recipe author (community winner)
                     Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
 
-                      console.log('POPULATE 2', contestCommunityPopulated);
-
                       if (!err && contestCommunityPopulated) {
                         answer.success = true;
 
                         finalResults.push(contestCommunityPopulated);
-
-                        console.log('DONE ???????', answer.contests);
 
                         done(err, finalResults);
                       }
@@ -94,8 +84,6 @@ exports = module.exports = function(req, res) {
                   answer.success = true;
                 }
 
-                console.log('CASO1 ->');
-
                 callback(err);
               });
           }
@@ -107,15 +95,12 @@ exports = module.exports = function(req, res) {
               answer.success = true;
             }
 
-            console.log('CASO2 ->');
-
             callback(err);
           }
         });
       }
     ],
     function(err, results) {
-      console.log('SALE ->', answer);
       return res.apiResponse(answer);
     });
 };
