@@ -31,7 +31,7 @@ describe 'Infinite scroll', ->
         'login_password': data.users[0].password
       }, true
 
-  describe 'At recipes list', ->
+  describe 'at profile recipes list', ->
     it 'loads more on scroll', ->
       casper.thenOpen base + '/perfil/recetas', ->
         links = @evaluate getLinks

@@ -39,7 +39,8 @@ describe 'Recipes: Lists', ->
               title = found[1].trim()
               # Exists
               if not videorecipes[title]
-                return "Invalid videorecipe #{title} in #{videorecipes.keys().join(',')}"
+                keys = Object.keys(videorecipes).join(',')
+                return "Invalid videorecipe #{title} in #{keys}"
               # Order
               if last isnt null and videorecipes[title].rating > last
                 return "Invalid order #{videorecipes[title].rating} > #{last}"
