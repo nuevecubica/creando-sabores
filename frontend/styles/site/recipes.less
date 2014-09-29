@@ -430,11 +430,11 @@
     &.video-playing {
       pointer-events: none;
 
-      .row:first-child {
+      .keep-pointer {
         pointer-events: all;
       }
 
-      .row:not(:first-child) {
+      .row:not(.keep-pointer) {
         visibility: hidden;
       }
     }
