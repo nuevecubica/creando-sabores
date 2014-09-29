@@ -56,6 +56,7 @@ var getAllRecipe = function(options, callback) {
 
   options = _.defaults(options || {}, {
     user: null,
+    authorId: null,
     slug: null,
     populate: ['author'],
     all: false,
@@ -86,6 +87,7 @@ var getAllRecipe = function(options, callback) {
           if (data.recipe.isVideorecipe) {
             data.own = false;
           }
+
           // Is it on my shopping list?
           data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
           // Is it on my favourites list?

@@ -17,6 +17,7 @@ var getAllRecipes = function(options, callback) {
 
   options = _.defaults(options || {}, {
     user: null,
+    authorId: null,
     slug: null, // to query one recipe
     populate: [],
     all: false,
@@ -55,12 +56,8 @@ var getAllRecipes = function(options, callback) {
     query.where('slug', options.slug);
   }
 
-  if (options.userId) {
-    console.warn('Deprecated call on service.recipeList with options:', options);
-    query.where('author', options.userId);
-  }
-  else if (options.user) {
-    query.where('author', options.user._id);
+  if (options.authorId) {
+    query.where('author', options.authorId);
   }
 
   var states = options.states || [];

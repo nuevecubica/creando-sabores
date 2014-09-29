@@ -27,7 +27,8 @@ exports = module.exports = function(req, res) {
       service.recipeList.get({
         page: req.query.page || 1,
         perPage: req.query.perPage || 10,
-        user: result,
+        user: req.user,
+        authorId: result._id,
         sort: '-editDate',
         fromContests: true
       }, function(err, recipes) {

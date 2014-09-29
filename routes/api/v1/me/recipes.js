@@ -16,6 +16,7 @@ exports = module.exports = function(req, res) {
     page: req.query.page || 1,
     perPage: req.query.perPage || 10,
     user: req.user,
+    authorId: req.user._id,
     sort: '-editDate',
     all: true,
     fromContests: true
