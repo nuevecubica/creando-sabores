@@ -151,7 +151,8 @@ var getUserRecipeList = function(options, callback) {
     page: options.page || 1,
     perPage: options.perPage || 5,
     fromContests: true,
-    user: options.user
+    user: options.user,
+    authorId: options.authorId,
   }, callback);
 };
 
