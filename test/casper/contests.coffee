@@ -58,17 +58,17 @@ describe 'Contests page', ->
         ('#past-contests').should.be.inDOM.and.visible
         ('#past-contests .contest-title a').should.be.inDOM.and.visible
         @getElementAttribute('#past-contests .contest-title a',
-          'href').should.be.equal '/concurso/test-contest-finished'
+          'href').should.be.equal '/concurso/test-contest-finished-5'
     it 'works finished contest', ->
       casper.then ->
         ('#past-contests .award').should.be.inDOM.and.visible
         ('#past-contests .author-winner a').should.be.inDOM.and.visible
         @getElementAttribute('#past-contests .author-winner a',
-          'href').should.be.equal '/chef/testUser2'
+          'href').should.be.equal '/chef/testUser1'
         @getElementAttribute('#past-contests .recipe-award>a',
-          'href').should.be.equal '/chef/testUser2'
+          'href').should.be.equal '/chef/testUser1'
         @getElementAttribute('#past-contests .recipe-award .title a',
-          'href').should.be.equal '/receta/test-contest-closed-recipe'
+          'href').should.be.equal '/receta/test-contest-finished-recipe-15'
         ('#past-contests div.award').should.be.inDOM.and.visible
     it 'works contests award2', ->
       casper.then ->
