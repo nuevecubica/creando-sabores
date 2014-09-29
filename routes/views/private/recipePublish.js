@@ -8,8 +8,8 @@ var recipePublish = function(req, res) {
   var recipeSlug = req.params.recipe,
     back = '..',
     actions = ['draft', 'publish'],
-    states = ['draft', 'published'],
-    descriptions = ['unpublished', 'published'],
+    states = ['draft', 'published', 'review'],
+    descriptions = ['unpublished', 'published', 'waiting for review'],
     data = {},
     fields = [];
 
