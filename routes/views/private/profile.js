@@ -8,15 +8,15 @@ exports = module.exports = function(req, res) {
   var locals = res.locals,
     view = new keystone.View(req, res);
 
-  var getPrivateRecipes = function(userId, cb) {
+  var getPrivateRecipes = function(user, cb) {
     var back = '..';
 
     // Get
     service.recipeList.recipe.get({
       page: req.query.page || 1,
       perPage: 5,
-      user: req.user,
-      authorId: req.user._id,
+      user: user,
+      authorId: user._id,
       sort: '-editDate'
     }, function(err, recipes) {
       if (err) {
@@ -33,8 +33,8 @@ exports = module.exports = function(req, res) {
     service.user.shopping.get({
       page: req.query.page || 1,
       perPage: 5,
-      user: req.user,
-      authorId: req.user._id
+      user: user,
+      authorId: user._id
     }, function(err, result) {
       if (!err && result) {
         cb(result.results);
@@ -49,8 +49,8 @@ exports = module.exports = function(req, res) {
     service.user.favourites.get({
       page: req.query.page || 1,
       perPage: 5,
-      user: req.user,
-      authorId: req.user._id
+      user: user,
+      authorId: user._id
     }, function(err, result) {
       if (!err && result) {
         cb(result.results);
@@ -74,14 +74,14 @@ exports = module.exports = function(req, res) {
 
   switch (req.params.section) {
     case 'recetas':
-      getPrivateRecipes(req.user._id, function(recipes) {
+      getPrivateRecipes(req.user, function(recipes) {
         locals.subsection = 'recipes';
         locals.recipes = recipes || [];
         view.render('private/profile');
       });
       break;
     case 'favoritas':
-      getFavouriteRecipes(req.user._id, function(recipes) {
+      getFavouriteRecipes(req.user, function(recipes) {
         locals.subsection = 'favourites';
         locals.recipes = recipes || [];
         view.render('private/profile');
