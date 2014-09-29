@@ -461,5 +461,15 @@
     $('.ui.rating').rating();
     $('.rating:not(.disabled) .icon-chef-star').click(ratingClick);
 
+    $('.icon-chef-play.icon.clickable').click(function() {
+
+      $('#videorecipe-header .head').addClass('video-playing');
+
+      if ($(this).attr('data-video')) {
+        var id = $(this).attr('data-video').split('=')[1];
+        $('#video-player').html('<iframe width="100%" height="600" src="//www.youtube.com/embed/' + id + '?rel=0&autohide=1&showinfo=0&autoplay=1" frameborder="0" allowfullscreen </iframe>');
+      }
+    });
+
   });
 })();

@@ -189,14 +189,14 @@ mixin header(data, section)
 				#header.row
 					include ../components/header
 
-				.row.logo.corner
-					.icon-chef-logo.icon
+				.row.logo
 
 				.row.section.title
 					.editable-container
 						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
 
 				.row.section.subtitle
+					.author.shadow= author
 
 				.row
 					.ten.wide.column
@@ -207,6 +207,72 @@ mixin header(data, section)
 								i.social.icon-chef-camera
 								span
 								|#{__('Change image')}
+
+	else if section === 'videorecipes'
+		- var title = data.recipe ? data.recipe.title : ''
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+
+		- var promotedUrl = data.header ? data.header.url : null
+		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
+
+		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			#video-player
+
+			.ui.page.grid.head.simple.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo
+					a.icon-chef-play.icon.clickable(href="#{promotedUrl}")
+
+				.row
+					.social.four.tablet-seven.wide.column.tablet.computer.only
+						.corner-position.left
+							|#{__('Share this page')}
+							+header-share()
+
+					.four.wide.column.computer.only
+
+					if data.header
+						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+						- var promotedUrl = data.header ? data.header.url : '/recetas'
+
+						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+							.tabla
+								p= __('Today promoted')
+								.tabla1
+									.ui.image
+								.tabla2
+									.text
+										a.span(href="#{promotedUrl}")= promotedTitle
+								.tabla3
+									.ui.image
+
+	else if section === 'videorecipe'
+		- var title = data.recipe ? data.recipe.title : ''
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+		- var video = data.recipe ? data.recipe.videoUrl : null
+
+		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
+			#video-player
+
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo
+					a.icon-chef-play.icon.clickable(data-video="#{video}")
+
+				.row.section.title
+					.editable-container
+						#recipe-title.shadow= title
+
+				.row.section.subtitle
+					.author.shadow= author
+
+				.row
+					.ten.wide.column
 
 	else if section === 'contests'
 		- var image = data.current ? data.current.thumb.header : defaults.images.contests

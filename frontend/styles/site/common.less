@@ -1,6 +1,8 @@
 @recipes-list-odd: @chef-color-white-bg;
 @recipes-list-even: @chef-color-light-bg;
 
+@icon-play-background-color: @chef-color-white;
+
 @editable-alpha: fade(@chef-color-black, 60%);
 
 @grid-hover-background: @chef-color-green-bg;
@@ -150,7 +152,7 @@ body {
   color: @chef-color-white;
 
   &.corner {
-    .icon {
+    .icon-chef-logo.icon {
       position: absolute !important;
       font-size: 160px;
       top: 0;
@@ -162,11 +164,27 @@ body {
     text-shadow: 1px 2px 4px #000;
   }
 
+
   .icon {
     font-size: 200px;
     color: @chef-color-white;
     text-decoration: none;
     vertical-align: bottom;
+
+    &.clickable {
+      color: fade(@icon-play-background-color, 50%);
+      cursor: pointer;
+      transition: color 300ms;
+
+      &:hover {
+        color: @icon-play-background-color;
+        transition: color 300ms;
+      }
+    }
+  }
+
+  .icon-overlay {
+    position: absolute;
   }
 }
 
@@ -369,7 +387,14 @@ body {
 
   .corner-position {
     position: absolute;
-    bottom: 15px;
+
+    &.top {
+      top: 15px;
+    }
+
+    &.bottom {
+      bottom: 15px;
+    }
 
     &.right {
       right: 15px;
