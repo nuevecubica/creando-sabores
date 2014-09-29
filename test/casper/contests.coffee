@@ -34,8 +34,8 @@ describe 'Contests page', ->
         ('#current-contest .award.column').should.be.inDOM.and.visible
         ('#info .status-tag').should.be.inDOM.and.visible
         ('#info .header').should.be.inDOM.and.visible
-        ('#info .subheader').should.be.inDOM.and.visible
-        ('#info .subheader strong').should.be.inDOM.and.visible
+        ('#info .explain').should.be.inDOM.and.visible
+        ('#info .explain strong').should.be.inDOM.and.visible
         ('#current-contest .chef.button-brick a').should.be.inDOM.and.visible
     #it 'works contests award', ->
       #casper.then ->
