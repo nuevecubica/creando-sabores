@@ -56,7 +56,7 @@ describe 'Contest page', ->
           '#winners .user'.should.be.inDOM.and.visible
           href = @getElementAttribute '#winners .author-winner a', 'href'
           href.should.be.equal '/chef/testUser2'
-          a = @getElementAttribute('#winners .recipe-award a:first-child', 
+          a = @getElementAttribute('#winners .recipe-award a:first-child',
           'href').should.be.equal '/chef/testUser2'
 
       it 'exists & works contests award', ->
