@@ -444,6 +444,36 @@
 
 
 /****************
+  Videorecipe Styles
+****************/
+
+#video-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#videorecipe-header {
+  .head {
+    &.video-playing {
+      pointer-events: none;
+
+      .row:first-child {
+        pointer-events: all;
+      }
+
+      .row:not(:first-child) {
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+
+
+/****************
   Recipes status
 ****************/
 

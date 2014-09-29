@@ -51,7 +51,6 @@ exports = module.exports = function(req, res) {
               lastFormattedDate: moment(last.publishedDate).format('L'),
               lastest: results.results
             };
-
             callback(err);
           });
         }
