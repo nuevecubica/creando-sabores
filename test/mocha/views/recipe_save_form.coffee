@@ -240,7 +240,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on submission state contest', ->
       it 'responds with the form', (done) ->
         request
-        .get('/nueva-receta/' + data.db.contests[2].slug)
+        .get('/nueva-receta/test-contest-submission')
         .set('cookie', cookie)
         .expect(200)
         .expect(
@@ -251,7 +251,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on non-submission state contest', ->
       it 'responds with error', (done) ->
         request
-        .get('/nueva-receta/' + data.db.contests[1].slug)
+        .get('/nueva-receta/test-contest-programmsed')
         .set('cookie', cookie)
         .expect(404)
         .end(done)
