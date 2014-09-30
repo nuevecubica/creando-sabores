@@ -110,7 +110,7 @@ function generateRecipes(from, to) {
   var sectionGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   var sectionVideoGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  var maxVideorecipes = 20,
+  var maxVideorecipes = 50,
     maxVideorecipesGrid = 5,
     countVideorecipes = 0,
     countVideorecipesGrid = 0;
@@ -120,11 +120,18 @@ function generateRecipes(from, to) {
   */
   function generateNewRecipe() {
     var homeHeader = false;
-    var homeGridPos = 0;
+    var homeGridPos = null;
 
     var isVideorecipe = (countVideorecipes < maxVideorecipes) ? (faker.random.number(1000) >= 800) : false;
-
-    if (!isVideorecipe) {
+    if (isVideorecipe) {
+      ++countVideorecipes;
+      if ((countVideorecipesGrid < maxVideorecipesGrid) && (faker.random.number(1000) >= 800)) {
+        ++countVideorecipesGrid;
+        homeGridPos = faker.random.array_element_pop(homeGrid);
+        console.log('>>> grid home', homeGridPos);
+      }
+    }
+    else {
       homeHeader = (faker.random.number(1000) >= 800);
       homeGridPos = faker.random.array_element_pop(homeGrid);
     }
