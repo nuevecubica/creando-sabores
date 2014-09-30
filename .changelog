@@ -19,13 +19,14 @@ Internal:
 
 0.0.5-alpha5
 --------------------------------------------------
-+ Contests
++ Contests, past and present
 + Contest
 + Contest recipe creator
 + Recipe states (draft, published, contest review, etc)
 
 Internal:
 + Frontend tests
++ Bugfixing madness
 
 0.0.4-alpha4
 --------------------------------------------------
