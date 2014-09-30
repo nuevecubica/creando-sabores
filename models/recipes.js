@@ -1,5 +1,7 @@
 var _ = require('underscore'),
+  config = require('../config.js'),
   keystone = require('keystone'),
+  mongoosastic = require('mongoosastic'),
   Types = keystone.Field.Types,
   async = require('async'),
   modelCleaner = require('../utils/modelCleaner'),
@@ -46,7 +48,8 @@ Recipe.add({
       initial: true,
       required: true,
       index: true,
-      note: 'Should be less than 12 chars to be promoted'
+      note: 'Should be less than 12 chars to be promoted',
+      es_indexed: true
     },
 
     author: {
@@ -474,5 +477,9 @@ Recipe.schema.pre('save', function(next) {
  * ============
  */
 Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isPromoted';
-// Recipe.defaultColumns = 'title, author, isPromoted, isIndexHeaderPromoted, isRecipesHeaderPromoted';
+Recipe.schema.plugin(mongoosastic, {
+  host: config.elasticsearch.host,
+  port: config.elasticsearch.port,
+  log: 'trace'
+});
 Recipe.register();
