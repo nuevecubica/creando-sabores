@@ -2,6 +2,11 @@
 	DEVELOPMENT CONFIGURATION
 */
 var answer = {
+  elasticsearch: {
+    url: process.env.ELASTICSEARCH_URL || "http://localhost:9200",
+    host: process.env.ELASTICSEARCH_URL ? process.env.ELASTICSEARCH_URL.substring(7, process.env.ELASTICSEARCH_URL.indexOf(":") - 1) : "localhost",
+    port: process.env.ELASTICSEARCH_URL ? process.env.ELASTICSEARCH_URL.substring(process.env.ELASTICSEARCH_URL.indexOf(":") + 1) : 9200
+  },
   keystone: {
     init: {
       'name': 'Chefcito',
@@ -43,7 +48,7 @@ var answer = {
         'csrf': false
       }
     },
-    publicUrl: process.env.APP_PUBLIC_URL ||  'http://chefcito.dev01.glue.gl',
+    publicUrl: process.env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl',
     'email locals': {
       logo_src: '/images/logo-email.gif',
       logo_width: 194,
