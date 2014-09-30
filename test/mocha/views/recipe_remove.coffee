@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../../config.js'
-data = require __dirname + '/../../data.json'
+data = require __dirname + '/../../data'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
@@ -48,4 +48,26 @@ describe '(Private) Recipe: Remove', ->
           .end(done)
 
     describe 'but if contest winner', ->
-      it 'should not allow it'
+      it 'should not allow it', (done) ->
+        url = '/receta/test-contest-closed-recipe/remove'
+        request
+        .post(url)
+        .set('cookie', cookie)
+        .send({})
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt "#{url}/.." or
+                res.header['api-response-success'] isnt 'false' or
+                res.header['api-response-error'] isnt 'Error: Unknown error'
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end (err, res) ->
+          if err
+            return done err, res
+          request
+          .get('/receta/test-contest-closed-recipe')
+            .set('cookie', cookie)
+            .expect(200)
+            .end(done)

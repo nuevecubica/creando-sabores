@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../../config.js'
-data = require __dirname + '/../../data.json'
+data = require __dirname + '/../../data'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
@@ -25,20 +25,32 @@ describe 'Recipes: Lists', ->
         .expect(200)
         .expect(
           (res) ->
-            # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1 and
-              not recipe.contest
-            recipes.sort (a,b) -> return b.rating - a.rating
-            if recipes.length > 5
-              recipes = recipes.slice 0, 5
-            # Compare results
-            positions = (res.text.lastIndexOf(r.title) for r in recipes)
-            prevpos = 0
-            for pos in positions
-              pos.must.be.gt prevpos
-              prevpos = pos
-            return
+            filter = (doc) ->
+              return (doc.state is 'published' and
+                (!doc.contest or !doc.contest.id)
+              )
+            recipes = {}
+            for r in data.getRecipesBy filter
+              title = r.title.trim().toUpperCase()
+              recipes[title] = r
+
+            # List
+            regexp = new RegExp '<h2 class="ui header">([^<]+)</h2>', 'gi'
+            last = null
+            num = 0
+            while found = regexp.exec(res.text)
+              ++num
+              title = found[1].trim()
+              # Exists
+              if not recipes[title]
+                keys = Object.keys(recipes).join(',')
+                return "Invalid recipe #{title} in #{keys}"
+              # Order
+              if last isnt null and recipes[title].rating > last
+                return "Invalid order #{recipes[title].rating} > #{last}"
+              last = recipes[title].rating
+
+            num.must.be.gt 0
         )
         .end(done)
 
@@ -51,21 +63,37 @@ describe 'Recipes: Lists', ->
         .expect(200)
         .expect(
           (res) ->
-            # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) ->
-              not recipe.isBanned and recipe.state == 1 and
-              recipe.author == 1 and (not recipe.contest or
-              recipe.contest.state == 'admited')
-            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            if recipes.length > 5
-              recipes = recipes.slice 0, 5
-            # Compare results
-            positions = (res.text.lastIndexOf(r.title) for r in recipes)
-            prevpos = 0
-            for pos in positions
-              pos.must.be.gt prevpos
-              prevpos = pos
-            return
+            user = data.getUserByUsername data.users[0].username
+
+            filter = (doc) ->
+              return (doc.state is 'published' and
+                (doc.author is user._id)
+              )
+            recipes = {}
+            for r in data.getRecipesBy filter
+              title = r.title.trim().toUpperCase()
+              recipes[title] = r
+
+            # List
+            regexp = new RegExp '<h2 class="ui header">([^<]+)</h2>', 'gi'
+            last = null
+            num = 0
+            while found = regexp.exec(res.text)
+              ++num
+              title = found[1].trim()
+              # Exists
+              if not recipes[title]
+                keys = Object.keys(recipes).join(',')
+                return "Invalid recipe #{title} in #{keys}"
+              # Owner
+              if recipes[title].author isnt user._id
+                return "Invalid author #{recipes[title].author} <> #{user._id}"
+              # Order
+              if last isnt null and recipes[title].editDate > last
+                return "Invalid order #{recipes[title].editDate} > #{last}"
+              last = recipes[title].editDate
+
+            num.must.be.gt 0
         )
         .end(done)
 
@@ -93,17 +121,32 @@ describe 'Recipes: Lists', ->
         .expect(200)
         .expect(
           (res) ->
-            # Make our independent sorting and filtering
-            recipes = data.recipes.filter (recipe) -> recipe.author == 1
-            recipes.sort (a,b) -> return b.editDate.localeCompare(a.editDate)
-            if recipes.length > 5
-              recipes = recipes.slice 0, 5
-            # Compare results
-            positions = (res.text.lastIndexOf(r.title) for r in recipes)
-            prevpos = 0
-            for pos in positions
-              pos.must.be.gt prevpos
-              prevpos = pos
-            return
+            user = data.getUserByUsername data.users[0].username
+
+            recipes = {}
+            for r in data.getRecipesBy 'author', user._id
+              title = r.title.trim().toUpperCase()
+              recipes[title] = r
+
+            # List
+            regexp = new RegExp '<h2 class="ui header">([^<]+)</h2>', 'gi'
+            last = null
+            num = 0
+            while found = regexp.exec(res.text)
+              ++num
+              title = found[1].trim()
+              # Exists
+              if not recipes[title]
+                keys = Object.keys(recipes).join(',')
+                return "Invalid recipe #{title} in #{keys}"
+              # Owner
+              if recipes[title].author isnt user._id
+                return "Invalid author #{recipes[title].author} <> #{user._id}"
+              # Order
+              if last isnt null and recipes[title].editDate > last
+                return "Invalid order #{recipes[title].editDate} > #{last}"
+              last = recipes[title].editDate
+
+            num.must.be.gt 0
         )
         .end(done)

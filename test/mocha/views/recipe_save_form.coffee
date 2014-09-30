@@ -1,11 +1,38 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../../config.js'
-data = require __dirname + '/../../data.json'
+data = require __dirname + '/../../data'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
 cookie = null
+
+newRecipes = {
+  complete: {
+    "description": "DESCRIPTION NEW 1",
+    "ingredients": "INGREDIENT NEW 1\nINGREDIENT NEW 2\nINGREDIENT NEW 3",
+    "procedure": "PROCEDURE NEW STEP 1\nPROCEDURE NEW STEP 2",
+    "title": "TEST NEW RECIPE 1",
+    "slug": "test-new-recipe-1",
+    "portions": 1,
+    "time": 30,
+    "difficulty": 1
+  },
+  incomplete: {
+    "description": "DESCRIPTION NEW <h1>2</h1>",
+    "title": "TEST NEW RECIPE 2",
+    "slug": "test-new-recipe-2",
+    "portions": 10,
+    "time": 90,
+    "difficulty": 5
+  },
+  noTitle: {
+    "description": "DESCRIPTION NEW 3",
+    "portions": 12,
+    "time": 60,
+    "difficulty": 3
+  }
+}
 
 describe '(Private) Recipe: Save', ->
 
@@ -25,10 +52,27 @@ describe '(Private) Recipe: Save', ->
 
   describe 'get /receta/:recipe', ->
     describe 'from author', ->
-      it 'responds with the form'
+      it 'responds with the form', (done) ->
+        request
+        .get('/receta/test-recipe-1')
+        .set('cookie', cookie)
+        .expect(200)
+        .expect(/recipe-edit-form/)
+        .end(done)
+
 
     describe 'from another user', ->
-      it 'doesn\'t respond with the form'
+      it 'doesn\'t respond with the form', (done) ->
+        utils.loginUser data.users[2], request, (err, res) ->
+          cookie2 = res.headers['set-cookie']
+          request
+          .get('/receta/test-recipe-1')
+          .set('cookie', cookie2)
+          .expect(200)
+          .expect(
+            (res) -> return res.text.must.not.match 'recipe-edit-form'
+          )
+          .end(done)
 
   describe 'call to /receta/:recipe/save', ->
     describe 'on empty action', ->
@@ -213,7 +257,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on submission state contest', ->
       it 'responds with the form', (done) ->
         request
-        .get('/nueva-receta/' + data.contests[2].slug)
+        .get('/nueva-receta/test-contest-submission')
         .set('cookie', cookie)
         .expect(200)
         .expect(
@@ -224,7 +268,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on non-submission state contest', ->
       it 'responds with error', (done) ->
         request
-        .get('/nueva-receta' + data.contests[1].slug)
+        .get('/nueva-receta/test-contest-programmsed')
         .set('cookie', cookie)
         .expect(404)
         .end(done)
@@ -232,6 +276,7 @@ describe '(Private) Recipe: Save', ->
 
 
   describe 'call to /nueva-receta/save', ->
+
     describe 'on empty action', ->
       it 'redirects back to the form', (done) ->
         request
@@ -251,11 +296,11 @@ describe '(Private) Recipe: Save', ->
 
     describe 'on complete data received', ->
       it 'saves recipe and redirects', (done) ->
-        url = '/receta/' + data.newRecipes[0].slug
+        url = '/receta/' + newRecipes.complete.slug
         request
         .post('/nueva-receta/save')
         .set('cookie', cookie)
-        .send(data.newRecipes[0])
+        .send(newRecipes.complete)
         .expect(302)
         .expect(
           (res) ->
@@ -273,7 +318,7 @@ describe '(Private) Recipe: Save', ->
             .set('cookie', cookie)
             .expect(200)
             .expect(
-              (res) -> return res.text.must.match data.newRecipes[0].title
+              (res) -> return res.text.must.match newRecipes.complete.title
             )
             .expect(
               (res) -> return res.text.must.match 'INGREDIENT NEW 1'
@@ -282,11 +327,11 @@ describe '(Private) Recipe: Save', ->
 
     describe 'on incomplete data received', ->
       it 'saves recipe and redirects', (done) ->
-        url = '/receta/' + data.newRecipes[1].slug
+        url = '/receta/' + newRecipes.incomplete.slug
         request
         .post('/nueva-receta/save')
         .set('cookie', cookie)
-        .send(data.newRecipes[1])
+        .send(newRecipes.incomplete)
         .expect(302)
         .expect(
           (res) ->
@@ -304,7 +349,7 @@ describe '(Private) Recipe: Save', ->
             .set('cookie', cookie)
             .expect(200)
             .expect(
-              (res) -> return res.text.must.match data.newRecipes[1].title
+              (res) -> return res.text.must.match newRecipes.incomplete.title
             )
             .expect(
               (res) ->
@@ -315,10 +360,11 @@ describe '(Private) Recipe: Save', ->
 
     describe 'on missing title', ->
       it 'doesn\'t save it' , (done) ->
+
         request
         .post('/nueva-receta/save')
         .set('cookie', cookie)
-        .send(data.newRecipes[2])
+        .send(newRecipes.noTitle)
         .expect(302)
         .expect(
           (res) ->
@@ -333,11 +379,11 @@ describe '(Private) Recipe: Save', ->
     describe 'on contest recipe, submission state', ->
       it 'saves it and associates it to the contest', (done) ->
         keystone.list('Contest').model.findOne {
-          slug: data.contests[2].slug
+          slug: 'test-contest-submission'
         }
         .exec (err, contest) ->
           must(err).be.null()
-          tdata = data.newRecipes[0]
+          tdata = newRecipes.complete
           tdata['contest.id'] = contest._id
 
           url = '/receta/' + tdata.slug
@@ -368,18 +414,18 @@ describe '(Private) Recipe: Save', ->
                 (res) -> return res.text.must.match 'contest-recipe'
               )
               .expect(
-                (res) -> return res.text.must.match 'contest-state-none'
+                (res) -> return res.text.must.match 'state-draft'
               )
               .end(done)
 
     describe 'on contest recipe, other state', ->
       it 'returns an error', (done) ->
         keystone.list('Contest').model.findOne {
-          slug: data.contests[1].slug
+          slug: 'test-contest-finished'
         }
         .exec (err, contest) ->
           must(err).be.null()
-          tdata = data.newRecipes[0]
+          tdata = newRecipes.complete
           tdata['contest.id'] = contest._id
 
           url = '/receta/' + tdata.slug

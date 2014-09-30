@@ -1,6 +1,8 @@
 @recipes-list-odd: @chef-color-white-bg;
 @recipes-list-even: @chef-color-light-bg;
 
+@icon-play-background-color: @chef-color-white;
+
 @editable-alpha: fade(@chef-color-black, 60%);
 
 @grid-hover-background: @chef-color-green-bg;
@@ -145,19 +147,61 @@ body {
   }
 }
 
+.floating {
+  position: absolute;
+  top: 0px;
+}
+
 .logo {
   text-align: center !important;
   color: @chef-color-white;
 
+  &.corner {
+    .icon-chef-logo.icon {
+      position: absolute !important;
+      font-size: 140px;
+      top: 0;
+    }
+  }
+
   &.shadow {
     text-shadow: 1px 2px 4px #000;
   }
+
 
   .icon {
     font-size: 200px;
     color: @chef-color-white;
     text-decoration: none;
     vertical-align: bottom;
+
+    @media only screen and (max-width : 767px) {
+      font-size: 120px;
+    }
+
+    &.clickable {
+      color: fade(@icon-play-background-color, 50%);
+      cursor: pointer;
+      transition: color 300ms;
+
+      &:hover {
+        color: @icon-play-background-color;
+        transition: color 300ms;
+      }
+    }
+  }
+
+  &.videorecipe {
+    padding-top: 85px !important;
+    box-sizing: border-box;
+
+    .icon {
+      font-size: 130px;
+    }
+  }
+
+  .icon-overlay {
+    position: absolute;
   }
 }
 
@@ -166,6 +210,10 @@ body {
   background-size: cover !important;
   background-position: center center;
   height: 600px;
+
+  @media only screen and (max-width : 767px) {
+    height: 450px;
+  }
 
   .shadow-layer {
     opacity: 0;
@@ -177,7 +225,7 @@ body {
   }
 }
 
-.head {
+.head{
   height: 100%;
 
   > .row {
@@ -244,7 +292,7 @@ body {
         height: 0%;
 
         &.logo {
-          height: 62%;
+          height: 60%;
         }
       }
     }
@@ -304,6 +352,9 @@ body {
           @media(max-width: 992px) {
             .font-extra-larger;
           }
+          @media(max-width: 767px) {
+            .font-extra-large;
+          }
         }
       }
     }
@@ -316,6 +367,9 @@ body {
       .font-extra-large.uppercase;
       font-weight: bold;
       text-align: center;
+      @media(max-width: 767px) {
+        .font-larger;
+      }
 
       .shadow {
         text-shadow: 1px 2px 4px #000;
@@ -325,6 +379,9 @@ body {
     &.subtitle {
       .font-larger;
       text-align: center;
+      @media(max-width: 767px) {
+        .font-large;
+      }
 
       .shadow {
         text-shadow: 1px 2px 4px #000;
@@ -335,6 +392,9 @@ body {
         .font-extra-larger;
         font-weight: normal;
         text-transform: none;
+        @media(max-width: 767px) {
+          .font-extra-large;
+        }
       }
     }
   }
@@ -360,7 +420,14 @@ body {
 
   .corner-position {
     position: absolute;
-    bottom: 15px;
+
+    &.top {
+      top: 15px;
+    }
+
+    &.bottom {
+      bottom: 15px;
+    }
 
     &.right {
       right: 15px;
@@ -375,6 +442,9 @@ body {
     right: 47px;
     bottom: 40px;
     z-index: 100;
+    @media only screen and (max-width : 767px) {
+      bottom: 1px;
+    }
   }
   .img-title.wide.column{
     padding-top: 10px;
@@ -394,6 +464,11 @@ body {
         position: absolute;
         top: -12px;
         text-transform: uppercase;
+        @media only screen and (max-width : 767px) {
+          .font-large;
+          margin-left: 0;
+          margin-top: 40px;
+        }
       }
       .tabla1{
         position: absolute;
@@ -401,7 +476,6 @@ body {
         height: 120px;
         width: 21px;
         background-image: url('/images/tabla1.png');
-     
         z-index: 10;
         background-repeat: no-repeat;
       }
@@ -409,7 +483,6 @@ body {
         height: 120px;
         background-image: url('/images/tabla2.png');
         background-repeat: repeat-x;
-  
         z-index: 200;
       }
       .tabla3{
@@ -781,7 +854,6 @@ input:focus{
       }
     }
   }
-  
   .ribbon{
     border-width: 0px;
     position: absolute;
@@ -798,31 +870,31 @@ input:focus{
         color: @chef-color-white;
       }
     }
-  }
-   .ribbon:before{
-    content: "";
-    width: 100%;
-    height: 4px;
-    background-color: black;
-    opacity: 0.2;
-    position: absolute;
-    left: 0;
-    top:0;
-  }
-  .ribbon:after{
-    content: "";
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-top-color: inherit;
-    border-right-color: inherit;
-    border-left-color: inherit;
-    border-bottom-color: transparent;
-    border-width: 0px 25px 25px;
-    position: absolute;
-    left: 0;
-    bottom: -25px;
-  }
+     &:before{
+      content: "";
+      width: 100%;
+      height: 4px;
+      background-color: black;
+      opacity: 0.2;
+      position: absolute;
+      left: 0;
+      top:0;
+    }
+    &:after{
+      content: "";
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-top-color: inherit;
+      border-right-color: inherit;
+      border-left-color: inherit;
+      border-bottom-color: transparent;
+      border-width: 0px 25px 25px;
+      position: absolute;
+      left: 0;
+      bottom: -25px;
+    }
+  } 
 }
 
 

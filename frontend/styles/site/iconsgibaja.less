@@ -49,6 +49,9 @@
 
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+
+  /* Avoid text selection */
+  user-select: none;
 }
 
 .icon-chef-porciones:before { content: '\61'; } /* 'a' */
@@ -59,9 +62,9 @@
 .icon-chef-pinterest:before { content: '\66'; } /* 'f' */
 .icon-chef-camera:before { content: '\67';  width: auto; } /* 'g' */
 .icon-chef-tick:before { content: '\68'; } /* 'h' */
-.icon-chef-star:before { content: '\69'; } /* 'i' */
+.icon-chef-star:before { content: '\69'!important;} /* 'i' */
 .icon-chef-cesta:before { content: '\6a'; } /* 'j' */
-.icon-chef-plus:before { content: '\6b'; } /* 'k' */
+.icon-chef-plus:before, .icon-chef-plus-before  { content: '\6b'; } /* 'k' */
 .icon-chef-tenedor:before { content: '\6c'; } /* 'l' */
 .icon-chef-logo:before { /* 'm' */
   content: '\6d';
@@ -83,7 +86,9 @@
 .icon-chef-cesta-all:before { content: '\2c'; } /* ',' */
 .icon-chef-cup:before, .icon-chef-cup-before { content: '\3b'; } /* ';' */
 .icon-chef-cup-draft:before, .icon-chef-cup-draft-before { content: '\31'; } /* '1' */
-.icon-chef-cup-time:before, .icon-chef-cup-time-before { content: '\32'; } /* '2' */
-.icon-chef-cup-banned:before, .icon-chef-cup-banned-before { content: '\33'; } /* '3' */
+.icon-chef-cup-banned:before, .icon-chef-cup-banned-before { content: '\32'; } /* '2' */
+.icon-chef-cup-time:before, .icon-chef-cup-time-before { content: '\33'; } /* '3' */
 .icon-chef-wait:before, .icon-chef-cup-wait-before { content: '\34'; } /* '4' */
 .icon-chef-draft:before, .icon-chef-draft-before { content: '\35'; } /* '5' */
+.icon-chef-like:before { content: '\36'; } /* '6' */
+.icon-chef-play:before { content: '\37'; } /* '7' */

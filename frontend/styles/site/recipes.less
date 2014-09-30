@@ -41,7 +41,7 @@
 /****************
   Recipes Styles
 ****************/
-#recipes {
+#recipes,#shopping {
 
   .row {
     margin-top: 0;
@@ -83,7 +83,7 @@
 /****************
   Recipe Styles
 ****************/
-#recipe-edit-form{
+#recipe-edit-form,.contest-recipe{
   #info {
     .recipe-contest{
       a{
@@ -93,6 +93,7 @@
     }
   }
   .recipe-contest-ingredient{
+    margin-top: 25px; 
     .font-large{
       display: inline-block;
     }
@@ -157,11 +158,18 @@
   .rating {
     transition: opacity @ani-time ease-in;
     font-size: @icons-font-size;
+    &.disabled{
+      opacity: 0.3;
+      cursor: not-allowed;
+      i.icon.like-button{
+        cursor: not-allowed;
+      }
+    }
 
     .span {
       margin-left: 10px;
     }
-  
+
     .off {
       opacity: 0.3;
     }
@@ -187,6 +195,9 @@
       display: inline-block;
       margin: 0 6px;
       outline: none;
+      .rating-value{
+        .font-larger;
+      }
 
       // Horizontal space invisible when verticalized
       @media screen and (max-width: 767px) {
@@ -234,6 +245,7 @@
       .checks {
         position: absolute;
         top: 0;
+        user-select: none;
       }
 
       .editable-container, .span {
@@ -243,8 +255,8 @@
 
         .set-editable {
           line-height: 1.2em;
-          padding-top: 12px;
-          padding-bottom: 12px;
+          padding-top: 10px;
+          padding-bottom: 10px;
         }
       }
 
@@ -255,12 +267,15 @@
       .ingredient-remove {
         cursor: pointer;
         position: absolute;
-        top: 12px;
+        top: 10px;
         right: 32px;
         z-index: 20;
         opacity: .5;
         &:hover {
           opacity: 1;
+        }
+        @media screen and (max-width: 770px) {
+          right: 20px;
         }
       }
     }
@@ -281,6 +296,12 @@
         .checks {
           position: absolute;
           top: 0;
+          user-select: none;
+          @media screen and (max-width: 770px) {
+            line-height: 1em;
+            .font-normal;
+
+          }
         }
 
         .header {
@@ -288,6 +309,9 @@
           margin: 0;
           margin-left: 48px;
           display: block;
+          @media screen and (max-width: 990px) {
+            line-height: 2em;
+          }
 
           .step-remove {
             .font-small;
@@ -309,8 +333,8 @@
 
   .manage {
     &.show-editable {
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
 }
@@ -378,6 +402,76 @@
   background-origin:padding-box;
 }
 
+/****************
+  New Recipe Styles
+****************/
+
+#new-recipe-header, #videorecipe-header {
+  .head {
+    position: relative !important;
+  }
+}
+
+
+/****************
+  Videorecipe Styles
+****************/
+
+#video-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#videorecipe-header {
+  .head {
+    &.video-playing {
+      pointer-events: none;
+
+      .keep-pointer {
+        pointer-events: all;
+      }
+
+      .row:not(.keep-pointer) {
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+
+
+/****************
+  Videorecipe Styles
+****************/
+
+#video-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#videorecipe-header {
+  .head {
+    &.video-playing {
+      pointer-events: none;
+
+      .row:first-child {
+        pointer-events: all;
+      }
+
+      .row:not(:first-child) {
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+
 
 /****************
   Recipes status
@@ -386,6 +480,13 @@
 #profile-form{
   .state-removed{
       opacity:0.07;
+  }
+  .recipe{
+    a{
+      h2{
+        max-width: 95%;
+      }
+    }
   }
   .state-banned{
     opacity:0.4;
@@ -396,6 +497,7 @@
         span{
           &:before {
             .icon-chef-menuquit-before;
+            margin-right: .25em;
           }
         }
       }
@@ -417,31 +519,14 @@
   }
   .state-published {
     &.contest-recipe {
-      &.contest-state-admited {
-        .status-recipe{
-          display: block;
-          .ribbon{
-            border-color: @chef-color-blue-bg;
-            background-color: @chef-color-blue-bg;
-            span{
-              &:before {
-                .icon-chef-cup-before;
-              }
-            }
-          }
-        }
-      }
-      &.contest-state-rejected {
-        opacity:0.4;
-        .status-recipe{
-          display: block;
-          .ribbon{
-            border-color: @chef-color-brick-bg;
-            background-color: @chef-color-brick-bg;
-            span{
-              &:before {
-                .icon-chef-cup-banned-before;
-              }
+      .status-recipe{
+        display: block;
+        .ribbon{
+          border-color: @chef-color-blue-bg;
+          background-color: @chef-color-blue-bg;
+          span{
+            &:before {
+              .icon-chef-cup-before;
             }
           }
         }
@@ -460,32 +545,44 @@
           }
         }
       }
-    } 
+    }
     &.contest-recipe {
-      &.contest-state-none, &.contest-state-admited {
-        .status-recipe{
-          display: block;
-          .ribbon{
-            border-color: @chef-color-pink-bg;
-            background-color: @chef-color-pink-bg;
-            span{
-              &:before {
-                .icon-chef-cup-draft-before;
-              }
+      .status-recipe{
+        display: block;
+        .ribbon{
+          border-color: @chef-color-pink-bg;
+          background-color: @chef-color-pink-bg;
+          span{
+            &:before {
+              .icon-chef-cup-draft-before;
             }
           }
         }
       }
-      &.contest-state-review {
-        .status-recipe{
-          display: block;
-          .ribbon{
-            border-color: @chef-color-gray;
-            background-color: @chef-color-gray;
-            span{
-              &:before {
-                .icon-chef-cup-time-before;
-              }
+    }
+  }
+  .state-review {
+    opacity:0.75;
+    .status-recipe{
+      display: block;
+      .general-state{
+        background-color: @chef-color-gray;
+        span{
+          &:before {
+            .icon-chef-cup-wait-before;
+          }
+        }
+      }
+    }
+    &.contest-recipe {
+      .status-recipe{
+        display: block;
+        .ribbon{
+          border-color: @chef-color-gray;
+          background-color: @chef-color-gray;
+          span{
+            &:before {
+              .icon-chef-cup-time-before;
             }
           }
         }
@@ -493,3 +590,65 @@
     }
   }
 }
+.recipe-actions{
+
+  .favourite{
+    vertical-align: top;
+  }
+  .add-menu{
+    vertical-align: top;
+    .ui.button.chef {
+      padding: 16px 25px;
+    }
+  }
+  .rating{
+
+    .like-button{
+      cursor: pointer;
+    }
+    .like{
+
+      .icon{
+        margin-right: 20px;
+        color: @chef-color-vote;
+        .font-extra-large;
+      }
+    }
+    .like-counter{
+      position: relative;
+      display: inline-block;
+      background-color:  @chef-color-vote;
+      padding:2.75px 10px;
+      &:before{
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid;
+        border-right-color: @chef-color-vote;
+        left: -15px;
+        top: 8.5px;
+      }
+    }
+    &.liked{
+      .voted{
+        display: none;
+        &.on{
+          display:block;
+        }
+      }
+      .like-button{
+        color: @chef-color-voted;
+      }
+      .like-counter{
+        color: #fff;
+        background-color: @chef-color-voted;
+        &:before{
+          border-right-color: @chef-color-voted;
+        }
+      }
+    }
+  }
+} 

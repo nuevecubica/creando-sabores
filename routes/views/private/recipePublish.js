@@ -1,60 +1,56 @@
 var async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  formResponse = require('../../../utils/formResponse.js');
+  formResponse = require('../../../utils/formResponse.js'),
+  service = require('../../../services');
 
 var recipePublish = function(req, res) {
-  var userId = req.user._id,
-    recipeSlug = req.params.recipe,
+  var recipeSlug = req.params.recipe,
     back = '..',
-    states = ['draft', 'publish'],
-    contestStates = ['draft', 'review'],
-    descriptions = ['unpublished', 'published'],
+    actions = ['draft', 'publish'],
+    states = ['draft', 'published', 'review'],
+    descriptions = ['unpublished', 'published', 'waiting for review'],
     data = {},
     fields = [];
 
-  var query = {
+  var options = {
     slug: recipeSlug,
+    states: ['published', 'draft', 'review'],
+    fromContest: true
   };
 
+  options.user = req.user;
+
   if (!req.user.isAdmin) {
-    query.author = userId;
+    options.authorId = req.user._id;
   }
 
   // Data
-  fields.push('state');
-  data.state = states.indexOf(req.params.state);
-  if (data.state < 0) {
-    console.error('recipePublish: Error for unknown state %s', req.params.state);
+  if (actions.indexOf(req.params.state) === -1) {
+    console.error('recipePublish: Error for unknown action %s', req.params.state);
     return formResponse(req, res, back, 'Error: Unknown error', false);
+  }
+  else {
+    fields.push('state');
+    data.state = states[actions.indexOf(req.params.state)];
   }
 
   // Get
-  var q = Recipe.model.findOne(query).exec(function(err, recipe) {
+  service.recipe.recipe.get(options, function(err, result) {
     if (err) {
-      console.error('recipePublish:', err);
+      console.error('recipePublish:', err, options);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }
-    else if (recipe) {
+    else if (result) {
+      var recipe = result.recipe;
 
-      // Update a contest recipe
-      if (recipe.contest && recipe.contest.id) {
-        if (data.state === 0) { // To draft
-          fields.push('contest.state');
-          data.contest = {
-            state: 'draft'
-          };
-        }
-        else if (data.state === 1 && recipe.contest.state === 'draft') { // To publish
-          fields.push('contest.state');
-          data.contest = {
-            state: 'review'
-          };
-        }
+      // If is in a contest, update state to 'review'
+      if (recipe.contest && recipe.contest.id && data.state === 'published') {
+        data.state = 'review';
       }
 
       // Publish
-      recipe.getUpdateHandler(req).process(data, {
+      recipe._document.getUpdateHandler(req).process(data, {
         fields: fields
       }, function(err) {
         if (err) {
@@ -62,7 +58,7 @@ var recipePublish = function(req, res) {
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {
-          return formResponse(req, res, back, false, 'Recipe ' + descriptions[data.state]);
+          return formResponse(req, res, back, false, 'Recipe ' + descriptions[states.indexOf(data.state)]);
         }
       });
     }

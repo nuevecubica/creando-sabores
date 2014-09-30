@@ -1,13 +1,23 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
-  modelCleaner = require('../utils/modelCleaner');
+  modelCleaner = require('../utils/modelCleaner'),
+  imageQuality = require('../utils/imageQuality');
 
 /**
  * Users
  * =====
  */
 var User = new keystone.List('User');
+
+// ===== Defaults
+// Define user defaults
+var defaults = {
+  images: {
+    header: '/images/default_user_profile.jpg',
+    user: '/images/default_user.png'
+  }
+};
 
 //#------------------ SCHEMA
 
@@ -92,7 +102,8 @@ User.add({
       }
     },
     header: {
-      type: Types.CloudinaryImage
+      type: Types.CloudinaryImage,
+      note: 'Minimum resolution: 1280 x 800'
     }
   }
 }, 'Permissions', {
@@ -171,6 +182,34 @@ User.add({
       }
     }
   }
+}, 'Lists', {
+  favourites: {
+    type: Types.Relationship,
+    ref: 'Recipe',
+    many: true
+  },
+  likes: {
+    type: Types.Relationship,
+    ref: 'Recipe',
+    many: true
+  },
+  shopping: {
+    type: Types.Relationship,
+    ref: 'Recipe',
+    many: true
+  }
+});
+
+// Schema for ranking
+var Rating = new keystone.mongoose.Schema({
+  recipe: String,
+  rating: Number
+});
+
+User.schema.add({
+  review: {
+    type: [Rating]
+  }
 });
 
 //#------------------ VALUES AND VALIDATION
@@ -218,19 +257,21 @@ User.schema.set('toJSON', {
 });
 
 User.schema.virtual('thumb').get(function() {
+
   return {
     'header': this._.media.header.src({
-      transformation: 'header_thumb'
-    }),
+      transformation: 'header_limit_thumb'
+    }) || defaults.images.header,
     'avatar_large': this._.avatars.local.src({
       transformation: 'user_avatar_large'
-    }),
+    }) || defaults.images.user,
     'avatar_medium': this._.avatars.local.src({
       transformation: 'user_avatar_medium'
-    }),
+    }) || defaults.images.user,
     'avatar_small': this._.avatars.local.src({
       transformation: 'user_avatar_small'
-    })
+    }) || defaults.images.user,
+    'hasQuality': imageQuality(this.media.header).hasQuality
   };
 });
 

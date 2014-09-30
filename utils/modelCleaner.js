@@ -1,7 +1,7 @@
 var util = require('util');
 
 /**
- * Removes a property from the object, goes deeper if is inside another object
+ * Removes a property from the object, goes deeper if it's inside another object
  * @param  {model} obj
  * @param  {string} prop
  * @return {model}
@@ -50,9 +50,24 @@ var removeLists = function(obj) {
     for (var key in paths) {
       if (paths.hasOwnProperty(key)) {
         // Looks for the `ref` option to find Relationships
-        if (paths[key].options && paths[key].options.ref) {
-          // console.log('relationship for %s', key);
-          removeList(obj, key + 'RefList');
+        // console.log('key %s', key, paths[key].options || 'no options');
+        if (paths[key].options) {
+          if (paths[key].options.ref) {
+            // console.log('relationship for %s', key);
+            removeList(obj, key + 'RefList');
+          }
+          // Looks for `many: true` Relationships
+          else if (Array.isArray(paths[key].options.type)) {
+            var types = paths[key].options.type;
+            for (var i = 0, l = types.length; i < l; ++i) {
+              var type = types[i];
+              if (type && type.ref) {
+                // console.log('relationship for %s', key);
+                removeList(obj, key + 'RefList');
+                break;
+              }
+            }
+          }
         }
       }
     }

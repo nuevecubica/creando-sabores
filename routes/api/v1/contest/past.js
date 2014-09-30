@@ -4,7 +4,7 @@ var async = require('async'),
   Contest = keystone.list('Contest');
 
 /*
-  /contestsPast?page=1&perPage=10
+  /contests/past?page=1&perPage=5
 */
 
 exports = module.exports = function(req, res) {
@@ -17,18 +17,23 @@ exports = module.exports = function(req, res) {
   var queryLastContest = Contest
     .paginate({
       page: req.query.page || 1,
-      perPage: 5
+      perPage: req.query.perPage || 5
     })
     .populate('awards.jury.winner awards.community.winner')
     .where('state', 'finished')
     .sort('-deadline');
+
+  var finalResults = [];
 
   async.series([
 
       function(callback) {
         queryLastContest.exec(function(err, contests) {
 
-          if (!err && contests) {
+          // Paginate object
+          answer.contests = contests;
+
+          if (!err && contests.results && contests.results.length > 0) {
 
             var optionsJuryAuthor = {
               path: 'awards.jury.winner.author',
@@ -40,51 +45,57 @@ exports = module.exports = function(req, res) {
               model: 'User'
             };
 
-            answer.contests = {
-              results: []
-            };
-
             async.each(contests.results, function(contest, done) {
 
                 // Populate nested recipe author (jury winner)
                 Contest.model.populate(contest, optionsJuryAuthor, function(err, contestJuryPopulated) {
 
-                  if (!err) {
+                  if (!err && contestJuryPopulated) {
                     // Populate nested recipe author (community winner)
                     Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
 
-                      if (!err) {
+                      if (!err && contestCommunityPopulated) {
                         answer.success = true;
 
-                        answer.contests.results.push(contestCommunityPopulated);
+                        finalResults.push(contestCommunityPopulated);
 
-                        done();
+                        done(err, finalResults);
                       }
                       else {
                         answer.error = true;
-                        res.status(404);
+                        return res.notfound(res.__('Not found'));
                       }
                     });
                   }
                   else {
                     answer.error = true;
-                    res.status(404);
+                    return res.notfound(res.__('Not found'));
                   }
                 });
               },
               function(err) {
+
                 if (err) {
                   answer.error = true;
-                  res.status(404);
+                  return res.notfound(res.__('Not found'));
                 }
                 else {
-                  callback();
+                  answer.contests.results = finalResults;
+                  answer.success = true;
                 }
+
+                callback(err);
               });
           }
           else {
-            answer.error = true;
-            res.status(404);
+            if (err) {
+              answer.error = true;
+            }
+            else {
+              answer.success = true;
+            }
+
+            callback(err);
           }
         });
       }

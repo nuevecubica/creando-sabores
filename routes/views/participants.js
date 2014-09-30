@@ -30,15 +30,18 @@ exports = module.exports = function(req, res) {
         perPage: 5
       })
       .where('contest.id', contestId)
-      .where('contest.state', 'admited')
-      .where('state', 1)
-      .where('isBanned', false)
-      .where('isRemoved', false)
+      .where('state', 'published')
       // change rating, fake in contest
       .sort(order)
       .exec(function(err, recipes) {
         if (!err && recipes) {
-          locals.data.recipes = recipes.results;
+          var res = recipes.results;
+          for (var i = 0, l = res.length; i < l; i++) {
+            if (req.user) {
+              res[i].liked = req.user.likes.indexOf(res[i]._id) !== -1;
+            }
+          }
+          locals.data.recipes = res;
           callback();
         }
         else {
@@ -66,7 +69,7 @@ exports = module.exports = function(req, res) {
     },
     function(contest, callback) {
       if (locals.subsection === 'top') {
-        getRecipes(contest._id, '-rating', callback);
+        getRecipes(contest._id, '-likes', callback);
       }
       else if (locals.subsection === 'reciente') {
         getRecipes(contest._id, '-publishedDate', callback);

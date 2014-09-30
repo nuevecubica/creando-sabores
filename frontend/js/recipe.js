@@ -1,3 +1,5 @@
+/* global likeClick */
+/* global ratingClick */
 (function() {
 
   var addTypes = function() {
@@ -280,11 +282,8 @@
         procedure.restore();
 
         var file = $('#recipe-header-select').get(0);
-        if (file) {
-          clearFile(file);
-          setPreview(file, $('.promoted'));
-        }
-        $('#image-size-warning').css('display', 'none');
+        clearFile(file);
+        setPreview(file, $('.promoted'));
 
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
@@ -362,8 +361,25 @@
       setPreview(e.target, $('.promoted'));
     });
 
-    $('.favourite .button').on('click', function() {
-      $(this).toggleClass('activated');
+    $('.favourite .button').on('click', function(e) {
+      var $this = $(this);
+      var slug = $this.data('slug');
+      var action = $this.hasClass('activated') ? 'remove' : 'add';
+      var url = '/api/v1/me/favourites/' + action + '/' + slug;
+      var jQXhr = $.ajax({
+        url: url,
+        type: 'GET',
+        contentType: 'application/json',
+        success: function(data) {
+          if (!data.success) {
+            var msg = 'Something went wrong!';
+            console.log(msg);
+            return;
+          }
+          $this.toggleClass('activated', action === 'add');
+        }
+      });
+      e.preventDefault();
     });
 
     $(document).on('click', '.checks:not(.all)', function() {
@@ -379,27 +395,49 @@
       }
     });
 
+    $('.shopping-add').on('click', function(e) {
+      var $this = $(this);
+      var slug = $this.data('slug');
+      var url = '/api/v1/me/shopping/add/' + slug;
+      var jQXhr = $.ajax({
+        url: url,
+        type: 'GET',
+        contentType: 'application/json',
+        success: function(data) {
+          if (!data.success) {
+            var msg = 'Something went wrong!';
+            console.log(msg);
+            return;
+          }
+          $this.addClass('disabled');
+        }
+      });
+      e.preventDefault();
+    });
+
     var setPreview = function(input, $target) {
+      var $warning = $('#image-size-warning');
       if (input.files.length === 0) {
         if ($target.data('origsrc')) {
           $target.css('background-image', $target.data('origsrc'));
-          $('#image-size-warning').css('display', 'none');
+          $warning.css('display', $target.data('origdisplay'));
         }
       }
       else {
         if (!$target.data('origsrc')) {
           $target.data('origsrc', $target.css('background-image'));
+          $target.data('origdisplay', $warning.css('display'));
         }
         var url = URL.createObjectURL(input.files[0]);
         $target.css('background-image', 'url(' + url + ')');
         // Min size detection
         var image = new Image();
         image.onload = function(evt) {
-          if (evt.target.width < 1920) {
-            $('#image-size-warning').css('display', 'block');
+          if (evt.target.width < 1280 || evt.target.height < 800) {
+            $warning.css('display', 'block');
           }
           else {
-            $('#image-size-warning').css('display', 'none');
+            $warning.css('display', 'none');
           }
         };
         image.src = url;
@@ -417,6 +455,21 @@
         }
       }
     };
+
+    $('.rating:not(.disabled) .like-button').click(likeClick);
+
+    $('.ui.rating').rating();
+    $('.rating:not(.disabled) .icon-chef-star').click(ratingClick);
+
+    $('.icon-chef-play.icon.clickable').click(function() {
+
+      $('#videorecipe-header .head').addClass('video-playing');
+
+      if ($(this).attr('data-video')) {
+        var id = $(this).attr('data-video').split('=')[1];
+        $('#video-player').html('<iframe width="100%" height="600" src="//www.youtube.com/embed/' + id + '?rel=0&autohide=1&showinfo=0&autoplay=1" frameborder="0" allowfullscreen </iframe>');
+      }
+    });
 
   });
 })();

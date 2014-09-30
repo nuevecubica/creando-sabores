@@ -3,39 +3,49 @@ var _ = require('underscore'),
   Types = keystone.Field.Types,
   async = require('async'),
   moment = require('moment'),
-  modelCleaner = require('../utils/modelCleaner');
+  modelCleaner = require('../utils/modelCleaner'),
+  imageQuality = require('../utils/imageQuality');
 
-var positions = [{
-  value: 0,
-  label: 'Position 1'
-}, {
-  value: 1,
-  label: 'Position 2'
-}, {
-  value: 2,
-  label: 'Position 3'
-}, {
-  value: 3,
-  label: 'Position 4'
-}, {
-  value: 4,
-  label: 'Position 5'
-}, {
-  value: 5,
-  label: 'Position 6'
-}, {
-  value: 6,
-  label: 'Position 7'
-}, {
-  value: 7,
-  label: 'Position 8'
-}, {
-  value: 8,
-  label: 'Position 9'
-}, {
-  value: 9,
-  label: 'Position 10'
-}];
+// ===== Defaults
+// Define recipe defaults
+var defaults = {
+  images: {
+    imageContest: '/images/default_contest.jpg',
+    header: '/images/default_contest.jpg',
+    headerBackgroundRecipe: '/images/default_contest.jpg'
+  },
+  positions: [{
+    value: 0,
+    label: 'Position 1'
+  }, {
+    value: 1,
+    label: 'Position 2'
+  }, {
+    value: 2,
+    label: 'Position 3'
+  }, {
+    value: 3,
+    label: 'Position 4'
+  }, {
+    value: 4,
+    label: 'Position 5'
+  }, {
+    value: 5,
+    label: 'Position 6'
+  }, {
+    value: 6,
+    label: 'Position 7'
+  }, {
+    value: 7,
+    label: 'Position 8'
+  }, {
+    value: 8,
+    label: 'Position 9'
+  }, {
+    value: 9,
+    label: 'Position 10'
+  }]
+};
 
 /**
  * Contest
@@ -127,7 +137,8 @@ Contest.add({
   'Media', {
     header: {
       type: Types.CloudinaryImage,
-      label: 'Image header contest'
+      label: 'Image header contest',
+      note: 'Minimum resolution: 1280 x 800'
     },
 
     imageContest: {
@@ -160,8 +171,8 @@ Contest.add({
           type: Types.Relationship,
           ref: 'Recipe',
           filters: {
-            'isForContest': ':id',
-            'contest.state': 'admited'
+            'contest.id': ':_id',
+            'state': 'published'
           },
           label: 'Winner',
           dependsOn: {
@@ -187,8 +198,8 @@ Contest.add({
           ref: 'Recipe',
           noedit: true,
           filters: {
-            'isForContest': ':id',
-            'contest.state': 'admited'
+            'contest.id': ':_id',
+            'state': 'published'
           },
           label: 'Winner',
           dependsOn: {
@@ -230,7 +241,7 @@ Contest.add({
       position: {
         type: Types.Select,
         numeric: true,
-        options: positions,
+        options: defaults.positions,
         label: 'Index Grid Position',
         dependsOn: {
           'isIndexGridPromoted.value': true
@@ -249,22 +260,23 @@ Contest.schema.virtual('thumb').get(function() {
   return {
     'list': this._.imageContest.src({
       transformation: 'list_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'grid_small': this._.imageContest.src({
       transformation: 'grid_small_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'grid_medium': this._.imageContest.src({
       transformation: 'grid_medium_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'grid_large': this._.imageContest.src({
       transformation: 'grid_large_thumb'
-    }),
+    }) || defaults.images.imageContest,
     'header': this._.header.src({
-      transformation: 'header_thumb'
-    }),
+      transformation: 'header_limit_thumb'
+    }) || defaults.images.header,
     'header_recipe': this._.headerBackgroundRecipe.src({
-      transformation: 'header_thumb'
-    })
+      transformation: 'header_limit_thumb'
+    }) || defaults.images.headerBackgroundRecipe,
+    'hasQuality': imageQuality(this.header).hasQuality
   };
 });
 
@@ -361,13 +373,7 @@ var getNewCommunityWinner = function(callback, filterId) {
   var me = this;
   var find = {
     'contest.id': me._id,
-    'contest.state': 'admited',
-    'isRemoved': false,
-    'isBanned': false,
-    'state': 1,
-    'rating': {
-      '$gt': 0
-    }
+    'state': 'published'
   };
 
   if (filterId) {
@@ -378,7 +384,7 @@ var getNewCommunityWinner = function(callback, filterId) {
 
   return keystone.list('Recipe').model.findOne(find)
     .sort({
-      rating: -1
+      likes: -1
     })
     .exec(function(err, winner) {
       if (!err) {

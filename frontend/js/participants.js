@@ -1,4 +1,4 @@
-/* global makePaginable */
+/* global makePaginable, likeClick */
 $(document).ready(function() {
 
   var contest = window.location.pathname.split('/')[2];
@@ -10,4 +10,8 @@ $(document).ready(function() {
     'order': order
   });
 
+  $('#recipes:not(.no-more-votes) .like-button').click(likeClick);
+  $(document).bind('ajaxSuccess', function() {
+    $('#recipes:not(.no-more-votes) .like-button').click(likeClick);
+  });
 });

@@ -1,7 +1,7 @@
 must = require 'must'
 keystone = require 'keystone'
 config = require __dirname + '/../../../config.js'
-data = require __dirname + '/../../data.json'
+data = require __dirname + '/../../data'
 utils = require __dirname + '/../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
@@ -48,7 +48,30 @@ describe '(Private) Recipe: Publish & Draft', ->
           .expect(/Publicar/)
           .end(done)
 
-    it 'changes a contest recipe to draft'
+    it 'changes a contest recipe to draft', (done) ->
+      request
+      .get('/receta/test-contest-recipe-liked/draft')
+      .set('cookie', cookie)
+      .expect(302)
+      .expect(
+        (res) ->
+          loc = '/receta/test-contest-recipe-liked/draft/..'
+          if res.header['location'] isnt loc or
+              res.header['api-response-success'] isnt 'Recipe unpublished' or
+              res.header['api-response-error'] isnt 'false'
+            console.error res.header
+            return 'Wrong status headers'
+      )
+      .end (err, res) ->
+        if err
+          return done err, res
+        request
+          .get('/receta/test-contest-recipe-liked')
+          .set('cookie', cookie)
+          .expect(200)
+          .expect(/\/receta\/test-contest-recipe-liked\/publish/)
+          .expect(/Publicar/)
+          .end(done)
 
   describe 'call to /receta/:recipe/publish', ->
     it 'changes a recipe to published', (done) ->
@@ -76,4 +99,42 @@ describe '(Private) Recipe: Publish & Draft', ->
           .expect(/Borrador/)
           .end(done)
 
-    it 'changes a contest recipe to review'
+    it 'changes a contest recipe to review', (done) ->
+      request
+      .get('/receta/test-contest-recipe-liked/draft')
+      .set('cookie', cookie)
+      .expect(302)
+      .expect(
+        (res) ->
+          loc = '/receta/test-contest-recipe-liked/draft/..'
+          if res.header['location'] isnt loc or
+              res.header['api-response-success'] isnt 'Recipe unpublished' or
+              res.header['api-response-error'] isnt 'false'
+            console.error res.header
+            return 'Wrong status headers'
+      )
+      .end (err, res) ->
+        url = '/receta/test-contest-recipe-liked/publish'
+        request
+        .get(url)
+        .set('cookie', cookie)
+        .expect(302)
+        .expect(
+          (res) ->
+            successmsg = 'Recipe waiting for review'
+            if res.header['location'] isnt "#{url}/.." or
+                res.header['api-response-success'] isnt successmsg or
+                res.header['api-response-error'] isnt 'false'
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end (err, res) ->
+          if err
+            return done err, res
+          request
+            .get('/receta/test-contest-recipe-liked')
+            .set('cookie', cookie)
+            .expect(200)
+            .expect(/\/receta\/test-contest-recipe-liked\/draft/)
+            .expect(/Borrador/)
+            .end(done)

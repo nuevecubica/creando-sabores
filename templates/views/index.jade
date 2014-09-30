@@ -2,9 +2,15 @@ extends ../layouts/default
 
 include ../mixins/header
 include ../mixins/grid
+include ../mixins/recipe
+
+block js
+	script(src='/js/recipes.js')
 
 block content
 	+header(data, section)
+
+	- var randCutlery = Math.floor(Math.random() * 6 + 1);
 
 	.ui.page.grid.body
 
@@ -20,67 +26,50 @@ block content
 			.row.mobile.only
 				+grid(data.grid, data.order.grid_order_mobile_home, data.sizes.grid_size_mobile_home)
 
-
-	//-
-		#video.ui.grid.segment
+		#add-new-bar.ui.grid.segment
 			.row
+				.sixteen.wide.column
+					.span= __('Do you have a new recipe?')
+						.ui.button.chef.button-brick
+							a(href='/nueva-receta')= __('Create recipe')
 
-			.row
-				.six.wide.column
-				.logo.four.wide.column
-					img.ui.image.play(src = '/images/test_play.png')
+		if data.videorecipes.last
+			- var videoRecipeTitle = data.videorecipes.last.title
+			- var videoRecipedUrl = data.videorecipes.last.url
+			- var videoRecipeDate = data.videorecipes.lastFormattedDate
+			- var image = data.videorecipes.last.thumb.header
 
-			.row
-				.eight.wide.column
-				.title.eight.wide.column
-					img.ui.image(src = '/images/test_video_recipe.png')
-					.text
-						.span Lasagna del chef
-					.date
-						.span 13 Mayo de 2014
-
-		#video-recipes.list.ui.grid.segment
-			- for (var row = 0; row < 5; row++)
+			#video.ui.grid.segment.with-social(style="background-image:url('#{image}')")
 				.row
-					.five.wide.column
-						.thumbnail
-							.row
 
-							.row
-								.ui.three.column.center.aligned.grid
-									.column
-									.column
-										img.ui.image.play(src = '/images/test_play.png')
-									.column
+				.row
+					.logo.column
+						a(href="#{videoRecipedUrl}")
+							i.icon-chef-play.icon.play
 
-							.row
-								.ui.three.column.center.aligned.grid
-									.column
-										i.icon-chef-time.icon
-										.span 2 h
+				.row
+					.six.wide.column
+					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+					.img-title.ten.mobile-sixteen.wide.column
 
-									.column
-										i.icon-chef-porciones.icon
-										.span 4
+						.tabla
+							.tabla1
+								.ui.image
+							.tabla2
+								.text
+									a.span(href="#{videoRecipedUrl}")= videoRecipeTitle
+								.date
+									.span= videoRecipeDate
+							.tabla3
+								.ui.image
 
-									.difficulty.column
-										i.icon-chef-tenedor.icon.on
-										i.icon-chef-tenedor.icon.on
-										i.icon-chef-tenedor.icon.off
-										i.icon-chef-tenedor.icon.off
-										i.icon-chef-tenedor.icon.off
+		#recipes.ui.grid.segment
 
-					.eleven.wide.column
-						.ui.twelve.column
-							.rating
-								.strong= __('Rating')
-								.span
-									.ui.icon
-										i.icon-chef-star.icon.on
-										i.icon-chef-star.icon.on
-										i.icon-chef-star.icon.off
-										i.icon-chef-star.icon.off
-										i.icon-chef-star.icon.off
+			.row
+				.ui.grid.segment.list.stackable
+					if data.videorecipes.lastest.length
+						each recipe in data.videorecipes.lastest
+							+recipe(recipe)
 
-							h2.ui.header Masa de pizza crujiente
-							.ui.content But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness
+					else
+						| #{__('No videorecipes yet')}

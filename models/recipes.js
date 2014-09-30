@@ -2,39 +2,26 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
-  modelCleaner = require('../utils/modelCleaner');
+  modelCleaner = require('../utils/modelCleaner'),
+  imageQuality = require('../utils/imageQuality');
 
-var positions = [{
-  value: 0,
-  label: 'Position 1'
-}, {
-  value: 1,
-  label: 'Position 2'
-}, {
-  value: 2,
-  label: 'Position 3'
-}, {
-  value: 3,
-  label: 'Position 4'
-}, {
-  value: 4,
-  label: 'Position 5'
-}, {
-  value: 5,
-  label: 'Position 6'
-}, {
-  value: 6,
-  label: 'Position 7'
-}, {
-  value: 7,
-  label: 'Position 8'
-}, {
-  value: 8,
-  label: 'Position 9'
-}, {
-  value: 9,
-  label: 'Position 10'
-}];
+// ===== Defaults
+// Define recipe defaults
+var defaults = {
+  images: {
+    header: '/images/default_recipe.jpg'
+  },
+  positions: (function() {
+    var arr = [];
+    for (var i = 0; i < 10; ++i) {
+      arr.push({
+        value: i,
+        label: "Position " + (i + 1)
+      });
+    }
+    return arr;
+  })()
+};
 
 /**
  * Recipe
@@ -74,28 +61,21 @@ Recipe.add({
       hidden: true
     },
 
-    rating: {
-      type: Types.Number
+    likes: {
+      type: Types.Number,
+      default: 0
+    },
 
-      /*
-        Waiting for a new approach to votes and ratings
-      */
+    scoreTotal: {
+      type: Types.Number,
+      noedit: true,
+      default: 0
+    },
 
-      // noedit: true,
-      // watch: true,
-      // value: function() {
-      //   var average = 0;
-
-      //   if (this.review.length <= 0) {
-      //     return 0.00;
-      //   }
-
-      //   for (var rev = 0; rev < this.review.length; rev++) {
-      //     average += this.review[rev].rating;
-      //   }
-
-      //   return (average / this.review.length).toFixed(2);
-      // }
+    scoreCount: {
+      type: Types.Number,
+      noedit: true,
+      default: 0
     },
 
     schemaVersion: {
@@ -105,61 +85,48 @@ Recipe.add({
     }
   },
 
+  'Video', {
+    isVideorecipe: {
+      type: Types.Boolean,
+      label: 'Is a videorecipe',
+      default: false
+    },
+    videoUrl: {
+      type: Types.Url,
+      label: 'Youtube Url',
+      note: 'Copy & paste youtube video url',
+      dependsOn: {
+        'isVideorecipe': true
+      },
+    }
+  },
+
   'Media', {
     header: {
-      type: Types.CloudinaryImage
+      type: Types.CloudinaryImage,
+      note: 'Minimum resolution: 1280 x 800'
     }
   },
 
   'Status', {
     state: {
       type: Types.Select,
-      numeric: true,
-      options: [{
-        value: 0,
-        label: 'draft'
-      }, {
-        value: 1,
-        label: 'published'
-        // }, {
-        //   value: 2,
-        //   label: 'removed'
-        // }, {
-        //   value: 3,
-        //   label: 'banned'
-      }],
-      default: 0
+      options: ['draft', 'published', 'review', 'removed', 'banned'],
+      default: 'draft'
     },
 
     publishedDate: {
       type: Types.Date,
       dependsOn: {
-        state: 1
+        state: 'published'
       }
     },
 
     editDate: {
       type: Types.Date,
       dependsOn: {
-        state: 1
+        state: 'published'
       }
-    },
-
-    isBanned: {
-      type: Types.Boolean,
-      label: 'Ban',
-      note: 'This recipe contains something evil',
-      dependsOn: {
-        state: 1
-      },
-      default: false
-    },
-
-    isRemoved: {
-      type: Types.Boolean,
-      label: 'Removed',
-      note: 'This recipe is no longer available',
-      default: false
     }
   },
 
@@ -226,12 +193,6 @@ Recipe.add({
         index: true
       },
 
-      state: {
-        type: Types.Select,
-        options: ['none', 'review', 'admited', 'rejected'],
-        default: 'none',
-      },
-
       isJuryWinner: {
         type: Boolean,
         // hidden: true,
@@ -270,7 +231,7 @@ Recipe.add({
       position: {
         type: Types.Select,
         numeric: true,
-        options: positions,
+        options: defaults.positions,
         label: 'Index Grid Position',
         dependsOn: {
           'isIndexGridPromoted.value': true
@@ -295,7 +256,7 @@ Recipe.add({
       position: {
         type: Types.Select,
         numeric: true,
-        options: positions,
+        options: defaults.positions,
         label: 'Index Grid Position',
         dependsOn: {
           'isRecipesGridPromoted.value': true
@@ -310,58 +271,60 @@ Recipe.schema.set('toJSON', {
   transform: modelCleaner.transformer
 });
 
+// Score
+Recipe.schema.virtual('rating').get(function() {
+  if (this.scoreCount === undefined || this.scoreCount === 0) {
+    return 0;
+  }
+  return (this.scoreTotal / this.scoreCount);
+});
+
 // Recipe can be shown
 Recipe.schema.virtual('canBeShown').get(function() {
-  return (!this.isBanned && !this.isRemoved);
+  return (this.state !== 'banned' && this.state !== 'removed');
 });
 
 // URL
 Recipe.schema.virtual('url').get(function() {
-  return '/receta/' + this.slug;
+  return (this.isVideorecipe) ? '/videoreceta/' + this.slug : '/receta/' + this.slug;
 });
 
 Recipe.schema.virtual('thumb').get(function() {
   return {
     'list': this._.header.src({
       transformation: 'list_thumb'
-    }),
+    }) || defaults.images.header,
     'grid_small': this._.header.src({
       transformation: 'grid_small_thumb'
-    }),
+    }) || defaults.images.header,
     'grid_medium': this._.header.src({
       transformation: 'grid_medium_thumb'
-    }),
+    }) || defaults.images.header,
     'grid_large': this._.header.src({
       transformation: 'grid_large_thumb'
-    }),
+    }) || defaults.images.header,
     'header': this._.header.src({
-      transformation: 'header_thumb'
-    })
+      transformation: 'header_limit_thumb'
+    }) || defaults.images.header,
+    'shopping_list': this._.header.src({
+      transformation: 'shopping_list_thumb'
+    }) || defaults.images.header,
+    'hasQuality': imageQuality(this.header).hasQuality
   };
 });
 
 Recipe.schema.virtual('classes').get(function() {
   var classes = ['recipe'];
-  if (this.isBanned) {
-    classes.push('state-banned');
-  }
-  else if (this.isRemoved) {
-    classes.push('state-removed');
-  }
-  else if (this.state === 1) {
-    classes.push('state-published');
-  }
-  else if (this.state === 0) {
-    classes.push('state-draft');
-  }
+  classes.push('state-' + this.state);
 
   if (this.contest && this.contest.id) {
     classes.push('contest-recipe');
-    classes.push('contest-state-' + this.contest.state);
   }
+
   if (this.contest.isJuryWinner) {
     classes.push('contest-winner-jury');
   }
+
   if (this.contest.isCommunityWinner) {
     classes.push('contest-winner-community');
   }
@@ -378,6 +341,39 @@ Recipe.schema.path('portions').set(function(value) {
   return (value < 0) ? value * (-1) : value;
 });
 
+Recipe.schema.path('videoUrl').set(function(url) {
+  var ytUrl = null;
+
+  if (url) {
+    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+    var isEmbed = (url.indexOf('iframe') < 0) ? false : true;
+
+    var parsed = isEmbed ? url.split(' ')[3].replace(/["']/g, '').split('/') : parse_url.exec(url);
+
+    if (parsed) {
+      var id = null;
+      var host = isEmbed ? parsed[2] : parsed[3];
+
+      switch (host) {
+        case 'youtu.be':
+          id = parsed[5];
+          break;
+        case 'youtube.com':
+        case 'www.youtube.com':
+          id = isEmbed ? parsed[4] : parsed[6].split('=')[1];
+          break;
+        default:
+          id = false;
+          break;
+      }
+
+      ytUrl = 'https://www.youtube.com/watch?v=' + id;
+    }
+  }
+
+  return ytUrl;
+});
+
 // Pre Save HOOK
 Recipe.schema.pre('save', function(next) {
 
@@ -386,11 +382,6 @@ Recipe.schema.pre('save', function(next) {
   // Set isPromoted if recipes is promoted in grids or headers
   if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
     me.isPromoted = true;
-  }
-
-  // Set recipe in review for contest
-  if (me.isForContest && me.contest.state === 'none') {
-    me.contest.state = 'review';
   }
 
   async.parallel({
@@ -407,10 +398,7 @@ Recipe.schema.pre('save', function(next) {
       },
       // Check if states recipe has changed
       state: function(callback) {
-        if (me.isModified('isBanned') && me.isBanned === true ||
-          me.isModified('isRemoved') && me.isRemoved === true ||
-          me.isModified('state') && me.state !== 'publish' ||
-          me.isModified('contest.state') && me.contest.state !== 'admited') {
+        if (me.isModified('state') && me.state !== 'publish') {
 
           // if recipe has been winner, then have to change contest
           if (me.contest.isJuryWinner || me.contest.isCommunityWinner) {
@@ -470,27 +458,10 @@ Recipe.schema.pre('save', function(next) {
     });
 });
 
-/*
-  Waiting for a new approach to votes and ratings
-*/
-
-// Schema for ranking
-// var Rating = new keystone.mongoose.Schema({
-//   user: String,
-//   rating: Number
-// });
-
-// Recipe.schema.add({
-//   review: {
-//     type: [Rating],
-//     select: false
-//   }
-// });
-
 /**
  * Registration
  * ============
  */
-// Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isBanned, isPromoted';
-Recipe.defaultColumns = 'title, author, contest.isJuryWinner, contest.isCommunityWinner, contest.state';
+Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isPromoted';
+// Recipe.defaultColumns = 'title, author, isPromoted, isIndexHeaderPromoted, isRecipesHeaderPromoted';
 Recipe.register();

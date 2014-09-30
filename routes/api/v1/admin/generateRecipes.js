@@ -91,19 +91,53 @@ function generateRecipes(from, to) {
   }
 
   /*
+    New header image
+  */
+  function newVideo() {
+    var headerVideos = require('./generateRecipes-headerVideos.json');
+    return faker.random.array_element(headerVideos);
+  }
+
+  /*
+    States
+  */
+  var states = ['draft', 'published', 'review', 'removed', 'banned'];
+
+  /*
     New grid positions
   */
   var homeGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   var sectionGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var sectionVideoGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  var maxVideorecipes = 50,
+    maxVideorecipesGrid = 5,
+    countVideorecipes = 0,
+    countVideorecipesGrid = 0;
 
   /*
     New final recipe object
   */
   function generateNewRecipe() {
-    var homeHeader = (faker.random.number(1000) >= 800);
-    var homeGridPos = faker.random.array_element_pop(homeGrid);
+    var homeHeader = false;
+    var homeGridPos = null;
+
+    var isVideorecipe = (countVideorecipes < maxVideorecipes) ? (faker.random.number(1000) >= 800) : false;
+    if (isVideorecipe) {
+      ++countVideorecipes;
+      if ((countVideorecipesGrid < maxVideorecipesGrid) && (faker.random.number(1000) >= 800)) {
+        ++countVideorecipesGrid;
+        homeGridPos = faker.random.array_element_pop(homeGrid);
+        console.log('>>> grid home', homeGridPos);
+      }
+    }
+    else {
+      homeHeader = (faker.random.number(1000) >= 800);
+      homeGridPos = faker.random.array_element_pop(homeGrid);
+    }
+
     var sectionHeader = (faker.random.number(1000) >= 800);
-    var sectionGridPos = faker.random.array_element_pop(sectionGrid);
+    var sectionGridPos = faker.random.array_element_pop(isVideorecipe ? sectionVideoGrid : sectionGrid);
     var isPromoted = (homeHeader || sectionHeader || homeGridPos > 0 || sectionGridPos > 0);
 
     return {
@@ -113,7 +147,7 @@ function generateRecipes(from, to) {
       'procedure': newProcedure(),
       'publishedDate': newDate(),
       'rating': faker.random.number(0, 6),
-      'title': firstUpperCase(faker.Recipe.findRecipe()),
+      'title': (isVideorecipe ? 'Videorecipe ' : '') + firstUpperCase(faker.Recipe.findRecipe()),
       "isRecipesGridPromoted": {
         "position": (sectionGridPos || 0),
         "value": (sectionGridPos !== null)
@@ -128,10 +162,10 @@ function generateRecipes(from, to) {
       "portions": faker.random.number(1, 15),
       "time": faker.random.number(1, 120),
       "difficulty": faker.random.number(1, 5),
-      "isBanned": (faker.random.number(10) >= 9 && !isPromoted),
-      "isRemoved": (faker.random.number(10) >= 9 && !isPromoted),
-      "state": ((faker.random.number(10) >= 9 && !isPromoted) ? 0 : 1),
+      "state": (!isPromoted) ? states[faker.random.number(0, 4)] : states[1],
       "header": newHeader(),
+      "isVideorecipe": isVideorecipe,
+      "videoUrl": (isVideorecipe ? newVideo() : null),
       "schemaVersion": 1
     };
   }
@@ -170,7 +204,7 @@ function createRecipe(recipe, done) {
 }
 
 exports = module.exports = function(req, res) {
-  var recipes = generateRecipes(20, 60);
+  var recipes = generateRecipes(40, 80);
   // Clean collection
   Recipes.model.remove({}, function(err) {
     // Get an user

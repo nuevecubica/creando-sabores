@@ -1,6 +1,9 @@
 
 .loader {
   height: 80px;
+  @media screen and (max-width: 767px) {
+    height: 40px;
+  }
 
   > .column {
     .font-extra-large;
@@ -9,6 +12,9 @@
     padding: 15px 0;
     visibility: hidden;
     display: none;
+    @media screen and (max-width: 767px) {
+      .font-larger;
+    }
   }
 
   .show {

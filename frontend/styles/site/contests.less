@@ -8,7 +8,7 @@
 @contest-winners-header-color: @chef-color-white;
 @contest-ranking-bg: @chef-color-light-bg;
 @chef-color-voted: @chef-color-blue-bg;
-@chef-color-vote: @chef-color-brick-bg;
+@chef-color-vote: @chef-color-gray-bg;
 
 // Font color
 @contest-ranking-info-color: @chef-color-black;
@@ -39,6 +39,9 @@
 ****************/
 #current-contest {
   margin-top: 20px;
+  @media screen and (max-width: 767px) {
+      margin-top: 0;
+    }
 
   #info {
     .icon {
@@ -58,6 +61,13 @@
 
     .icon {
       position: absolute;
+      @media screen and (max-width: 767px) {
+        padding:0 20px;
+        img{
+          width: 40px;
+
+        }
+      }
     }
 
     .explain {
@@ -152,20 +162,31 @@
         line-height: 48px;
         text-decoration: none;
 
-        @media screen and (max-width: 991px) {
+        @media screen and (max-width: 1001px) {
           .font-extra-larger.uppercase;
-          line-height: 40px;
+          line-height: 38px;
         }
 
         @media screen and (max-width: 767px) {
           .font-extra-large.uppercase;
-          line-height: 36px;
+          line-height: 35px;
+        }
+        @media screen and (max-width: 481px) {
+          .font-larger;
+          line-height: 26px;
         }
       }
     }
 
     .award {
-
+      @media screen and (max-width: 767px) {
+        .font-normal;
+        line-height: 1em;
+      }
+      @media screen and (max-width: 481px) {
+        .font-small;
+        line-height: 1em;
+      }
     }
   }
 }
@@ -176,14 +197,19 @@
 ****************/
 .bg-grey{
   background-color: @chef-color-light-bg;
-
 }
 #info {
   .status {
     padding-top: 10px;
     padding-bottom: 5px;
-    div{
+    .status-tag{
       .font-large;
+    }
+    @media screen and (max-width: 771px) {
+      .status-tag {
+        .font-smaller;
+        padding: 17.5px;
+      }
     }
   }
 
@@ -195,7 +221,6 @@
       color: @contest-ranking-icon-color;
       margin-right: 10px;
     }
-
   }
 }
 
@@ -229,10 +254,12 @@
         height: 55px;
       }
 
-      @media screen and (max-width: 991px) {
+      @media screen and (max-width: 771px) {
         display: block;
+        margin-top: 0;
         .button {
           width: 100%;
+          margin-bottom: 10px;
         }
       }
     }
@@ -267,8 +294,6 @@
 
       }
     }
-
-    
 
     .contest-module {
       height: 300px;
@@ -371,6 +396,18 @@
           margin:5px 0;
         }
       }
+      @media screen and (max-width: 767px) {
+        .icon img{
+            right: 20px;
+            width: 40px;
+          } 
+        .explain{
+          padding-left: 60px;
+          .subheader strong{
+            .font-normal;
+          }
+        }    
+      }
     }
   }
 
@@ -394,7 +431,7 @@
       background-color: transparent;
     }
     .ranking-module {
-      height: 300px;
+      height: 220px;
       padding: 0;
       margin-bottom: 5px;
       display: inline-block;
@@ -424,31 +461,37 @@
       right: 0;
       top: 20px;
 
-      .icon {
-        .font-xxl;
-        color: @contest-ranking-rating-color;
-        text-shadow:
-          1px 0 0 @contest-ranking-rating-border,
-          -1px 0 0 @contest-ranking-rating-border,
-          0 1px 0 @contest-ranking-rating-border,
-          0 -1px 0 @contest-ranking-rating-border,
-          1px 1px @contest-ranking-rating-border,
-          -1px -1px 0 @contest-ranking-rating-border,
-          1px -1px 0 @contest-ranking-rating-border,
-          -1px 1px 0 @contest-ranking-rating-border,
-          0px 0px 10px @contest-ranking-rating-shadow;
+      &.like{
+        margin-top: 10px;
+        margin-right: 10px;
+        float: right;
+        .icon{
+          margin-right: 15px;
+          color: @contest-winners-background-color;
+          .font-extra-large;
+        }
+        @media only screen and (max-width : 770px) {
 
-        span {
-          .font-larger;
-          color: @contest-ranking-info-color;
-          text-shadow: none;
+        }
+      }
+      .like-counter{
+        position: relative;
+        display: inline-block;
+        background-color:  @contest-winners-background-color;
+        padding:5px 10px;
+        color: #fff;
+        top: -5px;
+        &:before{
           position: absolute;
-          top: 20px;
-          right: 0;
-          font-weight: bolder;
-          font-style: normal;
-          text-align: center;
-          width: 70px;
+          content: "";
+          width: 0;
+          height: 0;
+          border-top: 10px solid transparent;
+          border-bottom: 10px solid transparent;
+          border-right: 10px solid;
+          border-right-color: @contest-winners-background-color;
+          left: -10px;
+          top: 7px;
         }
       }
     }
@@ -532,6 +575,7 @@
     }
   }
 }
+
 #participants-content{
   #info{
     .top-ranking{
@@ -548,20 +592,75 @@
     }
   }
   .rating{
-    height: 100px;
-    margin-top: -40px;
+    height: 70px;
+    width: 150px;
     float: right;
-    .span{
-      position: relative;
-      bottom: 40px;
+    .like-button{
+      cursor: pointer;
     }
-    p{
-      .font-extra-larger;
+    .like{
+      margin-top: 10px;
+      float: right;
+      .icon{
+        margin-right: 20px;
+        color: @chef-color-vote;
+        .font-extra-large;
+      }
+      @media only screen and (max-width : 770px) {
+        margin-top: -40px;
+      }
+    }
+    .like-counter{
+      position: relative;
+      display: inline-block;
+      background-color:  @chef-color-vote;
+      padding:5px 10px;
+      &:before{
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid;
+        border-right-color: @chef-color-vote;
+        left: -15px;
+        top: 6.8px;
+      }
+    }
+    .voted{
+      display: block;
+      text-align: right;
+      width: 155px;
+      position: relative;
+      top: 10px;
+      .font-extra-large;
       text-transform: uppercase;
       font-family: @pinto-fonts;
-      color: @chef-color-vote;
-      &.voted{
+      &.on{
+        display:none;
         color: @chef-color-voted;
+      }
+      @media only screen and (max-width : 770px) {
+        top: -40px;
+      }
+    }
+    &.liked{
+      .voted{
+        display: none;
+        &.on{
+          display:block;
+        }
+      }
+      .like-button{
+        color: @chef-color-voted;
+      }
+      .like-counter{
+        color: #fff;
+        background-color: @chef-color-voted;
+        &:before{
+          border-right-color: @chef-color-voted;
+        }
       }
     }
   }
@@ -573,4 +672,19 @@
       top: 10px;
     }
   }
+  #recipes{
+    &.no-more-votes{
+      .rating{
+        opacity: 0.3;
+        cursor: not-allowed;
+        i.icon.like-button{
+          cursor: not-allowed;
+        }
+        .voted{
+          display: none;
+        }
+      }
+    }
+  }
 }
+

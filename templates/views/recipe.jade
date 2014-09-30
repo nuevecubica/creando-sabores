@@ -45,12 +45,25 @@ block content
       input(type='hidden' name='contest.id' value='#{data.contest._id}')
 
   +header(data, section)
+  #color-bar.ui.grid.show-editable
+    .five.column.row
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
   if (data.contest)
     .ui.page.grid.bg-grey
       .row
         #info.eight.tablet-twelve.mobile-eight.wide.column
           .recipe-contest
-            a.title.header.font-extra-larger.uppercase(href=data.contest.url)= data.contest.title
+            a.title.header.font-extra-larger.uppercase.remove-editable(href=data.contest.url)= data.contest.title
+            span.title.header.font-extra-larger.uppercase.display-editable= data.contest.title
             .subheader
               i.icon-chef-cup.icon.font-extra-large
               = __('Contest sponsored by')
@@ -59,7 +72,7 @@ block content
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
-        #info.ten.tablet-twelve.mobile-eight.wide.column
+        #info.tablet-twelve.mobile-eight.wide.column(class = data.contest ? 'seven' : 'ten')
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
@@ -96,22 +109,32 @@ block content
                 .set-editable(placeholder=__('Portions'))= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
 
-            .rating.hide-editable
-              - var rating = Math.floor(data.recipe.rating)
-              - var r = rating
-              - for(var x = 0; x < 5; x++)
-                if r == 0
-                  i.icon-chef-star.icon.off
-                else
-                  i.icon-chef-star.icon.on
-                  - --r;
+            if (!data.contest)
+              .rating.hide-editable
+                .ui.rating(data-slug=data.recipe.slug)
+                  - var rating = Math.floor(data.recipe.rating)
+                  - var r = rating
+                  - for(var x = 0; x < 5; x++)
+                    if r == 0
+                      i.icon-chef-star.icon
+                    else
+                      i.icon-chef-star.icon.active
+                      - --r;
+                  .rating-value.span.skip.mobile= data.recipe.rating.toFixed(2).replace(/[.,]00$/, "")
 
-              .span.skip.mobile= rating
-
-        #actions.six.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable
+        #actions.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable(class = data.contest ? 'nine' : 'six')
           .recipe-actions
+            if (data.contest)
+              - var ratingclasses = []
+              - if (data.liked) ratingclasses.push('liked')
+              - if (['submission', 'votes'].indexOf(data.contest.state) === -1) ratingclasses.push('disabled')
+              - ratingclasses = ratingclasses.join(' ')
+              .rating(data-slug=data.recipe.slug , class = ratingclasses)
+                .ui.icon.like.font-larger
+                  i.icon-chef-like.icon.like-button.font-extra-larger
+                  span.like-counter= data.recipe.likes || 0
             .favourite
-              .ui.button.chef.button-yellow.switch
+              .ui.button.chef.button-yellow.switch(data-slug = data.recipe.slug, class = data.favourited ? 'activated' : '')
                 i.icon-chef-heart.icon.checks.chef
                 | #{__('Favorite')}
 
@@ -130,6 +153,9 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
+          .ui.button.chef.button-green.shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
+            a(href="/acceso")= __('Add to shopping basket')
+
         if data.contest
           .recipe-contest-ingredient.sixteen.wide.column
             .icon-chef-cesta.checks
@@ -143,7 +169,7 @@ block content
                 .column.ingredient
                   .icon-chef-cesta.checks.hide-editable
                   .editable-container
-                    .set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
+                    .explain.set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
                   .show-editable
                     .ingredient-remove
                       i.icon-chef-cross
@@ -151,7 +177,7 @@ block content
             .column.ingredient.show-editable
                 .icon-chef-cesta.checks.hide-editable
                 .editable-container
-                  .set-editable(placeholder=__('Add ingredient'), spellcheck='false')
+                  .explain.set-editable(placeholder=__('Add ingredient'), spellcheck='false')
                 .show-editable
                   .ingredient-remove
                     i.icon-chef-cross
@@ -177,9 +203,9 @@ block content
                 .step
                   .icon-chef-tick.checks.hide-editable
                   .ui.header.index
-                    span.index-label= __('Step:') + ' ' + (j + 1)
+                    span.index-label= __('Step') + ' ' + (j + 1) + ': '
                     .step-remove.show-editable= __('Remove step')
-                  .ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
+                  .explain.ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
 
             .step.show-editable
               .icon-chef-tick.checks.hide-editable

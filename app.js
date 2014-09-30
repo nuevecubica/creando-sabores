@@ -82,9 +82,17 @@ MongoDB Environment:
 //  USER: " + process.env.MONGODB_USERNAME + "\n\
 //  URL:  " + process.env.MONGO_URL);
 
-keystone.start(function() {
+keystone.start(function(done) {
+  done = done || function() {};
   if (config.keystone.test.enabled) {
-    testMode(keystone, function() {});
+    var tm = testMode(keystone);
+    tm.revertDatabase(function(err) {
+      tm.getDatabase(function(err, reply) {
+        require('fs').writeFile(__dirname + '/test/database.json', JSON.stringify(reply), function(err) {
+          return done(err);
+        });
+      });
+    });
   }
 });
 

@@ -35,11 +35,13 @@ block content
 		#recipes.ui.grid.segment.two.tabs
 			.row.tab-header
 				.tab
-					.ui.button.chef.button-green
-						a(href='/recetas')= __('Popular')
+					a(href='/recetas')
+						.ui.button.chef.button-green
+							| #{('Popular')}
 				.tab
-					.ui.button.chef.button-green.disabled
-						a= __('Season')
+					a(href='#')
+						.ui.button.chef.button-green.disabled
+							| #{('Season')}
 
 			.row
 				.ui.grid.segment.list.stackable
@@ -50,8 +52,9 @@ block content
 					else
 						| #{__('No recipes yet')}
 
-			.row.loader
-				.sixteen.wide.column.loading= __('Loading more recipes')
-				.sixteen.wide.column.load-more
-					.ui.button.chef.button-brick.load-button
-						a(href="#")= __('Load more')
+			.row
+				.loader
+					.sixteen.wide.column.loading= __('Loading more recipes')
+					.sixteen.wide.column.load-more
+						.ui.button.chef.button-brick.load-button
+							a(href="#")= __('Load more')

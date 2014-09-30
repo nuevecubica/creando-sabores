@@ -20,7 +20,7 @@ exports = module.exports = function(req, res, next) {
 
       user.isDeactivated = true;
       user.save(function(err) {
-        if (err)  {
+        if (err) {
           console.error('profileRemove: Error removing profile', err);
           return formResponse(req, res, backError, 'Error removing profile', false);
         }

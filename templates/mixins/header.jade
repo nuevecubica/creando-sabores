@@ -2,16 +2,15 @@ include ../mixins/header-share
 
 mixin header(data, section)
 
+	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg' } }
+
 	//- Change this
-	- var default_image = '/images/defaul_image.jpg'
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
 
 	if section === 'home'
-		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
-		- var image = data.header ? data.header.thumb.header : default_image
+		- var image = data.header ? data.header.thumb.header : defaults.images.index
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#index-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.simple.with-social
 				#header.row
@@ -26,28 +25,28 @@ mixin header(data, section)
 							|#{__('Follow us on social networks')}
 							include ../components/follow
 
-					.four.wide.column.computer.only
+					if data.header
+						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+						- var promotedUrl = data.header ? data.header.url : '/recetas'
 
-					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
-					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+						.four.wide.column.computer.only
 
-						.tabla
-							p= __('Today promoted')
-							.tabla1
-								.ui.image
-							.tabla2
-								.text
-									a.span(href="#{promotedUrl}")= promotedTitle
-							.tabla3
-								.ui.image
+						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+
+							.tabla
+								p= __('Today promoted')
+								.tabla1
+									.ui.image
+								.tabla2
+									.text
+										a.span(href="#{promotedUrl}")= promotedTitle
+								.tabla3
+									.ui.image
 
 	else if section === 'privateProfile'
-		- var image = "/images/default_recipe_bg.png"
-		- if (user && user.media && user.media.header.url) {
-		-   image = user.thumb.header;
-		- }
 
-		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
+		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{user.thumb.header});")
 			.ui.page.grid.head.with-title
 				#header.row
 					include ../components/header
@@ -74,10 +73,17 @@ mixin header(data, section)
 								span
 								|#{__('Change image')}
 
-	else if section === 'publicProfile'
-		- var image = profile ? profile.media.header.url : default_image
+			if !user.thumb.hasQuality
+				#image-size-warning(style="display: block;")
+					|*#{__('Select bigger image')}
+			else
+				#image-size-warning
+					|*#{__('Select bigger image')}
 
-		.ui.grid.segment.user-profile#profile-header(style="background-image: url(#{image});")
+	else if section === 'publicProfile'
+		- var image = profile ? profile.media.header.url : defaults.images.index
+
+		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{profile.media.header.url});")
 			.ui.page.grid.head.with-title
 				#header.row
 					include ../components/header
@@ -87,11 +93,9 @@ mixin header(data, section)
 
 
 	else if section === 'recipes'
-		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-		- var promotedUrl = data.header ? '/receta/' + data.header.slug : '/recetas'
-		- var image = data.header ? data.header.thumb.header : default_image
+		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#recipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
 				#header.row
@@ -104,30 +108,35 @@ mixin header(data, section)
 					.shadow= __('Recipes')
 
 				.row
-					.social.four.tablet-seven.wide.column.tablet.computer.only
-						.corner-position.left
-							|#{__('Share this page')}
-							+header-share()
-					.four.wide.column.computer.only
-					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
-					.img-title.eight.tablet-nine.mobile-sixteen.wide.column
-						.tabla
-							p= __('Today promoted')
-							.tabla1
-								.ui.image
-							.tabla2
-								.text
-									a.span(href="#{promotedUrl}")= promotedTitle
-							.tabla3
-								.ui.image
+					if data.header
+						.social.four.tablet-seven.wide.column.tablet.computer.only
+							.corner-position.left
+								|#{__('Share this page')}
+								+header-share()
+
+						.four.wide.column.computer.only
+
+						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+						- var promotedUrl = data.header ? data.header.url : '/recetas'
+
+						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+							.tabla
+								p= __('Today promoted')
+								.tabla1
+									.ui.image
+								.tabla2
+									.text
+										a.span(href="#{promotedUrl}")= promotedTitle
+								.tabla3
+									.ui.image
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
-		- var image = data.recipe && data.recipe.thumb.header ? data.recipe.thumb.header : default_image
 		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
-		- var state = data.recipe ? data.recipe.state : 0
+		- var state = data.recipe ? data.recipe.state : 'draft'
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#recipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
 			.shadow-layer
 
 			.ui.page.grid.head.with-subtitle.with-social
@@ -146,7 +155,7 @@ mixin header(data, section)
 				.row
 					.four.wide.column.computer.only.social
 						//- Check if recipe is published to show social buttons
-						if state > 0
+						if state == 'published'
 							.corner-position.left.hide-editable
 								|#{__('Share this recipe')}
 								+header-share()
@@ -162,23 +171,29 @@ mixin header(data, section)
 									span
 									|#{__('Change image')}
 
-			#image-size-warning
-				|*#{__('Select bigger image')}
-
+			if own
+				if !data.recipe.thumb.hasQuality
+					#image-size-warning(style="display: block;")
+						|*#{__('Select bigger image')}
+				else
+					#image-size-warning
+						|*#{__('Select bigger image')}
 
 	else if section === 'new-recipe'
 		- var title = ''
 		- var author = (user.name || user.username)
+		- var image = data.contest ? data.contest.thumb.header_recipe : defaults.images.newRecipe
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-
+		#new-recipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
 					include ../components/header
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+				.row.logo
+
+				.floating
+					.logo.corner
+						.icon-chef-logo.icon
 
 				.row.section.title
 					.editable-container
@@ -197,11 +212,93 @@ mixin header(data, section)
 								span
 								|#{__('Change image')}
 
+	else if section === 'videorecipes'
+		- var title = data.recipe ? data.recipe.title : ''
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+
+		- var promotedUrl = data.header ? data.header.url : null
+		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
+
+		#videorecipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			#video-player
+
+			.ui.page.grid.head.simple.with-social
+				#header.row
+					include ../components/header
+
+				if data.header
+					.row.logo.videorecipe
+						a.icon-chef-play.icon.clickable(href="#{promotedUrl}")
+
+					.floating
+						.logo.corner
+							a.icon-chef-logo.icon(href="/")
+
+				else
+					.row.logo.shadow
+						a.icon-chef-logo.icon(href="/")
+
+
+				.row
+					if data.header
+						.social.four.tablet-seven.wide.column.tablet.computer.only
+							.corner-position.left
+								|#{__('Share this page')}
+								+header-share()
+
+						.four.wide.column.computer.only
+
+						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+						- var promotedUrl = data.header ? data.header.url : '/recetas'
+
+						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+							.tabla
+								p= __('Today promoted')
+								.tabla1
+									.ui.image
+								.tabla2
+									.text
+										a.span(href="#{promotedUrl}")= promotedTitle
+								.tabla3
+									.ui.image
+
+	else if section === 'videorecipe'
+		- var title = data.recipe ? data.recipe.title : ''
+		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+		- var video = data.recipe ? data.recipe.videoUrl : null
+
+		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
+			#video-player
+
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row.keep-pointer
+					include ../components/header
+
+				.row.logo.videorecipe
+					a.icon-chef-play.icon.clickable(data-video="#{video}")
+
+				.floating.keep-pointer
+					.logo.corner
+						a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.editable-container
+						#recipe-title.shadow= title
+
+				.row.section.subtitle
+					.author.shadow= author
+
+				.row
+					.four.wide.column.computer.only.social
+						.corner-position.left
+							|#{__('Share this recipe')}
+							+header-share()
 
 	else if section === 'contests'
-		- var image = data.current ? data.current.thumb.header : default_image
+		- var image = data.current ? data.current.thumb.header : defaults.images.contests
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#contests-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -216,9 +313,9 @@ mixin header(data, section)
 
 	else if section === 'contest'
 		- var title = data.contest ? data.contest.title : ''
-		- var image = data.contest ? data.contest.thumb.header : default_image
+		- var image = data.contest ? data.contest.thumb.header : defaults.images.contest
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#contest-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -236,9 +333,9 @@ mixin header(data, section)
 
 	else if section === 'participants'
 		- var title = data.contest ? data.contest.title : ''
-		- var image = data.contest ? data.contest.thumb.header : default_image
+		- var image = data.contest ? data.contest.thumb.header : defaults.images.contest
 
-		.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#participants-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row

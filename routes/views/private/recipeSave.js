@@ -3,7 +3,8 @@ var async = require('async'),
   Recipe = keystone.list('Recipe'),
   Contest = keystone.list('Contest'),
   clean = require('../../../utils/cleanText.js'),
-  formResponse = require('../../../utils/formResponse.js');
+  formResponse = require('../../../utils/formResponse.js'),
+  service = require('../../../services');
 
 var recipeData = function(req, orig) {
   // Clean data
@@ -79,25 +80,30 @@ var recipeData = function(req, orig) {
 };
 
 var recipeEdit = function(req, res) {
-  var userId = req.user._id,
-    recipeSlug = req.params.recipe,
+  var recipeSlug = req.params.recipe,
     back = '..';
 
-  var query = {
+  var options = {
     slug: recipeSlug,
+    states: ['published', 'draft', 'review'],
+    fromContest: true
   };
 
+  options.user = req.user;
+
   if (!req.user.isAdmin) {
-    query.author = userId;
+    options.authorId = req.user._id;
   }
 
   // Get
-  var q = Recipe.model.findOne(query).exec(function(err, recipe) {
+  service.recipe.recipe.get(options, function(err, result) {
     if (err) {
       console.error('recipeEdit:', err);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }
-    else if (recipe) {
+    else if (result) {
+
+      var recipe = result.recipe;
 
       // Data
       var data = recipeData(req, recipe);
@@ -107,12 +113,12 @@ var recipeEdit = function(req, res) {
       }
 
       // If not admin, rejects if admited in a contest
-      if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.contest.state === 'admited') {
+      if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.state === 'published') {
         return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
       }
 
       // Save
-      recipe.getUpdateHandler(req).process(data, {
+      recipe._document.getUpdateHandler(req).process(data, {
         fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
       }, function(err) {
         if (err) {
@@ -141,6 +147,7 @@ var recipeNew = function(req, res) {
     if (data === null) {
       return formResponse(req, res, back, 'Missing data', false);
     }
+
 
     var addRecipe = function() {
       recipe.getUpdateHandler(req).process(data, {
@@ -175,7 +182,6 @@ var recipeNew = function(req, res) {
     }
   }
   else {
-    console.log(req);
     return formResponse(req, res, back, false, false);
   }
 };
