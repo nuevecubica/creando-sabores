@@ -143,7 +143,7 @@ function generateRecipes(from, to) {
       "portions": faker.random.number(1, 15),
       "time": faker.random.number(1, 120),
       "difficulty": faker.random.number(1, 5),
-      "state": (!isPromoted) ? states[faker.random.number(0, 4)] : states[faker.random.number(1, 4)],
+      "state": (!isPromoted) ? states[faker.random.number(0, 4)] : states[1],
       "header": newHeader(),
       "isVideorecipe": isVideorecipe,
       "videoUrl": (isVideorecipe ? newVideo() : null),
