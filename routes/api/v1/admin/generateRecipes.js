@@ -110,24 +110,35 @@ function generateRecipes(from, to) {
   var sectionGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   var sectionVideoGrid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  var maxVideorecipes = 20,
-    countVideorecipes = 0;
+  var maxVideorecipes = 50,
+    maxVideorecipesGrid = 5,
+    countVideorecipes = 0,
+    countVideorecipesGrid = 0;
 
   /*
     New final recipe object
   */
   function generateNewRecipe() {
+    var homeHeader = false;
+    var homeGridPos = null;
+
     var isVideorecipe = (countVideorecipes < maxVideorecipes) ? (faker.random.number(1000) >= 800) : false;
     if (isVideorecipe) {
       ++countVideorecipes;
+      if ((countVideorecipesGrid < maxVideorecipesGrid) && (faker.random.number(1000) >= 800)) {
+        ++countVideorecipesGrid;
+        homeGridPos = faker.random.array_element_pop(homeGrid);
+        console.log('>>> grid home', homeGridPos);
+      }
+    }
+    else {
+      homeHeader = (faker.random.number(1000) >= 800);
+      homeGridPos = faker.random.array_element_pop(homeGrid);
     }
 
-    var homeHeader = (faker.random.number(1000) >= 800);
-    var homeGridPos = faker.random.array_element_pop(homeGrid);
     var sectionHeader = (faker.random.number(1000) >= 800);
     var sectionGridPos = faker.random.array_element_pop(isVideorecipe ? sectionVideoGrid : sectionGrid);
     var isPromoted = (homeHeader || sectionHeader || homeGridPos > 0 || sectionGridPos > 0);
-
 
     return {
       'description': '<p>' + firstUpperCase(faker.Recipe.findRecipe()) + '. ' + firstUpperCase(faker.Lorem.paragraph()) + '.</p>',

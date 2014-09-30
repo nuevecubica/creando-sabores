@@ -175,6 +175,20 @@ var getRecipesGrid = function(options, callback) {
     });
   };
 
+  var getVideoIndexPromoted = function(next) {
+    getVideoRecipes({
+      page: 0,
+      limit: 10,
+      flags: ['isIndexGridPromoted.value'],
+      sort: 'isIndexGridPromoted.position'
+    }, function(err, res) {
+      next(err, {
+        criteria: 'isIndexGridPromoted',
+        entries: res
+      });
+    });
+  };
+
   var getOfficials = function(next) {
     getRecipes({
       page: 0,
@@ -212,7 +226,7 @@ var getRecipesGrid = function(options, callback) {
     fillers = [getVideoSectionPromoted];
   }
   else if (options.section === 'Index') {
-    fillers = [getVideoSectionPromoted, getOfficials, getSectionPromoted];
+    fillers = [getVideoIndexPromoted, getOfficials, getSectionPromoted];
   }
   async.parallel(fillers, makeGrid);
 
