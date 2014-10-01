@@ -1,23 +1,34 @@
-# Docker
-![Docker](http://i.imgur.com/c2rz8Gm.png)
+# Stack
++ **Vagrant**
+  [Vagrant](https://www.vagrantup.com/) is a tool for building complete development environments.
 
-Docker is an open platform for developers and sysadmins to build, ship, and run distributed applications, whether on laptops, data center VMs, or the cloud.
++ **Docker**
+  [Docker](https://www.docker.com/) is an open platform for developers and sysadmins to build, ship, and run distributed applications, whether on laptops, data center VMs, or the cloud.
 
-## Mac OSX
++ **CoreOS**
+  [CoreOS](https://coreos.com/) is a new Linux distribution that has been rearchitected to provide features needed to run modern infrastructure stacks.
 
-### Automatic Install
+## Install
+
+### Mac OSX Automatic Installation
 - Run `./install_osx.sh`
 - Enjoy!
 
-### Manual Install
+### Mac OSX Manual Installation
 - Add Cask repo: `brew tap caskroom/homebrew-cask`
 - `brew update`
 - Install Cask: `brew install brew-cask`
 - Install VirtualBox: `brew cask install virtualbox`
 - Install Vagrant: `brew cask install vagrant`
 
+## Run Vagrant + Docker
++ `./run.sh`
+
 ## Access Docker machine
 + `./ssh_docker.sh`
+
+## Dockerfiles
++ Elasticsearch: `orchardup/elasticsearch`
 
 ## Useful Docker commands
 + Help: `docker help`

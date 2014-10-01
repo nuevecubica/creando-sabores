@@ -82,8 +82,6 @@ MongoDB Environment:
 //  USER: " + process.env.MONGODB_USERNAME + "\n\
 //  URL:  " + process.env.MONGO_URL);
 
-var elasticsearch = require('elasticsearch');
-
 keystone.start(function(done) {
   done = done || function() {};
 
