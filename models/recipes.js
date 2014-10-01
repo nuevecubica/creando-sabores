@@ -266,6 +266,17 @@ Recipe.add({
     }
   });
 
+// Schema for tags
+var Tags = new keystone.mongoose.Schema({
+  tag: String
+});
+
+Recipe.schema.add({
+  tags: {
+    type: [Tags]
+  }
+});
+
 Recipe.schema.set('toJSON', {
   virtuals: true,
   transform: modelCleaner.transformer
