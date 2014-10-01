@@ -10,7 +10,13 @@ block js
 block content
 
 	+header(data, section)
-
+	.ui.grid.segment.page
+			#add-new-bar.row
+				.four.wide.column.mobile-two
+				.twelve.wide.column
+					.span= __('Do you have a new recipe?')
+						.ui.button.chef.button-brick
+							a(href='/nueva-receta')= __('Create recipe')
 	.ui.page.grid.segment.body.about
 		.column
 			.ui.stackable.grid
@@ -40,7 +46,6 @@ block content
 						a(href='#')
 							.ui.button.chef.button-green.disabled
 								| #{('My tips')}
-
 
 		if subsection == 'profile'
 			.row

@@ -9,6 +9,27 @@
 @profile-font-normal: @font-size-normal;
 @chef-color-check: @chef-color-red-bg;
 
+
+#profile-form{
+  .picture-wrapper{
+    margin-top: -60px;
+  }
+  #add-new-bar{
+    padding-bottom: 0;
+    .span{
+      .font-extra-large;
+      text-align: left;
+      @media screen and (max-width: 771px) {
+        margin-bottom: 20px;
+        .font-large;
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+}
 .ui.segment.user-profile {
   background-color: transparent;
   background-image: url(../images/default_recipe_bg.png);
