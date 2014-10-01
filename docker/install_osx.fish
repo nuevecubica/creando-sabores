@@ -17,4 +17,4 @@ brew install brew-cask
 brew cask install virtualbox
 brew cask install vagrant
 
-echo "Done! Run: vagrant up --provider=docker"
+echo "Done! Run: ./run.sh"
