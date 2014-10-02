@@ -251,25 +251,27 @@ var getRelatedRecipes = function(options, callback) {
   }
 
   service.elastic.mlt({
-    fields: ['_id'],
+    fields: ['id', 'slug'],
     index: 'recipes',
     type: 'recipe',
     size: options.limit,
     id: options.recipeId.toString(),
     mlt_min_word_length: 3,
-    mlt_fields: ['title', 'description'],
+    mlt_fields: ['title', 'description']
   }, function(err, results) {
     if (!err && results && results.hits.total) {
-      var ids = [];
-      for (var i = 0, l = options.limit || results.hits.total; i < l; ++i) {
-        ids.push(results.hits.hits[i]._id);
-      }
+
+      var ids = results.hits.hits.map(function(a, i) {
+        return a._id;
+      });
+
+      console.log('Related total %s limit %s final %s', results.hits.total, options.limit, ids.length);
 
       Recipe.model.find({
-        "_id": {
-          "$in": ids
+        _id: {
+          $in: ids
         }
-      }, callback);
+      }).limit(options.limit).exec(callback);
     }
     else {
       callback(err, null);

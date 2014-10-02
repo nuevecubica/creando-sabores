@@ -49,7 +49,8 @@ exports = module.exports = function(req, res) {
           service.recipeList.related({
             recipeId: result.recipe._id
           }, function(err, results) {
-            locals.data.related = results;
+            console.log('Results', results.length, results[0]._id);
+            locals.related = results;
             next(err);
           });
         }

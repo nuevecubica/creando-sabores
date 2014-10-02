@@ -218,11 +218,10 @@ block content
           .step
             .ui.button.chef.button-brick.step-add
               a= __('Add step')
-              
+
       .hide-editable.ui.grid.stackable
         #related.four.column.row
           h2.ui.header= __('other recipes')
-          - var related = data.related
           if related && related.length > 0
             - for (var i = 0, l = related.length; i < l; i++)
               .column
