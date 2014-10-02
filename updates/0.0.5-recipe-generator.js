@@ -3,7 +3,7 @@ var keystone = require('keystone'),
   Recipes = keystone.list('Recipe'),
   Users = keystone.list('User'),
   faker = require('faker'),
-  generateRecipes = require(__base + 'routes/api/v1/admin/generateRecipes'),
+  generateRecipes = require(__base + 'routes/api/v1/admin/generate/generateRecipes'),
   // cloudinary = require('cloudinary'),
   author = null;
 

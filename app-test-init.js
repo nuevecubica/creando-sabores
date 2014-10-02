@@ -6,6 +6,9 @@
 	Test environment
 */
 var _ = require('underscore');
+
+global.__base = __dirname + '/';
+
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
