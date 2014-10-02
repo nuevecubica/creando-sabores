@@ -100,11 +100,13 @@
 	"No recipes for this contest yet": "No hay recetas en este concurso todavía.",
 	"No recipes yet": "Ninguna receta.",
 	"No recommendation": "Sin recomendación",
+	"No related recipes yet": "Sin recetas relacionadas",
 	"Normal": "Normal",
 	"Not found": "No encontrado",
 	"Official": "Oficial",
 	"Open contest": "Concurso abierto",
 	"or register with email": "...o con tu correo electrónico",
+	"other recipes": "Otras recetas",
 	"our terms and conditions": "nuestros términos y condiciones",
 	"Participants": "Participantes",
 	"Password": "Contraseña",
@@ -180,7 +182,9 @@
 	"Username": "Nombre de usuario",
 	"Very easy": "Muy Fácil",
 	"Very hard": "Muy difícil",
+	"Videorecipe": "Videoreceta",
 	"Videorecipes": "Videorecetas",
+	"View all": "Ver todas",
 	"Voted recipe": "Voted recipe",
 	"Voted recipe!": "Voted recipe!",
 	"votes": "Votaciones",
@@ -189,6 +193,5 @@
 	"Winners": "Ganadores",
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"Write here contest name": "Escribe el nombre del concurso aquí",
-	"Videorecipe": "Videorecipe"
+	"Write here contest name": "Escribe el nombre del concurso aquí"
 }

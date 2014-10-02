@@ -218,3 +218,23 @@ block content
           .step
             .ui.button.chef.button-brick.step-add
               a= __('Add step')
+              
+      .hide-editable.ui.grid.stackable
+        #related.four.column.row
+          h2.ui.header= __('other recipes')
+          - var related = data.related
+          if related && related.length > 0
+            - for (var i = 0, l = related.length; i < l; i++)
+              .column
+                .related(style='background-image: url(#{related[i].thumb.header}); background-position:center; background-size:cover;')
+                  a(href='#{related[i].url}')
+                    .content
+                      span= related[i].title
+            .column
+              .related.button
+                a(href='/recetas')
+                  .content
+                    span= __('View all')
+          else
+            .sixteen.wide.column
+              .subheader= __('No related recipes yet')
