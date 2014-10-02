@@ -1,6 +1,6 @@
 var async = require('async'),
   es = require('elasticsearch'),
-  config = require('../../../../../config.js');
+  config = require(__base + 'config');
 
 exports = module.exports = function(req, res) {
   var answer = {

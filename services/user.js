@@ -3,7 +3,7 @@ var _ = require('underscore'),
   async = require('async'),
   User = keystone.list('User'),
   Recipe = keystone.list('Recipe'),
-  modelCleaner = require('../utils/modelCleaner.js'),
+  modelCleaner = require(__base + 'utils/modelCleaner.js'),
   service = require('./index');
 
 /**

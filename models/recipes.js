@@ -4,8 +4,8 @@ var _ = require('underscore'),
   mongoosastic = require('mongoosastic'),
   Types = keystone.Field.Types,
   async = require('async'),
-  modelCleaner = require('../utils/modelCleaner'),
-  imageQuality = require('../utils/imageQuality');
+  modelCleaner = require(__base + 'utils/modelCleaner'),
+  imageQuality = require(__base + 'utils/imageQuality');
 
 // ===== Defaults
 // Define recipe defaults

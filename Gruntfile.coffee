@@ -117,6 +117,7 @@ module.exports = (grunt) ->
         options:
           devel: true
           node: true
+          predef: ['__base']
         files:
           src: paths.js.server
 

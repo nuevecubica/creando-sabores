@@ -1,7 +1,7 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  service = require('../../services');
+  service = require(__base + 'services');
 
 exports = module.exports = function(req, res) {
 

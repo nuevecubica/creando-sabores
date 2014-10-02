@@ -1,6 +1,6 @@
 var async = require('async'),
   keystone = require('keystone'),
-  modelCleaner = require('../../../../utils/modelCleaner'),
+  modelCleaner = require(__base + 'utils/modelCleaner'),
   _ = require('underscore');
 
 /*

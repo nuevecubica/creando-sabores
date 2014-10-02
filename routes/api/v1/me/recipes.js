@@ -1,7 +1,7 @@
 var async = require('async'),
   keystone = require('keystone'),
   _ = require('underscore'),
-  service = require('../../../../services');
+  service = require(__base + 'services');
 
 /*
 	/me/recipes?page=1&perPage=10

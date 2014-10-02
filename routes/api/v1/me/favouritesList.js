@@ -1,6 +1,6 @@
 var async = require('async'),
   keystone = require('keystone'),
-  service = require('../../../../services');
+  service = require(__base + 'services');
 
 /*
 	/me/favourites/list

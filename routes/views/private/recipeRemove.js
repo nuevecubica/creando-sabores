@@ -1,9 +1,9 @@
 var async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  clean = require('../../../utils/cleanText.js'),
-  formResponse = require('../../../utils/formResponse.js'),
-  service = require('../../../services');
+  clean = require(__base + 'utils/cleanText.js'),
+  formResponse = require(__base + 'utils/formResponse.js'),
+  service = require(__base + 'services');
 
 exports = module.exports = function(req, res, next) {
 

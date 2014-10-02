@@ -2,7 +2,7 @@ var async = require('async'),
   keystone = require('keystone'),
   _ = require('underscore'),
   User = keystone.list('User'),
-  service = require('../../../../services');
+  service = require(__base + 'services');
 
 /*
   /chef/recipes?page=1&perPage=10

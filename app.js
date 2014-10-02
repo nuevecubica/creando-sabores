@@ -1,4 +1,7 @@
 /* APP */
+
+global.__base = __dirname + '/';
+
 var _ = require('underscore'),
   multiline = require('multiline');
 
@@ -10,7 +13,7 @@ if (!process.env.NODE_ENV) {
   // process.env.NODE_ENV = 'development';
 }
 
-var config = require('./config.js'),
+var config = require('./config'),
   keystone = require('keystone'),
   i18n = require('i18n'),
   testMode = null;
@@ -85,6 +88,7 @@ MongoDB Environment:
 keystone.start(function(done) {
   done = done || function() {};
 
+  // Dump database for tests
   if (config.keystone.test.enabled) {
     var tm = testMode(keystone);
     tm.revertDatabase(function(err) {

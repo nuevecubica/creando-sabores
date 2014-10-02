@@ -2,9 +2,9 @@ var async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
   Contest = keystone.list('Contest'),
-  clean = require('../../../utils/cleanText.js'),
-  formResponse = require('../../../utils/formResponse.js'),
-  service = require('../../../services');
+  clean = require(__base + 'utils/cleanText.js'),
+  formResponse = require(__base + 'utils/formResponse.js'),
+  service = require(__base + 'services');
 
 var recipeData = function(req, orig) {
   // Clean data
