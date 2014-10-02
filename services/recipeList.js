@@ -250,16 +250,33 @@ var getRelatedRecipes = function(options, callback) {
     return callback('Invalid recipeId');
   }
 
-  service.elastic.mlt({
-    fields: ['id', 'slug'],
+  service.elastic.search({
     index: 'recipes',
     type: 'recipe',
-    size: options.limit,
-    id: options.recipeId.toString(),
-    mlt_min_word_length: 3,
-    mlt_fields: ['title', 'description']
+    body: {
+      size: options.limit,
+      query: {
+        "filtered": {
+          "filter": {
+            "terms": {
+              "state": ["published"],
+              "_cache": true
+            }
+          },
+          "query": {
+            "more_like_this": {
+              "fields": ["title^5", "description^4", "ingredients^2", "procedure"],
+              "ids": [options.recipeId.toString()],
+              "min_term_freq": 1,
+              "max_query_terms": 12,
+              "min_word_length": 3
+            }
+          }
+        }
+      }
+    }
   }, function(err, results) {
-    if (!err && results && results.hits.total) {
+    if (!err && results) {
 
       var ids = results.hits.hits.map(function(a, i) {
         return a._id;

@@ -23,9 +23,17 @@ exports = module.exports = function(req, res) {
     return res.apiResponse(answer);
   };
 
-  var params = {};
+  var params = {},
+    idx = '*';
+
   if (collection) {
     params.collections = [collection];
+    idx = collection.toLowerCase();
   }
-  service.elastic.sync(params, response);
+
+  service.elastic._client().indices.delete({
+    index: idx
+  }, function(err) {
+    service.elastic.sync(params, response);
+  });
 };

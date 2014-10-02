@@ -23,42 +23,52 @@ var response = function(res) {
   };
 };
 
-var _query = function(q) {
+var _query = function(q, page, rpp) {
   return {
-    "size": 10,
+    "from": ((page - 1) * rpp) || 0,
+    "size": rpp || 10,
     "query": {
-      "bool": {
-        "should": [{
-          "match_phrase": {
-            "title": {
-              "query": q,
-              "boost": 5
-            }
+      "filtered": {
+        "filter": {
+          "terms": {
+            "state": ["published"],
+            "_cache": true
           }
-        }, {
-          "match_phrase": {
-            "description": {
-              "query": q,
-              "boost": 4
-            }
+        },
+        "query": {
+          "bool": {
+            "should": [{
+              "match_phrase": {
+                "title": {
+                  "query": q,
+                  "boost": 5
+                }
+              }
+            }, {
+              "match": {
+                "title": {
+                  "query": q,
+                  "boost": 3
+                }
+              }
+            }, {
+              "match_phrase": {
+                "_all": {
+                  "query": q,
+                  "boost": 2
+                }
+              }
+            }, {
+              "match": {
+                "_all": {
+                  "query": q
+                }
+              }
+            }],
+            "minimum_should_match": 1,
+            "boost": 1.0
           }
-        }, {
-          "match": {
-            "title": {
-              "query": q,
-              "boost": 3
-            }
-          }
-        }, {
-          "match": {
-            "description": {
-              "query": q,
-              "boost": 2
-            }
-          }
-        }],
-        "minimum_should_match": 1,
-        "boost": 1.0
+        }
       }
     }
   };
@@ -83,7 +93,10 @@ var requestToQuery = function(req) {
     query.index = req.query['idx'];
   }
 
-  query.body = _query(q);
+  var page = parseInt(req.query['page']) || 1,
+    rpp = parseInt(req.query['rpp']) || 10;
+
+  query.body = _query(q, page, rpp);
 
   _.defaults(query, defaults);
   return query;
