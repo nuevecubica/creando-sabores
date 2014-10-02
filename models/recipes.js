@@ -2,17 +2,14 @@ var _ = require('underscore'),
   config = require(__base + 'config.js'),
   keystone = require('keystone'),
   mongoosastic = require('mongoosastic'),
+  virtual = require('./virtuals'),
   Types = keystone.Field.Types,
   async = require('async'),
-  modelCleaner = require(__base + 'utils/modelCleaner'),
-  imageQuality = require(__base + 'utils/imageQuality');
+  modelCleaner = require(__base + 'utils/modelCleaner');
 
 // ===== Defaults
 // Define recipe defaults
 var defaults = {
-  images: {
-    header: '/images/default_recipe.jpg'
-  },
   positions: (function() {
     var arr = [];
     for (var i = 0; i < 10; ++i) {
@@ -119,7 +116,8 @@ Recipe.add({
     state: {
       type: Types.Select,
       options: ['draft', 'published', 'review', 'removed', 'banned'],
-      default: 'draft'
+      default: 'draft',
+      es_indexed: true
     },
 
     publishedDate: {
@@ -302,66 +300,12 @@ Recipe.schema.set('toJSON', {
   transform: modelCleaner.transformer
 });
 
-// Score
-Recipe.schema.virtual('rating').get(function() {
-  if (this.scoreCount === undefined || this.scoreCount === 0) {
-    return 0;
-  }
-  return (this.scoreTotal / this.scoreCount);
-});
-
-// Recipe can be shown
-Recipe.schema.virtual('canBeShown').get(function() {
-  return (this.state !== 'banned' && this.state !== 'removed');
-});
-
-// URL
-Recipe.schema.virtual('url').get(function() {
-  return (this.isVideorecipe) ? '/videoreceta/' + this.slug : '/receta/' + this.slug;
-});
-
-Recipe.schema.virtual('thumb').get(function() {
-  return {
-    'list': this._.header.src({
-      transformation: 'list_thumb'
-    }) || defaults.images.header,
-    'grid_small': this._.header.src({
-      transformation: 'grid_small_thumb'
-    }) || defaults.images.header,
-    'grid_medium': this._.header.src({
-      transformation: 'grid_medium_thumb'
-    }) || defaults.images.header,
-    'grid_large': this._.header.src({
-      transformation: 'grid_large_thumb'
-    }) || defaults.images.header,
-    'header': this._.header.src({
-      transformation: 'header_limit_thumb'
-    }) || defaults.images.header,
-    'shopping_list': this._.header.src({
-      transformation: 'shopping_list_thumb'
-    }) || defaults.images.header,
-    'hasQuality': imageQuality(this.header).hasQuality
-  };
-});
-
-Recipe.schema.virtual('classes').get(function() {
-  var classes = ['recipe'];
-  classes.push('state-' + this.state);
-
-  if (this.contest && this.contest.id) {
-    classes.push('contest-recipe');
-  }
-
-  if (this.contest.isJuryWinner) {
-    classes.push('contest-winner-jury');
-  }
-
-  if (this.contest.isCommunityWinner) {
-    classes.push('contest-winner-community');
-  }
-  // return classes;
-  return classes.join(' ');
-});
+// Virtuals
+Recipe.schema.virtual('rating').get(virtual.recipe.rating);
+Recipe.schema.virtual('canBeShown').get(virtual.recipe.canBeShown);
+Recipe.schema.virtual('url').get(virtual.recipe.url);
+Recipe.schema.virtual('thumb').get(virtual.recipe.thumb);
+Recipe.schema.virtual('classes').get(virtual.recipe.classes);
 
 // Check if time and portions values
 Recipe.schema.path('time').set(function(value) {
