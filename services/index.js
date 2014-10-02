@@ -13,5 +13,6 @@ exports.user = require('./user');
 exports.recipeList = require('./recipeList');
 exports.pageHeader = require('./pageHeader');
 exports.config = require('./config');
+exports.elastic = require('./elastic');
 
 module.exports = exports;

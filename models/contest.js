@@ -1,4 +1,6 @@
 var _ = require('underscore'),
+  config = require(__base + 'config.js'),
+  mongoosastic = require('mongoosastic'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
@@ -71,19 +73,22 @@ Contest.add({
     sponsor: {
       type: Types.Text,
       initial: true,
-      required: true
+      required: true,
+      es_indexed: true
     },
 
     title: {
       type: Types.Text,
       initial: true,
       required: true,
-      index: true
+      index: true,
+      es_indexed: true
     },
 
     description: {
       type: Types.Html,
       wysiwyg: true,
+      es_indexed: true
     },
 
     ingredientRequired: {
@@ -116,14 +121,16 @@ Contest.add({
       type: Types.Datetime,
       require: true,
       initial: true,
-      label: 'Start date'
+      label: 'Start date',
+      es_indexed: true
     },
 
     submissionDeadline: {
       type: Types.Datetime,
       require: true,
       initial: true,
-      label: 'Finish submissions'
+      label: 'Finish submissions',
+      es_type: "date"
     },
 
     deadline: {
@@ -164,7 +171,8 @@ Contest.add({
         description: {
           type: Types.Html,
           wysiwyg: true,
-          label: 'Description jury award'
+          label: 'Description jury award',
+          es_indexed: true
         },
 
         winner: {
@@ -190,7 +198,8 @@ Contest.add({
         description: {
           type: Types.Html,
           wysiwyg: true,
-          label: 'Description community award'
+          label: 'Description community award',
+          es_indexed: true
         },
 
         winner: {
@@ -536,4 +545,9 @@ Contest.schema.pre('save', function(next) {
  * ============
  */
 Contest.defaultColumns = 'title, finishedDate|20%, state|20%';
+Contest.schema.plugin(mongoosastic, {
+  host: config.elasticsearch.host,
+  port: config.elasticsearch.port,
+  log: config.elasticsearch.log
+});
 Contest.register();

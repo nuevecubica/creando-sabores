@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Recipe = keystone.list('Recipe');
+  Recipe = keystone.list('Recipe'),
+  service = require('./index');
 
 /**
  * Reads both recipes and videorecipes from the database
@@ -232,11 +233,56 @@ var getRecipesGrid = function(options, callback) {
 
 };
 
+
+/**
+ * Returns recipes similar to a given recipe
+ * @param  {Object}   options  recipeId
+ * @param  {Function} callback (err, results)
+ */
+var getRelatedRecipes = function(options, callback) {
+  options = _.defaults(options || {}, {
+    limit: 3
+  });
+
+  callback = callback || function() {};
+
+  if (!options.recipeId) {
+    return callback('Invalid recipeId');
+  }
+
+  service.elastic.mlt({
+    fields: ['_id'],
+    index: 'recipes',
+    type: 'recipe',
+    size: options.limit,
+    id: options.recipeId.toString(),
+    mlt_min_word_length: 3,
+    mlt_fields: ['title', 'description'],
+  }, function(err, results) {
+    if (!err && results && results.hits.total) {
+      var ids = [];
+      for (var i = 0, l = options.limit || results.hits.total; i < l; ++i) {
+        ids.push(results.hits.hits[i]._id);
+      }
+
+      Recipe.model.find({
+        "_id": {
+          "$in": ids
+        }
+      }, callback);
+    }
+    else {
+      callback(err, null);
+    }
+  });
+};
+
 /*
   Set exportable object
  */
 var _service = {
   get: getAllRecipes,
+  related: getRelatedRecipes,
   grid: {
     get: getRecipesGrid
   },

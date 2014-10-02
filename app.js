@@ -5,6 +5,7 @@ global.__base = __dirname + '/';
 var _ = require('underscore'),
   multiline = require('multiline');
 
+require('./utils/stringPrototype');
 require('dotenv').load();
 
 if (!process.env.NODE_ENV) {
@@ -99,6 +100,11 @@ keystone.start(function(done) {
       });
     });
   }
+
+  /*
+  Elasticsearch Setup
+   */
+  require(__base + 'services').elastic.sync();
 });
 
 exports = module.exports = keystone;

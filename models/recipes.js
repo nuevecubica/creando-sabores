@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-  config = require('../config.js'),
+  config = require(__base + 'config.js'),
   keystone = require('keystone'),
   mongoosastic = require('mongoosastic'),
   Types = keystone.Field.Types,
@@ -49,7 +49,8 @@ Recipe.add({
       required: true,
       index: true,
       note: 'Should be less than 12 chars to be promoted',
-      es_indexed: true
+      es_indexed: true,
+      es_boost: 5
     },
 
     author: {
@@ -66,13 +67,16 @@ Recipe.add({
 
     likes: {
       type: Types.Number,
-      default: 0
+      default: 0,
+      es_indexed: true
     },
 
     scoreTotal: {
       type: Types.Number,
       noedit: true,
-      default: 0
+      default: 0,
+      es_indexed: true,
+      es_type: "float"
     },
 
     scoreCount: {
@@ -122,14 +126,20 @@ Recipe.add({
       type: Types.Date,
       dependsOn: {
         state: 'published'
-      }
+      },
+      es_indexed: true,
+      es_type: "date",
+      es_boost: 4
     },
 
     editDate: {
       type: Types.Date,
       dependsOn: {
         state: 'published'
-      }
+      },
+      es_indexed: true,
+      es_type: "date",
+      es_boost: 3
     }
   },
 
@@ -172,19 +182,25 @@ Recipe.add({
     description: {
       type: Types.Html,
       wysiwyg: true,
-      height: 100
+      height: 100,
+      es_indexed: true,
+      es_boost: 4
     },
 
     ingredients: {
       type: Types.Html,
       wysiwyg: true,
-      height: 50
+      height: 50,
+      es_indexed: true,
+      es_boost: 2
     },
 
     procedure: {
       type: Types.Html,
       wysiwyg: true,
-      height: 200
+      height: 200,
+      es_indexed: true,
+      es_boost: 1
     }
   },
 
@@ -193,7 +209,8 @@ Recipe.add({
       id: {
         type: Types.Relationship,
         ref: 'Contest',
-        index: true
+        index: true,
+        es_indexed: true
       },
 
       isJuryWinner: {
@@ -480,6 +497,6 @@ Recipe.defaultColumns = 'title, author, publishedDate, isOfficial, isPromoted';
 Recipe.schema.plugin(mongoosastic, {
   host: config.elasticsearch.host,
   port: config.elasticsearch.port,
-  log: 'trace'
+  log: config.elasticsearch.log
 });
 Recipe.register();
