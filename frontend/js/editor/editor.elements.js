@@ -399,13 +399,41 @@ window.chef.editor = (function(editor) {
     ), elem);
   };
 
+  var newCheckboxElement = function(selector, options) {
+    var elem = {
+      type: 'checkbox',
+      getValue: function() {
+        if (this.options.isHtml) {
+          return this._filter(String(this.$self.html() || ''));
+        }
+        else {
+          return this._filter(String(this.$self.text() || ''));
+        }
+      },
+      // Sets the actual value
+      setValue: function(value) {
+        this.$self.html(value);
+      }
+    };
+
+    var optionsDefault = {
+      isHtml: true,
+      filters: {}
+    };
+
+    return _.extend(this.newElement('default')(
+      selector, _.merge(options || {}, optionsDefault, _.defaults)
+    ), elem);
+  };
+
   var elementTypes = {
     'default': _newElement,
     list: _newElemList,
     input: newInputElement,
     number: newInputNumberElement,
     select: newSelectElement,
-    text: newTextElement
+    text: newTextElement,
+    checkbox: newCheckboxElement
   };
 
   return _.extend(editor, {
