@@ -218,23 +218,28 @@ block content
           .step
             .ui.button.chef.button-brick.step-add
               a= __('Add step')
+      .sixteen.wide.column
+        .hide-editable.ui.grid.stackable
+          #related.four.column.row
+            h2.ui.header= __('other recipes')
+            - var related = data.related
+            if related && related.length > 0
+              - for (var i = 0, l = related.length; i < l; i++)
+                .column
+                  .related(style='background-image: url(#{related[i].thumb.header}); background-position:center; background-size:cover;')
+                    a(href='#{related[i].url}')
+                      .content
+                        span= related[i].title
+              .column
+                .related.button
+                  a(href='/recetas')
+                    .content
+                      span= __('View all')
 
-      #related.row
-        .sixteen.wide.column
-          .header= __('other recipes')
 
-        - var related = data.related
-
-        if related && related.length > 0
-          - for (var i = 0, l = related.length; i < l; i++)
-            .four.tablet-four.mobile-sixteen.wide.column
-              a.related(href='/receta/#{related[i].slug}',style='background-image: url(#{related[i].thumb.header})')
-            .four.tablet-four.mobile-sixteen.wide.column
-              a.related.button(href='/recetas')= __('View all')
-
-        else
-          .sixteen.wide.column
-            .subheader= __('No related recipes yet')
+            else
+              .sixteen.wide.column
+                .subheader= __('No related recipes yet')
 
 
 

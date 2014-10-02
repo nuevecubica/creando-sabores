@@ -51,11 +51,11 @@ exports = module.exports = function(req, res) {
             sort: '-publishDate'
           }, function(err, related) {
             if (!err && related) {
-              locals.related = related;
+              locals.data.related = related.results;
               next(null);
             }
             else {
-              return res.notfound(res.__('Not found'));
+              next(null);
             }
           });
         }
