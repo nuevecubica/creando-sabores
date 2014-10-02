@@ -40,6 +40,7 @@ block content
     input#hidden-description(type='hidden' name='description')
     input#hidden-ingredients(type='hidden' name='ingredients')
     input#hidden-procedure(type='hidden' name='procedure')
+    input#hidden-categories(type='hidden' name='categories')
     input(type='hidden' name='_csrf' value='#{csrftoken}')
     if data.contest && isNew
       input(type='hidden' name='contest.id' value='#{data.contest._id}')
@@ -76,9 +77,9 @@ block content
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
-              - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
+              - var levels = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
               - var difficulty = data.recipe.difficulty || 2
-              - var category = categories[difficulty - 1]
+              - var category = levels[difficulty - 1]
 
               .itemSelected
                 .item(data-value=difficulty)
@@ -91,7 +92,7 @@ block content
                     .span= category
 
               .options
-                +difficult-items(categories)
+                +difficult-items(levels)
 
               i.dropdown.icon
 
@@ -141,6 +142,14 @@ block content
             .add-menu
               .ui.button.chef.button-brick
                 a= __('Add to menu')
+
+      #recipe-categories.row.hide-editable
+        .sixteen.wide.column
+          if (data.categories)
+            .icon-chef-candado.icon
+            .explain
+              - for (var k = 0, n = data.categories.length; k < n; k++)
+                = data.categories[k]
 
       #recipe-description.row
         .sixteen.wide.column
@@ -218,6 +227,41 @@ block content
           .step
             .ui.button.chef.button-brick.step-add
               a= __('Add step')
+
+      .row.show-editable
+        .sixteen.wide.column
+          h2.ui.header= __('Categories')
+          .explain
+            .ui.content= __('Help us categorize your recipe')
+
+        #categories.sixteen.wide.column
+          if (categories.plates)
+            .row
+              .sixteen.wide.column
+                h4= __('Plate type')
+                #plates.categories
+                  - var selected = false
+                  - for (var k = 0, n = categories.plates.length; k < n; k++)
+                    - selected = false
+
+                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.plates[k]) > 0)
+                      - selected = true
+
+                    .category(class= (selected) ? 'selected' : '')= categories.plates[k]
+
+          if (categories.food)
+            .row
+              .sixteen.wide.column
+                h4= __('Food type')
+                #food.categories
+                  - var selected = false
+                  - for (var k = 0, n = categories.food.length; k < n; k++)
+                    - selected = false
+
+                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.food[k]) > 0)
+                      - selected = true
+
+                    .category(class= (selected) ? 'selected' : '')= categories.food[k]
 
       .hide-editable.ui.grid.stackable
         #related.four.column.row
