@@ -57,7 +57,7 @@ block content
 
         .sixteen.wide.column.center.aligned
           .ui.button.chef.button-brick
-            a(href='/concurso/#{data.current.slug}')= __('Learn more')
+            a(href='#{data.current.url}')= __('Learn more')
     else
       .sixteen.wide.column.center.aligned
         .subheader= __('No current contest')
@@ -73,7 +73,7 @@ block content
         each contest in contests
           .contest-title.sixteen.wide.column
             .header
-              a(href='/concurso/#{contest.slug}')= contest.title
+              a(href='#{contest.url}')= contest.title
 
           +contest(contest)
 

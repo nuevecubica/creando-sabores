@@ -46,7 +46,18 @@ exports = module.exports = function(req, res) {
           locals.data = result;
           locals.own = result.own;
           locals.title = result.recipe.title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
-          next(null);
+          service.recipeList.recipe.get({
+            limit: 3,
+            sort: '-publishDate'
+          }, function(err, related) {
+            if (!err && related) {
+              locals.data.related = related.results;
+              next(null);
+            }
+            else {
+              next(null);
+            }
+          });
         }
         else {
           return res.notfound(res.__('Not found'));
