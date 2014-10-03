@@ -122,10 +122,10 @@ exports = module.exports = function(app) {
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
   //---- Elasticsearch
-  app.get('/api/v1/admin/es/ping', routes.api.v1.admin.es.ping);
-  app.get('/api/v1/admin/es/reindex/:collection(recipe|contest|user)?', routes.api.v1.admin.es.reindex);
+  app.get('/api/v1/admin/es/ping', routes.api.v1.admin.goldfinder.ping);
+  app.get('/api/v1/admin/es/reindex/:collection(recipe|contest|user)?', routes.api.v1.admin.goldfinder.reindex);
   //-- Elasticsearch
-  app.get('/api/v1/search', routes.api.v1.admin.es.search);
+  app.get('/api/v1/search', routes.api.v1.goldfinder.search);
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);
 
