@@ -2,9 +2,16 @@ var keystone = require('keystone'),
   es = require('elasticsearch'),
   _ = require('underscore'),
   async = require('async'),
-  config = require(__base + 'config');
+  config = require(__base + 'config'),
+  virtual = require(__base + 'models/virtuals');
 
 var _client = null;
+
+/**
+ * Elasticsearch client
+ * @param  {Object} _config        Override configuration
+ * @return {Elasticsearch Client}
+ */
 var _getClient = function(_config) {
   var cfg = _config ? _config : config.elasticsearch;
   if (!_client) {
@@ -17,7 +24,85 @@ var _getClient = function(_config) {
 };
 
 /**
- * Return an Elasticsearch Client
+ * Converts Elasticsearch results into pseudo-models or models.
+ *
+ * If hydrate parameter is unset or false, it just adds virtuals to results.
+ * Otherwise it returns Keystone list objects.
+ *
+ * @param {Function} callback Standard ES callback (err, results, status)
+ * @param {Object}   options  Options or hydrate (mongoose) options
+ * @param {Bool}     hydrate  Return keystone items?
+ */
+var _setVirtuals = function(callback, options, hydrate) {
+  if (!hydrate) {
+    // Add virtuals
+    return function(err, results, status) {
+      var hits = results.hits.hits.map(function(a, i) {
+        if (virtual[a._type]) {
+          a._source = virtual[a._type]._apply.call(a._source);
+        }
+        return a;
+      });
+      results.hits.hits = hits;
+      callback(err, results, status);
+    };
+  }
+  else {
+    // Call Mongoose and return models
+    return function(err, results, status) {
+      var resultsMap = {},
+        modelsMap = {},
+        hits = [];
+
+      var ids = results.hits.hits.map(function(a, i) {
+        resultsMap[a._id] = i;
+        if (!modelsMap[a._type]) {
+          modelsMap[a._type] = [];
+        }
+        modelsMap[a._type].push(a._id);
+        return a._id;
+      });
+
+      var iterator = function(modelName, next) {
+        var model = keystone.list(modelName.capitalize()).model;
+        var query = model.find({
+          _id: {
+            $in: modelsMap[modelName]
+          }
+        });
+
+        // Build Mongoose query based on hydrate options
+        // Example: {lean: true, sort: '-name', select: 'address name'}
+        Object.keys(options).forEach(function(option) {
+          query[option](options[option]);
+        });
+
+        query.exec(function(err, docs) {
+          if (err) {
+            return next(err);
+          }
+          else {
+            docs.forEach(function(doc) {
+              var i = resultsMap[doc._id];
+              hits[i] = doc;
+            });
+            next();
+          }
+        });
+      };
+
+      var end = function(err) {
+        results.hits.hits = hits;
+        callback(err, results, status);
+      };
+
+      async.each(Object.keys(modelsMap), iterator, end);
+    };
+  }
+};
+
+/**
+ * Returns an Elasticsearch Client
  *
  * http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/configuration.html
  *
@@ -35,7 +120,7 @@ var esClient = function(config, callback) {
 };
 
 /**
- * Return documents matching a query, aggregations/facets, highlighted snippets, suggestions, and more.
+ * Returns documents matching a query, aggregations/facets, highlighted snippets, suggestions, and more.
  *
  * http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-search
  *
@@ -43,11 +128,18 @@ var esClient = function(config, callback) {
  * @param  {Function}  callback (err, response, status)
  */
 var esSearch = function(params, callback) {
-  _getClient().search(params, callback);
+  _getClient().search(params, _setVirtuals(callback));
 };
 
 /**
- * Get the number of documents for the cluster, index, type, or a query.
+ * Same as esSearch but it returns Keystone items.
+ */
+esSearch.hydrated = function(params, callback) {
+  _getClient().search(params, _setVirtuals(callback, {}, true));
+};
+
+/**
+ * Gets the number of documents for the cluster, index, type, or a query.
  *
  * http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-count
  *
@@ -58,8 +150,23 @@ var esCount = function(params, callback) {
   _getClient().count(params, callback);
 };
 
+/**
+ * Finds documents that are "like" provided text by running it against one or more fields.
+ *
+ * http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-mlt
+ *
+ * @param  {ES params} params   See Elasticsearch documentation
+ * @param  {Function}  callback (err, response, status)
+ */
 var esMoreLikeThis = function(params, callback) {
-  _getClient().mlt(params, callback);
+  _getClient().mlt(params, _setVirtuals(callback));
+};
+
+/**
+ * Same as esMoreLikeThis but it returns Keystone items.
+ */
+esMoreLikeThis.hydrated = function(params, callback) {
+  _getClient().mlt(params, _setVirtuals(callback, {}, true));
 };
 
 /**
