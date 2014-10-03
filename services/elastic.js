@@ -3,7 +3,8 @@ var keystone = require('keystone'),
   _ = require('underscore'),
   async = require('async'),
   config = require(__base + 'config'),
-  virtual = require(__base + 'models/virtuals');
+  virtual = require(__base + 'models/virtuals'),
+  hitsToDocuments = require(__base + 'utils/hitsToDocuments');
 
 var _client = null;
 
@@ -27,13 +28,18 @@ var _getClient = function(_config) {
  * Converts Elasticsearch results into pseudo-models or models.
  *
  * If hydrate parameter is unset or false, it just adds virtuals to results.
- * Otherwise it returns Keystone list objects.
+ * Otherwise it returns full Keystone items.
+ *
+ * Options:
+ *   withEs: include ES metadata in documents.
  *
  * @param {Function} callback Standard ES callback (err, results, status)
  * @param {Object}   options  Options or hydrate (mongoose) options
  * @param {Bool}     hydrate  Return keystone items?
  */
 var _setVirtuals = function(callback, options, hydrate) {
+  options = options || {};
+
   if (!hydrate) {
     // Add virtuals
     return function(err, results, status) {
@@ -43,7 +49,7 @@ var _setVirtuals = function(callback, options, hydrate) {
         }
         return a;
       });
-      results.hits.hits = hits;
+      results.hits.hits = hitsToDocuments(hits, options.withEs ? options.withEs : false);
       callback(err, results, status);
     };
   }
@@ -230,6 +236,19 @@ var esDatabaseSync = function(params, callback) {
   async.each(params.collections, iterator, end);
 };
 
+/**
+ * Elastic Service
+ *
+ * Functions mapping:
+ *
+ *   _client: esClient
+ *   search: esSearch
+ *   count: esCount
+ *   mlt: esMoreLikeThis
+ *   sync: esDatabaseSync
+ *
+ * @type {Object}
+ */
 var _service = {
   _client: esClient,
   search: esSearch,

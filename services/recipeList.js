@@ -2,11 +2,11 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe'),
-  service = require('./index'),
-  hitsToDocuments = require(__base + 'utils/hitsToDocuments');
+  service = require('./index');
 
 /**
  * Reads both recipes and videorecipes from the database
+ *
  * @param  {Object}   options { user: null, all: false, sort: '-rating',
  *                              flags: [], page: 1, perPage: 10, limit: 10,
  *                              fromContests: false, states: ['published'] }
@@ -113,6 +113,8 @@ var getAllRecipes = function(options, callback) {
 
 /**
  * Reads only videorecipes from the database. Uses getAllRecipes internally.
+ * @param  {Object}   options  getAllRecipes options.
+ * @param  {Function} callback
  */
 var getVideoRecipes = function(options, callback) {
   if (!options.flags) {
@@ -126,6 +128,8 @@ var getVideoRecipes = function(options, callback) {
 
 /**
  * Reads only recipes from the database. Uses getAllRecipes internally.
+ * @param  {Object}   options  getAllRecipes options.
+ * @param  {Function} callback
  */
 var getRecipes = function(options, callback) {
   if (!options.flags) {
@@ -278,7 +282,7 @@ var getRelatedRecipes = function(options, callback) {
     }
   }, function(err, results, status) {
     if (results) {
-      results = hitsToDocuments(results.hits.hits);
+      results = results.hits.hits;
     }
     callback(err, results, status);
   });

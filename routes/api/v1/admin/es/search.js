@@ -23,6 +23,16 @@ var response = function(res) {
   };
 };
 
+/**
+ * Request to query magic.
+ *
+ * If there's a place to tweak searches, it's here.
+ *
+ * @param  {String}  q    Term to look for
+ * @param  {Integer} page Page number. Default: 1.
+ * @param  {Integer} rpp  Results per page
+ * @return {Object}       ES query
+ */
 var _query = function(q, page, rpp) {
   return {
     "from": ((page - 1) * rpp) || 0,
@@ -74,6 +84,11 @@ var _query = function(q, page, rpp) {
   };
 };
 
+/**
+ * Converts a request into a query ready for ES
+ * @param  {Object} req Express router request
+ * @return {Object}     ES query
+ */
 var requestToQuery = function(req) {
   var query = {},
     q = '';

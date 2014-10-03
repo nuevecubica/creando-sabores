@@ -35,7 +35,7 @@ var src = function(item, options) {
 };
 
 /**
- * Fake underscore item method
+ * Fake Keystone's underscore item methods
  * @return {Object} Keystone's underscore methods
  */
 var fakeUnderscore = function() {
