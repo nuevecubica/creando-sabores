@@ -9,6 +9,7 @@ if test -z (which brew)
 end
 
 # Add Cask
+brew update
 brew tap caskroom/homebrew-cask
 # Install
 brew update

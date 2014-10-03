@@ -11,7 +11,7 @@
 ## Install
 
 ### Mac OSX Automatic Installation
-- Run `./install_osx.sh`
+- Run `./install_osx.fish`
 - Enjoy!
 
 ### Mac OSX Manual Installation
