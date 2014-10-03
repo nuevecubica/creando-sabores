@@ -3,5 +3,6 @@
  * @type {Object}
  */
 exports = module.exports = {
-  recipe: require('./recipeVirtuals.js')
+  recipe: require('./recipeVirtuals.js'),
+  contest: require('./contestVirtuals.js')
 };

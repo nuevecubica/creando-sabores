@@ -4,6 +4,7 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
+  virtual = require('./virtuals'),
   moment = require('moment'),
   modelCleaner = require(__base + 'utils/modelCleaner'),
   imageQuality = require(__base + 'utils/imageQuality');
@@ -11,11 +12,6 @@ var _ = require('underscore'),
 // ===== Defaults
 // Define recipe defaults
 var defaults = {
-  images: {
-    imageContest: '/images/default_contest.jpg',
-    header: '/images/default_contest.jpg',
-    headerBackgroundRecipe: '/images/default_contest.jpg'
-  },
   positions: [{
     value: 0,
     label: 'Position 1'
@@ -285,33 +281,8 @@ Contest.schema.set('toJSON', {
   transform: modelCleaner.transformer
 });
 
-Contest.schema.virtual('thumb').get(function() {
-  return {
-    'list': this._.imageContest.src({
-      transformation: 'list_thumb'
-    }) || defaults.images.imageContest,
-    'grid_small': this._.imageContest.src({
-      transformation: 'grid_small_thumb'
-    }) || defaults.images.imageContest,
-    'grid_medium': this._.imageContest.src({
-      transformation: 'grid_medium_thumb'
-    }) || defaults.images.imageContest,
-    'grid_large': this._.imageContest.src({
-      transformation: 'grid_large_thumb'
-    }) || defaults.images.imageContest,
-    'header': this._.header.src({
-      transformation: 'header_limit_thumb'
-    }) || defaults.images.header,
-    'header_recipe': this._.headerBackgroundRecipe.src({
-      transformation: 'header_limit_thumb'
-    }) || defaults.images.headerBackgroundRecipe,
-    'hasQuality': imageQuality(this.header).hasQuality
-  };
-});
-
-Contest.schema.virtual('url').get(function() {
-  return '/concurso/' + this.slug;
-});
+Contest.schema.virtual('thumb').get(virtual.contest.thumb);
+Contest.schema.virtual('url').get(virtual.contest.url);
 
 // Function to switch recipe state
 // Params:
