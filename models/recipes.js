@@ -46,40 +46,48 @@ Recipe.add({
       required: true,
       index: true,
       note: 'Should be less than 12 chars to be promoted',
-      es_indexed: true,
       es_boost: 5
+    },
+
+    // Needed for Mongoosastic
+    slug: {
+      type: Types.Text,
+      es_type: "string",
+      hidden: true
     },
 
     author: {
       type: Types.Relationship,
       ref: 'User',
       initial: true,
-      index: true
+      index: true,
+      es_type: "objectid"
     },
 
     isOfficial: {
       type: Types.Boolean,
-      hidden: true
+      hidden: true,
+      es_type: "boolean"
     },
 
     likes: {
       type: Types.Number,
       default: 0,
-      es_indexed: true
+      es_type: "integer"
     },
 
     scoreTotal: {
       type: Types.Number,
       noedit: true,
       default: 0,
-      es_indexed: true,
-      es_type: "float"
+      es_type: "integer"
     },
 
     scoreCount: {
       type: Types.Number,
       noedit: true,
-      default: 0
+      default: 0,
+      es_type: "integer"
     },
 
     schemaVersion: {
@@ -93,7 +101,8 @@ Recipe.add({
     isVideorecipe: {
       type: Types.Boolean,
       label: 'Is a videorecipe',
-      default: false
+      default: false,
+      es_type: "boolean"
     },
     videoUrl: {
       type: Types.Url,
@@ -102,6 +111,7 @@ Recipe.add({
       dependsOn: {
         'isVideorecipe': true
       },
+      es_type: "string"
     }
   },
 
@@ -117,7 +127,7 @@ Recipe.add({
       type: Types.Select,
       options: ['draft', 'published', 'review', 'removed', 'banned'],
       default: 'draft',
-      es_indexed: true
+      es_type: "string"
     },
 
     publishedDate: {
@@ -125,7 +135,6 @@ Recipe.add({
       dependsOn: {
         state: 'published'
       },
-      es_indexed: true,
       es_type: "date",
       es_boost: 4
     },
@@ -135,7 +144,6 @@ Recipe.add({
       dependsOn: {
         state: 'published'
       },
-      es_indexed: true,
       es_type: "date",
       es_boost: 3
     }
@@ -161,44 +169,47 @@ Recipe.add({
         value: 5,
         label: 'Muy Alto'
       }],
-      default: 0
+      default: 0,
+      es_type: "string"
     },
 
     time: {
       type: Types.Number,
       note: 'In minutes',
       initial: false,
-      default: 0
+      default: 0,
+      es_type: "integer"
     },
 
     portions: {
       type: Types.Number,
       initial: false,
-      default: 0
+      default: 0,
+      es_type: "integer"
     },
 
     description: {
       type: Types.Html,
       wysiwyg: true,
       height: 100,
-      es_indexed: true,
-      es_boost: 4
+      es_boost: 4,
+      es_type: "string"
     },
 
     ingredients: {
       type: Types.Html,
       wysiwyg: true,
       height: 50,
-      es_indexed: true,
-      es_boost: 2
+      es_boost: 2,
+      es_type: "string"
     },
 
     procedure: {
       type: Types.Html,
       wysiwyg: true,
       height: 200,
-      es_indexed: true,
-      es_boost: 1
+      es_boost: 1,
+      es_type: "string"
     }
   },
 
@@ -208,19 +219,21 @@ Recipe.add({
         type: Types.Relationship,
         ref: 'Contest',
         index: true,
-        es_indexed: true
+        es_type: "objectid"
       },
 
       isJuryWinner: {
-        type: Boolean,
+        type: Types.Boolean,
         // hidden: true,
-        default: false
+        default: false,
+        es_type: "boolean"
       },
 
       isCommunityWinner: {
-        type: Boolean,
+        type: Types.Boolean,
         // hidden: true,
-        default: false
+        default: false,
+        es_type: "boolean"
       }
     }
   },
@@ -230,20 +243,23 @@ Recipe.add({
       type: Types.Boolean,
       label: 'Promoted',
       hidden: true,
-      default: false
+      default: false,
+      es_type: "boolean"
     },
 
     isIndexHeaderPromoted: {
       type: Types.Boolean,
       label: 'Index header promoted',
-      default: false
+      default: false,
+      es_type: "boolean"
     },
 
     isIndexGridPromoted: {
       value: {
         type: Types.Boolean,
         label: 'Index Grid',
-        default: false
+        default: false,
+        es_type: "boolean"
       },
 
       position: {
@@ -254,21 +270,24 @@ Recipe.add({
         dependsOn: {
           'isIndexGridPromoted.value': true
         },
-        default: 0
+        default: 0,
+        es_type: "integer"
       }
     },
 
     isRecipesHeaderPromoted: {
       type: Types.Boolean,
       label: 'Recipes header promoted',
-      default: false
+      default: false,
+      es_type: "boolean"
     },
 
     isRecipesGridPromoted: {
       value: {
         type: Types.Boolean,
         label: 'Recipes Grid',
-        default: false
+        default: false,
+        es_type: "boolean"
       },
 
       position: {
@@ -279,7 +298,8 @@ Recipe.add({
         dependsOn: {
           'isRecipesGridPromoted.value': true
         },
-        default: 0
+        default: 0,
+        es_type: "integer"
       }
     }
   });

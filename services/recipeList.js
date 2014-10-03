@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe'),
-  service = require('./index');
+  service = require('./index'),
+  hitsToDocuments = require(__base + 'utils/hitsToDocuments');
 
 /**
  * Reads both recipes and videorecipes from the database
@@ -275,24 +276,11 @@ var getRelatedRecipes = function(options, callback) {
         }
       }
     }
-  }, function(err, results) {
-    if (!err && results) {
-
-      var ids = results.hits.hits.map(function(a, i) {
-        return a._id;
-      });
-
-      console.log('Related total %s limit %s final %s', results.hits.total, options.limit, ids.length);
-
-      Recipe.model.find({
-        _id: {
-          $in: ids
-        }
-      }).limit(options.limit).exec(callback);
+  }, function(err, results, status) {
+    if (results) {
+      results = hitsToDocuments(results.hits.hits);
     }
-    else {
-      callback(err, null);
-    }
+    callback(err, results, status);
   });
 };
 

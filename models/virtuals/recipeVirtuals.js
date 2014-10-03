@@ -39,10 +39,11 @@ var src = function(item, options) {
  * @return {Object} Keystone's underscore methods
  */
 var fakeUnderscore = function() {
+  var that = this;
   return {
     header: {
       src: function(options) {
-        src(this, options);
+        return src(that.header, options);
       }
     }
   };
