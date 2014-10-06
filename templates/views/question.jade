@@ -1,0 +1,9 @@
+extends ../layouts/default
+
+include ../mixins/header
+
+block js
+  script(src='/js/questions.js')
+
+block content
+  - console.log('QUESTION', data.question)

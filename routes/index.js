@@ -85,6 +85,11 @@ exports = module.exports = function(app) {
   app.get('/concurso/:contest', routes.views.contest);
   app.get('/concurso/:contest/participantes/:section(top|reciente)', routes.views.participants);
 
+  // Questions
+  // -- Public
+  app.get('/preguntas', routes.views.questions);
+  app.get('/pregunta/:question', routes.views.question);
+
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);
   app.get('/salir', routes.views.signout);
@@ -121,6 +126,9 @@ exports = module.exports = function(app) {
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
+  //-- Questions
+  app.get('/api/v1/question/:question/:state', middleware.requireAdminApi, routes.api.v1.question.state);
+  app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
