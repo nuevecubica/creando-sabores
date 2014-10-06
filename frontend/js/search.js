@@ -25,6 +25,7 @@ $(window).load(function() {
       var items = data.results.hits.hits;
       if (!items.length) {
         $results.removeClass('loading loaded').addClass('no-results');
+        $('#results .list').html('');
         return;
       }
       $results.removeClass('loading no-results').addClass('loaded');
