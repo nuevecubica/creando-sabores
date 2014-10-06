@@ -10,7 +10,7 @@ exports = module.exports = function(req, res) {
 
   locals.data = {};
 
-  // load recipe
+  // load questions
   view.on('init', function(next) {
 
     var options = {
