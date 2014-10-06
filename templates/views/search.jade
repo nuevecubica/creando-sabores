@@ -1,0 +1,21 @@
+extends ../layouts/default
+
+include ../mixins/header
+//include ../mixins/search-result
+
+block js
+  script(src='/js/search.js')
+
+block content
+  +header(data, section)
+
+  .ui.page.grid.body
+
+    #search.row
+      .sixteen.wide.column.center.aligned
+
+    .row.loader
+      .sixteen.wide.column.center.aligned.loading= __('Loading more contests')
+      .sixteen.wide.column.center.aligned.load-more
+        .ui.button.chef.button-brick.load-button
+          a(href="#")= __('Load more')

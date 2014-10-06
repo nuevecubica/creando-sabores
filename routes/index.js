@@ -93,6 +93,9 @@ exports = module.exports = function(app) {
   app.get('/authentication/google', routes.authentication.google);
   //app.get('/cocinero/:user', routes.views.profile);
 
+  // Search
+  app.get('/buscar', routes.views.search);
+
   // API
   app.all('/api/v1*', keystone.initAPI);
   //-- Login
