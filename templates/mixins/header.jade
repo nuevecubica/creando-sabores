@@ -349,3 +349,13 @@ mixin header(data, section)
 						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= title
 
 				.row.section.subtitle
+	if section === 'search'
+
+		#search-header.ui.grid.segment
+			.shadow-layer
+			.ui.page.grid.head.simple
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")

@@ -2,7 +2,7 @@
 #search-bar.ui.grid.segment
 	.row
 		.ui.form
-			.field
+			form.field
 				.ui.icon.input
-					input(type='text', placeholder="#{__('Search terms')}")
-					i.icon-chef-lupa.icon.chef.button-pink-side
+					input#search-query(type='text', placeholder="#{__('Search terms')}")
+					button#search-button.icon-chef-lupa.icon.chef.button-pink-side
