@@ -208,8 +208,18 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 
     var jQXhr = $.getJSON(url).done(function(data) {
 
-        var items = data[retproperty].results;
-        var startPos = data[retproperty].first;
+        var items, startPos, next;
+        if (typeof(retproperty) === 'function') {
+          var t = retproperty(data, args);
+          items = t.results;
+          startPos = t.first;
+          next = t.next;
+        }
+        else {
+          items = data[retproperty].results;
+          startPos = data[retproperty].first;
+          next = data[retproperty].next;
+        }
 
         getTemplate(hbsname, items, function(tpl, items) {
           var html = '';
@@ -230,8 +240,8 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
         });
 
         counter--;
-        if (data[retproperty].next) {
-          args.page = data[retproperty].next;
+        if (next) {
+          args.page = next;
         }
         else {
           args.page = null;
