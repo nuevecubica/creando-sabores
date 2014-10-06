@@ -9,8 +9,10 @@
  */
 
 exports.recipe = require('./recipe');
+exports.question = require('./question');
 exports.user = require('./user');
 exports.recipeList = require('./recipeList');
+exports.questionList = require('./questionList');
 exports.pageHeader = require('./pageHeader');
 exports.config = require('./config');
 exports.elastic = require('./elastic');
