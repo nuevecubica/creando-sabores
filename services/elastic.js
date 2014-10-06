@@ -40,22 +40,29 @@ var _getClient = function(_config) {
 var _setVirtuals = function(callback, options, hydrate) {
   options = options || {};
 
+
   if (!hydrate) {
     // Add virtuals
     return function(err, results, status) {
-      var hits = results.hits.hits.map(function(a, i) {
-        if (virtual[a._type]) {
-          a._source = virtual[a._type]._apply.call(a._source);
-        }
-        return a;
-      });
-      results.hits.hits = hitsToDocuments(hits, options.withEs ? options.withEs : false);
+      if (results && results.hits) {
+        var hits = results.hits.hits.map(function(a, i) {
+          if (virtual[a._type]) {
+            a._source = virtual[a._type]._apply.call(a._source);
+          }
+          return a;
+        });
+        results.hits.hits = hitsToDocuments(hits, options.withEs ? options.withEs : false);
+      }
       callback(err, results, status);
     };
   }
   else {
     // Call Mongoose and return models
     return function(err, results, status) {
+      if (!results || !results.hits) {
+        return callback(err, results, status);
+      }
+
       var resultsMap = {},
         modelsMap = {},
         hits = [];
@@ -176,6 +183,25 @@ esMoreLikeThis.hydrated = function(params, callback) {
 };
 
 /**
+ * Suggests similar looking terms based on a provided text by using a specific suggester.
+ *
+ * http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-suggest
+ *
+ * @param  {ES params} params   See Elasticsearch documentation
+ * @param  {Function}  callback (err, response, status)
+ */
+var esSuggest = function(params, callback) {
+  _getClient().suggest(params, _setVirtuals(callback));
+};
+
+/**
+ * Same as esSuggest but it returns Keystone items.
+ */
+esSuggest.hydrated = function(params, callback) {
+  _getClient().suggest(params, _setVirtuals(callback, {}, true));
+};
+
+/**
  * Syncs the actual database with Elasticsearch
  *
  * https://github.com/jamescarr/mongoosastic
@@ -254,6 +280,7 @@ var _service = {
   search: esSearch,
   count: esCount,
   mlt: esMoreLikeThis,
+  suggest: esSuggest,
   sync: esDatabaseSync
 };
 

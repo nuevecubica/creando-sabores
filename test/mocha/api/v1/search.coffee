@@ -8,7 +8,7 @@ request = require('supertest') config.keystone.publicUrl
 
 cookie = null
 
-describe 'API v1: /search', ->
+describe 'API v1: ~/search', ->
 
   before (done) ->
     this.timeout 5000
@@ -76,5 +76,22 @@ describe 'API v1: /search', ->
           (res) ->
             if res.body.success isnt false or res.body.error isnt true
               return 'No query failed'
+        )
+        .end(done)
+
+  describe 'GET /suggest', ->
+    describe 'on request with a partial text', ->
+      it 'returns a suggestion', (done) ->
+        request
+        .get('/api/v1/suggest?q=reci')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            if res.body.success isnt true or res.body.error isnt false
+              return 'No arguments query failed'
+
+            res.body.results.words[0].options[0].text.must.be 'recipe'
         )
         .end(done)

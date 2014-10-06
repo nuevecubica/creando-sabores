@@ -129,6 +129,8 @@ exports = module.exports = function(app) {
   app.get('/api/v1/admin/es/reindex/:collection(recipe|contest|user)?', routes.api.v1.admin.goldfinder.reindex);
   //-- Elasticsearch
   app.get('/api/v1/search', routes.api.v1.goldfinder.search);
+  app.get('/api/v1/suggest', routes.api.v1.goldfinder.suggest);
+
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);
 

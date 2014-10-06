@@ -1,27 +1,6 @@
 var _ = require('underscore'),
-  service = require(__base + 'services');
-
-var response = function(res) {
-  return function(err, results) {
-    var answer = {
-      success: false,
-      error: false
-    };
-
-    if (!err && results) {
-      answer.success = true;
-      answer.results = results;
-      return res.apiResponse(answer);
-    }
-    else {
-      answer.error = true;
-      answer.errorMessage = err;
-      answer.results = results;
-      console.log(err);
-      return res.apiResponse(answer);
-    }
-  };
-};
+  service = require(__base + 'services'),
+  utils = require('./utils');
 
 /**
  * Request to query magic.
@@ -87,45 +66,12 @@ var _query = function(q, page, rpp) {
   };
 };
 
-/**
- * Converts a request into a query ready for ES
- * @param  {Object} req Express router request
- * @return {Object}     ES query
- */
-var requestToQuery = function(req) {
-  var query = {},
-    q = '';
-
-  var defaults = {
-    index: '_all'
-  };
-
-  if (req.query['q']) {
-    q = req.query['q'];
-  }
-  else {
-    return null;
-  }
-
-  if (req.query['idx']) {
-    query.index = req.query['idx'];
-  }
-
-  var page = parseInt(req.query['page']) || 1,
-    rpp = parseInt(req.query['perPage']) || 10;
-
-  query.body = _query(q, page, rpp);
-
-  _.defaults(query, defaults);
-  return query;
-};
-
 exports = module.exports = function(req, res) {
   var query;
 
-  if (!(query = requestToQuery(req))) {
-    return response(res)('Invalid query');
+  if (!(query = utils.requestToQuery(req, _query))) {
+    return utils.response(res)('Invalid query');
   }
 
-  service.elastic.search(query, response(res));
+  service.elastic.search(query, utils.response(res));
 };
