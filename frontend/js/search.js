@@ -13,18 +13,39 @@ $(window).load(function() {
   $('#search-button').on('click', function(e) {
 
     var args = {
-      q: $('#search-query').val()
+      q: $('#search-query').val(),
+      page: 1,
+      perPage: 5
     };
     var url = '/api/v1/search?' + $.param(args);
+    var $results = $('#results');
+    $results.removeClass('loaded no-results').addClass('loading');
+
     var jQXhr = $.getJSON(url).done(function(data) {
       var items = data.results.hits.hits;
-      getTemplate('recipe', items, function(tpl, items) {
+      if (!items.length) {
+        $results.removeClass('loading loaded').addClass('no-results');
+        return;
+      }
+      $results.removeClass('loading no-results').addClass('loaded');
+      getTemplate('search', items, function(tpl, items) {
         var html = '';
         for (var i = 0, l = items.length; i < l; i++) {
           html += tpl(items[i]);
         }
-        //$(html).css('display', 'none').html('#results .list').slideDown('slow');
         $('#results .list').html(html);
+
+        var retproperty = function(data, args) {
+          return {
+            results: data.results.hits.hits,
+            first: 1,
+            next: data.results.hits.total > 5 * args.page ? args.page + 1 : false
+          };
+        };
+
+        makePaginable('/api/v1/search', retproperty, 'search', '#results .list', {
+          q: args.q
+        });
       });
     });
 

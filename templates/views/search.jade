@@ -22,4 +22,10 @@ block content
     #results.ui.grid.segment
       .row
         .ui.grid.segment.list.stackable
-  
+
+      .row
+        .loader
+          .sixteen.wide.column.loading= __('Loading more recipes')
+          .sixteen.wide.column.load-more
+            .ui.button.chef.button-brick.load-button
+              a(href="#")= __('Load more')
