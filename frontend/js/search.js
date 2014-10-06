@@ -10,6 +10,12 @@ $(window).load(function() {
     });
   }
 
+  /*
+  $('#search-query').autocomplete({
+    delay: 500
+  });
+  */
+
   $('#search-button').on('click', function(e) {
 
     var args = {
@@ -39,14 +45,15 @@ $(window).load(function() {
         var retproperty = function(data, args) {
           return {
             results: data.results.hits.hits,
-            first: 1,
+            first: 5 * args.page,
             next: data.results.hits.total > 5 * args.page ? args.page + 1 : false
           };
         };
 
-        makePaginable('/api/v1/search', retproperty, 'search', '#results .list', {
+        var extraargs = {
           q: args.q
-        });
+        };
+        makePaginable('/api/v1/search', retproperty, 'search', '#results .list', extraargs);
       });
     });
 
