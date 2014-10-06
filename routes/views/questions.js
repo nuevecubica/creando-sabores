@@ -20,7 +20,7 @@ exports = module.exports = function(req, res) {
 
     // If user is admin, get all questions
     if (req.user && req.user.canAdmin) {
-      options.all = true;
+      options.states = ['review', 'published', 'closed'];
     }
 
     service.questionList.get(options, function(err, results) {
