@@ -25,24 +25,24 @@ block content
         .row
           .tab
             a#tab-all(href='#')
+              .ui.button.chef.button-green.active
+                | #{__('All')}
+          .tab
+            a#tab-recipes(href='#')
               .ui.button.chef.button-green
-                | #{('All')}
+                | #{__('Recipes')}
           .tab
-            a#tab-recipe(href='#')
-              .ui.button.chef.button-green.disabled
-                | #{('Recipes')}
-          .tab
-            a#tab-videorecipe(href='#')
-              .ui.button.chef.button-green.disabled
-                | #{('Videorecipes')}
+            a#tab-videorecipes(href='#')
+              .ui.button.chef.button-green
+                | #{__('Videorecipes')}
           .tab
             a#tab-tips(href='#')
-              .ui.button.chef.button-green.disabled
-                | #{('Tips')}
+              .ui.button.chef.button-green
+                | #{__('Tips')}
           .tab
             a#tab-menus(href='#')
-              .ui.button.chef.button-green.disabled
-                | #{('Menus')}
+              .ui.button.chef.button-green
+                | #{__('Menus')}
 
     #search
       .sixteen.wide.column.center.aligned
