@@ -1,0 +1,24 @@
+mixin question(question)
+
+  #query.row
+    .three.wide.column
+      a.ui.item.profile(href=question.url)
+        img(src=question.author.thumb.avatar_large)
+
+    .thirteen.wide.column 
+      .ui.ten.column.grid.stackable
+
+        .six.wide.column
+
+          .span= question.author.name
+
+        .five.wide.column
+          .span= question.publishedDate
+
+        .commentary.two.wide.column
+          .strong= __('Comentarios')
+
+      a.row(href=question.url)
+
+      .ui.content
+        .span= question.title
