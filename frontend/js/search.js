@@ -22,11 +22,8 @@ $(window).load(function() {
 
   function getSearchType() {
     var type = $('.tab .active').closest('a').attr('id').substring(4);
-    if (type === 'videorecipes') {
-      type = 'recipes'; // TODO
-    }
-    else if (type === 'all') {
-      type = null;
+    if (type === 'all') {
+      type = '_all';
     }
     return type;
   }
@@ -42,6 +39,13 @@ $(window).load(function() {
         perPage: 5
       },
       url = '/api/v1/search?' + $.param(args);
+
+    e.preventDefault();
+    if (!q.length) {
+      $results.removeClass('loading loaded no-results');
+      $('#results .list').html('');
+      return;
+    }
 
     $results.removeClass('loaded no-results').addClass('loading');
 
@@ -67,7 +71,6 @@ $(window).load(function() {
       });
     });
 
-    e.preventDefault();
   });
 
   $('.tab a').on('click', function(e) {

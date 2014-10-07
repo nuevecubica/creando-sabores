@@ -53,6 +53,28 @@ exports = module.exports = {
 
     query.body = queryCallback(q, page, rpp);
 
+    // Videorecipes patch
+    var newFilter;
+    if (query.index === 'recipes') {
+      newFilter = {
+        "term": {
+          "isVideorecipe": false,
+          "_cache": true
+        }
+      };
+      query.body.query.filtered.filter.bool.must.push(newFilter);
+    }
+    else if (query.index === 'videorecipes') {
+      query.index = 'recipes';
+      newFilter = {
+        "term": {
+          "isVideorecipe": true,
+          "_cache": true
+        }
+      };
+      query.body.query.filtered.filter.bool.must.push(newFilter);
+    }
+
     _.defaults(query, defaults);
     return query;
   }
