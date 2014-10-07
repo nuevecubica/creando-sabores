@@ -73,5 +73,5 @@ exports = module.exports = function(req, res) {
     return utils.response(res)('Invalid query');
   }
 
-  service.elastic.search(query, utils.response(res));
+  service.elastic.search.keystoned(query, utils.response(res));
 };

@@ -115,6 +115,44 @@ var _setVirtuals = function(callback, options, hydrate) {
 };
 
 /**
+ * Converts Elasticsearch results into Keystone-like pagination info structures
+ *
+ * @param {Object}   params   Options used to query ES
+ * @param {Function} callback Standard ES callback (err, results, status)
+ */
+var _elasticToKeystone = function(params, callback) {
+  var transform = function(err, results, status) {
+    var realtypes = function(a, i) {
+      if (a._es._type === 'recipe' && a.isVideorecipe) {
+        a._es._type = 'videorecipe';
+      }
+      return a;
+    };
+    var total = results.hits.total,
+      perPage = params.body.size,
+      first = params.body.from + 1,
+      last = Math.min(first + perPage - 1, total),
+      currentPage = params.body.from / perPage + 1,
+      totalPages = Math.ceil(total / perPage),
+      res = {
+        total: total,
+        results: results.hits.hits.map(realtypes),
+        currentPage: currentPage,
+        totalPages: totalPages,
+        pages: _.range(1, totalPages + 1),
+        previous: currentPage !== 1 ? currentPage - 1 : false,
+        next: currentPage !== totalPages ? currentPage + 1 : false,
+        first: first,
+        last: last
+      };
+    callback(err, res, status);
+  };
+  return _setVirtuals(transform, {
+    withEs: true
+  });
+};
+
+/**
  * Returns an Elasticsearch Client
  *
  * http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/configuration.html
@@ -149,6 +187,13 @@ var esSearch = function(params, callback) {
  */
 esSearch.hydrated = function(params, callback) {
   _getClient().search(params, _setVirtuals(callback, {}, true));
+};
+
+/**
+ * Same as esSearch but it returns Keystone-like pagination info.
+ */
+esSearch.keystoned = function(params, callback) {
+  _getClient().search(params, _elasticToKeystone(params, callback));
 };
 
 /**

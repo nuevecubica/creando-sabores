@@ -3,19 +3,60 @@ extends ../layouts/default
 include ../mixins/header
 //include ../mixins/search-result
 
+
 block js
+  | <script>
+  | chef.typeNames = chef.typeNames || {}
+  | chef.typeNames['recipe'] = "#{__('Recipe')}"
+  | chef.typeNames['videorecipe'] = "#{__('Videorecipe')}"
+  | </script>
   script(src='/js/search.js')
+
 
 block content
   +header(data, section)
 
   .ui.page.grid.body
 
-    #search.row
+    include ../components/search
+
+    .row.tablet.computer.only
+      .five.tabs.tab-header
+        .row
+          .tab
+            a#tab-all(href='#')
+              .ui.button.chef.button-green
+                | #{('All')}
+          .tab
+            a#tab-recipe(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Recipes')}
+          .tab
+            a#tab-videorecipe(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Videorecipes')}
+          .tab
+            a#tab-tips(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Tips')}
+          .tab
+            a#tab-menus(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Menus')}
+
+    #search
       .sixteen.wide.column.center.aligned
 
-    .row.loader
-      .sixteen.wide.column.center.aligned.loading= __('Loading more contests')
-      .sixteen.wide.column.center.aligned.load-more
-        .ui.button.chef.button-brick.load-button
-          a(href="#")= __('Load more')
+      #results.ui.grid.segment
+        .row
+          .ui.grid.segment.list.stackable
+
+        .row
+          .loader
+            .sixteen.wide.column.loading= __('Loading more recipes')
+            .sixteen.wide.column.load-more
+              .ui.button.chef.button-brick.load-button
+                a(href="#")= __('Load more')
+
+        .row
+          .empty-resultset.sixteen.wide.column= __('No results')
