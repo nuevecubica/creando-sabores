@@ -33,6 +33,8 @@ div(class="{{classes}}").row.position
 		a(href="{{url}}")
 			h2.ui.header {{title}}
 
-		.ui.content {{{description}}}
+		.ui.content
+			h3.type(class="{{_es.type}}")= __('{{_es.type}}')
+			| {{{description}}}
 
 		| {{formatOfficial isOfficial}}

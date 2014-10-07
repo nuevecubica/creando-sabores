@@ -15,20 +15,44 @@ block content
 
     include ../components/search
 
+ 
+    .row.tablet.computer.only
+      .five.tabs.tab-header
+        .row
+          .tab
+            a#tab-all(href='#')
+              .ui.button.chef.button-green
+                | #{('All')}
+          .tab
+            a#tab-tips(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Tips')}
+          .tab
+            a#tab-menus(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Menus')}
+          .tab
+            a#tab-recipe(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Recipes')}
+          .tab
+            a#tab-videorecipe(href='#')
+              .ui.button.chef.button-green.disabled
+                | #{('Videorecipes')}
 
-    #search.row
+    #search
       .sixteen.wide.column.center.aligned
 
-    #results.ui.grid.segment
-      .row
-        .ui.grid.segment.list.stackable
+      #results.ui.grid.segment
+        .row
+          .ui.grid.segment.list.stackable
 
-      .row
-        .loader
-          .sixteen.wide.column.loading= __('Loading more recipes')
-          .sixteen.wide.column.load-more
-            .ui.button.chef.button-brick.load-button
-              a(href="#")= __('Load more')
+        .row
+          .loader
+            .sixteen.wide.column.loading= __('Loading more recipes')
+            .sixteen.wide.column.load-more
+              .ui.button.chef.button-brick.load-button
+                a(href="#")= __('Load more')
 
-      .row
-        .empty-resultset.sixteen.wide.column= __('No results')
+        .row
+          .empty-resultset.sixteen.wide.column= __('No results')
