@@ -10,12 +10,6 @@ $(window).load(function() {
     });
   }
 
-  /*
-  $('#search-query').autocomplete({
-    delay: 500
-  });
-  */
-
   $('#search-button').on('click', function(e) {
 
     var args = {
