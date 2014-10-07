@@ -10,6 +10,8 @@ exports = module.exports = function(req, res) {
 
   locals.data = {};
 
+  locals.section = 'questions';
+
   // load questions
   view.on('init', function(next) {
 
