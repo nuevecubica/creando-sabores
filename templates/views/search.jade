@@ -5,6 +5,11 @@ include ../mixins/header
 
 
 block js
+  | <script>
+  | chef.typeNames = chef.typeNames || {}
+  | chef.typeNames['recipe'] = "#{__('Recipe')}"
+  | chef.typeNames['videorecipe'] = "#{__('Videorecipe')}"
+  | </script>
   script(src='/js/search.js')
 
 
@@ -15,7 +20,6 @@ block content
 
     include ../components/search
 
- 
     .row.tablet.computer.only
       .five.tabs.tab-header
         .row
