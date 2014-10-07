@@ -16,7 +16,7 @@ var _query = function(q, page, rpp) {
   page = page || 1;
   rpp = rpp || 10;
 
-  var ret = {
+  return {
     "from": ((page - 1) * rpp) || 0,
     "size": rpp || 10,
     "query": {
@@ -64,10 +64,6 @@ var _query = function(q, page, rpp) {
       }
     }
   };
-  if (!q) {
-    delete ret.query.filtered.query;
-  }
-  return ret;
 };
 
 exports = module.exports = function(req, res) {

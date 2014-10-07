@@ -37,7 +37,12 @@ exports = module.exports = {
       index: '_all'
     };
 
-    q = req.query['q'];
+    if (req.query['q']) {
+      q = req.query['q'];
+    }
+    else {
+      return null;
+    }
 
     if (req.query['idx']) {
       query.index = req.query['idx'];
