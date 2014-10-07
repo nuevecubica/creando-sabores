@@ -9,4 +9,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "mongodb" do |v|
+    v.vm.provider "docker" do |d|
+      d.image = "dockerfile/mongodb"
+      d.volumes = ["/var/docker/mongodb/db:/data/db"]
+      d.ports = ["27017:27017", "28017:28017"]
+      d.vagrant_vagrantfile = "./Vagrantfile.proxy"
+    end
+  end
+
 end

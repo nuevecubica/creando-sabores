@@ -19,5 +19,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline:
     "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
 
+  # elasticsearch
   config.vm.network :forwarded_port, guest: 9200, host: 9200
+  # mongodb
+  config.vm.network :forwarded_port, guest: 27017, host: 27017
+  config.vm.network :forwarded_port, guest: 28017, host: 28017
 end
