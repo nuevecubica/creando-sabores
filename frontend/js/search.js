@@ -8,14 +8,16 @@ $(window).load(function() {
     });
   }
 
-  function setSearchType(name) {
+  function setSearchType(name, noreload) {
     $('#tab-all .button').removeClass('active');
     $('#tab-recipes .button').removeClass('active');
     $('#tab-videorecipes .button').removeClass('active');
     $('#tab-tips .button').removeClass('active');
     $('#tab-menus .button').removeClass('active');
     $('#tab-' + name + ' .button').addClass('active');
-    $('#search-button').click();
+    if (!noreload) {
+      $('#search-button').click();
+    }
   }
 
   function getSearchType() {
@@ -72,6 +74,6 @@ $(window).load(function() {
     setSearchType(this.id.substring(4));
     e.preventDefault();
   });
-  setSearchType('all');
+  setSearchType('all', true);
 
 });
