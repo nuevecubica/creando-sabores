@@ -1,7 +1,5 @@
 /* global makePaginable */
 $(window).load(function() {
-  //var profile = window.location.pathname.split('/')[2];
-  //makePaginable('/api/v1/user/' + profile + '/recipes', 'recipes', 'recipe', '#recipes .list');
 
   /* global Handlebars */
   function getTemplate(name, items, callback) {
@@ -10,24 +8,54 @@ $(window).load(function() {
     });
   }
 
-  $('#search-button').on('click', function(e) {
+  function setSearchType(name, noreload) {
+    $('#tab-all .button').removeClass('active');
+    $('#tab-recipes .button').removeClass('active');
+    $('#tab-videorecipes .button').removeClass('active');
+    $('#tab-tips .button').removeClass('active');
+    $('#tab-menus .button').removeClass('active');
+    $('#tab-' + name + ' .button').addClass('active');
+    if (!noreload) {
+      $('#search-button').click();
+    }
+  }
 
-    var args = {
-      q: $('#search-query').val(),
-      page: 1,
-      perPage: 5
-    };
-    var url = '/api/v1/search?' + $.param(args);
-    var $results = $('#results');
+  function getSearchType() {
+    var type = $('.tab .active').closest('a').attr('id').substring(4);
+    if (type === 'all') {
+      type = '_all';
+    }
+    return type;
+  }
+
+  $('#search-button').on('click', function(e) {
+    var q = $('#search-query').val(),
+      idx = getSearchType(),
+      $results = $('#results'),
+      args = {
+        q: q,
+        idx: idx,
+        page: 1,
+        perPage: 5
+      },
+      url = '/api/v1/search?' + $.param(args);
+
+    e.preventDefault();
+    if (!q.length) {
+      $results.removeClass('loading loaded no-results');
+      $('#results .list').html('');
+      return;
+    }
+
     $results.removeClass('loaded no-results').addClass('loading');
 
     var jQXhr = $.getJSON(url).done(function(data) {
-      var items = data.results.results;
-      if (!items.length) {
+      if (!data.results || !data.results.results.length) {
         $results.removeClass('loading loaded').addClass('no-results');
         $('#results .list').html('');
         return;
       }
+      var items = data.results.results;
       $results.removeClass('loading no-results').addClass('loaded');
       getTemplate('search', items, function(tpl, items) {
         var html = '';
@@ -43,7 +71,12 @@ $(window).load(function() {
       });
     });
 
+  });
+
+  $('.tab a').on('click', function(e) {
+    setSearchType(this.id.substring(4));
     e.preventDefault();
   });
+  setSearchType('all', true);
 
 });
