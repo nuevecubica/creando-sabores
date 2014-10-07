@@ -122,6 +122,12 @@ var _setVirtuals = function(callback, options, hydrate) {
  */
 var _elasticToKeystone = function(params, callback) {
   var transform = function(err, results, status) {
+    var realtypes = function(a, i) {
+      if (a._es._type === 'recipe' && a.isVideorecipe) {
+        a._es._type = 'videorecipe';
+      }
+      return a;
+    };
     var total = results.hits.total,
       perPage = params.body.size,
       first = params.body.from + 1,
@@ -130,7 +136,7 @@ var _elasticToKeystone = function(params, callback) {
       totalPages = Math.ceil(total / perPage),
       res = {
         total: total,
-        results: results.hits.hits,
+        results: results.hits.hits.map(realtypes),
         currentPage: currentPage,
         totalPages: totalPages,
         pages: _.range(1, totalPages + 1),
