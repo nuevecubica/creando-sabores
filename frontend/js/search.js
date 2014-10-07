@@ -28,7 +28,7 @@ $(window).load(function() {
     $results.removeClass('loaded no-results').addClass('loading');
 
     var jQXhr = $.getJSON(url).done(function(data) {
-      var items = data.results.hits.hits;
+      var items = data.results.results;
       if (!items.length) {
         $results.removeClass('loading loaded').addClass('no-results');
         $('#results .list').html('');
@@ -42,18 +42,10 @@ $(window).load(function() {
         }
         $('#results .list').html(html);
 
-        var retproperty = function(data, args) {
-          return {
-            results: data.results.hits.hits,
-            first: 5 * args.page,
-            next: data.results.hits.total > 5 * args.page ? args.page + 1 : false
-          };
-        };
-
         var extraargs = {
           q: args.q
         };
-        makePaginable('/api/v1/search', retproperty, 'search', '#results .list', extraargs);
+        makePaginable('/api/v1/search', 'results', 'search', '#results .list', extraargs);
       });
     });
 
