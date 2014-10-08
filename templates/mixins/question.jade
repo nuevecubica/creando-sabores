@@ -1,24 +1,22 @@
 mixin question(question)
-
+  
   #query.row
-    .three.wide.column
-      a.ui.item.profile(href=question.url)
-        img(src=question.author.thumb.avatar_large)
+    .arrow-left
+    .three.wide.column.tablet-four
+      a.ui.item.profile(href='/perfil')
+        img.ui.image.avatar(src="#{user.thumb.avatar_large}")
 
-    .thirteen.wide.column 
-      .ui.ten.column.grid.stackable
+    .thirteen.wide.column.tablet-eleven
+      .ui.column.grid
+        a.name.seven.wide.column.mobile-ten(href='/perfil')
+          span.span= question.author.name
 
-        .six.wide.column
+        .date.five.wide.column.mobile-six
+          span.span= question.formattedDate
 
-          .span= question.author.name
-
-        .five.wide.column
-          .span= question.publishedDate
-
-        .commentary.two.wide.column
-          .strong= __('Comentarios')
+        a.commentary.two.wide.column(href=question.url)
+          span.strong= __('000 Comentarios')
 
       a.row(href=question.url)
-
-      .ui.content
-        .span= question.title
+        .ui.content
+          .span= question.title

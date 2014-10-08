@@ -1,9 +1,47 @@
 extends ../layouts/default
 
 include ../mixins/header
+include ../mixins/question
 
 block js
   script(src='/js/questions.js')
 
+
 block content
-  - console.log('QUESTION', data.question)
+
+  +header(data, section)
+
+  #prev-questions.ui.page.grid.bg-grey
+      .row
+        .sixteen.wide.column
+          h2.title.header.font-extra-larger.uppercase= __('Previous questions')
+          p.subheader= __('Make your question, Jesús Gibaja and network users solve your doubts.')
+      
+  .ui.page.grid.body
+
+    #send-query.ui.grid.segment
+      .row
+        .ui.form
+          form.field
+            .ui.icon.input
+              input(type='text', placeholder="#{__('Write here your question_')}")
+              button.icon.chef.button-brick-side= __('Send')
+
+    #questions.ui.grid.segment.two.tabs
+      .row.tab-header
+        .tab
+          a(href='#')
+            .ui.button.chef.button-yellow
+              | #{('Recents')}
+        .tab
+          a(href='#')
+            .ui.button.chef.button-yellow.disabled
+              | #{('All questions')}
+
+      .row
+        .ui.grid.segment.list.stackable
+            //if data.questions.length
+              each question in data.questions
+                +question(question)
+            //else
+              | #{__('No questions yet')}

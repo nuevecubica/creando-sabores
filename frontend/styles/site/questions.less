@@ -1,3 +1,132 @@
+// Background colors
+@chef-color-query-bg:  #67c090;
+@chef-color-query:  #2b8858;
+/****************
+  QUESTIONS 
+****************/
+#prev-questions{
+  &.bg-grey{
+    h2{
+      text-align: center;
+    }
+    p{
+      text-align: center;
+      margin-top: -25px;
+    }
+  }
+}
+#send-query{
+  .field {
+    .ui.icon.input {
+      > .icon.chef.button-brick-side{
+        .font-larger;
+        width: auto;
+        padding: 20px;
+      }
+    }
+  }
+}
+.tab-header{
+  .ui.button.chef.button-yellow{
+    display: table-block;
+    height: 65px;
+    padding: 25px 5px;
+    a{
+
+    }
+  }
+}
+#questions{
+  .ui.grid > .row {
+    padding: 0% 0% 0%;
+  }
+  #query{
+    position: relative;
+    color: @chef-color-white;
+    width: 80% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+    .profile{
+      .avatar{
+        border-radius: 50%;
+        border: 5px solid #fff;
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin-top: 5px;
+        display: block;
+        max-width: 180px;
+      }
+    }
+    .arrow-left{
+      position: absolute;
+      top: 30px;
+      left: -25px;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-right: 30px solid;
+      border-right-color: @chef-color-query-bg;
+    }
+    span{
+
+      .font-large;
+      &.span{
+        text-transform: capitalize;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+        font-weight: normal;
+      }
+    }
+    .name,.date{
+      color: @chef-color-query;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+      span{
+        white-space:nowrap;
+      }
+    }
+    .commentary{
+      span{
+        position: absolute;
+        top: 18px;
+        right: 10px;
+        font-weight: normal;
+      }
+    }
+  }
+  .list {
+    a{
+      color: @chef-color-white;
+    }
+    > .row {
+      background-color: @chef-color-query-bg;
+      &:hover{
+        background-color: @chef-color-query-bg;
+      }
+      .content {
+        line-height: 1.30em;
+        .font-larger;
+        &::after {
+          background: linear-gradient(to bottom, fade(@chef-color-query-bg, 0%), @chef-color-query-bg 57%);
+        }
+      }
+    }
+    > .row:nth-child(odd) {
+       background-color: @chef-color-query-bg;
+      .content {
+        line-height: 1.30em;
+        .font-larger;
+        &::after {
+          background: linear-gradient(to bottom, fade(@chef-color-query-bg, 0%), @chef-color-query-bg 57%);
+        }
+      }
+    }
+  }
+}
+
 /****************
   QUESTIONS 
 ****************/
