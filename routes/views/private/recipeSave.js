@@ -10,7 +10,7 @@ var _ = require('underscore'),
 var recipeData = function(req, orig) {
   // Clean data
   var data = {};
-  var prop, props = ['title', 'description', 'procedure', 'ingredients', /*'categories'*/ , 'portions', 'time', 'difficulty', 'contest.id'];
+  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'categories', 'portions', 'time', 'difficulty', 'contest.id'];
   var file, files = ['header_upload'];
 
   // Something in the request body?
@@ -64,7 +64,7 @@ var recipeData = function(req, orig) {
     data.difficulty = clean(req.body.difficulty, ['integer', ['max', 5],
       ['min', 1]
     ]);
-    //data.categories = req.body.categories.split(',');
+    data.categories = req.body.categories.split(',');
     data.author = req.user.id;
     data['contest.id'] = req.body['contest.id'];
 
@@ -105,7 +105,7 @@ var recipeEdit = function(req, res) {
     }
     else if (result) {
 
-      var recipe = result.recipe;
+      var recipe = result.recipe._document;
 
       // Data
       var data = recipeData(req, recipe);
@@ -121,13 +121,11 @@ var recipeEdit = function(req, res) {
 
       _.each(data, function(value, field) {
         if (value) {
-          console.log('FIELD', field, value);
           recipe[field] = value;
         }
       });
 
       recipe.save(function(err) {
-        console.log('ERR', err);
         if (err) {
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
@@ -135,48 +133,6 @@ var recipeEdit = function(req, res) {
           return formResponse(req, res, back, false, 'Recipe saved');
         }
       });
-
-      // async.series([
-      //   function(callback) {
-      //     // Save
-      //     recipe._document.getUpdateHandler(req).process(data, {
-      //       fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
-      //     }, function(err) {
-      //       if (err) {
-      //         console.error('recipeEdit:', err);
-      //         callback(err);
-      //       }
-      //       else {
-      //         callback();
-      //       }
-      //     });
-      //   },
-      //   function(callback) {
-
-      //     console.log('CATEGORIES', data.categories);
-
-      //     if (!recipe.categories) {
-      //       recipe.categories = [];
-      //     }
-
-      //     recipe.categories = data.categories;
-
-      //     console.log('RECIPE', recipe.categories);
-
-      //     recipe.save(function(err) {
-      //       console.log('ERR', err);
-      //       callback(err);
-      //     });
-      //   }
-      // ], function(err) {
-      //   if (err) {
-      //     return formResponse(req, res, back, 'Error: Unknown error', false);
-      //   }
-      //   else {
-      //     return formResponse(req, res, back, false, 'Recipe saved');
-      //   }
-
-      // });
     }
     else {
       return formResponse(req, res, back, 'Error: You don\'t have rights to access that page', false);
@@ -198,46 +154,21 @@ var recipeNew = function(req, res) {
 
 
     var addRecipe = function() {
-      // async.series([
 
-      //   function(callback) {
-      //     recipe.getUpdateHandler(req).process(data, {
-      //         fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header,contest.id'
-      //       },
-      //       function(err) {
-      //         if (err) {
-      //           console.error('recipeNew:', err);
-      //           callback(err);
-      //         }
-      //         else {
-      //           callback();
-      //         }
-      //       });
-      //   },
-      //   function(callback) {
-      //     console.log('CATEGORIES', data.categories);
+      _.each(data, function(value, field) {
+        if (value) {
+          recipe[field] = value;
+        }
+      });
 
-      //     if (!recipe.categories) {
-      //       recipe.categories = [];
-      //     }
-
-      //     recipe.categories = data.categories;
-
-      //     console.log('RECIPE', recipe.categories);
-
-      //     recipe.save(function(err) {
-      //       console.log('ERR', err);
-      //       callback(err);
-      //     });
-      //   }
-      // ], function(err) {
-      //   if (err) {
-      //     return formResponse(req, res, back, 'Error: Unknown error', false);
-      //   }
-      //   else {
-      //     return formResponse(req, res, recipe.url, false, 'Recipe saved');
-      //   }
-      // });
+      recipe.save(function(err) {
+        if (err) {
+          return formResponse(req, res, back, 'Error: Unknown error', false);
+        }
+        else {
+          return formResponse(req, res, back, false, 'Recipe saved');
+        }
+      });
     };
 
     if (data['contest.id']) {
