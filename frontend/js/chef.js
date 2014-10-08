@@ -1,7 +1,17 @@
-/* global makePaginable */
 $(window).load(function() {
 
-  var profile = window.location.pathname.split('/')[2];
-  makePaginable('/api/v1/user/' + profile + '/recipes', 'recipes', 'recipe', '#recipes .list');
+
+  // ========== Subsections
+  var parts = window.location.pathname.split('/');
+  var profile = parts[2];
+  var section = parts[3];
+
+  /* global makePaginable */
+  if (section === 'recetas') {
+    makePaginable('/api/v1/user/' + profile + '/recipes', 'recipes', 'recipe', '#recipes .list');
+  }
+  else if (section === 'favoritas') {
+    makePaginable('/api/v1/user/' + profile + '/favourites', 'recipes', 'recipe', '#recipes .list');
+  }
 
 });
