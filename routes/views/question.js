@@ -10,6 +10,8 @@ exports = module.exports = function(req, res) {
 
   locals.data = {};
 
+  locals.section = 'question';
+
   locals.filters = {
     question: req.params.question || null
   };

@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  moment = require('moment');
 
 exports = module.exports = function(req, res) {
 
@@ -11,6 +12,8 @@ exports = module.exports = function(req, res) {
   locals.data = {};
 
   locals.section = 'questions';
+  locals.subsection = req.params.section || 'recientes';
+
 
   // load questions
   view.on('init', function(next) {
@@ -28,6 +31,9 @@ exports = module.exports = function(req, res) {
 
     service.questionList.get(options, function(err, results) {
       locals.data.questions = results.results;
+      locals.data.questions.map(function(a, i) {
+        a.formattedDate = moment(a.createdDate).format('lll');
+      });
       next(err);
     });
   });

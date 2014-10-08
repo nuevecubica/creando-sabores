@@ -87,7 +87,7 @@ exports = module.exports = function(app) {
 
   // Questions
   // -- Public
-  app.get('/preguntas', routes.views.questions);
+  app.get('/preguntas/:section(recientes|populares)?', routes.views.questions);
   app.get('/pregunta/:question', routes.views.question);
 
   // Login, Register

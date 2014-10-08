@@ -57,6 +57,10 @@ Question.add({
     default: 'review'
   },
 
+  createdDate: {
+    type: Types.Date,
+  },
+
   publishedDate: {
     type: Types.Date,
     dependsOn: {
@@ -79,8 +83,17 @@ Question.schema.add({
   }
 });
 
+//#------------------ VIRTUAL
+Question.schema.virtual('url').get(function() {
+  return '/pregunta/' + this.slug;
+});
+
 //#------------------ PRESAVE
 Question.schema.pre('save', function(done) {
+
+  if (!this.createdDate) {
+    this.createdDate = new Date();
+  }
 
   if (!this.answer && this.state === 'published') {
     this.state = 'review';
