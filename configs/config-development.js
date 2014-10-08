@@ -7,7 +7,7 @@ var answer = {
     host: process.env.ELASTICSEARCH_URL ? process.env.ELASTICSEARCH_URL.substring(7, process.env.ELASTICSEARCH_URL.indexOf(":") - 1) : "localhost",
     port: process.env.ELASTICSEARCH_URL ? process.env.ELASTICSEARCH_URL.substring(process.env.ELASTICSEARCH_URL.indexOf(":") + 1) : 9200,
     log: 'error'
-    // log: 'trace'
+      // log: 'trace'
   },
   keystone: {
     init: {
