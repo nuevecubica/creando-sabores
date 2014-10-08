@@ -60,7 +60,7 @@ exports = module.exports = function(app) {
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Profile: Public
-  app.get('/chef/:username/:section(recetas)?', routes.views.chef);
+  app.get('/chef/:username/:section(recetas|favoritas)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
