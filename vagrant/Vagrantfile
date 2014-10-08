@@ -3,6 +3,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "elasticsearch" do |v|
     v.vm.provider "docker" do |d|
+      d.name = "elasticsearch"
       d.image = "orchardup/elasticsearch"
       d.ports = ["9200:9200"]
       d.vagrant_vagrantfile = "./Vagrantfile.proxy"
@@ -11,10 +12,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "mongodb" do |v|
     v.vm.provider "docker" do |d|
+      d.name = "mongodb"
       d.image = "dockerfile/mongodb"
       d.volumes = ["/var/docker/mongodb/db:/data/db"]
       d.ports = ["27017:27017", "28017:28017"]
       d.vagrant_vagrantfile = "./Vagrantfile.proxy"
+    end
+  end
+
+  config.vm.define "chefcito" do |v|
+    v.vm.provider "docker" do |d|
+      d.build_dir = ".."
+      d.build_args = "--tag=gluegl/chefcito"
+      d.ports = ["3000:3000"]
+      d.link("mongodb:mongodb")
+      d.link("elasticsearch:elasticsearch")
+      d.env = { "NODE_ENV" => "development" }
+      d.volumes = ["/var/docker/chefcito:/app"]
+      d.vagrant_vagrantfile = "./Vagrantfile.proxy"
+      d.remains_running = false
     end
   end
 

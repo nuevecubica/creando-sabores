@@ -27,4 +27,4 @@ site.min.css
 test/db_dump/app_updates.json
 test/db_dump/system.indexes.json
 test/database.json
-docker/.vagrant
+vagrant/.vagrant

@@ -1,4 +1,4 @@
-# from https://github.com/ignlg/dokku-builders-plugin/blob/master/.dokkubuild
+# from https://github.com/ignlg/dokku-builders-plugin/blob/master/.dokkubuild
 
 BUILD_NPM_UPDATE=0
 
