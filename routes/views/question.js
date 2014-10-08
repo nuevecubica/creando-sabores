@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  moment = require('moment');
 
 exports = module.exports = function(req, res) {
 
@@ -18,7 +19,8 @@ exports = module.exports = function(req, res) {
 
   var options = {
     slug: locals.filters.question,
-    limit: 1
+    limit: 1,
+    populate: ['author', 'chef']
   };
 
   // load question
@@ -27,6 +29,7 @@ exports = module.exports = function(req, res) {
     service.question.get(options, function(err, result) {
       if (!err && result) {
         locals.data.question = result;
+        locals.data.formattedDate = moment(result.createdDate).format('lll');
         locals.title = result.title.substr(0, 10) + '...';
         next();
       }

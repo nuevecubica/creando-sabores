@@ -1,6 +1,7 @@
 // Background colors
 @chef-color-query-bg:  #67c090;
 @chef-color-query:  #2b8858;
+@chef-color-answer-bg :@chef-color-yellow-bg;
 /****************
   QUESTIONS 
 ****************/
@@ -130,35 +131,109 @@
 /****************
   QUESTIONS 
 ****************/
-#prev-questions{
-  &.bg-grey{
-    h2{
-      text-align: center;
+#question{
+
+  #query{
+    margin-top: 70px;
+    position: relative;
+    color: @chef-color-white;
+    width: 80% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    background-color: @chef-color-query-bg;
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+    padding: 20px 40px;
+    text-align: center;
+    box-sizing: border-box;
+    .profile{
+      width: 180px;
+      margin: auto;
+      display: block;
+      position: relative;
+      .avatar{
+        border-radius: 50%;
+        border: 5px solid #fff;
+        width: 180px;
+        position: absolute;
+        height: auto;
+        top: -120px;
+        display: block;
+      }
     }
-    p{
-      text-align: center;
-      margin-top: -25px;
+    .arrow-left{
+      position: absolute;
+      top: 30px;
+      left: -25px;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-right: 30px solid;
+      border-right-color: @chef-color-query-bg;
     }
-  }
-}
-#send-query{
-  .field {
-    .ui.icon.input {
-      > .icon.chef.button-brick-side{
-        .font-larger;
-        width: auto;
-        padding: 20px;
+    span{
+
+      .font-large;
+      &.span{
+        text-transform: capitalize;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+        font-weight: normal;
+      }
+    }
+    .name{
+      display: block;
+      margin-top: 70px;
+      color: @chef-color-query;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+      span{
+        white-space:nowrap;
+      }
+    }
+    .date{
+      color: @chef-color-query;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+      span{
+        white-space:nowrap;
+      }
+    }
+    .commentary{
+      span{
+        position: absolute;
+        top: 18px;
+        right: 10px;
+        font-weight: normal;
       }
     }
   }
-}
-.tab-header{
-  .ui.button.chef.button-yellow{
-    display: table-block;
-    height: 65px;
-    padding: 25px 5px;
-    a{
-
+  #answer{
+    margin-top: 3px;
+    position: relative;
+    color: @chef-color-white;
+    width: 80% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+    background-color: @chef-color-answer-bg;
+    box-sizing: border-box;
+    .profile{
+      border: 5px solid #fff;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: auto;
+    }
+    .content{
+      padding: 20px 40px;
+    }
+    .commentary{
+      span{
+        font-weight: normal;
+      }
     }
   }
 }

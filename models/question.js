@@ -49,6 +49,14 @@ Question.add({
     type: Types.Html,
     wysiwyg: true,
     trim: true
+  },
+  chef: {
+    type: Types.Relationship,
+    ref: 'User',
+    filters: {
+      'isChef': true
+    },
+    index: true
   }
 }, 'Status', {
   state: {
@@ -68,6 +76,7 @@ Question.add({
     }
   }
 });
+
 
 // Schema for comments
 var CommentsSchema = new keystone.mongoose.Schema({
@@ -103,6 +112,10 @@ Question.schema.pre('save', function(done) {
   if (this.isModified('state') && this.state === 'published') {
     this.publishedDate = new Date();
   }
+
+  // if (this.isModified('answer') && !this.chef){
+  //   this.chef = 
+  // }
 
   done();
 });

@@ -1,6 +1,7 @@
 extends ../layouts/default
 
 include ../mixins/header
+
 include ../mixins/question
 
 block js
@@ -11,37 +12,34 @@ block content
 
   +header(data, section)
 
-  #prev-questions.ui.page.grid.bg-grey
-      .row
-        .sixteen.wide.column
-          h2.title.header.font-extra-larger.uppercase= __('Previous questions')
-          p.subheader= __('Make your question, Jesús Gibaja and network users solve your doubts.')
-      
   .ui.page.grid.body
 
-    #send-query.ui.grid.segment
-      .row
-        .ui.form
-          form.field
-            .ui.icon.input
-              input(type='text', placeholder="#{__('Write here your question_')}")
-              button.icon.chef.button-brick-side= __('Send')
+    #question.ui.grid.segment
+  
+      #query.row
+        .row
+          .ui.column.grid
+            .date
+                span.span= data.formattedDate
+        .row
+          a.ui.item.profile(href='/perfil')
+            img.ui.image.avatar(src="#{data.question.author.thumb.avatar_large}")
+        .row
+            a.name(href='/perfil')
+              span.span= data.question.author.name
+        .row
+          .ui.content
+            .span= data.question.title
+        .arrow-down
 
-    #questions.ui.grid.segment.two.tabs
-      .row.tab-header
-        .tab
-          a(href='#')
-            .ui.button.chef.button-yellow
-              | #{('Recents')}
-        .tab
-          a(href='#')
-            .ui.button.chef.button-yellow.disabled
-              | #{('All questions')}
+      #answer.row.stackable
+        .three.wide.column.tablet-four
+          a.ui.item.profile(href='/acerca')
+            img.ui.image(src='#{data.question.chef.thumb.avatar_large}')
 
-      .row
-        .ui.grid.segment.list.stackable
-            //if data.questions.length
-              each question in data.questions
-                +question(question)
-            //else
-              | #{__('No questions yet')}
+        .thirteen.wide.column.tablet-eleven
+          .row
+            .ui.content
+              .span= data.question.answer
+            .commentary
+              .strong= __('000 Comentarios')

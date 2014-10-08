@@ -4,7 +4,7 @@ mixin question(question)
     .arrow-left
     .three.wide.column.tablet-four
       a.ui.item.profile(href='/perfil')
-        img.ui.image.avatar(src="#{user.thumb.avatar_large}")
+        img.ui.image.avatar(src="#{question.author.thumb.avatar_large}")
 
     .thirteen.wide.column.tablet-eleven
       .ui.column.grid
