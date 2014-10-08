@@ -403,21 +403,11 @@ window.chef.editor = (function(editor) {
     var elem = {
       type: 'checkbox',
       getValue: function() {
-        if (this.options.isHtml) {
-          return this._filter(String(this.$self.html() || ''));
-        }
-        else {
-          return this._filter(String(this.$self.text() || ''));
-        }
-      },
-      // Sets the actual value
-      setValue: function(value) {
-        this.$self.html(value);
+        return this._filter(String(this.$self.html() || '').toLowerCase());
       }
     };
 
     var optionsDefault = {
-      isHtml: true,
       filters: {}
     };
 
