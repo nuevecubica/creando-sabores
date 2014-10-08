@@ -43,7 +43,7 @@ var getConfigsGrid = function(options, callback) {
 
   var names = [];
 
-  for (var i = 0, l = options.sections; i < l; i++) {
+  for (var i = 0, l = options.sections.length; i < l; i++) {
     names.push('grid_order_desktop_' + options.sections[i]);
     names.push('grid_order_tablet_' + options.sections[i]);
     names.push('grid_order_mobile_' + options.sections[i]);
@@ -62,7 +62,7 @@ var getConfigsGrid = function(options, callback) {
         if (results[i].name.indexOf('grid_order') >= 0) {
           order[results[i].name] = results[i].value;
         }
-        else {
+        else if (results[i].name.indexOf('grid_size') >= 0) {
           sizes[results[i].name] = results[i].value;
         }
       }
@@ -72,7 +72,7 @@ var getConfigsGrid = function(options, callback) {
             order[names[j]] = defaults[names[j]];
           }
         }
-        else {
+        else if (names[j].indexOf('grid_size') >= 0) {
           if (!order[names[j]]) {
             sizes[names[j]] = defaults[names[j]];
           }
