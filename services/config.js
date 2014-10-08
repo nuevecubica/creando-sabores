@@ -38,17 +38,20 @@ var getConfigs = function(options, callback) {
 var getConfigsGrid = function(options, callback) {
 
   options = _.defaults(options || {}, {
-    section: 'home'
+    sections: ['home', 'recipes']
   });
 
-  var names = [
-    'grid_order_desktop_' + options.section,
-    'grid_order_tablet_' + options.section,
-    'grid_order_mobile_' + options.section,
-    'grid_size_desktop_' + options.section,
-    'grid_size_tablet_' + options.section,
-    'grid_size_mobile_' + options.section
-  ];
+  var names = [];
+
+  for (var i = 0, l = options.sections; i < l; i++) {
+    names.push('grid_order_desktop_' + options.sections[i]);
+    names.push('grid_order_tablet_' + options.sections[i]);
+    names.push('grid_order_mobile_' + options.sections[i]);
+    names.push('grid_size_desktop_' + options.sections[i]);
+    names.push('grid_size_tablet_' + options.sections[i]);
+    names.push('grid_size_mobile_' + options.sections[i]);
+  }
+
   getConfigs({
     names: names
   }, function(err, results) {
@@ -91,7 +94,7 @@ var getConfigsGrid = function(options, callback) {
  */
 var getConfigsGridRecipes = function(options, callback) {
   getConfigsGrid({
-    section: 'recipes'
+    sections: ['recipes']
   }, callback);
 };
 
@@ -103,7 +106,7 @@ var getConfigsGridRecipes = function(options, callback) {
  */
 var getConfigsGridHome = function(options, callback) {
   getConfigsGrid({
-    section: 'home'
+    sections: ['home']
   }, callback);
 };
 
