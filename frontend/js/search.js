@@ -104,7 +104,8 @@ $(window).load(function() {
         $('#results .list').html(html);
 
         var extraargs = {
-          q: args.q
+          q: args.q,
+          idx: args.idx
         };
         makePaginable('/api/v1/search', 'results', 'search', '#results .list', extraargs);
       });
