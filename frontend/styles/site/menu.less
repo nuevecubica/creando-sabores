@@ -223,13 +223,20 @@
 		}
 	}
 }
-.ui.menu .ui.item.logout{
-	a{
-		padding: 30px;
-		 color: @chef-color-white;
-		 &:hover{
-		 	color: @chef-color-brick-bg;
-		 }
+
+
+#menu-wrapper{
+	.menu{
+		.logout{
+			&.item a{
+				color: @chef-color-white;
+				padding: 30px;
+				text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+				&:hover{
+					color: @chef-color-brick-bg;
+				}
+			}
+		}
 	}
 }
 @media only screen and (max-width : 767px) {
