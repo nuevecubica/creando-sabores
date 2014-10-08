@@ -22,9 +22,13 @@ var _query = function(q, page, rpp) {
     "query": {
       "filtered": {
         "filter": {
-          "terms": {
-            "state": ["published"],
-            "_cache": true
+          "bool": {
+            "must": [{
+              "term": {
+                "state": "published",
+                "_cache": true
+              }
+            }]
           }
         },
         "query": {
