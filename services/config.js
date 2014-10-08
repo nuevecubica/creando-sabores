@@ -14,8 +14,9 @@ var getConfigs = function(options, callback) {
   options = _.defaults(options || {}, {
     names: []
   });
+
   var list = {};
-  if (options.names > 0) {
+  if (options.names.length > 0) {
     list = {
       name: {
         $in: []
@@ -25,6 +26,7 @@ var getConfigs = function(options, callback) {
       list.name.$in.push(name);
     });
   }
+
   var query = Config.model.find(list);
   query.exec(callback || function() { /* dummy */ });
 };
