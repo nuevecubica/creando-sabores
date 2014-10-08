@@ -1,2 +1,2 @@
 #!/bin/bash
-vagrant up --provider=docker
+vagrant up --no-parallel --provider=docker
