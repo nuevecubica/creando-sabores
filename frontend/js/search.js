@@ -9,17 +9,13 @@ $(window).load(function() {
   }
 
   function setSearchType(name) {
-    $('#tab-all .button').removeClass('active');
-    $('#tab-recipes .button').removeClass('active');
-    $('#tab-videorecipes .button').removeClass('active');
-    $('#tab-tips .button').removeClass('active');
-    $('#tab-menus .button').removeClass('active');
+    $('.tab a .button').removeClass('active');
     $('#tab-' + name + ' .button').addClass('active');
   }
 
   function getSearchType() {
     var type = $('.tab .active').closest('a').attr('id').substring(4);
-    if (type === 'all') {
+    if (!type) {
       type = '_all';
     }
     return type;
@@ -28,7 +24,7 @@ $(window).load(function() {
   function getUrlState() {
     var query = {
       q: '',
-      idx: 'all'
+      idx: '_all'
     };
     location.search.substr(1).split("&").forEach(function(item) {
       query[item.split("=")[0]] = item.split("=")[1];
@@ -50,8 +46,21 @@ $(window).load(function() {
       if (!state) {
         state = getCurrentState();
       }
-      history.pushState(state, '', '?' + $.param(state));
+      var minstate = $.extend({}, state);
+      if (minstate.q === '') {
+        delete minstate.q;
+      }
+      if (minstate.idx === '_all') {
+        delete minstate.idx;
+      }
+      var url = '?' + $.param(minstate);
+      if (url === '?') {
+        url = 'buscar';
+      }
+      //console.log('Push State:', state);
+      history.pushState(state, '', url);
     }
+    doSearch(state);
   }
 
   function getCurrentState() {
@@ -105,18 +114,16 @@ $(window).load(function() {
   $('#search-button').on('click', function(e) {
     e.preventDefault();
     saveState();
-    loadState();
   });
 
   $('.tab a').on('click', function(e) {
     e.preventDefault();
     setSearchType(this.id.substring(4));
     saveState();
-    loadState();
   });
 
   window.onpopstate = function(e) {
-    console.log('Pop State:', e.state);
+    //console.log('Pop State:', e.state);
     if (!e.state) {
       loadState(window.chef.basestate);
     }
