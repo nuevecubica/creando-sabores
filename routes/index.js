@@ -118,6 +118,7 @@ exports = module.exports = function(app) {
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
+  app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
   //-- Recipes + Videorecipes
   app.get('/api/v1/:type(recipe|videorecipe)s', routes.api.v1.recipes);
   app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
