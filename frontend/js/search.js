@@ -95,13 +95,13 @@ $(window).load(function() {
         return;
       }
       var items = data.results.results;
-      $results.removeClass('loading no-results').addClass('loaded');
       getTemplate('search', items, function(tpl, items) {
         var html = '';
         for (var i = 0, l = items.length; i < l; i++) {
           html += tpl(items[i]);
         }
         $('#results .list').html(html);
+        $results.removeClass('loading no-results').addClass('loaded');
 
         var extraargs = {
           q: args.q,
