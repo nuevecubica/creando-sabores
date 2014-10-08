@@ -305,13 +305,9 @@ Recipe.add({
   });
 
 // Schema for categories
-var CategoriesSchema = new keystone.mongoose.Schema({
-  category: String
-});
-
 Recipe.schema.add({
   categories: {
-    type: [CategoriesSchema]
+    type: [String]
   }
 });
 

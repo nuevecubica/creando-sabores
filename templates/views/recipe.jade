@@ -145,11 +145,12 @@ block content
 
       #recipe-categories.row.hide-editable
         .sixteen.wide.column
-          if (data.categories)
+          - console.log('DATA', data.recipe.categories);
+          if (data.recipe.categories)
             .icon-chef-candado.icon
             .explain
-              - for (var k = 0, n = data.categories.length; k < n; k++)
-                = data.categories[k]
+              - for (var k = 0, n = data.recipe.categories.length; k < n; k++)
+                = data.recipe.categories[k]
 
       #recipe-description.row
         .sixteen.wide.column
@@ -244,7 +245,7 @@ block content
                   - for (var k = 0, n = categories.plates.length; k < n; k++)
                     - selected = false
 
-                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.plates[k]) > 0)
+                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.plates[k]) >= 0)
                       - selected = true
 
                     .category(class= (selected) ? 'selected' : '')= categories.plates[k]
@@ -258,7 +259,7 @@ block content
                   - for (var k = 0, n = categories.food.length; k < n; k++)
                     - selected = false
 
-                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.food[k]) > 0)
+                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.food[k]) >= 0)
                       - selected = true
 
                     .category(class= (selected) ? 'selected' : '')= categories.food[k]
