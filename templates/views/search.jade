@@ -2,6 +2,7 @@ extends ../layouts/default
 
 include ../mixins/header
 //include ../mixins/search-result
+include ../mixins/search
 
 
 block js
@@ -18,13 +19,13 @@ block content
 
   .ui.page.grid.body
 
-    include ../components/search
+    +search()
 
     .row.tablet.computer.only
       .five.tabs.tab-header
         .row
           .tab
-            a#tab-all(href='#')
+            a#tab-_all(href='#')
               .ui.button.chef.button-green.active
                 | #{__('All')}
           .tab
