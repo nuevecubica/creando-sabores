@@ -19,23 +19,25 @@ var config = require('./config'),
   i18n = require('i18n'),
   testMode = null;
 
-keystone.testMode = config.keystone.test.enabled;
+if (config.keystone.init.env !== 'production') {
+  keystone.testMode = config.keystone.test.enabled;
 
-if (config.keystone.test.enabled) {
-  // Load function
-  testMode = require('./test/mocha/testMode');
+  if (config.keystone.test.enabled) {
+    // Load function
+    testMode = require('./test/mocha/testMode');
 
-  config.keystone.init = _.extend(config.keystone.init, config.keystone.test.init);
-  config.keystone['security'] = _.extend(config.keystone['security'], config.keystone.test['security']);
-  console.warn(multiline(function() {
-    /*
- _____ _____ ____ _____   __  __  ___  ____  _____
-|_   _| ____/ ___|_   _| |  \/  |/ _ \|  _ \| ____|
-  | | |  _| \___ \ | |   | |\/| | | | | | | |  _|
-  | | | |___ ___) || |   | |  | | |_| | |_| | |___
-  |_| |_____|____/ |_|   |_|  |_|\___/|____/|_____|
-*/
-  }));
+    config.keystone.init = _.extend(config.keystone.init, config.keystone.test.init);
+    config.keystone['security'] = _.extend(config.keystone['security'], config.keystone.test['security']);
+    console.warn(multiline(function() {
+      /*
+   _____ _____ ____ _____   __  __  ___  ____  _____
+  |_   _| ____/ ___|_   _| |  \/  |/ _ \|  _ \| ____|
+    | | |  _| \___ \ | |   | |\/| | | | | | | |  _|
+    | | | |___ ___) || |   | |  | | |_| | |_| | |___
+    |_| |_____|____/ |_|   |_|  |_|\___/|____/|_____|
+  */
+    }));
+  }
 }
 
 keystone.init(config.keystone.init);
