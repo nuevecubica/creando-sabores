@@ -26,7 +26,12 @@ $(window).load(function() {
       q: '',
       idx: '_all'
     };
+    // Load GET args
     location.search.substr(1).split("&").forEach(function(item) {
+      query[item.split("=")[0]] = item.split("=")[1];
+    });
+    // Load (and overwrite with) hashbang args (for HTML4 browsers)
+    location.hash.substr(3).split("&").forEach(function(item) {
       query[item.split("=")[0]] = item.split("=")[1];
     });
     return query;
@@ -42,23 +47,26 @@ $(window).load(function() {
   }
 
   function saveState(state) {
+    if (!state) {
+      state = getCurrentState();
+    }
+    var minstate = $.extend({}, state);
+    if (minstate.q === '') {
+      delete minstate.q;
+    }
+    if (minstate.idx === '_all') {
+      delete minstate.idx;
+    }
+    var url = $.param(minstate);
+
     if (history.pushState) {
-      if (!state) {
-        state = getCurrentState();
-      }
-      var minstate = $.extend({}, state);
-      if (minstate.q === '') {
-        delete minstate.q;
-      }
-      if (minstate.idx === '_all') {
-        delete minstate.idx;
-      }
-      var url = '?' + $.param(minstate);
-      if (url === '?') {
-        url = 'buscar';
-      }
+      url = url === '' ? 'buscar' : '?' + url;
       //console.log('Push State:', state);
       history.pushState(state, '', url);
+    }
+    else {
+      url = url === '' ? '' : '#!?' + url;
+      location.hash = url;
     }
     doSearch(state);
   }
