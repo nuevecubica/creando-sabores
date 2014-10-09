@@ -46,12 +46,22 @@ if (process.env.ELASTICSEARCH_URL) {
 // DOCKER
 else if (process.env.ELASTICSEARCH_PORT && process.env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
   var es = tcpSplit(process.env.ELASTICSEARCH_PORT);
-  answer.elasticsearch.url = process.env.ELASTICSEARCH_PORT;
+  answer.elasticsearch.url = 'http://' + es.host + ':' + es.port;
   answer.elasticsearch.host = es.host;
   answer.elasticsearch.port = es.port;
 }
 
 answer.keystone = {
+  test: {
+    enabled: process.env.APP_TEST === 'true' || false,
+    init: {
+      'db name': answer.mongodb.db + '-test',
+      'mongo': answer.mongodb.url + '-test'
+    },
+    'security': {
+      'csrf': false
+    }
+  },
   init: {
     'name': 'Chefcito',
     'brand': 'Chefcito',
@@ -83,16 +93,6 @@ answer.keystone = {
   },
   'security': {
     'csrf': true
-  },
-  test: {
-    enabled: process.env.APP_TEST === 'true' || false,
-    init: {
-      'db name': answer.mongodb.db + '-test',
-      'mongo': answer.mongodb.url + '-test'
-    },
-    'security': {
-      'csrf': false
-    }
   },
   publicUrl: process.env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl',
   'email locals': {
