@@ -31,8 +31,8 @@ describe 'API v1: ~/search', ->
             if res.body.success isnt true or res.body.error isnt false
               return 'No arguments query failed'
 
-            res.body.results.hits.hits.length.must.be.gt 1
-            res.body.results.hits.hits.length.must.be.lte 10
+            res.body.results.results.length.must.be.gt 1
+            res.body.results.results.length.must.be.lte 10
         )
         .end(done)
 
@@ -44,13 +44,13 @@ describe 'API v1: ~/search', ->
         .expect(200)
         .expect(
           (res) ->
-            res.body.results.hits.hits.length.must.be.eql 4
+            res.body.results.results.length.must.be.eql 4
         )
         .end (err, res) ->
           if err
             return done(err)
 
-          total = res.body.results.hits.hits
+          total = res.body.results.results
 
           request
           .get('/api/v1/search?q=test&page=2&perPage=2')
@@ -60,7 +60,7 @@ describe 'API v1: ~/search', ->
           .expect(
             (res) ->
               slugsexpected = (r.slug for r in total).slice(2, 4)
-              slugsgot = (r.slug for r in res.body.results.hits.hits)
+              slugsgot = (r.slug for r in res.body.results.results)
               slugsgot.must.be.eql(slugsexpected)
           )
           .end(done)

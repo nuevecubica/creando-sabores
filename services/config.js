@@ -14,8 +14,9 @@ var getConfigs = function(options, callback) {
   options = _.defaults(options || {}, {
     names: []
   });
+
   var list = {};
-  if (options.names > 0) {
+  if (options.names.length > 0) {
     list = {
       name: {
         $in: []
@@ -25,6 +26,7 @@ var getConfigs = function(options, callback) {
       list.name.$in.push(name);
     });
   }
+
   var query = Config.model.find(list);
   query.exec(callback || function() { /* dummy */ });
 };
@@ -38,17 +40,20 @@ var getConfigs = function(options, callback) {
 var getConfigsGrid = function(options, callback) {
 
   options = _.defaults(options || {}, {
-    section: 'home'
+    sections: ['home', 'recipes']
   });
 
-  var names = [
-    'grid_order_desktop_' + options.section,
-    'grid_order_tablet_' + options.section,
-    'grid_order_mobile_' + options.section,
-    'grid_size_desktop_' + options.section,
-    'grid_size_tablet_' + options.section,
-    'grid_size_mobile_' + options.section
-  ];
+  var names = [];
+
+  for (var i = 0, l = options.sections.length; i < l; i++) {
+    names.push('grid_order_desktop_' + options.sections[i]);
+    names.push('grid_order_tablet_' + options.sections[i]);
+    names.push('grid_order_mobile_' + options.sections[i]);
+    names.push('grid_size_desktop_' + options.sections[i]);
+    names.push('grid_size_tablet_' + options.sections[i]);
+    names.push('grid_size_mobile_' + options.sections[i]);
+  }
+
   getConfigs({
     names: names
   }, function(err, results) {
@@ -59,7 +64,7 @@ var getConfigsGrid = function(options, callback) {
         if (results[i].name.indexOf('grid_order') >= 0) {
           order[results[i].name] = results[i].value;
         }
-        else {
+        else if (results[i].name.indexOf('grid_size') >= 0) {
           sizes[results[i].name] = results[i].value;
         }
       }
@@ -69,7 +74,7 @@ var getConfigsGrid = function(options, callback) {
             order[names[j]] = defaults[names[j]];
           }
         }
-        else {
+        else if (names[j].indexOf('grid_size') >= 0) {
           if (!order[names[j]]) {
             sizes[names[j]] = defaults[names[j]];
           }
@@ -91,7 +96,7 @@ var getConfigsGrid = function(options, callback) {
  */
 var getConfigsGridRecipes = function(options, callback) {
   getConfigsGrid({
-    section: 'recipes'
+    sections: ['recipes']
   }, callback);
 };
 
@@ -103,7 +108,7 @@ var getConfigsGridRecipes = function(options, callback) {
  */
 var getConfigsGridHome = function(options, callback) {
   getConfigsGrid({
-    section: 'home'
+    sections: ['home']
   }, callback);
 };
 

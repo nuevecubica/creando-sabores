@@ -752,3 +752,92 @@ describe 'API v1: /me/', ->
               res.body.recipes.results.length.must.be.equal 1
           )
           .end(done)
+
+
+  describe 'GET /user/:username/favourites', ->
+
+    baseurl = '/api/v1/user/' + data.users[0].username + '/favourites'
+
+    before (done) ->
+      request
+      .post('/api/v1/login')
+      .send({
+        email: data.users[0].email,
+        password: data.users[0].password
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end (err, res) ->
+        return 'error' if not res.body.success or res.body.error
+        cookie = res.headers['set-cookie']
+        done()
+
+    it 'should paginate properly', (done) ->
+
+      addToShoppingList = (recipe, cb) ->
+        request
+        .get('/api/v1/me/favourites/add/' + recipe.slug)
+        .set('cookie', cookie)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(cb)
+
+      recipes = data.getRecipesBy 'state', 'published'
+
+      async.each recipes.slice(0,4), addToShoppingList, ->
+        request
+        .get(baseurl + '?page=1&perPage=4')
+        #.set('cookie', cookie)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            res.body.recipes.total.must.be.equal 4
+            res.body.recipes.results.length.must.be.equal 4
+        )
+        .end (err, res) ->
+          request
+          .get(baseurl + '?page=2&perPage=2')
+          #.set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res2) ->
+              res2.body.recipes.total.must.be.equal 4
+              res2.body.recipes.results.length.must.be.equal 2
+              part = res.body.recipes.results.slice(2,5)
+              res2.body.recipes.results.must.be.eql part
+          )
+          .end(done)
+
+    it 'should update the list, removing invalid references', (done) ->
+      user = data.getUserByUsername('testBadUser')
+      request
+      .post('/api/v1/login')
+      .send({
+        email: data.users[2].email,
+        password: data.users[2].password
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end (err, res) ->
+        return 'error' if not res.body.success or res.body.error
+        cookie2 = res.headers['set-cookie']
+        baseurl2 = '/api/v1/user/' + data.users[2].username + '/favourites'
+        request
+        .get(baseurl2 + '?perPage=20')
+        .set('cookie', cookie2)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            res.body.recipes.total.must.be.equal 1
+            res.body.recipes.results.length.must.be.equal 1
+        )
+        .end(done)

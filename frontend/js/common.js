@@ -141,6 +141,10 @@ $(document).ready(function() {
 /* global Handlebars */
 var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraargs) {
 
+  if (chef.clearPaginable) {
+    chef.clearPaginable();
+  }
+
   var timeCheckScroll = null,
     counter = 2,
     isStillOnScreen = false,
@@ -157,19 +161,25 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
     }
   }
 
-  $(document).on('click', '.load-button', function(e) {
+  var handleLoadClick = function(e) {
     e.preventDefault();
     getNextPage();
-  });
+  };
 
-  $(window).on('scroll', function() {
+  var handleScroll = function() {
     clearTimeout(timeCheckScroll);
 
     timeCheckScroll = setTimeout(function() {
       checkScroll();
     }, 50);
+  };
 
-  });
+  $(document).on('click', '.load-button', handleLoadClick);
+  $(window).on('scroll', handleScroll);
+  chef.clearPaginable = function() {
+    $(document).off('click', '.load-button', handleLoadClick);
+    $(window).off('scroll', handleScroll);
+  };
 
   var checkScroll = function() {
     var isLoaderOnScreen = $('.loader').isOnScreen();
@@ -208,8 +218,18 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 
     var jQXhr = $.getJSON(url).done(function(data) {
 
-        var items = data[retproperty].results;
-        var startPos = data[retproperty].first;
+        var items, startPos, next;
+        if (typeof(retproperty) === 'function') {
+          var t = retproperty(data, args);
+          items = t.results;
+          startPos = t.first;
+          next = t.next;
+        }
+        else {
+          items = data[retproperty].results;
+          startPos = data[retproperty].first;
+          next = data[retproperty].next;
+        }
 
         getTemplate(hbsname, items, function(tpl, items) {
           var html = '';
@@ -230,8 +250,8 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
         });
 
         counter--;
-        if (data[retproperty].next) {
-          args.page = data[retproperty].next;
+        if (next) {
+          args.page = next;
         }
         else {
           args.page = null;
