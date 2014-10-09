@@ -1,4 +1,4 @@
-var tcpSplit = require(__base + 'utils/tcpSplit');
+var tcpSplit = require('./utils/tcpSplit');
 /*
   DEVELOPMENT CONFIGURATION
 */
