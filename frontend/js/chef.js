@@ -7,7 +7,7 @@ $(window).load(function() {
   var section = parts[3];
 
   /* global makePaginable */
-  if (section === 'recetas') {
+  if (section === 'recetas' || !section) {
     makePaginable('/api/v1/user/' + profile + '/recipes', 'recipes', 'recipe', '#recipes .list');
   }
   else if (section === 'favoritas') {
