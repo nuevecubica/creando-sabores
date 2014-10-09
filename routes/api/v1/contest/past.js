@@ -23,8 +23,6 @@ exports = module.exports = function(req, res) {
     .where('state', 'finished')
     .sort('-deadline');
 
-  var finalResults = [];
-
   async.series([
 
       function(callback) {
@@ -45,7 +43,7 @@ exports = module.exports = function(req, res) {
               model: 'User'
             };
 
-            async.each(contests.results, function(contest, done) {
+            async.map(contests.results, function(contest, done) {
 
                 // Populate nested recipe author (jury winner)
                 Contest.model.populate(contest, optionsJuryAuthor, function(err, contestJuryPopulated) {
@@ -57,9 +55,7 @@ exports = module.exports = function(req, res) {
                       if (!err && contestCommunityPopulated) {
                         answer.success = true;
 
-                        finalResults.push(contestCommunityPopulated);
-
-                        done(err, finalResults);
+                        done(err, contestCommunityPopulated);
                       }
                       else {
                         answer.error = true;
@@ -73,7 +69,7 @@ exports = module.exports = function(req, res) {
                   }
                 });
               },
-              function(err) {
+              function(err, finalResults) {
 
                 if (err) {
                   answer.error = true;
