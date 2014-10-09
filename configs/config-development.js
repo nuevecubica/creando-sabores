@@ -46,7 +46,7 @@ if (process.env.ELASTICSEARCH_URL) {
 // DOCKER
 else if (process.env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
   var es = tcpSplit(process.env.ELASTICSEARCH_PORT);
-  answer.elasticsearch.url = ELASTICSEARCH_PORT;
+  answer.elasticsearch.url = process.env.ELASTICSEARCH_PORT;
   answer.elasticsearch.host = es.host;
   answer.elasticsearch.port = es.port;
 }
