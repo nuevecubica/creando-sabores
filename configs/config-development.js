@@ -53,6 +53,9 @@ else if (process.env.ELASTICSEARCH_PORT && process.env.ELASTICSEARCH_PORT.indexO
 
 answer.keystone = {
   test: {
+    /**
+     * Change the value to false or true to run the machine in test mode
+     */
     enabled: process.env.APP_TEST === 'true' || false,
     init: {
       'db name': answer.mongodb.db + '-test',
