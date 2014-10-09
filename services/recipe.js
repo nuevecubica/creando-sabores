@@ -185,8 +185,8 @@ var getRecipeNew = function(options, callback) {
 
   if (options.contest) {
     Contest.model.findOne({
-        slug: options.contest
-      })
+      slug: options.contest
+    })
       .exec(function(err, result) {
         if (!err && result) {
           if (result.state !== 'submission') {

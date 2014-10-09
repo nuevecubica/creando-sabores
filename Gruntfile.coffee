@@ -4,7 +4,7 @@
 
 config =
   port: 3000
-  publicUrl: "http://0.0.0.0:3000"
+  publicUrl: "http://localhost:8080"
 
 ## ======================== PATHS
 
