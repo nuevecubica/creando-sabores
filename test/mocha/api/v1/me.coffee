@@ -312,6 +312,7 @@ describe 'API v1: /me/', ->
             .expect(200)
             .expect(
               (res) ->
+                res.body.recipes.results.length.must.be.equal 1
                 res.body.recipes.total.must.be.equal 1
                 slug = res.body.recipes.results[0].slug
                 slug.must.be.equal recipe.slug

@@ -29,7 +29,7 @@ var answer = {
 
       'host': '0.0.0.0',
       'port': process.env.PORT || 3000,
-      'mongo url': process.env.MONGO_URL ||  null
+      'mongo': process.env.MONGO_URL ||  null
     },
     'security': {
       'csrf': true
@@ -38,7 +38,7 @@ var answer = {
       enabled: process.env.APP_TEST === 'true' || false,
       init: {
         'db name': (process.env.MONGODB_DATABASE || "chefcito") + '-test',
-        'mongo url': (process.env.MONGO_URL || "mongodb://localhost:27017/chefcito") + '-test'
+        'mongo': (process.env.MONGO_URL || "mongodb://localhost:27017/chefcito") + '-test'
       },
       'security': {
         'csrf': false
