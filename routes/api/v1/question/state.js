@@ -12,6 +12,14 @@ exports = module.exports = function(req, res) {
     error: false
   };
 
+  var ref = req.headers.referer;
+  if (!ref || ref.split('/')[2] !== req.headers.host) {
+    res.status(403);
+    answer.error = true;
+    answer.errorMessage = 'Missing or wrong referer.';
+    return res.apiResponse(answer);
+  }
+
   service.question.state({
       slug: req.params.question,
       limit: 1,
