@@ -25,7 +25,7 @@ if (process.env.MONGO_URL) {
   answer.mongodb.port = process.env.MONGODB_PORT;
 }
 // DOCKER
-else if (process.env.MONGODB_PORT.indexOf(':') !== -1) {
+else if (process.env.MONGODB_PORT && process.env.MONGODB_PORT.indexOf(':') !== -1) {
   var mongo = tcpSplit(process.env.MONGODB_PORT);
   answer.mongodb.url = 'mongodb://';
   answer.mongodb.url += mongo.host;
@@ -44,7 +44,7 @@ if (process.env.ELASTICSEARCH_URL) {
   answer.elasticsearch.port = answer.elasticsearch.url ? answer.elasticsearch.url.substring(answer.elasticsearch.url.indexOf(":") + 1) : 9200;
 }
 // DOCKER
-else if (process.env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
+else if (process.env.ELASTICSEARCH_PORT && process.env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
   var es = tcpSplit(process.env.ELASTICSEARCH_PORT);
   answer.elasticsearch.url = process.env.ELASTICSEARCH_PORT;
   answer.elasticsearch.host = es.host;
