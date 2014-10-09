@@ -14,7 +14,8 @@ exports = module.exports = function(req, res) {
 
   service.questionList.get({
     page: req.query.page || 1,
-    perPage: req.query.perPage || 10
+    perPage: req.query.perPage || 10,
+    populate: ['author']
   }, function(err, questions) {
     if (err || !questions) {
       res.status(404);

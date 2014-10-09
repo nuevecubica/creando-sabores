@@ -1,0 +1,22 @@
+mixin question(question)
+  
+  #query.row
+    .arrow-left
+    .three.wide.column.tablet-four
+      a.ui.item.profile(href='#{question.author.url}')
+        img.ui.image.avatar(src="#{question.author.thumb.avatar_large}")
+
+    .thirteen.wide.column.tablet-eleven
+      .ui.column.grid
+        a.name.seven.wide.column.mobile-ten(href='#{question.author.url}')
+          span.span= question.author.name
+
+        .date.five.wide.column.mobile-six
+          span.span= question.formattedDate
+
+        a.commentary.two.wide.column(href=question.url)
+          span.strong= __('Coments')
+
+      a.row(href=question.url)
+        .ui.content
+          .span.explain= question.title

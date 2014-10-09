@@ -1,13 +1,16 @@
 extends ../layouts/default
 
 include ../mixins/header
+
 include ../mixins/contest
 
 block js
   script(src='/js/contest.js')
 
 block content
+
   +header(data, section)
+  
   .ui.page.grid.bg-grey
     .row.computer.tablet.only
       #info.eight.tablet-ten.mobile-eight.wide.column
