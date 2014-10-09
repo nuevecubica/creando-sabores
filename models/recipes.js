@@ -392,53 +392,53 @@ Recipe.schema.pre('save', function(next) {
       },
       // Check if states recipe has changed
       state: function(callback) {
-        if (me.isModified('state') && me.state !== 'publish') {
+          if (me.isModified('state') && me.state !== 'publish') {
 
-          // if recipe has been winner, then have to change contest
-          if (me.contest.isJuryWinner || me.contest.isCommunityWinner) {
+            // if recipe has been winner, then have to change contest
+            if (me.contest.isJuryWinner || me.contest.isCommunityWinner) {
 
-            // Search contest in wich is joined for change contest winner
-            keystone.list('Contest').model.findOne({
-              _id: me.contest.id
-            }).exec(function(err, contest) {
-              if (!err && contest) {
+              // Search contest in wich is joined for change contest winner
+              keystone.list('Contest').model.findOne({
+                _id: me.contest.id
+              }).exec(function(err, contest) {
+                if (!err && contest) {
 
-                // if this recipe is jury winner, then have to change contest
-                // state to close because recipe winner is not right state
-                if (me.contest.isJuryWinner) {
-                  contest.awards.jury.winner = null;
-                  contest.state = 'closed';
+                  // if this recipe is jury winner, then have to change contest
+                  // state to close because recipe winner is not right state
+                  if (me.contest.isJuryWinner) {
+                    contest.awards.jury.winner = null;
+                    contest.state = 'closed';
+                  }
+
+                  // if this recipe is community winner, contest will search
+                  // another community winner
+                  if (me.contest.isCommunityWinner) {
+                    contest.awards.community.winner = null;
+                  }
+
+                  // This will fire contest save pre hook, then is recipe state has
+                  // changed, contest will be updated (change community winner
+                  //if necessary or change contest status to closed if jury award
+                  //recipe has changed its state)
+                  contest.save(function(err) {
+                    callback(err);
+                  });
+
                 }
-
-                // if this recipe is community winner, contest will search
-                // another community winner
-                if (me.contest.isCommunityWinner) {
-                  contest.awards.community.winner = null;
+                else {
+                  callback(err, null);
                 }
-
-                // This will fire contest save pre hook, then is recipe state has
-                // changed, contest will be updated (change community winner
-                //if necessary or change contest status to closed if jury award
-                //recipe has changed its state)
-                contest.save(function(err) {
-                  callback(err);
-                });
-
-              }
-              else {
-                callback(err, null);
-              }
-            });
+              });
+            }
+            else {
+              callback();
+            }
           }
           else {
             callback();
           }
         }
-        else {
-          callback();
-        }
-      }
-      // Adds some check and test here
+        // Adds some check and test here
     },
     function(err, results) {
       if (!err) {
