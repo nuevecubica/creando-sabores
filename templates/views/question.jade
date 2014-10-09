@@ -16,7 +16,7 @@ block content
 
     #question.ui.grid.segment
   
-      #query.row
+      #query
         .row
           .ui.column.grid
             .date
@@ -29,10 +29,10 @@ block content
               span.span= data.question.author.name
         .row
           .ui.content
-            .span= data.question.title
-        .arrow-down
+            .explain.span= data.question.title
+    
 
-      #answer.row.stackable
+      #answer.ui.grid.stackable
         .three.wide.column.tablet-four
           a.ui.item.profile(href='/acerca')
             img.ui.image(src='#{data.question.chef.thumb.avatar_large}')
@@ -40,6 +40,7 @@ block content
         .thirteen.wide.column.tablet-eleven
           .row
             .ui.content
-              .span= data.question.answer
-            .commentary
-              .strong= __('000 Comentarios')
+              .header= __('Chef Answer:')
+              .explain.span= data.question.answer
+            a.commentary(href=data.question.url)
+              .strong= __('269 Comentarios')
