@@ -26,4 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 28017, host: 28017
   # nodejs
   config.vm.network :forwarded_port, guest: 3000, host: 8080
+
+  # shared floder
+  config.vm.synced_folder "../", "/var/lib/docker/chefcito", owner: "root", group: "root"
 end

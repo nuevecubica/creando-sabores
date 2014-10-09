@@ -2,8 +2,7 @@
 FROM dockerfile/nodejs-bower-grunt
 
 ONBUILD RUN apt-get update -y && apt-get -y install gcc make build-essential
-
-RUN npm install -g node-gyp
+ONBUILD RUN npm install -g node-gyp
 
 # Set instructions on build.
 ADD package.json /tmp/package.json
@@ -16,6 +15,7 @@ RUN mkdir -p /tmp/frontend/packages && cd /tmp && bower install --allow-root
 RUN mkdir -p /app/frontend && cp -a /tmp/frontend/packages /app/frontend
 
 ADD . /app
+RUN chmod +x /app/start.sh
 
 # Define working directory.
 WORKDIR /app
