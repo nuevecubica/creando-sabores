@@ -8,7 +8,7 @@ request = require('supertest') config.keystone.publicUrl
 
 cookie = null
 
-describe 'API v1: /contests', ->
+describe.only 'API v1: /contests', ->
 
   before (done) ->
     this.timeout 10000
@@ -54,7 +54,7 @@ describe 'API v1: /contests', ->
 
     describe 'on request without args', ->
 
-      it 'responds with first page, sorted by programmedData', (done) ->
+      it 'responds with first page, sorted by deadline', (done) ->
         request
         .get('/api/v1/contests/past')
         .set('Accept', 'application/json')
