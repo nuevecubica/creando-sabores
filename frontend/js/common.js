@@ -141,6 +141,10 @@ $(document).ready(function() {
 /* global Handlebars */
 var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraargs) {
 
+  if (chef.clearPaginable) {
+    chef.clearPaginable();
+  }
+
   var timeCheckScroll = null,
     counter = 2,
     isStillOnScreen = false,
@@ -157,19 +161,25 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
     }
   }
 
-  $(document).on('click', '.load-button', function(e) {
+  var handleLoadClick = function(e) {
     e.preventDefault();
     getNextPage();
-  });
+  };
 
-  $(window).on('scroll', function() {
+  var handleScroll = function() {
     clearTimeout(timeCheckScroll);
 
     timeCheckScroll = setTimeout(function() {
       checkScroll();
     }, 50);
+  };
 
-  });
+  $(document).on('click', '.load-button', handleLoadClick);
+  $(window).on('scroll', handleScroll);
+  chef.clearPaginable = function() {
+    $(document).off('click', '.load-button', handleLoadClick);
+    $(window).off('scroll', handleScroll);
+  };
 
   var checkScroll = function() {
     var isLoaderOnScreen = $('.loader').isOnScreen();

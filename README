@@ -8,7 +8,7 @@ npm test
 ```
 *Watch*
 ```
-grunt nodemon:test
+grunt concurrent:test
 ```
 ### 2. Run tests
 ```

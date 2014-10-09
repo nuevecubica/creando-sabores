@@ -128,6 +128,9 @@ var _elasticToKeystone = function(params, callback) {
       }
       return a;
     };
+    if (!results.hits) {
+      return callback(err, null, status);
+    }
     var total = results.hits.total,
       perPage = params.body.size,
       first = params.body.from + 1,

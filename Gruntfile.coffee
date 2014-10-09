@@ -4,7 +4,7 @@
 
 config =
   port: 3000
-  publicUrl: "http://0.0.0.0:3000"
+  publicUrl: "http://localhost:8080"
 
 ## ======================== PATHS
 
@@ -180,7 +180,6 @@ module.exports = (grunt) ->
           ignore: ['node_modules/**']
           env:
             PORT: config.port
-            APP_TEST: false
             APP_PUBLIC_URL: config.publicUrl
 
       test:

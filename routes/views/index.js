@@ -34,9 +34,11 @@ exports = module.exports = function(req, res) {
         },
         // Function for get order grid
         function(callback) {
-          service.config.grid.recipes.get({}, function(err, results) {
+          service.config.grid.home.get({}, function(err, results) {
+
             locals.data.order = results.order;
             locals.data.sizes = results.sizes;
+
             callback(err);
           });
         },

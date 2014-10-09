@@ -54,7 +54,7 @@ describe 'API v1: /contests', ->
 
     describe 'on request without args', ->
 
-      it 'responds with first page, sorted by programmedData', (done) ->
+      it 'responds with first page, sorted by deadline', (done) ->
         request
         .get('/api/v1/contests/past')
         .set('Accept', 'application/json')

@@ -38,26 +38,31 @@ block content
 				.three.tabs.tab-header
 					.row
 						.tab
-							div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
-								a(href='/chef/#{profile.username}/recetas')= __('Recipes')
+							a(href='/chef/#{profile.username}/recetas')
+								div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
+									| #{__('Recipes')}
 						.tab
-							.ui.button.chef.button-green.disabled
-								a= __('Menus')
+							a
+								.ui.button.chef.button-green.disabled
+									| #{__('Menus')}
 						.tab
-							.ui.button.chef.button-green.disabled
-								a= __('Tips')
+							a
+								.ui.button.chef.button-green.disabled
+									| #{__('Tips')}
 
-			if subsection == 'recipes'
+			if subsection == 'recipes' || subsection == 'favourites'
 				#recipes.tab-content
 					.row.tablet.computer.only
 						.two.tabs
 							.row.tab-header
 								.tab
-									.active.ui.button.chef.button-green
-										a= __('Recipes')
+									a(href='/chef/#{profile.username}/recetas')
+										div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
+											| #{__('Recipes')}
 								.tab
-									.ui.button.chef.button-green.disabled
-										a= __('Favorites')
+									a(href='/chef/#{profile.username}/favoritas')
+										div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
+											| #{__('Favorites')}
 					.row
 						.ui.grid.segment.list
 							if recipes.length

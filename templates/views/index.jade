@@ -3,6 +3,7 @@ extends ../layouts/default
 include ../mixins/header
 include ../mixins/grid
 include ../mixins/recipe
+include ../mixins/search
 
 block js
 	script(src='/js/recipes.js')
@@ -14,7 +15,7 @@ block content
 
 	.ui.page.grid.body
 
-		include ../components/search
+		+search()
 
 		#index-grid.ui.grid.segment.wall
 			.row.computer.only

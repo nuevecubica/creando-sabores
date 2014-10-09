@@ -19,6 +19,8 @@ var config = require('./config'),
   i18n = require('i18n'),
   testMode = null;
 
+keystone.testMode = config.keystone.test.enabled;
+
 if (config.keystone.test.enabled) {
   // Load function
   testMode = require('./test/mocha/testMode');
