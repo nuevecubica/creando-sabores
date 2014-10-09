@@ -51,6 +51,13 @@
     margin-right: auto;
     border-radius: 4px;
     box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+    .thirteen{
+      margin: 0em 0em 0em !important;
+      padding: 0em 1em 0em !important;
+      .ui.column.grid{
+        height: 57px;
+      }
+    }
     .profile{
       .avatar{
         border-radius: 50%;
@@ -58,9 +65,15 @@
         position: relative;
         width: 100%;
         height: auto;
-        margin-top: 5px;
+        margin-top: 10px;
         display: block;
         max-width: 180px;
+        margin-bottom: 8px;
+        @media only screen and (max-width : 600px) {
+          max-width: 140px;
+          margin-left: 10px;
+          margin-top: 0px;
+        }
       }
     }
     .arrow-left{
@@ -109,7 +122,11 @@
         background-color: @chef-color-query-bg;
       }
       .content {
+        padding: 0 3px;
         line-height: 1.4em;
+        @media only screen and (max-width : 600px) {
+          line-height: 1em;
+        }
         .span{
           margin-top: 10px;
         }
@@ -121,7 +138,11 @@
     > .row:nth-child(odd) {
        background-color: @chef-color-query-bg;
       .content {
+        padding: 0 3px;
         line-height: 1.4em;
+        @media only screen and (max-width : 600px) {
+          line-height: 1em;
+        }
         .span{
           margin-top: 10px;
         }

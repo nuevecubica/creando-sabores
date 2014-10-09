@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   modelCleaner = require('../utils/modelCleaner'),
-  imageQuality = require('../utils/imageQuality');
+  imageQuality = require('../utils/imageQuality'),
+  modelCleaner = require(__base + 'utils/modelCleaner');
 
 /**
  * Questions
@@ -95,6 +96,11 @@ Question.schema.add({
 //#------------------ VIRTUAL
 Question.schema.virtual('url').get(function() {
   return '/pregunta/' + this.slug;
+});
+
+Question.schema.set('toJSON', {
+  virtuals: true,
+  transform: modelCleaner.transformer
 });
 
 //#------------------ PRESAVE
