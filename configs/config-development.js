@@ -40,14 +40,15 @@ else if (process.env.MONGODB_PORT.indexOf(':') !== -1) {
 if (process.env.ELASTICSEARCH_URL) {
   answer.elasticsearch.url = process.env.ELASTICSEARCH_URL;
 
-  answer.elasticsearch.host = process.env.ELASTICSEARCH_URL ? process.env.ELASTICSEARCH_URL.substring(7, process.env.ELASTICSEARCH_URL.indexOf(":") - 1) : "localhost";
-  answer.elasticsearch.port = process.env.ELASTICSEARCH_URL ? process.env.ELASTICSEARCH_URL.substring(process.env.ELASTICSEARCH_URL.indexOf(":") + 1) : 9200;
+  answer.elasticsearch.host = answer.elasticsearch.url ? answer.elasticsearch.url.substring(7, answer.elasticsearch.url.indexOf(":") - 1) : "localhost";
+  answer.elasticsearch.port = answer.elasticsearch.url ? answer.elasticsearch.url.substring(answer.elasticsearch.url.indexOf(":") + 1) : 9200;
 }
 // DOCKER
-else if (process.env.ELASTICSEARCH_PORT_9200_TCP) {
-  answer.elasticsearch.url = process.env.ELASTICSEARCH_PORT_9200_TCP;
-  answer.elasticsearch.host = process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR;
-  answer.elasticsearch.port = process.env.ELASTICSEARCH_PORT_9200_TCP_PORT;
+else if (process.env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
+  var es = tcpSplit(process.env.ELASTICSEARCH_PORT);
+  answer.elasticsearch.url = ELASTICSEARCH_PORT;
+  answer.elasticsearch.host = es.host;
+  answer.elasticsearch.port = es.port;
 }
 
 answer.keystone = {

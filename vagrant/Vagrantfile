@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.vm.provider "docker" do |d|
       d.name = "mongodb"
       d.image = "dockerfile/mongodb"
-      d.volumes = ["/var/lib/docker/mongodb/db:/data/db"]
+      d.volumes = ["/var/docker/mongodb/db:/data/db"]
       d.ports = ["27017:27017", "28017:28017"]
       d.vagrant_vagrantfile = "./Vagrantfile.proxy"
     end
@@ -28,7 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       d.link("mongodb:mongodb")
       d.link("elasticsearch:elasticsearch")
       d.env = { "NODE_ENV" => "development" }
-      d.volumes = ["/var/lib/docker/chefcito:/app"]
+      d.volumes = ["/var/docker/chefcito:/app"]
       d.vagrant_vagrantfile = "./Vagrantfile.proxy"
       d.remains_running = false
     end
