@@ -32,6 +32,44 @@ var getConfigs = function(options, callback) {
 };
 
 /**
+ * Returns categories
+ * @param  {Function} callback (err, results)
+ * @return {null}
+ */
+var getConfigCategories = function(callback) {
+
+  var names = [
+    'categories_plates',
+    'categories_food'
+  ];
+
+  getConfigs({
+    names: names
+  }, function(err, results) {
+    var categories = {};
+
+    if (!err && results) {
+      _.each(results, function(element) {
+        var elementArray = element.value.split(', ');
+
+        _.each(elementArray, function(category) {
+          if (categories[element.name]) {
+            categories[element.name].push(category);
+          }
+          else {
+            categories[element.name] = [];
+          }
+        });
+      });
+    }
+
+    callback(err, {
+      categories: categories,
+    });
+  });
+};
+
+/**
  * Returns config parameters for a grid
  * @param  {Object}   options { section: 'home' }
  * @param  {Function} callback (err, results)
@@ -126,6 +164,9 @@ _service.grid.home = {
 };
 _service.grid.recipes = {
   get: getConfigsGridRecipes
+};
+_service.categories = {
+  get: getConfigCategories
 };
 
 exports = module.exports = _service;

@@ -304,14 +304,10 @@ Recipe.add({
     }
   });
 
-// Schema for tags
-var Tags = new keystone.mongoose.Schema({
-  tag: String
-});
-
+// Schema for categories
 Recipe.schema.add({
-  tags: {
-    type: [Tags]
+  categories: {
+    type: [String]
   }
 });
 

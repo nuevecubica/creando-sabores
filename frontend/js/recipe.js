@@ -199,6 +199,76 @@
 
       return list;
     });
+
+    // ========== Categories
+    // ---------- Creates a new category
+    window.chef.editor.addType('category', function(parent, optionsCategory, value) {
+      var tpl = '<div class="category"></div>';
+
+      var elem = {
+        type: 'checkbox',
+        parent: parent
+      };
+
+      var options = {
+        isHtml: true
+      };
+
+      if (value && "object" === typeof value) {
+        tpl = value;
+        value = null;
+      }
+
+      options = _.merge(optionsCategory || {}, options, _.defaults);
+
+      elem = _.extend(this.newElement('checkbox')(tpl, options, value), elem);
+      return elem;
+    });
+
+    // --------- Creates or selects an categories list
+    window.chef.editor.addType('categoryList', function(selector) {
+      var options = {
+        isHtml: true,
+        filters: {}
+      };
+
+      var elem = {
+        type: 'categoryList',
+        toggle: function(index) {
+          this.$self.find('.category:nth-child(' + (index + 1) + ')').toggleClass('selected');
+        },
+        getSelected: function() {
+          var array = [];
+
+          this.elements.map(function(element) {
+            if (element.$self.hasClass('selected')) {
+              array.push(element.getValue());
+            }
+          });
+
+          return array;
+        },
+        parseElements: function() {
+          // Add list categories
+          var categories = this.$self.find('.category');
+          var categoriesArray = [];
+
+          var list = this;
+          _.each(categories, function(element) {
+            categoriesArray.push(window.chef.editor.newElement('category')(list, {}, element));
+          });
+
+          this.elements = categoriesArray;
+        }
+      };
+
+      var list = _.extend(this.newElement('list')(selector, this.newElement('category'), options), elem);
+      // console.log('categories', list);
+
+      list.parseElements();
+
+      return list;
+    });
   };
 
   //---------- DOCUMENT READY
@@ -249,6 +319,10 @@
 
     var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
+    var plates = window.chef.editor.newElement('categoryList')('#categories #plates.categories');
+
+    var food = window.chef.editor.newElement('categoryList')('#categories #food.categories');
+
     window.chef.setEditableModeOn = function() {
       title.backup();
       difficulty.backup();
@@ -257,6 +331,8 @@
       description.backup();
       ingredients.backup();
       procedure.backup();
+      plates.backup();
+      food.backup();
 
       // Change to editable mode
       $('body').addClass('mode-editable');
@@ -280,6 +356,8 @@
         description.restore();
         ingredients.restore();
         procedure.restore();
+        plates.restore();
+        food.restore();
 
         var file = $('#recipe-header-select').get(0);
         clearFile(file);
@@ -302,6 +380,7 @@
         $('#hidden-description').attr('value', description.getValue());
         $('#hidden-ingredients').attr('value', saveArrayList(ingredients.getValue()));
         $('#hidden-procedure').attr('value', saveArrayList(procedure.getValue()));
+        $('#hidden-categories').attr('value', _.union(plates.getSelected(), food.getSelected()));
         $('#recipe-edit-form').submit();
       },
       onButtonAddIngredientClick: function(ev) {
@@ -343,6 +422,14 @@
         var index = $(this).closest('.step').index();
         procedure.remove(index);
 
+      },
+      onPlateCategoryClick: function(ev) {
+        var index = $(this).closest('.category').index();
+        plates.toggle(index);
+      },
+      onFoodCategoryClick: function(ev) {
+        var index = $(this).closest('.category').index();
+        food.toggle(index);
       }
     };
 
@@ -354,8 +441,8 @@
     $(document).on('click', '#ingredients .ingredient .ingredient-remove', events.onButtonRemoveIngredientClick);
     $(document).on('click', '.step-add', events.onButtonAddProcedureClick);
     $(document).on('click', '#steps .step .step-remove', events.onButtonRemoveProcedureClick);
-    // $(document).on('click', '#steps .step .button', events.onButtonRemoveIngredientClick);
-    // $(document).on('keypress', '#ingredients .ingredient .set-editable', events.onKeypressIngredient);
+    $(document).on('click', '#categories #plates .category', events.onPlateCategoryClick);
+    $(document).on('click', '#categories #food .category', events.onFoodCategoryClick);
 
     $('#recipe-header-select').on('change', function(e) {
       setPreview(e.target, $('.promoted'));
