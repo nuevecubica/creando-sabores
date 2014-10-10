@@ -18,6 +18,7 @@ $(document).ready(function() {
           var html = tpl(item);
           console.log('html:', html);
           $(html).css('display', 'none').prependTo($('#questions .list')).slideDown('slow');
+          $('#send-query input').val('');
         });
       }
     }, 'json');
