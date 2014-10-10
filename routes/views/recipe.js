@@ -59,7 +59,12 @@ exports = module.exports = function(req, res) {
               locals.data = result;
               locals.own = result.own;
               locals.title = result.recipe.title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
-              next(null);
+              service.recipeList.related({
+                recipeId: result.recipe._id
+              }, function(err, results) {
+                locals.related = results;
+                next(err);
+              });
             }
             else {
               return res.notfound(res.__('Not found'));
