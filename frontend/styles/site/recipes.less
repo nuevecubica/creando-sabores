@@ -355,9 +355,20 @@
         height: 210px;
         display: block;
         color: #fff;
+        &:hover{
+          background-color: fade(@grid-hover-background, 90%);
+          transition: background-color @ani-time ease-out;
+        }
         .content{
-          span{
-            opacity: 1;
+          .span {
+            padding:0 5px;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            font-size: @recipe-font-text;
+            color: @chef-color-white;
+            text-transform: uppercase;
+            font-weight: bold;
           }
         }
       }
