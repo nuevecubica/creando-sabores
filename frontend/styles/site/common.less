@@ -136,10 +136,30 @@ body {
   }
 }
 .tab-header{
-  .active.button{
-    opacity: .7;
+  
+  .chef.ui.button{
+    display: table-block;
+    height: 65px;
+    padding: 25px 5px;
+    a{
+      color:@profile-section-color-text;
+    }
+    &.active{
+      background-color: @chef-color-lighter-bg !important;
+      box-shadow: 0px 4px 0px inset!important;
+      &.button-green{
+        color: #558d32;
+      }
+      &.button-brick{
+        color: #ca2b20;
+      }
+      &.button-yellow{
+        color: #fe9804;
+      }
+    }
   }
 }
+
 .body {
 
   .content {
@@ -826,6 +846,9 @@ body {
 
   &.five {
     .mixin(5);
+  }
+  &.six {
+    .mixin(6);
   }
 }
 input:focus{
