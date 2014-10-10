@@ -17,13 +17,13 @@ var addQuestion = function(req, callback) {
     Question.model().getUpdateHandler(req).process(question, {
         fields: 'title,author'
       },
-      function(err) {
+      function(err, res) {
         if (err) {
           console.error('questionNew:', err);
           callback(err, {});
         }
         else {
-          callback(null, question);
+          callback(null, res.item);
         }
       });
   }
