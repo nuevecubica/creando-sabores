@@ -1,12 +1,5 @@
-/* global makePaginable */
+/* global makePaginable, getTemplate */
 $(window).load(function() {
-
-  /* global Handlebars */
-  function getTemplate(name, items, callback) {
-    return $.get('/templates/hbs/' + name + '.hbs').then(function(src) {
-      callback(Handlebars.compile(src), items);
-    });
-  }
 
   function setSearchType(name) {
     $('.tab a .button').removeClass('active');
