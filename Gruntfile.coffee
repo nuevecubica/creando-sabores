@@ -282,7 +282,7 @@ module.exports = (grunt) ->
       development:
         options:
           reporter: "spec"
-          timeout: 3000
+          timeout: 15000
 
         src: ['test/mocha/**/*.coffee']
 

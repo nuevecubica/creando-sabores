@@ -5,23 +5,31 @@ var _ = require('underscore'),
   service = require('./index');
 
 var addQuestion = function(req, callback) {
-  var question = {
-    title: req.query.title,
-    author: req.query.author
-  };
 
-  Question.model().getUpdateHandler(req).process(question, {
-      fields: 'title,author'
-    },
-    function(err) {
-      if (err) {
-        console.error('questionNew:', err);
-        callback(err, {});
-      }
-      else {
-        callback(null, question);
-      }
-    });
+  var title = (req.query.title || req.body.title);
+
+  if (title && req.user) {
+    var question = {
+      title: title,
+      author: req.user._id
+    };
+
+    Question.model().getUpdateHandler(req).process(question, {
+        fields: 'title,author'
+      },
+      function(err) {
+        if (err) {
+          console.error('questionNew:', err);
+          callback(err, {});
+        }
+        else {
+          callback(null, question);
+        }
+      });
+  }
+  else {
+    callback('Some params not found', {});
+  }
 };
 
 var getQuestion = function(options, callback) {
@@ -30,6 +38,7 @@ var getQuestion = function(options, callback) {
 
 var getChangeState = function(options, state, callback) {
   service.questionList.get(options, function(err, question) {
+
     if (!err && question) {
       question.state = state;
       question.save(function(err, doc) {
