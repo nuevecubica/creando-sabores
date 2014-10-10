@@ -378,68 +378,64 @@ describe '(Private) Recipe: Save', ->
 
     describe 'on contest recipe, submission state', ->
       it 'saves it and associates it to the contest', (done) ->
-        keystone.list('Contest').model.findOne {
-          slug: 'test-contest-submission'
-        }
-        .exec (err, contest) ->
-          must(err).be.null()
-          tdata = newRecipes.complete
-          tdata['contest.id'] = contest._id
 
-          url = '/receta/' + tdata.slug
+        contest = data.getBySlug 'contests', 'test-contest-submission'
+
+        tdata = newRecipes.complete
+        tdata['contest.id'] = contest._id
+
+        url = '/receta/' + tdata.slug
+        request
+        .post('/nueva-receta/save')
+        .set('cookie', cookie)
+        .send(tdata)
+        .expect(302)
+        .expect(
+          (res) ->
+            if res.header['location'] isnt url or
+                res.header['api-response-success'] isnt 'Recipe saved' or
+                res.header['api-response-error'] isnt 'false'
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end (err,res) ->
+          if err
+            return done err, res
           request
-          .post('/nueva-receta/save')
-          .set('cookie', cookie)
-          .send(tdata)
-          .expect(302)
-          .expect(
-            (res) ->
-              if res.header['location'] isnt url or
-                  res.header['api-response-success'] isnt 'Recipe saved' or
-                  res.header['api-response-error'] isnt 'false'
-                console.error res.header
-                return 'Wrong status headers'
-          )
-          .end (err,res) ->
-            if err
-              return done err, res
-            request
-              .get(url)
-              .set('cookie', cookie)
-              .expect(200)
-              .expect(
-                (res) -> return res.text.must.match tdata.title
-              )
-              .expect(
-                (res) -> return res.text.must.match 'contest-recipe'
-              )
-              .expect(
-                (res) -> return res.text.must.match 'state-draft'
-              )
-              .end(done)
+            .get(url)
+            .set('cookie', cookie)
+            .expect(200)
+            .expect(
+              (res) -> return res.text.must.match tdata.title
+            )
+            .expect(
+              (res) -> return res.text.must.match 'contest-recipe'
+            )
+            .expect(
+              (res) -> return res.text.must.match 'state-draft'
+            )
+            .end(done)
 
     describe 'on contest recipe, other state', ->
       it 'returns an error', (done) ->
-        keystone.list('Contest').model.findOne {
-          slug: 'test-contest-finished'
-        }
-        .exec (err, contest) ->
-          must(err).be.null()
-          tdata = newRecipes.complete
-          tdata['contest.id'] = contest._id
 
-          url = '/receta/' + tdata.slug
-          request
-          .post('/nueva-receta/save')
-          .set('cookie', cookie)
-          .send(tdata)
-          .expect(302)
-          .expect(
-            (res) ->
-              msg = 'Error: Invalid contest state'
-              if res.header['api-response-success'] isnt 'false' or
-                  res.header['api-response-error'] isnt msg
-                console.error res.header
-                return 'Wrong status headers'
-          )
-          .end done
+        contest = data.getBySlug 'contests', 'test-contest-finished'
+
+        tdata = newRecipes.complete
+        tdata['contest.id'] = contest._id
+
+        url = '/receta/' + tdata.slug
+        request
+        .post('/nueva-receta/save')
+        .set('cookie', cookie)
+        .send(tdata)
+        .expect(302)
+        .expect(
+          (res) ->
+            msg = 'Error: Invalid contest state'
+            if res.header['api-response-success'] isnt 'false' or
+                res.header['api-response-error'] isnt msg
+              console.error res.header
+              return 'Wrong status headers'
+        )
+        .end done

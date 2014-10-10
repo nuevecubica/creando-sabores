@@ -36,10 +36,6 @@ var getUserList = function(options, callback) {
     // We got the recipes (one way or another...)
     // Fix the ingredient list
     for (var i = 0, l = recipes.length; i < l; i++) {
-      recipes[i] = recipes[i].toObject({
-        virtuals: true,
-        transform: modelCleaner.transformer
-      });
       var ingr = recipes[i].ingredients;
       ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
       recipes[i].ingredients = ingr;
@@ -105,17 +101,22 @@ var getUserList = function(options, callback) {
               return callback(err || 'Not found', null);
             }
             else {
-              options.user[options.field] = allRecipes;
-              options.user.save();
-              userlist = _.map(allRecipes, function(recipe) {
-                return recipe._id;
-              });
-              last = Math.min(first + perPage, userlist.length);
-              recipes = allRecipes.slice(first, last);
-              recipeIds = userlist.slice(first, last);
-            }
+              var aR = _.clone(allRecipes);
 
-            sortRecipes(recipes, recipeIds, callback);
+              options.user[options.field] = aR;
+              options.user.save(function(err, doc) {
+                userlist = _.map(allRecipes, function(recipe) {
+                  return recipe._id;
+                });
+
+                last = Math.min(first + perPage, userlist.length);
+
+                recipes = allRecipes.slice(first, last);
+                recipeIds = userlist.slice(first, last);
+
+                sortRecipes(recipes, recipeIds, callback);
+              });
+            }
           });
       }
       else {
