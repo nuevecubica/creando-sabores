@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   modelCleaner = require('../utils/modelCleaner'),
-  imageQuality = require('../utils/imageQuality');
+  imageQuality = require('../utils/imageQuality'),
+  modelCleaner = require(__base + 'utils/modelCleaner');
 
 /**
  * Questions
@@ -49,12 +50,24 @@ Question.add({
     type: Types.Html,
     wysiwyg: true,
     trim: true
+  },
+  chef: {
+    type: Types.Relationship,
+    ref: 'User',
+    filters: {
+      'isChef': true
+    },
+    index: true
   }
 }, 'Status', {
   state: {
     type: Types.Select,
     options: ['review', 'published', 'removed', 'closed'],
     default: 'review'
+  },
+
+  createdDate: {
+    type: Types.Date,
   },
 
   publishedDate: {
@@ -64,6 +77,7 @@ Question.add({
     }
   }
 });
+
 
 // Schema for comments
 var CommentsSchema = new keystone.mongoose.Schema({
@@ -79,8 +93,22 @@ Question.schema.add({
   }
 });
 
+//#------------------ VIRTUAL
+Question.schema.virtual('url').get(function() {
+  return '/pregunta/' + this.slug;
+});
+
+Question.schema.set('toJSON', {
+  virtuals: true,
+  transform: modelCleaner.transformer
+});
+
 //#------------------ PRESAVE
 Question.schema.pre('save', function(done) {
+
+  if (!this.createdDate) {
+    this.createdDate = new Date();
+  }
 
   if (!this.answer && this.state === 'published') {
     this.state = 'review';
@@ -90,6 +118,10 @@ Question.schema.pre('save', function(done) {
   if (this.isModified('state') && this.state === 'published') {
     this.publishedDate = new Date();
   }
+
+  // if (this.isModified('answer') && !this.chef){
+  //   this.chef = 
+  // }
 
   done();
 });
