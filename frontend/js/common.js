@@ -136,9 +136,14 @@ $(document).ready(function() {
   }
 }());
 
+/* global Handlebars */
+function getTemplate(name, items, callback) {
+  return $.get('/templates/hbs/' + name + '.hbs').then(function(src) {
+    callback(Handlebars.compile(src), items);
+  });
+}
 
 // Enable pagination on the current page
-/* global Handlebars */
 var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraargs) {
 
   if (chef.clearPaginable) {
@@ -266,12 +271,6 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
         }, 3000);
       });
   };
-
-  function getTemplate(name, items, callback) {
-    return $.get('/templates/hbs/' + name + '.hbs').then(function(src) {
-      callback(Handlebars.compile(src), items);
-    });
-  }
 
 };
 
