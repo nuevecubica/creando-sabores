@@ -37,5 +37,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # shared floder
   config.vm.network "private_network", ip: "172.16.14.14"
-  config.vm.synced_folder "../", "/var/docker/chefcito", :nfs => true, :mount_options  => ['nolock,vers=3,udp']
+  config.vm.synced_folder "../", "/var/docker/chefcito", type: "nfs", nfs_version: "4,nolock"
 end
