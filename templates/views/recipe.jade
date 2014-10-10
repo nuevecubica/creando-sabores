@@ -270,7 +270,7 @@ block content
      
       .row
         #others.sixteen.wide.column
-          .hide-editable.ui.grid.stackable
+          .hide-editable.ui.grid.stackable.segment
             #related.four.column.row
               h2.ui.header= __('other recipes')
               if related && related.length > 0
@@ -284,7 +284,7 @@ block content
                   .related.button
                     a(href='/recetas')
                       .content
-                        span= __('View all')
+                        .span= __('View all')
               else
                 .sixteen.wide.column
                   .subheader= __('No related recipes yet')
