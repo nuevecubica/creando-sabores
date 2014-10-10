@@ -1,6 +1,7 @@
 var async = require('async'),
   keystone = require('keystone'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  moment = require('moment');
 
 /*
   /question/add
@@ -28,7 +29,10 @@ exports = module.exports = function(req, res) {
       }
       else {
         answer.success = true;
-        answer.question = question;
+        var q = question.toJSON();
+        q.author = req.user;
+        q.formattedDate = moment(q.createdDate).format('lll');
+        answer.question = q;
       }
       return res.apiResponse(answer);
     });
