@@ -10,9 +10,9 @@
 @social-icon-color: @chef-color-black;
 
 /****************
-  Search bar Styles
+  Search bar Styles, send-query
 ****************/
-#search-bar {
+#search-bar, #send-query{
   .field {
     margin: 0;
 
@@ -36,8 +36,6 @@
       border-radius: 0;
       cursor: pointer;
       padding-top: 0.15em;
-
-      .buttonAnimatedLeft(@search-button-text-color, @search-button-background-color);
     }
   }
 }
@@ -52,7 +50,6 @@
 
     .button {
       .buttonAnimatedBottom(@add-new-button-text-color, @add-new-button-background);
-
       margin: 0 30px
     }
   }

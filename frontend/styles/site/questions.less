@@ -1,0 +1,328 @@
+// Background colors
+@chef-color-query-bg:  #67c090;
+@chef-color-query:  #2b8858;
+@chef-color-answer-header :peru;
+@chef-color-answer-bg :@chef-color-yellow-bg;
+/****************
+  QUESTIONS 
+****************/
+#prev-questions{
+  &.bg-grey{
+    h2{
+      text-align: center;
+    }
+    p{
+      text-align: center;
+      margin-top: -25px;
+    }
+  }
+}
+#send-query{
+  .field {
+    .ui.icon.input {
+      > .icon.chef.button-brick-side{
+        .font-larger;
+        width: auto;
+        padding: 20px;
+      }
+    }
+  }
+}
+.tab-header{
+  .ui.button.chef.button-yellow{
+    display: table-block;
+    height: 65px;
+    padding: 25px 5px;
+    a{
+
+    }
+  }
+}
+#questions{
+  .ui.grid > .row {
+    padding: 0% 0% 0%;
+  }
+  #query{
+    position: relative;
+    color: @chef-color-white;
+    width: 80% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+    .thirteen{
+      margin: 0em 0em 0em !important;
+      padding: 0em 1em 0em !important;
+      .ui.column.grid{
+        height: 57px;
+      }
+    }
+    .profile{
+      .avatar{
+        border-radius: 50%;
+        border: 5px solid #fff;
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+        display: block;
+        max-width: 180px;
+        margin-bottom: 8px;
+        @media only screen and (max-width : 600px) {
+          max-width: 140px;
+          margin-left: 10px;
+          margin-top: 0px;
+        }
+      }
+    }
+    .arrow-left{
+      position: absolute;
+      top: 30px;
+      left: -25px;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-right: 30px solid;
+      border-right-color: @chef-color-query-bg;
+    }
+    span{
+
+      .font-large;
+      &.span{
+        text-transform: capitalize;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+        font-weight: normal;
+      }
+    }
+    .name,.date{
+      color: @chef-color-query;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+      span{
+        white-space:nowrap;
+      }
+    }
+    .commentary{
+      span{
+        position: absolute;
+        top: 18px;
+        right: 10px;
+        font-weight: normal;
+      }
+    }
+  }
+  .list {
+    a{
+      color: @chef-color-white;
+    }
+    > .row {
+      background-color: @chef-color-query-bg;
+      &:hover{
+        background-color: @chef-color-query-bg;
+      }
+      .content {
+        padding: 0 3px;
+        line-height: 1.4em;
+        @media only screen and (max-width : 600px) {
+          line-height: 1em;
+        }
+        .span{
+          margin-top: 10px;
+        }
+        &::after {
+          background: linear-gradient(to bottom, fade(@chef-color-query-bg, 0%), @chef-color-query-bg 57%);
+        }
+      }
+    }
+    > .row:nth-child(odd) {
+       background-color: @chef-color-query-bg;
+      .content {
+        padding: 0 3px;
+        line-height: 1.4em;
+        @media only screen and (max-width : 600px) {
+          line-height: 1em;
+        }
+        .span{
+          margin-top: 10px;
+        }
+        &::after {
+          background: linear-gradient(to bottom, fade(@chef-color-query-bg, 0%), @chef-color-query-bg 57%);
+        }
+      }
+    }
+  }
+}
+
+/****************
+  QUESTIONS 
+****************/
+#question{
+
+  #query{
+    z-index: 1;
+    margin-top: 70px;
+    position: relative;
+    color: @chef-color-white;
+    width: 80% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    background-color: @chef-color-query-bg;
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+    padding: 20px 40px 40px 40px;
+    text-align: center;
+    box-sizing: border-box;
+    @media only screen and (min-width : 1500px) {
+      width: 100% !important;
+    }
+    @media only screen and (min-width : 2000px) {
+      width: 100% !important;
+    }
+    @media only screen and (max-width : 600px) {
+      padding: 20px 20px 40px 20px;
+    }
+
+    &:after, &:before {
+      top: 100%;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    &:after {
+      border-color: rgba(103, 192, 144, 0);
+      border-top-color: #67c090;
+      border-width: 30px;
+      margin-left: -30px;
+    }
+    &:before {
+      border-color: rgba(148, 148, 148, 0);
+      border-top-color: rgba(50, 50, 50, 0.25);
+      border-width: 33px;
+      margin-left: -33px;
+    }
+
+    .profile{
+      width: 150px;
+      margin: auto;
+      display: block;
+      position: relative;
+      .avatar{
+        border-radius: 50%;
+        border: 5px solid #fff;
+        width: 150px;
+        position: absolute;
+        height: auto;
+        top: -115px;
+        display: block;
+      }
+    }
+  
+    span{
+      .font-large;
+      &.span{
+        text-transform: capitalize;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+        font-weight: normal;
+      }
+    }
+    .name{
+      display: block;
+      margin-top: 50px;
+      color: @chef-color-query;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+      text-decoration: none;
+      span{
+        white-space:nowrap;
+        .font-larger;
+
+      }
+    }
+    .date{
+      color: @chef-color-query;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+      span{
+        white-space:nowrap;
+        @media only screen and (max-width : 768px) {
+         .font-smaller;
+        }
+        @media only screen and (max-width : 600px) {
+         position: absolute;
+         bottom: 10px;
+         right: 10px;
+        }
+      }
+    }
+    .content{ 
+    }
+  }
+  #answer{
+    padding-top: 40px;
+    margin-top: 0;
+    position: relative;
+    color: @chef-color-white;
+    width: 80% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+    background-color: @chef-color-answer-bg;
+    box-sizing: border-box;
+    padding-bottom: 30px;
+    @media only screen and (min-width : 1500px) {
+      width: 100% !important;
+    }
+
+    .profile{
+      border: 5px solid #fff;
+      min-width: 120px;
+      max-width: 170px;
+      height: auto;
+      display: block;
+      margin: auto;
+    }
+    .content{
+      padding: 0px 40px 25px 0;
+      margin-top: -10px;
+      .header{
+        color: @chef-color-answer-header;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+      }
+      @media only screen and (max-width : 768px) {
+        padding: 0 20px 30px;
+        text-align: center;
+      }
+    }
+    .commentary{
+      color: @chef-color-white;
+      text-decoration: none;
+      .strong{
+        font-weight: normal;
+        position: absolute;
+        bottom: 10px;
+        right: 50px;
+        border: 2px solid white;
+        padding: 3px;
+      }
+      &:after{
+        content: "8";
+        font-family: 'iconsgibaja';
+        border: 2px solid white;
+        padding: 6px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+      }
+    }
+  }
+}

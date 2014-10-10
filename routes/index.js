@@ -87,7 +87,7 @@ exports = module.exports = function(app) {
 
   // Questions
   // -- Public
-  app.get('/preguntas', routes.views.questions);
+  app.get('/preguntas/:section(recientes|populares)?', routes.views.questions);
   app.get('/pregunta/:question', routes.views.question);
 
   // Login, Register
@@ -128,6 +128,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
   //-- Questions
+  app.get('/api/v1/questions', routes.api.v1.question.questions);
   app.get('/api/v1/question/:question/:state', middleware.requireAdminApi, routes.api.v1.question.state);
   app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
   //-- Admin

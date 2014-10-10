@@ -82,6 +82,12 @@ exports = module.exports = function(req, res) {
                     }
                   });
                 }
+                else {
+                  answer.id = recipe.id;
+                  answer.likes = recipe.likes;
+                  answer.success = true;
+                  return next(err);
+                }
               }
               else if (req.params.action === 'unlike') {
                 if (pos !== -1) {
@@ -102,6 +108,12 @@ exports = module.exports = function(req, res) {
                       return next(err);
                     }
                   });
+                }
+                else {
+                  answer.id = recipe.id;
+                  answer.likes = recipe.likes;
+                  answer.success = true;
+                  return next(err);
                 }
               }
               else {

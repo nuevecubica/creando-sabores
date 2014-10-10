@@ -330,68 +330,81 @@
     }
   }
 
-  .manage {
-    &.show-editable {
-      //padding: 5px 0;
-    }
+  #categories {
+    
   }
-  #related{
-    padding: 0 1.5%;
-    .column{
-      padding: 0px !important;
-      margin: 0px !important;
-    }
+
+  #others {
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: @chef-color-gray-bg;
+
     .header{
-      background-color: @chef-color-gray-bg;
       text-align: center;
-      padding: 20px 0;
       margin: 0;
     }
-    .related{
-      box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
-      height: 210px;
-      &.button{
-        background-color: @chef-color-yellow-bg;
-        width: 100%;
+
+    #related{
+      .column{
+        padding: 0px !important;
+        margin: 0px !important;
+      }
+
+      .related{
+        box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
         height: 210px;
-        display: block;
-        color: #fff;
-        .content{
-          span{
-            opacity: 1;
+
+        &.button{
+          background-color: @chef-color-yellow-bg;
+          width: 100%;
+          height: 210px;
+          display: block;
+          color: #fff;
+          .content{
+            span{
+              opacity: 1;
+            }
           }
         }
-      }
-      a {
-        text-decoration: none;
 
-        .content {
-          display: table;
-          width: 100%;
-          height: 100%;
+        a {
+          text-decoration: none;
 
-          span {
-            padding:0 5px;
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
-            opacity: 0;
-            font-size: @recipe-font-text;
-            color: @chef-color-white;
-            transition: background-color @ani-time ease-out;
-            text-transform: uppercase;
-            font-weight: bold;
-          }
+          .content {
+            display: table;
+            width: 100%;
+            height: 100%;
 
-          &:hover {
             span {
-              background-color: fade(@grid-hover-background, 70%);
-              opacity: 1;
-              box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
+              padding:0 5px;
+              display: table-cell;
+              vertical-align: middle;
+              text-align: center;
+              opacity: 0;
+              font-size: @recipe-font-text;
+              color: @chef-color-white;
+              transition: background-color @ani-time ease-out;
+              text-transform: uppercase;
+              font-weight: bold;
+            }
+
+            &:hover {
+              span {
+                background-color: fade(@grid-hover-background, 70%);
+                opacity: 1;
+                box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
+              }
             }
           }
         }
       }
+    }
+  }
+
+  .manage {
+    &.show-editable {
+      //padding: 5px 0;
     }
   }
 }
@@ -424,6 +437,14 @@
       &.index {
         margin-left: 0 !important;
         margin-right: 48px;
+      }
+    }
+  }
+
+  #categories {
+    .category {
+      &.show-editable {
+        display: none;
       }
     }
   }

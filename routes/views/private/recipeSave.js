@@ -1,4 +1,5 @@
-var async = require('async'),
+var _ = require('underscore'),
+  async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
   Contest = keystone.list('Contest'),
@@ -9,7 +10,7 @@ var async = require('async'),
 var recipeData = function(req, orig) {
   // Clean data
   var data = {};
-  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'portions', 'time', 'difficulty', 'contest.id'];
+  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'categories', 'portions', 'time', 'difficulty', 'contest.id'];
   var file, files = ['header_upload'];
 
   // Something in the request body?
@@ -63,6 +64,7 @@ var recipeData = function(req, orig) {
     data.difficulty = clean(req.body.difficulty, ['integer', ['max', 5],
       ['min', 1]
     ]);
+    data.categories = req.body.categories.split(',');
     data.author = req.user.id;
     data['contest.id'] = req.body['contest.id'];
 
@@ -103,7 +105,7 @@ var recipeEdit = function(req, res) {
     }
     else if (result) {
 
-      var recipe = result.recipe;
+      var recipe = result.recipe._document;
 
       // Data
       var data = recipeData(req, recipe);
@@ -117,12 +119,14 @@ var recipeEdit = function(req, res) {
         return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
       }
 
-      // Save
-      recipe._document.getUpdateHandler(req).process(data, {
-        fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
-      }, function(err) {
+      _.each(data, function(value, field) {
+        if (value) {
+          recipe[field] = value;
+        }
+      });
+
+      recipe.save(function(err) {
         if (err) {
-          console.error('recipeEdit:', err);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {
@@ -150,18 +154,21 @@ var recipeNew = function(req, res) {
 
 
     var addRecipe = function() {
-      recipe.getUpdateHandler(req).process(data, {
-          fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header,contest.id'
-        },
-        function(err) {
-          if (err) {
-            console.error('recipeNew:', err);
-            return formResponse(req, res, back, 'Error: Unknown error', false);
-          }
-          else {
-            return formResponse(req, res, recipe.url, false, 'Recipe saved');
-          }
-        });
+
+      _.each(data, function(value, field) {
+        if (value) {
+          recipe[field] = value;
+        }
+      });
+
+      recipe.save(function(err) {
+        if (err) {
+          return formResponse(req, res, back, 'Error: Unknown error', false);
+        }
+        else {
+          return formResponse(req, res, back, false, 'Recipe saved');
+        }
+      });
     };
 
     if (data['contest.id']) {
