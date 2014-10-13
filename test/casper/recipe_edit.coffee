@@ -87,6 +87,8 @@ describe 'WEB Recipe Edit', ->
   describe 'Categories- secction', ->
     it 'exists categories', ->
       casper.then ->
+        @click '#manage-wrapper #edit'
+        'body.mode-editable'.should.be.inDOM
         '#categories'.should.be.inDOM.visible
         '#categories-editor'.should.be.inDOM.visible
         '#plates'.should.be.inDOM.and.visible
@@ -94,8 +96,6 @@ describe 'WEB Recipe Edit', ->
 
     it 'works categories', ->
       casper.then ->
-        @click '#manage-wrapper #edit'
-        'body.mode-editable'.should.be.inDOM
         '#categories-editor #plates .category'.should.be.inDOM.and.visible
         @click '#categories-editor #plates .category'
         '#plates .category.selected'.should.be.inDOM.and.visible
