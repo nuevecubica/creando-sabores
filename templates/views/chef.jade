@@ -31,16 +31,19 @@ block content
 					else
 						#profile-about.ui.content!= profile.about
 
-
 	if !profile.isPrivate
 		.ui.page.grid.segment.body
 			.row.tablet.computer.only
-				.three.tabs.tab-header
+				.four.tabs.tab-header
 					.row
 						.tab
 							a(href='/chef/#{profile.username}/recetas')
 								div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
 									| #{__('Recipes')}
+						.tab
+							a(href='/chef/#{profile.username}/favoritas')
+								div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
+									| #{__('Favorites')}
 						.tab
 							a
 								.ui.button.chef.button-green.disabled
@@ -50,19 +53,24 @@ block content
 								.ui.button.chef.button-green.disabled
 									| #{__('Tips')}
 
-			if subsection == 'recipes' || subsection == 'favourites'
+			if subsection == 'recipes'
 				#recipes.tab-content
-					.row.tablet.computer.only
-						.two.tabs
-							.row.tab-header
-								.tab
-									a(href='/chef/#{profile.username}/recetas')
-										div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
-											| #{__('Recipes')}
-								.tab
-									a(href='/chef/#{profile.username}/favoritas')
-										div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
-											| #{__('Favorites')}
+					.row
+						.ui.grid.segment.list
+							if recipes.length
+								each recipe in recipes
+									+recipe(recipe)
+							else
+								| #{__('No recipes yet')}
+
+					.row.loader
+						.sixteen.wide.column.loading= __('Loading more recipes')
+						.sixteen.wide.column.load-more
+							.ui.button.chef.button-brick.load-button
+								a(href="#")= __('Load more')
+
+			if subsection == 'favourites'
+				#favourites.tab-content
 					.row
 						.ui.grid.segment.list
 							if recipes.length
