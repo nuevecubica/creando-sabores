@@ -3,8 +3,8 @@
 ## ======================== COMMON
 
 config =
-  port: 3000
-  publicUrl: "http://localhost:8080"
+  port: process.env.PORT || 3000
+  publicUrl: "http://localhost:" + (process.env.PORT || 3000)
 
 ## ======================== PATHS
 
@@ -92,7 +92,6 @@ module.exports = (grunt) ->
       process.env.NODE_ENV or
       "preproduction"
     )
-
     env:
       test:
         APP_TEST: true
@@ -141,6 +140,7 @@ module.exports = (grunt) ->
     concurrent:
       default:
         tasks: [
+          "envdebug"
           "nodemon:server"
           "watch"
         ]
@@ -149,6 +149,7 @@ module.exports = (grunt) ->
 
       development:
         tasks: [
+          "envdebug"
           "nodemon:debug"
           "watch"
         ]
@@ -418,6 +419,10 @@ module.exports = (grunt) ->
     grunt.task.run ["env:test", "lint", "mochaTest:development",
                     "mocha_casperjs:development"]
 
+  grunt.registerTask "envdebug", ->
+    console.log("ENV ------------------------->>> " + process.env.NODE_ENV)
+    console.log("PORT ------------------------>>> " + process.env.PORT)
+
 ## ======================== ENVIRONMENTS
 
   grunt.registerTask "development", ->
@@ -432,6 +437,7 @@ module.exports = (grunt) ->
     grunt.task.run ["copy:development"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["envdebug"]
 
   grunt.registerTask "preproduction", ->
     grunt.task.run ["lint"]
@@ -441,6 +447,7 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["envdebug"]
 
   grunt.registerTask "production", ->
     grunt.task.run ["jshint"]
@@ -450,16 +457,14 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["envdebug"]
 
   grunt.registerTask "default", ->
     grunt.task.run [grunt.config("environment")]
 
   grunt.registerTask "build", ->
-    console.log("------------------------->>> " + process.env.NODE_ENV)
-    console.log("------------------------->>> " + grunt.config("environment"))
     grunt.task.run [grunt.config("environment")]
 
   grunt.registerTask "dev", ->
     grunt.task.run ["build"]
     grunt.task.run ["concurrent:test"]
-

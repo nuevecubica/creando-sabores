@@ -1,11 +1,11 @@
 var _ = require('underscore'),
-  config = require(__base + 'config.js'),
   mongoosastic = require('mongoosastic'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
   virtual = require('./virtuals'),
   moment = require('moment'),
+  config = require(__base + 'config.js'),
   modelCleaner = require(__base + 'utils/modelCleaner'),
   imageQuality = require(__base + 'utils/imageQuality');
 

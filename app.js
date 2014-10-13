@@ -8,12 +8,6 @@ var _ = require('underscore'),
 require('./utils/stringPrototype');
 require('dotenv').load();
 
-if (!process.env.NODE_ENV) {
-  console.error("Warning: Environment variable NODE_ENV not defined.");
-  return 1;
-  // process.env.NODE_ENV = 'development';
-}
-
 var config = require('./config'),
   keystone = require('keystone'),
   i18n = require('i18n'),

@@ -32,23 +32,24 @@ else if (process.env.MONGODB_PORT && process.env.MONGODB_PORT.indexOf(':') !== -
   answer.mongodb.url += ':' + mongo.port;
   answer.mongodb.url += '/' + (process.env.MONGODB_DATABASE || 'chefcito');
 
-  answer.mongodb.host = mongo.host;
-  answer.mongodb.port = mongo.port;
+  answer.mongodb.host = mongo.host || answer.mongodb.host;
+  answer.mongodb.port = mongo.port || answer.mongodb.port;
 }
 
 // DOKKU
 if (process.env.ELASTICSEARCH_URL) {
   answer.elasticsearch.url = process.env.ELASTICSEARCH_URL;
 
-  answer.elasticsearch.host = answer.elasticsearch.url ? answer.elasticsearch.url.substring(7, answer.elasticsearch.url.indexOf(":") - 1) : "localhost";
-  answer.elasticsearch.port = answer.elasticsearch.url ? answer.elasticsearch.url.substring(answer.elasticsearch.url.indexOf(":") + 1) : 9200;
+  var es = tcpSplit(process.env.ELASTICSEARCH_URL);
+  answer.elasticsearch.host = es.host || answer.elasticsearch.host;
+  answer.elasticsearch.port = es.port || answer.elasticsearch.port;
 }
 // DOCKER
 else if (process.env.ELASTICSEARCH_PORT && process.env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
   var es = tcpSplit(process.env.ELASTICSEARCH_PORT);
   answer.elasticsearch.url = 'http://' + es.host + ':' + es.port;
-  answer.elasticsearch.host = es.host;
-  answer.elasticsearch.port = es.port;
+  answer.elasticsearch.host = es.host || answer.elasticsearch.host;
+  answer.elasticsearch.port = es.port || answer.elasticsearch.port;
 }
 
 answer.keystone = {
