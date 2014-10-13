@@ -11,11 +11,6 @@ global.__base = __dirname + '/';
 
 require('dotenv').load();
 
-if (!process.env.NODE_ENV) {
-  console.error("Warning: Environment variable NODE_ENV not defined.");
-  return 1;
-}
-
 var config = require('./config.js'),
   keystone = require('keystone'),
   i18n = require('i18n');
