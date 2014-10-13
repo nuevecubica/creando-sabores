@@ -3,8 +3,8 @@
 ## ======================== COMMON
 
 config =
-  port: process.env.PORT || 5000
-  publicUrl: "http://localhost:" + (process.env.PORT || 5000)
+  port: process.env.PORT || 3000
+  publicUrl: "http://localhost:" + (process.env.PORT || 3000)
 
 ## ======================== PATHS
 
