@@ -65,7 +65,7 @@ html
 
 		//- Everything globally available goes inside this object!
 		script.
-			window.chef = {}
+			window.chef = !{JSON.stringify(chef)}
 
 		//- Load default scripts
 		script(src='/js/libs/jquery.min.js')
