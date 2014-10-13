@@ -143,14 +143,6 @@ block content
               .ui.button.chef.button-brick
                 a= __('Add to menu')
 
-      #recipe-categories.row.hide-editable
-        .sixteen.wide.column
-          if (data.recipe.categories)
-            .icon-chef-candado.icon
-            .explain
-              - for (var k = 0, n = data.recipe.categories.length; k < n; k++)
-                = data.recipe.categories[k]
-
       #recipe-description.row
         .sixteen.wide.column
           .explain
@@ -228,20 +220,21 @@ block content
             .ui.button.chef.button-brick.step-add
               a= __('Add step')
 
-      //- - var classCategory = (data.recipe.categories.length > 0) ? 'show-editable' : ''
-      //- - var classContainer = (data.recipe.categories.length > 0) ? '' : 'show-editable'
+      - var classCategory = 'show-editable'
+      if data.recipe.categories && data.recipe.categories.length > 0
+        - classCategory = ''
 
-      .row(class=classContainer)
+      #categories.row(class=classCategory)
         .sixteen.wide.column
           h2.ui.header= __('Categories')
           .explain.show-editable
             .ui.content= __('Help us categorize your recipe')
 
-        #categories.sixteen.wide.column.inline-editable
+        #categories-editor.sixteen.wide.column.show-editable
           if (categories.plates)
-            .row(class=classContainer)
+            .row
               .sixteen.wide.column
-                h4.show-editable= __('Plate type')
+                h4= __('Plate type')
                 #plates.categories
                   - var selected = false
 
@@ -251,12 +244,12 @@ block content
                     if (data.recipe.categories && data.recipe.categories.indexOf(categories.plates[k]) >= 0)
                       - selected = true
 
-                    .category(class= (selected) ? 'selected' : classCategory)= categories.plates[k]
+                    .category(class= (selected) ? 'selected' : '')= categories.plates[k]
 
           if (categories.food)
-            .row(class=classContainer)
+            .row
               .sixteen.wide.column
-                h4.show-editable= __('Food type')
+                h4= __('Food type')
                 #food.categories
                   - var selected = false
 
@@ -266,25 +259,31 @@ block content
                     if (data.recipe.categories && data.recipe.categories.indexOf(categories.food[k]) >= 0)
                       - selected = true
 
-                    .category(class= (selected) ? 'selected' : classCategory)= categories.food[k]
-     
-      .row
-        #others.sixteen.wide.column
-          .hide-editable.ui.grid.stackable.segment
-            #related.four.column.row
-              h2.ui.header= __('other recipes')
-              if related && related.length > 0
-                - for (var i = 0, l = related.length; i < l; i++)
-                  .column
-                    .related(style='background-image: url(#{related[i].thumb.header}); background-position:center; background-size:cover;')
-                      a(href='#{related[i].url}')
-                        .content
-                          span= related[i].title
+                    .category(class= (selected) ? 'selected' : '')= categories.food[k]
+
+        if data.recipe.categories && data.recipe.categories.length > 0
+          #recipe-categories.sixteen.wide.column.hide-editable
+            .row
+              .sixteen.wide.column
+                - for (var x = 0, y = data.recipe.categories.length; x < y; x++)
+                  .category.selected= data.recipe.categories[x]
+
+      #others.row.hide-editable(class=(classCategory !== '') ? 'no-margin-top' : '')
+        #recipes.ui.grid.stackable.segment
+          #related.four.column.row
+            h2.ui.header= __('other recipes')
+            if related && related.length > 0
+              - for (var i = 0, l = related.length; i < l; i++)
                 .column
-                  .related.button
-                    a(href='/recetas')
+                  .related(style='background-image: url(#{related[i].thumb.header}); background-position:center; background-size:cover;')
+                    a(href='#{related[i].url}')
                       .content
-                        .span= __('View all')
-              else
-                .sixteen.wide.column
-                  .subheader= __('No related recipes yet')
+                        span= related[i].title
+              .column
+                .related.button
+                  a(href='/recetas')
+                    .content
+                      .span= __('View all')
+            else
+              .sixteen.wide.column
+                .subheader= __('No related recipes yet')
