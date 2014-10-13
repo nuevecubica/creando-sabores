@@ -1,6 +1,6 @@
 mixin question(question)
 
-  .query.row(class = 'state-' + question.state, data-slug=question.slug)
+  .query.row(class = 'state-' + question.state, data-slug=question.slug, data-state=question.state)
     .arrow-left
     .three.wide.column.tablet-four
       if user && user.isAdmin

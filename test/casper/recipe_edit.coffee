@@ -84,8 +84,10 @@ describe 'WEB Recipe Edit', ->
         @editorCheckValues selectors, newValues
         utils.revertDB()
 
-  describe 'Categories- secction', ->
-    it 'exists categories', ->
+  describe 'Categories- section', ->
+
+    it 'exists category', ->
+      casper.thenOpen base + '/test-recipe-1/', ->
       casper.then ->
         @click '#manage-wrapper #edit'
         'body.mode-editable'.should.be.inDOM
@@ -94,7 +96,7 @@ describe 'WEB Recipe Edit', ->
         '#plates'.should.be.inDOM.and.visible
         '#food'.should.be.inDOM.and.visible
 
-    it 'works categories', ->
+    it 'works category', ->
       casper.then ->
         '#categories-editor #plates .category'.should.be.inDOM.and.visible
         @click '#categories-editor #plates .category'

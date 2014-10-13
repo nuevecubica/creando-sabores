@@ -24,4 +24,46 @@ $(document).ready(function() {
     }, 'json');
   });
 
+  var addAdminActionListener = function(e) {
+    e.preventDefault();
+    var $this = $(this),
+      $entry = $this.closest('.query'),
+      newState;
+
+    if ($this.hasClass('delete-qa')) {
+      newState = 'removed';
+    }
+    else {
+      var original = $entry.data('state');
+      if (original !== 'removed') {
+        newState = $entry.data('state');
+      }
+      else {
+        newState = 'review';
+      }
+    }
+
+    var url = '/api/v1/question/' + $entry.data('slug') + '/' + newState;
+
+    var jQXhr = $.ajax({
+      url: url,
+      type: 'PUT',
+      contentType: 'application/json',
+      success: function(data) {
+        if (data.success !== true) {
+          console.log('Error cambiando estado:', data);
+        }
+        else {
+          $entry.removeClass('state-removed state-review');
+          $entry.addClass('state-' + newState);
+        }
+      },
+      error: function(xhr, status, data) {
+        console.log('Error cambiando estado:', status, data);
+      }
+    });
+  };
+
+  $(document).on('click', '.delete-qa, .undelete-qa', addAdminActionListener);
+
 });

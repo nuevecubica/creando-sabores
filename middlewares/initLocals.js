@@ -68,5 +68,22 @@ exports.initLocals = function(req, res, next) {
   locals.ksversion = keystone.version;
   locals.env = process.env;
   locals.isTest = keystone.testMode;
+
+  /*
+    Data to send to the client in each page
+  */
+  locals.chef = {
+    isUserLoggedIn: !!req.user
+  };
+  if (req.user) {
+    locals.chef.user = {
+      username: req.user.username,
+      name: req.user.name
+    };
+    if (req.user.isAdmin) {
+      locals.chef.user.isAdmin = true;
+    }
+  }
+
   next();
 };
