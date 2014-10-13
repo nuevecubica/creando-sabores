@@ -419,6 +419,10 @@ module.exports = (grunt) ->
     grunt.task.run ["env:test", "lint", "mochaTest:development",
                     "mocha_casperjs:development"]
 
+  grunt.registerTask "envdebug", ->
+    console.log("ENV ------------------------->>> " + process.env.NODE_ENV)
+    console.log("PORT ------------------------>>> " + process.env.PORT)
+
 ## ======================== ENVIRONMENTS
 
   grunt.registerTask "development", ->
@@ -433,6 +437,7 @@ module.exports = (grunt) ->
     grunt.task.run ["copy:development"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["envdebug"]
 
   grunt.registerTask "preproduction", ->
     grunt.task.run ["lint"]
@@ -442,6 +447,7 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["envdebug"]
 
   grunt.registerTask "production", ->
     grunt.task.run ["jshint"]
@@ -451,6 +457,7 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["envdebug"]
 
   grunt.registerTask "default", ->
     grunt.task.run [grunt.config("environment")]
@@ -461,9 +468,3 @@ module.exports = (grunt) ->
   grunt.registerTask "dev", ->
     grunt.task.run ["build"]
     grunt.task.run ["concurrent:test"]
-
-  grunt.registerTask "envdebug", ->
-    console.log("ENV ------------------------->>> " + process.env.NODE_ENV)
-    console.log("ENV ------------------------->>> " + grunt.config('environment'))
-    console.log("PORT ------------------------>>> " + process.env.PORT)
-    console.log("PORT ------------------------>>> " + config.port)
