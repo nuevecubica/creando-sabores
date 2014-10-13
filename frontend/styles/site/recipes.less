@@ -331,73 +331,97 @@
   }
 
   #categories {
-    
+    &.show-editable {
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .category {
+      @media screen and (max-width: 767px) {
+        display: block;
+        margin: 10px 0;
+      }
+    }
   }
 
-
   #others {
-    #related{
-      .column{
-        padding: 0px !important;
-        margin: 0px !important;
-      }
-      .header{
-        background-color: @chef-color-gray-bg;
-        text-align: center;
-        padding: 20px 0;
-        margin: 0;
-      }
-      .related{
-        box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
-        height: 210px;
-        &.button{
-          background-color: @chef-color-yellow-bg;
-          width: 100%;
-          height: 210px;
-          display: block;
-          color: #fff;
-          &:hover{
-            background-color: fade(@grid-hover-background, 90%);
-            transition: background-color @ani-time ease-out;
-          }
-          .content{
-            .span {
-              padding:0 5px;
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-              font-size: @recipe-font-text;
-              color: @chef-color-white;
-              text-transform: uppercase;
-              font-weight: bold;
-            }
-          }
+    &.no-margin-top {
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    #recipes {
+
+      #related{
+        .column{
+          padding: 0px !important;
+          margin: 0px !important;
         }
-        a {
-          text-decoration: none;
-          .content {
-            display: table;
-            width: 100%;
-            height: 100%;
 
-            span {
-              padding:0 5px;
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-              opacity: 0;
-              font-size: @recipe-font-text;
-              color: @chef-color-white;
+        .header{
+          background-color: @chef-color-gray-bg;
+          text-align: center;
+          padding: 20px 0;
+          margin: 0;
+        }
+
+        .related{
+          box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
+          height: 210px;
+
+          &.button{
+            background-color: @chef-color-yellow-bg;
+            width: 100%;
+            height: 210px;
+            display: block;
+            color: #fff;
+
+            &:hover{
+              background-color: fade(@grid-hover-background, 90%);
               transition: background-color @ani-time ease-out;
-              text-transform: uppercase;
-              font-weight: bold;
             }
 
-            &:hover {
+            .content{
+              .span {
+                padding:0 5px;
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                font-size: @recipe-font-text;
+                color: @chef-color-white;
+                text-transform: uppercase;
+                font-weight: bold;
+              }
+            }
+          }
+
+          a {
+            text-decoration: none;
+
+            .content {
+              display: table;
+              width: 100%;
+              height: 100%;
+
               span {
-                background-color: fade(@grid-hover-background, 70%);
-                opacity: 1;
-                box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
+                padding:0 5px;
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                opacity: 0;
+                font-size: @recipe-font-text;
+                color: @chef-color-white;
+                transition: background-color @ani-time ease-out;
+                text-transform: uppercase;
+                font-weight: bold;
+              }
+
+              &:hover {
+                span {
+                  background-color: fade(@grid-hover-background, 70%);
+                  opacity: 1;
+                  box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
+                }
               }
             }
           }
@@ -446,10 +470,16 @@
   }
 
   #categories {
-    .category {
-      &.show-editable {
-        display: none;
-      }
+    &.show-editable {
+      margin-top: 1.5% !important;
+      padding: 1rem 0% 0% !important;
+    }
+  }
+
+  #others {
+    &.no-margin-top {
+      margin-top: 1.5% !important;
+      padding: 1rem 0% 0% !important;
     }
   }
 

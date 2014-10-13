@@ -319,9 +319,9 @@
 
     var procedure = window.chef.editor.newElement('procedureList')('#steps');
 
-    var plates = window.chef.editor.newElement('categoryList')('#categories #plates.categories');
+    var plates = window.chef.editor.newElement('categoryList')('#categories-editor #plates.categories');
 
-    var food = window.chef.editor.newElement('categoryList')('#categories #food.categories');
+    var food = window.chef.editor.newElement('categoryList')('#categories-editor #food.categories');
 
     window.chef.setEditableModeOn = function() {
       title.backup();
@@ -441,8 +441,8 @@
     $(document).on('click', '#ingredients .ingredient .ingredient-remove', events.onButtonRemoveIngredientClick);
     $(document).on('click', '.step-add', events.onButtonAddProcedureClick);
     $(document).on('click', '#steps .step .step-remove', events.onButtonRemoveProcedureClick);
-    $(document).on('click', '#categories #plates .category', events.onPlateCategoryClick);
-    $(document).on('click', '#categories #food .category', events.onFoodCategoryClick);
+    $(document).on('click', '#categories-editor #plates .category', events.onPlateCategoryClick);
+    $(document).on('click', '#categories-editor #food .category', events.onFoodCategoryClick);
 
     $('#recipe-header-select').on('change', function(e) {
       setPreview(e.target, $('.promoted'));
