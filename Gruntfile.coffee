@@ -464,4 +464,6 @@ module.exports = (grunt) ->
 
   grunt.registerTask "envdebug", ->
     console.log("ENV ------------------------->>> " + process.env.NODE_ENV)
+    console.log("ENV ------------------------->>> " + grunt.config('environment'))
     console.log("PORT ------------------------>>> " + process.env.PORT)
+    console.log("PORT ------------------------>>> " + config.port)
