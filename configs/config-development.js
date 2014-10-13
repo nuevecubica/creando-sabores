@@ -56,7 +56,7 @@ answer.keystone = {
     /**
      * Change the value to false or true to force run the server in test mode
      */
-    enabled: process.env.APP_TEST === 'true' || false,
+    enabled: process.env.APP_TEST === 'true' || true,
     init: {
       'db name': answer.mongodb.db + '-test',
       'mongo': answer.mongodb.url + '-test',
