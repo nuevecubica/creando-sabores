@@ -36,6 +36,10 @@ var getUserList = function(options, callback) {
     // We got the recipes (one way or another...)
     // Fix the ingredient list
     for (var i = 0, l = recipes.length; i < l; i++) {
+      recipes[i] = recipes[i].toObject({
+        virtuals: true,
+        transform: modelCleaner.transformer
+      });
       var ingr = recipes[i].ingredients;
       ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
       recipes[i].ingredients = ingr;
