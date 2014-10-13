@@ -82,13 +82,11 @@ describe 'WEB Recipe Edit', ->
         @click '#update'
       casper.waitForSelector '#messages .message.success', ->
         @editorCheckValues selectors, newValues
-        utils.revertDB()
 
   describe 'Categories- section', ->
 
     it 'exists category', ->
-      casper.thenOpen base + '/test-recipe-1/', ->
-      casper.then ->
+      casper.thenOpen base + '/receta/test-recipe-1', ->
         @click '#manage-wrapper #edit'
         'body.mode-editable'.should.be.inDOM
         '#categories'.should.be.inDOM.visible
