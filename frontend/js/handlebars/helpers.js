@@ -82,3 +82,9 @@ Handlebars.registerHelper('translateType', function(typeName) {
     return typeName;
   }
 });
+
+Handlebars.registerHelper('ifUserIsAdmin', function(options) {
+  if (chef.user && chef.user.isAdmin) {
+    return options.fn(this);
+  }
+});
