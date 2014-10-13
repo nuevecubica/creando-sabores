@@ -1,6 +1,10 @@
-.query.row(class = 'state-{{state}}')
+.query.row(class = 'state-{{state}}', data-slug = '{{slug}}')
   .arrow-left
   .three.wide.column.tablet-four
+    {{#if userIsAdmin}}
+    a.delete-qa= __('Delete')
+    a.undelete-qa= __('Undelete')
+    {{/if}}
     a.ui.item.profile(href = '{{state}}' === 'published' ? '{{author.url}}' : false)
       img.ui.image.avatar(src="{{author.thumb.avatar_large}}")
 

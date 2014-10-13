@@ -1,8 +1,11 @@
 mixin question(question)
 
-  .query.row(class = 'state-' + question.state)
+  .query.row(class = 'state-' + question.state, data-slug=question.slug)
     .arrow-left
     .three.wide.column.tablet-four
+      if user && user.isAdmin
+        a.delete-qa= __('Delete')
+        a.undelete-qa= __('Undelete')
       a.ui.item.profile(href = question.state === 'published' ? '#{question.author.url}' : false)
         img.ui.image.avatar(src="#{question.author.thumb.avatar_large}")
 

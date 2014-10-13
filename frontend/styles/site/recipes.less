@@ -341,6 +341,9 @@
         display: block;
         margin: 10px 0;
       }
+      &.selected{
+        cursor: default;
+      }
     }
   }
 
@@ -353,6 +356,7 @@
     #recipes {
 
       #related{
+
         .column{
           padding: 0px !important;
           margin: 0px !important;
@@ -364,7 +368,10 @@
           padding: 20px 0;
           margin: 0;
         }
-
+        @media only screen and (max-width: 767px){
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
         .related{
           box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
           height: 210px;
