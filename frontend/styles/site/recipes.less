@@ -335,6 +335,13 @@
       margin-top: 0;
       padding-top: 0;
     }
+
+    .category {
+      @media screen and (max-width: 767px) {
+        display: block;
+        margin: 10px 0;
+      }
+    }
   }
 
   #others {
@@ -346,7 +353,7 @@
     #recipes {
 
       #related{
-        &.column{
+        .column{
           padding: 0px !important;
           margin: 0px !important;
         }
