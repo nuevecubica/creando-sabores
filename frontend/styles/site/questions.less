@@ -49,10 +49,26 @@
         height: 57px;
       }
     }
+    a.undelete-qa, a.delete-qa{
+      position: absolute;
+      cursor: pointer!important;
+    }
+    a.undelete-qa{
+      display: none;
+    }
     &.state-review{
-      opacity: 0.5;
+      opacity: 0.6;
       a{
         cursor:default;
+      }
+    }
+    &.state-removed{
+      opacity: 0.3;
+      a.delete-qa{
+        display: none;
+      }
+      a.undelete-qa{
+        display: inline;
       }
     }
     .profile{
