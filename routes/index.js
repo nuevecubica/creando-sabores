@@ -129,7 +129,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
   //-- Questions
   app.get('/api/v1/questions', routes.api.v1.question.questions);
-  app.get('/api/v1/question/:question/:state', middleware.requireAdminApi, routes.api.v1.question.state);
+  app.put('/api/v1/question/:question/:state(review|published|removed|closed)', middleware.requireAdminApi, routes.api.v1.question.state);
   app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
