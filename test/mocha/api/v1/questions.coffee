@@ -105,7 +105,7 @@ describe 'API v1: questions', ->
 
     describe 'on request form user (no admin)', ->
 
-      question = data.getBySlug 'questions', 'question-closed'
+      question = data.getBySlug 'questions', 'question-1'
 
       before (done) ->
         request
@@ -249,7 +249,7 @@ describe 'API v1: questions', ->
         .expect(403)
         .end(done)
 
-  describe 'POST /api/v1/question/:question/:state', ->
+  describe 'PUT /api/v1/question/:question/:state', ->
     describe 'change state from admin user', ->
 
       beforeEach (done) ->
@@ -275,7 +275,7 @@ describe 'API v1: questions', ->
 
         it 'change question state to published', (done) ->
           request
-          .get('/api/v1/question/' + question.slug + '/' + state)
+          .put('/api/v1/question/' + question.slug + '/' + state)
           .set('Accept', 'application/json')
           .set('Referer', config.keystone.publicUrl)
           .set('cookie', cookie)
@@ -294,7 +294,7 @@ describe 'API v1: questions', ->
 
         it 'responds status error', (done) ->
           request
-          .get('/api/v1/question/' + question.slug + '/' + state)
+          .put('/api/v1/question/' + question.slug + '/' + state)
           .set('Accept', 'application/json')
           .set('Referer', config.keystone.publicUrl)
           .set('cookie', cookie)
@@ -327,7 +327,7 @@ describe 'API v1: questions', ->
 
       it 'responds unauthorized error', (done) ->
         request
-        .get('/api/v1/question/' + question.slug + '/' + state)
+        .put('/api/v1/question/' + question.slug + '/' + state)
         .set('Accept', 'application/json')
         .set('Referer', config.keystone.publicUrl)
         .set('cookie', cookie)
@@ -357,7 +357,7 @@ describe 'API v1: questions', ->
 
       it 'responds unauthorized error', (done) ->
         request
-        .get('/api/v1/question/' + question.slug + '/' + state)
+        .put('/api/v1/question/' + question.slug + '/' + state)
         .set('Accept', 'application/json')
         .set('Referer', config.keystone.publicUrl)
         .set('cookie', cookie)
@@ -388,7 +388,7 @@ describe 'API v1: questions', ->
 
       it 'ignores this call', (done) ->
         request
-        .get('/api/v1/question/' + question.slug + '/' + state)
+        .put('/api/v1/question/' + question.slug + '/' + state)
         .set('Accept', 'application/json')
         .set('Referer', 'http://random.url.com')
         .set('cookie', cookie)
