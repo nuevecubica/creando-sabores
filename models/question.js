@@ -110,7 +110,11 @@ Question.schema.pre('save', function(done) {
     this.createdDate = new Date();
   }
 
-  if (!this.answer && this.state === 'published') {
+  // if (this.isModified('answer') && !this.chef) {
+  //   this.chef = this._req_user;
+  // }
+
+  if ((!this.answer || !this.chef) && (this.state === 'published' || this.state === 'closed')) {
     this.state = 'review';
     this.publishedDate = null;
   }
@@ -119,9 +123,10 @@ Question.schema.pre('save', function(done) {
     this.publishedDate = new Date();
   }
 
-  // if (this.isModified('answer') && !this.chef){
-  //   this.chef = 
-  // }
+  if (this.isModified('state') && this.state === 'closed' && !this.publishedDate) {
+    this.publishedDate = new Date();
+  }
+
 
   done();
 });

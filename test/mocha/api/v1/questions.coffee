@@ -105,7 +105,7 @@ describe 'API v1: questions', ->
 
     describe 'on request form user (no admin)', ->
 
-      question = data.getBySlug 'questions', 'question-closed'
+      question = data.getBySlug 'questions', 'question-1'
 
       before (done) ->
         request
