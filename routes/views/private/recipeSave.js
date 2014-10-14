@@ -119,18 +119,28 @@ var recipeEdit = function(req, res) {
         return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
       }
 
-      _.each(data, function(value, field) {
-        if (value) {
-          recipe[field] = value;
-        }
-      });
-
-      recipe.save(function(err) {
+      // Save
+      recipe.getUpdateHandler(req).process(data, {
+        fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
+      }, function(err) {
         if (err) {
+          console.error('recipeEdit:', err);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {
-          return formResponse(req, res, back, false, 'Recipe saved');
+
+          if (data.categories) {
+            recipe.categories = data.categories;
+            recipe.save(function(err, recipeSaved) {
+
+              if (err) {
+                return formResponse(req, res, back, 'Error: Unknown error', false);
+              }
+              else {
+                return formResponse(req, res, back, false, 'Recipe saved');
+              }
+            });
+          }
         }
       });
     }
@@ -154,21 +164,30 @@ var recipeNew = function(req, res) {
 
     var addRecipe = function() {
 
-      _.each(data, function(value, field) {
-        if (value) {
-          recipe[field] = value;
-        }
-      });
+      // Save
+      recipe.getUpdateHandler(req).process(data, {
+          fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header,contest.id'
+        },
+        function(err) {
+          if (err) {
+            console.error('recipeNew:', err);
+            return formResponse(req, res, back, 'Error: Unknown error', false);
+          }
+          else {
+            if (data.categories) {
+              recipe.categories = data.categories;
+              recipe.save(function(err, recipeSaved) {
 
-      recipe.save(function(err, recipeSaved) {
-
-        if (err) {
-          return formResponse(req, res, back, 'Error: Unknown error', false);
-        }
-        else {
-          return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
-        }
-      });
+                if (err) {
+                  return formResponse(req, res, back, 'Error: Unknown error', false);
+                }
+                else {
+                  return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                }
+              });
+            }
+          }
+        });
     };
 
     if (data['contest.id']) {

@@ -4,6 +4,7 @@ var keystone = require('keystone'),
   Users = keystone.list('User'),
   faker = require('faker'),
   // cloudinary = require('cloudinary'),
+  reindex = require('../goldfinder/reindex'),
   author = null,
   answer = {
     success: false,
@@ -211,22 +212,29 @@ exports = module.exports = function(req, res) {
     Users.model.findOne({
       isAdmin: true
     }, function(err, doc) {
-      if (doc) {
+      if (!err && doc) {
         // Assign it to the recipes
         author = doc;
         async.forEach(recipes, createRecipe, function(err) {
           if (err) {
             answer.error = true;
+            answer.errorMessage = err;
+            return res.apiResponse(answer);
           }
           else {
-            answer.success = true;
-            answer.recipesCount = recipes.length;
+            // reindex all
+            reindex.run('*', {}, function(err, count) {
+              answer.success = true;
+              answer.recipesCount = recipes.length;
+              answer.reindexCount = count;
+              return res.apiResponse(answer);
+            });
           }
-          return res.apiResponse(answer);
         });
       }
       else {
         answer.error = true;
+        answer.errorMessage = err;
         return res.apiResponse(answer);
       }
     });
