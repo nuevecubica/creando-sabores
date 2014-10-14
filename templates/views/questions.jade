@@ -33,11 +33,11 @@ block content
         .tab
           a(href='/preguntas/recientes')
             div(class="#{subsection === 'recientes' ? 'active' : ''}").ui.button.chef.button-yellow
-              | #{('Recents')}
+              | #{__('Recent')}
         .tab
           a(href='/preguntas/populares')
             div(class="#{subsection === 'populares' ? 'active' : ''}").ui.button.chef.button-yellow
-              | #{('Populars')}
+              | #{__('Popular')}
 
       if subsection === 'recientes'
         .row
