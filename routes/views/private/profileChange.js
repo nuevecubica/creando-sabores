@@ -1,8 +1,8 @@
 var async = require('async'),
   keystone = require('keystone'),
-  clean = require('../../../utils/cleanText.js'),
-  valid = require('../../../utils/validateText.js'),
-  formResponse = require('../../../utils/formResponse.js');
+  clean = require(__base + 'utils/cleanText.js'),
+  valid = require(__base + 'utils/validateText.js'),
+  formResponse = require(__base + 'utils/formResponse.js');
 
 exports = module.exports = function(req, res, next) {
 

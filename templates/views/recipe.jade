@@ -40,6 +40,7 @@ block content
     input#hidden-description(type='hidden' name='description')
     input#hidden-ingredients(type='hidden' name='ingredients')
     input#hidden-procedure(type='hidden' name='procedure')
+    input#hidden-categories(type='hidden' name='categories')
     input(type='hidden' name='_csrf' value='#{csrftoken}')
     if data.contest && isNew
       input(type='hidden' name='contest.id' value='#{data.contest._id}')
@@ -76,9 +77,9 @@ block content
           .recipe-attributes
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
-              - var categories = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
+              - var levels = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
               - var difficulty = data.recipe.difficulty || 2
-              - var category = categories[difficulty - 1]
+              - var category = levels[difficulty - 1]
 
               .itemSelected
                 .item(data-value=difficulty)
@@ -91,7 +92,7 @@ block content
                     .span= category
 
               .options
-                +difficult-items(categories)
+                +difficult-items(levels)
 
               i.dropdown.icon
 
@@ -153,7 +154,7 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
-          .ui.button.chef.button-green.shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
+          .ui.button.chef.button-green.shopping-add.hide-editable(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
             a(href="/acceso")= __('Add to shopping basket')
 
         if data.contest
@@ -218,3 +219,71 @@ block content
           .step
             .ui.button.chef.button-brick.step-add
               a= __('Add step')
+
+      - var classCategory = 'show-editable'
+      if data.recipe.categories && data.recipe.categories.length > 0
+        - classCategory = ''
+
+      #categories.row(class=classCategory)
+        .sixteen.wide.column
+          h2.ui.header= __('Categories')
+          .explain.show-editable
+            .ui.content= __('Help us categorize your recipe')
+
+        #categories-editor.sixteen.wide.column.show-editable
+          if (categories.plates)
+            .row
+              .sixteen.wide.column
+                h4= __('Plate type')
+                #plates.categories
+                  - var selected = false
+
+                  - for (var k = 0, n = categories.plates.length; k < n; k++)
+                    - selected = false
+
+                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.plates[k]) >= 0)
+                      - selected = true
+
+                    .category(class= (selected) ? 'selected' : '')= categories.plates[k]
+
+          if (categories.food)
+            .row
+              .sixteen.wide.column
+                h4= __('Food type')
+                #food.categories
+                  - var selected = false
+
+                  - for (var k = 0, n = categories.food.length; k < n; k++)
+                    - selected = false
+
+                    if (data.recipe.categories && data.recipe.categories.indexOf(categories.food[k]) >= 0)
+                      - selected = true
+
+                    .category(class= (selected) ? 'selected' : '')= categories.food[k]
+
+        if data.recipe.categories && data.recipe.categories.length > 0
+          #recipe-categories.sixteen.wide.column.hide-editable
+            .row
+              .sixteen.wide.column
+                - for (var x = 0, y = data.recipe.categories.length; x < y; x++)
+                  .category.selected= data.recipe.categories[x]
+
+      #others.row.hide-editable(class=(classCategory !== '') ? 'no-margin-top' : '')
+        #recipes.ui.grid.stackable.segment
+          #related.four.column.row
+            h2.ui.header= __('other recipes')
+            if related && related.length > 0
+              - for (var i = 0, l = related.length; i < l; i++)
+                .column
+                  .related(style='background-image: url(#{related[i].thumb.header}); background-position:center; background-size:cover;')
+                    a(href='#{related[i].url}')
+                      .content
+                        span= related[i].title
+              .column
+                .related.button
+                  a(href='/recetas')
+                    .content
+                      .span= __('View all')
+            else
+              .sixteen.wide.column
+                .subheader= __('No related recipes yet')

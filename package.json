@@ -1,7 +1,7 @@
 {
   "name": "chefcito",
-  "version": "0.0.6",
-  "versionName": "alpha6",
+  "version": "0.0.7",
+  "versionName": "alpha7-goldfinder",
   "private": true,
   "dependencies": {
     "async": "~0.8.0",
@@ -12,6 +12,7 @@
     "connect-mongo": "^0.4.1",
     "csurf": "~1.3.0",
     "dotenv": "0.2.8",
+    "elasticsearch": "^2.4.3",
     "faker": "ignlg/Faker.js",
     "grunt-autoprefixer": "^0.8.1",
     "grunt-coffeelint": "0.0.10",
@@ -32,6 +33,8 @@
     "keystone": "^0.2.27",
     "lodash": "^2.4.1",
     "moment": "^2.8.3",
+    "mongoosastic": "^0.5.0",
+    "mongoose": "3.8.x",
     "multiline": "^0.3.4",
     "open": "0.0.5",
     "passport": "^0.2.0",
@@ -45,7 +48,7 @@
     "npm": ">=1.3.14"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "./start.sh"
   },
   "main": "keystone.js",
   "devDependencies": {

@@ -1,0 +1,25 @@
+mixin question(question)
+
+  .query.row(class = 'state-' + question.state, data-slug=question.slug, data-state=question.state)
+    .arrow-left
+    .three.wide.column.tablet-four
+      if user && user.isAdmin
+        a.delete-qa= __('Delete')
+        a.undelete-qa= __('Undelete')
+      a.ui.item.profile(href = question.state === 'published' ? '#{question.author.url}' : false)
+        img.ui.image.avatar(src="#{question.author.thumb.avatar_large}")
+
+    .thirteen.wide.column.tablet-eleven
+      .ui.column.grid
+        a.name.seven.wide.column.mobile-ten(href = question.state === 'published' ? '#{question.author.url}' : false)
+          span.span= question.author.name
+
+        .date.five.wide.column.mobile-six
+          span.span= question.formattedDate
+
+        a.commentary.two.wide.column(href = question.state === 'published' ? question.url : false)
+          span.strong= __('Coments')
+
+      a.row(href = question.state === 'published' ? question.url : false)
+        .ui.content
+          .span.explain= question.title

@@ -41,7 +41,7 @@ describe 'WEB Favourites-list', ->
 
     it 'appears on the favourites list when added', ->
       casper.thenOpen base + '/perfil/favoritas' , ->
-        '#recipes .recipe'.should.be.inDOM
+        '#favourites .recipe'.should.be.inDOM
 
     it 'removes favourites with the same button', ->
       casper.thenOpen base + '/receta/test-contest-recipe-liked', ->

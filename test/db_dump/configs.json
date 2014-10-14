@@ -10,3 +10,5 @@
 { "_id" : { "$oid" : "53fd8be82e50691816749654" }, "name" : "grid_size_tablet_recipes", "value" : "small, small, small, large, small, small, small, medium, medium, small", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749655" }, "name" : "grid_order_mobile_recipes", "value" : "1, 2, 5, 3, 6, 4, 7, 8, 9", "__v" : 0 }
 { "_id" : { "$oid" : "53fd8be82e50691816749656" }, "name" : "grid_size_mobile_recipes", "value" : "small, small, large, small, small, medium, small, small, medium, small", "__v" : 0 }
+{ "_id" : { "$oid" : "542c16ff96fcfeec679816da" }, "value" : "botanas, ensaladas, sopas, pastas, arroz, pescados y mariscos, carnes y aves, postres, desayunos", "name" : "categories_plates", "__v" : 0 }
+{ "_id" : { "$oid" : "542c171596fcfeec679816db" }, "value" : "mexicana, italiana, francesa, española, china, japonesa, griega, árabe, americana", "name" : "categories_food", "__v" : 0 }

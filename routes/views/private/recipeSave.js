@@ -1,15 +1,16 @@
-var async = require('async'),
+var _ = require('underscore'),
+  async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
   Contest = keystone.list('Contest'),
-  clean = require('../../../utils/cleanText.js'),
-  formResponse = require('../../../utils/formResponse.js'),
-  service = require('../../../services');
+  clean = require(__base + 'utils/cleanText.js'),
+  formResponse = require(__base + 'utils/formResponse.js'),
+  service = require(__base + 'services');
 
 var recipeData = function(req, orig) {
   // Clean data
   var data = {};
-  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'portions', 'time', 'difficulty', 'contest.id'];
+  var prop, props = ['title', 'description', 'procedure', 'ingredients', 'categories', 'portions', 'time', 'difficulty', 'contest.id'];
   var file, files = ['header_upload'];
 
   // Something in the request body?
@@ -63,6 +64,7 @@ var recipeData = function(req, orig) {
     data.difficulty = clean(req.body.difficulty, ['integer', ['max', 5],
       ['min', 1]
     ]);
+    data.categories = (req.body.categories) ? req.body.categories.split(',') : [];
     data.author = req.user.id;
     data['contest.id'] = req.body['contest.id'];
 
@@ -103,7 +105,7 @@ var recipeEdit = function(req, res) {
     }
     else if (result) {
 
-      var recipe = result.recipe;
+      var recipe = result.recipe._document;
 
       // Data
       var data = recipeData(req, recipe);
@@ -118,7 +120,7 @@ var recipeEdit = function(req, res) {
       }
 
       // Save
-      recipe._document.getUpdateHandler(req).process(data, {
+      recipe.getUpdateHandler(req).process(data, {
         fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
       }, function(err) {
         if (err) {
@@ -126,7 +128,19 @@ var recipeEdit = function(req, res) {
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {
-          return formResponse(req, res, back, false, 'Recipe saved');
+
+          if (data.categories) {
+            recipe.categories = data.categories;
+            recipe.save(function(err, recipeSaved) {
+
+              if (err) {
+                return formResponse(req, res, back, 'Error: Unknown error', false);
+              }
+              else {
+                return formResponse(req, res, back, false, 'Recipe saved');
+              }
+            });
+          }
         }
       });
     }
@@ -148,8 +162,9 @@ var recipeNew = function(req, res) {
       return formResponse(req, res, back, 'Missing data', false);
     }
 
-
     var addRecipe = function() {
+
+      // Save
       recipe.getUpdateHandler(req).process(data, {
           fields: 'title,description,ingredients,procedure,portions,time,difficulty,author,header,contest.id'
         },
@@ -159,7 +174,18 @@ var recipeNew = function(req, res) {
             return formResponse(req, res, back, 'Error: Unknown error', false);
           }
           else {
-            return formResponse(req, res, recipe.url, false, 'Recipe saved');
+            if (data.categories) {
+              recipe.categories = data.categories;
+              recipe.save(function(err, recipeSaved) {
+
+                if (err) {
+                  return formResponse(req, res, back, 'Error: Unknown error', false);
+                }
+                else {
+                  return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                }
+              });
+            }
           }
         });
     };
@@ -168,12 +194,17 @@ var recipeNew = function(req, res) {
       Contest.model.findOne({
         _id: data['contest.id']
       }).exec(function(err, contest) {
+
         if (err) {
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         if (contest.state !== 'submission') {
           return formResponse(req, res, back, 'Error: Invalid contest state', false);
         }
+
+        // Added contest id manually because id is a nested field of contest and an assignation like object[field.nestedfield] does not work
+        recipe.contest.id = data['contest.id'];
+
         addRecipe();
       });
     }

@@ -1,8 +1,8 @@
 var async = require('async'),
   keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  formResponse = require('../../../utils/formResponse.js'),
-  service = require('../../../services');
+  formResponse = require(__base + 'utils/formResponse.js'),
+  service = require(__base + 'services');
 
 var recipePublish = function(req, res) {
   var recipeSlug = req.params.recipe,

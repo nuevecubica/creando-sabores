@@ -1,0 +1,45 @@
+extends ../layouts/default
+
+include ../mixins/header
+
+include ../mixins/question
+
+block js
+  script(src='/js/questions.js')
+
+
+block content
+
+  +header(data, section)
+
+  .ui.page.grid.body
+
+    #question.ui.grid.segment
+  
+      #query
+        .row
+          .ui.column.grid
+            .date
+                span.span= data.formattedDate
+        .row
+          a.ui.item.profile(href='/perfil')
+            img.ui.image.avatar(src="#{data.question.author.thumb.avatar_large}")
+        .row
+            a.name(href='/perfil')
+              span.span= data.question.author.name
+        .row
+          .ui.content
+            .explain.span= data.question.title
+    
+      #answer.ui.grid.stackable
+        .three.wide.column.tablet-four
+          a.ui.item.profile(href='/acerca')
+            img.ui.image(src='#{data.question.chef.thumb.avatar_large}')
+
+        .thirteen.wide.column.tablet-eleven
+          .row
+            .ui.content
+              .header= __('Chef Answer:')
+              .explain.span= data.question.answer
+            a.commentary(href=data.question.url)
+              .strong= __('Coments')

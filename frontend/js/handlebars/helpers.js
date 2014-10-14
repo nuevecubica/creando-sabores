@@ -72,3 +72,19 @@ Handlebars.registerHelper('stateIcon', function(classes) {
     return '<div class="general-state"><span class="icon-chef-var"></span></div>';
   }
 });
+
+/* global chef */
+Handlebars.registerHelper('translateType', function(typeName) {
+  if (chef.typeNames && chef.typeNames[typeName]) {
+    return chef.typeNames[typeName];
+  }
+  else {
+    return typeName;
+  }
+});
+
+Handlebars.registerHelper('ifUserIsAdmin', function(options) {
+  if (chef.user && chef.user.isAdmin) {
+    return options.fn(this);
+  }
+});

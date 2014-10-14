@@ -9,6 +9,27 @@
 @profile-font-normal: @font-size-normal;
 @chef-color-check: @chef-color-red-bg;
 
+
+#profile-form{
+  .picture-wrapper{
+    margin-top: -60px;
+  }
+  #add-new-bar{
+    padding-bottom: 0;
+    .span{
+      .font-extra-large;
+      text-align: left;
+      @media screen and (max-width: 771px) {
+        margin-bottom: 20px;
+        .font-large;
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+}
 .ui.segment.user-profile {
   background-color: transparent;
   background-image: url(../images/default_recipe_bg.png);
@@ -101,16 +122,7 @@
   }
 }
 
-.tab-header{
-  .ui.button.chef.button-green{
-    display: table-block;
-    height: 65px;
-    padding: 25px 5px;
-    a{
-      color:@profile-section-color-text;
-    }
-  }
-}
+
 .tab-content {
   .ui.button.chef.button-brick{
     height: 63px;
@@ -192,7 +204,7 @@
     }
   }
 
-  &#recipes {
+  &#recipes,&#favourites{
     .tabs{
       margin-top: 4px;
     }

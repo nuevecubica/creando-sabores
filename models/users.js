@@ -1,8 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
-  modelCleaner = require('../utils/modelCleaner'),
-  imageQuality = require('../utils/imageQuality');
+  modelCleaner = require(__base + 'utils/modelCleaner'),
+  imageQuality = require(__base + 'utils/imageQuality');
 
 /**
  * Users

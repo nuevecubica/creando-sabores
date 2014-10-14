@@ -10,7 +10,7 @@ function revertTestDatabase(done) {
   }
   if (!keystone.mongoose.connection.readyState) {
     // console.warn('Mongoose connection NOT ready');
-    keystone.mongoose.connect(config.keystone.test.init['mongo url']);
+    keystone.mongoose.connect(config.keystone.test.init['mongo']);
     keystone.mongoose.connection.on('open', function() {
       // console.info('Mongoose connection opened');
       return testMode(keystone).revertDatabase(done);
@@ -27,7 +27,7 @@ function resetTestDatabase(done) {
   }
   if (!keystone.mongoose.connection.readyState) {
     // console.warn('Mongoose connection NOT ready');
-    keystone.mongoose.connect(config.keystone.test.init['mongo url']);
+    keystone.mongoose.connect(config.keystone.test.init['mongo']);
     keystone.mongoose.connection.on('open', function() {
       // console.info('Mongoose connection opened');
       return testMode(keystone).resetDatabase(done);
@@ -44,7 +44,7 @@ function readTestDatabase(done) {
   }
   if (!keystone.mongoose.connection.readyState) {
     // console.warn('Mongoose connection NOT ready');
-    keystone.mongoose.connect(config.keystone.test.init['mongo url']);
+    keystone.mongoose.connect(config.keystone.test.init['mongo']);
     keystone.mongoose.connection.on('open', function() {
       // console.info('Mongoose connection opened');
       return testMode(keystone).getDatabase(done);

@@ -6,16 +6,16 @@
 	Test environment
 */
 var _ = require('underscore');
-require('dotenv').load();
 
-if (!process.env.NODE_ENV) {
-  console.error("Warning: Environment variable NODE_ENV not defined.");
-  return 1;
-}
+global.__base = __dirname + '/';
+
+require('dotenv').load();
 
 var config = require('./config.js'),
   keystone = require('keystone'),
   i18n = require('i18n');
+
+keystone.testMode = config.keystone.test.enabled;
 
 if (config.keystone.test.enabled) {
   config.keystone.init = _.extend(config.keystone.init, config.keystone.test.init);

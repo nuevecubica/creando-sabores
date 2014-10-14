@@ -1,6 +1,6 @@
 var keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  service = require('../../../services');
+  service = require(__base + 'services');
 
 /**
   Prevents people from accessing protected pages

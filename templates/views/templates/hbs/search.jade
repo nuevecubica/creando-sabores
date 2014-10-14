@@ -1,0 +1,40 @@
+div(class="{{classes}}").row.position
+	a(href="{{url}}").hover-list
+	.five.wide.column
+		| {{#if isVideorecipe}}
+		.play
+			i.icon-chef-play.icon
+		| {{/if}}
+		.thumbnail(style='background-image: url({{thumb.list}})')
+			.row
+
+			.row
+
+			.row
+				.ui.three.column.center.aligned.grid
+					.column
+						i.icon-chef-time.icon
+						.span {{formatTime time}}
+
+					.column
+						i.icon-chef-porciones.icon
+						.span {{portions}}
+
+					.difficulty.column {{formatIcons difficulty 'tenedor'}}
+
+	.eleven.wide.column
+		.rating
+			.strong= __('Rating')
+			.span
+				.ui.icon {{formatIcons rating 'star'}}
+			.status-recipe
+				| {{{stateIcon classes}}}
+
+		a(href="{{url}}")
+			h2.ui.header {{title}}
+
+		.ui.content
+			h3.type(class="{{_es._type}}")= '{{translateType _es._type}}'
+			| {{{description}}}
+
+		| {{formatOfficial isOfficial}}

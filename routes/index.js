@@ -1,7 +1,7 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   i18n = require("i18n"),
-  middleware = require('../middlewares'),
+  middleware = require(__base + 'middlewares'),
   csrf = require('csurf'),
   importRoutes = keystone.importer(__dirname);
 
@@ -60,7 +60,7 @@ exports = module.exports = function(app) {
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Profile: Public
-  app.get('/chef/:username/:section(recetas)?', routes.views.chef);
+  app.get('/chef/:username/:section(recetas|favoritas)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
@@ -85,6 +85,11 @@ exports = module.exports = function(app) {
   app.get('/concurso/:contest', routes.views.contest);
   app.get('/concurso/:contest/participantes/:section(top|reciente)', routes.views.participants);
 
+  // Questions
+  // -- Public
+  app.get('/preguntas/:section(recientes|populares)?', routes.views.questions);
+  app.get('/pregunta/:question', routes.views.question);
+
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);
   app.get('/salir', routes.views.signout);
@@ -92,6 +97,9 @@ exports = module.exports = function(app) {
   app.get('/authentication/facebook', routes.authentication.facebook);
   app.get('/authentication/google', routes.authentication.google);
   //app.get('/cocinero/:user', routes.views.profile);
+
+  // Search
+  app.get('/buscar', routes.views.search);
 
   // API
   app.all('/api/v1*', keystone.initAPI);
@@ -110,6 +118,7 @@ exports = module.exports = function(app) {
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
+  app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
   //-- Recipes + Videorecipes
   app.get('/api/v1/:type(recipe|videorecipe)s', routes.api.v1.recipes);
   app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
@@ -118,9 +127,19 @@ exports = module.exports = function(app) {
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
+  //-- Questions
+  app.get('/api/v1/questions', routes.api.v1.question.questions);
+  app.put('/api/v1/question/:question/:state(review|published|removed|closed)', middleware.requireAdminApi, routes.api.v1.question.state);
+  app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
   //-- Admin
-  app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generateRecipes);
-  app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generateTest.middleware);
+  app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
+  app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
+  //---- Elasticsearch
+  app.get('/api/v1/admin/es/ping', routes.api.v1.admin.goldfinder.ping);
+  app.get('/api/v1/admin/es/reindex/:collection(recipe|contest|user)?', routes.api.v1.admin.goldfinder.reindex);
+  //-- Elasticsearch
+  app.get('/api/v1/search', routes.api.v1.goldfinder.search);
+  app.get('/api/v1/suggest', routes.api.v1.goldfinder.suggest);
 
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);

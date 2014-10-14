@@ -82,4 +82,37 @@ describe 'WEB Recipe Edit', ->
         @click '#update'
       casper.waitForSelector '#messages .message.success', ->
         @editorCheckValues selectors, newValues
+
+  describe 'Categories- section', ->
+
+    it 'exists category', ->
+      casper.thenOpen base + '/receta/test-recipe-1', ->
+        @click '#manage-wrapper #edit'
+      casper.waitUntilVisible '#categories-editor', ->
+        'body.mode-editable'.should.be.inDOM
+        '#categories'.should.be.inDOM
+        '#categories-editor'.should.be.inDOM.visible
+        '#plates'.should.be.inDOM.and.visible
+        '#food'.should.be.inDOM.and.visible
+
+    it 'works category', ->
+      casper.then ->
+        '#categories-editor #plates .category'.should.be.inDOM
+        @click '#categories-editor #plates .category'
+        '#plates .category.selected'.should.be.inDOM.and.visible
+        '#categories-editor #food .category'.should.be.inDOM.and.visible
+        @click '#categories-editor #food .category'
+        '#food .category.selected'.should.be.inDOM.and.visible
+    it 'works save category', ->
+      casper.then ->
+        @click '#actions-wrapper #update'
+      casper.waitForSelector '#messages .message.success', ->
+        '#recipe-categories .category.selected'.should.be.inDOM.and.visible
+        @click '#manage-wrapper #edit'
+      casper.waitUntilVisible '#categories-editor', ->
+        'body.mode-editable'.should.be.inDOM
+        '#categories-editor .category.selected'.should.be.inDOM.and.visible
+        @click '#categories-editor #plates .category.selected'
+        '#plates .category.selected'.should.not.be.inDOM
+        '#categories-editor #plates .category'.should.be.inDOM.and.visible
         utils.revertDB()

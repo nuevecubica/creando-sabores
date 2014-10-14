@@ -1,13 +1,16 @@
 extends ../layouts/default
 
 include ../mixins/header
+
 include ../mixins/contest
 
 block js
   script(src='/js/contest.js')
 
 block content
+
   +header(data, section)
+  
   .ui.page.grid.bg-grey
     .row.computer.tablet.only
       #info.eight.tablet-ten.mobile-eight.wide.column
@@ -22,7 +25,7 @@ block content
       #actions.eight.tablet-six.mobile-eight.wide.column.right.aligned
         .contest-actions(class=data.contest.state)
           .action.vote
-            a.ui.button.chef.button-brick(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
+            a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
 
           .action.join
             a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
@@ -35,7 +38,7 @@ block content
       #actions.ten.wide.column.right.aligned
         .contest-actions(class=data.contest.state)
           .action.vote
-            a.ui.button.chef.button-brick(href='/concurso/#{data.contest.slug}/participantes/reciente')= __('Vote for your favourite')
+            a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
 
           .action.join
             a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
@@ -98,14 +101,14 @@ block content
         if top && top.length > 0
           - for (var i = 0, l = top.length; i < l; i++)
             .four.tablet-four.mobile-sixteen.wide.column.ranking-module
-              a.top-contest(href='/receta/#{top[i].slug}',style='background-image: url(#{top[i].thumb.header})')
+              a.top-contest(href='#{top[i].url}',style='background-image: url(#{top[i].thumb.header})')
               .top-rating.like
                   i.icon-chef-like.icon
                   span.like-counter= top[i].likes
               .top-info
                 span
                   strong= (i + 1) + '# '
-                  a(href='/receta/#{top[i].slug}')= top[i].title
+                  a(href='#{top[i].url}')= top[i].title
 
                 .top-share.center.aligned
                   a(href='http://twitter.com')
@@ -119,7 +122,7 @@ block content
 
         .sixteen.wide.column.right.aligned
           .ui.button.chef.button-green
-            a(href='/concurso/#{data.contest.slug}/participantes/top')= __('Show all')
+            a(href='#{data.contest.url}/participantes/top')= __('Show all')
 
 
       #contest-terms.row(class=data.contest.state)

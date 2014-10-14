@@ -1,3 +1,18 @@
+*0.0.7-alpha7-goldfinder*
+--------------------------------------------------
++ Search engine (Elasticsearch)
++ Questions & Answers
++ Recipe categories
++ Create new recipe from user profile
++ Related recipes (more like this)
+
+_Internal:_
+
++ Elasticsearch
++ Docker
++ Bugfixes
++ Tests
+
 *0.0.6-alpha6*
 --------------------------------------------------
 + User shopping list

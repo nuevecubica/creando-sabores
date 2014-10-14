@@ -10,9 +10,9 @@
 @social-icon-color: @chef-color-black;
 
 /****************
-  Search bar Styles
+  Search bar Styles, send-query
 ****************/
-#search-bar {
+#search-bar, #send-query{
   .field {
     margin: 0;
 
@@ -30,14 +30,12 @@
       }
     }
 
-    i.icon {
+    button.icon {
       font-size: 42px !important;
       opacity: 1;
       border-radius: 0;
       cursor: pointer;
-      padding-top: 0.25em;
-
-      .buttonAnimatedLeft(@search-button-text-color, @search-button-background-color);
+      padding-top: 0.15em;
     }
   }
 }
@@ -52,7 +50,6 @@
 
     .button {
       .buttonAnimatedBottom(@add-new-button-text-color, @add-new-button-background);
-
       margin: 0 30px
     }
   }

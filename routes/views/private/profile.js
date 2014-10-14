@@ -1,7 +1,7 @@
 var keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
-  formResponse = require('../../../utils/formResponse.js'),
-  service = require('../../../services');
+  formResponse = require(__base + 'utils/formResponse.js'),
+  service = require(__base + 'services');
 
 exports = module.exports = function(req, res) {
 

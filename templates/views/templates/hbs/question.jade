@@ -1,0 +1,24 @@
+.query.row(class = 'state-{{state}}', data-slug = '{{slug}}', data-state = '{{state}}')
+  .arrow-left
+  .three.wide.column.tablet-four
+    | {{#ifUserIsAdmin}}
+    a.delete-qa= __('Delete')
+    a.undelete-qa= __('Undelete')
+    | {{/ifUserIsAdmin}}
+    a.ui.item.profile(href = '{{state}}' === 'published' ? '{{author.url}}' : false)
+      img.ui.image.avatar(src="{{author.thumb.avatar_large}}")
+
+  .thirteen.wide.column.tablet-eleven
+    .ui.column.grid
+      a.name.seven.wide.column.mobile-ten(href = '{{state}}' === 'published' ? '{{author.url}}' : false)
+        span.span {{author.name}}
+
+      .date.five.wide.column.mobile-six
+        span.span {{formattedDate}}
+
+      a.commentary.two.wide.column(href = '{{state}}' === 'published' ? '{{url}}' : false)
+        span.strong= __('Coments')
+
+    a.row(href = '{{state}}' === 'published' ? '{{url}}' : false)
+      .ui.content
+        .span.explain {{title}}

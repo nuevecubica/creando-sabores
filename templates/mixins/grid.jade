@@ -1,23 +1,24 @@
 mixin grid(recipes, gridPositions, gridSizes)
 
-	- var positions = gridPositions.split(', ');
-	- var sizes = gridSizes.split(', ');
+	if gridPositions && gridSizes
+		- var positions = gridPositions.split(', ');
+		- var sizes = gridSizes.split(', ');
 
-	if recipes.length && positions.length
-		- for (var i = 0, l = positions.length; i < l; i++)
-			- var recipe = recipes[positions[i] - 1]
-			- var title = 'Vacio'
-			- var image = '/images/default_recipe.jpg'
-			- var url = '/'
-			- var classes = 'recipe ' + sizes[i]
+		if recipes.length && positions.length
+			- for (var i = 0, l = positions.length; i < l; i++)
+				- var recipe = recipes[positions[i] - 1]
+				- var title = 'Vacio'
+				- var image = '/images/default_recipe.jpg'
+				- var url = '/'
+				- var classes = 'recipe ' + sizes[i]
 
-			if recipe
-				- title = recipe.title
-				- image = recipe.thumb['grid_' + sizes[i]]
-				- url = recipe.url
-				- classes = sizes[i] + ' ' + recipe.classes
+				if recipe
+					- title = recipe.title
+					- image = recipe.thumb['grid_' + sizes[i]]
+					- url = recipe.url
+					- classes = sizes[i] + ' ' + recipe.classes
 
-			div(class=classes, style="background-image: url(#{image}); background-position:center; background-size:cover;")
-				a(href=url)
-					.content
-						span= title
+				div(class=classes, style="background-image: url(#{image}); background-position:center; background-size:cover;")
+					a(href=url)
+						.content
+							span= title

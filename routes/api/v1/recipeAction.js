@@ -19,7 +19,7 @@ exports = module.exports = function(req, res) {
   if (!ref || ref.split('/')[2] !== req.headers.host) {
     res.status(403);
     answer.error = true;
-    answer.details = 'Missing or wrong referer.';
+    answer.errorMessage = 'Missing or wrong referer.';
     return res.apiResponse(answer);
   }
 
@@ -38,7 +38,7 @@ exports = module.exports = function(req, res) {
         else if (!recipe.contest || !recipe.contest.id) {
           res.status(403);
           answer.error = true;
-          answer.details = 'Recipe is not in a contest.';
+          answer.errorMessage = 'Recipe is not in a contest.';
           return next(err);
         }
         else {
@@ -54,7 +54,7 @@ exports = module.exports = function(req, res) {
             else if (['submission', 'votes'].indexOf(contest.state) === -1) {
               res.status(403);
               answer.error = true;
-              answer.details = 'Contest is closed for voting.';
+              answer.errorMessage = 'Contest is closed for voting.';
               return next(err);
             }
             else {
@@ -65,23 +65,61 @@ exports = module.exports = function(req, res) {
               if (req.params.action === 'like') {
                 if (pos === -1) {
                   req.user.likes.push(recipe._id);
-                  req.user.save();
-                  recipe.likes += 1;
-                  recipe.save();
+                  req.user.save(function(err) {
+                    if (!err) {
+                      recipe.likes += 1;
+                      recipe.save(function(err) {
+                        answer.id = recipe.id;
+                        answer.likes = recipe.likes;
+                        answer.success = true;
+                        return next(err);
+                      });
+                    }
+                    else {
+                      answer.error = true;
+                      answer.errorMessage = err;
+                      return next(err);
+                    }
+                  });
+                }
+                else {
+                  answer.id = recipe.id;
+                  answer.likes = recipe.likes;
+                  answer.success = true;
+                  return next(err);
                 }
               }
               else if (req.params.action === 'unlike') {
                 if (pos !== -1) {
                   req.user.likes.splice(pos, 1);
-                  req.user.save();
-                  recipe.likes -= 1;
-                  recipe.save();
+                  req.user.save(function(err) {
+                    if (!err) {
+                      recipe.likes -= 1;
+                      recipe.save(function(err) {
+                        answer.id = recipe.id;
+                        answer.likes = recipe.likes;
+                        answer.success = true;
+                        return next(err);
+                      });
+                    }
+                    else {
+                      answer.error = true;
+                      answer.errorMessage = err;
+                      return next(err);
+                    }
+                  });
+                }
+                else {
+                  answer.id = recipe.id;
+                  answer.likes = recipe.likes;
+                  answer.success = true;
+                  return next(err);
                 }
               }
-              answer.id = recipe.id;
-              answer.likes = recipe.likes;
-              answer.success = true;
-              return next(err);
+              else {
+                answer.error = true;
+                return next(err);
+              }
             }
           });
         }

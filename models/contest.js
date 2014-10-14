@@ -1,19 +1,17 @@
 var _ = require('underscore'),
+  mongoosastic = require('mongoosastic'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   async = require('async'),
+  virtual = require('./virtuals'),
   moment = require('moment'),
-  modelCleaner = require('../utils/modelCleaner'),
-  imageQuality = require('../utils/imageQuality');
+  config = require(__base + 'config.js'),
+  modelCleaner = require(__base + 'utils/modelCleaner'),
+  imageQuality = require(__base + 'utils/imageQuality');
 
 // ===== Defaults
 // Define recipe defaults
 var defaults = {
-  images: {
-    imageContest: '/images/default_contest.jpg',
-    header: '/images/default_contest.jpg',
-    headerBackgroundRecipe: '/images/default_contest.jpg'
-  },
   positions: [{
     value: 0,
     label: 'Position 1'
@@ -68,29 +66,41 @@ var Contest = new keystone.List('Contest', {
 
 Contest.add({
 
-    sponsor: {
-      type: Types.Text,
-      initial: true,
-      required: true
-    },
 
     title: {
       type: Types.Text,
       initial: true,
       required: true,
-      index: true
+      index: true,
+      es_type: "string"
+    },
+
+    // Needed for Mongoosastic
+    slug: {
+      type: Types.Text,
+      es_type: "string",
+      hidden: true
     },
 
     description: {
       type: Types.Html,
       wysiwyg: true,
+      es_type: "string"
+    },
+
+    sponsor: {
+      type: Types.Text,
+      initial: true,
+      required: true,
+      es_type: "string"
     },
 
     ingredientRequired: {
       type: Types.Text,
       require: true,
       initial: true,
-      label: 'Ingredient required for a contest'
+      label: 'Ingredient required for a contest',
+      es_type: "string"
     },
 
   },
@@ -100,7 +110,8 @@ Contest.add({
       type: Types.Select,
       options: ['draft', 'programmed', 'submission', 'votes', 'closed', 'finished'],
       label: 'Contest state',
-      default: 'draft'
+      default: 'draft',
+      es_type: "string"
     },
 
     schemaVersion: {
@@ -116,21 +127,24 @@ Contest.add({
       type: Types.Datetime,
       require: true,
       initial: true,
-      label: 'Start date'
+      label: 'Start date',
+      es_type: "date"
     },
 
     submissionDeadline: {
       type: Types.Datetime,
       require: true,
       initial: true,
-      label: 'Finish submissions'
+      label: 'Finish submissions',
+      es_type: "date"
     },
 
     deadline: {
       type: Types.Datetime,
       require: true,
       initial: true,
-      label: 'Deadline'
+      label: 'Deadline',
+      es_type: "date"
     }
   },
 
@@ -158,13 +172,15 @@ Contest.add({
       jury: {
         name: {
           type: Types.Text,
-          label: 'Name jury award'
+          label: 'Name jury award',
+          es_type: "string"
         },
 
         description: {
           type: Types.Html,
           wysiwyg: true,
-          label: 'Description jury award'
+          label: 'Description jury award',
+          es_type: "string"
         },
 
         winner: {
@@ -177,20 +193,23 @@ Contest.add({
           label: 'Winner',
           dependsOn: {
             state: 'closed'
-          }
+          },
+          es_type: "objectid"
         }
       },
 
       community: {
         name: {
           type: Types.Text,
-          label: 'Name community award'
+          label: 'Name community award',
+          es_type: "string"
         },
 
         description: {
           type: Types.Html,
           wysiwyg: true,
-          label: 'Description community award'
+          label: 'Description community award',
+          es_type: "string"
         },
 
         winner: {
@@ -204,7 +223,8 @@ Contest.add({
           label: 'Winner',
           dependsOn: {
             state: 'closed'
-          }
+          },
+          es_type: "objectid"
         }
       }
     }
@@ -213,7 +233,8 @@ Contest.add({
   'Legal', {
     terms: {
       type: Types.Html,
-      wysiwyg: true
+      wysiwyg: true,
+      es_type: "string"
     }
   },
 
@@ -222,20 +243,23 @@ Contest.add({
       type: Types.Boolean,
       label: 'Promoted',
       hidden: true,
-      default: false
+      default: false,
+      es_type: "boolean"
     },
 
     isIndexHeaderPromoted: {
       type: Types.Boolean,
       label: 'Index header promoted',
-      default: false
+      default: false,
+      es_type: "boolean"
     },
 
     isIndexGridPromoted: {
       value: {
         type: Types.Boolean,
         label: 'Index Grid',
-        default: false
+        default: false,
+        es_type: "boolean"
       },
 
       position: {
@@ -246,7 +270,8 @@ Contest.add({
         dependsOn: {
           'isIndexGridPromoted.value': true
         },
-        default: 0
+        default: 0,
+        es_type: "integer"
       }
     }
   });
@@ -256,33 +281,8 @@ Contest.schema.set('toJSON', {
   transform: modelCleaner.transformer
 });
 
-Contest.schema.virtual('thumb').get(function() {
-  return {
-    'list': this._.imageContest.src({
-      transformation: 'list_thumb'
-    }) || defaults.images.imageContest,
-    'grid_small': this._.imageContest.src({
-      transformation: 'grid_small_thumb'
-    }) || defaults.images.imageContest,
-    'grid_medium': this._.imageContest.src({
-      transformation: 'grid_medium_thumb'
-    }) || defaults.images.imageContest,
-    'grid_large': this._.imageContest.src({
-      transformation: 'grid_large_thumb'
-    }) || defaults.images.imageContest,
-    'header': this._.header.src({
-      transformation: 'header_limit_thumb'
-    }) || defaults.images.header,
-    'header_recipe': this._.headerBackgroundRecipe.src({
-      transformation: 'header_limit_thumb'
-    }) || defaults.images.headerBackgroundRecipe,
-    'hasQuality': imageQuality(this.header).hasQuality
-  };
-});
-
-Contest.schema.virtual('url').get(function() {
-  return '/concurso/' + this.slug;
-});
+Contest.schema.virtual('thumb').get(virtual.contest.thumb);
+Contest.schema.virtual('url').get(virtual.contest.url);
 
 // Function to switch recipe state
 // Params:
@@ -536,4 +536,9 @@ Contest.schema.pre('save', function(next) {
  * ============
  */
 Contest.defaultColumns = 'title, finishedDate|20%, state|20%';
+Contest.schema.plugin(mongoosastic, {
+  host: config.elasticsearch.host,
+  port: config.elasticsearch.port,
+  log: config.elasticsearch.log
+});
 Contest.register();

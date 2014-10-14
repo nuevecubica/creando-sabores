@@ -3,7 +3,7 @@ var _ = require('underscore'),
   async = require('async'),
   User = keystone.list('User'),
   Recipe = keystone.list('Recipe'),
-  modelCleaner = require('../utils/modelCleaner.js'),
+  modelCleaner = require(__base + 'utils/modelCleaner.js'),
   service = require('./index');
 
 /**
@@ -105,17 +105,22 @@ var getUserList = function(options, callback) {
               return callback(err || 'Not found', null);
             }
             else {
-              options.user[options.field] = allRecipes;
-              options.user.save();
-              userlist = _.map(allRecipes, function(recipe) {
-                return recipe._id;
-              });
-              last = Math.min(first + perPage, userlist.length);
-              recipes = allRecipes.slice(first, last);
-              recipeIds = userlist.slice(first, last);
-            }
+              var aR = _.clone(allRecipes);
 
-            sortRecipes(recipes, recipeIds, callback);
+              options.user[options.field] = aR;
+              options.user.save(function(err, doc) {
+                userlist = _.map(allRecipes, function(recipe) {
+                  return recipe._id;
+                });
+
+                last = Math.min(first + perPage, userlist.length);
+
+                recipes = allRecipes.slice(first, last);
+                recipeIds = userlist.slice(first, last);
+
+                sortRecipes(recipes, recipeIds, callback);
+              });
+            }
           });
       }
       else {

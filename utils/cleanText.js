@@ -58,6 +58,10 @@ var cleaners = {
       return max.toString();
     }
     return str;
+  },
+
+  ucfirst: function(str, force) {
+    return str.capitalize(force);
   }
 };
 

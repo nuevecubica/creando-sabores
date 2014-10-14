@@ -1,7 +1,7 @@
 var async = require('async'),
   keystone = require('keystone'),
-  clean = require('../../../utils/cleanText.js'),
-  formResponse = require('../../../utils/formResponse.js');
+  clean = require(__base + 'utils/cleanText.js'),
+  formResponse = require(__base + 'utils/formResponse.js');
 
 exports = module.exports = function(req, res, next) {
 

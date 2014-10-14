@@ -10,7 +10,13 @@ block js
 block content
 
 	+header(data, section)
-
+	.ui.grid.segment.page
+			#add-new-bar.row
+				.four.wide.column.mobile-two
+				.twelve.wide.column
+					.span= __('Do you have a new recipe?')
+						.ui.button.chef.button-brick.hide-editable
+							a(href='/nueva-receta')= __('Create recipe')
 	.ui.page.grid.segment.body.about
 		.column
 			.ui.stackable.grid
@@ -18,7 +24,7 @@ block content
 
 	.ui.page.grid.segment.body
 		.row.tablet.computer.only
-			.five.tabs.tab-header
+			.six.tabs.tab-header
 				.row
 					.tab
 						a(href='/perfil') 
@@ -33,6 +39,10 @@ block content
 							div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My recipes')}
 					.tab
+						a(href='/perfil/favoritas')
+							div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
+								| #{__('Favorites')}
+					.tab
 						a(href='#')
 							.ui.button.chef.button-green.disabled
 								| #{('My menus')}
@@ -40,7 +50,6 @@ block content
 						a(href='#')
 							.ui.button.chef.button-green.disabled
 								| #{('My tips')}
-
 
 		if subsection == 'profile'
 			.row
@@ -97,19 +106,24 @@ block content
 									.ui.button.chef.button-brick= __('Remove account')
 							.seven.wide.column
 
-		else if subsection == 'recipes' || subsection == 'favourites'
+		else if subsection == 'recipes'
 			#recipes.tab-content
-				.row.tablet.computer.only.tab-header
-					.two.tabs
-						.row
-							.tab
-								a(href='/perfil/recetas')
-									div(class="#{subsection === 'recipes' ? 'active' : ''}").ui.button.chef.button-green
-										| #{('My recipes')}
-							.tab
-								a(href='/perfil/favoritas')
-									div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
-										| #{__('Favorites')}
+				.row
+					.ui.grid.segment.list.stackable
+						if recipes.length
+							each recipe in recipes
+								+recipe(recipe)
+						else
+							.content= __('No recipes yet')
+
+				.row.loader
+					.sixteen.wide.column.loading= __('Loading more recipes')
+					.sixteen.wide.column.load-more
+						.ui.button.chef.button-brick.load-button
+							a(href="#")= __('Load more')
+
+		else if subsection == 'favourites'
+			#favourites.tab-content
 				.row
 					.ui.grid.segment.list.stackable
 						if recipes.length

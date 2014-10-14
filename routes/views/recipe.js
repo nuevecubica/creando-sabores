@@ -1,7 +1,7 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  service = require('../../services');
+  service = require(__base + 'services');
 
 exports = module.exports = function(req, res) {
 
@@ -10,6 +10,8 @@ exports = module.exports = function(req, res) {
 
   var type = locals.type = (req.params.type === 'videoreceta' ? 'videorecipe' : 'recipe');
   locals.data = {};
+
+  locals.categories = {};
 
   // Init locals
   if (req.params.recipe) {
@@ -40,32 +42,55 @@ exports = module.exports = function(req, res) {
   // load recipe
   view.on('init', function(next) {
 
-    if (!locals.isNew) {
-      service.recipe[type].get(options, function(err, result) {
-        if (!err && result) {
-          locals.data = result;
-          locals.own = result.own;
-          locals.title = result.recipe.title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
-          next(null);
+    async.series([
+      // Get categories
+      function(callback) {
+        service.config.categories.get(function(err, results) {
+          locals.categories.plates = results.categories.categories_plates;
+          locals.categories.food = results.categories.categories_food;
+          callback(err);
+        });
+      }
+    ], function(err) {
+      if (!err) {
+        if (!locals.isNew) {
+          service.recipe[type].get(options, function(err, result) {
+            if (!err && result) {
+              locals.data = result;
+              locals.own = result.own;
+              locals.title = result.recipe.title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
+              service.recipeList.related({
+                recipeId: result.recipe._id
+              }, function(err, results) {
+                locals.related = results;
+                next(err);
+              });
+            }
+            else {
+              return res.notfound(res.__('Not found'));
+            }
+          });
         }
         else {
-          return res.notfound(res.__('Not found'));
+          service.recipe.get.new({
+            contest: locals.filters.contest
+          }, function(err, result) {
+            if (!err && result) {
+              locals.data = result;
+              next(null);
+            }
+            else {
+              return res.notfound(res.__('Not found'));
+            }
+          });
         }
-      });
-    }
-    else {
-      service.recipe.get.new({
-        contest: locals.filters.contest
-      }, function(err, result) {
-        if (!err && result) {
-          locals.data = result;
-          next(null);
-        }
-        else {
-          return res.notfound(res.__('Not found'));
-        }
-      });
-    }
+      }
+      else {
+        next(err);
+      }
+
+    });
+
   });
 
   // Render the view

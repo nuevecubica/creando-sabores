@@ -1,10 +1,12 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Recipe = keystone.list('Recipe');
+  Recipe = keystone.list('Recipe'),
+  service = require('./index');
 
 /**
  * Reads both recipes and videorecipes from the database
+ *
  * @param  {Object}   options { user: null, all: false, sort: '-rating',
  *                              flags: [], page: 1, perPage: 10, limit: 10,
  *                              fromContests: false, states: ['published'] }
@@ -111,6 +113,8 @@ var getAllRecipes = function(options, callback) {
 
 /**
  * Reads only videorecipes from the database. Uses getAllRecipes internally.
+ * @param  {Object}   options  getAllRecipes options.
+ * @param  {Function} callback
  */
 var getVideoRecipes = function(options, callback) {
   if (!options.flags) {
@@ -124,6 +128,8 @@ var getVideoRecipes = function(options, callback) {
 
 /**
  * Reads only recipes from the database. Uses getAllRecipes internally.
+ * @param  {Object}   options  getAllRecipes options.
+ * @param  {Function} callback
  */
 var getRecipes = function(options, callback) {
   if (!options.flags) {
@@ -232,11 +238,62 @@ var getRecipesGrid = function(options, callback) {
 
 };
 
+
+/**
+ * Returns recipes similar to a given recipe
+ * @param  {Object}   options  recipeId
+ * @param  {Function} callback (err, results)
+ */
+var getRelatedRecipes = function(options, callback) {
+  options = _.defaults(options || {}, {
+    limit: 3
+  });
+
+  callback = callback || function() {};
+
+  if (!options.recipeId) {
+    return callback('Invalid recipeId');
+  }
+
+  service.elastic.search({
+    index: 'recipes',
+    type: 'recipe',
+    body: {
+      size: options.limit,
+      query: {
+        "filtered": {
+          "filter": {
+            "terms": {
+              "state": ["published"],
+              "_cache": true
+            }
+          },
+          "query": {
+            "more_like_this": {
+              "fields": ["title^5", "description^4", "ingredients^2", "procedure"],
+              "ids": [options.recipeId.toString()],
+              "min_term_freq": 1,
+              "max_query_terms": 12,
+              "min_word_length": 3
+            }
+          }
+        }
+      }
+    }
+  }, function(err, results, status) {
+    if (results) {
+      results = results.hits.hits || [];
+    }
+    callback(err, results, status);
+  });
+};
+
 /*
   Set exportable object
  */
 var _service = {
   get: getAllRecipes,
+  related: getRelatedRecipes,
   grid: {
     get: getRecipesGrid
   },
