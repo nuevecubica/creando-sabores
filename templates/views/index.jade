@@ -73,4 +73,8 @@ block content
 							+recipe(recipe)
 
 					else
-						| #{__('No videorecipes yet')}
+						.empty-resultset.sixteen.wide.column= __('No videorecipes yet')
+
+			.row
+				.ui.button.chef.button-brick
+					a(href='/videorecetas')= __('View all')
