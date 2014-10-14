@@ -1,6 +1,14 @@
 var service = require(__base + 'services');
 
-exports = module.exports = function(req, res) {
+var reindex = function(idx, params, response) {
+  service.elastic._client().indices.delete({
+    index: idx
+  }, function(err) {
+    service.elastic.sync(params, response);
+  });
+};
+
+var middleware = function(req, res) {
 
   var collection = req.params.collection ? req.params.collection.capitalize() : null;
 
@@ -31,9 +39,9 @@ exports = module.exports = function(req, res) {
     idx = collection.toLowerCase();
   }
 
-  service.elastic._client().indices.delete({
-    index: idx
-  }, function(err) {
-    service.elastic.sync(params, response);
-  });
+  reindex(idx, params, response);
 };
+
+middleware.run = reindex;
+
+exports = module.exports = middleware;
