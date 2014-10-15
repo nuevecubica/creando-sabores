@@ -24,13 +24,42 @@ exports = module.exports = function(req, res) {
       populate: ['author']
     };
 
-    service.tipList.get(options, function(err, results) {
-      locals.data.tips = results.results;
-      locals.data.tips.map(function(a, i) {
-        a.formattedDate = moment(a.createdDate).format('lll');
+    // Query for get order of grid
+    async.series([
+        // Function for get recent recipes
+        function(callback) {
+          service.tipList.get(options, function(err, results) {
+            locals.data.tips = results.results;
+            locals.data.tips.map(function(a, i) {
+              a.formattedDate = moment(a.createdDate).format('lll');
+            });
+            callback(err);
+          });
+        },
+        // Function for get popular recipes
+        function(callback) {
+          options.sort = '-rating';
+          service.tipList.get(options, function(err, results) {
+            locals.data.popular = results.results;
+            locals.data.popular.map(function(a, i) {
+              a.formattedDate = moment(a.createdDate).format('lll');
+            });
+            callback(err);
+          });
+        },
+        // Function for get header recipe
+        function(callback) {
+          service.pageHeader.tip.get({
+            populate: ['author']
+          }, function(err, result) {
+            locals.data.header = result;
+            callback(err);
+          });
+        }
+      ],
+      function(err) {
+        next(err);
       });
-      next(err);
-    });
   });
 
   // Render the view

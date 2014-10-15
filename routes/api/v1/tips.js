@@ -9,7 +9,7 @@ var _ = require('underscore'),
   /tips?page=1&perPage=10
 */
 
-exports = module.exports = function(req, res) {
+var getRecentTips = function(req, res) {
   var answer = {
     success: false,
     error: false
@@ -41,3 +41,44 @@ exports = module.exports = function(req, res) {
     return res.apiResponse(answer);
   });
 };
+
+var getPopularTips = function(req, res) {
+  var answer = {
+    success: false,
+    error: false
+  };
+
+  var options = {
+    page: req.query.page || 1,
+    perPage: req.query.perPage || 10,
+    sort: '-rating',
+    populate: ['author']
+  };
+
+  service.tipList.get(options, function(err, tips) {
+    if (err || !tips) {
+      res.status(404);
+      answer.error = true;
+    }
+    else {
+      answer.success = true;
+      tips.results.map(function(a, i) {
+        a = a.toObject({
+          virtuals: true,
+          transform: modelCleaner.transformer
+        });
+        a.formattedDate = moment(a.createdDate).format('lll');
+        tips.results[i] = a;
+      });
+      answer.tips = tips;
+    }
+    return res.apiResponse(answer);
+  });
+};
+
+var tips = {
+  recent: getRecentTips,
+  popular: getPopularTips
+};
+
+exports = module.exports = tips;
