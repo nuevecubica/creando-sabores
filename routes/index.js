@@ -90,6 +90,11 @@ exports = module.exports = function(app) {
   app.get('/preguntas/:section(recientes|populares)?', routes.views.questions);
   app.get('/pregunta/:question', routes.views.question);
 
+  // Tips
+  // -- Public
+  app.get('/tips/:section(recientes|populares)?', routes.views.tips);
+  app.get('/tip/:tip', routes.views.tip);
+
   // Login, Register
   app.all('/:mode(registro|acceso)', routes.views.signup);
   app.get('/salir', routes.views.signout);
@@ -131,6 +136,8 @@ exports = module.exports = function(app) {
   app.get('/api/v1/questions', routes.api.v1.question.questions);
   app.put('/api/v1/question/:question/:state(review|published|removed|closed)', middleware.requireAdminApi, routes.api.v1.question.state);
   app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
+  //-- Tips
+  app.get('/api/v1/tips', routes.api.v1.tips);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
