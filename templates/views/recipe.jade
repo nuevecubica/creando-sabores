@@ -154,7 +154,7 @@ block content
           .explain
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
-          .ui.button.chef.button-green.shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
+          .ui.button.chef.button-green.shopping-add.hide-editable(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
             a(href="/acceso")= __('Add to shopping basket')
 
         if data.contest
@@ -285,5 +285,4 @@ block content
                     .content
                       .span= __('View all')
             else
-              .sixteen.wide.column
-                .subheader= __('No related recipes yet')
+                .empty-resultset.sixteen.wide.column= __('No related recipes yet')

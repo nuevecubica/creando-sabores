@@ -61,7 +61,7 @@ block content
 								each recipe in recipes
 									+recipe(recipe)
 							else
-								| #{__('No recipes yet')}
+								.empty-resultset.sixteen.wide.column= __('No recipes yet')
 
 					.row.loader
 						.sixteen.wide.column.loading= __('Loading more recipes')
@@ -77,7 +77,7 @@ block content
 								each recipe in recipes
 									+recipe(recipe)
 							else
-								| #{__('No recipes yet')}
+								.empty-resultset.sixteen.wide.column= __('No recipes yet')
 
 					.row.loader
 						.sixteen.wide.column.loading= __('Loading more recipes')

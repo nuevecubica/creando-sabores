@@ -6,6 +6,7 @@ var keystone = require('keystone'),
   faker = require('faker'),
   moment = require('moment'),
   // cloudinary = require('cloudinary'),
+  reindex = require('../goldfinder/reindex'),
   author = null,
   answer = {
     success: false,
@@ -435,13 +436,18 @@ exports = module.exports = function(req, res) {
               async.forEach(recipes, createRecipe, function(err) {
                 if (err) {
                   answer.error = true;
+                  return res.apiResponse(answer);
                 }
                 else {
-                  answer.success = true;
-                  answer.recipesCount = recipes.length;
-                  answer.contestsCount = contests.length;
+                  // reindex all
+                  reindex.run('*', {}, function(err, count) {
+                    answer.success = true;
+                    answer.recipesCount = recipes.length;
+                    answer.contestsCount = contests.length;
+                    answer.reindexCount = count;
+                    return res.apiResponse(answer);
+                  });
                 }
-                return res.apiResponse(answer);
               });
             }
           });

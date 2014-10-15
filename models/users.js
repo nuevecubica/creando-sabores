@@ -31,7 +31,7 @@ User.add({
     trim: true
   },
   username: {
-    type: Types.Text,
+    type: Types.Key,
     initial: true,
     required: true,
     index: true,
@@ -57,7 +57,8 @@ User.add({
   about: {
     type: Types.Html,
     wysiwyg: true,
-    trim: true
+    trim: true,
+    default: ''
   }
 }, 'Avatars', {
   avatars: {
@@ -68,12 +69,14 @@ User.add({
     facebook: {
       type: Types.Text,
       label: 'Facebook',
-      noedit: true
+      noedit: true,
+      default: ''
     },
     google: {
       type: Types.Text,
       label: 'Google',
-      noedit: true
+      noedit: true,
+      default: ''
     }
   }
 }, 'Media', {
@@ -110,32 +113,38 @@ User.add({
   isAdmin: {
     type: Boolean,
     label: 'Superadmin',
-    note: 'Can access Keystone.'
+    note: 'Can access Keystone.',
+    default: false
   },
   isConfirmed: {
     type: Boolean,
     label: 'Confirmed',
-    note: 'Has confirmed email address. Can publish.'
+    note: 'Has confirmed email address. Can publish.',
+    default: false
   },
   isChef: {
     type: Boolean,
     label: 'Chef',
-    note: 'An official chef. Admin role.'
+    note: 'An official chef. Admin role.',
+    default: false
   },
   isBanned: {
     type: Boolean,
     label: 'Banned',
-    note: 'Cannot login.'
+    note: 'Login disallowed.',
+    default: false
   },
   isDeactivated: {
     type: Boolean,
     label: 'Deactivated',
-    note: 'Cannot login.'
+    note: 'Login disallowed.',
+    default: false
   },
   isPrivate: {
     type: Boolean,
     label: 'Private',
-    note: 'Profile is visible only for himself.'
+    note: 'Profile is visible only for the owner.',
+    default: false
   }
 }, 'Social', {
   social: {
@@ -144,7 +153,8 @@ User.add({
         type: Boolean,
         label: 'Facebook',
         note: 'Faceebok is configured',
-        noedit: true
+        noedit: true,
+        default: false
       },
       profileId: {
         type: Types.Text,
@@ -165,7 +175,8 @@ User.add({
         type: Boolean,
         label: 'Google',
         note: 'Google is configured',
-        noedit: true
+        noedit: true,
+        default: false
       },
       profileId: {
         type: Types.Text,
@@ -197,6 +208,33 @@ User.add({
     type: Types.Relationship,
     ref: 'Recipe',
     many: true
+  }
+}, 'Flags', {
+  disabledNotifications: {
+    type: Types.TextArray,
+    default: []
+  },
+  disabledHelpers: {
+    type: Types.TextArray,
+    default: []
+  },
+  receiveNewsletter: {
+    type: Types.Boolean,
+    index: true,
+    default: true
+  }
+}, 'Recover Password', {
+  recoverPasswordToken: {
+    label: 'Token',
+    type: Types.Text,
+    noedit: true,
+    default: ''
+  },
+  recoverPasswordDatetime: {
+    label: 'Date',
+    type: Types.Datetime,
+    noedit: true,
+    default: 0
   }
 });
 
