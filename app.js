@@ -65,6 +65,7 @@ keystone.set('nav', {
   'recipes': 'recipes',
   'contests': 'contests',
   'questions': 'questions',
+  'tips': 'tips',
   'configs': 'configs'
 });
 
