@@ -26,7 +26,7 @@ exports.initLocals = function(req, res, next) {
   }, {
     label: res.__('Questions and Answers'),
     key: 'preguntas-y-respuestas',
-    href: '/'
+    href: '/preguntas'
   }, {
     label: res.__('Contests'),
     key: 'concursos',
