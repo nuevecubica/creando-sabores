@@ -9,6 +9,8 @@
 @chef-menu-background: @chef-color-brick-bg;
 @chef-menu-background-hover: lighten(@chef-color-brick-bg, 5%);
 
+@chef-color-blue-light:#c8e5f4;
+
 @chef-menu-over-shadow: 1px 1px 2px rgba(0,0,0,.5);
 
 //====================================
@@ -235,6 +237,55 @@
 				&:hover{
 					color: @chef-color-brick-bg;
 				}
+			}
+		}
+	}
+}
+#contextual-menu.menu{
+	border-radius: 4px;
+	display: block;
+	background-color: @chef-color-white;
+	position: absolute;
+	padding: 5px;
+	text-align: center;
+	top: 70px;
+	font-weight: lighter;
+	.arrow-up{
+		position: absolute;
+		top: -20px;
+		left: 20px;
+		border-bottom-color:@chef-color-white;
+	}
+	a.item{
+		border-bottom: 1px solid @chef-color-light-bg;
+		.font-larger;
+		display: block;
+		text-decoration: none;
+		color: @chef-color-black;
+		padding: 15px 45px;
+		&.logout{
+			border:none;
+			background-color: @chef-color-blue-light;
+			color: @chef-color-white;
+			border-radius: 0 0 3px 3px;
+			&:before{
+				content:"9";
+				font-family: 'iconsgibaja';
+				position: relative;
+				top: 0;
+				margin-right: 10px;
+			}
+		}
+		&.new-recipe{
+			border-radius: 3px 3px 0 0;
+			border:none;
+			background-color: @chef-color-blue-bg;
+			padding: 30px;
+			color: @chef-color-white;
+			height: 80px;
+			&:before{
+				content:url(/images/cutlery_min.png);
+				margin-right: 10px;
 			}
 		}
 	}
