@@ -1,7 +1,7 @@
 {
   "name": "chefcito",
-  "version": "0.0.7.1",
-  "versionName": "alpha7-goldfinder",
+  "version": "0.1.0",
+  "versionName": "beta1-mailtips",
   "private": true,
   "dependencies": {
     "async": "~0.8.0",
