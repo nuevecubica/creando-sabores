@@ -1,6 +1,6 @@
 {
   "name": "chefcito",
-  "version": "0.0.7",
+  "version": "0.0.7.1",
   "versionName": "alpha7-goldfinder",
   "private": true,
   "dependencies": {
