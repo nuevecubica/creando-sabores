@@ -46,7 +46,7 @@ block content
               each question in data.questions
                 +question(question)
             else
-              | #{__('No questions yet')}
+              .empty-resultset.sixteen.wide.column= __('No questions yet')
 
         .row
           .loader
@@ -62,7 +62,7 @@ block content
               each question in data.questions
                 +question(question)
             else
-              | #{__('No questions yet')}
+              .empty-resultset.sixteen.wide.column= __('No questions yet')
 
         .row
           .loader
