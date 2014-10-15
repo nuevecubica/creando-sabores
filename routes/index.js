@@ -137,7 +137,8 @@ exports = module.exports = function(app) {
   app.put('/api/v1/question/:question/:state(review|published|removed|closed)', middleware.requireAdminApi, routes.api.v1.question.state);
   app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
   //-- Tips
-  app.get('/api/v1/tips', routes.api.v1.tips);
+  app.get('/api/v1/tips/:type(recent)?', routes.api.v1.tips.recent);
+  app.get('/api/v1/tips/popular', routes.api.v1.tips.popular);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
