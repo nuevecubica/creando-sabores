@@ -109,9 +109,19 @@ $(document).ready(function() {
     evt.preventDefault();
   });
 
+  $(document).on('click', function() {
+    $('#contextual-menu').toggleClass('hidden', true);
+  });
+
+  $('#menu-wrapper .profile').on('click', function(e) {
+    e.stopPropagation();
+    $('#contextual-menu').toggleClass('hidden');
+  });
+
+  $('#contextual-menu').on('click', function(e) {
+    e.stopPropagation();
+  });
 });
-
-
 
 // Avoid `console` errors in browsers that lack a console.
 (function() {
