@@ -243,7 +243,6 @@
 }
 #contextual-menu.menu{
 	border-radius: 4px;
-	display: block;
 	background-color: @chef-color-white;
 	position: absolute;
 	padding: 5px;
@@ -263,6 +262,38 @@
 		text-decoration: none;
 		color: @chef-color-black;
 		padding: 15px 45px;
+		&.new-recipe{
+			border-radius: 3px 3px 0 0;
+			border:none;
+			background-color: @chef-color-blue-bg;
+			padding: 30px;
+			color: @chef-color-white;
+			height: 80px;
+			&:before{
+				content:url(/images/cutlery_min.png);
+				position: absolute;
+				top: 15px;
+				left: 30px;
+			}
+			&:hover {
+				background-color: darken(@chef-color-blue-bg, 20%);
+			}
+		}
+		&.my-shopping{
+			&:hover {
+				background-color: lighten(@chef-color-green-bg, 20%) ;
+			}
+		}
+		&.my-recipe{
+			&:hover {
+				background-color: lighten(@chef-color-brick-bg, 20%) ;
+			}
+		}
+		&.my-profile{
+			&:hover {
+				background-color: lighten(@chef-color-yellow-bg, 20%);
+			}
+		}
 		&.logout{
 			border:none;
 			background-color: @chef-color-blue-light;
@@ -275,17 +306,8 @@
 				top: 0;
 				margin-right: 10px;
 			}
-		}
-		&.new-recipe{
-			border-radius: 3px 3px 0 0;
-			border:none;
-			background-color: @chef-color-blue-bg;
-			padding: 30px;
-			color: @chef-color-white;
-			height: 80px;
-			&:before{
-				content:url(/images/cutlery_min.png);
-				margin-right: 10px;
+			&:hover {
+				background-color: darken(@chef-color-blue-light,20%);
 			}
 		}
 	}

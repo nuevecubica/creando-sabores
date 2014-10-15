@@ -2,7 +2,7 @@ mixin user-header(user)
   .ui.menu
     .right.menu
       if user
-        a.ui.item.profile(href='/perfil')
+        a.ui.item.profile
           img.ui.image.avatar(src="#{user.thumb.avatar_small}")
 
           if user.name
@@ -10,18 +10,17 @@ mixin user-header(user)
           else
             strong.username #{user.username}
 
-        #contextual-menu.menu
+        #contextual-menu.menu.hidden
           .arrow-up
           a.ui.item.new-recipe(href='/nueva-receta')= __('Create recipe')
-          a.ui.item(href='/perfil/compra')= __('My shopping list')
-          a.ui.item(href='/perfil/recetas')= __('My recipes')
-          a.ui.item(href='/perfil')= __('My profile')
+          a.ui.item.my-shopping(href='/perfil/compra')= __('My shopping list')
+          a.ui.item.my-recipe(href='/perfil/recetas')= __('My recipes')
+          a.ui.item.my-profile(href='/perfil')= __('My profile')
           a.ui.item.logout(href="/salir")= __('To logout')
 
         if user.canAccessKeystone
           .ui.item.admin
             a.ui.button.chef.button-brick(href="/keystone")= __('Admin panel')
-
 
       else
         .ui.item
