@@ -1,6 +1,6 @@
 {
   "name": "Chefcito",
-  "version": "0.0.7",
+  "version": "0.0.7.1",
   "dependencies": {
     "jquery-address": "*",
     "semantic-ui": "~0.17.0",
