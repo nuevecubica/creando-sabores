@@ -76,6 +76,13 @@ Recipe.add({
       es_type: "integer"
     },
 
+    rating: {
+      type: Types.Number,
+      default: 0,
+      noedit: true,
+      es_type: "integer"
+    },
+
     scoreTotal: {
       type: Types.Number,
       noedit: true,
@@ -317,7 +324,7 @@ Recipe.schema.set('toJSON', {
 });
 
 // Virtuals
-Recipe.schema.virtual('rating').get(virtual.recipe.rating);
+// Recipe.schema.virtual('rating').get(virtual.recipe.rating);
 Recipe.schema.virtual('url').get(virtual.recipe.url);
 Recipe.schema.virtual('thumb').get(virtual.recipe.thumb);
 Recipe.schema.virtual('classes').get(virtual.recipe.classes);
@@ -372,6 +379,10 @@ Recipe.schema.pre('save', function(next) {
   // Set isPromoted if recipes is promoted in grids or headers
   if (me.isIndexGridPromoted.value || me.isRecipesGridPromoted.value || me.isIndexHeaderPromoted.value || me.isRecipesHeaderPromoted.value) {
     me.isPromoted = true;
+  }
+
+  if (me.isModified('scoreTotal') || me.isModified('scoreCount')) {
+    me.rating = (me.scoreTotal !== undefined || me.scoreCount > 0) ? (me.scoreTotal / me.scoreCount) : 0;
   }
 
   async.parallel({

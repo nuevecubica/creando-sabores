@@ -1,6 +1,7 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
+  virtual = require('./virtuals'),
   modelCleaner = require('../utils/modelCleaner'),
   imageQuality = require('../utils/imageQuality'),
   modelCleaner = require(__base + 'utils/modelCleaner');
@@ -30,6 +31,13 @@ Question.add({
     required: true,
     index: true,
     note: 'Should be less than 12 chars to be promoted'
+  },
+
+  // Needed for Mongoosastic
+  slug: {
+    type: Types.Text,
+    es_type: "string",
+    hidden: true
   },
 
   author: {
@@ -93,15 +101,15 @@ Question.schema.add({
   }
 });
 
-//#------------------ VIRTUAL
-Question.schema.virtual('url').get(function() {
-  return '/pregunta/' + this.slug;
-});
 
 Question.schema.set('toJSON', {
   virtuals: true,
   transform: modelCleaner.transformer
 });
+
+//#------------------ VIRTUAL
+Question.schema.virtual('url').get(virtual.question.url);
+
 
 //#------------------ PRESAVE
 Question.schema.pre('save', function(done) {
