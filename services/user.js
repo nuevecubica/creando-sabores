@@ -12,7 +12,7 @@ var _ = require('underscore'),
  * @param  {Function} callback (err, results)
  * @return {null}
  */
-var getUserList = function(options, callback) {
+var getUserList = function(collection, options, callback) {
 
   options = _.defaults(options || {}, {
     field: null,
@@ -22,7 +22,7 @@ var getUserList = function(options, callback) {
   });
 
   var getUserListQuery = function(ids) {
-    var q = keystone.list('Recipe').model.find({
+    var q = keystone.list(collection).model.find({
         '_id': {
           $in: ids
         }
@@ -32,31 +32,34 @@ var getUserList = function(options, callback) {
     return q;
   };
 
-  var sortRecipes = function(recipes, recipeIds, done) {
-    // We got the recipes (one way or another...)
+  var sortCollection = function(collection, collectionIds, done) {
+    // We got the collection (one way or another...)
     // Fix the ingredient list
-    for (var i = 0, l = recipes.length; i < l; i++) {
-      recipes[i] = recipes[i].toObject({
+    for (var i = 0, l = collection.length; i < l; i++) {
+      collection[i] = collection[i].toObject({
         virtuals: true,
         transform: modelCleaner.transformer
       });
-      var ingr = recipes[i].ingredients;
-      ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
-      recipes[i].ingredients = ingr;
+
+      if (collection === 'Recipe') {
+        var ingr = collection[i].ingredients;
+        ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+        collection[i].ingredients = ingr;
+      }
     }
     // Sort it in the same order as our list, or order will be block-level
-    var recipes2 = [];
-    var recipeIdsStr = _.map(recipeIds, String);
-    var recipesStr = _.map(recipes, function(r) {
+    var collection2 = [];
+    var collectionIdsStr = _.map(collectionIds, String);
+    var collectionStr = _.map(collection, function(r) {
       return String(r._id);
     });
 
-    for (i = 0, l = recipes.length; i < l; i++) {
-      var pos = recipeIdsStr.indexOf(recipesStr[i]);
-      recipes2[pos] = recipes[i];
+    for (i = 0, l = collection.length; i < l; i++) {
+      var pos = collectionIdsStr.indexOf(collectionStr[i]);
+      collection2[pos] = collection[i];
     }
 
-    recipes = recipes2;
+    collection = collection2;
     // Return a paginable-like structure
     var total = userlist.length,
       totalPages = Math.ceil(total / perPage),
@@ -70,7 +73,7 @@ var getUserList = function(options, callback) {
         first: first + 1,
         last: last
       };
-    ret.results = recipes;
+    ret.results = collection;
     done(null, ret);
   };
 
@@ -86,57 +89,58 @@ var getUserList = function(options, callback) {
     return callback('Bad request', null);
   }
 
-  var userlist = options.user[options.field];
+  var field = options.field.split('.');
+  var userlist = (field.length === 1) ? options.user[field[0]] : options.user.favourites[field[1]];
   var last = Math.min(first + perPage, userlist.length);
-  var recipeIds = userlist.slice(first, last);
+  var collectionIds = userlist.slice(first, last);
 
-  getUserListQuery(recipeIds)
-    .exec(function(err, recipes) {
+  getUserListQuery(collectionIds)
+    .exec(function(err, collections) {
 
-      if (err || !recipes) {
+      if (err || !collections) {
         return callback(err || 'Not found', null);
       }
-      else if (recipes.length !== recipeIds.length) {
-        // One or more recipes disapeared. Update triggered.
+      else if (collections.length !== collectionIds.length) {
+        // One or more collections disapeared. Update triggered.
         getUserListQuery(userlist)
-          .exec(function(err, allRecipes) {
+          .exec(function(err, allcollections) {
 
-            if (err || !allRecipes) {
+            if (err || !allcollections) {
               return callback(err || 'Not found', null);
             }
             else {
-              var aR = _.clone(allRecipes);
+              var aR = _.clone(allcollections);
 
               options.user[options.field] = aR;
               options.user.save(function(err, doc) {
-                userlist = _.map(allRecipes, function(recipe) {
-                  return recipe._id;
+                userlist = _.map(allcollections, function(collection) {
+                  return collection._id;
                 });
 
                 last = Math.min(first + perPage, userlist.length);
 
-                recipes = allRecipes.slice(first, last);
-                recipeIds = userlist.slice(first, last);
+                collections = allcollections.slice(first, last);
+                collectionIds = userlist.slice(first, last);
 
-                sortRecipes(recipes, recipeIds, callback);
+                sortCollection(collections, collectionIds, callback);
               });
             }
           });
       }
       else {
-        sortRecipes(recipes, recipeIds, callback);
+        sortCollection(collections, collectionIds, callback);
       }
     });
 };
 
 var getShoppingList = function(options, callback) {
   options.field = 'shopping';
-  return getUserList(options, callback);
+  return getUserList('Recipe', options, callback);
 };
 
 var getFavouritesList = function(options, callback) {
-  options.field = 'favourites';
-  return getUserList(options, callback);
+  options.field = 'favourites.recipes';
+  return getUserList('Recipe', options, callback);
 };
 
 var getUserByUsername = function(options, callback) {
@@ -161,6 +165,11 @@ var getUserRecipeList = function(options, callback) {
   }, callback);
 };
 
+var getFavouriteTips = function(options, callback) {
+  options.field = 'favourites.tips';
+  return getUserList('Tip', options, callback);
+};
+
 /*
   Set exportable object
  */
@@ -174,6 +183,12 @@ var _service = {
   },
   recipeList: {
     get: getUserRecipeList
+  },
+  tips: {
+    get: {
+      // list: getMyTips,
+      favourites: getFavouriteTips
+    }
   }
 };
 
