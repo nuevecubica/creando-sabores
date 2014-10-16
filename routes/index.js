@@ -54,7 +54,7 @@ exports = module.exports = function(app) {
   app.get('/terminos', routes.views.terms);
 
   // Profile: Private
-  app.get('/perfil/:section(recetas|favoritas|compra)?', middleware.requireUser, routes.views['private'].profile);
+  app.get('/perfil/:section(recetas|favoritas|compra|tips)?', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
@@ -119,6 +119,8 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me/shopping/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.shopping);
   app.get('/api/v1/me/favourites/list', middleware.requireUserApi, routes.api.v1.me.favouritesList);
   app.get('/api/v1/me/favourites/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.favourites);
+  app.get('/api/v1/me/tips/favourites/list', middleware.requireUserApi, routes.api.v1.me.tips.get.favourites);
+  app.get('/api/v1/me/tips/favourites/:action(add|remove)/:tip', middleware.requireUserApi, routes.api.v1.tip.favourite);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
@@ -137,8 +139,9 @@ exports = module.exports = function(app) {
   app.put('/api/v1/question/:question/:state(review|published|removed|closed)', middleware.requireAdminApi, routes.api.v1.question.state);
   app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
   //-- Tips
-  app.get('/api/v1/tips/:type(recent)?', routes.api.v1.tips.recent);
-  app.get('/api/v1/tips/popular', routes.api.v1.tips.popular);
+  app.put('/api/v1/tip/:tip/vote/:score', middleware.requireUserApi, routes.api.v1.tip.vote);
+  app.get('/api/v1/tips/:type(recent)?', routes.api.v1.tip.tips.recent);
+  app.get('/api/v1/tips/popular', routes.api.v1.tip.tips.popular);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
