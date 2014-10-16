@@ -18,5 +18,7 @@ module.exports = {
   "grid_size_mobile_recipes": "small, small, large, small, small, medium, small, small, medium, small",
 
   "categories_plates": "Botanas, Ensaladas, Sopas, Pastas, Arroz, Pescados y mariscos, Carnes y aves, Postres, Desayunos",
-  "categories_food": "Mexicana, Italiana, Francesa, Española, China, Japonesa, Griega, Árabe, Americana"
+  "categories_food": "Mexicana, Italiana, Francesa, Española, China, Japonesa, Griega, Árabe, Americana",
+
+  "season_lists_home": 1
 };

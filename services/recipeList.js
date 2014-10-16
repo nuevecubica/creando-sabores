@@ -2,14 +2,13 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe'),
-  service = require('./index');
+  service = require('./index'),
+  queryMaker = require('./utils/listQueryMaker');
 
 /**
  * Reads both recipes and videorecipes from the database
  *
- * @param  {Object}   options { user: null, all: false, sort: '-rating',
- *                              flags: [], page: 1, perPage: 10, limit: 10,
- *                              fromContests: false, states: ['published'] }
+ * @param  {Object}   options { all: false, sort: '-rating', fromContests: false }
  * @param  {Function} callback (err, results)
  * @return {null}
  */
@@ -18,94 +17,29 @@ var getAllRecipes = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    user: null,
-    authorId: null,
-    slug: null, // to query one recipe
-    populate: [],
     all: false,
     sort: '-rating',
-    flags: [],
-    page: 1,
-    perPage: 10,
-    limit: null,
     fromContests: false,
     states: ['published']
   });
 
-  var query = {};
-
-  if (options.limit) {
-    options.perPage = options.limit;
-  }
-
-  if (options.limit === 1) {
-    query = Recipe.model.findOne();
-  }
-  else if (!options.page) {
-    query = Recipe.model.find();
-    if (options.limit || options.perPage) {
-      query.limit(options.limit || options.perPage);
-    }
-  }
-  else {
-    query = Recipe.paginate({
-      page: options.page,
-      perPage: options.perPage
-    });
-  }
-
-  if (options.slug) {
-    query.where('slug', options.slug);
-  }
-
-  if (options.authorId) {
-    query.where('author', options.authorId);
-  }
-
-  var states = options.states || [];
-
   if (options.all) {
-    states.push('draft');
-    states.push('review');
-    states.push('banned');
+    options.states.push('draft');
+    options.states.push('review');
+    options.states.push('banned');
   }
 
-  if (states.length) {
-    states = _.unique(states);
-    query.in('state', states);
-
+  if (options.states.length) {
     // Just in case it requests review recipes, forces fromContest
-    if (states.indexOf('review') !== -1) {
+    if (options.states.indexOf('review') !== -1) {
       options.fromContests = true;
     }
   }
 
+  var query = queryMaker(Recipe, options);
+
   if (!options.fromContests) {
     query.where('contest.id', null);
-  }
-
-  if (options.flags && options.flags.length > 0) {
-    _.each(options.flags, function(flag) {
-      if (flag[0] === '-') {
-        query.where(flag.substr(1), false);
-      }
-      else if (flag[0] === '+') {
-        query.where(flag.substr(1), true);
-      }
-      else {
-        query.where(flag, true);
-      }
-    });
-  }
-
-  if (options.sort) {
-    query.sort(options.sort);
-  }
-
-  if (options.populate && options.populate.length) {
-    options.populate.forEach(function(pop) {
-      query.populate(pop);
-    });
   }
 
   query.exec(callback || function() { /* dummy */ });
