@@ -61,12 +61,13 @@ i18n.configure({
 
 // Configure the navigation bar in Admin UI
 keystone.set('nav', {
-  'users': 'users',
-  'recipes': 'recipes',
-  'contests': 'contests',
-  'questions': 'questions',
-  'tips': 'tips',
-  'configs': 'configs'
+  'users': ['users'],
+  'recipes': ['recipes'],
+  'contests': ['contests'],
+  'questions': ['questions'],
+  'tips': ['tips'],
+  'season-lists': ['season-lists'],
+  'configs': ['configs']
 });
 
 /*
