@@ -146,8 +146,8 @@ mixin header(data, section)
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
 
-				.row.section.title
-					#recipe-title.shadow.set-editable(data-length="40")= title
+				.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
+					#recipe-title.shadow.set-editable(data-length="40", data-tutorial-complete="editableTypedText")= title
 
 				.row.section.subtitle
 					.author.shadow= author
@@ -163,10 +163,10 @@ mixin header(data, section)
 					.six.wide.column
 
 					.six.wide.column.right.aligned
-						.corner-position.right
+						.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
 							.ui.button.chef.button-gray.show-editable.file-select
 								if own
-									input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+									input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
 									i.social.icon-chef-camera
 									span
 									|#{__('Change image')}
@@ -195,9 +195,9 @@ mixin header(data, section)
 					.logo.corner
 						.icon-chef-logo.icon
 
-				.row.section.title
+				.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
 					.editable-container
-						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
+						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40", data-tutorial-complete="editableTypedText")= title
 
 				.row.section.subtitle
 					.author.shadow= author
@@ -205,9 +205,9 @@ mixin header(data, section)
 				.row
 					.ten.wide.column
 					.six.wide.column.right.aligned
-						.corner-position.right
+						.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
 							.ui.button.chef.button-gray.show-editable.file-select
-								input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+								input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
 								i.social.icon-chef-camera
 								span
 								|#{__('Change image')}

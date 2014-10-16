@@ -25,7 +25,7 @@ exports = module.exports = function(req, res) {
         },
         // Gets recipes grid
         function(callback) {
-          service.recipeList.grid.get({
+          service.grid.get({
             section: 'Index'
           }, function(err, results) {
             locals.data.grid = results;

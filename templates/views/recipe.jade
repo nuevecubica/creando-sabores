@@ -74,9 +74,9 @@ block content
     #recipe-content.ui.grid.segment
       .row
         #info.tablet-twelve.mobile-eight.wide.column(class = data.contest ? 'seven' : 'ten')
-          .recipe-attributes
+          .recipe-attributes(data-tutorial-message=__("Tutorial Recipe Attributes"))
 
-            #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1')
+            #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1', data-tutorial-complete="editableSelectUsed")
               - var levels = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
               - var difficulty = data.recipe.difficulty || 2
               - var category = levels[difficulty - 1]
@@ -101,13 +101,13 @@ block content
               i.icon-chef-time.icon
 
               .editable-container
-                .set-editable(placeholder=__('Time'))= data.recipe.time
+                .set-editable(placeholder=__('Time'), data-tutorial-complete="editableTypedText")= data.recipe.time
               .span= __('min')
 
             #recipe-portions.portions(tabindex='3')
               i.icon-chef-porciones.icon
               .editable-container
-                .set-editable(placeholder=__('Portions'))= data.recipe.portions
+                .set-editable(placeholder=__('Portions'), data-tutorial-complete="editableTypedText")= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
 
             if (!data.contest)
@@ -144,9 +144,9 @@ block content
                 a= __('Add to menu')
 
       #recipe-description.row
-        .sixteen.wide.column
+        .sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Description"))
           .explain
-            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.recipe.description
+            .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'), data-tutorial-complete="editableTypedText")!= data.recipe.description
 
       .row
         .sixteen.wide.column
@@ -162,7 +162,7 @@ block content
             .icon-chef-cesta.checks
             .ui.content.font-large= data.contest.ingredientRequired
 
-        #ingredients.sixteen.wide.column
+        #ingredients.sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Ingredients"))
           .ui.three.mobile-one.tablet-two.column.grid
             if data.recipe.ingredients
               - var ingredients = data.recipe.ingredients
@@ -178,7 +178,7 @@ block content
             .column.ingredient.show-editable
                 .icon-chef-cesta.checks.hide-editable
                 .editable-container
-                  .explain.set-editable(placeholder=__('Add ingredient'), spellcheck='false')
+                  .explain.set-editable(placeholder=__('Add ingredient'), spellcheck='false', data-tutorial-complete="editableTypedText")
                 .show-editable
                   .ingredient-remove
                     i.icon-chef-cross
@@ -194,7 +194,7 @@ block content
               a= __('Add ingredient')
 
       .row
-        #procedure.sixteen.wide.column
+        #procedure.sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Procedure"))
           h2.ui.header= __('Procedure')
           #steps
             - var j = 0
@@ -213,7 +213,7 @@ block content
               .ui.header.index
                 span.index-label= __('Step:') + ' ' + (j + 1)
                 .step-remove.show-editable= __('Remove step')
-              .ui.content.set-editable(placeholder=__('Add step'), spellcheck='false')
+              .ui.content.set-editable(placeholder=__('Add step'), spellcheck='false', data-tutorial-complete="editableTypedText")
 
         .step-manage.manage.sixteen.wide.column.show-editable
           .step
