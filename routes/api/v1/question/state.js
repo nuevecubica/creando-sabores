@@ -22,7 +22,6 @@ exports = module.exports = function(req, res) {
 
   service.question.state({
       slug: req.params.question,
-      limit: 1,
       all: true
     },
     req.params.state,

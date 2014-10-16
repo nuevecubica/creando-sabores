@@ -151,6 +151,10 @@ exports = module.exports = function(app) {
   //-- Elasticsearch
   app.get('/api/v1/search', routes.api.v1.goldfinder.search);
   app.get('/api/v1/suggest', routes.api.v1.goldfinder.suggest);
+  //-- Seasons
+  app.get('/api/v1/seasonLists', routes.api.v1.seasonLists);
+  //-- Configs
+  app.get('/api/v1/Configs', routes.api.v1.configs);
 
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);

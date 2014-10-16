@@ -19,7 +19,6 @@ exports = module.exports = function(req, res) {
 
   var options = {
     slug: locals.filters.tip,
-    limit: 1,
     populate: ['author']
   };
 
@@ -29,7 +28,7 @@ exports = module.exports = function(req, res) {
     service.tip.get(options, function(err, result) {
       if (!err && result) {
         locals.data.tip = result;
-        locals.data.formattedDate = moment(result.createdDate).format('lll');
+        locals.data.formattedDate = moment(result.publishedDate).format('lll');
         locals.title = result.title.substr(0, 10) + '...';
         next();
       }

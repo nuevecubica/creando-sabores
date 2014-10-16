@@ -18,5 +18,7 @@ exports.tipList = require('./tipList');
 exports.pageHeader = require('./pageHeader');
 exports.config = require('./config');
 exports.elastic = require('./elastic');
+exports.seasonList = require('./seasonList');
+exports.grid = require('./grid');
 
 module.exports = exports;

@@ -66,8 +66,6 @@ var getAllRecipe = function(options, callback) {
     states: ['published']
   });
 
-  options.limit = 1; // forced
-
   if (options.recipe) {
     console.warn('Deprecated call on service.recipe with options:', options);
     options.slug = options.recipe;

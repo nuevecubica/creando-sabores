@@ -33,16 +33,19 @@ block content
 						.ui.button.chef.button-brick
 							a(href='/nueva-receta')= __('Create recipe')
 
-		#recipes.ui.grid.segment.two.tabs
+		- var numberTexts = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+		- var tabs = data.seasons.length + 1
+		#recipes.ui.grid.segment.tabs(class=numberTexts[tabs])
 			.row.tab-header
 				.tab
 					a(href='/recetas')
 						.ui.button.chef.button-green
 							| #{('Popular')}
-				.tab
-					a(href='#')
-						.ui.button.chef.button-green.disabled
-							| #{('Season')}
+				if data.seasons.length
+					each season in data.seasons
+						.tab
+							a(href='#')
+								.ui.button.chef.button-green.disabled= season.title
 
 			.row
 				.ui.grid.segment.list.stackable

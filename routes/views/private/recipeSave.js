@@ -182,7 +182,20 @@ var recipeNew = function(req, res) {
                   return formResponse(req, res, back, 'Error: Unknown error', false);
                 }
                 else {
-                  return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                  if (req.user.disabledHelpers.indexOf('recipe') === -1) {
+                    req.user.disabledHelpers.push('recipe');
+                    req.user.save(function(err) {
+                      if (err) {
+                        return formResponse(req, res, back, 'Error: Unknown error', false);
+                      }
+                      else {
+                        return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                      }
+                    });
+                  }
+                  else {
+                    return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                  }
                 }
               });
             }

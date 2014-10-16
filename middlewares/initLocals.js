@@ -41,28 +41,6 @@ exports.initLocals = function(req, res, next) {
     href: '/'
   }];
 
-  locals.navLinksPrivate = [{
-    label: res.__('My profile'),
-    key: 'perfil',
-    href: '/perfil'
-  }, {
-    label: res.__('Shopping list'),
-    key: 'lista-del-super',
-    href: '/'
-  }, {
-    label: res.__('My recipes'),
-    key: 'recetas',
-    href: '/perfil/recetas'
-  }, {
-    label: res.__('My menus'),
-    key: 'mis-menus',
-    href: '/'
-  }, {
-    label: res.__('My tips'),
-    key: 'mis-tips',
-    href: '/'
-  }];
-
   locals.user = req.user;
   locals.version = pkg.version + (pkg.versionName ? ('-' + pkg.versionName) : '');
   locals.ksversion = keystone.version;
@@ -78,7 +56,8 @@ exports.initLocals = function(req, res, next) {
   if (req.user) {
     locals.chef.user = {
       username: req.user.username,
-      name: req.user.name
+      name: req.user.name,
+      disabledHelpers: req.user.disabledHelpers
     };
     if (req.user.isAdmin) {
       locals.chef.user.isAdmin = true;
