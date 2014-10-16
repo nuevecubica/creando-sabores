@@ -37,10 +37,7 @@ exports = module.exports = function(List, options, callback) {
     options.limit = 1;
   }
 
-  if (options.limit === 1) {
-    query = List.model.findOne();
-  }
-  else if (!options.page) {
+  if (!options.page) {
     query = List.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);

@@ -36,7 +36,7 @@ var getConfigs = function(options, callback) {
  * @param  {Function} callback (err, results)
  * @return {null}
  */
-var getConfigCategories = function(callback) {
+var getConfigsCategories = function(callback) {
 
   var names = [
     'categories_plates',
@@ -166,7 +166,7 @@ _service.grid.recipes = {
   get: getConfigsGridRecipes
 };
 _service.categories = {
-  get: getConfigCategories
+  get: getConfigsCategories
 };
 
 exports = module.exports = _service;

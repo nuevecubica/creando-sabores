@@ -18,7 +18,7 @@ describe 'API v1: /seasonLists', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe.only 'GET /seasonLists', ->
+  describe 'GET /seasonLists', ->
     describe 'on request without args', ->
       it 'responds with seasons sorted by priority, no recipes', (done) ->
         request
@@ -81,12 +81,10 @@ describe 'API v1: /seasonLists', ->
             if res.body.success isnt true or res.body.error isnt false
               return 'No arguments query failed'
 
-            if res.body.seasons.results
-              return "More than one season: #{res.body.seasons.results.length}"
+            res.body.seasons.results.length.must.be.eql 1
+            res.body.seasons.results[0].recipes.length.must.be.gt 3
 
-            res.body.seasons.recipes.length.must.be.gt 3
-
-            for recipe, i in res.body.seasons.recipes
+            for recipe, i in res.body.seasons.results[0].recipes
               if typeof recipe is 'string'
                 return "Recipe not populated"
               if ['published'].indexOf(recipe.state) is -1
