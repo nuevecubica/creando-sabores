@@ -76,104 +76,6 @@ var getRecipes = function(options, callback) {
 };
 
 /**
- * Gets a list of recipes for the grid
- * @param  {Object}   options { section: 'Recipes' }
- * @param  {Function} callback (err, results)
- * @return {null}
- */
-var getRecipesGrid = function(options, callback) {
-
-  options = _.defaults(options || {}, {
-    section: 'Recipes'
-  });
-
-  var getSectionPromoted = function(next) {
-    getRecipes({
-      page: 0,
-      limit: 10,
-      flags: ['is' + options.section + 'GridPromoted.value'],
-      sort: 'is' + options.section + 'GridPromoted.position'
-    }, function(err, res) {
-      next(err, {
-        criteria: 'is' + options.section + 'GridPromoted',
-        entries: res
-      });
-    });
-  };
-
-  var getVideoSectionPromoted = function(next) {
-    getVideoRecipes({
-      page: 0,
-      limit: 10,
-      flags: ['isRecipesGridPromoted.value'],
-      sort: 'isRecipesGridPromoted.position'
-    }, function(err, res) {
-      next(err, {
-        criteria: 'isRecipesGridPromoted',
-        entries: res
-      });
-    });
-  };
-
-  var getVideoIndexPromoted = function(next) {
-    getVideoRecipes({
-      page: 0,
-      limit: 10,
-      flags: ['isIndexGridPromoted.value'],
-      sort: 'isIndexGridPromoted.position'
-    }, function(err, res) {
-      next(err, {
-        criteria: 'isIndexGridPromoted',
-        entries: res
-      });
-    });
-  };
-
-  var getOfficials = function(next) {
-    getRecipes({
-      page: 0,
-      limit: 10,
-      flags: ['isOfficial', 'is' + options.section + 'GridPromoted.value'],
-      sort: 'is' + options.section + 'GridPromoted.position'
-    }, function(err, res) {
-      next(err, {
-        criteria: 'is' + options.section + 'GridPromoted',
-        entries: res
-      });
-    });
-  };
-
-  var makeGrid = function(err, results) {
-    // Initialize empty array
-    var grid = new Array(10);
-
-    // Load in descending priority order
-    for (var i = 0, l = results.length; i < l; i++) {
-      var entries = results[i].entries;
-      var criteria = results[i].criteria;
-      for (var j = 0, l2 = entries.length; j < l2; j++) {
-        var pos = entries[j][criteria].position;
-        if (!grid[pos]) {
-          grid[pos] = entries[j];
-        }
-      }
-    }
-    callback(err, grid);
-  };
-
-  var fillers = [getOfficials, getSectionPromoted];
-  if (options.section === 'Videorecipes') {
-    fillers = [getVideoSectionPromoted];
-  }
-  else if (options.section === 'Index') {
-    fillers = [getVideoIndexPromoted, getOfficials, getSectionPromoted];
-  }
-  async.parallel(fillers, makeGrid);
-
-};
-
-
-/**
  * Returns recipes similar to a given recipe
  * @param  {Object}   options  recipeId
  * @param  {Function} callback (err, results)
@@ -228,9 +130,6 @@ var getRelatedRecipes = function(options, callback) {
 var _service = {
   get: getAllRecipes,
   related: getRelatedRecipes,
-  grid: {
-    get: getRecipesGrid
-  },
   videorecipe: {
     get: getVideoRecipes
   },

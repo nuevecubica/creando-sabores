@@ -39,7 +39,7 @@ exports = module.exports = function(req, res) {
         },
         // Function for get recipes grid
         function(callback) {
-          service.recipeList.grid.get({
+          service.grid.get({
             section: (type === 'videorecipe' ? 'Videorecipes' : 'Recipes')
           }, function(err, results) {
             locals.data.grid = results;
