@@ -300,7 +300,7 @@ mixin header(data, section)
 
 		#contests-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -317,7 +317,7 @@ mixin header(data, section)
 
 		#contest-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -337,7 +337,7 @@ mixin header(data, section)
 
 		#participants-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -365,7 +365,7 @@ mixin header(data, section)
 
 		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -379,7 +379,7 @@ mixin header(data, section)
 
 		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -390,7 +390,7 @@ mixin header(data, section)
 					#questions-title.shadow= __('Questions')
 
 	else if section === 'tips'
-		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
+		- var image = data.header ? data.header.thumb.header : defaults.images.tip
 
 		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -419,7 +419,7 @@ mixin header(data, section)
 						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
 						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
 							.tabla
-								p= __('Today promoted')
+								p= (data.header.author.name || data.header.author.username)
 								.tabla1
 									.ui.image
 								.tabla2
@@ -427,3 +427,22 @@ mixin header(data, section)
 										a.span(href="#{promotedUrl}")= promotedTitle
 								.tabla3
 									.ui.image
+
+	else if section === 'tip'
+		- var title = data.tip ? data.tip.title : ''
+		- var image = data.tip ? data.tip.thumb.header : defaults.images.tip
+
+		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#tip-title.shadow= title
+
+				.row.section.subtitle
+					p.shadow= (data.tip.author.name || data.tip.author.username)
