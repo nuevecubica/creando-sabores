@@ -23,8 +23,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "chefcito" do |v|
     v.vm.provider "docker" do |d|
       d.build_dir = ".."
-      d.build_args = "--tag=gluegl/chefcito"
-      # d.build_args = "--tag=gluegl/chefcito --no-cache"
+      #d.build_args = "--tag=gluegl/chefcito"
+      d.build_args = ["--tag=gluegl/chefcito","--no-cache"]
       d.ports = ["3000:3000"]
       d.link("mongodb:mongodb")
       d.link("elasticsearch:elasticsearch")
