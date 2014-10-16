@@ -12,23 +12,23 @@ block content
 
   +header(data, section)
 
-  .ui.page.grid
+  #tip-content.ui.page.grid
     .row
-      #info.eight.wide.column
-        .recipe-attributes
-          .rating=__('Rating')
-            .ui.rating(data-slug=data.tip.slug)
-              - var rating = Math.floor(data.tip.rating)
-              - var r = rating
-              - for(var x = 0; x < 5; x++)
-                if r == 0
-                  i.icon-chef-star.icon
-                else
-                  i.icon-chef-star.icon.active
-                  - --r;
-              .rating-value.span.skip.mobile= data.tip.rating.toFixed(2).replace(/[.,]00$/, "")
+      #info.nine.wide.column
+        .rating
+          span=__('Rating')
+          .ui.rating(data-slug=data.tip.slug)
+            - var rating = Math.floor(data.tip.rating)
+            - var r = rating
+            - for(var x = 0; x < 5; x++)
+              if r == 0
+                i.icon-chef-star.icon
+              else
+                i.icon-chef-star.icon.active
+                - --r;
+            .rating-value.span.skip.mobile= data.tip.rating.toFixed(2).replace(/[.,]00$/, "")
 
-      #actions.eight.wide.column
+      #actions.seven.wide.column
         .recipe-actions
           .favourite
             .ui.button.chef.button-yellow.switch(data-slug = data.tip.slug, class = data.favourited ? 'activated' : '')
@@ -39,15 +39,14 @@ block content
       #tip-description.sixteen.wide.column
         .explain
           .ui.content= data.tip.tip
+
+  #related-tips.ui.page.grid
+    h2.ui.header= __('Related tips:')
     .row
-      #related-tips.sixteen.wide.column
-        h2.ui.header= __('Related tips')
+      .ui.grid.segment.list.stackable
+        if data.tip.length
+          each tip in data.tip
+            +tip(tip)
 
-        .row
-          .ui.grid.segment.list.stackable
-            if data.tip.length
-              each tip in data.tip
-                +tip(tip)
-
-            else
-              .empty-resultset.sixteen.wide.column= __('No tips yet')
+        else
+          .empty-resultset.sixteen.wide.column= __('No tips yet')
