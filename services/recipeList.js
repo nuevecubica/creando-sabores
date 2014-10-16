@@ -117,7 +117,8 @@ var getRelatedRecipes = function(options, callback) {
       }
     }
   }, function(err, results, status) {
-    if (results) {
+    results = [];
+    if (results && results.hits) {
       results = results.hits.hits || [];
     }
     callback(err, results, status);
