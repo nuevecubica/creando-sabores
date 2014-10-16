@@ -53,6 +53,24 @@ exports = module.exports = function(req, res) {
             locals.data.sizes = results.sizes;
             callback(err);
           });
+        },
+        // Gets season lists
+        function(callback) {
+          service.config.get({
+            names: ['season_lists_home']
+          }, function(err, results) {
+            if (!err && results) {
+              service.seasonList.recipes.get({
+                limit: results[0] ? results[0].value : 1
+              }, function(err, results) {
+                locals.data.seasons = results.results;
+                callback(err);
+              });
+            }
+            else {
+              callback(err);
+            }
+          });
         }
       ],
       function(err) {

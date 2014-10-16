@@ -53,6 +53,22 @@ block content
 					else
 						.empty-resultset.sixteen.wide.column= __('No recipes yet')
 
+			//-
+				if data.seasons.length
+					each season in data.seasons
+						h1= season.title
+						.row
+							.ui.grid.segment.list.stackable
+								if season.recipes.length
+									each recipe in season.recipes
+										+recipe(recipe)
+
+								else
+									.empty-resultset.sixteen.wide.column= __('No recipes yet')
+
+				else
+					h1 No seasons
+
 			.row
 				.loader
 					.sixteen.wide.column.loading= __('Loading more recipes')

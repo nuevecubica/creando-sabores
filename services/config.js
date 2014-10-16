@@ -28,7 +28,33 @@ var getConfigs = function(options, callback) {
   }
 
   var query = Config.model.find(list);
-  query.exec(callback || function() { /* dummy */ });
+  query.exec(function(err, results) {
+    // Process defaults
+    results.forEach(function(cfg, i) {
+      var idx = options.names.indexOf(cfg.name);
+      if (idx >= 0) {
+        options.names.splice(idx, 1);
+      }
+    });
+
+    if (options.names.length > 0) {
+      options.names.forEach(function(cfg, i) {
+        if (defaults[cfg]) {
+          results.push({
+            name: cfg,
+            value: defaults[cfg]
+          });
+        }
+        else {
+          console.warn('No default config for %s', cfg);
+        }
+      });
+    }
+
+    if (callback) {
+      callback(err, results);
+    }
+  });
 };
 
 /**
@@ -104,18 +130,6 @@ var getConfigsGrid = function(options, callback) {
         }
         else if (results[i].name.indexOf('grid_size') >= 0) {
           sizes[results[i].name] = results[i].value;
-        }
-      }
-      for (var j = 0, m = names.length; j < m; j++) {
-        if (names[j].indexOf('grid_order') >= 0) {
-          if (!order[names[j]]) {
-            order[names[j]] = defaults[names[j]];
-          }
-        }
-        else if (names[j].indexOf('grid_size') >= 0) {
-          if (!order[names[j]]) {
-            sizes[names[j]] = defaults[names[j]];
-          }
         }
       }
     }
