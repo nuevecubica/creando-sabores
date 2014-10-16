@@ -32,11 +32,62 @@ var getAllTips = function(options, callback) {
   query.exec(callback || function() { /* dummy */ });
 };
 
+
+/**
+ * Returns tips similar to a given tip
+ * @param  {Object}   options  tipId
+ * @param  {Function} callback (err, results)
+ */
+var getRelatedTips = function(options, callback) {
+  options = _.defaults(options || {}, {
+    limit: 5
+  });
+
+  callback = callback || function() {};
+
+  if (!options.tipId) {
+    return callback('Invalid tipId');
+  }
+
+  service.elastic.search({
+    index: 'tips',
+    type: 'tip',
+    body: {
+      size: options.limit,
+      query: {
+        "filtered": {
+          "filter": {
+            "terms": {
+              "state": ["published"],
+              "_cache": true
+            }
+          },
+          "query": {
+            "more_like_this": {
+              "fields": ["title^2", "tip^1"],
+              "ids": [options.tipId.toString()],
+              "min_term_freq": 1,
+              "max_query_terms": 12,
+              "min_word_length": 3
+            }
+          }
+        }
+      }
+    }
+  }, function(err, results, status) {
+    if (results) {
+      results = results.hits.hits || [];
+    }
+    callback(err, results, status);
+  });
+};
+
 /*
   Set exportable object
  */
 var _service = {
   get: getAllTips,
+  related: getRelatedTips
 };
 
 exports = module.exports = _service;

@@ -30,7 +30,12 @@ exports = module.exports = function(req, res) {
         locals.data.tip = result;
         locals.data.formattedDate = moment(result.publishedDate).format('lll');
         locals.title = result.title.substr(0, 10) + '...';
-        next();
+        service.tipList.related({
+          tipId: result._id
+        }, function(err, results) {
+          locals.related = results;
+          next(err);
+        });
       }
       else {
         return res.notfound(res.__('Not found'));
