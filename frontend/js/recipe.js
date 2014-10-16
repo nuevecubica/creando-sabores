@@ -354,6 +354,7 @@
         window.chef.setEditableModeOn();
       },
       onButtonCancelClick: function(ev) {
+        window.chef.tutorial.stop();
         title.restore();
         difficulty.restore();
         time.restore();

@@ -40,9 +40,17 @@ window.chef.tutorial = (function(tutorial) {
     });
   };
 
+  var stopTutorial = function() {
+    $('.tutorial-bubble').each(function(i, bubble) {
+      var $bubble = $(bubble);
+      $bubble.addClass('hidden');
+    });
+  };
+
   return _.extend(tutorial, {
     completionCriteria: _.extend(tutorial.criteria || {}, criteria),
-    start: startTutorial
+    start: startTutorial,
+    stop: stopTutorial
   });
 })(window.chef.tutorial || {});
 
