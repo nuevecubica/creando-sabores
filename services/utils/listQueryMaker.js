@@ -24,6 +24,7 @@ exports = module.exports = function(List, options, callback) {
     page: 1,
     perPage: 10,
     limit: null,
+    one: false,
     states: ['published']
   });
 
@@ -34,10 +35,13 @@ exports = module.exports = function(List, options, callback) {
   }
 
   if (options.id || options.slug) {
-    options.limit = 1;
+    options.one = true;
   }
 
-  if (!options.page) {
+  if (options.one) {
+    query = List.model.findOne();
+  }
+  else if (!options.page) {
     query = List.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);

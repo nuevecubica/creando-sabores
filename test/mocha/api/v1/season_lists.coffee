@@ -81,10 +81,12 @@ describe 'API v1: /seasonLists', ->
             if res.body.success isnt true or res.body.error isnt false
               return 'No arguments query failed'
 
-            res.body.seasons.results.length.must.be.eql 1
-            res.body.seasons.results[0].recipes.length.must.be.gt 3
+            if res.body.seasons.results
+              return "More than one season: #{res.body.seasons.results.length}"
 
-            for recipe, i in res.body.seasons.results[0].recipes
+            res.body.seasons.recipes.length.must.be.gt 3
+
+            for recipe, i in res.body.seasons.recipes
               if typeof recipe is 'string'
                 return "Recipe not populated"
               if ['published'].indexOf(recipe.state) is -1

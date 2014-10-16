@@ -19,7 +19,6 @@ exports = module.exports = function(req, res) {
 
   var options = {
     slug: locals.filters.question,
-    limit: 1,
     populate: ['author', 'chef']
   };
 
