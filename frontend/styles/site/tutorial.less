@@ -1,0 +1,45 @@
+.tutorial-bubble {
+  position: absolute;
+  margin: auto;
+  margin-left: 50%;
+  right: 0px;
+  width: 290px;
+  height: 105px;
+  box-sizing: border-box;
+  padding: 10px;
+  line-height: 85px;
+
+  background-color: #fff;
+  border-radius: 2px;
+  color: #979697;
+
+  text-align: center;
+  font-size: 22px;
+  font-weight: normal;
+  text-transform: none;
+
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
+
+  .icon-chef-cross {
+    line-height: normal;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  &:before {
+    .arrow-left;
+    content: '';
+    border-right-color: #fff;
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    margin-top: -20px;
+  }
+}
