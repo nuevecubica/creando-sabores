@@ -17,7 +17,9 @@ exports = module.exports = function(req, res) {
 
   var options = {
     limit: parseInt(req.query.limit) || null,
-    withRecipes: (req.query.withRecipes === "1") || false
+    withRecipes: (req.query.withRecipes === "1") || false,
+    slug: req.query.slug || null,
+    id: req.query.id || null
   };
 
   var _call = options.withRecipes ? service.seasonList.recipes.get : service.seasonList.get;

@@ -18,7 +18,8 @@ var getSeasons = function(options, callback) {
   options = _.defaults(options || {}, {
     all: false,
     sort: '-priority',
-    states: ['published']
+    states: ['published'],
+    recipeStates: ['published']
   });
 
   if (options.all) {
@@ -27,7 +28,36 @@ var getSeasons = function(options, callback) {
 
   var query = queryMaker(SeasonList, options);
 
-  query.exec(callback || function() { /* dummy function */ });
+  query.exec(function(err, results) {
+
+    // Clear invalid recipes when populated
+    if (!err && results && options.populate && options.populate.length) {
+      var recipe = null,
+        len = 0;
+      if (results.results) {
+        results.results.forEach(function(season) {
+          len = season.recipes.length;
+          while (len--) {
+            if (options.recipeStates.indexOf(season.recipes[len].state) === -1) {
+              season.recipes.splice(len, 1);
+            }
+          }
+        });
+      }
+      else {
+        len = results.recipes.length;
+        while (len--) {
+          if (options.recipeStates.indexOf(results.recipes[len].state) === -1) {
+            results.recipes.splice(len, 1);
+          }
+        }
+      }
+    }
+
+    if (callback) {
+      callback(err, results);
+    }
+  });
 };
 
 /**

@@ -33,6 +33,10 @@ exports = module.exports = function(List, options, callback) {
     options.perPage = options.limit;
   }
 
+  if (options.id || options.slug) {
+    options.limit = 1;
+  }
+
   if (options.limit === 1) {
     query = List.model.findOne();
   }
@@ -49,12 +53,13 @@ exports = module.exports = function(List, options, callback) {
     });
   }
 
-  if (options.slug) {
-    query.where('slug', options.slug);
-  }
-
   if (options.id) {
     query.where('_id', options.id);
+    options.limit = 1;
+  }
+  else if (options.slug) {
+    query.where('slug', options.slug);
+    options.limit = 1;
   }
 
   var states = options.states || [];
