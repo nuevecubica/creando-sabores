@@ -31,19 +31,27 @@ window.chef.tutorial = (function(tutorial) {
 
   };
 
+  var startTutorial = function() {
+    $('.tutorial-bubble').each(function(i, bubble) {
+      var $bubble = $(bubble);
+      var $step = $bubble.parent();
+      $bubble.removeClass('hidden');
+      $step.data('tutorial-done', []);
+    });
+  };
+
   return _.extend(tutorial, {
-    completionCriteria: _.extend(tutorial.criteria || {}, criteria)
+    completionCriteria: _.extend(tutorial.criteria || {}, criteria),
+    start: startTutorial
   });
 })(window.chef.tutorial || {});
 
 
 $(document).ready(function() {
-
-  var field = 'data-tutorial-message';
-  $('[' + field + ']').each(function(i, step) {
-    // Create the bubble
+  // Create the bubbles
+  $('[data-tutorial-message]').each(function(i, step) {
     var $step = $(step);
-    var $bubble = $('<div class="tutorial-bubble">');
+    var $bubble = $('<div class="tutorial-bubble hidden">');
     var $close = $('<i class="icon-chef-cross">');
     $close.on('click', function() {
       $bubble.css('display', 'none');
@@ -53,27 +61,25 @@ $(document).ready(function() {
     $step.prepend($bubble);
 
     // Create completion callbacks
-    var newCriteria = function() {
-      var met = false;
+    var newCriteria = function(i, total) {
       return function() {
-        if (met) {
+        var done = $step.data('tutorial-done');
+        if (done.indexOf(i) !== -1) {
           return; // Ignore duplicated completions
         }
-        met = true;
-        var curr = $step.data('tutorial-pending') - 1;
-        console.log('Criteria completed for step. Only', curr, 'to go!');
-        $step.data('tutorial-pending', curr);
-        if (!curr) {
-          $bubble.css('display', 'none');
+        done.push(i);
+        $step.data('tutorial-done', done);
+        if (done.length === total) {
+          $bubble.addClass('hidden');
         }
       };
     };
 
     // Find out the completion criteria(s)
     var $reqs = $('[data-tutorial-complete]', $step);
-    $step.data('tutorial-pending', $reqs.length);
+    $step.data('tutorial-done', []);
     $reqs.each(function(i, req) {
-      var callback = newCriteria();
+      var callback = newCriteria(i, $reqs.length);
       var criteria = $(req).data('tutorial-complete');
       if (!window.chef.tutorial.completionCriteria[criteria]) {
         console.log('Tutorial: Unknown completion criteria:', criteria);

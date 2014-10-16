@@ -78,7 +78,8 @@ exports.initLocals = function(req, res, next) {
   if (req.user) {
     locals.chef.user = {
       username: req.user.username,
-      name: req.user.name
+      name: req.user.name,
+      disabledHelpers: req.user.disabledHelpers
     };
     if (req.user.isAdmin) {
       locals.chef.user.isAdmin = true;

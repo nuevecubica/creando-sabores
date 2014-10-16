@@ -324,6 +324,11 @@
     var food = window.chef.editor.newElement('categoryList')('#categories-editor #food.categories');
 
     window.chef.setEditableModeOn = function() {
+      // Tutorial start
+      if (window.chef.user.disabledHelpers.indexOf('recipe') === -1) {
+        window.chef.tutorial.start();
+      }
+
       title.backup();
       difficulty.backup();
       time.backup();
