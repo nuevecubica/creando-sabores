@@ -195,9 +195,16 @@ User.add({
   }
 }, 'Lists', {
   favourites: {
-    type: Types.Relationship,
-    ref: 'Recipe',
-    many: true
+    recipes: {
+      type: Types.Relationship,
+      ref: 'Recipe',
+      many: true
+    },
+    tips: {
+      type: Types.Relationship,
+      ref: 'Tip',
+      many: true
+    }
   },
   likes: {
     type: Types.Relationship,

@@ -26,16 +26,16 @@ exports = module.exports = function(req, res) {
           answer.error = true;
         }
         else {
-          var pos = req.user.favourites.indexOf(recipe._id);
+          var pos = req.user.favourites.recipes.indexOf(recipe._id);
           if (req.params.action === 'add') {
             if (pos === -1) {
-              req.user.favourites.push(recipe._id);
+              req.user.favourites.recipes.push(recipe._id);
               req.user.save();
             }
           }
           else if (req.params.action === 'remove') {
             if (pos !== -1) {
-              req.user.favourites.splice(pos, 1);
+              req.user.favourites.recipes.splice(pos, 1);
               req.user.save();
             }
           }
