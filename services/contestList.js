@@ -14,7 +14,7 @@ var getAllContests = function(options, callback) {
     authorId: null,
     all: false,
     sort: '-publishedDate',
-    states: ['published', 'closed']
+    states: ['programmed', 'submission', 'votes', 'finished']
   });
 
   if (options.all) {

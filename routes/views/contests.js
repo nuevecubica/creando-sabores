@@ -51,7 +51,10 @@ exports = module.exports = function(req, res) {
         getCurrentContest,
 
         function(callback) {
-          service.contestList.getWithWinners({}, function(err, contests) {
+          service.contestList.getWithWinners({
+            page: req.query.page || 1,
+            perPage: req.query.perPage || 5
+          }, function(err, contests) {
             if (!err && contests) {
               locals.data.contests = contests.results;
               callback(err);
