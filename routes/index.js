@@ -60,7 +60,7 @@ exports = module.exports = function(app) {
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Profile: Public
-  app.get('/chef/:username/:section(recetas|favoritas)?', routes.views.chef);
+  app.get('/chef/:username/:section(recetas|favoritas|tips)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
@@ -126,6 +126,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
+  app.get('/api/v1/user/:username/tips', routes.api.v1.user.tips.favourites);
   //-- Recipes + Videorecipes
   app.get('/api/v1/:type(recipe|videorecipe)s', routes.api.v1.recipes);
   app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
