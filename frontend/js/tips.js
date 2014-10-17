@@ -1,4 +1,4 @@
-/* global ratingClick */
+/* global ratingClick, makePaginable */
 
 $(document).ready(function() {
 
@@ -28,5 +28,7 @@ $(document).ready(function() {
     e.preventDefault();
     ratingClick('tip', this);
   });
+
+  makePaginable('/api/v1/tips', 'tips', 'tip', '#tips .list');
 
 });
