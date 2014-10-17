@@ -49,9 +49,9 @@ block content
 								.ui.button.chef.button-green.disabled
 									| #{__('Menus')}
 						.tab
-							a
-								.ui.button.chef.button-green.disabled
-									| #{__('Tips')}
+							a(href='/chef/#{profile.username}/tips')
+								div(class="#{subsection === 'tips' ? 'active' : ''}").ui.button.chef.button-green
+									| #{('My tips')}
 
 			if subsection == 'recipes'
 				#recipes.tab-content
