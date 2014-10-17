@@ -283,6 +283,8 @@ Contest.schema.set('toJSON', {
 
 Contest.schema.virtual('thumb').get(virtual.contest.thumb);
 Contest.schema.virtual('url').get(virtual.contest.url);
+Contest.schema.virtual('classes').get(virtual.contest.classes);
+
 
 // Function to switch recipe state
 // Params:
