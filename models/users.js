@@ -230,14 +230,15 @@ User.add({
     index: true,
     default: true
   }
-}, 'Recover Password', {
-  recoverPasswordToken: {
+}, 'Reset Password', {
+  resetPasswordToken: {
     label: 'Token',
     type: Types.Text,
     noedit: true,
+    index: true,
     default: ''
   },
-  recoverPasswordDatetime: {
+  resetPasswordDatetime: {
     label: 'Date',
     type: Types.Datetime,
     noedit: true,
@@ -372,8 +373,35 @@ User.schema.pre('save', function(done) {
   done();
 });
 
-/**
- * Registration
- */
+//#------------------ METHODS
+
+User.schema.methods.resetPassword = function(callback) {
+
+  var user = this;
+  user.resetPasswordToken = keystone.utils.randomString([16, 24]);
+  user.resetPasswordDatetime = Date.now();
+  user.save(function(err) {
+
+    if (err) {
+      return callback(err);
+    }
+
+    new keystone.Email('forgotten-password').send({
+      user: user,
+      link: '/nueva-contrasena/' + user.resetPasswordToken,
+      subject: 'Reset your ' + (keystone.name || 'Chefcito') + ' Password',
+      to: user.email,
+      from: {
+        name: keystone.name || 'Chefcito',
+        email: 'noreply@byglue.me'
+      }
+    }, callback);
+
+  });
+
+};
+
+//#------------------ REGISTRATION
+
 User.defaultColumns = 'name, email, isAdmin, isChef, isConfirmed, isBanned';
 User.register();

@@ -1,41 +1,43 @@
-extends ../layouts/default
+extends ../../layouts/default
 
-include ../mixins/recipe
+block js
+	script(src='/js/signup.js')
 
 block content
-	#login.signin
+	#signup.signin
 		.ui.page.grid.segment.head.basic
 			.column
 				.row.logo
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section
-					.title= __('Access')
-					.subtitle= __('Come and enjoy')
+					.title= __('Register')
+					.subtitle= __('Easy and fast')
 
 		.ui.page.stackable.grid.segment.body
 			.row.equal.height
 				.two.column.wide
 				.five.column.wide
-					.explain.right= __('Access with social networks')
-					include ../components/signin-social
+					.explain= __('Register with social networks')
+					include ../../components/signin-social
 				.one.column.wide.space
 
 				.one.column.wide.space.dashed
 				.five.column.wide
-							.explain.left= __('or register with email')
-							include ../components/login-local
+					.explain= __('or register with email')
+					include ../../components/signup-local
 				.two.column.wide
 
-		.ui.page.grid.segemnt.tail
+		.ui.page.grid.segment.tail
 			.column
 				.link
-					| #{__('Don\'t have an account?') + ''} 
-					a(href='/registro')= __('Register')
+					| #{__('Already registered?') + ' '}
+					a(href='/acceso')= __('Login')
 
 block js
 	| <script>
 	|	chef.errorMessages = chef.errorMessages || {}
 	|	chef.errorMessages['Email format'] = "#{__('Error: Email format')}"
 	|	chef.errorMessages['Password format'] = "#{__('Error: Password format')}"
+	|	chef.errorMessages['Username format'] = "#{__('Error: Username format')}"
 	| </script>
