@@ -221,5 +221,15 @@
 	"Write here recipe name": "Nombre de la receta",
 	"Wrong email or in use.": "Incorrecto o en uso.",
 	"Write here contest name": "Escribe el nombre del concurso aquí",
-	"Write here your question_": "Escribe aquí tu pregunta_"
+	"Write here your question_": "Escribe aquí tu pregunta_",
+	"Forgotten your password?": "¿Has olvidado tu contraseña?",
+	"Reset password": "Nueva contraseña",
+	"No problem, we'll send you a link to reset it": "No hai problema, te enviaremos un correo para solucionarlo.",
+	"Send reset link": "Enviar enlace",
+	"I remember,": "Lo recuerdo,",
+	"Error sending reset password email.": "Error enviando correo con la nueva contraseña.",
+	"We have emailed you a link to reset your password": "Te hemos enviado un correo para que cambies la contraseña.",
+	"Sorry, that reset password key isn't valid.": "Esta clave para crear una nueva contraseña no es válida.",
+	"Please enter, and confirm your new password.": "Por favor, introduce y confirma tu nueva contraseña.",
+	"Your password has been reset, please sign in.": "Has cambiado ti contraseña, debes acceder de nuevo."
 }
