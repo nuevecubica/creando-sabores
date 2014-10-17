@@ -6,18 +6,11 @@ var _ = require('underscore'),
   queryMaker = require('./utils/listQueryMaker');
 
 var getAllContests = function(options, callback) {
-  var own = false,
-    data = {};
 
   options = _.defaults(options || {}, {
     sort: '-deadline',
-    states: ['programmed', 'submission', 'votes', 'finished']
+    states: ['programmed', 'submission', 'votes', 'closed', 'finished']
   });
-
-  if (options.all) {
-    options.states.push('review');
-    options.states.push('removed');
-  }
 
   var query = queryMaker(Contest, options);
 
@@ -25,13 +18,18 @@ var getAllContests = function(options, callback) {
 };
 
 var getWithWinners = function(options, callback) {
+
   options = _.defaults(options || {}, {
     populate: ['awards.jury.winner', 'awards.community.winner'],
-    states: ['finished']
   });
+
   getAllContests(options, function(err, contests) {
     var populate2 = ['awards.jury.winner.author', 'awards.community.winner.author'];
-    async.map(contests.results, function(contest, done) {
+
+    var populateContest = function(contest, done) {
+      if (err || !contest || contest.state !== 'finished') {
+        return done(err, contest); // Nothing to populate here.
+      }
       async.eachSeries(populate2, function(field, done) {
         Contest.model.populate(contest, {
           path: field,
@@ -42,11 +40,24 @@ var getWithWinners = function(options, callback) {
           }
           done(err);
         });
-      }, done);
-    }, function(err) {
-      callback(err, contests);
-    });
+      }, function(err) {
+        done(err, contest);
+      });
+    };
+
+    if (options.one) {
+      populateContest(contests, function(err, contest) {
+        callback(err, contest);
+      });
+    }
+    else {
+      async.map(contests.results, populateContest, function(err, results) {
+        contests.results = results;
+        callback(err, contests);
+      });
+    }
   });
+
 };
 
 /*

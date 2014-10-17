@@ -1,6 +1,6 @@
 var keystone = require('keystone'),
   async = require('async'),
-  Contest = keystone.list('Contest'),
+  service = require(__base + 'services'),
   Recipe = keystone.list('Recipe'),
   moment = require('moment');
 
@@ -22,13 +22,11 @@ exports = module.exports = function(req, res) {
   // load contests
   view.on('init', function(next) {
 
-    // Query for get a contest
-    var queryContest = Contest.model.findOne({
-        slug: locals.filters.contest
-      })
-      .populate('awards.jury.winner awards.community.winner');
-
-    queryContest.exec(function(err, result) {
+    service.contestList.getWithWinners({
+      slug: locals.filters.contest,
+      one: true,
+      populate: ['awards.jury.winner', 'awards.community.winner']
+    }, function(err, result) {
       if (!err && result) {
 
         if ((result.state === 'programmed' &&
@@ -44,52 +42,26 @@ exports = module.exports = function(req, res) {
           return res.notfound(res.__('Not found'));
         }
 
-        // Populate nested recipe author (jury winner)
-        var optionsJuryAuthor = {
-          path: 'awards.jury.winner.author awards.jury.community.author',
-          model: 'User'
-        };
-
-        Contest.model.populate(result, optionsJuryAuthor, function(err, contestJuryPopulated) {
-          if (err) {
-            console.error('Error: Contest.model.populate jury winner');
-            return res.notfound(res.__('Not found'));
-          }
-
-          // Populate nested recipe author (community winner)
-          var optionsCommunityAuthor = {
-            path: 'awards.community.winner.author',
-            model: 'User'
-          };
-
-          Contest.model.populate(contestJuryPopulated, optionsCommunityAuthor, function(err, contestCommunityPopulated) {
-            if (err) {
-              console.error('Error: Contest.model.populate community winner');
+        locals.data.contest = result;
+        var queryTop = Recipe.model.find({
+            'contest.id': result.id,
+            'state': 'published'
+          })
+          .limit(4)
+          .populate('contest.id')
+          .sort('-likes')
+          .exec(function(err, result) {
+            if (!err && result) {
+              locals.data.top = result;
+              next();
+            }
+            else {
               return res.notfound(res.__('Not found'));
             }
-
-            locals.data.contest = contestCommunityPopulated;
-            var queryTop = Recipe.model.find({
-                'contest.id': result.id,
-                'state': 'published'
-              })
-              .limit(4)
-              .populate('contest.id')
-              .sort('-likes')
-              .exec(function(err, result) {
-                if (!err && result) {
-                  locals.data.top = result;
-                  next();
-                }
-                else {
-                  return res.notfound(res.__('Not found'));
-                }
-              });
           });
-        });
       }
       else {
-        console.error('Error: queryContest', queryContest);
+        console.error('Error: unknown error', err);
         return res.notfound(res.__('Not found'));
       }
     });
