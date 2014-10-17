@@ -508,7 +508,7 @@ describe 'API v1: /me/', ->
           .end(done)
 
 
-  #*---------- FAVOURITES LIST ----------*
+  #*---------- RECIPES FAVOURITES LIST ----------*
   describe 'GET /me/favourites/:action/:recipe', ->
     describe 'on not logged in', ->
       it 'should response an error', (done) ->
@@ -840,5 +840,339 @@ describe 'API v1: /me/', ->
           (res) ->
             res.body.recipes.total.must.be.equal 1
             res.body.recipes.results.length.must.be.equal 1
+        )
+        .end(done)
+
+#*---------- TIPS FAVOURITES LIST ----------*
+  describe 'GET /me/tips/favourites/:action/:tip', ->
+    describe 'on not logged in', ->
+      it 'should response an error', (done) ->
+
+        tip = data.getBySlug 'tips', 'tip-1'
+
+        request
+        .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+        .set('cookie','')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(done)
+
+    describe 'on logged in', ->
+
+      before (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+          done()
+
+      describe 'on favourites list add', (done) ->
+        it 'should response with success', (done) ->
+
+          tip = data.getBySlug 'tips', 'tip-1'
+
+          request
+          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/tips/favourites/list')
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(
+              (res) ->
+                res.body.tips.total.must.be.equal 1
+                slug = res.body.tips.results[0].slug
+                slug.must.be.equal tip.slug
+            ).end(done)
+
+        it 'should ignore duplicate requests', (done) ->
+
+          tip = data.getBySlug 'tips', 'tip-1'
+
+          request
+          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end (err, res) ->
+              request
+              .get('/api/v1/me/tips/favourites/list')
+              .set('cookie', cookie)
+              .set('Accept', 'application/json')
+              .expect('Content-Type', /json/)
+              .expect(200)
+              .expect(
+                (res) ->
+                  res.body.tips.total.must.be.equal 1
+                  slug = res.body.tips.results[0].slug
+                  slug.must.be.equal tip.slug
+              )
+              .end(done)
+
+        it 'should return error for missing tip', (done) ->
+          request
+          .get('/api/v1/me/tips/favourites/add/testDummytip')
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(404)
+          .end(done)
+
+      describe 'on favourites list remove', (done) ->
+        it 'should response with success', (done) ->
+
+          tip = data.getBySlug 'tips', 'tip-1'
+
+          request
+          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/tips/favourites/remove/' + tip.slug)
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end (err, res) ->
+              request
+              .get('/api/v1/me/tips/favourites/list')
+              .set('cookie', cookie)
+              .set('Accept', 'application/json')
+              .expect('Content-Type', /json/)
+              .expect(200)
+              .expect(
+                (res) ->
+                  res.body.tips.total.must.be.equal 0
+              ).end(done)
+
+        it 'should ignore duplicate requests', (done) ->
+
+          tip = data.getBySlug 'tips', 'tip-1'
+
+          request
+          .get('/api/v1/me/tips/favourites/remove/' + tip.slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(done)
+
+        it 'should return error for missing tip', (done) ->
+          request
+          .get('/api/v1/me/tips/favourites/remove/testDummytip')
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(404)
+          .end(done)
+
+  describe 'GET /me/tips/favourites/list', ->
+    describe 'on not logged in', ->
+      it 'should response an error', (done) ->
+        request
+        .get('/api/v1/me/tips/favourites/list')
+        .set('cookie','')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(done)
+
+    describe 'on logged in', ->
+      this.timeout 20000
+
+      before (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[0].email,
+          password: data.users[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+          done()
+
+      it 'should paginate properly', (done) ->
+
+        addToFavouriteList = (tip, cb) ->
+          request
+          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(cb)
+
+        tips = data.getBy 'tips', 'state', 'published'
+
+        async.each tips.slice(0,4), addToFavouriteList, ->
+          request
+          .get('/api/v1/me/tips/favourites/list?page=1&perPage=4')
+          .set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              res.body.tips.total.must.be.equal 4
+              res.body.tips.results.length.must.be.equal 4
+          )
+          .end (err, res) ->
+            request
+            .get('/api/v1/me/tips/favourites/list?page=2&perPage=2')
+            .set('cookie', cookie)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(
+              (res2) ->
+                res2.body.tips.total.must.be.equal 4
+                res2.body.tips.results.length.must.be.equal 2
+                part = res.body.tips.results.slice(2,5)
+                res2.body.tips.results.must.be.eql part
+            )
+            .end(done)
+
+      it 'should update the list, removing invalid references', (done) ->
+        user = data.getUserByUsername('testBadUser')
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.users[2].email,
+          password: data.users[2].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie2 = res.headers['set-cookie']
+          request
+          .get('/api/v1/me/tips/favourites/list?perPage=20')
+          .set('cookie', cookie2)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              res.body.tips.total.must.be.equal 1
+              res.body.tips.results.length.must.be.equal 1
+          )
+          .end(done)
+
+
+  describe 'GET /user/:username/favourites', ->
+
+    baseurl = '/api/v1/user/' + data.users[4].username + '/tips'
+
+    before (done) ->
+      request
+      .post('/api/v1/login')
+      .send({
+        email: data.users[0].email,
+        password: data.users[0].password
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end (err, res) ->
+        return 'error' if not res.body.success or res.body.error
+        cookie = res.headers['set-cookie']
+        done()
+
+    it 'should paginate properly', (done) ->
+
+      addToFavouriteList = (tip, cb) ->
+        request
+        .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+        .set('cookie', cookie)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(cb)
+
+      tips = data.getBy 'tips', 'state', 'published'
+
+      async.each tips.slice(0,4), addToFavouriteList, ->
+        request
+        .get(baseurl + '?page=1&perPage=4')
+        #.set('cookie', cookie)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            res.body.tips.total.must.be.equal 4
+            res.body.tips.results.length.must.be.equal 4
+        )
+        .end (err, res) ->
+          request
+          .get(baseurl + '?page=2&perPage=2')
+          #.set('cookie', cookie)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res2) ->
+              res2.body.tips.total.must.be.equal 4
+              res2.body.tips.results.length.must.be.equal 2
+              part = res.body.tips.results.slice(2,5)
+              res2.body.tips.results.must.be.eql part
+          )
+          .end(done)
+
+    it 'should update the list, removing invalid references', (done) ->
+      request
+      .post('/api/v1/login')
+      .send({
+        email: data.users[2].email,
+        password: data.users[2].password
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end (err, res) ->
+        return 'error' if not res.body.success or res.body.error
+        cookie2 = res.headers['set-cookie']
+        baseurl2 = '/api/v1/user/testbaduser/tips'
+        request
+        .get(baseurl2 + '?perPage=20')
+        .set('cookie', cookie2)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            res.body.tips.total.must.be.equal 1
+            res.body.tips.results.length.must.be.equal 1
         )
         .end(done)
