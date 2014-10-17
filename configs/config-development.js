@@ -117,7 +117,12 @@ answer.keystone = {
         background_color: '#2697de',
         border_color: '#1a7cb7'
       }
-    }
+    },
+    site: {
+      name: 'Chefcito',
+      email: 'chefcito@glue.gl'
+    },
+    host: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
   },
   'email rules': [{
     find: '/images/',
