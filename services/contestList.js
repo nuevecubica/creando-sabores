@@ -6,7 +6,7 @@ var _ = require('underscore'),
   queryMaker = require('./utils/listQueryMaker'),
   moment = require('moment');
 
-var getAllContests = function(options, callback) {
+var getContests = function(options, callback) {
 
   options = _.defaults(options || {}, {
     sort: '-deadline',
@@ -46,7 +46,7 @@ var getWithWinners = function(options, callback) {
     populate: ['awards.jury.winner', 'awards.community.winner'],
   });
 
-  getAllContests(options, function(err, contests) {
+  getContests(options, function(err, contests) {
     var populate2 = ['awards.jury.winner.author', 'awards.community.winner.author'];
 
     var populateContest = function(contest, done) {
@@ -87,7 +87,7 @@ var getWithWinners = function(options, callback) {
   Set exportable object
  */
 var _service = {
-  get: getAllContests,
+  get: getContests,
   getWithWinners: getWithWinners
 };
 
