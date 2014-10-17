@@ -89,7 +89,7 @@ var getAllRecipe = function(options, callback) {
           // Is it on my shopping list?
           data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
           // Is it on my favourites list?
-          data.favourited = (options.user.favourites.indexOf(result._id) !== -1);
+          data.favourited = (options.user.favourites.recipes.indexOf(result._id) !== -1);
           // Has it my like?
           data.liked = (options.user.likes.indexOf(result._id) !== -1);
         }
