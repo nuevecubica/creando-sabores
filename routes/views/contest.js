@@ -24,7 +24,6 @@ exports = module.exports = function(req, res) {
     service.contestList.getWithWinners({
       slug: locals.filters.contest,
       one: true,
-      populate: ['awards.jury.winner', 'awards.community.winner']
     }, function(err, result) {
       if (!err && result) {
 

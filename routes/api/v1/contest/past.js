@@ -20,7 +20,8 @@ exports = module.exports = function(req, res) {
       function(callback) {
         service.contestList.getWithWinners({
           page: req.query.page || 1,
-          perPage: req.query.perPage || 5
+          perPage: req.query.perPage || 5,
+          states: ['finished']
         }, function(err, contests) {
           if (err) {
             answer.error = true;
