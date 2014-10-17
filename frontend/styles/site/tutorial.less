@@ -2,7 +2,6 @@
   z-index: 999;
   position: absolute;
   margin: auto;
-  margin-left: 50%;
   right: 0px;
   width: 290px;
   height: 105px;
@@ -10,19 +9,19 @@
   padding: 10px;
   line-height: 85px;
 
-  background-color: #fff;
-  border-radius: 2px;
-  color: #979697;
+  background-color: @chef-color-light-bg;
+  border-radius: 4px;
+  color: @chef-color-gray;
 
   text-align: center;
   font-size: 22px;
-  font-weight: normal;
+  font-weight:lighter;
   text-transform: none;
 
   span {
     display: inline-block;
     vertical-align: middle;
-    line-height: normal;
+    line-height: 1.2em;
   }
 
   .icon-chef-cross {
@@ -32,44 +31,84 @@
     right: 0px;
     cursor: pointer;
     font-size: 14px;
+    color: grey;
   }
 
   &:before {
     .arrow-left;
     content: '';
-    border-right-color: #fff;
+    border-right-color: @chef-color-light-bg;
     position: absolute;
     left: -20px;
     top: 50%;
     margin-top: -20px;
   }
 }
-.corner-position.right{
-  .tutorial-bubble {
-    position: absolute;
-    right: 250px;
-    width: 290px;
-    height: 105px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: normal;
-    text-transform: none;
-
-    span {
-      display: inline-block;
-      vertical-align: middle;
-      line-height: normal;
-    }
-
-
+#new-recipe-header{
+  .tutorial-bubble{
+    background-color: @chef-color-white;
     &:before {
-      .arrow-right;
-      content: '';
-      border-right-color: #fff;
-      position: absolute;
-      left: -20px;
-      top: 50%;
-      margin-top: -20px;
+      border-right-color: @chef-color-white;
     }
+  }
+  .corner-position.right{
+    .tutorial-bubble {
+      right: 290px;
+      text-align: left;
+      &:before {
+        display: none;
+      }
+      &:after {
+        .arrow-right;
+        content: '';
+        border-left-color: #fff;
+        position: absolute;
+        right: -20px;
+        top: 40%;
+        margin-top: -20px;
+      }
+      .icon-chef-cross {
+        right: auto;
+        left: 0px;
+      }
+    }
+  }
+  .title{
+    .tutorial-bubble {
+      top: -30px;
+      right: 100px;
+    }
+  }
+}
+
+#recipe-description{
+  position: relative;
+  .tutorial-bubble {
+    top: -5px;
+    right: 100px;
+  }
+}
+
+#info{
+  .tutorial-bubble {
+    margin: 0;
+    right: 100px;
+    top: -30px;
+  }
+}
+
+#ingredients{
+  position: relative;
+  .tutorial-bubble {
+    margin-top: -20px;
+    right: 100px;
+  }
+}
+
+#procedure{
+  position: relative;
+  .tutorial-bubble {
+    margin-top: 100px;
+    right: 100px;
   }
 }
