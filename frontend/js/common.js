@@ -284,8 +284,8 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 
 };
 
-var ratingClick = function(e) {
-  var $this = $(this);
+var ratingClick = function(type, target) {
+  var $this = $(target);
   var $rating = $this.closest('.rating');
   var slug = $rating.data('slug');
   var score = $('i.icon-chef-star.icon.active').length;
@@ -294,7 +294,7 @@ var ratingClick = function(e) {
   console.log('SCORE', score);
 
   $rating.data('lock', true);
-  var url = '/api/v1/recipe/' + slug + '/vote/' + score;
+  var url = '/api/v1/' + type + '/' + slug + '/vote/' + score;
   var jQXhr = $.ajax({
     url: url,
     type: 'PUT',
@@ -321,7 +321,6 @@ var ratingClick = function(e) {
 
     }
   });
-  e.preventDefault();
 };
 
 var likeClick = function(e) {

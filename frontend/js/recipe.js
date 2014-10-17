@@ -274,9 +274,14 @@
   //---------- DOCUMENT READY
   $(document).ready(function() {
 
-    addTypes();
-    window.chef.editor.bindEditables();
-    window.chef.editor.init();
+    var section = window.location.pathname.split('/')[1];
+    var type = section === 'videoreceta' ? 'videorecipe' : 'recipe';
+
+    if (type === 'recipe') {
+      addTypes();
+      window.chef.editor.bindEditables();
+      window.chef.editor.init();
+    }
 
     //----------- SAVERS
     var saveArrayList = function(arr) {
@@ -552,7 +557,10 @@
     $('.rating:not(.disabled) .like-button').click(likeClick);
 
     $('.ui.rating').rating();
-    $('.rating:not(.disabled) .icon-chef-star').click(ratingClick);
+    $('.rating:not(.disabled) .icon-chef-star').click(function(e) {
+      e.preventDefault();
+      ratingClick(type, this);
+    });
 
     $('.icon-chef-play.icon.clickable').click(function() {
 

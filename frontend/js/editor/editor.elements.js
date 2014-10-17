@@ -166,6 +166,9 @@ window.chef.editor = (function(editor) {
         // console.log(this);
         var opFilters = overrideFilters ? overrideFilters : this.options.filters;
         var edit = this.$selfEditable;
+        if (!edit) {
+          return;
+        }
         edit.on('keypress.filters', editor.filters.on.call(this, opFilters).keypress.bind(this));
         edit.on('change.filters', editor.filters.on.call(this, opFilters).change.bind(this));
       },

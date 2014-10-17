@@ -21,7 +21,6 @@ exports = module.exports = function(req, res) {
       });
 
       q.exec(function(err, tip) {
-
         if (err || !tip) {
           res.status(404);
           answer.error = true;
