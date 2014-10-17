@@ -1,0 +1,15 @@
+.row.position
+	a(href="{{url}}").hover-list
+	.five.wide.column
+		.thumbnail(style='background-image: url({{thumb.list}})')
+
+	.eleven.wide.column
+		.rating
+			.strong= __('Rating')
+			.span
+				.ui.icon {{formatIcons rating 'star'}}
+
+		a(href=tip.url)
+			h2.ui.header {{title}}
+
+		.ui.content {{{tip}}}
