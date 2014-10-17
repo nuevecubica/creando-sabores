@@ -300,7 +300,7 @@ mixin header(data, section)
 
 		#contests-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -317,7 +317,7 @@ mixin header(data, section)
 
 		#contest-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -337,7 +337,7 @@ mixin header(data, section)
 
 		#participants-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -365,7 +365,7 @@ mixin header(data, section)
 
 		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -379,7 +379,7 @@ mixin header(data, section)
 
 		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -388,3 +388,61 @@ mixin header(data, section)
 
 				.row.section.title
 					#questions-title.shadow= __('Questions')
+
+	else if section === 'tips'
+		- var image = data.header ? data.header.thumb.header : defaults.images.tip
+
+		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-title.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.shadow= __('Tips')
+
+				.row
+					if data.header
+						.social.four.tablet-seven.wide.column.tablet.computer.only
+							.corner-position.left
+								|#{__('Share this page')}
+								+header-share()
+
+						.four.wide.column.computer.only
+
+						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+						- var promotedUrl = data.header ? data.header.url : '/tips'
+
+						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+							.tabla
+								p= (data.header.author.name || data.header.author.username)
+								.tabla1
+									.ui.image
+								.tabla2
+									.text
+										a.span(href="#{promotedUrl}")= promotedTitle
+								.tabla3
+									.ui.image
+
+	else if section === 'tip'
+		- var title = data.tip ? data.tip.title : ''
+		- var image = data.tip ? data.tip.thumb.header : defaults.images.tip
+
+		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#tip-title.shadow= title
+
+				.row.section.subtitle
+					p.shadow= (data.tip.author.name || data.tip.author.username)
