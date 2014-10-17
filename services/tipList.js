@@ -75,10 +75,13 @@ var getRelatedTips = function(options, callback) {
       }
     }
   }, function(err, results, status) {
-    results = [];
     if (results && results.hits) {
       results = results.hits.hits || [];
     }
+    else {
+      results = [];
+    }
+
     callback(err, results, status);
   });
 };
