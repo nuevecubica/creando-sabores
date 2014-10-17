@@ -10,10 +10,7 @@ var getAllContests = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    user: null,
-    authorId: null,
-    all: false,
-    sort: '-publishedDate',
+    sort: '-deadline',
     states: ['programmed', 'submission', 'votes', 'finished']
   });
 
