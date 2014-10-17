@@ -1,8 +1,7 @@
 var keystone = require('keystone'),
   async = require('async'),
   service = require(__base + 'services'),
-  Recipe = keystone.list('Recipe'),
-  moment = require('moment');
+  Recipe = keystone.list('Recipe');
 
 exports = module.exports = function(req, res) {
 
@@ -29,15 +28,6 @@ exports = module.exports = function(req, res) {
     }, function(err, result) {
       if (!err && result) {
 
-        if ((result.state === 'programmed' &&
-            moment().isAfter(result.programmedDate)) ||
-          (result.state === 'submission' &&
-            moment().isAfter(result.submissionDeadline)) ||
-          (result.state === 'votes' &&
-            moment().isAfter(result.deadline))) {
-          result.save();
-        }
-
         if ((!req.user || !req.user.isAdmin) && ['draft'].indexOf(result.state) >= 0) {
           return res.notfound(res.__('Not found'));
         }
@@ -61,7 +51,6 @@ exports = module.exports = function(req, res) {
           });
       }
       else {
-        console.error('Error: unknown error', err);
         return res.notfound(res.__('Not found'));
       }
     });

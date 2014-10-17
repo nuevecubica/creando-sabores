@@ -3,7 +3,8 @@ var _ = require('underscore'),
   async = require('async'),
   Contest = keystone.list('Contest'),
   service = require('./index'),
-  queryMaker = require('./utils/listQueryMaker');
+  queryMaker = require('./utils/listQueryMaker'),
+  moment = require('moment');
 
 var getAllContests = function(options, callback) {
 
@@ -13,8 +14,30 @@ var getAllContests = function(options, callback) {
   });
 
   var query = queryMaker(Contest, options);
+  var next = callback || function() { /* dummy */ };
 
-  query.exec(callback || function() { /* dummy */ });
+  if (options.one) {
+    next = function(err, result) {
+      if (err || !result) {
+        callback(err, result);
+      }
+      else if ((result.state === 'programmed' &&
+          moment().isAfter(result.programmedDate)) ||
+        (result.state === 'submission' &&
+          moment().isAfter(result.submissionDeadline)) ||
+        (result.state === 'votes' &&
+          moment().isAfter(result.deadline))) {
+        result.save(function(err, result) {
+          callback(err, result);
+        });
+      }
+      else {
+        callback(err, result);
+      }
+    };
+  }
+
+  query.exec(next);
 };
 
 var getWithWinners = function(options, callback) {
