@@ -96,8 +96,11 @@ exports = module.exports = function(app) {
   app.get('/tip/:tip', routes.views.tip);
 
   // Login, Register
-  app.all('/:mode(registro|acceso)', routes.views.signup);
-  app.get('/salir', routes.views.signout);
+  app.all('/:mode(registro|acceso)', routes.views.session.signup);
+  app.all('/contrasena-olvidada', routes.views.session.forgottenPassword);
+  app.all('/nueva-contrasena/:key', routes.views.session.resetPassword);
+  app.get('/salir', routes.views.session.signout);
+
   // Authentication
   app.get('/authentication/facebook', routes.authentication.facebook);
   app.get('/authentication/google', routes.authentication.google);
@@ -105,6 +108,8 @@ exports = module.exports = function(app) {
 
   // Search
   app.get('/buscar', routes.views.search);
+
+  // Reset password
 
   // API
   app.all('/api/v1*', keystone.initAPI);
