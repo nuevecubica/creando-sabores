@@ -247,13 +247,18 @@ User.add({
 
 // Schema for ranking
 var Rating = new keystone.mongoose.Schema({
-  recipe: String,
+  item: String,
   rating: Number
 });
 
 User.schema.add({
-  review: {
-    type: [Rating]
+  votes: {
+    recipes: {
+      type: [Rating]
+    },
+    tips: {
+      type: [Rating]
+    }
   }
 });
 
