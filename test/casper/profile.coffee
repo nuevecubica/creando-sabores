@@ -30,3 +30,13 @@ describe 'Profile page', ->
         bgImage = @evaluate getHeaderImage
         isImage = (/(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i).test bgImage
         isImage.should.be.not.equal false
+
+  describe 'Contextual menu', ->
+    it 'works hidden class', ->
+      casper.thenOpen base + '/perfil', ->
+        '#menu-wrapper #contextual-menu'.should.be.not.visible
+        @click '#menu-wrapper .username'
+        '#menu-wrapper #contextual-menu'.should.be.visible
+        @click '#menu-wrapper .arrow-down'
+      casper.waitForSelector '#menu-wrapper #contextual-menu.hidden', ->
+        '#menu-wrapper #contextual-menu'.should.be.not.visible

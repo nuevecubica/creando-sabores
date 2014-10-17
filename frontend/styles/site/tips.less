@@ -1,0 +1,122 @@
+@recipes-color-text: @chef-color-white;
+@recipes-grid-border: @chef-color-white;
+
+@ingredients-color-check-enabled: @chef-color-brick-bg;
+@ingredients-color-remove: @chef-color-gray-bg;
+@ingredients-color-remove-hover: darken(@ingredients-color-remove, 60%);
+
+@icons-font-size: 28px;
+@icon-heart-font-size: 18px;
+@recipe-font-text: @font-uppercase-size-larger;
+
+
+#tip-content{
+
+  margin-top: 10px;
+
+  .icon {
+    .font-extra-large;
+
+    @media only screen and (max-width : 991px) {
+      .font-larger;
+    }
+  }
+
+  .span {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: normal;
+    //text-transform: capitalize;
+  }
+  .favourite {
+    .checks {
+      &.icon-chef-heart{
+          color: @chef-color-white;
+        }
+      .font-normal;
+      border: none;
+      padding-left: 0;
+    }
+
+    .activated {
+      .checks {
+        color: @ingredients-color-check-enabled;
+      }
+    }
+  }
+
+  .rating {
+    transition: opacity @ani-time ease-in;
+    font-size: @icons-font-size;
+    &.disabled{
+      opacity: 0.3;
+      cursor: not-allowed;
+      i.icon.like-button{
+        cursor: not-allowed;
+      }
+    }
+
+    .span {
+      margin-left: 10px;
+    }
+
+    .off {
+      opacity: 0.3;
+    }
+
+    .on {
+      color: @chef-color-yellow-bg;
+    }
+
+    .icon-chef-star:before {
+      width: 18px;
+    }
+  }
+
+  .explain {
+    margin-bottom: 20px;
+
+  }
+  #info {
+    padding-top: 10px;
+    @media screen and (max-width: 767px) {
+      span{
+        display: none;
+      }
+    }
+
+    .rating > div {
+      display: inline-block;
+      margin: 0 6px;
+      outline: none;
+      .rating-value{
+        .font-larger;
+      }
+    }
+  }
+  #actions {
+    padding-top: 10px;
+
+    .recipe-actions > div {
+      display: inline-block;
+      padding-left: .5em;
+      margin-bottom: .5em;
+
+      @media screen and (max-width: 991px) {
+        display: block;
+        .button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+#related-tips{
+  .header{
+    background-color: @chef-color-pink-bg;
+    text-align: center;
+    padding: 20px 0;
+    margin: 0;
+    color: @chef-color-white;
+  }
+}

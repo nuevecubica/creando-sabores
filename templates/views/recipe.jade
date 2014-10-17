@@ -61,7 +61,7 @@ block content
   if (data.contest)
     .ui.page.grid.bg-grey
       .row
-        #info.eight.tablet-twelve.mobile-eight.wide.column
+        #info.sixteen.wide.column
           .recipe-contest
             a.title.header.font-extra-larger.uppercase.remove-editable(href=data.contest.url)= data.contest.title
             span.title.header.font-extra-larger.uppercase.display-editable= data.contest.title
@@ -285,4 +285,4 @@ block content
                     .content
                       .span= __('View all')
             else
-                .empty-resultset.sixteen.wide.column= __('No related recipes yet')
+              .empty-resultset.sixteen.wide.column= __('No related recipes yet')

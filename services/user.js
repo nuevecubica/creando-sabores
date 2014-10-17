@@ -32,34 +32,34 @@ var getUserList = function(collection, options, callback) {
     return q;
   };
 
-  var sortCollection = function(collection, collectionIds, done) {
+  var sortCollection = function(items, collectionIds, done) {
     // We got the collection (one way or another...)
     // Fix the ingredient list
-    for (var i = 0, l = collection.length; i < l; i++) {
-      collection[i] = collection[i].toObject({
+    for (var i = 0, l = items.length; i < l; i++) {
+      items[i] = items[i].toObject({
         virtuals: true,
         transform: modelCleaner.transformer
       });
 
       if (collection === 'Recipe') {
-        var ingr = collection[i].ingredients;
+        var ingr = items[i].ingredients;
         ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
-        collection[i].ingredients = ingr;
+        items[i].ingredients = ingr;
       }
     }
     // Sort it in the same order as our list, or order will be block-level
     var collection2 = [];
     var collectionIdsStr = _.map(collectionIds, String);
-    var collectionStr = _.map(collection, function(r) {
+    var collectionStr = _.map(items, function(r) {
       return String(r._id);
     });
 
-    for (i = 0, l = collection.length; i < l; i++) {
+    for (i = 0, l = items.length; i < l; i++) {
       var pos = collectionIdsStr.indexOf(collectionStr[i]);
-      collection2[pos] = collection[i];
+      collection2[pos] = items[i];
     }
 
-    collection = collection2;
+    items = collection2;
     // Return a paginable-like structure
     var total = userlist.length,
       totalPages = Math.ceil(total / perPage),
@@ -73,7 +73,7 @@ var getUserList = function(collection, options, callback) {
         first: first + 1,
         last: last
       };
-    ret.results = collection;
+    ret.results = items;
     done(null, ret);
   };
 

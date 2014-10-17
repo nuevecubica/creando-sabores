@@ -35,14 +35,14 @@ exports = module.exports = function(req, res) {
     function(next) {
       service.tip.get({
         slug: req.params.tip
-      }, function(err, result) {
-        if (err || !result) {
+      }, function(err, tip) {
+        if (err || !tip) {
           res.status(404);
           answer.error = true;
           return next(err);
         }
         else {
-          var tip = result;
+
           if (!tip.scoreCount) {
             tip.scoreCount = 0;
           }

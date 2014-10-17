@@ -1,0 +1,24 @@
+mixin tip(tip)
+	.row.position
+		a(href=tip.url).hover-list
+		.five.wide.column
+			.thumbnail(style = 'background-image: url(' + tip.thumb.list + ')')
+
+		.eleven.wide.column
+			.rating
+				.strong= __('Rating')
+				.span
+					.ui.icon
+						- var rating = Math.floor(tip.rating) || 0
+						- for(var x = 0; x < 5; x++)
+							if rating == 0
+								i.icon-chef-star.icon.off
+							else
+								i.icon-chef-star.icon.on
+								- rating = rating - 1;
+
+			a(href=tip.url)
+				h2.ui.header
+					!= tip.title
+
+			.ui.content!= tip.tip
