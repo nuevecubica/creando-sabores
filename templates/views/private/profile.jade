@@ -81,13 +81,22 @@ block content
 									input#new-pass(name="new-pass" type="password" autocomplete="off")
 							.column
 
-					.row
+					.row.group-box
 						.column
 							label.explain= __('Privacy')
-							#private.field
+							#private.field.checkbox
 								label
 									input(name="isPrivate" type="checkbox" checked=(user.isPrivate ? "checked" : undefined))
 									span.icon-chef-tick= __('Private profile?')
+
+					.row.group-box
+						.column
+							label.explain= __('Notifications')
+							#newsletter.field.checkbox
+								label
+									input(name="receiveNewsletter" type="checkbox" checked=(user.receiveNewsletter ? "checked" : undefined))
+									span.icon-chef-tick= __('Receive newsletter?')
+
 					.row
 						.column.grid
 							#save

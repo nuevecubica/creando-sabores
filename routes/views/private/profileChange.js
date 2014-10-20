@@ -15,7 +15,7 @@ exports = module.exports = function(req, res, next) {
 
   if (req.method === 'POST') {
 
-    var fields = ['isPrivate'];
+    var fields = ['isPrivate', 'receiveNewsletter'];
 
     async.series([
         // Same username, do not change
