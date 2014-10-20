@@ -64,7 +64,15 @@ exports.requireAdminApi = function(req, res, next) {
   Prevents people from creating content when they're not confirmed
  */
 exports.requireConfirmed = function(req, res, next) {
-  if (!req.user || (req.user && (req.user.isBanned || req.user.isDeactivated || !req.user.isConfirmed))) {
+  if (!req.user) {
+    req.flash('error', res.__('Please sign in to access this page'));
+    res.redirect('/');
+  }
+  else if (req.user.isBanned || req.user.isDeactivated) {
+    req.flash('error', res.__('Access disallowed'));
+    res.redirect('/');
+  }
+  else if (!req.user.isConfirmed) {
     req.flash('error', res.__('Please confirm your email to access this page'));
     res.redirect('/');
   }
