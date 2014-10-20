@@ -96,7 +96,7 @@ function generateTips(from, to) {
       },
       "isIndexHeaderPromoted": homeHeader,
       "isPromoted": isPromoted,
-      "state": (!isPromoted) ? states[faker.random.number(0, 4)] : states[1],
+      "state": (!isPromoted) ? states[faker.random.number(0, 2)] : states[1],
       "header": newHeader(),
       "schemaVersion": 1
     };
