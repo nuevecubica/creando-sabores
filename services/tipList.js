@@ -64,7 +64,7 @@ var getRelatedTips = function(options, callback) {
           },
           "query": {
             "more_like_this": {
-              "fields": ["title^2", "tip^1"],
+              "fields": ["title", "tip"],
               "ids": [options.tipId.toString()],
               "min_term_freq": 1,
               "max_query_terms": 12,
