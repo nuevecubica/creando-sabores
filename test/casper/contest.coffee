@@ -37,12 +37,12 @@ describe 'Contest page', ->
         casper.then ->
           '#contest-description'.should.be.inDOM.and.visible
           '#contest-awards.finished'.should.be.inDOM
-          
+
     describe 'winners', ->
       it 'exists finished contest', ->
         casper.then ->
           '#winners'.should.be.inDOM.and.visible
-          
+
       it 'exists & works winners links', ->
         casper.then ->
           '.recipe-winner'.should.be.inDOM.and.visible
@@ -64,7 +64,7 @@ describe 'Contest page', ->
           info = @getElementsInfo '#winners div.award'
           info[0].text.should.be.equal 'premio1'
           info[1].text.should.be.equal 'premio2'
-              
+
     describe 'Ranking', ->
       it 'exists & works ranking', ->
         casper.then ->
