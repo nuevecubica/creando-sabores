@@ -31,12 +31,15 @@ window.chef.tutorial = (function(tutorial) {
 
   };
 
-  var startTutorial = function() {
+  var startTutorial = function(bounce) {
     $('.tutorial-bubble').each(function(i, bubble) {
       var $bubble = $(bubble);
       var $step = $bubble.parent();
       $bubble.removeClass('hidden');
       $step.data('tutorial-done', []);
+      if (bounce) {
+        $bubble.transition('bounce');
+      }
     });
   };
 
@@ -62,7 +65,7 @@ $(document).ready(function() {
     var $bubble = $('<div class="tutorial-bubble hidden">');
     var $close = $('<i class="icon-chef-cross">');
     $close.on('click', function() {
-      $bubble.css('display', 'none');
+      $bubble.addClass('hidden');
     });
     $bubble.append($close);
     $bubble.append('<span>' + $step.data('tutorial-message'));
@@ -97,6 +100,12 @@ $(document).ready(function() {
         window.chef.tutorial.completionCriteria[criteria](req, callback);
       }
     });
+  });
+
+  // Help button
+  $('#help').on('click', function(e) {
+    e.preventDefault();
+    window.chef.tutorial.start(true);
   });
 
 });

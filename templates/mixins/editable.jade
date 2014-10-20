@@ -16,6 +16,9 @@ mixin editable(editable, own)
     #actions-wrapper.ten.mobile-sixteen.wide.column
       .ui.menu
         .menu
+          if section === 'new-recipe' || section === 'recipe'
+            #help.ui.button.chef.button-manage
+              a= __('Help')
           #cancel.ui.button.chef.button-manage
             a= __('Cancel')
           #update.ui.button.chef.button-manage
