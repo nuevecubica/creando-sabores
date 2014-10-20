@@ -1,0 +1,19 @@
+extends ../layouts/default
+
+include ../mixins/header
+
+
+block content
+  .ui.page.grid
+    .ui.grid.segment
+      .row
+        .sixteen.wide.column.error-content
+          h1.page-header-heading!= __('Newsletter {{{action}}}', { action: data.action })
+          div(style='margin: 30px 0;').debug!= __('{{{email}}} has been {{{action}}}d successfully', { email: data.email, action: data.action })
+
+          if data.action === 'unsubscribe'
+            div
+              = __('if you have not made this request')
+            a(href='/email/' + data.email + '/subscribe', style='margin: 0 0 30px;')= __('Subscribe')
+
+          p: a(href='/').ui.button.chef.button-green= __('Return home')
