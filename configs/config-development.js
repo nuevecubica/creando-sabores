@@ -99,6 +99,11 @@ answer.keystone = {
   'security': {
     'csrf': true
   },
+  site: {
+    name: 'Chefcito',
+    email: 'chefcito@glue.gl',
+    url: process.env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl'
+  },
   publicUrl: process.env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl',
   'email locals': {
     logo_src: '/images/logo-email.gif',
@@ -122,5 +127,9 @@ answer.keystone = {
     replace: 'http://localhost:3000/keystone/'
   }]
 };
+
+answer.keystone.publicUrl = answer.keystone.site.url;
+answer.keystone['email locals'].site = answer.keystone.site;
+answer.keystone['email locals'].host = answer.keystone.site.url;
 
 exports = module.exports = answer;

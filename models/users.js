@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   modelCleaner = require(__base + 'utils/modelCleaner'),
-  imageQuality = require(__base + 'utils/imageQuality');
+  imageQuality = require(__base + 'utils/imageQuality'),
+  service = require(__base + 'services');
 
 /**
  * Users
@@ -230,14 +231,15 @@ User.add({
     index: true,
     default: true
   }
-}, 'Recover Password', {
-  recoverPasswordToken: {
+}, 'Reset Password', {
+  resetPasswordToken: {
     label: 'Token',
     type: Types.Text,
     noedit: true,
+    index: true,
     default: ''
   },
-  recoverPasswordDatetime: {
+  resetPasswordDatetime: {
     label: 'Date',
     type: Types.Datetime,
     noedit: true,
@@ -372,8 +374,28 @@ User.schema.pre('save', function(done) {
   done();
 });
 
-/**
- * Registration
- */
+//#------------------ METHODS
+
+User.schema.methods.resetPassword = function(callback) {
+
+  var user = this;
+  user.resetPasswordToken = keystone.utils.randomString([16, 24]);
+  user.resetPasswordDatetime = Date.now();
+  user.save(function(err) {
+
+    if (err) {
+      callback(err);
+    }
+
+    service.email.send('forgotten-password', {
+      user: user,
+      link: '/nueva-contrasena/' + user.resetPasswordToken,
+      subject: 'Reset your ' + (keystone.name || 'Chefcito') + ' Password'
+    }, callback);
+  });
+};
+
+//#------------------ REGISTRATION
+
 User.defaultColumns = 'name, email, isAdmin, isChef, isConfirmed, isBanned';
 User.register();

@@ -21,5 +21,6 @@ exports.elastic = require('./elastic');
 exports.seasonList = require('./seasonList');
 exports.grid = require('./grid');
 exports.contestList = require('./contestList');
+exports.email = require('./email');
 
 module.exports = exports;
