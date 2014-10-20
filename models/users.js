@@ -3,7 +3,9 @@ var _ = require('underscore'),
   Types = keystone.Field.Types,
   modelCleaner = require(__base + 'utils/modelCleaner'),
   imageQuality = require(__base + 'utils/imageQuality'),
-  service = require(__base + 'services');
+  service = {
+    email: require(__base + 'services/email')
+  };
 
 /**
  * Users
