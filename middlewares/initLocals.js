@@ -47,12 +47,18 @@ exports.initLocals = function(req, res, next) {
   locals.env = process.env;
   locals.isTest = keystone.testMode;
 
+  locals.site = {
+    name: keystone.name,
+    brand: keystone.brand
+  };
+
   /*
     Data to send to the client in each page
   */
   locals.chef = {
     isUserLoggedIn: !!req.user
   };
+
   if (req.user) {
     locals.chef.user = {
       username: req.user.username,

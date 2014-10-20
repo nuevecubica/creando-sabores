@@ -49,7 +49,9 @@ keystone.set('routes', require('./routes'));
 
 keystone.set('email locals', config.keystone['email locals']);
 keystone.set('email rules', config.keystone['email rules']);
-keystone.set('email tests', require('./routes/emails'));
+
+keystone.set('site', config.keystone['site']);
+
 keystone.set('security', config.keystone.security);
 
 // Configure i18n
