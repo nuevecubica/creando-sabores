@@ -434,7 +434,7 @@ mixin header(data, section)
 
 		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle
+			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
 					include ../components/header
 
@@ -446,3 +446,8 @@ mixin header(data, section)
 
 				.row.section.subtitle
 					p.shadow= (data.tip.author.name || data.tip.author.username)
+				.row
+					.four.wide.column.computer.only.social
+						.corner-position.left
+							|#{__('Share this tip')}
+							+header-share()
