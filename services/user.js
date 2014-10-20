@@ -151,6 +151,14 @@ var getUserByUsername = function(options, callback) {
   }, callback);
 };
 
+var getUserByEmail = function(options, callback) {
+  options = options || {};
+
+  User.model.findOne({
+    email: options.email
+  }, callback);
+};
+
 var getUserRecipeList = function(options, callback) {
 
   options = options || {};
@@ -168,6 +176,31 @@ var getUserRecipeList = function(options, callback) {
 var getFavouriteTips = function(options, callback) {
   options.field = 'favourites.tips';
   return getUserList('Tip', options, callback);
+};
+
+var setNewsletter = function(options, callback) {
+  return getUserByEmail(options, function(err, user) {
+    console.log(err, user);
+    if (err || !user) {
+      callback(err);
+    }
+    else {
+      user.receiveNewsletter = options.value;
+      user.save(function(err) {
+        callback(err, user);
+      });
+    }
+  });
+};
+
+var setSubscribe = function(options, callback) {
+  options.value = true;
+  return setNewsletter(options, callback);
+};
+
+var setUnsubscribe = function(options, callback) {
+  options.value = false;
+  return setNewsletter(options, callback);
 };
 
 /*
@@ -189,9 +222,14 @@ var _service = {
       // list: getMyTips,
       favourites: getFavouriteTips
     }
+  },
+  newsletter: {
+    subscribe: setSubscribe,
+    unsubscribe: setUnsubscribe
   }
 };
 
 _service.get.byUsername = getUserByUsername;
+_service.get.byEmail = getUserByEmail;
 
 exports = module.exports = _service;
