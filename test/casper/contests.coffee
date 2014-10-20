@@ -45,12 +45,16 @@ describe 'Contests page', ->
     it 'works status-tag', ->
       casper.then ->
         classes = @getElementAttribute('#info .status-tag', 'class').split(' ')
-        _.intersection(classes, ['programmed','voted',
+        _.intersection(classes, ['programmed','votes',
           'submission']).should.be.not.empty
     it 'works link to recipes list', ->
       casper.then ->
-        @getElementAttribute('#current-contest .chef.button-brick a',
-          'href').should.be.equal '/concurso/test-contest-programmed'
+        options = ['/concurso/test-contest-programmed',
+          '/concurso/test-contest-votes',
+          '/concurso/test-contest-submission']
+        selector = '#current-contest .chef.button-brick a'
+        link = @getElementAttribute(selector, 'href')
+        options.indexOf(link).should.be.above -1
 
   describe 'finished contest', ->
     it 'exists finished contest', ->
