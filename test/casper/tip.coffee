@@ -3,18 +3,19 @@ base = 'http://localhost:3000'  # We're outside node, so no keystone
 utils = require '../utils/casper-editor.coffee'
 
 selectors = {
-  header: '#recipe-header',
-  recipeFirstStar: '.ui.rating .icon-chef-star',
+  header: '#tips-header',
+  tipFirstStar: '.ui.rating .icon-chef-star',
 }
 
 getHeaderImage = () ->
-  return document.getElementById('recipe-header').style.backgroundImage
+  return document.getElementById('tips-header').style.backgroundImage
 
-getRecipeRatingValues = () ->
+getTipsRatingValues = () ->
   return parseInt(
     document.getElementsByClassName('rating-value').item(0).innerText)
 
-describe 'Recipe page', ->
+
+describe 'Tip page', ->
   @timeout 60000
 
   before (done) ->
@@ -22,15 +23,19 @@ describe 'Recipe page', ->
       # Do Nothing.
     utils.revertDB()
 
-  describe 'Recipe header', ->
-    it 'exists header image', ->
-      casper.thenOpen base + '/receta/test-recipe-1', ->
+  describe 'Tip header', ->
+    it 'exists tip image', ->
+      casper.thenOpen base + '/tip/tip-promoted', ->
         (selectors.header).should.be.inDOM.and.visible
         bgImage = @evaluate getHeaderImage
-        host = 'http://res.cloudinary.com'
-        path = '/glue/image/upload/f_auto,t_header_limit_thumb/v1410166679/'
-        image = 'eoshasibtc05k6bbuynv.jpg'
+        host = base
+        path = '/images/'
+        image = 'default_tip.jpg'
         bgImage.should.be.equal 'url(' + host + path + image + ')'
+
+  describe 'from an anonymous user,', ->
+    describe 'user gives a rating', ->
+      it 'keeps the tip\'s rating count without changes (redirection to login)'
 
   describe 'from an authenticated user,', ->
     before (done) ->
@@ -42,18 +47,20 @@ describe 'Recipe page', ->
         }, true
 
     describe 'user gives a rating', ->
-      it 'adds one to the recipe\'s rating count', ->
-        casper.thenOpen base + '/receta/test-recipe-1', ->
-          '#recipe-content .rating'.should.be.inDOM.and.visible
-          @click selectors.recipeFirstStar
+      it 'adds one to the tip\'s rating count', ->
+        actualRating = null
+        casper.thenOpen base + '/tip/tip-promoted', ->
+          '#tip-content .rating'.should.be.inDOM.and.visible
+          actualRating = @evaluate getTipsRatingValues
+          @click selectors.tipFirstStar
         casper.waitForSelectorTextChange '#info .rating-value ', ->
-          newRating = @evaluate getRecipeRatingValues
-          newRating.should.be.eql 1
-          (selectors.recipeFirstStar + '.active').should.be.inDOM.and.visible
+          newRating = @evaluate getTipsRatingValues
+          newRating.should.be.eql actualRating + 1
+          (selectors.tipFirstStar + '.active').should.be.inDOM.and.visible
 
     describe 'user gives a fav', ->
       it 'adds to my favourite\'s list', ->
-        casper.thenOpen base + '/receta/test-recipe-1', ->
+        casper.thenOpen base + '/tip/tip-promoted', ->
           '#actions .favourite .switch'.should.be.inDOM.and.visible
           @click '#actions .favourite .switch'
         casper.waitForSelector '#actions .favourite .switch.activated', ->
