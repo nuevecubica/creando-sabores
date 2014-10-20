@@ -88,6 +88,10 @@ var send = function(id, options, callback) {
         return callback('No subject');
       }
 
+      console.log('>>>>>>>>> Sending email %s', id);
+      console.log(options);
+      console.log('<<<<<<<<<');
+
       var em = new keystone.Email(id);
       em.send(options, callback);
     });
