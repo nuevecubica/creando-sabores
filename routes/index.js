@@ -60,7 +60,7 @@ exports = module.exports = function(app) {
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Profile: Public
-  app.get('/chef/:username/:section(recetas|favoritas)?', routes.views.chef);
+  app.get('/chef/:username/:section(recetas|favoritas|tips)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
@@ -71,13 +71,13 @@ exports = module.exports = function(app) {
   app.get('/:type(receta|videoreceta)/:recipe', routes.views.recipe);
   // -- Private
   // ---- New
-  app.get('/nueva-receta', middleware.requireUser, routes.views.recipe);
-  app.post('/nueva-receta/save', middleware.requireUser, routes.views['private'].recipeSave.create);
-  app.get('/nueva-receta/:contest', middleware.requireUser, routes.views.recipe);
+  app.get('/nueva-receta', middleware.requireConfirmed, routes.views.recipe);
+  app.post('/nueva-receta/save', middleware.requireConfirmed, routes.views['private'].recipeSave.create);
+  app.get('/nueva-receta/:contest', middleware.requireConfirmed, routes.views.recipe);
   // ---- Edit
-  app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
-  app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
-  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireUser, routes.views['private'].recipePublish);
+  app.post('/receta/:recipe/save', middleware.requireConfirmed, routes.views['private'].recipeSave.edit);
+  app.post('/receta/:recipe/remove', middleware.requireConfirmed, routes.views['private'].recipeRemove);
+  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].recipePublish);
 
   // Contests
   // -- Public
@@ -126,24 +126,26 @@ exports = module.exports = function(app) {
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
+  app.get('/api/v1/user/:username/tips', routes.api.v1.user.tips.favourites);
   //-- Recipes + Videorecipes
   app.get('/api/v1/:type(recipe|videorecipe)s', routes.api.v1.recipes);
-  app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
+  app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireConfirmedApi, routes.api.v1.recipeVote);
   //-- Recipes
-  app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireUserApi, routes.api.v1.recipeAction);
+  app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireConfirmedApi, routes.api.v1.recipeAction);
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
   //-- Questions
   app.get('/api/v1/questions', routes.api.v1.question.questions);
   app.put('/api/v1/question/:question/:state(review|published|removed|closed)', middleware.requireAdminApi, routes.api.v1.question.state);
-  app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
+  app.post('/api/v1/question/add', middleware.requireConfirmedApi, routes.api.v1.question.add);
   //-- Tips
-  app.put('/api/v1/tip/:tip/vote/:score', middleware.requireUserApi, routes.api.v1.tip.vote);
+  app.put('/api/v1/tip/:tip/vote/:score', middleware.requireConfirmedApi, routes.api.v1.tip.vote);
   app.get('/api/v1/tips/:type(recent)?', routes.api.v1.tip.tips.recent);
   app.get('/api/v1/tips/popular', routes.api.v1.tip.tips.popular);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
+  app.get('/api/v1/admin/generate/tips', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTips);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
   //---- Elasticsearch
   app.get('/api/v1/admin/es/ping', routes.api.v1.admin.goldfinder.ping);

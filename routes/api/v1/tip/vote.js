@@ -42,32 +42,33 @@ exports = module.exports = function(req, res) {
           return next(err);
         }
         else {
+
           if (!tip.scoreCount) {
             tip.scoreCount = 0;
           }
           if (!tip.scoreTotal) {
             tip.scoreTotal = 0;
           }
-          var reviews = req.user.review;
+          var votes = req.user.votes.tips;
           var pos = -1;
-          for (var i = 0, l = reviews.length; i < l; i++) {
-            if (String(reviews[i].tip) === String(tip._id)) {
+          for (var i = 0, l = votes.length; i < l; i++) {
+            if (String(votes[i]._id) === String(tip._id)) {
               pos = i;
               break;
             }
           }
           if (pos === -1) {
-            var review = {
-              tip: tip._id,
+            var vote = {
+              _id: tip._id,
               rating: req.params.score
             };
-            req.user.review.push(review);
+            req.user.votes.tips.push(vote);
             tip.scoreCount += 1;
             tip.scoreTotal += req.params.score;
           }
           else {
-            var diff = req.params.score - reviews[pos].rating;
-            req.user.review[pos].rating = req.params.score;
+            var diff = req.params.score - votes[pos].rating;
+            req.user.votes.tips[pos].rating = req.params.score;
             tip.scoreTotal += diff;
           }
 

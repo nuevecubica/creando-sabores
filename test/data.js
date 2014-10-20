@@ -33,7 +33,7 @@ var data = {
   }, {
     "about": "Test Bad User",
     "email": "testBadUser@glue.gl",
-    "username": "testBadUser",
+    "username": "testbaduser",
     "password": "testBadUser",
     "name": "Test Bad User"
   }, {
@@ -42,6 +42,12 @@ var data = {
     "username": "testUserBanned",
     "password": "testUserBanned",
     "name": "Test User Banned"
+  }, {
+    "about": "Test User 4",
+    "email": "testUser4@glue.gl",
+    "username": "testuser4",
+    "password": "testUser4",
+    "name": "Test User4"
   }],
   /**
    * This object is extended with the data from the database

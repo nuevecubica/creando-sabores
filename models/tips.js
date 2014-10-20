@@ -7,9 +7,8 @@ var _ = require('underscore'),
   async = require('async'),
   modelCleaner = require(__base + 'utils/modelCleaner');
 
-
 // ===== Defaults
-// Define recipe defaults
+// Define tip defaults
 var defaults = {
   positions: (function() {
     var arr = [];

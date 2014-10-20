@@ -247,7 +247,7 @@ describe 'API v1: /recipes', ->
         .expect(403)
         .end(done)
 
-    describe 'and recipe contest does not have a valid state', ->
+    describe 'if recipe contest does not have a valid state', ->
 
       recipe = data.getBySlug 'recipes', 'test-contest-closed-recipe'
 
@@ -278,7 +278,30 @@ describe 'API v1: /recipes', ->
         .expect(403)
         .end(done)
 
-    describe 'and recipe does not have a vote from the user', ->
+    describe 'if non-confirmed user', ->
+
+      recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
+      cookie2 = null
+
+      before (done) ->
+        this.timeout 10000
+        utils.loginUser data.users[2], request, (err, res) ->
+          cookie2 = res.headers['set-cookie']
+          done()
+
+      it 'responds with error', (done) ->
+        request
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
+        .set('Accept', 'application/json')
+        .set('Referer',
+            config.keystone.publicUrl +
+            '/api/v1/recipe/' + recipe.slug + '/like')
+        .set('cookie', cookie2)
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(done)
+
+    describe 'if recipe does not have a vote from the user', ->
 
       recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
       recipeVotedId = null
@@ -670,6 +693,26 @@ describe 'API v1: /recipes', ->
           .set('cookie', cookie)
           .expect('Content-Type', /json/)
           .expect(403)
+          .end(done)
+
+      describe 'on non-confirmed user', ->
+        cookie2 = null
+
+        before (done) ->
+          this.timeout 10000
+          utils.loginUser data.users[2], request, (err, res) ->
+            cookie2 = res.headers['set-cookie']
+            done()
+
+        it 'responds with error', (done) ->
+          request
+          .put('/api/v1/recipe/' + recipeGood + '/vote/4')
+          .set('Accept', 'application/json')
+          .set('Referer',
+              config.keystone.publicUrl + '/receta/' + recipeGood)
+          .set('cookie', cookie2)
+          .expect('Content-Type', /json/)
+          .expect(401)
           .end(done)
 
       describe 'on valid recipe', ->

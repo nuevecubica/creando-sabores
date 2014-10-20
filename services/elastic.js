@@ -260,7 +260,7 @@ esSuggest.hydrated = function(params, callback) {
 var esDatabaseSync = function(params, callback) {
   var count = 0,
     defaults = {
-      collections: ['Recipe', 'Contest'],
+      collections: ['Recipe', 'Contest', 'Tip'],
       each: function(err, doc) {
         count++;
       },

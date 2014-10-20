@@ -144,6 +144,7 @@ function generateRecipes(from, to) {
     var sectionHeader = (faker.random.number(1000) >= 800);
     var sectionGridPos = faker.random.array_element_pop(isVideorecipe ? sectionVideoGrid : sectionGrid);
     var isPromoted = (homeHeader || sectionHeader || homeGridPos > 0 || sectionGridPos > 0);
+    var rating = faker.random.number(0, 6);
 
     return {
       'description': '<p>' + firstUpperCase(faker.Recipe.findRecipe()) + '. ' + firstUpperCase(faker.Lorem.paragraph()) + '.</p>',
@@ -151,7 +152,9 @@ function generateRecipes(from, to) {
       'isOfficial': (faker.random.number(10) >= 7),
       'procedure': newProcedure(),
       'publishedDate': newDate(),
-      'rating': faker.random.number(0, 6),
+      'scoreTotal': rating,
+      'scoreCount': 1,
+      'rating': rating,
       'title': (isVideorecipe ? 'Videorecipe ' : '') + firstUpperCase(faker.Recipe.findRecipe()),
       "isRecipesGridPromoted": {
         "position": (sectionGridPos || 0),
@@ -332,12 +335,7 @@ function generateContests(from, to) {
 */
 function createRecipe(recipe, done) {
   recipe.author = author;
-  if (recipe.rating > 0) {
-    recipe.review = [{
-      user: 'Demo',
-      rating: recipe.rating
-    }];
-  }
+
   var newRecipe = new Recipes.model(recipe);
   newRecipe.save(function(err, recipe) {
     if (err) {

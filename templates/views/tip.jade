@@ -44,8 +44,8 @@ block content
     h2.ui.header= __('Related tips:')
     .row
       .ui.grid.segment.list.stackable
-        if data.tip.length
-          each tip in data.tip
+        if related.length
+          each tip in related
             +tip(tip)
 
         else

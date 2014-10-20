@@ -26,7 +26,7 @@ var getMyFavouriteTips = function(req, res) {
         user: req.user
       }, function(err, result) {
         if (!err && result) {
-          answer.recipes = result;
+          answer.tips = result;
           answer.success = true;
           next(null);
         }

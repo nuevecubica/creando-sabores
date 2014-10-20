@@ -254,6 +254,25 @@ describe '(Private) Recipe: Save', ->
         )
         .end(done)
 
+    describe 'on non-confirmed user', ->
+      cookie2 = null
+
+      before (done) ->
+        this.timeout 10000
+        utils.loginUser data.users[2], request, (err, res) ->
+          cookie2 = res.headers['set-cookie']
+          done()
+
+      it 'responds with redirect', (done) ->
+        request
+        .get('/nueva-receta')
+        .set('cookie', cookie2)
+        .expect(302)
+        .expect(
+          (res) -> res.header['location'].must.be.equal '/'
+        )
+        .end(done)
+
     describe 'on submission state contest', ->
       it 'responds with the form', (done) ->
         request
@@ -268,7 +287,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on non-submission state contest', ->
       it 'responds with error', (done) ->
         request
-        .get('/nueva-receta/test-contest-programmsed')
+        .get('/nueva-receta/test-contest-programmed')
         .set('cookie', cookie)
         .expect(404)
         .end(done)
