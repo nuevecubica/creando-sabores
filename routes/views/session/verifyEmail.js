@@ -2,14 +2,6 @@ var keystone = require('keystone'),
   User = keystone.list('User');
 
 exports = module.exports = function(req, res) {
-
-  var locals = res.locals,
-    view = new keystone.View(req, res);
-
-  // Init locals
-  locals.section = 'verify-email';
-  locals.token = req.params.token || null;
-
   if (!req.params.token) {
     console.log("Invalid token.");
     req.flash('error', res.__("Invalid token."));
