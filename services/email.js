@@ -5,9 +5,8 @@ var _ = require('underscore'),
 /**
  * Sends an email
  * @param  {String}   id       Email identifier
- * @param  {Oject}    options  {to, subject}
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * @param  {Oject}    options  {to, subject, user, from, locals}
+ * @param  {Function} callback err
  */
 var send = function(id, options, callback) {
 
@@ -42,7 +41,7 @@ var send = function(id, options, callback) {
 
   if (options.templateId) {
     // Mandrill template
-    callback('Template method not supported yet');
+    return callback('Template method not supported yet');
   }
   else {
     options = _.omit(_.extend(options, options.locals), ['locals', 'templateId']);
