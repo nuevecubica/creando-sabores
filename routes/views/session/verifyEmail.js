@@ -34,7 +34,8 @@ exports = module.exports = function(req, res) {
       return res.redirect('/acceso?next=/confirma-email/' + req.params.token);
     }
     else if (req.user.username === user.username) {
-      user.isVerified = true;
+      user.isConfirmed = true;
+      user.verifyEmailToken = '';
       user.save(function(err) {
         if (err) {
           console.error('===== ERROR verifying email =====');
