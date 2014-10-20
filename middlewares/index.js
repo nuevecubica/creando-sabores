@@ -9,6 +9,8 @@ exports.requireUser = requireUser.requireUser;
 exports.requireUserApi = requireUser.requireUserApi;
 exports.requireAdmin = requireUser.requireAdmin;
 exports.requireAdminApi = requireUser.requireAdminApi;
+exports.requireConfirmed = requireUser.requireConfirmed;
+exports.requireConfirmedApi = requireUser.requireConfirmedApi;
 
 var antiBadUsers = require('./antiBadUsers');
 exports.antiBanned = antiBadUsers.antiBanned;

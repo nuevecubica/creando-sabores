@@ -59,3 +59,34 @@ exports.requireAdminApi = function(req, res, next) {
     next();
   }
 };
+
+/**
+  Prevents people from creating content when they're not confirmed
+ */
+exports.requireConfirmed = function(req, res, next) {
+  if (!req.user || (req.user && (req.user.isBanned || req.user.isDeactivated || !req.user.isConfirmed))) {
+    req.flash('error', res.__('Please confirm your email to access this page'));
+    res.redirect('/');
+  }
+  else {
+    next();
+  }
+};
+
+/**
+  Prevents create content API calls
+ */
+exports.requireConfirmedApi = function(req, res, next) {
+  var answer = {
+    success: false,
+    error: false
+  };
+
+  if (!req.user || (req.user && (req.user.isBanned || req.user.isDeactivated || !req.user.isConfirmed))) {
+    res.status(401);
+    res.apiResponse(answer);
+  }
+  else {
+    next();
+  }
+};
