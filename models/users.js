@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   modelCleaner = require(__base + 'utils/modelCleaner'),
-  imageQuality = require(__base + 'utils/imageQuality');
+  imageQuality = require(__base + 'utils/imageQuality'),
+  service = require(__base + 'services');
 
 /**
  * Users
@@ -383,22 +384,15 @@ User.schema.methods.resetPassword = function(callback) {
   user.save(function(err) {
 
     if (err) {
-      return callback(err);
+      callback(err);
     }
 
-    new keystone.Email('forgotten-password').send({
+    service.email.send('forgotten-password', {
       user: user,
       link: '/nueva-contrasena/' + user.resetPasswordToken,
-      subject: 'Reset your ' + (keystone.name || 'Chefcito') + ' Password',
-      to: user.email,
-      from: {
-        name: keystone.name || 'Chefcito',
-        email: 'noreply@byglue.me'
-      }
+      subject: 'Reset your ' + (keystone.name || 'Chefcito') + ' Password'
     }, callback);
-
   });
-
 };
 
 //#------------------ REGISTRATION
