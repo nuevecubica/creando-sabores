@@ -6,7 +6,13 @@ var templates = [{
   name: 'forgotten-password',
   subject: '{{user.name}}, ya puedes cambiar tu contraseña',
   title: 'Ya puedes cambiar tu contraseña',
-  body: '<p><strong>{{user.name}}</strong>, pulsa en el siguiente enlace para cambiar tu contraseña:</p><p>{{link}}</p>',
+  body: '<p><strong>{{user.name}}</strong>, pulsa en el siguiente enlace para cambiar tu contraseña:</p><p><a href="{{link}}">{{link}}</a></p>',
+  state: 'published'
+}, {
+  name: 'welcome-register',
+  subject: 'Bienvenido, {{user.name}}',
+  title: 'Bienvenido a {{site.name}}, {{user.name}}',
+  body: '<p>Pulsa el siguiente enlace para poder crear recetas y disfrutar de {{site.name}}:</p><p><a href="{{link}}">{{link}}</a></p>',
   state: 'published'
 }];
 
