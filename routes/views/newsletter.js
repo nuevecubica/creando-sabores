@@ -15,11 +15,14 @@ exports = module.exports = function(req, res) {
 
   locals.filters = {
     email: req.params.email,
+    token: req.params.token,
+    notification: req.params.notification,
     action: req.params.action
   };
 
   var options = {
-    email: locals.filters.email
+    email: locals.filters.email,
+    token: locals.filters.token
   };
 
   // load question
@@ -39,7 +42,7 @@ exports = module.exports = function(req, res) {
     };
 
     if (locals.filters.action === 'subscribe') {
-      service.notifications.newsletter.subscribe(options, callback);
+      service.notifications[locals.filters.action][locals.filters.notification](options, callback);
     }
     else if (locals.filters.action === 'unsubscribe') {
       next();

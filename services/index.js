@@ -16,6 +16,7 @@ exports.notifications = require('./notifications');
 exports.recipeList = require('./recipeList');
 exports.questionList = require('./questionList');
 exports.tipList = require('./tipList');
+exports.userList = require('./userList');
 exports.pageHeader = require('./pageHeader');
 exports.config = require('./config');
 exports.elastic = require('./elastic');

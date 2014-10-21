@@ -2,6 +2,7 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   modelCleaner = require(__base + 'utils/modelCleaner'),
+  crypto = require('crypto'),
   imageQuality = require(__base + 'utils/imageQuality'),
   service = {
     email: require(__base + 'services/email')
@@ -363,6 +364,11 @@ User.schema.virtual('url').get(function() {
   return '/chef/' + this.username;
 });
 
+// URL
+User.schema.virtual('phrase').get(function() {
+  return this._id + this.email + 'Kitchens are hard environments and they form incredibly strong characters.';
+});
+
 //#------------------ PRESAVE
 
 User.schema.pre('save', function(done) {
@@ -420,6 +426,15 @@ User.schema.methods.resetPassword = function(callback) {
       subject: 'Reset your ' + (keystone.name || 'Chefcito') + ' Password'
     }, callback);
   });
+};
+
+User.schema.methods.getNewsletterUnsubscribeUrl = function() {
+  var token = crypto.createHash('sha1').update(this.phrase).digest('hex');
+  return '/api/v1/notifications/' + token + '/unsubscribe/newsletter';
+};
+
+User.schema.methods.checkToken = function(token) {
+  return (crypto.createHash('sha1').update(this.phrase).digest('hex') === token);
 };
 
 //#------------------ REGISTRATION

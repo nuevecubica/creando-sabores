@@ -5,17 +5,21 @@ var _ = require('underscore'),
   Recipe = keystone.list('Recipe'),
   service = require('./index');
 
-
 var setNewsletter = function(options, callback) {
   return service.user.get.byEmail(options, function(err, user) {
     if (err || !user) {
       callback(err);
     }
     else {
-      user.receiveNewsletter = options.value;
-      user.save(function(err) {
-        callback(err, user);
-      });
+      if (user.checkToken(options.token)) {
+        user.receiveNewsletter = options.value;
+        user.save(function(err) {
+          callback(err, user);
+        });
+      }
+      else {
+        callback('Invalid token');
+      }
     }
   });
 };
