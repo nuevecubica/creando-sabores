@@ -3,7 +3,9 @@ var _ = require('underscore'),
   Types = keystone.Field.Types,
   modelCleaner = require(__base + 'utils/modelCleaner'),
   imageQuality = require(__base + 'utils/imageQuality'),
-  service = require(__base + 'services');
+  service = {
+    email: require(__base + 'services/email')
+  };
 
 /**
  * Users
@@ -245,6 +247,14 @@ User.add({
     noedit: true,
     default: 0
   }
+}, 'Verify Email', {
+  verifyEmailToken: {
+    label: 'Token',
+    type: Types.Text,
+    noedit: true,
+    index: true,
+    default: ''
+  }
 });
 
 // Schema for ranking
@@ -376,6 +386,23 @@ User.schema.pre('save', function(done) {
 
 //#------------------ METHODS
 
+User.schema.methods.verifyEmail = function(callback) {
+
+  var user = this;
+  user.verifyEmailToken = keystone.utils.randomString([16, 24]);
+  user.save(function(err) {
+
+    if (err) {
+      callback(err);
+    }
+
+    service.email.send('welcome-register', {
+      user: user,
+      link: keystone.get('site').url + '/confirma-email/' + user.verifyEmailToken
+    }, callback);
+  });
+};
+
 User.schema.methods.resetPassword = function(callback) {
 
   var user = this;
@@ -389,7 +416,7 @@ User.schema.methods.resetPassword = function(callback) {
 
     service.email.send('forgotten-password', {
       user: user,
-      link: '/nueva-contrasena/' + user.resetPasswordToken,
+      link: keystone.get('site').url + '/nueva-contrasena/' + user.resetPasswordToken,
       subject: 'Reset your ' + (keystone.name || 'Chefcito') + ' Password'
     }, callback);
   });

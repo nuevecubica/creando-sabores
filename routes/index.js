@@ -99,6 +99,7 @@ exports = module.exports = function(app) {
   app.all('/:mode(registro|acceso)', routes.views.session.signup);
   app.all('/contrasena-olvidada', routes.views.session.forgottenPassword);
   app.all('/nueva-contrasena/:key', routes.views.session.resetPassword);
+  app.get('/confirma-email/:token', routes.views.session.verifyEmail);
   app.get('/salir', routes.views.session.signout);
 
   // Authentication

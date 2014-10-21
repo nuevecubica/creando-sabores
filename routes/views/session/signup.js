@@ -1,5 +1,6 @@
 var keystone = require('keystone'),
-  async = require('async');
+  async = require('async'),
+  service = require(__base + 'services');
 
 exports = module.exports = function(req, res) {
 
@@ -141,8 +142,11 @@ exports = module.exports = function(req, res) {
         newUser.save(function(err) {
           if (!err) {
             console.log('SIGNUP: User saved to database');
+            newUser.verifyEmail(cb);
           }
-          return cb(err);
+          else {
+            return cb(err);
+          }
         });
       }
     ], function(err) {
@@ -152,12 +156,13 @@ exports = module.exports = function(req, res) {
 
       // Login on signup success
       var onSuccess = function() {
+        req.flash(res.__('Registered successfully. Please, check your email and follow the instructions in your email.'));
         return res.redirect(userHome);
       };
       var onFail = function(e) {
         console.error('SIGNIN: Fail after register');
         req.flash('error',
-          res.__('Error signing in'));
+          res.__('Error signing in. Check your email for further instructions.'));
         return next();
       };
       keystone.session.signin({
@@ -184,6 +189,9 @@ exports = module.exports = function(req, res) {
         }
         else {
           // Logged in
+          if (req.query.next) {
+            return res.redirect(req.query.next);
+          }
           return res.redirect(userHome);
         }
       };

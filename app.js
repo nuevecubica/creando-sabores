@@ -69,7 +69,7 @@ keystone.set('nav', {
   'questions': ['questions'],
   'tips': ['tips'],
   'season-lists': ['season-lists'],
-  'configs': ['configs']
+  'configs': ['configs', 'emails']
 });
 
 /*
