@@ -178,31 +178,6 @@ var getFavouriteTips = function(options, callback) {
   return getUserList('Tip', options, callback);
 };
 
-var setNewsletter = function(options, callback) {
-  return getUserByEmail(options, function(err, user) {
-    console.log(err, user);
-    if (err || !user) {
-      callback(err);
-    }
-    else {
-      user.receiveNewsletter = options.value;
-      user.save(function(err) {
-        callback(err, user);
-      });
-    }
-  });
-};
-
-var setSubscribe = function(options, callback) {
-  options.value = true;
-  return setNewsletter(options, callback);
-};
-
-var setUnsubscribe = function(options, callback) {
-  options.value = false;
-  return setNewsletter(options, callback);
-};
-
 /*
   Set exportable object
  */
@@ -222,10 +197,6 @@ var _service = {
       // list: getMyTips,
       favourites: getFavouriteTips
     }
-  },
-  newsletter: {
-    subscribe: setSubscribe,
-    unsubscribe: setUnsubscribe
   }
 };
 

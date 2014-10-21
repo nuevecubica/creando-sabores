@@ -92,7 +92,7 @@ exports = module.exports = function(app) {
 
   // Email
   // -- Public
-  app.get('/email/:email/:action(subscribe|unsubscribe)', routes.views.newsletter);
+  app.get('/newsletter/:email/:action(subscribe|unsubscribe)', routes.views.newsletter);
 
   // Tips
   // -- Public
@@ -137,7 +137,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
   app.get('/api/v1/user/:username/tips', routes.api.v1.user.tips.favourites);
-  app.get('/api/v1/user/:email/:action(subscribe|unsubscribe)', routes.api.v1.user.email);
+  app.get('/api/v1/notifications/:email/:action(subscribe|unsubscribe)/:notification(newsletter)', routes.api.v1.notifications);
   //-- Recipes + Videorecipes
   app.get('/api/v1/:type(recipe|videorecipe)s', routes.api.v1.recipes);
   app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireConfirmedApi, routes.api.v1.recipeVote);

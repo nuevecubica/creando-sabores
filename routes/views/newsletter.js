@@ -25,11 +25,12 @@ exports = module.exports = function(req, res) {
   // load question
   view.on('init', function(next) {
 
+    locals.data.email = locals.filters.email;
+    locals.data.action = locals.filters.action;
+
     var callback = function(err, result) {
       if (!err && result) {
         locals.data.email = result.email;
-        locals.data.action = locals.filters.action;
-
         next();
       }
       else {
@@ -38,11 +39,12 @@ exports = module.exports = function(req, res) {
     };
 
     if (locals.filters.action === 'subscribe') {
-      service.user.newsletter.subscribe(options, callback);
+      service.notifications.newsletter.subscribe(options, callback);
     }
     else if (locals.filters.action === 'unsubscribe') {
-      service.user.newsletter.unsubscribe(options, callback);
+      next();
     }
+
   });
 
   // Render the view

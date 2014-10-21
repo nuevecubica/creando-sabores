@@ -12,6 +12,7 @@ exports.recipe = require('./recipe');
 exports.question = require('./question');
 exports.tip = require('./tip');
 exports.user = require('./user');
+exports.notifications = require('./notifications');
 exports.recipeList = require('./recipeList');
 exports.questionList = require('./questionList');
 exports.tipList = require('./tipList');
