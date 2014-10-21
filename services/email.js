@@ -6,7 +6,7 @@ var _ = require('underscore'),
 /**
  * Returns handlebars templates from the database
  * @param  {String}   id       Template ID
- * @param  {Function} callback Callback
+ * @param  {Function} callback (err, result, options)
  * @return {Object}            { name, subject, title, body }
  */
 var getContentTpl = function(id, callback) {
@@ -35,6 +35,7 @@ var getContentTpl = function(id, callback) {
  * @param  {Function} callback err
  */
 var send = function(id, options, callback) {
+  options = options || {};
 
   _.defaults(options, {
     userId: null, // To do
@@ -88,12 +89,10 @@ var send = function(id, options, callback) {
         return callback('No subject');
       }
 
-      console.log('>>>>>>>>> Sending email %s', id);
-      console.log(options);
-      console.log('<<<<<<<<<');
-
       var em = new keystone.Email(id);
-      em.send(options, callback);
+      em.send(options, function(err, result) {
+        callback(err, result, options);
+      });
     });
   }
 };

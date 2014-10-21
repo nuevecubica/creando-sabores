@@ -164,7 +164,9 @@ exports = module.exports = function(app) {
   //-- Configs
   app.get('/api/v1/Configs', routes.api.v1.configs);
 
+  //-- Test
+  app.all('/api/v1/test/sendEmail', routes.api.v1.test.sendEmail);
+
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);
-
 };
