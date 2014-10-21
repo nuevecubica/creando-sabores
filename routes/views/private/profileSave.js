@@ -1,7 +1,8 @@
 var async = require('async'),
   keystone = require('keystone'),
   clean = require(__base + 'utils/cleanText.js'),
-  formResponse = require(__base + 'utils/formResponse.js');
+  formResponse = require(__base + 'utils/formResponse.js'),
+  config = require(__base + 'configs/editor');
 
 exports = module.exports = function(req, res, next) {
 
@@ -10,11 +11,13 @@ exports = module.exports = function(req, res, next) {
   if (req.method === 'POST') {
 
     if ("string" === typeof req.body.name && req.body.name) {
-      req.body.name = clean(req.body.name, ['plaintext', 'oneline', ['maxlength', 20], 'escape']);
+      req.body.name = clean(req.body.name, ['plaintext', 'oneline', ['maxlength', config.profile.name.length], 'escape']);
     }
 
     if ("string" === typeof req.body.about && req.body.about) {
-      req.body.about = clean(req.body.about, ['escape', 'textarea', 'paragraphs']);
+      req.body.about = clean(req.body.about, [
+        ['maxlength', config.profile.about.length], 'escape', 'textarea', 'paragraphs'
+      ]);
     }
 
     var handler = req.user.getUpdateHandler(req);
