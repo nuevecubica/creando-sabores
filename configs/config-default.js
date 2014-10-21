@@ -2,6 +2,16 @@
 var __base = __base || '../'; // jshint ignore:line
 
 var tcpSplit = require(__base + 'utils/tcpSplit');
+
+// CASPER
+var env = null;
+if ('undefined' === typeof process) {
+  env = require('system').env;
+}
+else {
+  env = process.env;
+}
+
 /*
   DEFAULT CONFIGURATION
 */
@@ -22,34 +32,34 @@ var answer = {
 };
 
 // DOKKU
-if (process.env.MONGO_URL) {
-  answer.mongodb.url = process.env.MONGO_URL;
-  answer.mongodb.host = process.env.MONGODB_HOST;
-  answer.mongodb.port = process.env.MONGODB_PORT;
+if (env.MONGO_URL) {
+  answer.mongodb.url = env.MONGO_URL;
+  answer.mongodb.host = env.MONGODB_HOST;
+  answer.mongodb.port = env.MONGODB_PORT;
 }
 // DOCKER
-else if (process.env.MONGODB_PORT && process.env.MONGODB_PORT.indexOf(':') !== -1) {
-  var mongo = tcpSplit(process.env.MONGODB_PORT);
+else if (env.MONGODB_PORT && env.MONGODB_PORT.indexOf(':') !== -1) {
+  var mongo = tcpSplit(env.MONGODB_PORT);
   answer.mongodb.url = 'mongodb://';
   answer.mongodb.url += mongo.host;
   answer.mongodb.url += ':' + mongo.port;
-  answer.mongodb.url += '/' + (process.env.MONGODB_DATABASE || 'chefcito');
+  answer.mongodb.url += '/' + (env.MONGODB_DATABASE || 'chefcito');
 
   answer.mongodb.host = mongo.host || answer.mongodb.host;
   answer.mongodb.port = mongo.port || answer.mongodb.port;
 }
 
 // DOKKU
-if (process.env.ELASTICSEARCH_URL) {
-  answer.elasticsearch.url = process.env.ELASTICSEARCH_URL;
+if (env.ELASTICSEARCH_URL) {
+  answer.elasticsearch.url = env.ELASTICSEARCH_URL;
 
-  var es = tcpSplit(process.env.ELASTICSEARCH_URL);
+  var es = tcpSplit(env.ELASTICSEARCH_URL);
   answer.elasticsearch.host = es.host || answer.elasticsearch.host;
   answer.elasticsearch.port = es.port || answer.elasticsearch.port;
 }
 // DOCKER
-else if (process.env.ELASTICSEARCH_PORT && process.env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
-  var es = tcpSplit(process.env.ELASTICSEARCH_PORT); // jshint ignore:line
+else if (env.ELASTICSEARCH_PORT && env.ELASTICSEARCH_PORT.indexOf(':') !== -1) {
+  var es = tcpSplit(env.ELASTICSEARCH_PORT); // jshint ignore:line
   answer.elasticsearch.url = 'http://' + es.host + ':' + es.port;
   answer.elasticsearch.host = es.host || answer.elasticsearch.host;
   answer.elasticsearch.port = es.port || answer.elasticsearch.port;
@@ -60,12 +70,12 @@ answer.keystone = {
     /**
      * Change the value to false or true to force run the server in test mode
      */
-    enabled: process.env.APP_TEST === 'true' || false,
+    enabled: env.APP_TEST === 'true' || false,
     init: {
       'db name': answer.mongodb.db + '-test',
       'mongo': answer.mongodb.url + '-test',
       'view cache': true,
-      'mandrill api key': process.env.MANDRILL_TEST_API_KEY || null
+      'mandrill api key': env.MANDRILL_TEST_API_KEY || null
     },
     'security': {
       'csrf': false
@@ -75,7 +85,7 @@ answer.keystone = {
     'name': 'Chefcito',
     'brand': 'Chefcito',
 
-    'env': process.env.NODE_ENV || 'development',
+    'env': env.NODE_ENV || 'development',
 
     // 'less': 'public',
     'static': 'public',
@@ -97,9 +107,9 @@ answer.keystone = {
     'trust proxy': true,
 
     'host': '0.0.0.0',
-    'port': process.env.PORT || 3000,
+    'port': env.PORT || 3000,
     'mongo': answer.mongodb.url,
-    'mandrill api key': process.env.MANDRILL_API_KEY || null
+    'mandrill api key': env.MANDRILL_API_KEY || null
   },
   'security': {
     'csrf': true
@@ -107,9 +117,9 @@ answer.keystone = {
   site: {
     name: 'Chefcito',
     email: 'chefcito@glue.gl',
-    url: process.env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl'
+    url: env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl'
   },
-  publicUrl: process.env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl',
+  publicUrl: env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl',
   'email locals': {
     logo_src: '/images/logo-email.gif',
     logo_width: 194,

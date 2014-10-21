@@ -1,6 +1,9 @@
 data = require './../data'
-base = 'http://localhost:3000'  # We're outside node, so no keystone
+config = require './../../config.js'
+base = config.keystone.publicUrl  # We're outside node, so no keystone
 utils = require '../utils/casper-editor.coffee'
+
+
 
 getBackgroundImage = (selector) ->
   return $(selector).css('background-image')

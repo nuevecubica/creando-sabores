@@ -6,6 +6,15 @@ var _ = require('underscore'),
 
 _.deepDefaults = require(__base + 'utils/deepDefaults');
 
+// CASPER
+var env = null;
+if ('undefined' === typeof process) {
+  env = require('system').env;
+}
+else {
+  env = process.env;
+}
+
 /*
   DEVELOPMENT CONFIGURATION
 */
@@ -21,15 +30,15 @@ var answer = {
       'cookie secret': '~ No! You \/\'aste ene|2gy and tim3! You thinK cooking i5 a cu7e job, eh? L1ke M0mmy ¡n the k¡tchen?',
 
       'host': '0.0.0.0',
-      'port': process.env.PORT || 3000
+      'port': env.PORT || 3000
     }
   },
   site: {
     name: 'Chefcito',
     email: 'chefcito@glue.gl',
-    url: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
+    url: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
   },
-  publicUrl: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
+  publicUrl: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
 };
 
 exports = module.exports = _.deepDefaults(answer, defaults);
