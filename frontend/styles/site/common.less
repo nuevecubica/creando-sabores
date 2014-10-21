@@ -196,7 +196,7 @@ body {
     vertical-align: bottom;
 
     @media only screen and (max-width : 767px) {
-      font-size: 120px;
+      font-size: 160px;
     }
 
     &.clickable {
@@ -348,6 +348,9 @@ body {
     .img-title {
       position: relative;
       overflow: hidden;
+      @media(max-width: 767px) {
+        overflow: inherit;
+      }
 
       img {
         height: 120px;
@@ -363,6 +366,9 @@ body {
         overflow: hidden;
         color: #fff;
         font-size: 45px;
+        @media(max-width: 767px) {
+          top:5px;
+        }
 
         .span {
           font-size: 45px;
@@ -373,7 +379,10 @@ body {
             .font-extra-larger;
           }
           @media(max-width: 767px) {
-            .font-extra-large;
+            .font-extra-larger;
+            width: 100%;
+            text-shadow: 1px 2px 4px @chef-color-gray;
+            text-align: center;
           }
         }
       }
@@ -463,7 +472,7 @@ body {
     bottom: 40px;
     z-index: 100;
     @media only screen and (max-width : 767px) {
-      bottom: 1px;
+      display: none;
     }
   }
   .img-title.wide.column{
@@ -477,6 +486,12 @@ body {
       box-sizing: border-box;
       width: 98%;
       margin: 0 auto;
+      @media only screen and (max-width : 767px) {
+        padding: 0;
+        width: 100%;
+        text-align: center;
+        top: -30px;
+      }
 
       p {
         .font-larger;
@@ -486,8 +501,15 @@ body {
         text-transform: uppercase;
         @media only screen and (max-width : 767px) {
           .font-large;
-          margin-left: 0;
-          margin-top: 40px;
+          background-color: @chef-color-pink-bg;
+          padding: 10px;
+          text-align: center;
+          float: none;
+          margin: 0;
+          top: 0;
+          position: static;
+          width: auto;
+          display: inline-block;
         }
       }
       .tabla1{
@@ -498,12 +520,19 @@ body {
         background-image: url('/images/tabla1.png');
         z-index: 10;
         background-repeat: no-repeat;
+        @media only screen and (max-width : 767px) {
+          display: none;
+        }
       }
       .tabla2{
         height: 120px;
         background-image: url('/images/tabla2.png');
         background-repeat: repeat-x;
         z-index: 200;
+        text-align: center;
+        @media only screen and (max-width : 767px) {
+          background-image:none;
+        }
       }
       .tabla3{
         position: absolute;
@@ -512,10 +541,11 @@ body {
         height: 120px;
         width: 95px;
         background-image: url('/images/tabla3.png');
-
         z-index: 10;
         background-repeat: no-repeat;
-
+        @media only screen and (max-width : 767px) {
+          display: none;
+        }
       }
     }
   }
