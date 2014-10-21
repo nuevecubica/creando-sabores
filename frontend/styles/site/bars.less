@@ -12,11 +12,11 @@
 /****************
   Search bar Styles, send-query
 ****************/
-#search-bar, #send-query{
+#search-bar, #send-query,.form-forgotten,.form-reset{
   .field {
     margin: 0;
 
-    input[type="text"] {
+    input[type="text"], input[type="email"], input[type="password"] {
       border: none;
       height: 3.5em;
       .font-larger;
@@ -30,7 +30,7 @@
       }
     }
 
-    button.icon {
+    button.icon, button.icon.button-brick-side {
       font-size: 42px !important;
       opacity: 1;
       border-radius: 0;

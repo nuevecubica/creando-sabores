@@ -7,7 +7,7 @@ exports = module.exports = function(req, res) {
     view = new keystone.View(req, res);
 
   // Init locals
-  locals.section = 'reset-password';
+  locals.section = 'forgotten-password';
   locals.email = req.body.email || '';
 
   view.on('post', {

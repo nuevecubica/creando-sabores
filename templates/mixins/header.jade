@@ -451,3 +451,25 @@ mixin header(data, section)
 						.corner-position.left
 							|#{__('Share this tip')}
 							+header-share()
+
+	else if section === 'forgotten-password'
+
+		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.simple
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+	else if section === 'reset-password'
+
+		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.simple
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
