@@ -57,15 +57,19 @@ html
 		if isTest
 			script.
 				Function.prototype.bind = Function.prototype.bind || function (thisp) {
-				  var fn = this;
-				  return function () {
-				    return fn.apply(thisp, arguments);
-				  };
+					var fn = this;
+					return function () {
+						return fn.apply(thisp, arguments);
+					};
 				};
 
 		//- Everything globally available goes inside this object!
 		script.
 			window.chef = !{JSON.stringify(chef)}
+			window.chef.errorMessages = {}
+			window.chef.errorMessages['Unknown error'] = "#{__('Error: Unknown error')}"
+			window.chef.errorMessages['Unconfirmed user'] = "#{__('Please confirm your email to access this page')}"
+
 
 		//- Load default scripts
 		script(src='/js/libs/jquery.min.js')
