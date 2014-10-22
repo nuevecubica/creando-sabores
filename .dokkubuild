@@ -1,11 +1,11 @@
 # from https://github.com/ignlg/dokku-builders-plugin/blob/master/.dokkubuild
 
-BUILD_NPM_UPDATE=0
+BUILD_NPM_UPDATE=1
 
 BUILD_BOWER=1
 BUILD_BOWER_PRUNE=1
 BUILD_BOWER_INSTALL=1
-BUILD_BOWER_UPDATE=0
+BUILD_BOWER_UPDATE=1
 BUILD_BOWER_CACHE=1
 BUILD_BOWER_COMPONENTS="frontend/packages"
 
