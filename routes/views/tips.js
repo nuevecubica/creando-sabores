@@ -28,20 +28,13 @@ exports = module.exports = function(req, res) {
     async.series([
         // Function for get recent recipes
         function(callback) {
+          if (locals.subsection === 'populares') {
+            options.sort = '-rating';
+          }
+
           service.tipList.get(options, function(err, results) {
             locals.data.tips = results.results;
             locals.data.tips.map(function(a, i) {
-              a.formattedDate = moment(a.createdDate).format('lll');
-            });
-            callback(err);
-          });
-        },
-        // Function for get popular recipes
-        function(callback) {
-          options.sort = '-rating';
-          service.tipList.get(options, function(err, results) {
-            locals.data.popular = results.results;
-            locals.data.popular.map(function(a, i) {
               a.formattedDate = moment(a.createdDate).format('lll');
             });
             callback(err);

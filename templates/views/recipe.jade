@@ -78,7 +78,7 @@ block content
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
-        #info.tablet-twelve.mobile-eight.wide.column(class = data.contest ? 'seven' : 'ten')
+        #info.tablet-twelve.mobile-sixteen.wide.column(class = data.contest ? 'seven' : 'ten')
           .recipe-attributes(data-tutorial-message=__("Tutorial Recipe Attributes"))
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1', data-tutorial-complete="editableSelectUsed")
@@ -110,7 +110,7 @@ block content
               .span= __('min')
 
             #recipe-portions.portions(tabindex='3')
-              i.icon-chef-porciones.icon
+              i.icon-chef-porciones.iconz
               .editable-container
                 .set-editable(placeholder=__('Portions'), data-tutorial-complete="editableTypedText")= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
@@ -128,7 +128,7 @@ block content
                       - --r;
                   .rating-value.span.skip.mobile= data.recipe.rating.toFixed(2).replace(/[.,]00$/, "")
 
-        #actions.tablet-four.mobile-eight.wide.column.right.aligned.hide-editable(class = data.contest ? 'nine' : 'six')
+        #actions.tablet-four.mobile-sixteen.wide.column.right.aligned.hide-editable(class = data.contest ? 'nine' : 'six')
           .recipe-actions
             if (data.contest)
               - var ratingclasses = []
@@ -160,7 +160,8 @@ block content
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
           .ui.button.chef.button-green.shopping-add.hide-editable(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
-            a(href="/acceso")= __('Add to shopping basket')
+            a.add(href="/acceso")= __('Add to shopping basket')
+            a.added(href="/acceso")= __('Added to shopping basket')
 
         if data.contest
           .recipe-contest-ingredient.sixteen.wide.column

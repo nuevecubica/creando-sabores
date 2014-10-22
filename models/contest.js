@@ -281,8 +281,9 @@ Contest.schema.set('toJSON', {
   transform: modelCleaner.transformer
 });
 
-Contest.schema.virtual('thumb').get(virtual.contest.thumb);
 Contest.schema.virtual('url').get(virtual.contest.url);
+Contest.schema.virtual('type').get(virtual.contest.type);
+Contest.schema.virtual('thumb').get(virtual.contest.thumb);
 Contest.schema.virtual('classes').get(virtual.contest.classes);
 
 

@@ -33,6 +33,8 @@ $(document).ready(function() {
     ratingClick('tip', this);
   });
 
-  makePaginable('/api/v1/tips', 'tips', 'tip', '#tips .list');
+  var section = window.location.pathname.split('/')[2];
+  var type = section === 'populares' ? 'popular' : 'recent';
+  makePaginable('/api/v1/tips/' + type, 'tips', 'tip', '#tips .list');
 
 });
