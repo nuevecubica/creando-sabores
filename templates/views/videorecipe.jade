@@ -158,7 +158,8 @@ block content
             .ui.content= __('In case that you don\'t have enough ingredients [...]')
 
           .ui.button.chef.button-green.shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
-            a(href="/acceso")= __('Add to shopping basket')
+            a.add(href="/acceso")= __('Add to shopping basket')
+            a.added(href="/acceso")= __('Added to shopping basket')
 
         if data.contest
           .recipe-contest-ingredient.sixteen.wide.column
