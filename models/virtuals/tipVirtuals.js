@@ -91,6 +91,13 @@ var virtuals = {
     return '/tip/' + this.slug;
   },
   /**
+   * Item's type
+   * @return {String} type
+   */
+  type: function() {
+    return 'tip';
+  },
+  /**
    * CSS classes
    * @return {String} CSS classes
    */

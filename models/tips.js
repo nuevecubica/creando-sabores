@@ -178,6 +178,7 @@ Tip.schema.set('toJSON', {
 // Virtuals
 //Tip.schema.virtual('rating').get(virtual.tip.rating);
 Tip.schema.virtual('url').get(virtual.tip.url);
+Tip.schema.virtual('type').get(virtual.tip.type);
 Tip.schema.virtual('thumb').get(virtual.tip.thumb);
 Tip.schema.virtual('classes').get(virtual.tip.classes);
 
