@@ -1,7 +1,8 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  config = require(__base + 'configs/editor');
 
 exports = module.exports = function(req, res) {
 
@@ -26,6 +27,7 @@ exports = module.exports = function(req, res) {
 
   locals.editable = true;
   locals.manageable = true;
+  locals.config = config;
 
   locals.filters = {
     recipe: req.params.recipe || null,
@@ -50,7 +52,7 @@ exports = module.exports = function(req, res) {
           locals.categories.food = results.categories.categories_food;
           callback(err);
         });
-      }
+      },
     ], function(err) {
       if (!err) {
         if (!locals.isNew) {

@@ -21,7 +21,7 @@
         showLimit: true,
         filters: {
           avoidNewLines: true,
-          limitLength: 40
+          limitLength: window.chef.editor.config.recipe.ingredient.length
         }
       };
 
@@ -69,7 +69,7 @@
       var options = {
         isHtml: true,
         filters: {
-          limitElements: 50
+          limitElements: window.chef.editor.config.recipe.ingredient.elements
         }
       };
       var elem = {
@@ -119,7 +119,7 @@
         showLimit: true,
         filters: {
           avoidNewLines: true,
-          limitLength: 400
+          limitLength: window.chef.editor.config.recipe.procedure.length
         }
       };
       var elem = {
@@ -167,7 +167,7 @@
       var options = {
         isHtml: true,
         filters: {
-          limitElements: 5
+          limitElements: window.chef.editor.config.recipe.procedure.elements
         }
       };
       var elem = {
@@ -298,7 +298,7 @@
     //----------- TITLE
     var title = window.chef.editor.newElement('input')('#recipe-title', {
       filters: {
-        limitLength: 60
+        limitLength: window.chef.editor.config.recipe.title.length
       }
     });
     var difficulty = window.chef.editor.newElement('select')('#recipe-difficulty');
@@ -317,7 +317,7 @@
       filters: {
         avoidNewLines: true,
         keepMultiline: false,
-        limitLength: 400
+        limitLength: window.chef.editor.config.recipe.description.length
       }
     });
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
@@ -460,6 +460,10 @@
     });
 
     $('.favourite .button').on('click', function(e) {
+      if (!window.chef.isUserLoggedIn) {
+        window.location.href = '/acceso';
+        return;
+      }
       var $this = $(this);
       var slug = $this.data('slug');
       var action = $this.hasClass('activated') ? 'remove' : 'add';
@@ -494,6 +498,10 @@
     });
 
     $('.shopping-add').on('click', function(e) {
+      if (!window.chef.isUserLoggedIn) {
+        window.location.href = '/acceso';
+        return;
+      }
       var $this = $(this);
       var slug = $this.data('slug');
       var url = '/api/v1/me/shopping/add/' + slug;

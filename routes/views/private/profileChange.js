@@ -2,7 +2,8 @@ var async = require('async'),
   keystone = require('keystone'),
   clean = require(__base + 'utils/cleanText.js'),
   valid = require(__base + 'utils/validateText.js'),
-  formResponse = require(__base + 'utils/formResponse.js');
+  formResponse = require(__base + 'utils/formResponse.js'),
+  config = require(__base + 'configs/editor');
 
 exports = module.exports = function(req, res, next) {
 
@@ -14,13 +15,13 @@ exports = module.exports = function(req, res, next) {
 
   if (req.method === 'POST') {
 
-    var fields = ['isPrivate'];
+    var fields = ['isPrivate', 'receiveNewsletter'];
 
     async.series([
         // Same username, do not change
         function(next) {
           if (req.body.username) {
-            req.body.username = clean(String(req.body.username), ['username', ['maxlength', 20]]);
+            req.body.username = clean(String(req.body.username), ['username', ['maxlength', config.profile.username.length]]);
             if (req.body.username === req.user.username) {
               req.body.username = null;
               delete req.body.username;

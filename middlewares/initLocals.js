@@ -68,6 +68,9 @@ exports.initLocals = function(req, res, next) {
     if (req.user.isAdmin) {
       locals.chef.user.isAdmin = true;
     }
+    if (!req.user.isConfirmed) {
+      locals.chef.user.isUnconfirmed = true;
+    }
   }
 
   next();

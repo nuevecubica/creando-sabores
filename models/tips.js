@@ -179,6 +179,7 @@ Tip.schema.set('toJSON', {
 //Tip.schema.virtual('rating').get(virtual.tip.rating);
 Tip.schema.virtual('url').get(virtual.tip.url);
 Tip.schema.virtual('thumb').get(virtual.tip.thumb);
+Tip.schema.virtual('classes').get(virtual.tip.classes);
 
 // Pre Save HOOK
 Tip.schema.pre('save', function(next) {

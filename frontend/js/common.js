@@ -1,8 +1,8 @@
 // Everything globally available goes inside this object!
 var chef = window.chef;
 
-window.chef.errorMessages = {};
-window.chef.errorMessage = function(errorId) {
+chef.errorMessages = chef.errorMessages || {};
+chef.errorMessage = function(errorId) {
   if (!chef.errorMessages) {
     return 'Error';
   }
@@ -60,6 +60,16 @@ $(window).load(function() {
   $('.error-here:visible').transition('bounce');
 });
 
+var messageRemove = function(item) {
+  var $item = $(item);
+  $item.transition({
+    animation: 'fade down',
+    complete: function() {
+      $item.remove();
+    }
+  });
+};
+
 $(document).ready(function() {
 
   // Menu
@@ -73,19 +83,21 @@ $(document).ready(function() {
     $('#menu-box').removeClass('open').addClass('close');
   });
 
-  $('.messages-close').on('click', function() {
-    $('#messages').transition('fade down');
+  $(document).on('click', '.messages-close', function() {
+    messageRemove(this.parentNode);
   });
 
-  setTimeout(function() {
-    $('#messages').transition('fade down');
-  }, 3 * 1000);
+  $('.message').each(function(i, a) {
+    setTimeout(function() {
+      messageRemove(a);
+    }, 3 * 1000);
+  });
 
   // Grid
   var gridResizer = function() {
     var height = $('.wall .recipe.small:visible').eq(0).width();
 
-    $('.wall .recipe, .wall .contest').each(function() {
+    $('.wall .recipe, .wall .contest, .wall .tip').each(function() {
       if ($(this).hasClass('large')) {
         $(this).height(height * 2);
       }
@@ -122,6 +134,32 @@ $(document).ready(function() {
     e.stopPropagation();
   });
 });
+
+var flashMessage = function(msg, type) {
+  if (!type) {
+    type = 'error';
+  }
+
+  var $m = $('#messages');
+  if (!$m.length) {
+    var code = '<div id="messages" class="ui grid segment">';
+    code += '<div class="ui page grid">';
+    code += '<div class="row messages">';
+    code += '<div class="sixteen aligned center wide column">';
+    $m = $(code).prependTo(document.body);
+  }
+  $m = $('.column', $m);
+  var $new = $('<div class="ui message error-here">');
+  $new.addClass(type);
+  $new.append(msg);
+  $new.append($('<i class="icon icon-chef-cross messages-close">'));
+  $m.append($new);
+
+  $new.transition('bounce');
+  setTimeout(function() {
+    messageRemove($new);
+  }, 3 * 1000);
+};
 
 // Avoid `console` errors in browsers that lack a console.
 (function() {
@@ -285,6 +323,15 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 };
 
 var ratingClick = function(type, target) {
+  if (!window.chef.isUserLoggedIn) {
+    window.location.href = '/acceso';
+    return;
+  }
+  if (window.chef.user.isUnconfirmed) {
+    flashMessage(window.chef.errorMessage('Unconfirmed user'));
+    return;
+  }
+
   var $this = $(target);
   var $rating = $this.closest('.rating');
   var slug = $rating.data('slug');
@@ -306,6 +353,7 @@ var ratingClick = function(type, target) {
           msg += ' Reason: ' + data.details;
         }
         console.log(msg);
+        flashMessage(window.chef.errorMessage('Unknown error'));
         return;
       }
       var $value = $rating.find('.rating-value');
@@ -324,6 +372,15 @@ var ratingClick = function(type, target) {
 };
 
 var likeClick = function(e) {
+  if (!window.chef.isUserLoggedIn) {
+    window.location.href = '/acceso';
+    return;
+  }
+  if (window.chef.user.isUnconfirmed) {
+    flashMessage(window.chef.errorMessage('Unconfirmed user'));
+    return;
+  }
+
   var $this = $(this);
   var $rating = $this.closest('.rating');
   var slug = $rating.data('slug');
@@ -345,6 +402,7 @@ var likeClick = function(e) {
         }
         console.log(msg);
         $rating.data('lock', null);
+        flashMessage(window.chef.errorMessage('Unknown error'));
         return;
       }
       var $counter = $rating.find('.like-counter');

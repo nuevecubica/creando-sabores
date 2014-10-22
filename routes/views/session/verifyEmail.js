@@ -25,7 +25,7 @@ exports = module.exports = function(req, res) {
       req.flash('info', res.__('Please, login in order to verify your email.'));
       return res.redirect('/acceso?next=/confirma-email/' + req.params.token);
     }
-    else if (req.user.username === user.username) {
+    else if (req.user.username === user.username && req.user.email === user.email) {
       user.isConfirmed = true;
       user.verifyEmailToken = '';
       user.save(function(err) {
