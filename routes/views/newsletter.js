@@ -29,6 +29,7 @@ exports = module.exports = function(req, res) {
   view.on('init', function(next) {
 
     locals.data.email = locals.filters.email;
+    locals.data.token = locals.filters.token;
     locals.data.action = locals.filters.action;
 
     var callback = function(err, result) {
@@ -45,7 +46,7 @@ exports = module.exports = function(req, res) {
       service.notifications[locals.filters.action][locals.filters.notification](options, callback);
     }
     else if (locals.filters.action === 'unsubscribe') {
-      next();
+      service.notifications.check(options, callback);
     }
 
   });

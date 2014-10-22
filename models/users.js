@@ -430,7 +430,7 @@ User.schema.methods.resetPassword = function(callback) {
 
 User.schema.methods.getNewsletterUnsubscribeUrl = function() {
   var token = crypto.createHash('sha1').update(this.phrase).digest('hex');
-  return '/api/v1/notifications/' + token + '/unsubscribe/newsletter';
+  return '/newsletter/' + this.email + '/' + token + '/unsubscribe';
 };
 
 User.schema.methods.checkToken = function(token) {
