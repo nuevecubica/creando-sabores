@@ -91,6 +91,15 @@ var virtuals = {
     return '/tip/' + this.slug;
   },
   /**
+   * CSS classes
+   * @return {String} CSS classes
+   */
+  classes: function(asArray) {
+    var classes = ['tip'];
+    classes.push('state-' + this.state);
+    return asArray ? classes : classes.join(' ');
+  },
+  /**
    * Final rating
    * @return {Float} Rating
    */

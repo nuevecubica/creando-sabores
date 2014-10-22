@@ -58,10 +58,11 @@ var getGrid = function(options, callback) {
   var getVideoIndexPromoted = mkFiller(service.recipeList.videorecipe.get, 'Index');
   var getOfficials = mkFiller(service.recipeList.recipe.get, options.section, ['isOfficial']);
   var getContests = mkFiller(service.contestList.get, 'Index');
+  var getTips = mkFiller(service.tipList.get, 'Index');
 
   var fillers = [];
   if (options.section === 'Index') {
-    fillers = [getContests, getVideoIndexPromoted, getOfficials, getSectionPromoted];
+    fillers = [getContests, getVideoIndexPromoted, getOfficials, getTips, getSectionPromoted];
   }
   else if (options.section === 'Videorecipes') {
     fillers = [getVideoSectionPromoted];
