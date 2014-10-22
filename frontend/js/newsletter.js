@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     var jQXhr = $.ajax({
       url: url,
-      type: 'GET',
+      type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
 
