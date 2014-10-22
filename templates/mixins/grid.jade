@@ -8,12 +8,14 @@ mixin grid(recipes, gridPositions, gridSizes)
 			- for (var i = 0, l = positions.length; i < l; i++)
 				- var recipe = recipes[positions[i] - 1]
 				- var title = 'Vacio'
+				- var type = ''
 				- var image = '/images/default_recipe.jpg'
 				- var url = '/'
 				- var classes = 'recipe ' + sizes[i]
 
 				if recipe
 					- title = recipe.title
+					- type = recipe.type ? __(recipe.type.charAt(0).toUpperCase() + recipe.type.slice(1)) : 'Desconocido'
 					- image = recipe.thumb['grid_' + sizes[i]]
 					- url = recipe.url
 					- classes = sizes[i] + ' ' + recipe.classes
@@ -22,3 +24,4 @@ mixin grid(recipes, gridPositions, gridSizes)
 					a(href=url)
 						.content
 							span= title
+							span.type= type
