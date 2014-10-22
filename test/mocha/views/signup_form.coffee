@@ -99,6 +99,8 @@ describe 'Signup', ->
         )
         .end(done)
 
+      it 'registers a new user'
+
     describe 'on valid login credentials', ->
       it 'login success without username', (done) ->
         request
