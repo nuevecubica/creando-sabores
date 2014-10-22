@@ -23,9 +23,10 @@ exports = module.exports = function(req, res) {
 
   var callback = function(err, result) {
     if (err || !result) {
+      res.status(404);
       answer.success = false;
       answer.error = true;
-      answer.errorMessage = err;
+      answer.errorMessage = (err || 'Invalid params');
     }
     else {
       answer.success = true;
