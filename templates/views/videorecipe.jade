@@ -13,6 +13,10 @@ block js
   //- JAVASCRIPT
   script(src='/js/recipe.js')
 
+  if config
+    script.
+      window.chef.editor.config = !{JSON.stringify(config)};
+
   if isNew
     script.
       $(document).ready(function(){
