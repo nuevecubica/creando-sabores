@@ -1,5 +1,6 @@
 var keystone = require('keystone'),
-  User = keystone.list('User');
+  User = keystone.list('User'),
+  formResponse = require(__base + 'utils/formResponse.js');
 
 exports = module.exports = function(req, res) {
 
@@ -16,8 +17,7 @@ exports = module.exports = function(req, res) {
         return next(err);
       }
       if (!user) {
-        req.flash('error', res.__("Sorry, that reset password key isn't valid."));
-        return res.redirect('/contrasena-olvidada');
+        return formResponse(req, res, '/contrasena-olvidada', "Sorry, that reset password key isn't valid.", false);
       }
       locals.found = user;
       next();
@@ -29,23 +29,23 @@ exports = module.exports = function(req, res) {
   }, function(next) {
 
     if (!req.body.password || !req.body.password_confirm) {
-      req.flash('error', res.__("Please enter, and confirm your new password."));
-      return next();
+      return formResponse(req, res, next, "Please enter, and confirm your new password.", false);
     }
 
     if (req.body.password !== req.body.password_confirm) {
-      req.flash('error', res.__('Please make sure both passwords match.'));
-      return next();
+      return formResponse(req, res, next, 'Please make sure both passwords match.', false);
     }
 
     locals.found.password = req.body.password;
     locals.found.resetPasswordToken = '';
     locals.found.save(function(err) {
       if (err) {
-        return next(err);
+        console.error('Error in locals.found.save: %s', err);
+        return formResponse(req, res, next, "Error: Unknown error", false);
       }
-      req.flash('success', res.__('Your password has been reset, please sign in.'));
-      res.redirect('/acceso');
+      else {
+        return formResponse(req, res, '/acceso', false, 'Your password has been reset, please sign in.');
+      }
     });
 
   });

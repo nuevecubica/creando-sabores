@@ -69,7 +69,7 @@ describe 'Forgotten password:', ->
         .end(done)
 
     describe 'valid', ->
-      it 'redirects to access', (done) ->
+      it 'redirects to access and generates a new token', (done) ->
         request
         .post('/contrasena-olvidada')
         .send({
@@ -85,4 +85,13 @@ describe 'Forgotten password:', ->
               ' Success: ' + res.header['api-response-success'] +
               ' / Error: ' + res.header['api-response-error']
         )
-        .end(done)
+        .end (err, res) ->
+          request
+          .get('/api/v1/test/getUser?username=testUser1')
+          .expect(
+            (res) ->
+              if !res.body.user or !res.body.user.resetPasswordToken
+                return 'No token found: ' +
+                  (res.body.user.resetPasswordToken || null)
+          )
+          .end(done)
