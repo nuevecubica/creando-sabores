@@ -90,6 +90,10 @@ exports = module.exports = function(app) {
   app.get('/preguntas/:section(recientes|populares)?', routes.views.questions);
   app.get('/pregunta/:question', routes.views.question);
 
+  // Email
+  // -- Public
+  app.get('/:notification(newsletter)/:email/:token/:action(subscribe|unsubscribe)', routes.views.newsletter);
+
   // Tips
   // -- Public
   app.get('/tips/:section(recientes|populares)?', routes.views.tips);
@@ -133,6 +137,9 @@ exports = module.exports = function(app) {
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
   app.get('/api/v1/user/:username/tips', routes.api.v1.user.tips.favourites);
+  //-- Notifications
+  app.put('/api/v1/notifications/:email/:token/:action(subscribe|unsubscribe)/:notification(newsletter)', routes.api.v1.notification.notifications);
+  app.get('/api/v1/notifications/get/:notification(newsletter)/users', routes.api.v1.notification.users);
   //-- Recipes + Videorecipes
   app.get('/api/v1/:type(recipe|videorecipe)s', routes.api.v1.recipes);
   app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireConfirmedApi, routes.api.v1.recipeVote);

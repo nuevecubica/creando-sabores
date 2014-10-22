@@ -134,6 +134,11 @@
       .font-larger;
       font-weight: bold;
     }
+
+    .group-box {
+      margin-top: 25px;
+    }
+
     .field {
       input {
         border-radius: 0px !important;
@@ -144,31 +149,35 @@
         padding:0 0 0 10px;
         .font-large;
       }
+
+      &.checkbox {
+        .font-large;
+        input {
+          display: none;
+        }
+        input + span:before {
+          .checks;
+        }
+        input:checked + span:before {
+         color:@chef-color-check;
+        }
+      }
     }
+
     #save{
       margin-top: 25px;
     }
+
     #pass-row{
       display: none;
       .password {
         margin-top: 0px;
       }
     }
+
     .password{
       margin-top: 34px;
       margin-bottom: 25px;
-    }
-    #private{
-      .font-large;
-      input {
-        display: none;
-      }
-      input + span:before {
-        .checks;
-      }
-      input:checked + span:before {
-       color:@chef-color-check;
-      }
     }
 
     .delete.field{
@@ -178,6 +187,7 @@
         color: @chef-color-black;
       }
     }
+
     .delete.message{
       background-color: @chef-color-light-bg;
       margin-top: -30px;
@@ -187,15 +197,18 @@
         font-weight: bold;
       }
     }
+
     #delete-confirm{
       visibility: hidden;
       opacity: 0;
       transition: opacity @ani-time ease-out;
     }
+
     #delete-confirm.visible{
       visibility: visible;
       opacity: 1;
     }
+
     .arrow-left{
       position: relative;
       z-index: 10;
@@ -208,6 +221,7 @@
     .tabs{
       margin-top: 4px;
     }
+
     #search-bar {
       padding: 0;
     }

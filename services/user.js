@@ -151,6 +151,14 @@ var getUserByUsername = function(options, callback) {
   }, callback);
 };
 
+var getUserByEmail = function(options, callback) {
+  options = options || {};
+
+  User.model.findOne({
+    email: options.email
+  }, callback);
+};
+
 var getUserRecipeList = function(options, callback) {
 
   options = options || {};
@@ -193,5 +201,6 @@ var _service = {
 };
 
 _service.get.byUsername = getUserByUsername;
+_service.get.byEmail = getUserByEmail;
 
 exports = module.exports = _service;
