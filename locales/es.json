@@ -241,10 +241,12 @@
 	"Please enter, and confirm your new password.": "Por favor, introduce y confirma tu nueva contraseña.",
 	"Your password has been reset, please sign in.": "Has cambiado tu contraseña, debes acceder de nuevo.",
 	"Forgotten password?": "¿Contaseña olvidada?",
-	"Sorry, we can't recognise that token.": "Sorry, we can't recognise that token.",
-	"Registered successfully. Please, check your email and follow the instructions in your email.": "Registered successfully. Please, check your email and follow the instructions in your email.",
-	"Please, login in order to verify your email.": "Please, login in order to verify your email.",
-	"Please, login with the correct account in order to verify your email.": "Please, login with the correct account in order to verify your email.",
-	"Email verified succesfully.": "Email verified succesfully.",
-	"Share this tip": "Share this tip"
+	"Sorry, we can't recognise that token.": "Lo sentimos, no podemos reconocer este código.",
+	"Registered successfully. Please, check your email and follow the instructions in your email.": "Registrado con éxito . Por favor, consulte su correo electrónico y siga las instrucciones.",
+	"Please, login in order to verify your email.": "Por favor, inicie sesión para verificar su correo electrónico.",
+	"Please, login with the correct account in order to verify your email.": "Por favor, inicie sesión con la cuenta correcta para verificar su correo electrónico.",
+	"Email verified succesfully.": "Correo electrónico verificado correctamente.",
+	"Sorry, we don't recognise that email address.": "Lo sentimos, no conocemos ese correo electrónico.",
+	"Please enter an email address.": "Por favor, introuzca su correo electrónico.",
+	"Share this tip": "Comparte este tip"
 }
