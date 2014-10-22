@@ -3,6 +3,10 @@
 $(document).ready(function() {
 
   $('.favourite .button').on('click', function(e) {
+    if (!window.chef.isUserLoggedIn) {
+      window.location.href = '/acceso';
+      return;
+    }
     var $this = $(this);
     var slug = $this.data('slug');
     var action = $this.hasClass('activated') ? 'remove' : 'add';

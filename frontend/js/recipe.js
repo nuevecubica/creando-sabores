@@ -460,6 +460,10 @@
     });
 
     $('.favourite .button').on('click', function(e) {
+      if (!window.chef.isUserLoggedIn) {
+        window.location.href = '/acceso';
+        return;
+      }
       var $this = $(this);
       var slug = $this.data('slug');
       var action = $this.hasClass('activated') ? 'remove' : 'add';
@@ -494,6 +498,10 @@
     });
 
     $('.shopping-add').on('click', function(e) {
+      if (!window.chef.isUserLoggedIn) {
+        window.location.href = '/acceso';
+        return;
+      }
       var $this = $(this);
       var slug = $this.data('slug');
       var url = '/api/v1/me/shopping/add/' + slug;
