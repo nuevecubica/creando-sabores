@@ -6,13 +6,18 @@ var formResponse = function(req, res, url, error, success) {
     req.flash('success', res.__(success));
   }
 
-  if (null === url) {
-    url = '..';
-  }
-
   res.set('Api-Response-Error', error);
   res.set('Api-Response-Success', success);
-  res.redirect(url);
+
+  if ('function' === typeof url) {
+    url();
+  }
+  else {
+    if (null === url) {
+      url = '..';
+    }
+    res.redirect(url);
+  }
 };
 
 module.exports = exports = formResponse;
