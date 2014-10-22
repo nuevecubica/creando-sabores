@@ -193,6 +193,20 @@
       }
     }
   }
+  .shopping-add{
+    .added{
+      display: none;
+    }
+    &.disabled{
+      a.add{
+        display: none;
+      }
+      a.added{
+      display: block;
+      color: @chef-color-gray;
+      }
+    }
+  }
 
   #ingredients {
     padding-top: 20px;
