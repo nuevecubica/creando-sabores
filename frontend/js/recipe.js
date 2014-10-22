@@ -562,13 +562,26 @@
       ratingClick(type, this);
     });
 
+    var playVideo = function(id) {
+      $('#video-player').html('<iframe width="100%" height="600" src="//www.youtube.com/embed/' + id + '?rel=0&autohide=1&showinfo=0&autoplay=1" frameborder="0" allowfullscreen </iframe>');
+    };
+
+    if ($('#videorecipe-header .head').hasClass('video-playing')) {
+      var video = $('.icon-chef-play.icon.clickable');
+
+      if (video.attr('data-video')) {
+        var id = video.attr('data-video').split('=')[1];
+        playVideo(id);
+      }
+    }
+
     $('.icon-chef-play.icon.clickable').click(function() {
 
       $('#videorecipe-header .head').addClass('video-playing');
 
       if ($(this).attr('data-video')) {
         var id = $(this).attr('data-video').split('=')[1];
-        $('#video-player').html('<iframe width="100%" height="600" src="//www.youtube.com/embed/' + id + '?rel=0&autohide=1&showinfo=0&autoplay=1" frameborder="0" allowfullscreen </iframe>');
+        playVideo(id);
       }
     });
 

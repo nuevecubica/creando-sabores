@@ -6,8 +6,7 @@ var _ = require('underscore'),
   queryMaker = require('./utils/listQueryMaker');
 
 var getAllTips = function(options, callback) {
-  var own = false,
-    data = {};
+  var data = {};
 
   options = _.defaults(options || {}, {
     user: null,
