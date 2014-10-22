@@ -24,13 +24,28 @@ var setNewsletter = function(options, callback) {
   });
 };
 
+var checkNewsletter = function(options, callback) {
+  return service.user.get.byEmail(options, function(err, user) {
+    if (err || !user) {
+      callback(err);
+    }
+    else {
+      callback(err, user);
+    }
+  });
+};
+
 var setSubscribeNewsletter = function(options, callback) {
-  options.value = true;
+  options = _.defaults(options || {}, {
+    value: true
+  });
   return setNewsletter(options, callback);
 };
 
 var setUnsubscribeNewsletter = function(options, callback) {
-  options.value = false;
+  options = _.defaults(options || {}, {
+    value: false
+  });
   return setNewsletter(options, callback);
 };
 
@@ -38,6 +53,7 @@ var setUnsubscribeNewsletter = function(options, callback) {
   Set exportable object
  */
 var _service = {
+  check: checkNewsletter,
   subscribe: {
     newsletter: setSubscribeNewsletter
   },
