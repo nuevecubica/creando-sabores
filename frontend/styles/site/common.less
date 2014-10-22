@@ -647,6 +647,7 @@ body {
         display: table;
         width: 100%;
         height: 100%;
+        position: relative;
 
         span {
           padding:0 5px;
@@ -659,6 +660,13 @@ body {
           transition: background-color @ani-time ease-out;
           text-transform: uppercase;
           font-weight: bold;
+          &.type{
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-family: pinto;
+            color: rgb(21, 105, 38);
+          }
         }
 
         &:hover {
@@ -666,6 +674,9 @@ body {
             background-color: fade(@grid-hover-background, 70%);
             opacity: 1;
             box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
+            &.type{
+              box-shadow: 0px 0px 0px 0px @recipes-grid-border inset;
+            }
           }
         }
       }
@@ -918,6 +929,9 @@ body {
     }
   }
 
+  &.one {
+    .mixin(1);
+  }
   &.two {
     .mixin(2);
   }
