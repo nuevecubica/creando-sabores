@@ -416,3 +416,209 @@
 		display: none !important;
 	}
 }
+
+	/*-------------------
+	     Pull & Push
+	--------------------*/
+
+.wide.column {
+	&[class^="push-"],
+	&[class^="pull-"],
+	&[class*=" push-"],
+	&[class*=" pull-"] {
+		position: relative;
+	}
+}
+
+.ui.grid > .row > .wide.column,
+.ui.grid > .column.row > .wide.column,
+.ui.grid > .wide.column,
+.ui.column.grid > .wide.column {
+	/* Push */
+	&.push-one 		{ left: 6.25%;	}
+	&.push-two 		{ left: 12.5%;	}
+	&.push-three 	{ left: 18.75%; }
+	&.push-four 	{ left: 25%; }
+	&.push-five 	{ left: 31.25%; }
+	&.push-six 		{ left: 37.5%; }
+	&.push-seven 	{ left: 43.75%; }
+	&.push-eight 	{ left: 50%; }
+	&.push-nine 	{ left: 56.25%; }
+	&.push-ten 		{ left: 62.5%;	}
+	&.push-eleven { left: 68.75%;	}
+	&.push-twelve { left: 75%; }
+	&.push-thirteen { left: 81.25%; }
+	&.push-fourteen { left: 87.5%; }
+	&.push-fifteen { left: 93.75%; }
+	&.push-sixteen { left: 100%; }
+	/* Pull */
+	&.pull-one 		{ right: 6.25%; }
+	&.pull-two 		{ right: 12.5%; }
+	&.pull-three 	{ right: 18.75%; }
+	&.pull-four 	{ right: 25%; }
+	&.pull-five 	{ right: 31.25%; }
+	&.pull-six 		{ right: 37.5%; }
+	&.pull-seven 	{ right: 43.75%; }
+	&.pull-eight 	{ right: 50%; }
+	&.pull-nine 	{ right: 56.25%; }
+	&.pull-ten 		{ right: 62.5%; }
+	&.pull-eleven { right: 68.75%; }
+	&.pull-twelve { right: 75%; }
+	&.pull-thirteen { right: 81.25%; }
+	&.pull-fourteen { right: 87.5%; }
+	&.pull-fifteen { right: 93.75%; }
+	&.pull-sixteen { right: 100%; }
+}
+
+@media only screen and (max-width : 767px) {
+	.wide.column {
+		&[class^="mobile-push-"],
+		&[class^="mobile-pull-"],
+		&[class*=" mobile-push-"],
+		&[class*=" mobile-pull-"] {
+			position: relative;
+		}
+	}
+
+	.ui.grid:not(.stackable) > .row > .wide.column,
+	.ui.grid:not(.stackable) > .column.row > .wide.column,
+	.ui.grid:not(.stackable) > .wide.column,
+	.ui.column.grid:not(.stackable) > .wide.column {
+		/* Push */
+		&.mobile-push-one 		{ left: 6.25%;	}
+		&.mobile-push-two 		{ left: 12.5%;	}
+		&.mobile-push-three 	{ left: 18.75%; }
+		&.mobile-push-four 	{ left: 25%; }
+		&.mobile-push-five 	{ left: 31.25%; }
+		&.mobile-push-six 		{ left: 37.5%; }
+		&.mobile-push-seven 	{ left: 43.75%; }
+		&.mobile-push-eight 	{ left: 50%; }
+		&.mobile-push-nine 	{ left: 56.25%; }
+		&.mobile-push-ten 		{ left: 62.5%;	}
+		&.mobile-push-eleven { left: 68.75%;	}
+		&.mobile-push-twelve { left: 75%; }
+		&.mobile-push-thirteen { left: 81.25%; }
+		&.mobile-push-fourteen { left: 87.5%; }
+		&.mobile-push-fifteen { left: 93.75%; }
+		&.mobile-push-sixteen { left: 100%; }
+		/* Pull */
+		&.mobile-pull-one 		{ right: 6.25%; }
+		&.mobile-pull-two 		{ right: 12.5%; }
+		&.mobile-pull-three 	{ right: 18.75%; }
+		&.mobile-pull-four 	{ right: 25%; }
+		&.mobile-pull-five 	{ right: 31.25%; }
+		&.mobile-pull-six 		{ right: 37.5%; }
+		&.mobile-pull-seven 	{ right: 43.75%; }
+		&.mobile-pull-eight 	{ right: 50%; }
+		&.mobile-pull-nine 	{ right: 56.25%; }
+		&.mobile-pull-ten 		{ right: 62.5%; }
+		&.mobile-pull-eleven { right: 68.75%; }
+		&.mobile-pull-twelve { right: 75%; }
+		&.mobile-pull-thirteen { right: 81.25%; }
+		&.mobile-pull-fourteen { right: 87.5%; }
+		&.mobile-pull-fifteen { right: 93.75%; }
+		&.mobile-pull-sixteen { right: 100%; }
+	}
+}
+
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+	.wide.column {
+		&[class^="tablet-push-"],
+		&[class^="tablet-pull-"],
+		&[class*=" tablet-push-"],
+		&[class*=" tablet-pull-"] {
+			position: relative;
+		}
+	}
+
+	.ui.grid > .row > .wide.column,
+	.ui.grid > .column.row > .wide.column,
+	.ui.grid > .wide.column,
+	.ui.column.grid > .wide.column {
+		/* Push */
+		&.tablet-push-one 		{ left: 6.25%;	}
+		&.tablet-push-two 		{ left: 12.5%;	}
+		&.tablet-push-three 	{ left: 18.75%; }
+		&.tablet-push-four 	{ left: 25%; }
+		&.tablet-push-five 	{ left: 31.25%; }
+		&.tablet-push-six 		{ left: 37.5%; }
+		&.tablet-push-seven 	{ left: 43.75%; }
+		&.tablet-push-eight 	{ left: 50%; }
+		&.tablet-push-nine 	{ left: 56.25%; }
+		&.tablet-push-ten 		{ left: 62.5%;	}
+		&.tablet-push-eleven { left: 68.75%;	}
+		&.tablet-push-twelve { left: 75%; }
+		&.tablet-push-thirteen { left: 81.25%; }
+		&.tablet-push-fourteen { left: 87.5%; }
+		&.tablet-push-fifteen { left: 93.75%; }
+		&.tablet-push-sixteen { left: 100%; }
+		/* Pull */
+		&.tablet-pull-one 		{ right: 6.25%; }
+		&.tablet-pull-two 		{ right: 12.5%; }
+		&.tablet-pull-three 	{ right: 18.75%; }
+		&.tablet-pull-four 	{ right: 25%; }
+		&.tablet-pull-five 	{ right: 31.25%; }
+		&.tablet-pull-six 		{ right: 37.5%; }
+		&.tablet-pull-seven 	{ right: 43.75%; }
+		&.tablet-pull-eight 	{ right: 50%; }
+		&.tablet-pull-nine 	{ right: 56.25%; }
+		&.tablet-pull-ten 		{ right: 62.5%; }
+		&.tablet-pull-eleven { right: 68.75%; }
+		&.tablet-pull-twelve { right: 75%; }
+		&.tablet-pull-thirteen { right: 81.25%; }
+		&.tablet-pull-fourteen { right: 87.5%; }
+		&.tablet-pull-fifteen { right: 93.75%; }
+		&.tablet-pull-sixteen { right: 100%; }
+	}
+}
+
+@media only screen and (min-width : 991px) {
+	.wide.column {
+		&[class^="computer-push-"],
+		&[class^="computer-pull-"],
+		&[class*=" computer-push-"],
+		&[class*=" computer-pull-"] {
+			position: relative;
+		}
+	}
+
+	.ui.grid > .row > .wide.column,
+	.ui.grid > .column.row > .wide.column,
+	.ui.grid > .wide.column,
+	.ui.column.grid > .wide.column {
+		/* Push */
+		&.computer-push-one 		{ left: 6.25%;	}
+		&.computer-push-two 		{ left: 12.5%;	}
+		&.computer-push-three 	{ left: 18.75%; }
+		&.computer-push-four 	{ left: 25%; }
+		&.computer-push-five 	{ left: 31.25%; }
+		&.computer-push-six 		{ left: 37.5%; }
+		&.computer-push-seven 	{ left: 43.75%; }
+		&.computer-push-eight 	{ left: 50%; }
+		&.computer-push-nine 	{ left: 56.25%; }
+		&.computer-push-ten 		{ left: 62.5%;	}
+		&.computer-push-eleven { left: 68.75%;	}
+		&.computer-push-twelve { left: 75%; }
+		&.computer-push-thirteen { left: 81.25%; }
+		&.computer-push-fourteen { left: 87.5%; }
+		&.computer-push-fifteen { left: 93.75%; }
+		&.computer-push-sixteen { left: 100%; }
+		/* Pull */
+		&.computer-pull-one 		{ right: 6.25%; }
+		&.computer-pull-two 		{ right: 12.5%; }
+		&.computer-pull-three 	{ right: 18.75%; }
+		&.computer-pull-four 	{ right: 25%; }
+		&.computer-pull-five 	{ right: 31.25%; }
+		&.computer-pull-six 		{ right: 37.5%; }
+		&.computer-pull-seven 	{ right: 43.75%; }
+		&.computer-pull-eight 	{ right: 50%; }
+		&.computer-pull-nine 	{ right: 56.25%; }
+		&.computer-pull-ten 		{ right: 62.5%; }
+		&.computer-pull-eleven { right: 68.75%; }
+		&.computer-pull-twelve { right: 75%; }
+		&.computer-pull-thirteen { right: 81.25%; }
+		&.computer-pull-fourteen { right: 87.5%; }
+		&.computer-pull-fifteen { right: 93.75%; }
+		&.computer-pull-sixteen { right: 100%; }
+	}
+}
