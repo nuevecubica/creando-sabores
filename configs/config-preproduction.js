@@ -13,7 +13,7 @@ var answer = {
       'name': 'Chefcito',
       'brand': 'Chefcito',
 
-      'view cache': false,
+      'view cache': true,
 
       'cookie secret': '~ No! You \/\'aste ene|2gy and tim3! You thinK cooking i5 a cu7e job, eh? L1ke M0mmy ¡n the k¡tchen?',
 
