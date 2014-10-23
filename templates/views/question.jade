@@ -40,6 +40,6 @@ block content
           .row
             .ui.content
               .header= __('Chef Answer:')
-              .explain.span= data.question.answer
+              .explain.span !{data.question.answer}
             a.commentary(href=data.question.url)
               .strong= __('Coments')
