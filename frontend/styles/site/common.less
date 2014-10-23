@@ -642,6 +642,7 @@ body {
 
     a {
       text-decoration: none;
+      position: relative;
 
       .content {
         display: table;
@@ -660,12 +661,15 @@ body {
           transition: background-color @ani-time ease-out;
           text-transform: uppercase;
           font-weight: bold;
-          &.type{
+
+          .type{
             position: absolute;
             bottom: 10px;
             left: 10px;
             font-family: pinto;
             color: rgb(21, 105, 38);
+            text-transform: uppercase;
+            text-shadow: 0px 1px 1px @recipes-grid-border;
           }
         }
 
