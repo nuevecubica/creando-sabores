@@ -69,6 +69,22 @@ describe 'API v1: /recipes', ->
           )
           .end(done)
 
+      it 'honors order=recent sorting by publishedDate', (done) ->
+        request
+        .get('/api/v1/recipes?page=1&perPage=4&order=recent')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            res.body.recipes.results.length.must.be.eql 4
+            past = res.body.recipes.results[0].publishedDate
+            for recipe, i in res.body.recipes.results
+              if recipe.publishedDate > past
+                return "Rating order failed: #{recipe.publishedDate} > #{past}"
+              past = recipe.publishedDate
+        )
+        .end(done)
 
   describe 'GET /user/recipes', ->
     describe 'on request without args', ->

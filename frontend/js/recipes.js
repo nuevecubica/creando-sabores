@@ -3,8 +3,13 @@ $(window).load(function() {
 
   var section = window.location.pathname.split('/')[1];
   var type = section === 'videorecetas' ? 'videorecipes' : 'recipes';
+  var opts = {};
+  if (type === 'videorecipes') {
+    var subsection = window.location.pathname.split('/')[2];
+    opts.order = subsection === 'populares' ? 'popular' : 'recent';
+  }
 
-  makePaginable('/api/v1/' + type, 'recipes', 'recipe', '#recipes .list');
+  makePaginable('/api/v1/' + type, 'recipes', 'recipe', '#recipes .list', opts);
 
   $('.transient-tab-link').on('click', function(e) {
     e.preventDefault();

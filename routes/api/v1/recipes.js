@@ -14,7 +14,8 @@ exports = module.exports = function(req, res) {
 
   service.recipeList[req.params.type].get({
     page: req.query.page || 1,
-    perPage: req.query.perPage || 10
+    perPage: req.query.perPage || 10,
+    sort: req.query.order === 'recent' ? '-publishedDate' : '-rating'
   }, function(err, recipes) {
     if (err || !recipes) {
       res.status(404);

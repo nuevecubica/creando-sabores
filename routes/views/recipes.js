@@ -10,6 +10,9 @@ exports = module.exports = function(req, res) {
   // Set locals
   var type = locals.type = (req.params.type === 'videoreceta' ? 'videorecipe' : 'recipe');
   locals.section = type + 's';
+  if (type === 'videorecipe') {
+    locals.subsection = req.params.section ? req.params.section : 'recientes';
+  }
   locals.data = {
     recipes: []
   };
@@ -22,10 +25,14 @@ exports = module.exports = function(req, res) {
     async.series([
         // Function for get recipes
         function(callback) {
-          service.recipeList[type].get({
+          var opts = {
             page: req.query.page || 1,
             perPage: 5
-          }, function(err, results) {
+          };
+          if (type === 'videorecipe') {
+            opts.sort = locals.subsection === 'recientes' ? '-publishedDate' : '-rating';
+          }
+          service.recipeList[type].get(opts, function(err, results) {
             locals.data.recipes = results.results;
             callback(err);
           });
@@ -54,8 +61,11 @@ exports = module.exports = function(req, res) {
             callback(err);
           });
         },
-        // Gets season lists
+        // Gets season lists (recipes only)
         function(callback) {
+          if (type !== 'recipe') {
+            return callback(null);
+          }
           service.config.get({
             names: ['season_lists_home']
           }, function(err, results) {
