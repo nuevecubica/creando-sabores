@@ -472,3 +472,17 @@ mixin header(data, section)
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
+
+	else if section === 'contact'
+
+		#contact_header.ui.grid.segment.promoted(style="background-image:url(/images/contact_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#contact-title.shadow= __('Contact')
