@@ -6,6 +6,8 @@ utils = require __dirname + '/../../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
 
+cookie = null
+
 describe 'API v1: /notifications', ->
 
   beforeEach (done) ->
@@ -27,12 +29,27 @@ describe 'API v1: /notifications', ->
         .expect(404)
         .end(done)
 
-    user = {
-      email: 'testUser4@glue.gl',
-      token: '0be1c8059d51b0051b288c8aef8297830dfcebb0'
-    }
+
 
     describe 'on request valid user', ->
+
+      before (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.admins[0].email,
+          password: data.admins[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+          done()
+
+      user = data.users[4]
+
       it 'responds with success', (done) ->
         request
         .put('/api/v1/notifications/' + user.email + '/' +
@@ -49,6 +66,7 @@ describe 'API v1: /notifications', ->
           request
           .get('/api/v1/notifications/get/newsletter/users')
           .set('Accept', 'application/json')
+          .set('cookie', cookie)
           .expect('Content-Type', /json/)
           .expect(200)
           .expect(
@@ -73,10 +91,22 @@ describe 'API v1: /notifications', ->
         .expect(404)
         .end(done)
 
-    user = {
-      email: 'testUser4@glue.gl',
-      token: '0be1c8059d51b0051b288c8aef8297830dfcebb0'
-    }
+    before (done) ->
+      request
+      .post('/api/v1/login')
+      .send({
+        email: data.admins[0].email,
+        password: data.admins[0].password
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end (err, res) ->
+        return 'error' if not res.body.success or res.body.error
+        cookie = res.headers['set-cookie']
+        done()
+
+    user = data.users[4]
 
     describe 'on request valid user', ->
       it 'responds with success', (done) ->
@@ -95,6 +125,7 @@ describe 'API v1: /notifications', ->
           request
           .get('/api/v1/notifications/get/newsletter/users')
           .set('Accept', 'application/json')
+          .set('cookie', cookie)
           .expect('Content-Type', /json/)
           .expect(200)
           .expect(
