@@ -17,37 +17,37 @@ block content
         .three.wide.column.mobile-one
         .six.wide.column.mobile-eight.ui.grid
           .two.column.wide
-            i.social.icon-chef-camera
+            i.icon-chef-location.icon
           .twelve.column.wide
             .explain Dirección ficticia,
             .explain 2 Chihuahua, México
         .four.wide.column.mobile-six.ui.grid
           .three.column.wide
-            i.social.icon-chef-camera
+            i.icon-chef-movil.icon
           .twelve.column.wide
             .explain +47 534 093
         .three.wide.column.mobile-one
 
     #form-contact.ui.grid.segment
-      .row.form
-        .three.wide.column.mobile-one
-        .ten.wide.column.mobile-fourteen
-          h2.ui.header= __('Send us a message')
-          form.form-contact(method='post', action='/contacto', role='contact', novalidate)
-            .ui.input
-              label(for='name')= __('Name')
-              input(
-                type='name'
-                name='name'
-                id='name'
-                placeholder= __('Name')
-                value=locals.name)
-              label(for='email')= __('Email')
-              input(
-                type='email'
-                name='email'
-                id='email'
-                placeholder= __('Email')
-                value=locals.email)
-              button.icon.chef.button-brick(type='submit')= __('Send')
-        .three.wide.column.mobile-one
+      .row
+          .three.wide.column.mobile-one
+          .ten.wide.column.mobile-fourteen
+            h2.ui.header= __('Send us a message')
+            form.form-contact(method='post', action='/contacto', role='contact', novalidate)
+              .ui.input
+                label(for='name')= __('Name')
+                input(
+                  type='name'
+                  name='name'
+                  id='name'
+                  placeholder= __('Name')
+                  value=locals.name)
+                label(for='email')= __('Email')
+                input(
+                  type='email'
+                  name='email'
+                  id='email'
+                  placeholder= __('Email')
+                  value=locals.email)
+                button.icon.chef.button-brick(type='submit')= __('Send')
+          .three.wide.column.mobile-one
