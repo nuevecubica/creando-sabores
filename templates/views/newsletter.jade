@@ -10,11 +10,11 @@ block content
     .ui.grid.segment
       .row
         .sixteen.wide.column.error-content
-          h1.page-header-heading!= __('Newsletter {{{action}}}', { action: data.action })
+          h1.page-header-heading!= __('Newsletter ' + data.action)
 
           if data.action === 'unsubscribe'
             .explain
-              != __('{{{email}}}, are you sure you want to {{{action}}}?', { email: data.email, action: data.action })
+              != __('{{email}}, are you sure you want to ' + data.action + '?', { email: data.email })
 
             .newsletter-actions
               a#unsubscribe(data-url='/api/v1/notifications/'+ data.email + '/' + data.token + '/' + data.action + '/newsletter').ui.button.chef.button-green= __('Confirm')
@@ -27,7 +27,7 @@ block content
 
           if data.action === 'subscribe'
             .explain
-              != __('{{{email}}} has been {{{action}}}d successfully', { email: data.email, action: data.action })
+              != __('{{email}} has been ' + data.action + ' successfully', { email: data.email })
 
             .newsletter-actions
               a(href='/').ui.button.chef.button-green= __('Return home')

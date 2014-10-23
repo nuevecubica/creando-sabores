@@ -3,6 +3,10 @@
 $(document).ready(function() {
 
   $('.favourite .button').on('click', function(e) {
+    if (!window.chef.isUserLoggedIn) {
+      window.location.href = '/acceso';
+      return;
+    }
     var $this = $(this);
     var slug = $this.data('slug');
     var action = $this.hasClass('activated') ? 'remove' : 'add';
@@ -29,6 +33,8 @@ $(document).ready(function() {
     ratingClick('tip', this);
   });
 
-  makePaginable('/api/v1/tips', 'tips', 'tip', '#tips .list');
+  var section = window.location.pathname.split('/')[2];
+  var type = section === 'populares' ? 'popular' : 'recent';
+  makePaginable('/api/v1/tips/' + type, 'tips', 'tip', '#tips .list');
 
 });

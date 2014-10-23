@@ -35,34 +35,17 @@ block content
             div(class="#{subsection === 'populares' ? 'active' : ''}").ui.button.chef.button-green
               | #{__('Popular')}
 
-      if subsection === 'recientes'
-        .row
-          .ui.grid.segment.list.stackable
-            if data.tips.length
-              each tip in data.tips
-                +tip(tip)
-            else
-              .empty-resultset.sixteen.wide.column= __('No tips yet')
+      .row
+        .ui.grid.segment.list.stackable
+          if data.tips.length
+            each tip in data.tips
+              +tip(tip)
+          else
+            .empty-resultset.sixteen.wide.column= __('No tips yet')
 
-        .row
-          .loader
-            .sixteen.wide.column.loading= __('Loading more Tips')
-            .sixteen.wide.column.load-more
-              .ui.button.chef.button-brick.load-button
-                a(href="#")= __('Load more')
-
-      else if subsection === 'populares'
-        .row
-          .ui.grid.segment.list.stackable
-            if data.tips.length
-              each tip in data.tips
-                +tip(tip)
-            else
-              .empty-resultset.sixteen.wide.column= __('No tips yet')
-
-        .row
-          .loader
-            .sixteen.wide.column.loading= __('Loading more Tips')
-            .sixteen.wide.column.load-more
-              .ui.button.chef.button-brick.load-button
-                a(href="#")= __('Load more')
+      .row
+        .loader
+          .sixteen.wide.column.loading= __('Loading more Tips')
+          .sixteen.wide.column.load-more
+            .ui.button.chef.button-brick.load-button
+              a(href="#")= __('Load more')

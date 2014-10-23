@@ -56,13 +56,11 @@ i.icon.play {
         width: 90%;
         max-width: none;
       }
-
-      
     }
   }
    i.icon.play{
     &:before{
-      
+
     }
   }
   img.cutlery{
@@ -70,6 +68,9 @@ i.icon.play {
     right: 47px;
     bottom: 40px;
     z-index: 100;
+    @media only screen and (max-width : 767px) {
+      display: none;
+    }
   }
   .img-title.wide.column{
     padding-top: 10px;
@@ -96,7 +97,6 @@ i.icon.play {
         height: 120px;
         width: 21px;
         background-image: url('/images/tabla1.png');
-     
         z-index: 10;
         background-repeat: no-repeat;
       }
@@ -104,7 +104,6 @@ i.icon.play {
         height: 120px;
         background-image: url('/images/tabla2.png');
         background-repeat: repeat-x;
-  
         z-index: 200;
       }
       .tabla3{
@@ -114,10 +113,8 @@ i.icon.play {
         height: 120px;
         width: 95px;
         background-image: url('/images/tabla3.png');
-
         z-index: 10;
         background-repeat: no-repeat;
-
       }
     }
 

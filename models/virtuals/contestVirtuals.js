@@ -106,6 +106,13 @@ var virtuals = {
    */
   url: function() {
     return '/concurso/' + this.slug;
+  },
+  /**
+   * Item's type
+   * @return {String} type
+   */
+  type: function() {
+    return 'contest';
   }
 };
 

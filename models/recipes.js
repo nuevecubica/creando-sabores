@@ -326,6 +326,7 @@ Recipe.schema.set('toJSON', {
 // Virtuals
 // Recipe.schema.virtual('rating').get(virtual.recipe.rating);
 Recipe.schema.virtual('url').get(virtual.recipe.url);
+Recipe.schema.virtual('type').get(virtual.recipe.type);
 Recipe.schema.virtual('thumb').get(virtual.recipe.thumb);
 Recipe.schema.virtual('classes').get(virtual.recipe.classes);
 

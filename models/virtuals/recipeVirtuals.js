@@ -91,6 +91,10 @@ var virtuals = {
     var classes = ['recipe'];
     classes.push('state-' + this.state);
 
+    if (this.isVideorecipe) {
+      classes.push('videorecipe');
+    }
+
     if (this.contest && this.contest.id) {
       classes.push('contest-recipe');
     }
@@ -120,6 +124,13 @@ var virtuals = {
       return 0;
     }
     return (this.scoreTotal / this.scoreCount);
+  },
+  /**
+   * Item's type
+   * @return {String} type
+   */
+  type: function() {
+    return (this.isVideorecipe) ? 'videorecipe' : 'recipe';
   }
 };
 

@@ -185,6 +185,26 @@
           width: 100%;
         }
       }
+      @media screen and (max-width: 767px) {
+        padding: 0;
+        .button {
+          width: 49%;
+        }
+      }
+    }
+  }
+  .shopping-add{
+    .added{
+      display: none;
+    }
+    &.disabled{
+      a.add{
+        display: none;
+      }
+      a.added{
+      display: block;
+      color: @chef-color-gray;
+      }
     }
   }
 
@@ -677,11 +697,21 @@
 
   .favourite{
     vertical-align: top;
+    .switch{
+      @media screen and (max-width: 767px) {
+        float: left;
+        min-height: 45px;
+        padding: 12.5px;
+      }
+      display: inline-block;
+    }
   }
   .add-menu{
     vertical-align: top;
     .ui.button.chef {
       padding: 16px 25px;
+      min-width: 190px;
+      display: inline-block;
     }
   }
   .rating{

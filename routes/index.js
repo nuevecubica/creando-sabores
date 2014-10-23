@@ -51,7 +51,10 @@ exports = module.exports = function(app) {
   app.all('/(perfil|receta)*', middleware.antiBadUsers);
 
   // Static
-  app.get('/terminos', routes.views.terms);
+  app.get('/terminos', routes.views.static.terms);
+  app.get('/biografia', routes.views.static.about);
+  app.get('/prensa', routes.views.static.press);
+  app.get('/contacto', routes.views.static.contact);
 
   // Profile: Private
   app.get('/perfil/:section(recetas|favoritas|compra|tips)?', middleware.requireUser, routes.views['private'].profile);
@@ -67,7 +70,8 @@ exports = module.exports = function(app) {
 
   // Recipes + Videorecipes
   // -- Public
-  app.get('/:type(receta|videoreceta)s', routes.views.recipes);
+  app.get('/:type(receta)s', routes.views.recipes);
+  app.get('/:type(videoreceta)s/:section(recientes|populares)?', routes.views.recipes);
   app.get('/:type(receta|videoreceta)/:recipe', routes.views.recipe);
   // -- Private
   // ---- New
@@ -172,6 +176,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/Configs', routes.api.v1.configs);
 
   //-- Test
+  app.all('/api/v1/test/getUser', routes.api.v1.test.getUser);
   app.all('/api/v1/test/sendEmail', routes.api.v1.test.sendEmail);
 
   // Hbs
