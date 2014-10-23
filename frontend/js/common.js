@@ -95,7 +95,7 @@ $(document).ready(function() {
 
   // Grid
   var gridResizer = function() {
-    var height = $('.wall .recipe.small:visible').eq(0).width();
+    var height = $('.wall .recipe.small:visible, .wall .contest.small:visible, .wall .tip.small:visible').eq(0).width();
 
     $('.wall .recipe, .wall .contest, .wall .tip').each(function() {
       if ($(this).hasClass('large')) {
