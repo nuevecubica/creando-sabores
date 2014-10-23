@@ -364,9 +364,9 @@ User.schema.virtual('url').get(function() {
   return '/chef/' + this.username;
 });
 
-// URL
+// Hash data
 User.schema.virtual('phrase').get(function() {
-  return this._id + this.email + 'Kitchens are hard environments and they form incredibly strong characters.';
+  return this._id + this.email + keystone.get('hash salt');
 });
 
 //#------------------ PRESAVE

@@ -11,10 +11,7 @@ describe 'Newsletter: View', ->
   describe 'GET /:notification(newsletter)/:email/:token/subscribe)', ->
     describe 'on request with a valid email and token', ->
 
-      user = {
-        email: 'testUser4@glue.gl',
-        token: '0be1c8059d51b0051b288c8aef8297830dfcebb0'
-      }
+      user = data.users[4]
 
       it 'return newsletter confirmation', (done) ->
         request
@@ -24,7 +21,6 @@ describe 'Newsletter: View', ->
         .expect(
           (res) ->
             res.text.must.match user.email
-            res.text.must.match 'subscribed'
         )
         .end(done)
 
@@ -42,10 +38,7 @@ describe 'Newsletter: View', ->
   describe 'GET /:notification(newsletter)/:email/:token/unsubscribe)', ->
     describe 'on request with a valid email and token', ->
 
-      user = {
-        email: 'testUser4@glue.gl',
-        token: '0be1c8059d51b0051b288c8aef8297830dfcebb0'
-      }
+      user = data.users[4]
 
       it 'return newsletter confirmation', (done) ->
         request

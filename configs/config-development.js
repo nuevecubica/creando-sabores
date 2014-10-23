@@ -28,6 +28,7 @@ var answer = {
       'view cache': false,
 
       'cookie secret': '~ No! You \/\'aste ene|2gy and tim3! You thinK cooking i5 a cu7e job, eh? L1ke M0mmy ¡n the k¡tchen?',
+      'hash salt': '% The beef ¡s so undercooked 7hat ¡t is 5tartin9 to eat the salad! This s0up \'s dry!',
 
       'host': '0.0.0.0',
       'port': env.PORT || 3000

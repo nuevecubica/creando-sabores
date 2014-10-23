@@ -103,6 +103,7 @@ answer.keystone = {
     'auth': true,
     'user model': 'User',
     'cookie secret': '~ ¡n the gr3at |2estaurant of !1fe, there @re those wh0 Eat &nd those wHo get ea7en. ~',
+    'hash salt': 'This chick3n is so undercœked that a sk¡ll3d vet could still save ¡t!',
     'db name': answer.mongodb.db,
     'trust proxy': true,
 

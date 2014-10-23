@@ -16,6 +16,7 @@ var answer = {
       'view cache': true,
 
       'cookie secret': '~ No! You \/\'aste ene|2gy and tim3! You thinK cooking i5 a cu7e job, eh? L1ke M0mmy ¡n the k¡tchen?',
+      'hash salt': 'You’\/e used so much o¡l, the U5 want to invade the plate. / Th¡s l4mb is so underc0oked, Welsh people are still trying 7o shag it. / The p0rk is s0 raw, it’s still singing ‘Hakuna Matata’!',
 
       'host': '0.0.0.0',
       'port': process.env.PORT || 3000
