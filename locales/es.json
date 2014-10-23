@@ -249,5 +249,6 @@
 	"Email verified succesfully.": "Correo electrónico verificado correctamente.",
 	"Sorry, we don't recognise that email address.": "Lo sentimos, no conocemos ese correo electrónico.",
 	"Please enter an email address.": "Por favor, introuzca su correo electrónico.",
-	"Share this tip": "Comparte este tip"
+	"Share this tip": "Comparte este tip",
+	"Error signing in. Check your email for further instructions.": "Error accediendo. Comprueba tu correo para más instrucciones."
 }

@@ -1,25 +1,22 @@
 var keystone = require('keystone'),
-  User = keystone.list('User');
+  User = keystone.list('User'),
+  formResponse = require(__base + 'utils/formResponse.js');
 
 exports = module.exports = function(req, res) {
   if (!req.params.token) {
-    console.log("Invalid token.");
-    req.flash('error', res.__("Invalid token."));
-    res.redirect('/');
+    return formResponse(req, res, '/', "Invalid token.", false);
   }
 
   User.model.findOne({
     verifyEmailToken: req.params.token
   }, function(err, user) {
     if (err) {
+      console.error("verifyEmailToken error");
       console.error(err);
-      req.flash('error', res.__("Error: Unknown error"));
-      return res.redirect('/');
+      return formResponse(req, res, '/', "Error: Unknown error", false);
     }
     else if (!user) {
-      console.warn("Sorry, we can't recognise that token.");
-      req.flash('error', res.__("Sorry, we can't recognise that token."));
-      return res.redirect('/');
+      return formResponse(req, res, '/', "Sorry, we can't recognise that token.", false);
     }
     else if (!req.user) {
       req.flash('info', res.__('Please, login in order to verify your email.'));
@@ -28,22 +25,19 @@ exports = module.exports = function(req, res) {
     else if (req.user.username === user.username && req.user.email === user.email) {
       user.isConfirmed = true;
       user.verifyEmailToken = '';
-      user.save(function(err) {
+      user.save(function(err, ended) {
         if (err) {
           console.error('===== ERROR verifying email =====');
           console.error(err);
-          req.flash('error', res.__('Error verifying your email. Please, try again.'));
-          return res.redirect('/');
+          return formResponse(req, res, '/', 'Error verifying your email. Please, try again.', false);
         }
         else {
-          req.flash('success', res.__('Email verified succesfully.'));
-          return res.redirect('/');
+          return formResponse(req, res, '/', false, 'Email verified succesfully.');
         }
       });
     }
     else {
-      req.flash('error', res.__('Please, login with the correct account in order to verify your email.'));
-      return res.redirect('/');
+      return formResponse(req, res, '/', 'Please, login with the correct account in order to verify your email.', false);
     }
   });
 };
