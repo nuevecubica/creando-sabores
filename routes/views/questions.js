@@ -18,23 +18,43 @@ exports = module.exports = function(req, res) {
   // load questions
   view.on('init', function(next) {
 
+    var myOptions = {
+      sort: '-createdDate',
+      populate: ['author'],
+      authorId: req.user._id || null,
+      states: ['review']
+    };
+
     var options = {
       page: req.query.page || 1,
       perPage: 5,
       populate: ['author']
     };
 
-    // If user is admin, get all questions
-    if (req.user && req.user.canAdmin) {
-      options.states = ['review', 'published', 'closed'];
-    }
-
     service.questionList.get(options, function(err, results) {
-      locals.data.questions = results.results;
-      locals.data.questions.map(function(a, i) {
-        a.formattedDate = moment(a.createdDate).format('lll');
-      });
-      next(err);
+      if (!err) {
+        locals.data.questions = results.results;
+        locals.data.questions.map(function(a, i) {
+          a.formattedDate = moment(a.createdDate).format('lll');
+        });
+        if (req.user) {
+          service.questionList.get(myOptions, function(err, results) {
+            if (!err) {
+              locals.data.myQuestions = results.results;
+              locals.data.myQuestions.map(function(a, i) {
+                a.formattedDate = moment(a.createdDate).format('lll');
+              });
+            }
+            next(err);
+          });
+        }
+        else {
+          next(err);
+        }
+      }
+      else {
+        next(err);
+      }
     });
   });
 
