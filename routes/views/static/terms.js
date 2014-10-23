@@ -13,6 +13,6 @@ exports = module.exports = function(req, res) {
   locals.title = res.__('Terms and conditions');
 
   // Render the view
-  view.render('terms');
+  view.render('static/terms');
 
 };
