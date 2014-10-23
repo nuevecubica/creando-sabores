@@ -257,5 +257,5 @@
 	"Newsletter subscribe": "Suscripción al boletín",
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
 	"Newsletter unsubscribe": "Darse de baja del boletín",
-	"{{email}}, are you sure you want to unsubscribe?": "¿Estás seguro de querer desuscribirte?"
+	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, estás seguro de querer desuscribirte?"
 }
