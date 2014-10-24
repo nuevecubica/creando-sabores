@@ -362,7 +362,7 @@ mixin header(data, section)
 
 	else if section === 'questions'
 
-		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
+		#questions-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
@@ -371,12 +371,9 @@ mixin header(data, section)
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
 
-				.row.section.title
-					#questions-title.shadow= __('Questions')
-
 	else if section === 'question'
 
-		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
+		#questions-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
@@ -500,4 +497,16 @@ mixin header(data, section)
 
 				.row.section.title
 					#contact-title.shadow= __('About')
+
+	else if section === 'newsletter'
+
+		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.simple
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
 
