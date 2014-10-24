@@ -49,5 +49,11 @@ block content
                   id='email'
                   placeholder= __('Email')
                   value=locals.email)
+                label(for='Comment')= __('Comment')
+                input(
+                  type='text'
+                  name='comment'
+                  id='comment'
+                  placeholder= __('Comment'))
                 button.icon.chef.button-brick(type='submit')= __('Send')
           .three.wide.column.mobile-one
