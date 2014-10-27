@@ -12,7 +12,7 @@ block content
   #pass-content
     .ui.page.grid.bg-grey
       .sixteen.wide.column
-        h2.title.header.uppercase!= __('Newsletter {{{action}}}', { action: data.action })
+        h2.title.header.uppercase!= __('Newsletter {{action}}', { action: data.action })
     .ui.page.grid
       .ui.grid.segment
         .row
