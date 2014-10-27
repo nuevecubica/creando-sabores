@@ -79,7 +79,7 @@ block content
     #recipe-content.ui.grid.segment
       .row
 
-        #actions.wide.column.tablet-four.mobile-sixteen.tablet-push-twelve.right.aligned.hide-editable(class = data.contest ? 'nine computer-push-seven' : 'six computer-push-ten')
+        #actions.wide.column.tablet-five.mobile-sixteen.tablet-push-eleven.right.aligned.hide-editable(class = data.contest ? 'nine computer-push-seven' : 'six computer-push-ten')
           .recipe-actions
             if (data.contest)
               - var ratingclasses = []
@@ -89,7 +89,7 @@ block content
               .rating(data-slug=data.recipe.slug , class = ratingclasses)
                 .ui.icon.like.font-larger
                   i.icon-chef-like.icon.like-button.font-extra-larger
-                  span.like-counter= data.recipe.likes || 0
+                  span.like-counter.explain= data.recipe.likes || 0
             .favourite
               .ui.button.chef.button-yellow.switch(data-slug = data.recipe.slug, class = data.favourited ? 'activated' : '')
                 i.icon-chef-heart.icon.checks.chef
@@ -99,7 +99,7 @@ block content
               .ui.button.chef.button-brick
                 a= __('Add to menu')
 
-        #info.wide.column.tablet-twelve.mobile-sixteen.tablet-pull-four.computer-pull-four(class = data.contest ? 'seven computer-pull-nine' : 'ten computer-pull-six')
+        #info.wide.column.tablet-eleven.mobile-sixteen.tablet-pull-five.computer-pull-four(class = data.contest ? 'seven computer-pull-nine' : 'ten computer-pull-six')
           .recipe-attributes(data-tutorial-message=__("Tutorial Recipe Attributes"))
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1', data-tutorial-complete="editableSelectUsed")
@@ -131,7 +131,7 @@ block content
               .span= __('min')
 
             #recipe-portions.portions(tabindex='3')
-              i.icon-chef-porciones.iconz
+              i.icon-chef-porciones.icon
               .editable-container
                 .set-editable(placeholder=__('Portions'), data-tutorial-complete="editableTypedText")= data.recipe.portions
               .span= __n('person','people',data.recipe.portions)
