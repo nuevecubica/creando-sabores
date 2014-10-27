@@ -6,28 +6,34 @@ block js
   script(src='/js/newsletter.js')
 
 block content
-  .ui.page.grid
-    .ui.grid.segment
-      .row
-        .sixteen.wide.column.error-content
-          h1.page-header-heading!= __('Newsletter ' + data.action)
 
-          if data.action === 'unsubscribe'
-            .explain
-              != __('{{email}}, are you sure you want to ' + data.action + '?', { email: data.email })
+  +header(data, section)
 
-            .newsletter-actions
-              a#unsubscribe(data-url='/api/v1/notifications/'+ data.email + '/' + data.token + '/' + data.action + '/newsletter').ui.button.chef.button-green= __('Confirm')
-              a(href='/').ui.button.chef.button-green= __('Return home')
+  #pass-content
+    .ui.page.grid.bg-grey
+      .sixteen.wide.column
+        h2.title.header.uppercase!= __('Newsletter {{{action}}}', { action: data.action })
+    .ui.page.grid
+      .ui.grid.segment
+        .row
+          .sixteen.wide.column.error-content
 
-            #newsletter-subscribe
+            if data.action === 'unsubscribe'
               .explain
-                = __('If you want to give us a second chance')
-              a(href='/newsletter/'+ data.email + '/' + data.token + '/subscribe', style='margin: 0 0 30px;')= __('Subscribe')
+                != __('{{email}}, are you sure you want to ' + data.action + '?', { email: data.email })
 
-          if data.action === 'subscribe'
-            .explain
-              != __('{{email}} has been ' + data.action + ' successfully', { email: data.email })
+              .newsletter-actions
+                a#unsubscribe(data-url='/api/v1/notifications/'+ data.email + '/' + data.token + '/' + data.action + '/newsletter').ui.button.chef.button-green= __('Confirm')
+                a(href='/').ui.button.chef.button-green= __('Return home')
 
-            .newsletter-actions
-              a(href='/').ui.button.chef.button-green= __('Return home')
+              #newsletter-subscribe
+                .explain
+                  = __('If you want to give us a second chance')
+                a(href='/newsletter/'+ data.email + '/' + data.token + '/subscribe', style='margin: 0 0 30px;')= __('Subscribe')
+
+            if data.action === 'subscribe'
+              .explain
+                != __('{{email}} has been ' + data.action + ' successfully', { email: data.email })
+
+              .newsletter-actions
+                a(href='/').ui.button.chef.button-green= __('Return home')
