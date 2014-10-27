@@ -6,15 +6,15 @@ mixin question(question)
       if user && user.isAdmin
         a.delete-qa= __('Delete')
         a.undelete-qa= __('Undelete')
-      a.ui.item.profile(href = question.state === 'published' ? '#{question.author.url}' : false)
+      a.ui.item.profile(href = question.state === 'published' ? question.url : false)
         img.ui.image.avatar(src="#{question.author.thumb.avatar_large}")
 
     .thirteen.wide.column.tablet-eleven
       .ui.column.grid
-        a.name.seven.wide.column.mobile-ten(href = question.state === 'published' ? '#{question.author.url}' : false)
+        a.name.seven.wide.column.mobile-ten(href = question.state === 'published' ? question.url : false)
           span.span= question.author.name
 
-        .date.five.wide.column.mobile-six
+        a.date.five.wide.column.mobile-six(href = question.state === 'published' ? question.url : false)
           span.span= question.formattedDate
 
         a.commentary.two.wide.column(href = question.state === 'published' ? question.url : false)

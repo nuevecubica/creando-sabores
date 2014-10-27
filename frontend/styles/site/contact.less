@@ -1,0 +1,53 @@
+@send-message-color: lighten(@chef-color-green-bg, 15%);
+@contact-color: darken(@chef-color-green-bg, 15%);
+
+#contact{
+	background-color: @chef-color-light-bg;
+	font-weight: lighter;
+	.icon{
+		.font-extra-larger;
+		color: @chef-color-green-bg;
+	}
+}
+
+#form-contact{
+	padding-top: 30px;
+	padding-bottom: 30px;
+	overflow: hidden;
+	background-color: @send-message-color;
+	color: @chef-color-white;
+	.form-contact{
+		.input{
+			label{
+				color: @chef-color-white;
+			}
+			input{
+				margin-top: 5px;
+				margin-bottom: 15px;
+				background-color: @chef-color-green-bg;
+				border-radius: 0;
+				border: none;
+				color: @contact-color;
+				/* all */
+				&::-webkit-input-placeholder { color:@contact-color; }
+				&::-moz-placeholder { color:@contact-color; } /* firefox 19+ */
+				&:-ms-input-placeholder { color:@contact-color; } /* ie */
+				&:-moz-placeholder { color:@contact-color; }
+			}
+			button.icon{
+				float: right;
+				background-color: @chef-color-green-bg;
+				color: @chef-color-white;
+				border:none;
+				.font-large;
+				padding: 10px;
+				margin-top: 5px;
+				cursor: pointer;
+				transition: background-color @ani-time ease-out;
+				&:hover{
+					background-color: @contact-color ;
+				}
+			}
+		}
+	}
+}
