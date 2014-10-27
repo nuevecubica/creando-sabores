@@ -68,17 +68,38 @@ block content
       .row
         #info.sixteen.wide.column
           .recipe-contest
-            a.title.header.font-extra-larger.uppercase.remove-editable(href=data.contest.url)= data.contest.title
-            span.title.header.font-extra-larger.uppercase.display-editable= data.contest.title
+            a.title.header.uppercase.remove-editable(href=data.contest.url)= data.contest.title
+            span.title.header.uppercase.display-editable= data.contest.title
             .subheader
               i.icon-chef-cup.icon.font-extra-large
-              = __('Contest sponsored by')
-              strong= data.contest.sponsor
+              span.explain= __('Contest sponsored by')
+              strong.explain= data.contest.sponsor
 
   .ui.page.grid
     #recipe-content.ui.grid.segment
       .row
-        #info.tablet-twelve.mobile-sixteen.wide.column(class = data.contest ? 'seven' : 'ten')
+
+        #actions.wide.column.tablet-four.mobile-sixteen.tablet-push-twelve.right.aligned.hide-editable(class = data.contest ? 'nine computer-push-seven' : 'six computer-push-ten')
+          .recipe-actions
+            if (data.contest)
+              - var ratingclasses = []
+              - if (data.liked) ratingclasses.push('liked')
+              - if (['submission', 'votes'].indexOf(data.contest.state) === -1) ratingclasses.push('disabled')
+              - ratingclasses = ratingclasses.join(' ')
+              .rating(data-slug=data.recipe.slug , class = ratingclasses)
+                .ui.icon.like.font-larger
+                  i.icon-chef-like.icon.like-button.font-extra-larger
+                  span.like-counter= data.recipe.likes || 0
+            .favourite
+              .ui.button.chef.button-yellow.switch(data-slug = data.recipe.slug, class = data.favourited ? 'activated' : '')
+                i.icon-chef-heart.icon.checks.chef
+                | #{__('Favorite')}
+
+            .add-menu
+              .ui.button.chef.button-brick
+                a= __('Add to menu')
+
+        #info.wide.column.tablet-twelve.mobile-sixteen.tablet-pull-four.computer-pull-four(class = data.contest ? 'seven computer-pull-nine' : 'ten computer-pull-six')
           .recipe-attributes(data-tutorial-message=__("Tutorial Recipe Attributes"))
 
             #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1', data-tutorial-complete="editableSelectUsed")
@@ -127,26 +148,6 @@ block content
                       i.icon-chef-star.icon.active
                       - --r;
                   .rating-value.span.skip.mobile= data.recipe.rating.toFixed(2).replace(/[.,]00$/, "")
-
-        #actions.tablet-four.mobile-sixteen.wide.column.right.aligned.hide-editable(class = data.contest ? 'nine' : 'six')
-          .recipe-actions
-            if (data.contest)
-              - var ratingclasses = []
-              - if (data.liked) ratingclasses.push('liked')
-              - if (['submission', 'votes'].indexOf(data.contest.state) === -1) ratingclasses.push('disabled')
-              - ratingclasses = ratingclasses.join(' ')
-              .rating(data-slug=data.recipe.slug , class = ratingclasses)
-                .ui.icon.like.font-larger
-                  i.icon-chef-like.icon.like-button.font-extra-larger
-                  span.like-counter= data.recipe.likes || 0
-            .favourite
-              .ui.button.chef.button-yellow.switch(data-slug = data.recipe.slug, class = data.favourited ? 'activated' : '')
-                i.icon-chef-heart.icon.checks.chef
-                | #{__('Favorite')}
-
-            .add-menu
-              .ui.button.chef.button-brick
-                a= __('Add to menu')
 
       #recipe-description.row
         .sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Description"))
