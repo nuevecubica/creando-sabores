@@ -43,12 +43,17 @@
 ****************/
 #recipe-edit-form,.contest-recipe{
   #info {
+    padding-right: 0;
     .recipe-contest{
       a{
         color:@chef-color-black;
         text-decoration: none;
+        margin-top: 10px;
       }
     }
+  }
+  #actions{
+    padding-left: 0;
   }
   .recipe-contest-ingredient{
     margin-top: 25px;
@@ -117,7 +122,7 @@
     transition: opacity @ani-time ease-in;
     font-size: @icons-font-size;
     &.disabled{
-      opacity: 0.3;
+      opacity: 0.4;
       cursor: not-allowed;
       i.icon.like-button{
         cursor: not-allowed;
@@ -395,6 +400,7 @@
               height: 100%;
 
               span {
+                line-height: 1.25em;
                 padding:0 5px;
                 display: table-cell;
                 vertical-align: middle;
@@ -693,73 +699,93 @@
     }
   }
 }
-.recipe-actions{
+#recipe-content{
+  .recipe-actions{
 
-  .favourite{
-    vertical-align: top;
-    .switch{
-      @media screen and (max-width: 767px) {
-        float: left;
-        min-height: 45px;
-        padding: 12.5px;
-      }
-      display: inline-block;
-    }
-  }
-  .add-menu{
-    vertical-align: top;
-    .ui.button.chef {
-      padding: 16px 25px;
-      min-width: 190px;
-      display: inline-block;
-    }
-  }
-  .rating{
-
-    .like-button{
-      cursor: pointer;
-    }
-    .like{
-
-      .icon{
-        margin-right: 20px;
-        color: @chef-color-vote;
-        .font-extra-large;
+    .favourite{
+      vertical-align: top;
+      .switch{
+        @media screen and (max-width: 767px) {
+          float: left;
+          min-height: 45px;
+          padding: 12.5px;
+        }
+        display: inline-block;
       }
     }
-    .like-counter{
-      position: relative;
-      display: inline-block;
-      background-color:  @chef-color-vote;
-      padding:2.75px 10px;
-      &:before{
-        position: absolute;
-        content: "";
-        width: 0;
-        height: 0;
-        border-top: 15px solid transparent;
-        border-bottom: 15px solid transparent;
-        border-right: 15px solid;
-        border-right-color: @chef-color-vote;
-        left: -15px;
-        top: 8.5px;
+    .add-menu{
+      vertical-align: top;
+      .ui.button.chef {
+        padding: 16px 25px;
+        min-width: 190px;
+        display: inline-block;
       }
     }
-    &.liked{
-      .voted{
-        display: none;
-        &.on{
-          display:block;
+    .rating{
+
+      .like-button{
+        cursor: pointer;
+      }
+      .like{
+
+        .icon{
+          margin-right: 20px;
+          color: @chef-color-vote;
+          .font-extra-large;
+          @media screen and (max-width: 767px) {
+           margin-right: 10px;
+           .font-larger;
+          }
         }
       }
-      .like-button{
-        color: @chef-color-voted;
-      }
       .like-counter{
-        color: #fff;
-        background-color: @chef-color-voted;
+        position: relative;
+        display: inline-block;
+        background-color:  @chef-color-vote;
+        padding: 7px 10px;
+        &.explain{
+          margin-bottom: 0;
+        }
         &:before{
-          border-right-color: @chef-color-voted;
+          position: absolute;
+          content: "";
+          width: 0;
+          height: 0;
+          border-top: 15px solid transparent;
+          border-bottom: 15px solid transparent;
+          border-right: 15px solid;
+          border-right-color: @chef-color-vote;
+          left: -15px;
+          top: 8.5px;
+           @media screen and (max-width: 991px) {
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid;
+            border-right-color: @chef-color-vote;
+            left: -10px;
+            top: 10px;
+          }
+          @media screen and (max-width: 767px) {
+            top: 9px;
+          }
+        }
+      }
+      &.liked{
+        .voted{
+          display: none;
+          &.on{
+            display:block;
+          }
+        }
+        .like-button{
+          color: @chef-color-voted;
+        }
+        .like-counter{
+          color: #fff;
+          background-color: @chef-color-voted;
+          &:before{
+            border-right-color: @chef-color-voted;
+          }
         }
       }
     }

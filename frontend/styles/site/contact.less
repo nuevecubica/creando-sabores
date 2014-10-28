@@ -5,7 +5,13 @@
 	background-color: @chef-color-light-bg;
 	font-weight: lighter;
 	.icon{
-		.font-extra-larger;
+		.font-extra-large;
+		@media only screen and (min-width : 991px) {
+			.font-extra-larger;
+		}
+		@media only screen and (max-width : 771px) {
+			.font-large;
+		}
 		color: @chef-color-green-bg;
 	}
 }
