@@ -1,0 +1,151 @@
+include ../mixins/difficult-items
+
+.row
+
+  #actions.wide.column.tablet-five.mobile-sixteen.tablet-push-eleven.right.aligned.hide-editable(class = data.contest ? 'nine computer-push-seven' : 'six computer-push-ten')
+    .recipe-actions
+      if (data.contest)
+        - var ratingclasses = []
+        - if (data.liked) ratingclasses.push('liked')
+        - if (['submission', 'votes'].indexOf(data.contest.state) === -1) ratingclasses.push('disabled')
+        - ratingclasses = ratingclasses.join(' ')
+        .rating(data-slug=data.recipe.slug , class = ratingclasses)
+          .ui.icon.like.font-larger
+            i.icon-chef-like.icon.like-button.font-extra-larger
+            span.like-counter.explain= data.recipe.likes || 0
+      .favourite
+        .ui.button.chef.button-yellow.switch(data-slug = data.recipe.slug, class = data.favourited ? 'activated' : '')
+          i.icon-chef-heart.icon.checks.chef
+          | #{__('Favorite')}
+
+      .add-menu
+        .ui.button.chef.button-brick
+          a= __('Add to menu')
+
+  #info.wide.column.tablet-eleven.mobile-sixteen.tablet-pull-five.computer-pull-four(class = data.contest ? 'seven computer-pull-nine' : 'ten computer-pull-six')
+    .recipe-attributes(data-tutorial-message=__("Tutorial Recipe Attributes"))
+
+      #recipe-difficulty.dropdown.difficulty.set-editable(tabindex='1', data-tutorial-complete="editableSelectUsed")
+        - var levels = [ __('Very easy'), __('Easy'), __('Normal'), __('Hard'), __('Very hard') ]
+        - var difficulty = data.recipe.difficulty || 2
+        - var category = levels[difficulty - 1]
+
+        .itemSelected
+          .item(data-value=difficulty)
+            - for(var i = 0; i < 5; i++)
+                if difficulty == 0
+                  i.icon-chef-tenedor.icon.off
+                else
+                  i.icon-chef-tenedor.icon.on
+                  - difficulty = difficulty - 1
+              .span= category
+
+        .options
+          +difficult-items(levels)
+
+        i.dropdown.icon
+
+
+      #recipe-time.time(tabindex='2')
+        i.icon-chef-time.icon
+
+        .editable-container
+          .set-editable(placeholder=__('Time'), data-tutorial-complete="editableTypedText")= data.recipe.time
+        .span= __('min')
+
+      #recipe-portions.portions(tabindex='3')
+        i.icon-chef-porciones.icon
+        .editable-container
+          .set-editable(placeholder=__('Portions'), data-tutorial-complete="editableTypedText")= data.recipe.portions
+        .span= __n('person','people',data.recipe.portions)
+
+      if (!data.contest)
+        .rating.hide-editable
+          .ui.rating(data-slug=data.recipe.slug)
+            - var rating = Math.floor(data.recipe.rating)
+            - var r = rating
+            - for(var x = 0; x < 5; x++)
+              if r == 0
+                i.icon-chef-star.icon
+              else
+                i.icon-chef-star.icon.active
+                - --r;
+            .rating-value.span.skip.mobile= data.recipe.rating.toFixed(2).replace(/[.,]00$/, "")
+
+#recipe-description.row
+  .sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Description"))
+    .explain
+      .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'), data-tutorial-complete="editableTypedText")!= data.recipe.description
+
+.row
+  .sixteen.wide.column
+    h2.ui.header= __('Ingredients')
+    .explain
+      .ui.content= __('In case that you don\'t have enough ingredients [...]')
+
+    .ui.button.chef.button-green.shopping-add.hide-editable(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
+      a.add(href="/acceso")= __('Add to shopping basket')
+      a.added(href="/acceso")= __('Added to shopping basket')
+
+  if data.contest
+    .recipe-contest-ingredient.sixteen.wide.column
+      .icon-chef-cesta.checks
+      .ui.content.font-large= data.contest.ingredientRequired
+
+  #ingredients.sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Ingredients"))
+    .ui.three.mobile-one.tablet-two.column.grid
+      if data.recipe.ingredients
+        - var ingredients = data.recipe.ingredients
+        - for (var j = 0, l = ingredients.length; j < l; j++)
+          .column.ingredient
+            .icon-chef-cesta.checks.hide-editable
+            .editable-container
+              .explain.set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
+            .show-editable
+              .ingredient-remove
+                i.icon-chef-cross
+
+      .column.ingredient.show-editable
+          .icon-chef-cesta.checks.hide-editable
+          .editable-container
+            .explain.set-editable(placeholder=__('Add ingredient'), spellcheck='false', data-tutorial-complete="editableTypedText")
+          .show-editable
+            .ingredient-remove
+              i.icon-chef-cross
+
+    .column.hide-editable
+      .ingredient
+        .icon-chef-cesta-all.checks.all
+        .span= __('Select all')
+
+  .ingredients-manage.manage.sixteen.wide.column.show-editable
+    .ingredient
+      .ui.button.chef.button-brick.ingredient-add
+        a= __('Add ingredient')
+
+.row
+  #procedure.sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Procedure"))
+    h2.ui.header= __('Procedure')
+    #steps
+      - var j = 0
+      if data.recipe.procedure
+        - var steps = data.recipe.procedure
+        - for (var m = steps.length; j < m; j++)
+          .step
+            .icon-chef-tick.checks.hide-editable
+            .ui.header.index
+              span.index-label= __('Step') + ' ' + (j + 1) + ': '
+              .step-remove.show-editable= __('Remove step')
+            .explain.ui.content.set-editable(placeholder=__('Step'), spellcheck='false')!= steps[j]
+
+      .step.show-editable
+        .icon-chef-tick.checks.hide-editable
+        .ui.header.index
+          span.index-label= __('Step:') + ' ' + (j + 1)
+          .step-remove.show-editable= __('Remove step')
+        .ui.content.set-editable(placeholder=__('Add step'), spellcheck='false', data-tutorial-complete="editableTypedText")
+
+  .step-manage.manage.sixteen.wide.column.show-editable
+    .step
+      .ui.button.chef.button-brick.step-add
+        a= __('Add step')
