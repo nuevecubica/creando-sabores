@@ -34,11 +34,11 @@ exports.initLocals = function(req, res, next) {
   }, {
     label: res.__('About the chef'),
     key: 'acerca-del-chef',
-    href: '/'
+    href: '/biografia'
   }, {
     label: res.__('Contact'),
     key: 'contacto',
-    href: '/'
+    href: '/contacto'
   }];
 
   locals.user = req.user;
