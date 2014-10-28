@@ -36,8 +36,7 @@ describe 'API TEST v1: /test/sendEmail', ->
       .send({
         id: 'test-email'
         data: {
-          user: user,
-          link: "#{config.keystone.publicUrl}/test"
+          user: user
         }
       })
       .set('Accept', 'application/json')
@@ -45,12 +44,6 @@ describe 'API TEST v1: /test/sendEmail', ->
       .expect(200)
       .expect (res) ->
         return 'Wrong headers' if !res.body.success or res.body.error
-        # Input
-        res.body.input.subject.must.be.eql "TEST #{user.name}"
-        res.body.input.title.must.be "TEST MAIL FOR " +
-          "#{config.keystone.site.name} TO #{user.name}"
-        res.body.input.body.must.include "<a href=\"" +
-          "#{config.keystone.publicUrl}/test\""
         # Output
         if res.body.output.status and res.body.output.status is 'error'
           return "Mandrill error: #{res.body.output.message}"
@@ -58,4 +51,25 @@ describe 'API TEST v1: /test/sendEmail', ->
         for output in res.body.output
           if output.status isnt 'sent'
             return "Mandrill error: #{res.body.output.message}"
+      .end(done)
+
+    it 'renders a valid email', (done) ->
+      request
+      .post('/api/v1/test/sendEmail?render=1')
+      .send({
+        id: 'test-email'
+        data: {
+          user: user
+        }
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect (res) ->
+        return 'Wrong headers' if !res.body.success or res.body.error
+        # Output
+        if res.body.output.status and res.body.output.status is 'error'
+          return "Mandrill error: #{res.body.output.message}"
+        res.body.output.html.must.match user.name
+        res.body.output.html.must.match user.email
       .end(done)
