@@ -9,6 +9,7 @@ var defaults = function() {
   return {
     userId: null, // To do
     user: null,
+    users: [],
     to: null,
     subject: null,
     title: null,
@@ -37,25 +38,64 @@ var defaults = function() {
 };
 
 var userToMandrill = function(user) {
-  return {
+  var _user = {
     name: user.name,
     email: user.email,
     vars: {
       profile: user.url || site.url,
       private_profile: site.url + "/perfil",
-      avatar: user.thumb ? user.thumb.avatar_small : "",
-      site: site,
-      current_year: 2014,
-      links: {
-        home: site.url + '/',
-        login: site.url + '/login',
-        recipes: site.url + '/recetas',
-        videorecipes: site.url + '/videorecetas',
-        contests: site.url + '/concursos',
-        tips: site.url + '/tips'
-      }
+      avatar: user.thumb ? user.thumb.avatar_small : ""
     }
   };
+
+  // merge_vars via user object
+  if (user.vars) {
+    _user.vars = _.extend(_user.vars, user.vars);
+  }
+
+  return _user;
+};
+
+/**
+ * Parse options before the delivery
+ * @param  {Object} options
+ * @return {Object}
+ */
+var _parseOptions = function(options) {
+  options = options || {};
+
+  _.defaults(options, defaults());
+
+  options.to = options.to || [];
+
+  if (!keystone.utils.isArray(options.to)) {
+    options.to = [options.to];
+  }
+
+  if (options.user) {
+    options.users.push(options.user);
+    options.users = _.uniq(options.users, false, function(user) {
+      return user.username;
+    });
+  }
+
+  if (options.users && keystone.utils.isArray(options.users)) {
+
+    options.users.forEach(function(_user) {
+      _user = userToMandrill(_user);
+
+      // userVars via options
+      if (options.userVars) {
+        _user.vars = _.extend(_user.vars, options.userVars);
+      }
+
+      options.to.push(_user);
+    });
+  }
+
+  options = _.omit(_.extend(options, options.locals), ['locals']);
+
+  return options;
 };
 
 /**
@@ -65,20 +105,16 @@ var userToMandrill = function(user) {
  * @param  {Function} callback err
  */
 var send = function(id, options, callback) {
-  options = options || {};
 
-  _.defaults(options, defaults());
-
-  if (!options.to) {
-    if (options.user) {
-      options.to = userToMandrill(options.user);
-    }
-    else {
-      return callback('No recipient');
-    }
+  if (!id) {
+    return callback('No template');
   }
 
-  options = _.omit(_.extend(options, options.locals), ['locals', 'templateId']);
+  options = _parseOptions(options);
+
+  if (!options.to) {
+    return callback('No recipient');
+  }
 
   var init = {
     templateName: id
@@ -95,18 +131,16 @@ var send = function(id, options, callback) {
 };
 
 var render = function(id, options, callback) {
-  _.defaults(options, defaults());
 
-  if (!options.to) {
-    if (options.user) {
-      options.to = userToMandrill(options.user);
-    }
-    else {
-      return callback('No recipient');
-    }
+  if (!id) {
+    return callback('No template');
   }
 
-  options = _.omit(_.extend(options, options.locals), ['locals', 'templateId']);
+  options = _parseOptions(options);
+
+  if (!options.to) {
+    return callback('No recipient');
+  }
 
   var init = {
     templateName: id
