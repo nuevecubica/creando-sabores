@@ -1,0 +1,9 @@
+[Unit]
+After=etcd-amb-mongo.service
+After=mongo.service
+
+[Service]
+ExecStart=/usr/bin/docker run --link etcd-amb-mongo.service:etcd -v /var/run/docker.sock:/var/run/docker.sock --rm polvi/docker-register mongo 27017 mongo-A
+
+[X-Fleet]
+MachineOf=etcd-amb-mongo.service

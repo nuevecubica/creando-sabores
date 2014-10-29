@@ -1,0 +1,15 @@
+[Unit]
+Description=Node
+After=mongo-dyn-amb.service
+After=elastic-dyn-amb.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill node
+ExecStartPre=-/usr/bin/docker rm node
+ExecStartPre=/usr/bin/bash -c "/usr/bin/etcdctl get chefcito-dockerfile | /usr/bin/docker build -t node -"
+ExecStart=/bin/bash -c "HOST_IP=$(/bin/ifconfig enp0s8 | awk '/inet /{print $2}') && exec /usr/bin/docker run --name node -p $HOST_IP::3000 --link mongo-dyn-amb.service:mongodb --link elastic-dyn-amb.service:elasticsearch node"
+ExecStop=/usr/bin/docker stop node
+
+[X-Fleet]
+MachineOf=elastic-dyn-amb.service
