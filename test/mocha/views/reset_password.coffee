@@ -55,6 +55,8 @@ describe 'Reset password:', ->
                   (res.body.user.resetPasswordToken || null)
           )
           .end (err, res) ->
+            return done(err) if err
+
             token = res.body.user.resetPasswordToken
             password = res.body.user.password
             done()
@@ -90,6 +92,8 @@ describe 'Reset password:', ->
                   ' / Error: ' + res.header['api-response-error']
             )
             .end (err, res) ->
+              return done(err) if err
+
               request
               .get('/api/v1/test/getUser?username=' + user.username)
               .expect(
@@ -99,6 +103,8 @@ describe 'Reset password:', ->
                       "is #{password}"
               )
               .end (err, res) ->
+                return done(err) if err
+
                 utils.loginUser {
                   email: user.email
                   password: 'dummyPassword'
@@ -120,6 +126,8 @@ describe 'Reset password:', ->
                 return 'Wrong redirect: ' + res.header['location']
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
               .get('/nueva-contrasena/' + token)
               .expect(302)

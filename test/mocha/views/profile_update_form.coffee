@@ -76,8 +76,8 @@ describe '(Private) Profile: Update', ->
               return 'Edit Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -91,8 +91,8 @@ describe '(Private) Profile: Update', ->
                   return 'Edit failed'
             )
             .end (err, res) ->
-              if err
-                return done err, res
+              return done(err) if err
+
               request
                 .post('/perfil/change')
                 .set('cookie', cookie)
@@ -110,8 +110,8 @@ describe '(Private) Profile: Update', ->
                       return 'Revert private Wrong status headers'
                 )
                 .end (err, res) ->
-                  if err
-                    return done err, res
+                  return done(err) if err
+
                   request
                     .get('/api/v1/me')
                     .set('Accept', 'application/json')
@@ -144,8 +144,8 @@ describe '(Private) Profile: Update', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .post('/api/v1/login')
             .send({
@@ -178,8 +178,8 @@ describe '(Private) Profile: Update', ->
  Expected: \"Error saving profile, false\"."
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -213,8 +213,8 @@ describe '(Private) Profile: Update', ->
  Expected: \"Error saving profile, false\"."
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -248,8 +248,8 @@ describe '(Private) Profile: Update', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .post('/api/v1/login')
             .send({
@@ -278,8 +278,8 @@ describe '(Private) Profile: Update', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')

@@ -101,6 +101,8 @@ describe 'API v1: /videorecipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -139,6 +141,8 @@ describe 'API v1: /videorecipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             done()
 
@@ -165,5 +169,6 @@ describe 'API v1: /videorecipes', ->
             .expect(200)
             .end (err, res) ->
               return done(err) if err
+
               res.body.rating.must.be.equal 3
               done()

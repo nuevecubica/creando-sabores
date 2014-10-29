@@ -43,6 +43,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'login error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
@@ -76,6 +78,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
 
@@ -91,6 +95,7 @@ describe 'API v1: /me/', ->
                 return 'Login failed'
           )
           .end (err, res) ->
+            return done(err) if err
 
             request
             .get('/api/v1/me/logout')
@@ -145,6 +150,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -166,6 +173,8 @@ describe 'API v1: /me/', ->
                 return 'Error received'
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -200,6 +209,8 @@ describe 'API v1: /me/', ->
                 return 'Error received'
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -234,6 +245,8 @@ describe 'API v1: /me/', ->
                 return 'Error received'
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -275,6 +288,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -304,6 +319,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/shopping/list')
             .set('cookie', cookie)
@@ -329,6 +346,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/shopping/add/' + recipe.slug)
             .set('cookie', cookie)
@@ -336,6 +355,8 @@ describe 'API v1: /me/', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               request
               .get('/api/v1/me/shopping/list')
               .set('cookie', cookie)
@@ -371,6 +392,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/shopping/remove/' + recipe.slug)
             .set('cookie', cookie)
@@ -435,6 +458,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -465,6 +490,8 @@ describe 'API v1: /me/', ->
               res.body.recipes.results.length.must.be.equal 4
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/shopping/list?page=2&perPage=2')
             .set('cookie', cookie)
@@ -492,6 +519,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie2 = res.headers['set-cookie']
           request
@@ -536,6 +565,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -552,6 +583,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/favourites/list')
             .set('cookie', cookie)
@@ -576,6 +609,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/favourites/add/' + recipe.slug)
             .set('cookie', cookie)
@@ -583,6 +618,8 @@ describe 'API v1: /me/', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               request
               .get('/api/v1/me/favourites/list')
               .set('cookie', cookie)
@@ -618,6 +655,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/favourites/remove/' + recipe.slug)
             .set('cookie', cookie)
@@ -625,6 +664,8 @@ describe 'API v1: /me/', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               request
               .get('/api/v1/me/favourites/list')
               .set('cookie', cookie)
@@ -682,6 +723,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -712,6 +755,8 @@ describe 'API v1: /me/', ->
               res.body.recipes.results.length.must.be.equal 4
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/favourites/list?page=2&perPage=2')
             .set('cookie', cookie)
@@ -739,6 +784,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie2 = res.headers['set-cookie']
           request
@@ -770,6 +817,8 @@ describe 'API v1: /me/', ->
       .expect('Content-Type', /json/)
       .expect(200)
       .end (err, res) ->
+        return done(err) if err
+
         return 'error' if not res.body.success or res.body.error
         cookie = res.headers['set-cookie']
         done()
@@ -800,6 +849,8 @@ describe 'API v1: /me/', ->
             res.body.recipes.results.length.must.be.equal 4
         )
         .end (err, res) ->
+          return done(err) if err
+
           request
           .get(baseurl + '?page=2&perPage=2')
           #.set('cookie', cookie)
@@ -827,6 +878,8 @@ describe 'API v1: /me/', ->
       .expect('Content-Type', /json/)
       .expect(200)
       .end (err, res) ->
+        return done(err) if err
+
         return 'error' if not res.body.success or res.body.error
         cookie2 = res.headers['set-cookie']
         baseurl2 = '/api/v1/user/' + data.users[2].username + '/favourites'
@@ -871,6 +924,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -887,6 +942,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/tips/favourites/list')
             .set('cookie', cookie)
@@ -911,6 +968,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/tips/favourites/add/' + tip.slug)
             .set('cookie', cookie)
@@ -918,6 +977,8 @@ describe 'API v1: /me/', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               request
               .get('/api/v1/me/tips/favourites/list')
               .set('cookie', cookie)
@@ -953,6 +1014,8 @@ describe 'API v1: /me/', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/tips/favourites/remove/' + tip.slug)
             .set('cookie', cookie)
@@ -960,6 +1023,8 @@ describe 'API v1: /me/', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               request
               .get('/api/v1/me/tips/favourites/list')
               .set('cookie', cookie)
@@ -1017,6 +1082,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -1047,6 +1114,8 @@ describe 'API v1: /me/', ->
               res.body.tips.results.length.must.be.equal 4
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me/tips/favourites/list?page=2&perPage=2')
             .set('cookie', cookie)
@@ -1074,6 +1143,8 @@ describe 'API v1: /me/', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie2 = res.headers['set-cookie']
           request
@@ -1105,6 +1176,8 @@ describe 'API v1: /me/', ->
       .expect('Content-Type', /json/)
       .expect(200)
       .end (err, res) ->
+        return done(err) if err
+
         return 'error' if not res.body.success or res.body.error
         cookie = res.headers['set-cookie']
         done()
@@ -1135,6 +1208,8 @@ describe 'API v1: /me/', ->
             res.body.tips.results.length.must.be.equal 4
         )
         .end (err, res) ->
+          return done(err) if err
+
           request
           .get(baseurl + '?page=2&perPage=2')
           #.set('cookie', cookie)
@@ -1161,6 +1236,8 @@ describe 'API v1: /me/', ->
       .expect('Content-Type', /json/)
       .expect(200)
       .end (err, res) ->
+        return done(err) if err
+
         return 'error' if not res.body.success or res.body.error
         cookie2 = res.headers['set-cookie']
         baseurl2 = '/api/v1/user/testbaduser/tips'

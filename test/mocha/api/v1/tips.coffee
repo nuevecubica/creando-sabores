@@ -105,6 +105,8 @@ describe 'API v1: tips', ->
             res.body.tips.results.length.must.be.eql 4
         )
         .end (err, res) ->
+          return done(err) if err
+
           total = res.body.tips.results
 
           request
@@ -151,6 +153,8 @@ describe 'API v1: tips', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -189,6 +193,8 @@ describe 'API v1: tips', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             done()
 
@@ -202,6 +208,8 @@ describe 'API v1: tips', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             request
             .put('/api/v1/tip/' + tipWithoutScore + '/vote/3')
@@ -212,6 +220,8 @@ describe 'API v1: tips', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               res.body.rating.must.be.equal 3
               done()
 
@@ -230,6 +240,8 @@ describe 'API v1: tips', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()

@@ -86,6 +86,8 @@ describe 'Forgotten password:', ->
               ' / Error: ' + res.header['api-response-error']
         )
         .end (err, res) ->
+          return done(err) if err
+
           request
           .get('/api/v1/test/getUser?username=testUser1')
           .expect(
