@@ -10,6 +10,8 @@ user =
   email: 'testUser4@glue.gl'
   token: 'foobar'
 
+cookie = null
+
 describe 'API v1: /notifications', ->
 
   before (done) ->
@@ -43,8 +45,25 @@ describe 'API v1: /notifications', ->
         .expect(401)
         .end(done)
 
-
     describe 'on request valid user', ->
+
+      before (done) ->
+        request
+        .post('/api/v1/login')
+        .send({
+          email: data.admins[0].email,
+          password: data.admins[0].password
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end (err, res) ->
+          return 'error' if not res.body.success or res.body.error
+          cookie = res.headers['set-cookie']
+          done()
+
+      user = data.users[4]
+
       it 'responds with success', (done) ->
         request
         .put('/api/v1/notifications/' + user.email + '/' +
@@ -63,6 +82,7 @@ describe 'API v1: /notifications', ->
           request
           .get('/api/v1/notifications/get/newsletter/users')
           .set('Accept', 'application/json')
+          .set('cookie', cookie)
           .expect('Content-Type', /json/)
           .expect(200)
           .expect(
@@ -87,6 +107,23 @@ describe 'API v1: /notifications', ->
         .expect(401)
         .end(done)
 
+    before (done) ->
+      request
+      .post('/api/v1/login')
+      .send({
+        email: data.admins[0].email,
+        password: data.admins[0].password
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end (err, res) ->
+        return 'error' if not res.body.success or res.body.error
+        cookie = res.headers['set-cookie']
+        done()
+
+    user = data.users[4]
+
     describe 'on request valid user', ->
       it 'responds with success', (done) ->
         request
@@ -106,6 +143,7 @@ describe 'API v1: /notifications', ->
           request
           .get('/api/v1/notifications/get/newsletter/users')
           .set('Accept', 'application/json')
+          .set('cookie', cookie)
           .expect('Content-Type', /json/)
           .expect(200)
           .expect(

@@ -1,0 +1,106 @@
+@color-media-header: lighten(@chef-color-green-bg, 10%);
+#about-info{
+  .ui.header:first-child {
+    margin-top: 1em;
+  }
+
+  img{
+    display: block;
+    margin: auto;
+  }
+  #share-bio {
+    color: @chef-color-white;
+    background-color: @chef-color-yellow-bg;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    text-align: center;
+    .corner-position{
+      text-align: left;
+      padding-left: 8%;
+      position: absolute;
+      top: -20px;
+    }
+
+    a {
+      display: inline-block;
+      width: 20%;
+      text-align: center;
+      color: @chef-color-white;
+      .icon {
+        .font-xxl;
+      }
+    }
+  }
+}
+
+#about-quote{
+  background-image: url(/images/about_quote.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 450px;
+  i{
+    .header{
+      margin-top: 150px;
+      width: 40%;
+      color: @chef-color-white;
+      text-shadow: 1px 2px 4px @chef-color-gray;
+    }
+  }
+}
+
+#media{
+
+  .header{
+    background-color: @color-media-header;
+    color: @chef-color-white;
+    padding: 15px 1.5%;
+    margin:0;
+  }
+  .tab{
+    .icon{
+      .font-extra-large;
+      position: absolute;
+      top: 15px;
+      margin-left: -45px;
+    }
+  }
+}
+
+@media only screen and (max-width : 991px) {
+  #about-info{
+    img{
+      width: 60%;
+    }
+  }
+}
+
+@media only screen and (max-width : 771px) {
+  #about-info{
+
+    #share-bio{
+      .corner-position{
+        top: -10px;
+      }
+      a {
+        .icon {
+          .font-xxl;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width : 480px) {
+  #about-info{
+
+    #share-bio{
+      .corner-position{
+        top: -10px;
+      }
+      a {
+        .icon {
+          .font-extra-larger;
+        }
+      }
+    }
+  }
+}

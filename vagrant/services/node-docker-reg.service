@@ -1,0 +1,9 @@
+[Unit]
+After=node.service
+After=etcd-amb-node.service
+
+[Service]
+ExecStart=/usr/bin/docker run --link etcd-amb-node.service:etcd -v /var/run/docker.sock:/var/run/docker.sock --rm polvi/docker-register node 3000 node-A
+
+[X-Fleet]
+MachineOf=node.service

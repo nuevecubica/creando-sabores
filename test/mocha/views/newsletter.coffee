@@ -49,9 +49,8 @@ describe 'Newsletter: View', ->
           (res) ->
             res.text.must.match user.email
             res.text.must.match '<a id="unsubscribe" data-url="/api/v1/' +
-              'notifications/testUser4@glue.gl/' +
-              '0be1c8059d51b0051b288c8aef8297830dfcebb0/unsubscribe/' +
-              'newsletter" class="ui button chef button-green">'
+              'notifications/' + user.email + '/' + user.token +
+              '/unsubscribe/newsletter" class="ui button chef button-green">'
         )
         .end(done)
 

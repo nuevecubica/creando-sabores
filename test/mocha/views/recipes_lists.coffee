@@ -38,7 +38,7 @@ describe 'Recipes: Lists', ->
             regexp = new RegExp '<h2 class="ui header">([^<]+)</h2>', 'gi'
             last = null
             num = 0
-            while found = regexp.exec(res.text)
+            while (found = regexp.exec(res.text)) && num < 4
               ++num
               title = found[1].trim()
               # Exists

@@ -1,5 +1,6 @@
 @recipes-list-odd: @chef-color-white-bg;
 @recipes-list-even: @chef-color-light-bg;
+@type-color: darken(@chef-color-green-bg, 20%);
 
 @icon-play-background-color: @chef-color-white;
 
@@ -651,6 +652,7 @@ body {
         position: relative;
 
         span {
+          line-height: 1.25em;
           padding:0 5px;
           display: table-cell;
           vertical-align: middle;
@@ -664,10 +666,10 @@ body {
 
           .type{
             position: absolute;
-            bottom: 10px;
+            bottom: 5px;
             left: 10px;
             font-family: pinto;
-            color: rgb(21, 105, 38);
+            color: @type-color;
             text-transform: uppercase;
             text-shadow: 0px 1px 1px @recipes-grid-border;
           }

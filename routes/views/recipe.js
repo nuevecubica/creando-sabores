@@ -25,6 +25,10 @@ exports = module.exports = function(req, res) {
     locals.own = true;
   }
 
+  if (req.query.autoplay) {
+    locals.autoplay = true;
+  }
+
   locals.editable = true;
   locals.manageable = true;
   locals.config = config;
