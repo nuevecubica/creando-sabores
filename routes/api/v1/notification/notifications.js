@@ -19,11 +19,12 @@ exports = module.exports = function(req, res) {
     token: req.params.token
   };
 
-  var notification = req.params.notification;
+  var notification = req.params.notification,
+    action = req.params.action;
 
   var callback = function(err, result) {
     if (err || !result) {
-      res.status(404);
+      res.status(401);
       answer.success = false;
       answer.error = true;
       answer.errorMessage = (err || 'Invalid params');
@@ -35,10 +36,10 @@ exports = module.exports = function(req, res) {
     return res.apiResponse(answer);
   };
 
-  if (service.notifications[req.params.action][notification]) {
-    service.notifications[req.params.action][notification](options, callback);
+  if (service.notifications[action][notification]) {
+    service.notifications[action][notification](options, callback);
   }
   else {
-    callback(true, null);
+    callback('Unknown action', null);
   }
 };

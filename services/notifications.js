@@ -12,8 +12,9 @@ var setNewsletter = function(options, callback) {
     }
     else {
       if (user.checkToken(options.token)) {
-        user.receiveNewsletter = options.value;
-        user.save(function(err) {
+        user.receiveNewsletter = !!options.receiveNewsletter;
+        user.save(function(err, user) {
+          console.log(user);
           callback(err, user);
         });
       }
@@ -36,15 +37,15 @@ var checkNewsletter = function(options, callback) {
 };
 
 var setSubscribeNewsletter = function(options, callback) {
-  options = _.defaults(options || {}, {
-    value: true
+  options = _.extend(options || {}, {
+    receiveNewsletter: true
   });
   return setNewsletter(options, callback);
 };
 
 var setUnsubscribeNewsletter = function(options, callback) {
-  options = _.defaults(options || {}, {
-    value: false
+  options = _.extend(options || {}, {
+    receiveNewsletter: false
   });
   return setNewsletter(options, callback);
 };

@@ -401,10 +401,11 @@ User.schema.methods.verifyEmail = function(callback) {
     if (err) {
       callback(err);
     }
-
     service.email.send('welcome-register', {
       user: user,
-      link: keystone.get('site').url + '/confirma-email/' + user.verifyEmailToken
+      userVars: {
+        link: keystone.get('site').url + '/confirma-email/' + user.verifyEmailToken
+      }
     }, callback);
   });
 };
@@ -422,19 +423,44 @@ User.schema.methods.resetPassword = function(callback) {
 
     service.email.send('forgotten-password', {
       user: user,
-      link: keystone.get('site').url + '/nueva-contrasena/' + user.resetPasswordToken,
-      subject: 'Reset your ' + (keystone.name || 'Chefcito') + ' Password'
+      userVars: {
+        link: keystone.get('site').url + '/nueva-contrasena/' + user.resetPasswordToken
+      }
     }, callback);
   });
 };
 
 User.schema.methods.getNewsletterUnsubscribeUrl = function() {
-  var token = crypto.createHash('sha1').update(this.phrase).digest('hex');
-  return '/newsletter/' + this.email + '/' + token + '/unsubscribe';
+  return '/newsletter/' + this.email + '/' + this.getNewsletterToken() + '/unsubscribe';
+};
+
+User.schema.methods.getNewsletterToken = function() {
+  return crypto.createHash('sha1').update(this.phrase).digest('hex');
+};
+
+User.schema.methods.getNewsletterSubscribeUrl = function() {
+  return '/newsletter/' + this.email + '/' + this.getNewsletterToken() + '/subscribe';
 };
 
 User.schema.methods.checkToken = function(token) {
   return (crypto.createHash('sha1').update(this.phrase).digest('hex') === token);
+};
+
+User.schema.methods.verifyNewsletter = function(callback) {
+  var user = this;
+  service.email.send('verify-newsletter', {
+    user: user,
+    userVars: {
+      link: user.getNewsletterSubscribeUrl()
+    }
+  }, callback);
+};
+
+User.schema.methods.userBanned = function(callback) {
+  var user = this;
+  service.email.send('user-banned-removed', {
+    user: user
+  }, callback);
 };
 
 //#------------------ REGISTRATION

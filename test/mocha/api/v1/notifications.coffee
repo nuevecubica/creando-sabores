@@ -6,7 +6,23 @@ utils = require __dirname + '/../../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
 
+user =
+  email: 'testUser4@glue.gl'
+  token: 'foobar'
+
 describe 'API v1: /notifications', ->
+
+  before (done) ->
+    request
+    .get('/api/v1/notifications/get/newsletter/users')
+    .set('Accept', 'application/json')
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end (err, res) ->
+      for u in res.body.users
+        if u.email is user.email
+          user.token = u.token
+      done(err)
 
   beforeEach (done) ->
     this.timeout 10000
@@ -24,13 +40,9 @@ describe 'API v1: /notifications', ->
           '/subscribe/newsletter')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(404)
+        .expect(401)
         .end(done)
 
-    user = {
-      email: 'testUser4@glue.gl',
-      token: '0be1c8059d51b0051b288c8aef8297830dfcebb0'
-    }
 
     describe 'on request valid user', ->
       it 'responds with success', (done) ->
@@ -46,6 +58,8 @@ describe 'API v1: /notifications', ->
             res.body.error.must.be.eql false
         )
         .end  (err, res) ->
+          return done(err) if err
+
           request
           .get('/api/v1/notifications/get/newsletter/users')
           .set('Accept', 'application/json')
@@ -70,13 +84,8 @@ describe 'API v1: /notifications', ->
           '/unsubscribe/newsletter')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(404)
+        .expect(401)
         .end(done)
-
-    user = {
-      email: 'testUser4@glue.gl',
-      token: '0be1c8059d51b0051b288c8aef8297830dfcebb0'
-    }
 
     describe 'on request valid user', ->
       it 'responds with success', (done) ->
@@ -88,10 +97,12 @@ describe 'API v1: /notifications', ->
         .expect(200)
         .expect(
           (res) ->
-            res.body.success.must.be.eql true
-            res.body.error.must.be.eql false
+            if res.body.success is false or res.body.error is true
+              return "Invalid headers. #{res.body.error} / #{res.body.success}"
         )
         .end (err, res) ->
+          return done(err) if err
+
           request
           .get('/api/v1/notifications/get/newsletter/users')
           .set('Accept', 'application/json')
@@ -99,7 +110,6 @@ describe 'API v1: /notifications', ->
           .expect(200)
           .expect(
             (res) ->
-              users = (u.email for u in res.body.users)
-              users.must.not.include user.email
+              (u.email for u in res.body.users).must.not.include user.email
           )
           .end(done)

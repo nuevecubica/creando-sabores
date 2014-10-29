@@ -29,7 +29,9 @@ exports = module.exports = function(req, res) {
       _.each(users.results, function(user) {
         var u = {
           email: user.email,
-          unsubscribe: user.getNewsletterUnsubscribeUrl()
+          unsubscribe: user.getNewsletterUnsubscribeUrl(),
+          token: user.getNewsletterToken(),
+          receiveNewsletter: user.receiveNewsletter
         };
 
         usersList.push(u);
@@ -38,7 +40,7 @@ exports = module.exports = function(req, res) {
       answer.users = usersList;
     }
     else {
-      res.status(404);
+      res.status(401);
       answer.error = true;
       answer.errorMessage = err;
     }
