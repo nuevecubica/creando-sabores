@@ -36,20 +36,22 @@ block content
             h2.ui.header= __('Send us a message')
             form.form-contact(method='post', action='/contacto', role='contact', novalidate)
               .ui.input
-                label(for='name')= __('Name')
-                input(
-                  type='name'
-                  name='name'
-                  id='name'
-                  placeholder= __('Name')
-                  value=locals.name)
-                label(for='email')= __('Email')
-                input(
-                  type='email'
-                  name='email'
-                  id='email'
-                  placeholder= __('Email')
-                  value=locals.email)
+
+                if !user
+                  label(for='name')= __('Name')
+                  input(
+                    type='name'
+                    name='name'
+                    id='name'
+                    placeholder= __('Name'))
+
+                  label(for='email')= __('Email')
+                  input(
+                    type='email'
+                    name='email'
+                    id='email'
+                    placeholder= __('Email'))
+
                 label(for='Comment')= __('Comment')
                 input(
                   type='text'

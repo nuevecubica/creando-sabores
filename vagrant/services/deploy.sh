@@ -1,8 +1,10 @@
 #!/bin/bash
 
-TARGET=http://10.17.8.102:4001
+#TARGET=http://10.17.8.102:4001
+TARGET=http://127.0.0.1:4001
 
 curl -s -L $TARGET/v2/keys/chefcito-dockerfile -XPUT --data-urlencode value@Dockerfile > /dev/null
+curl -s -L $TARGET/v2/keys/chefcito-nginx -XPUT --data-urlencode value@nginx.sh > /dev/null
 
 #fleetctl --endpoint $TARGET start *.service
 

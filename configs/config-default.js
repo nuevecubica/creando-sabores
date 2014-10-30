@@ -74,7 +74,7 @@ answer.keystone = {
     init: {
       'db name': answer.mongodb.db + '-test',
       'mongo': answer.mongodb.url + '-test',
-      'view cache': true,
+      'view cache': false,
       'mandrill api key': env.MANDRILL_TEST_API_KEY || null
     },
     'security': {
