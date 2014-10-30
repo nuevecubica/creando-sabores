@@ -35,7 +35,7 @@ User.add({
     trim: true
   },
   username: {
-    type: Types.Key,
+    type: Types.Text,
     initial: true,
     required: true,
     index: true,

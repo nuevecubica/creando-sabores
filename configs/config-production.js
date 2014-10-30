@@ -24,10 +24,10 @@ var answer = {
   },
   site: {
     name: 'Creando Sabores',
-    email: 'creandosabores@glue.gl',
-    url: 'http://creandosabores.byglue.me'
+    email: 'contacto@creandosabores.com',
+    url: 'http://creandosabores.com'
   },
-  publicUrl: 'http://creandosabores.byglue.me'
+  publicUrl: 'http://creandosabores.com'
 };
 
 exports = module.exports = _.deepDefaults(answer, defaults);

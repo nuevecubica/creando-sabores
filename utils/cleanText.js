@@ -62,6 +62,14 @@ var cleaners = {
 
   ucfirst: function(str, force) {
     return str.capitalize(force);
+  },
+
+  lowercase: function(str) {
+    return str.toLowerCase();
+  },
+
+  uppercase: function(str) {
+    return str.toUpperCase();
   }
 };
 

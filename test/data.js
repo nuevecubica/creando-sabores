@@ -21,13 +21,13 @@ var data = {
   "users": [{
     "about": "Test User 1",
     "email": "testUser1@glue.gl",
-    "username": "testUser1",
+    "username": "testuser1",
     "password": "testUser1",
     "name": "Test User1"
   }, {
     "about": "Test User 2",
     "email": "testUser2@glue.gl",
-    "username": "testUser2",
+    "username": "testuser2",
     "password": "testUser2",
     "name": "Test User2"
   }, {
@@ -39,7 +39,7 @@ var data = {
   }, {
     "about": "Test User Banned",
     "email": "testUserBanned@glue.gl",
-    "username": "testUserBanned",
+    "username": "testuserbanned",
     "password": "testUserBanned",
     "name": "Test User Banned"
   }, {
