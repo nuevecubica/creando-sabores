@@ -21,7 +21,7 @@ exports = module.exports = function(req, res, next) {
         // Same username, do not change
         function(next) {
           if (req.body.username) {
-            req.body.username = clean(String(req.body.username), ['username', ['maxlength', config.profile.username.length]]);
+            req.body.username = clean(String(req.body.username), ['lowercase', 'username', ['maxlength', config.profile.username.length]]);
             if (req.body.username === req.user.username) {
               req.body.username = null;
               delete req.body.username;

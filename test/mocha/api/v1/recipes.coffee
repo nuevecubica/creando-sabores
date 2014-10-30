@@ -90,7 +90,7 @@ describe 'API v1: /recipes', ->
     describe 'on request without args', ->
       it 'responds with first page, sorted by edit date', (done) ->
         request
-        .get('/api/v1/user/testUser1/recipes')
+        .get('/api/v1/user/testuser1/recipes')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -103,7 +103,7 @@ describe 'API v1: /recipes', ->
 
             res.body.recipes.results.length.must.be.gte 2
             past = null
-            user = data.getUserByUsername 'testUser1'
+            user = data.getUserByUsername 'testuser1'
             for recipe, i in res.body.recipes.results
               if recipe.author isnt user._id
                 return "Wrong username: #{recipe.author}"
@@ -116,7 +116,7 @@ describe 'API v1: /recipes', ->
     describe 'on normal request', ->
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/user/testUser1/recipes?page=1&perPage=2')
+        .get('/api/v1/user/testuser1/recipes?page=1&perPage=2')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -129,7 +129,7 @@ describe 'API v1: /recipes', ->
           total = res.body.recipes.results
 
           request
-          .get('/api/v1/user/testUser1/recipes?page=2&perPage=1')
+          .get('/api/v1/user/testuser1/recipes?page=2&perPage=1')
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
@@ -189,7 +189,7 @@ describe 'API v1: /recipes', ->
 
             res.body.recipes.results.length.must.be.lte 20
 
-            user = data.getUserByUsername 'testUser1'
+            user = data.getUserByUsername 'testuser1'
             banOrDraft = false
             for recipe in res.body.recipes.results
               if recipe.author isnt user._id

@@ -56,9 +56,9 @@ describe 'Contest page', ->
           '#winners .author-winner'.should.be.inDOM.and.visible
           '#winners .user'.should.be.inDOM.and.visible
           href = @getElementAttribute '#winners .author-winner a', 'href'
-          href.should.be.equal '/chef/testUser2'
+          href.should.be.equal '/chef/testuser2'
           a = @getElementAttribute('#winners .recipe-award a:first-child',
-          'href').should.be.equal '/chef/testUser2'
+          'href').should.be.equal '/chef/testuser2'
 
       it 'exists & works contests award', ->
         casper.then ->
