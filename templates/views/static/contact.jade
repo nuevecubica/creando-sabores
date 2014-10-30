@@ -36,6 +36,7 @@ block content
             h2.ui.header= __('Send us a message')
             form.form-contact(method='post', action='/contacto', role='contact', novalidate)
               .ui.input
+<<<<<<< HEAD
 
                 if !user
                   label(for='name')= __('Name')
@@ -52,6 +53,31 @@ block content
                     id='email'
                     placeholder= __('Email'))
 
+=======
+                input(
+                  type='hidden'
+                  name='action'
+                  value='contact-form')
+                input(
+                  type='text'
+                  name='url'
+                  value=''
+                  class='hidden')
+                label(for='name')= __('Name')
+                input(
+                  type='name'
+                  name='name'
+                  id='name'
+                  placeholder= __('Name')
+                  value=locals.name)
+                label(for='email')= __('Email')
+                input(
+                  type='email'
+                  name='email'
+                  id='email'
+                  placeholder= __('Email')
+                  value=locals.email)
+>>>>>>> 71f2986bd4d43e905c0aa922df079c294c7f4f02
                 label(for='Comment')= __('Comment')
                 input(
                   type='text'

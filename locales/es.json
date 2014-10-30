@@ -249,7 +249,7 @@
 	"Write here your question_": "Escribe aquí tu pregunta_",
 	"Write your comments here": "Escribe tu comentario aquí",
 	"Wrong email or in use.": "Incorrecto o en uso.",
-	"Your password has been reset, please sign in.": "Has cambiado tu contraseña, debes acceder de nuevo.",
+	"Your password has been reset, please sign in.": "Ha cambiado su contraseña, debe acceder de nuevo.",
 	"closed": "Cerrado",
 	"draft": "borrador",
 	"finished": "Terminado",
@@ -267,7 +267,7 @@
 	"submission": "Periodo de envio de recetas",
 	"votes": "Votaciones",
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
-	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, estás seguro de querer dejar de recibir noticias?",
-	"{{{email}}} has been {{{action}}}d successfully": "{{{email}}} ha sido {{{action}}}d correctamente",
-	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, estás seguro que quieres {{{action}}}?"
+	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, está seguro de querer dejar de recibir noticias?",
+	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?",
+	"Your message has been sent. Thank you.": "Su mensaje ha sido enviado correctamente. Gracias."
 }

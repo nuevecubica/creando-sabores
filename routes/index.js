@@ -54,7 +54,7 @@ exports = module.exports = function(app) {
   app.get('/terminos', routes.views.static.terms);
   app.get('/biografia', routes.views.static.about);
   app.get('/prensa', routes.views.static.press);
-  app.get('/contacto', routes.views.static.contact);
+  app.all('/contacto', routes.views.static.contact);
 
   // Profile: Private
   app.get('/perfil/:section(recetas|favoritas|compra|tips)?', middleware.requireUser, routes.views['private'].profile);
