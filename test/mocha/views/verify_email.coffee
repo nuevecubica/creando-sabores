@@ -58,6 +58,8 @@ describe 'Verify email:', ->
               return 'Wrong redirect to ' + res.header['location']
         )
         .end (err, res) ->
+          return done(err) if err
+
           cookie = res.headers['set-cookie']
           request
           .get('/api/v1/test/getUser?username=' + user.username)
@@ -69,6 +71,8 @@ describe 'Verify email:', ->
                   (res.body.user.resetPasswordToken || null)
           )
           .end (err, res) ->
+            return done(err) if err
+
             token = res.body.user.verifyEmailToken
             done()
 
@@ -86,6 +90,8 @@ describe 'Verify email:', ->
                 ' / Error: ' + res.header['api-response-error']
         )
         .end (err, res) ->
+          return done(err) if err
+
           request
           .get('/api/v1/test/getUser?username=' + user.username)
           .expect(
@@ -125,6 +131,8 @@ describe 'Verify email:', ->
                   ' / Error: ' + res.header['api-response-error']
           )
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/confirma-email/' + token)
             .set('cookie', cookie)

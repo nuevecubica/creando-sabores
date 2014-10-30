@@ -152,7 +152,7 @@ describe 'API v1: /recipes', ->
         .expect(401)
         .expect(
           (res) ->
-            if res.body.success isnt false or res.body.error isnt false
+            if res.body.success or not res.body.error
               return 'Unexpected status values'
         )
         .end(done)
@@ -169,6 +169,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -213,6 +215,7 @@ describe 'API v1: /recipes', ->
             res.body.recipes.results.length.must.be.eql 4
         )
         .end (err, res) ->
+          return done(err) if err
 
           total = res.body.recipes.results
 
@@ -247,6 +250,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -278,6 +283,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -334,6 +341,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
 
@@ -363,6 +372,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           isLiked = 0
           for like in res.body.user.likes
             if like is recipeVotedId
@@ -394,6 +405,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
 
@@ -407,6 +420,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             recipeLikes = res.body.likes
             recipeVoted = res.body.id
             done()
@@ -422,6 +437,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           res.body.likes.must.be.eql(recipeLikes)
           done()
 
@@ -433,6 +450,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           userLikesFirst = res.body.user.likes
           request
           .put('/api/v1/recipe/' + recipe.slug + '/like')
@@ -444,6 +463,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -503,6 +524,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -528,6 +551,7 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
 
           origLikes = res.body.user.likes
 
@@ -539,6 +563,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -565,6 +591,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
 
@@ -576,6 +604,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             recipeLikes = res.body.likes
             recipeVoted = res.body.id
             done()
@@ -602,6 +632,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           userLikesFirst = res.body.user.likes
 
           request
@@ -612,6 +644,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -619,6 +653,8 @@ describe 'API v1: /recipes', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               length = res.body.user.likes.length
               length.must.be.eql(userLikesFirst.length - 1)
               res.body.user.likes.must.not.include userLikesFirst
@@ -638,6 +674,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -683,6 +721,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -753,6 +793,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             done()
 
@@ -766,6 +808,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             request
             .put('/api/v1/recipe/' + recipeGood + '/vote/3')
@@ -776,5 +820,7 @@ describe 'API v1: /recipes', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               res.body.rating.must.be.equal 3
               done()

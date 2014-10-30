@@ -146,6 +146,12 @@ var getFavouritesList = function(options, callback) {
 var getUserByUsername = function(options, callback) {
   options = options || {};
 
+  if ('string' === typeof options) {
+    options = {
+      username: options
+    };
+  }
+
   User.model.findOne({
     username: options.username
   }, callback);
@@ -153,6 +159,12 @@ var getUserByUsername = function(options, callback) {
 
 var getUserByEmail = function(options, callback) {
   options = options || {};
+
+  if ('string' === typeof options) {
+    options = {
+      email: options
+    };
+  }
 
   User.model.findOne({
     email: options.email

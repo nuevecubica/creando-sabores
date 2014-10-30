@@ -110,8 +110,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -137,8 +137,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -165,8 +165,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -193,8 +193,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -226,8 +226,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -330,8 +330,8 @@ describe '(Private) Recipe: Save', ->
               return 'Wrong status headers'
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get(url)
             .set('cookie', cookie)
@@ -361,8 +361,8 @@ describe '(Private) Recipe: Save', ->
               return 'Wrong status headers'
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get(url)
             .set('cookie', cookie)
@@ -418,8 +418,8 @@ describe '(Private) Recipe: Save', ->
               return 'Wrong status headers'
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get(url)
             .set('cookie', cookie)

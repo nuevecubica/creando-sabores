@@ -47,8 +47,7 @@ describe 'API v1: ~/search', ->
             res.body.results.results.length.must.be.eql 4
         )
         .end (err, res) ->
-          if err
-            return done(err)
+          return done(err) if err
 
           total = res.body.results.results
 

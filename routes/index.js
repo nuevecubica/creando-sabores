@@ -176,8 +176,9 @@ exports = module.exports = function(app) {
   app.get('/api/v1/Configs', routes.api.v1.configs);
 
   //-- Test
-  app.all('/api/v1/test/getUser', routes.api.v1.test.getUser);
-  app.all('/api/v1/test/sendEmail', routes.api.v1.test.sendEmail);
+  app.all('/api/v1/test/getUser', middleware.requireTestApi, routes.api.v1.test.getUser);
+  app.all('/api/v1/test/sendEmail', middleware.requireTestApi, routes.api.v1.test.sendEmail);
+  app.all('/api/v1/test/getNewsletterUsers/:notification(newsletter)?', middleware.requireTestApi, routes.api.v1.notification.users);
 
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);

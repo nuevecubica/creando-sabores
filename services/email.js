@@ -1,45 +1,15 @@
 var _ = require('underscore'),
   async = require('async'),
   keystone = require('keystone'),
-  handlebars = require('handlebars');
+  config = require(__base + 'config');
 
-/**
- * Returns handlebars templates from the database
- * @param  {String}   id       Template ID
- * @param  {Function} callback (err, result, options)
- * @return {Object}            { name, subject, title, body }
- */
-var getContentTpl = function(id, callback) {
-  var email = keystone.list('Email');
-  email.model.findOne({
-    name: id,
-    state: 'published'
-  }).exec(function(err, tpl) {
-    var res;
-    if (!err) {
-      res = {
-        name: tpl.name,
-        subject: handlebars.compile(tpl.subject),
-        title: handlebars.compile(tpl.title),
-        body: handlebars.compile(tpl.body)
-      };
-    }
-    callback(err, res || null);
-  });
-};
+var site = keystone.get('site') || config.keystone['site'];
 
-/**
- * Sends an email
- * @param  {String}   id       Email identifier
- * @param  {Oject}    options  {to, subject, user, from, locals}
- * @param  {Function} callback err
- */
-var send = function(id, options, callback) {
-  options = options || {};
-
-  _.defaults(options, {
+var defaults = function() {
+  return {
     userId: null, // To do
     user: null,
+    users: [],
     to: null,
     subject: null,
     title: null,
@@ -49,59 +19,149 @@ var send = function(id, options, callback) {
       email: 'noreply@byglue.me'
     },
     locals: keystone.get('email locals') || {},
-    templateId: null // To do
-  });
+    globalMergeVars: {
+      site: site,
+      private_profile: site.url + '/perfil',
+      current_year: 2014,
+      links: {
+        home: site.url + '/',
+        login: site.url + '/login',
+        recipes: site.url + '/recetas',
+        videorecipes: site.url + '/videorecetas',
+        contests: site.url + '/concursos',
+        tips: site.url + '/tips'
+      }
+    },
+    content: {},
+    mandrillTemplate: true // To do
+  };
+};
 
-  if (!options.to) {
-    if (options.user) {
-      options.to = {
-        name: options.user.name,
-        email: options.user.email
-      };
+var userToMandrill = function(user) {
+  var _user = {
+    name: user.name,
+    email: user.email,
+    vars: {
+      profile: user.url || site.url,
+      private_profile: site.url + "/perfil",
+      avatar: user.thumb ? user.thumb.avatar_small : ""
     }
-    else {
-      return callback('No recipient');
-    }
+  };
+
+  // merge_vars via user object
+  if (user.vars) {
+    _user.vars = _.extend(_user.vars, user.vars);
   }
 
+  return _user;
+};
 
-  if (options.templateId) {
-    // Mandrill template
-    return callback('Template method not supported yet');
+/**
+ * Parse options before the delivery
+ * @param  {Object} options
+ * @return {Object}
+ */
+var _parseOptions = function(options) {
+  options = options || {};
+
+  _.defaults(options, defaults());
+
+  options.to = options.to || [];
+
+  if (!keystone.utils.isArray(options.to)) {
+    options.to = [options.to];
   }
-  else {
-    getContentTpl(id, function(err, tpl) {
-      if (err) {
-        return callback(err);
-      }
 
-      if (!tpl) {
-        return callback('Template not found on DB');
-      }
-
-      options = _.omit(_.extend(options, options.locals), ['locals', 'templateId']);
-
-      options.subject = options.subject || tpl.subject(options);
-      options.title = options.title || tpl.title(options);
-      options.body = options.body || tpl.body(options);
-
-      if (!options.subject) {
-        return callback('No subject');
-      }
-
-      var em = new keystone.Email(id);
-      em.send(options, function(err, result) {
-        callback(err, result, options);
-      });
+  if (options.user) {
+    options.users.push(options.user);
+    options.users = _.uniq(options.users, false, function(user) {
+      return user.username;
     });
   }
+
+  if (options.users && keystone.utils.isArray(options.users)) {
+
+    options.users.forEach(function(_user) {
+      _user = userToMandrill(_user);
+
+      // userVars via options
+      if (options.userVars) {
+        _user.vars = _.extend(_user.vars, options.userVars);
+      }
+
+      options.to.push(_user);
+    });
+  }
+
+  options = _.omit(_.extend(options, options.locals), ['locals']);
+
+  return options;
+};
+
+/**
+ * Sends an email
+ * @param  {String}   id       Email identifier
+ * @param  {Oject}    options  {to, subject, user, from, locals}
+ * @param  {Function} callback err
+ */
+var send = function(id, options, callback) {
+
+  if (!id) {
+    return callback('No template');
+  }
+
+  options = _parseOptions(options);
+
+  if (!options.to) {
+    return callback('No recipient');
+  }
+
+  var init = {
+    templateName: id
+  };
+
+  if (options.mandrillTemplate) {
+    init.templateMandrillName = id;
+  }
+
+  var em = new keystone.Email(init);
+  em.send(options, function(err, result) {
+    callback(err, result, options);
+  });
+};
+
+var render = function(id, options, callback) {
+
+  if (!id) {
+    return callback('No template');
+  }
+
+  options = _parseOptions(options);
+
+  if (!options.to) {
+    return callback('No recipient');
+  }
+
+  var init = {
+    templateName: id
+  };
+
+  if (options.mandrillTemplate) {
+    init.templateMandrillName = id;
+  }
+
+  var em = new keystone.Email(init);
+  em.renderMandrill(options, function(err, result) {
+    callback(err, result, options);
+  });
 };
 
 /*
   Set exportable object
  */
 var _service = {
-  send: send
+  send: send,
+  render: render
 };
 
 exports = module.exports = _service;

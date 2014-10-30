@@ -73,8 +73,8 @@ describe '(Private) Profile: Save', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -105,8 +105,8 @@ describe '(Private) Profile: Save', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -140,8 +140,8 @@ describe '(Private) Profile: Save', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -172,8 +172,8 @@ describe '(Private) Profile: Save', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')

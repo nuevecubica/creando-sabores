@@ -54,6 +54,8 @@ describe 'API v1: questions', ->
             res.body.questions.results.length.must.be.eql 4
         )
         .end (err, res) ->
+          return done(err) if err
+
           total = res.body.questions.results
 
           request
@@ -84,6 +86,8 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -118,6 +122,8 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
@@ -154,6 +160,8 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
@@ -200,6 +208,8 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
@@ -231,6 +241,8 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
@@ -263,6 +275,8 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
@@ -317,10 +331,12 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
-          done()
+          done(err)
 
       question = data.getBySlug 'questions', 'question-review'
       state = 'published'
@@ -347,10 +363,12 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
-          done()
+          done(err)
 
       question = data.getBySlug 'questions', 'question-review'
       state = 'published'
@@ -378,10 +396,12 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
 
           cookie = res.headers['set-cookie']
-          done()
+          done(err)
 
       question = data.getBySlug 'questions', 'question-review'
       state = 'published'
@@ -395,8 +415,3 @@ describe 'API v1: questions', ->
         .expect('Content-Type', /json/)
         .expect(403)
         .end(done)
-
-
-
-
-

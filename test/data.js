@@ -47,8 +47,7 @@ var data = {
     "email": "testUser4@glue.gl",
     "username": "testuser4",
     "password": "testUser4",
-    "name": "Test User4",
-    "token": "a53939c1bf5c112eddfb1d3b18f16f70ea615ff1"
+    "name": "Test User4"
   }, {
     "about": "Test User Newbie",
     "email": "testUserNewbie@glue.gl",

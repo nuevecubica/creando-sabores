@@ -37,6 +37,8 @@ describe 'Videorecipe: View', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -60,6 +62,8 @@ describe 'Videorecipe: View', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
