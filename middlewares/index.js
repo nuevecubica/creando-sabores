@@ -12,6 +12,9 @@ exports.requireAdminApi = requireUser.requireAdminApi;
 exports.requireConfirmed = requireUser.requireConfirmed;
 exports.requireConfirmedApi = requireUser.requireConfirmedApi;
 
+var requireTest = require('./requireTest');
+exports.requireTestApi = requireTest.requireTestApi;
+
 var antiBadUsers = require('./antiBadUsers');
 exports.antiBanned = antiBadUsers.antiBanned;
 exports.antiDeactivated = antiBadUsers.antiDeactivated;

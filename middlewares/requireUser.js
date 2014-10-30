@@ -22,6 +22,8 @@ exports.requireUserApi = function(req, res, next) {
 
   if (!req.user || (req.user && req.user.isBanned)) {
     res.status(401);
+    answer.error = true;
+    answer.errorMessage = 'Unauthorized access';
     res.apiResponse(answer);
   }
   else {
@@ -53,6 +55,8 @@ exports.requireAdminApi = function(req, res, next) {
 
   if (!req.user || (req.user && (req.user.isBanned || req.user.isDeactivated || !req.user.isAdmin))) {
     res.status(401);
+    answer.error = true;
+    answer.errorMessage = 'Unauthorized access';
     res.apiResponse(answer);
   }
   else {
@@ -92,6 +96,8 @@ exports.requireConfirmedApi = function(req, res, next) {
 
   if (!req.user || (req.user && (req.user.isBanned || req.user.isDeactivated || !req.user.isConfirmed))) {
     res.status(401);
+    answer.error = true;
+    answer.errorMessage = 'Unauthorized access';
     res.apiResponse(answer);
   }
   else {
