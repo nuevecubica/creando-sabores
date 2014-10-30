@@ -1,6 +1,7 @@
 var keystone = require('keystone'),
   service = require(__base + 'services'),
-  clean = require(__base + 'utils/cleanText.js');
+  clean = require(__base + 'utils/cleanText.js'),
+  formResponse = require(__base + 'utils/formResponse.js');
 
 exports = module.exports = function(req, res) {
 
@@ -35,7 +36,14 @@ exports = module.exports = function(req, res) {
         email: req.body.email,
         topic: req.body.comment
       }
-    }, function() {});
+    }, function(err) {
+      if (!err) {
+        return formResponse(req, res, '/contacto', false, 'Your message has been sent. Thank you.');
+      }
+      else {
+        return formResponse(req, res, '/contacto', 'Error: Unknown error', false);
+      }
+    });
 
   });
 
