@@ -1,8 +1,12 @@
 [Unit]
+Requires=etcd-amb-elastic.service
+Requires=elastic.service
 After=etcd-amb-elastic.service
 After=elastic.service
 
 [Service]
+Restart=always
+RestartSec=30
 ExecStart=/usr/bin/docker run --link etcd-amb-elastic.service:etcd -v /var/run/docker.sock:/var/run/docker.sock --rm polvi/docker-register elasticsearch 9200 elastic-A
 
 [X-Fleet]

@@ -2,9 +2,12 @@
 Description=Mongo
 
 [Service]
+Restart=always
+RestartSec=30
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill mongo
 ExecStartPre=-/usr/bin/docker rm mongo
 ExecStartPre=/usr/bin/docker pull mongo
-ExecStart=/bin/bash -c "HOST_IP=$(/bin/ifconfig enp0s8 | awk '/inet /{print $2}') && exec /usr/bin/docker run --name mongo -p $HOST_IP::27017 mongo"
+ExecStartPre=/usr/bin/mkdir -p /home/core/db
+ExecStart=/bin/bash -c "HOST_IP=$(/bin/ifconfig enp0s8 | awk '/inet /{print $2}') && exec /usr/bin/docker run --name mongo -p $HOST_IP::27017 -v /home/core/db:/data/db mongo"
 ExecStop=/usr/bin/docker stop mongo

@@ -2,6 +2,8 @@
 Description=Elastic
 
 [Service]
+Restart=always
+RestartSec=30
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill elasticsearch
 ExecStartPre=-/usr/bin/docker rm elasticsearch

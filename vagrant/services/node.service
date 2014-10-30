@@ -1,9 +1,13 @@
 [Unit]
 Description=Node
+Requires=mongo-dyn-amb.service
+Requires=elastic-dyn-amb.service
 After=mongo-dyn-amb.service
 After=elastic-dyn-amb.service
 
 [Service]
+Restart=always
+RestartSec=30
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill node
 ExecStartPre=-/usr/bin/docker rm node

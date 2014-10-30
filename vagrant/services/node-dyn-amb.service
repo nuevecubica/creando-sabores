@@ -1,8 +1,12 @@
 [Unit]
+Requires=etcd-amb-node-consumer.service
+Wants=node-docker-reg.service
 After=etcd-amb-node-consumer.service
 After=node-docker-reg.service
 
 [Service]
+Restart=always
+RestartSec=30
 ExecStartPre=-/usr/bin/docker kill %n
 ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/usr/bin/docker run --link etcd-amb-node-consumer.service:etcd --rm --name %n -p 127.0.0.1::8088 polvi/dynamic-etcd-amb node-A 8088
