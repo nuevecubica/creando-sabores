@@ -1,0 +1,88 @@
+extends ../../layouts/default
+include ../../mixins/header
+
+block content
+
+  +header(data, section)
+
+  .ui.page.grid.body
+    .ui.grid.segment
+      .sixteen.wide.column
+        .row
+          .explain
+            p You broke it. Wow, look at him go. Of course not, Biff, now I wouldn't want that to happen. Now, uh, I'll finish those reports up tonight, and I'll run em them on over first thing tomorrow, alright? I think you got the wrong car, McFly. David, watch your mouth. You come here and kiss your mother before you go, come here. It's taken me almost thirty years and my entire family fortune to realize the vision of that day, my god has it been that long. Things have certainly changed around here. I remember when this was all farmland as far as the eye could see. Old man Peabody, owned all of this. He had this crazy idea about breeding pine trees.
+
+    #contact.ui.grid.segment
+      .row
+        .three.wide.column.mobile-one
+        .six.wide.column.mobile-eight.ui.grid
+          .two.column.wide
+            i.icon-chef-location.icon
+          .twelve.column.wide
+            .explain Dirección ficticia,
+            .explain 2ª avenida, México
+        .four.wide.column.mobile-six.ui.grid
+          .three.column.wide
+            i.icon-chef-movil.icon
+          .twelve.column.wide
+            .explain +47 534 093
+            .explain +47 233 365
+        .three.wide.column.mobile-one
+
+    #form-contact.ui.grid.segment
+      .row
+          .three.wide.column.mobile-one
+          .ten.wide.column.mobile-fourteen
+            h2.ui.header= __('Send us a message')
+            form.form-contact(method='post', action='/contacto', role='contact', novalidate)
+              .ui.input
+<<<<<<< HEAD
+
+                if !user
+                  label(for='name')= __('Name')
+                  input(
+                    type='name'
+                    name='name'
+                    id='name'
+                    placeholder= __('Name'))
+
+                  label(for='email')= __('Email')
+                  input(
+                    type='email'
+                    name='email'
+                    id='email'
+                    placeholder= __('Email'))
+
+=======
+                input(
+                  type='hidden'
+                  name='action'
+                  value='contact-form')
+                input(
+                  type='text'
+                  name='url'
+                  value=''
+                  class='hidden')
+                label(for='name')= __('Name')
+                input(
+                  type='name'
+                  name='name'
+                  id='name'
+                  placeholder= __('Name')
+                  value=locals.name)
+                label(for='email')= __('Email')
+                input(
+                  type='email'
+                  name='email'
+                  id='email'
+                  placeholder= __('Email')
+                  value=locals.email)
+>>>>>>> 71f2986bd4d43e905c0aa922df079c294c7f4f02
+                label(for='Comment')= __('Comment')
+                input(
+                  type='text'
+                  name='comment'
+                  id='comment'
+                  placeholder= __('Comment'))
+                button.icon.chef.button-brick(type='submit')= __('Send')
+          .three.wide.column.mobile-one

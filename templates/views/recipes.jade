@@ -33,29 +33,44 @@ block content
 						.ui.button.chef.button-brick
 							a(href='/nueva-receta')= __('Create recipe')
 
-		#recipes.ui.grid.segment.two.tabs
+		- var numberTexts = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+		- var tabs = data.seasons.length + 1
+		#recipes.ui.grid.segment.tabs(class=numberTexts[tabs])
 			.row.tab-header
 				.tab
-					a(href='/recetas')
-						.ui.button.chef.button-green
+					a.transient-tab-link(href='/recetas')
+						.ui.button.chef.button-green.active
 							| #{('Popular')}
-				.tab
-					a(href='#')
-						.ui.button.chef.button-green.disabled
-							| #{('Season')}
+				if data.seasons.length
+					each season in data.seasons
+						.tab
+							a.transient-tab-link(href='#')
+								.ui.button.chef.button-green= season.title
 
-			.row
-				.ui.grid.segment.list.stackable
-					if data.recipes.length
-						each recipe in data.recipes
-							+recipe(recipe)
+			.transient-tab-content.active
+				.row
+					.ui.grid.segment.list.stackable
+						if data.recipes.length
+							each recipe in data.recipes
+								+recipe(recipe)
 
-					else
-						| #{__('No recipes yet')}
+						else
+							.empty-resultset.sixteen.wide.column= __('No recipes yet')
 
-			.row
-				.loader
-					.sixteen.wide.column.loading= __('Loading more recipes')
-					.sixteen.wide.column.load-more
-						.ui.button.chef.button-brick.load-button
-							a(href="#")= __('Load more')
+				.row
+					.loader
+						.sixteen.wide.column.loading= __('Loading more recipes')
+						.sixteen.wide.column.load-more
+							.ui.button.chef.button-brick.load-button
+								a(href="#")= __('Load more')
+
+			each season in data.seasons
+				.transient-tab-content
+					.row
+						.ui.grid.segment.list.stackable
+							if data.recipes.length
+								each recipe in season.recipes
+									+recipe(recipe)
+
+							else
+								.empty-resultset.sixteen.wide.column= __('No recipes yet')

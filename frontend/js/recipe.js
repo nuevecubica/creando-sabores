@@ -21,7 +21,7 @@
         showLimit: true,
         filters: {
           avoidNewLines: true,
-          limitLength: 40
+          limitLength: window.chef.editor.config.recipe.ingredient.length
         }
       };
 
@@ -69,7 +69,7 @@
       var options = {
         isHtml: true,
         filters: {
-          limitElements: 50
+          limitElements: window.chef.editor.config.recipe.ingredient.elements
         }
       };
       var elem = {
@@ -119,7 +119,7 @@
         showLimit: true,
         filters: {
           avoidNewLines: true,
-          limitLength: 400
+          limitLength: window.chef.editor.config.recipe.procedure.length
         }
       };
       var elem = {
@@ -167,7 +167,7 @@
       var options = {
         isHtml: true,
         filters: {
-          limitElements: 5
+          limitElements: window.chef.editor.config.recipe.procedure.elements
         }
       };
       var elem = {
@@ -274,9 +274,14 @@
   //---------- DOCUMENT READY
   $(document).ready(function() {
 
-    addTypes();
-    window.chef.editor.bindEditables();
-    window.chef.editor.init();
+    var section = window.location.pathname.split('/')[1];
+    var type = section === 'videoreceta' ? 'videorecipe' : 'recipe';
+
+    if (type === 'recipe') {
+      addTypes();
+      window.chef.editor.bindEditables();
+      window.chef.editor.init();
+    }
 
     //----------- SAVERS
     var saveArrayList = function(arr) {
@@ -293,7 +298,7 @@
     //----------- TITLE
     var title = window.chef.editor.newElement('input')('#recipe-title', {
       filters: {
-        limitLength: 60
+        limitLength: window.chef.editor.config.recipe.title.length
       }
     });
     var difficulty = window.chef.editor.newElement('select')('#recipe-difficulty');
@@ -312,7 +317,7 @@
       filters: {
         avoidNewLines: true,
         keepMultiline: false,
-        limitLength: 400
+        limitLength: window.chef.editor.config.recipe.description.length
       }
     });
     var ingredients = window.chef.editor.newElement('ingredientList')('#ingredients .column.grid');
@@ -324,6 +329,11 @@
     var food = window.chef.editor.newElement('categoryList')('#categories-editor #food.categories');
 
     window.chef.setEditableModeOn = function() {
+      // Tutorial start
+      if (window.chef.user.disabledHelpers.indexOf('recipe') === -1) {
+        window.chef.tutorial.start();
+      }
+
       title.backup();
       difficulty.backup();
       time.backup();
@@ -349,6 +359,7 @@
         window.chef.setEditableModeOn();
       },
       onButtonCancelClick: function(ev) {
+        window.chef.tutorial.stop();
         title.restore();
         difficulty.restore();
         time.restore();
@@ -449,6 +460,10 @@
     });
 
     $('.favourite .button').on('click', function(e) {
+      if (!window.chef.isUserLoggedIn) {
+        window.location.href = '/acceso';
+        return;
+      }
       var $this = $(this);
       var slug = $this.data('slug');
       var action = $this.hasClass('activated') ? 'remove' : 'add';
@@ -483,6 +498,10 @@
     });
 
     $('.shopping-add').on('click', function(e) {
+      if (!window.chef.isUserLoggedIn) {
+        window.location.href = '/acceso';
+        return;
+      }
       var $this = $(this);
       var slug = $this.data('slug');
       var url = '/api/v1/me/shopping/add/' + slug;
@@ -546,7 +565,23 @@
     $('.rating:not(.disabled) .like-button').click(likeClick);
 
     $('.ui.rating').rating();
-    $('.rating:not(.disabled) .icon-chef-star').click(ratingClick);
+    $('.rating:not(.disabled) .icon-chef-star').click(function(e) {
+      e.preventDefault();
+      ratingClick(type, this);
+    });
+
+    var playVideo = function(id) {
+      $('#video-player').html('<iframe width="100%" height="600" src="//www.youtube.com/embed/' + id + '?rel=0&autohide=1&showinfo=0&autoplay=1" frameborder="0" allowfullscreen </iframe>');
+    };
+
+    if ($('#videorecipe-header .head').hasClass('video-playing')) {
+      var video = $('.icon-chef-play.icon.clickable');
+
+      if (video.attr('data-video')) {
+        var id = video.attr('data-video').split('=')[1];
+        playVideo(id);
+      }
+    }
 
     $('.icon-chef-play.icon.clickable').click(function() {
 
@@ -554,7 +589,7 @@
 
       if ($(this).attr('data-video')) {
         var id = $(this).attr('data-video').split('=')[1];
-        $('#video-player').html('<iframe width="100%" height="600" src="//www.youtube.com/embed/' + id + '?rel=0&autohide=1&showinfo=0&autoplay=1" frameborder="0" allowfullscreen </iframe>');
+        playVideo(id);
       }
     });
 

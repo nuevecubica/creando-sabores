@@ -2,7 +2,11 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   Types = keystone.Field.Types,
   modelCleaner = require(__base + 'utils/modelCleaner'),
-  imageQuality = require(__base + 'utils/imageQuality');
+  crypto = require('crypto'),
+  imageQuality = require(__base + 'utils/imageQuality'),
+  service = {
+    email: require(__base + 'services/email')
+  };
 
 /**
  * Users
@@ -57,7 +61,8 @@ User.add({
   about: {
     type: Types.Html,
     wysiwyg: true,
-    trim: true
+    trim: true,
+    default: ''
   }
 }, 'Avatars', {
   avatars: {
@@ -68,12 +73,14 @@ User.add({
     facebook: {
       type: Types.Text,
       label: 'Facebook',
-      noedit: true
+      noedit: true,
+      default: ''
     },
     google: {
       type: Types.Text,
       label: 'Google',
-      noedit: true
+      noedit: true,
+      default: ''
     }
   }
 }, 'Media', {
@@ -110,32 +117,38 @@ User.add({
   isAdmin: {
     type: Boolean,
     label: 'Superadmin',
-    note: 'Can access Keystone.'
+    note: 'Can access Keystone.',
+    default: false
   },
   isConfirmed: {
     type: Boolean,
     label: 'Confirmed',
-    note: 'Has confirmed email address. Can publish.'
+    note: 'Has confirmed email address. Can publish.',
+    default: false
   },
   isChef: {
     type: Boolean,
     label: 'Chef',
-    note: 'An official chef. Admin role.'
+    note: 'An official chef. Admin role.',
+    default: false
   },
   isBanned: {
     type: Boolean,
     label: 'Banned',
-    note: 'Cannot login.'
+    note: 'Login disallowed.',
+    default: false
   },
   isDeactivated: {
     type: Boolean,
     label: 'Deactivated',
-    note: 'Cannot login.'
+    note: 'Login disallowed.',
+    default: false
   },
   isPrivate: {
     type: Boolean,
     label: 'Private',
-    note: 'Profile is visible only for himself.'
+    note: 'Profile is visible only for the owner.',
+    default: false
   }
 }, 'Social', {
   social: {
@@ -144,7 +157,8 @@ User.add({
         type: Boolean,
         label: 'Facebook',
         note: 'Faceebok is configured',
-        noedit: true
+        noedit: true,
+        default: false
       },
       profileId: {
         type: Types.Text,
@@ -165,7 +179,8 @@ User.add({
         type: Boolean,
         label: 'Google',
         note: 'Google is configured',
-        noedit: true
+        noedit: true,
+        default: false
       },
       profileId: {
         type: Types.Text,
@@ -184,9 +199,16 @@ User.add({
   }
 }, 'Lists', {
   favourites: {
-    type: Types.Relationship,
-    ref: 'Recipe',
-    many: true
+    recipes: {
+      type: Types.Relationship,
+      ref: 'Recipe',
+      many: true
+    },
+    tips: {
+      type: Types.Relationship,
+      ref: 'Tip',
+      many: true
+    }
   },
   likes: {
     type: Types.Relationship,
@@ -198,17 +220,58 @@ User.add({
     ref: 'Recipe',
     many: true
   }
+}, 'Flags', {
+  disabledNotifications: {
+    type: Types.TextArray,
+    default: []
+  },
+  disabledHelpers: {
+    type: Types.TextArray,
+    default: []
+  },
+  receiveNewsletter: {
+    type: Types.Boolean,
+    index: true,
+    default: false
+  }
+}, 'Reset Password', {
+  resetPasswordToken: {
+    label: 'Token',
+    type: Types.Text,
+    noedit: true,
+    index: true,
+    default: ''
+  },
+  resetPasswordDatetime: {
+    label: 'Date',
+    type: Types.Datetime,
+    noedit: true,
+    default: 0
+  }
+}, 'Verify Email', {
+  verifyEmailToken: {
+    label: 'Token',
+    type: Types.Text,
+    noedit: true,
+    index: true,
+    default: ''
+  }
 });
 
 // Schema for ranking
 var Rating = new keystone.mongoose.Schema({
-  recipe: String,
+  item: String,
   rating: Number
 });
 
 User.schema.add({
-  review: {
-    type: [Rating]
+  votes: {
+    recipes: {
+      type: [Rating]
+    },
+    tips: {
+      type: [Rating]
+    }
   }
 });
 
@@ -301,6 +364,11 @@ User.schema.virtual('url').get(function() {
   return '/chef/' + this.username;
 });
 
+// Hash data
+User.schema.virtual('phrase').get(function() {
+  return this._id + this.email + keystone.get('hash salt');
+});
+
 //#------------------ PRESAVE
 
 User.schema.pre('save', function(done) {
@@ -322,8 +390,80 @@ User.schema.pre('save', function(done) {
   done();
 });
 
-/**
- * Registration
- */
+//#------------------ METHODS
+
+User.schema.methods.verifyEmail = function(callback) {
+
+  var user = this;
+  user.verifyEmailToken = keystone.utils.randomString([16, 24]);
+  user.save(function(err) {
+
+    if (err) {
+      callback(err);
+    }
+    service.email.send('welcome-register', {
+      user: user,
+      userVars: {
+        link: keystone.get('site').url + '/confirma-email/' + user.verifyEmailToken
+      }
+    }, callback);
+  });
+};
+
+User.schema.methods.resetPassword = function(callback) {
+
+  var user = this;
+  user.resetPasswordToken = keystone.utils.randomString([16, 24]);
+  user.resetPasswordDatetime = Date.now();
+  user.save(function(err) {
+
+    if (err) {
+      callback(err);
+    }
+
+    service.email.send('forgotten-password', {
+      user: user,
+      userVars: {
+        link: keystone.get('site').url + '/nueva-contrasena/' + user.resetPasswordToken
+      }
+    }, callback);
+  });
+};
+
+User.schema.methods.getNewsletterUnsubscribeUrl = function() {
+  return '/newsletter/' + this.email + '/' + this.getNewsletterToken() + '/unsubscribe';
+};
+
+User.schema.methods.getNewsletterToken = function() {
+  return crypto.createHash('sha1').update(this.phrase).digest('hex');
+};
+
+User.schema.methods.getNewsletterSubscribeUrl = function() {
+  return '/newsletter/' + this.email + '/' + this.getNewsletterToken() + '/subscribe';
+};
+
+User.schema.methods.checkToken = function(token) {
+  return (crypto.createHash('sha1').update(this.phrase).digest('hex') === token);
+};
+
+User.schema.methods.verifyNewsletter = function(callback) {
+  var user = this;
+  service.email.send('verify-newsletter', {
+    user: user,
+    userVars: {
+      link: user.getNewsletterSubscribeUrl()
+    }
+  }, callback);
+};
+
+User.schema.methods.userBanned = function(callback) {
+  var user = this;
+  service.email.send('user-banned-removed', {
+    user: user
+  }, callback);
+};
+
+//#------------------ REGISTRATION
+
 User.defaultColumns = 'name, email, isAdmin, isChef, isConfirmed, isBanned';
 User.register();

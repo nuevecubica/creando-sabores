@@ -47,6 +47,22 @@ exports = module.exports = function(req, res) {
     });
   };
 
+  var getFavouriteTips = function(user, cb) {
+    service.user.tips.get.favourites({
+      page: req.query.page || 1,
+      perPage: 5,
+      user: user,
+      authorId: user._id
+    }, function(err, result) {
+      if (!err && result) {
+        cb(result.results);
+      }
+      else {
+        return res.notfound(res.__('Not found'));
+      }
+    });
+  };
+
   service.user.get.byUsername({
     username: req.params.username
   }, function(err, resultUser) {
@@ -62,6 +78,13 @@ exports = module.exports = function(req, res) {
           break;
         case 'recetas':
           /* falls through */
+        case 'tips':
+          getFavouriteTips(resultUser, function(tips) {
+            locals.subsection = 'tips';
+            locals.tips = tips || [];
+            view.render('chef');
+          });
+          break;
         default:
           getPublicRecipes(resultUser, function(recipes) {
             locals.subsection = 'recipes';

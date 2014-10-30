@@ -110,8 +110,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -137,8 +137,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -165,8 +165,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -193,8 +193,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -226,8 +226,8 @@ describe '(Private) Recipe: Save', ->
                 res.header['api-response-error']
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-recipe-1')
             .set('cookie', cookie)
@@ -254,6 +254,25 @@ describe '(Private) Recipe: Save', ->
         )
         .end(done)
 
+    describe 'on non-confirmed user', ->
+      cookie2 = null
+
+      before (done) ->
+        this.timeout 10000
+        utils.loginUser data.users[2], request, (err, res) ->
+          cookie2 = res.headers['set-cookie']
+          done()
+
+      it 'responds with redirect', (done) ->
+        request
+        .get('/nueva-receta')
+        .set('cookie', cookie2)
+        .expect(302)
+        .expect(
+          (res) -> res.header['location'].must.be.equal '/'
+        )
+        .end(done)
+
     describe 'on submission state contest', ->
       it 'responds with the form', (done) ->
         request
@@ -268,7 +287,7 @@ describe '(Private) Recipe: Save', ->
     describe 'on non-submission state contest', ->
       it 'responds with error', (done) ->
         request
-        .get('/nueva-receta/test-contest-programmsed')
+        .get('/nueva-receta/test-contest-programmed')
         .set('cookie', cookie)
         .expect(404)
         .end(done)
@@ -311,8 +330,8 @@ describe '(Private) Recipe: Save', ->
               return 'Wrong status headers'
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get(url)
             .set('cookie', cookie)
@@ -342,8 +361,8 @@ describe '(Private) Recipe: Save', ->
               return 'Wrong status headers'
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get(url)
             .set('cookie', cookie)
@@ -399,8 +418,8 @@ describe '(Private) Recipe: Save', ->
               return 'Wrong status headers'
         )
         .end (err,res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get(url)
             .set('cookie', cookie)

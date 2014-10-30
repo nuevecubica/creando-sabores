@@ -1,5 +1,9 @@
 var keystone = require('keystone'),
-  async = require('async');
+  async = require('async'),
+  clean = require(__base + 'utils/cleanText.js'),
+  service = require(__base + 'services'),
+  formResponse = require(__base + 'utils/formResponse.js'),
+  config = require(__base + 'configs/editor');
 
 exports = module.exports = function(req, res) {
 
@@ -26,6 +30,10 @@ exports = module.exports = function(req, res) {
   locals.hideMenu = true;
   locals.hideSocial = true;
 
+  if (req.body.username) {
+    req.body.username = clean(String(req.body.username), ['lowercase', 'username', ['maxlength', config.profile.username.length]]);
+  }
+
   view.on('post', {
     action: 'signup'
   }, function(next) {
@@ -43,8 +51,7 @@ exports = module.exports = function(req, res) {
               // If user is banned, signout
               if (user.isBanned) {
                 keystone.session.signout(req, res, function() {
-                  req.flash('error', res.__('Access disallowed'));
-                  return res.redirect('/');
+                  return formResponse(req, res, '/', 'Access disallowed', false);
                 });
               }
 
@@ -56,10 +63,7 @@ exports = module.exports = function(req, res) {
               var onFail = function(e) {
                 // Duplicated
                 if (req.body.signup_name) {
-                  console.error('SIGNUP: Email exists');
-
                   locals.errors.fields.email = res.__('User already exists with that email address');
-
                   return cb(true);
                 }
                 return cb(false);
@@ -78,8 +82,6 @@ exports = module.exports = function(req, res) {
         }
         else {
           // Missing data
-          console.error('SIGNUP: Missing data');
-
           locals.errors.form = res.__('Missing data');
           locals.errors.fields.name = !req.body.signup_name ? res.__('Required') : false;
           locals.errors.fields.email = !req.body.signup_email ? res.__('Required') : false;
@@ -95,8 +97,6 @@ exports = module.exports = function(req, res) {
           !req.body.signup_email ||
           !req.body.signup_password
         ) {
-          console.error('SIGNUP: Missing data');
-
           locals.errors.form = res.__('Missing data');
           locals.errors.fields.name = !req.body.signup_name ? res.__('Required') : false;
           locals.errors.fields.email = !req.body.signup_email ? res.__('Required') : false;
@@ -113,10 +113,7 @@ exports = module.exports = function(req, res) {
           username: req.body.signup_name
         }, function(err, user) {
           if (err || user) {
-            console.error('SIGNUP: Username exists');
-
             locals.errors.fields.name = res.__('User already exists with that username');
-
             return cb(true);
           }
           else {
@@ -140,9 +137,11 @@ exports = module.exports = function(req, res) {
 
         newUser.save(function(err) {
           if (!err) {
-            console.log('SIGNUP: User saved to database');
+            newUser.verifyEmail(cb);
           }
-          return cb(err);
+          else {
+            return cb(err);
+          }
         });
       }
     ], function(err) {
@@ -152,13 +151,11 @@ exports = module.exports = function(req, res) {
 
       // Login on signup success
       var onSuccess = function() {
-        return res.redirect(userHome);
+        return formResponse(req, res, userHome, false, 'Registered successfully. Please, check your email and follow the instructions in your email.');
       };
       var onFail = function(e) {
         console.error('SIGNIN: Fail after register');
-        req.flash('error',
-          res.__('Error signing in'));
-        return next();
+        return formResponse(req, res, next, 'Error signing in. Check your email for further instructions.', false);
       };
       keystone.session.signin({
         email: req.body.signup_email,
@@ -178,12 +175,14 @@ exports = module.exports = function(req, res) {
         // If user is banned, signout
         if (user.isBanned) {
           keystone.session.signout(req, res, function() {
-            req.flash('error', res.__('Access disallowed'));
-            return res.redirect('/');
+            return formResponse(req, res, '/', 'Access disallowed', false);
           });
         }
         else {
           // Logged in
+          if (req.query.next) {
+            return res.redirect(req.query.next);
+          }
           return res.redirect(userHome);
         }
       };
@@ -240,10 +239,10 @@ exports = module.exports = function(req, res) {
   // Render the view
   if (req.params.mode === 'acceso') {
     locals.title = res.__('Login');
-    view.render('login');
+    view.render('session/login');
   }
   else {
     locals.title = res.__('Register');
-    view.render('signup');
+    view.render('session/signup');
   }
 };

@@ -3,6 +3,15 @@
 @editable-border-focus: @chef-color-black;
 @editable-placeholder-color: lighten(@chef-color-gray, 50%);
 
+body.no-editor-borders {
+  #recipe-description .set-editable,
+  #ingredients .set-editable,
+  #steps .set-editable {
+    border: 0px;
+    box-shadow: none !important;
+  }
+}
+
 .editable-container {
   display: inline-block;
 }
@@ -173,10 +182,12 @@
       cursor: pointer;
     }
   }
+  /*
   .ui.button.chef.button-gray{
     bottom: 30px;
-    right: 15px;    
+    right: 15px;
   }
+  */
 
   .dropdown {
     cursor: pointer;
@@ -241,9 +252,9 @@
       }
     }
   }
-  
+
   #recipe-content{
- 
+
     #procedure{
       background-color: transparent;
     }
@@ -261,7 +272,7 @@
           font-weight: bold;
           color: #000 ;
           &:before{
-            content: 'k'; 
+            content: 'k';
             font-family: 'iconsgibaja';
             text-transform: lowercase;
             .font-larger;
@@ -273,5 +284,5 @@
         }
       }
     }
-  } 
+  }
 }

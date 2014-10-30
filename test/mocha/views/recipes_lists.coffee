@@ -38,7 +38,7 @@ describe 'Recipes: Lists', ->
             regexp = new RegExp '<h2 class="ui header">([^<]+)</h2>', 'gi'
             last = null
             num = 0
-            while found = regexp.exec(res.text)
+            while (found = regexp.exec(res.text)) && num < 4
               ++num
               title = found[1].trim()
               # Exists
@@ -47,7 +47,7 @@ describe 'Recipes: Lists', ->
                 return "Invalid recipe #{title} in #{keys}"
               # Order
               if last isnt null and recipes[title].rating > last
-                return "Invalid order #{recipes[title].rating} > #{last}"
+                return "Invalid order #{recipes[title].rating} <= #{last}"
               last = recipes[title].rating
 
             num.must.be.gt 0
@@ -90,7 +90,7 @@ describe 'Recipes: Lists', ->
                 return "Invalid author #{recipes[title].author} <> #{user._id}"
               # Order
               if last isnt null and recipes[title].editDate > last
-                return "Invalid order #{recipes[title].editDate} > #{last}"
+                return "Invalid order #{recipes[title].editDate} <= #{last}"
               last = recipes[title].editDate
 
             num.must.be.gt 0
@@ -144,7 +144,7 @@ describe 'Recipes: Lists', ->
                 return "Invalid author #{recipes[title].author} <> #{user._id}"
               # Order
               if last isnt null and recipes[title].editDate > last
-                return "Invalid order #{recipes[title].editDate} > #{last}"
+                return "Invalid order #{recipes[title].editDate} <= #{last}"
               last = recipes[title].editDate
 
             num.must.be.gt 0

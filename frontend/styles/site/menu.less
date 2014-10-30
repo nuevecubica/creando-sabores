@@ -9,6 +9,8 @@
 @chef-menu-background: @chef-color-brick-bg;
 @chef-menu-background-hover: lighten(@chef-color-brick-bg, 5%);
 
+@chef-color-blue-light:#c8e5f4;
+
 @chef-menu-over-shadow: 1px 1px 2px rgba(0,0,0,.5);
 
 //====================================
@@ -41,7 +43,39 @@
 	.menu {
 		a{
 			&.profile{
-				padding-right: 15px;
+				padding-right: 45px;
+				@media only screen and (max-width : 767px) {
+					padding-right: 30px;
+				}
+				.username {
+					opacity: .8;
+					transition: opacity 0.1s ease;
+				}
+				.arrow-down {
+					width: 0;
+					height: 0;
+					border-left: 10px solid transparent;
+					border-right: 10px solid transparent;
+					border-top: 10px solid transparent;
+					border-top-color: @chef-color-white;
+					position: absolute;
+					right: 15px;
+					top: 20px;
+					opacity: .7;
+					transition: opacity 0.1s ease, border-top-color 0.1s ease;
+					display: block;
+					@media only screen and (max-width : 767px) {
+						right: 18px;
+					}
+				}
+				&:hover{
+					.arrow-down {
+						opacity: 1;
+					}
+					.username {
+						opacity: 1;
+					}
+				}
 			}
 		}
 		box-shadow: none;
@@ -61,10 +95,8 @@
 		.menu{
 			&.right{
 				min-width: 270px;
-
 			}
 		}
-
 	}
 
 	#menu {
@@ -76,11 +108,13 @@
 			width: 56px;
 			position: relative;
 			top: -4px;
-
 		}
 
 		&.item {
 			padding: 10px 0px;
+			@media only screen and (max-width : 767px) {
+				padding: 15px 0px;
+			}
 		}
 
 		i:before {
@@ -114,8 +148,7 @@
 	}
 
 	overflow: hidden;
-
-	background: fade(@chef-menu-background, 90%);
+	background: @chef-menu-background;
 
 	#menu-close {
 		float: right;
@@ -224,7 +257,6 @@
 	}
 }
 
-
 #menu-wrapper{
 	.menu{
 		.logout{
@@ -235,6 +267,86 @@
 				&:hover{
 					color: @chef-color-brick-bg;
 				}
+			}
+		}
+	}
+}
+
+#contextual-menu.menu{
+	border-radius: 4px;
+	background-color: @chef-color-white;
+	position: absolute;
+	padding: 5px;
+	text-align: center;
+	top: 70px;
+	font-weight: lighter;
+	opacity: 1;
+	box-shadow: 0px 0px 1px 1px #DFDFDF;
+	.arrow-up{
+		position: absolute;
+		top: -18px;
+		border-bottom-color:@chef-color-white;
+		@media only screen and (min-width : 768px) {
+			left: 35px;
+		}
+		@media only screen and (max-width : 767px) {
+			right: 18%;
+		}
+	}
+	a.item{
+		border-bottom: 1px solid @chef-color-light-bg;
+		.font-larger;
+		display: block;
+		text-decoration: none;
+		color: @chef-color-black;
+		padding: 15px 45px;
+		&.new-recipe{
+			border-radius: 3px 3px 0 0;
+			border:none;
+			background-color: @chef-color-blue-bg;
+			padding: 30px;
+			color: @chef-color-white;
+			height: 80px;
+			text-transform: uppercase;
+			&:before{
+				content:url(/images/cutlery_min.png);
+				position: absolute;
+				top: 15px;
+				left: 10px;
+			}
+			&:hover {
+				background-color: darken(@chef-color-blue-bg, 15%);
+			}
+		}
+		&.my-shopping{
+			&:hover {
+				background-color: lighten(@chef-color-green-bg, 35%) ;
+			}
+		}
+		&.my-recipe{
+			&:hover {
+				background-color: lighten(@chef-color-brick-bg, 35%) ;
+			}
+		}
+		&.my-profile{
+			&:hover {
+				background-color: lighten(@chef-color-yellow-bg, 30%);
+			}
+		}
+		&.logout{
+			border:none;
+			background-color: @chef-color-blue-light;
+			color: @chef-color-white;
+			border-radius: 0 0 3px 3px;
+			&:before{
+				content:"9";
+				font-family: 'iconsgibaja';
+				position: relative;
+				top: 0;
+				margin-right: 10px;
+			}
+			&:hover {
+				background-color: darken(@chef-color-blue-light, 20%);
 			}
 		}
 	}
@@ -260,7 +372,7 @@
 	}
 }
 
-@media screen and (max-height: 65em) {
+@media screen and (max-height: 45em) {
 	#menu-box nav ul.menu {
 		&.scroll{
 			font-size: 4.5em;
@@ -271,40 +383,26 @@
 			.font-larger;
 			a {
 				min-height: (@chef-menu-text-size * 0.8);
+				i.icon-chef-logo {
+					font-size: 6em;
+				}
 			}
 		}
 	}
 }
 
-@media screen and (max-height: 55em) {
+@media screen and (max-height: 35em) {
 	#menu-box nav ul.menu {
 		&.scroll{
 			height: 85%;
 			margin-top: 0;
 		}
 		li {
-			.font-normal;
+			.font-large;
 			a {
 				min-height: (@chef-menu-text-size * 0.7);
 				i.icon-chef-logo {
-					font-size: 4em;
-				}
-			}
-		}
-	}
-}
-@media screen and (max-height: 40em) {
-	#menu-box nav ul.menu {
-		&.scroll{
-			margin-top: 0;
-			height: 82%;
-		}
-		li {
-			.font-small;
-			a {
-				min-height: (@chef-menu-text-size * 0.6);
-				i.icon-chef-logo {
-					font-size: 3em;
+					font-size: 5em;
 				}
 			}
 		}

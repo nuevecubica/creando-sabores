@@ -69,12 +69,28 @@ describe 'API v1: /recipes', ->
           )
           .end(done)
 
+      it 'honors order=recent sorting by publishedDate', (done) ->
+        request
+        .get('/api/v1/recipes?page=1&perPage=4&order=recent')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            res.body.recipes.results.length.must.be.eql 4
+            past = res.body.recipes.results[0].publishedDate
+            for recipe, i in res.body.recipes.results
+              if recipe.publishedDate > past
+                return "Rating order failed: #{recipe.publishedDate} > #{past}"
+              past = recipe.publishedDate
+        )
+        .end(done)
 
   describe 'GET /user/recipes', ->
     describe 'on request without args', ->
       it 'responds with first page, sorted by edit date', (done) ->
         request
-        .get('/api/v1/user/testUser1/recipes')
+        .get('/api/v1/user/testuser1/recipes')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -87,7 +103,7 @@ describe 'API v1: /recipes', ->
 
             res.body.recipes.results.length.must.be.gte 2
             past = null
-            user = data.getUserByUsername 'testUser1'
+            user = data.getUserByUsername 'testuser1'
             for recipe, i in res.body.recipes.results
               if recipe.author isnt user._id
                 return "Wrong username: #{recipe.author}"
@@ -100,7 +116,7 @@ describe 'API v1: /recipes', ->
     describe 'on normal request', ->
       it 'paginates properly', (done) ->
         request
-        .get('/api/v1/user/testUser1/recipes?page=1&perPage=2')
+        .get('/api/v1/user/testuser1/recipes?page=1&perPage=2')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -113,7 +129,7 @@ describe 'API v1: /recipes', ->
           total = res.body.recipes.results
 
           request
-          .get('/api/v1/user/testUser1/recipes?page=2&perPage=1')
+          .get('/api/v1/user/testuser1/recipes?page=2&perPage=1')
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
@@ -136,7 +152,7 @@ describe 'API v1: /recipes', ->
         .expect(401)
         .expect(
           (res) ->
-            if res.body.success isnt false or res.body.error isnt false
+            if res.body.success or not res.body.error
               return 'Unexpected status values'
         )
         .end(done)
@@ -153,6 +169,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -171,7 +189,7 @@ describe 'API v1: /recipes', ->
 
             res.body.recipes.results.length.must.be.lte 20
 
-            user = data.getUserByUsername 'testUser1'
+            user = data.getUserByUsername 'testuser1'
             banOrDraft = false
             for recipe in res.body.recipes.results
               if recipe.author isnt user._id
@@ -197,6 +215,7 @@ describe 'API v1: /recipes', ->
             res.body.recipes.results.length.must.be.eql 4
         )
         .end (err, res) ->
+          return done(err) if err
 
           total = res.body.recipes.results
 
@@ -231,6 +250,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -247,7 +268,7 @@ describe 'API v1: /recipes', ->
         .expect(403)
         .end(done)
 
-    describe 'and recipe contest does not have a valid state', ->
+    describe 'if recipe contest does not have a valid state', ->
 
       recipe = data.getBySlug 'recipes', 'test-contest-closed-recipe'
 
@@ -262,6 +283,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -278,7 +301,30 @@ describe 'API v1: /recipes', ->
         .expect(403)
         .end(done)
 
-    describe 'and recipe does not have a vote from the user', ->
+    describe 'if non-confirmed user', ->
+
+      recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
+      cookie2 = null
+
+      before (done) ->
+        this.timeout 10000
+        utils.loginUser data.users[2], request, (err, res) ->
+          cookie2 = res.headers['set-cookie']
+          done()
+
+      it 'responds with error', (done) ->
+        request
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
+        .set('Accept', 'application/json')
+        .set('Referer',
+            config.keystone.publicUrl +
+            '/api/v1/recipe/' + recipe.slug + '/like')
+        .set('cookie', cookie2)
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(done)
+
+    describe 'if recipe does not have a vote from the user', ->
 
       recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
       recipeVotedId = null
@@ -295,6 +341,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
 
@@ -324,6 +372,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           isLiked = 0
           for like in res.body.user.likes
             if like is recipeVotedId
@@ -355,6 +405,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
 
@@ -368,6 +420,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             recipeLikes = res.body.likes
             recipeVoted = res.body.id
             done()
@@ -383,6 +437,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           res.body.likes.must.be.eql(recipeLikes)
           done()
 
@@ -394,6 +450,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           userLikesFirst = res.body.user.likes
           request
           .put('/api/v1/recipe/' + recipe.slug + '/like')
@@ -405,6 +463,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -464,6 +524,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -489,6 +551,7 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
 
           origLikes = res.body.user.likes
 
@@ -500,6 +563,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -526,6 +591,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
 
@@ -537,6 +604,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             recipeLikes = res.body.likes
             recipeVoted = res.body.id
             done()
@@ -563,6 +632,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           userLikesFirst = res.body.user.likes
 
           request
@@ -573,6 +644,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -580,6 +653,8 @@ describe 'API v1: /recipes', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               length = res.body.user.likes.length
               length.must.be.eql(userLikesFirst.length - 1)
               res.body.user.likes.must.not.include userLikesFirst
@@ -599,6 +674,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -644,6 +721,8 @@ describe 'API v1: /recipes', ->
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
+          return done(err) if err
+
           return 'error' if not res.body.success or res.body.error
           cookie = res.headers['set-cookie']
           done()
@@ -672,6 +751,26 @@ describe 'API v1: /recipes', ->
           .expect(403)
           .end(done)
 
+      describe 'on non-confirmed user', ->
+        cookie2 = null
+
+        before (done) ->
+          this.timeout 10000
+          utils.loginUser data.users[2], request, (err, res) ->
+            cookie2 = res.headers['set-cookie']
+            done()
+
+        it 'responds with error', (done) ->
+          request
+          .put('/api/v1/recipe/' + recipeGood + '/vote/4')
+          .set('Accept', 'application/json')
+          .set('Referer',
+              config.keystone.publicUrl + '/receta/' + recipeGood)
+          .set('cookie', cookie2)
+          .expect('Content-Type', /json/)
+          .expect(401)
+          .end(done)
+
       describe 'on valid recipe', ->
         it 'rejects invalid scores', (done) ->
           request
@@ -694,6 +793,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             done()
 
@@ -707,6 +808,8 @@ describe 'API v1: /recipes', ->
           .expect('Content-Type', /json/)
           .expect(200)
           .end (err, res) ->
+            return done(err) if err
+
             res.body.rating.must.be.equal 5
             request
             .put('/api/v1/recipe/' + recipeGood + '/vote/3')
@@ -717,5 +820,7 @@ describe 'API v1: /recipes', ->
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
+              return done(err) if err
+
               res.body.rating.must.be.equal 3
               done()

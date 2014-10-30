@@ -1,0 +1,18 @@
+[Unit]
+Description=Nginx
+Requires=node-dyn-amb.service
+After=node-dyn-amb.service
+
+[Service]
+Restart=always
+RestartSec=30
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill nginx
+ExecStartPre=-/usr/bin/docker rm nginx
+ExecStartPre=/usr/bin/docker pull nginx
+ExecStartPre=/usr/bin/bash -c "/usr/bin/etcdctl get chefcito-nginx > /tmp/nginx.sh"
+ExecStart=/usr/bin/docker run -v /tmp/nginx.sh:/nginx.sh -p 80:80 -p 443:443 --link node-dyn-amb.service:node --name nginx nginx /bin/bash /nginx.sh
+ExecStop=/usr/bin/docker stop nginx
+
+[X-Fleet]
+MachineOf=node-dyn-amb.service

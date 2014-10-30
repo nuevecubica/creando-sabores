@@ -23,16 +23,16 @@ exports = module.exports = function(req, res) {
             callback(err);
           });
         },
-        // Function for get recipes grid
+        // Gets recipes grid
         function(callback) {
-          service.recipeList.grid.get({
+          service.grid.get({
             section: 'Index'
           }, function(err, results) {
             locals.data.grid = results;
             callback(err);
           });
         },
-        // Function for get order grid
+        // Gets order grid
         function(callback) {
           service.config.grid.home.get({}, function(err, results) {
 
@@ -42,7 +42,7 @@ exports = module.exports = function(req, res) {
             callback(err);
           });
         },
-        // Function for get last videorecipes
+        // Get last videorecipes
         function(callback) {
           service.recipeList.videorecipe.get({
             sort: '-publishedDate'

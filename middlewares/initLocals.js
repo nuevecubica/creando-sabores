@@ -22,7 +22,7 @@ exports.initLocals = function(req, res, next) {
   }, {
     label: res.__('Tips'),
     key: 'tips',
-    href: '/'
+    href: '/tips'
   }, {
     label: res.__('Questions and Answers'),
     key: 'preguntas-y-respuestas',
@@ -34,33 +34,11 @@ exports.initLocals = function(req, res, next) {
   }, {
     label: res.__('About the chef'),
     key: 'acerca-del-chef',
-    href: '/'
+    href: '/biografia'
   }, {
     label: res.__('Contact'),
     key: 'contacto',
-    href: '/'
-  }];
-
-  locals.navLinksPrivate = [{
-    label: res.__('My profile'),
-    key: 'perfil',
-    href: '/perfil'
-  }, {
-    label: res.__('Shopping list'),
-    key: 'lista-del-super',
-    href: '/'
-  }, {
-    label: res.__('My recipes'),
-    key: 'recetas',
-    href: '/perfil/recetas'
-  }, {
-    label: res.__('My menus'),
-    key: 'mis-menus',
-    href: '/'
-  }, {
-    label: res.__('My tips'),
-    key: 'mis-tips',
-    href: '/'
+    href: '/contacto'
   }];
 
   locals.user = req.user;
@@ -69,19 +47,29 @@ exports.initLocals = function(req, res, next) {
   locals.env = process.env;
   locals.isTest = keystone.testMode;
 
+  locals.site = {
+    name: keystone.name,
+    brand: keystone.brand
+  };
+
   /*
     Data to send to the client in each page
   */
   locals.chef = {
     isUserLoggedIn: !!req.user
   };
+
   if (req.user) {
     locals.chef.user = {
       username: req.user.username,
-      name: req.user.name
+      name: req.user.name,
+      disabledHelpers: req.user.disabledHelpers
     };
     if (req.user.isAdmin) {
       locals.chef.user.isAdmin = true;
+    }
+    if (!req.user.isConfirmed) {
+      locals.chef.user.isUnconfirmed = true;
     }
   }
 

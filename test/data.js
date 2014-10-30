@@ -21,27 +21,39 @@ var data = {
   "users": [{
     "about": "Test User 1",
     "email": "testUser1@glue.gl",
-    "username": "testUser1",
+    "username": "testuser1",
     "password": "testUser1",
     "name": "Test User1"
   }, {
     "about": "Test User 2",
     "email": "testUser2@glue.gl",
-    "username": "testUser2",
+    "username": "testuser2",
     "password": "testUser2",
     "name": "Test User2"
   }, {
     "about": "Test Bad User",
     "email": "testBadUser@glue.gl",
-    "username": "testBadUser",
+    "username": "testbaduser",
     "password": "testBadUser",
     "name": "Test Bad User"
   }, {
     "about": "Test User Banned",
     "email": "testUserBanned@glue.gl",
-    "username": "testUserBanned",
+    "username": "testuserbanned",
     "password": "testUserBanned",
     "name": "Test User Banned"
+  }, {
+    "about": "Test User 4",
+    "email": "testUser4@glue.gl",
+    "username": "testuser4",
+    "password": "testUser4",
+    "name": "Test User4"
+  }, {
+    "about": "Test User Newbie",
+    "email": "testUserNewbie@glue.gl",
+    "username": "testusernewbie",
+    "password": "testUserNewbie",
+    "name": "Test User Newbie"
   }],
   /**
    * This object is extended with the data from the database

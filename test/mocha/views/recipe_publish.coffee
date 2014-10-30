@@ -38,8 +38,8 @@ describe '(Private) Recipe: Publish & Draft', ->
             return 'Wrong status headers'
       )
       .end (err, res) ->
-        if err
-          return done err, res
+        return done(err) if err
+
         request
           .get('/receta/test-recipe-1')
           .set('cookie', cookie)
@@ -63,8 +63,8 @@ describe '(Private) Recipe: Publish & Draft', ->
             return 'Wrong status headers'
       )
       .end (err, res) ->
-        if err
-          return done err, res
+        return done(err) if err
+
         request
           .get('/receta/test-contest-recipe-liked')
           .set('cookie', cookie)
@@ -89,8 +89,8 @@ describe '(Private) Recipe: Publish & Draft', ->
             return 'Wrong status headers'
       )
       .end (err, res) ->
-        if err
-          return done err, res
+        return done(err) if err
+
         request
           .get('/receta/test-recipe-unpublished')
           .set('cookie', cookie)
@@ -114,6 +114,8 @@ describe '(Private) Recipe: Publish & Draft', ->
             return 'Wrong status headers'
       )
       .end (err, res) ->
+        return done(err) if err
+
         url = '/receta/test-contest-recipe-liked/publish'
         request
         .get(url)
@@ -129,8 +131,8 @@ describe '(Private) Recipe: Publish & Draft', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/receta/test-contest-recipe-liked')
             .set('cookie', cookie)

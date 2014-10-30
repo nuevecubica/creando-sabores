@@ -1,7 +1,9 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Recipe = keystone.list('Recipe');
+  Recipe = keystone.list('Recipe'),
+  Tip = keystone.list('Tip');
+
 
 /**
  * Gets the recipe for the Recipes section header
@@ -83,6 +85,34 @@ var getHeaderHome = function(options, callback) {
   query.exec(callback || function() { /* dummy */ });
 };
 
+/**
+ * Get the tip for the tips page
+ * @param  {Object}   options  { populate: ['author'], sort: '-publishDate'}
+ * @param  {Function} callback
+ * @return {null}
+ */
+var getHeaderTip = function(options, callback) {
+
+  options = _.defaults(options || {}, {
+    sort: '-publishedDate'
+  });
+
+  var query = Tip.model.findOne();
+
+  query.where('state', 'published');
+  query.where('isTipsHeaderPromoted', true);
+
+  if (options.sort) {
+    query.sort(options.sort);
+  }
+
+  if (options.populate) {
+    query.populate(options.populate);
+  }
+
+  query.exec(callback || function() { /* dummy */ });
+};
+
 /*
   Set exportable object
  */
@@ -96,6 +126,9 @@ var _service = {
   },
   home: {
     get: getHeaderHome
+  },
+  tip: {
+    get: getHeaderTip
   }
 };
 

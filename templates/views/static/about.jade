@@ -1,0 +1,70 @@
+extends ../../layouts/default
+include ../../mixins/header
+
+block content
+
+  +header(data, section)
+
+  .ui.page.grid.body
+    #about-info.ui.grid.segment
+      .sixteen.wide.column
+        .row
+          h2.ui.header= __('Presentation')
+          .explain
+            p You broke it. Wow, look at him go. Of course not, Biff, now I wouldn't want that to happen. Now, uh, I'll finish those reports up tonight, and I'll run em them on over first thing tomorrow, alright? I think you got the wrong car, McFly. David, watch your mouth. You come here and kiss your mother before you go, come here. It's taken me almost thirty years and my entire family fortune to realize the vision of that day, my god has it been that long. Things have certainly changed around here. I remember when this was all farmland as far as the eye could see. Old man Peabody, owned all of this. He had this crazy idea about breeding pine trees.
+          img(src='/images/meal.png')
+
+      #share-bio.ui.grid.segment
+        .corner-position.left
+          p.explain= __('Follow me in:')
+        a(href='http://facebook.com',target='_blank')
+          i.icon-chef-facebook.icon
+        a(href='http://twitter.com',target='_blank')
+          i.icon-chef-twitter.icon
+        a(href='http://plus.google.com',target='_blank')
+          i.icon-chef-google.icon
+        a(href='http://youtube.es',target='_blank')
+          i.icon-chef-youtube.icon
+        a(href='http://pinterest.es',target='_blank')
+          i.icon-chef-pinterest.icon
+
+      .sixteen.wide.column
+        .row
+          h2.ui.header= __('Biography')
+          .explain
+            p You broke it. Wow, look at him go. Of course not, Biff, now I wouldn't want that to happen. Now, uh, I'll finish those reports up tonight, and I'll run em them on over first thing tomorrow, alright? I think you got the wrong car, McFly. David, watch your mouth. You come here and kiss your mother before you go, come here. It's taken me almost thirty years and my entire family fortune to realize the vision of that day, my god has it been that long. Things have certainly changed around here. I remember when this was all farmland as far as the eye could see. Old man Peabody, owned all of this. He had this crazy idea about breeding pine trees.
+
+  #about-quote.ui.page.grid.body
+    .sixteen.wide.column
+      .row
+        i
+          h2.ui.header= '"Unas palabras o quote del chefcito"'
+
+  #media.ui.page.grid.body
+    h2.ui.header= 'Gibaja en otros medios'
+    .sixteen.wide.column
+      .explain
+        p Puede estar al tanto de mis noticias, novedades y entrevistas a través de otros medios.
+    .ui.grid.segment
+      .row.tablet.computer.only
+        .three.tabs.tab-header
+          .row
+            .tab
+              a(href='#')
+                div.ui.button.chef.button-green
+                  i.icon-chef-libro.icon
+                  | #{__('Press')}
+            .tab
+              a(href='#')
+                div.ui.button.chef.button-green.active
+                  i.icon-chef-micro.icon
+                  | #{__('Radio')}
+            .tab
+              a(href='#')
+                div.ui.button.chef.button-green
+                  i.icon-chef-tv.icon
+                  | #{__('Television')}
+
+        .sixteen.wide.column
+          .explain
+            p You broke it. Wow, look at him go. Of course not, Biff, now I wouldn't want that to happen. Now, uh, I'll finish those reports up tonight, and I'll run em them on over first thing tomorrow, alright? I think you got the wrong car, McFly. David, watch your mouth. You come here and kiss your mother before you go, come here. It's taken me almost thirty years and my entire family fortune to realize the vision of that day, my god has it been that long. Things have certainly changed around here. I remember when this was all farmland as far as the eye could see. Old man Peabody, owned all of this. He had this crazy idea about breeding pine trees.

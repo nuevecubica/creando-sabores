@@ -420,7 +420,7 @@ module.exports = (grunt) ->
                     "mocha_casperjs:development"]
 
   grunt.registerTask "envdebug", ->
-    console.log("ENV ------------------------->>> " + process.env.NODE_ENV)
+    console.log("NODE_ENV -------------------->>> " + process.env.NODE_ENV)
     console.log("PORT ------------------------>>> " + process.env.PORT)
 
 ## ======================== ENVIRONMENTS
@@ -450,7 +450,6 @@ module.exports = (grunt) ->
     grunt.task.run ["envdebug"]
 
   grunt.registerTask "production", ->
-    grunt.task.run ["jshint"]
     grunt.task.run ["clean"]
     grunt.task.run ["less:build"]
     grunt.task.run ["autoprefixer:build"]

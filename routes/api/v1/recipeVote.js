@@ -55,26 +55,26 @@ exports = module.exports = function(req, res) {
           if (!recipe.scoreTotal) {
             recipe.scoreTotal = 0;
           }
-          var reviews = req.user.review;
+          var votes = req.user.votes.recipes;
           var pos = -1;
-          for (var i = 0, l = reviews.length; i < l; i++) {
-            if (String(reviews[i].recipe) === String(recipe._id)) {
+          for (var i = 0, l = votes.length; i < l; i++) {
+            if (String(votes[i]._id) === String(recipe._id)) {
               pos = i;
               break;
             }
           }
           if (pos === -1) {
-            var review = {
-              recipe: recipe._id,
+            var vote = {
+              _id: recipe._id,
               rating: req.params.score
             };
-            req.user.review.push(review);
+            req.user.votes.recipes.push(vote);
             recipe.scoreCount += 1;
             recipe.scoreTotal += req.params.score;
           }
           else {
-            var diff = req.params.score - reviews[pos].rating;
-            req.user.review[pos].rating = req.params.score;
+            var diff = req.params.score - votes[pos].rating;
+            req.user.votes.recipes[pos].rating = req.params.score;
             recipe.scoreTotal += diff;
           }
 

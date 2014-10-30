@@ -36,11 +36,13 @@ block content
 		#recipes.ui.grid.segment.two.tabs
 			.row.tab-header
 				.tab
-					.ui.button.chef.button-green
-						a(href='/recetas')= __('Popular')
+					a(href='/videorecetas/recientes')
+						div(class="#{subsection === 'recientes' ? 'active' : ''}").ui.button.chef.button-green
+							| #{__('Recent')}
 				.tab
-					.ui.button.chef.button-green.disabled
-						a= __('Season')
+					a(href='/videorecetas/populares')
+						div(class="#{subsection === 'populares' ? 'active' : ''}").ui.button.chef.button-green
+							| #{__('Popular')}
 
 			.row
 				.ui.grid.segment.list.stackable
@@ -49,11 +51,11 @@ block content
 							+recipe(recipe)
 
 					else
-						| #{__('No recipes yet')}
+						.empty-resultset.sixteen.wide.column= __('No videorecipes yet')
 
 			.row
 				.loader
-					.sixteen.wide.column.loading= __('Loading more recipes')
+					.sixteen.wide.column.loading= __('Loading more videorecipes')
 					.sixteen.wide.column.load-more
 						.ui.button.chef.button-brick.load-button
 							a(href="#")= __('Load more')

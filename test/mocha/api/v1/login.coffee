@@ -55,6 +55,8 @@ describe 'API v1: /login', ->
       .expect('Content-Type', /json/)
       .expect(200)
       .end (err, res) ->
+        return done(err) if err
+
         return 'error' if !res.body.success or res.body.error
         cookie = res.headers['set-cookie']
 

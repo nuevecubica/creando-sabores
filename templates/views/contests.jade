@@ -59,8 +59,7 @@ block content
           .ui.button.chef.button-brick
             a(href='#{data.current.url}')= __('Learn more')
     else
-      .sixteen.wide.column.center.aligned
-        .subheader= __('No current contest')
+      .empty-resultset.sixteen.wide.column= __('No current contest')
 
     #past-contests.row
       .sixteen.wide.column.center.aligned
@@ -78,8 +77,7 @@ block content
           +contest(contest)
 
       else
-        .sixteen.wide.column
-          .subheader= __('No past contest')
+        .empty-resultset.sixteen.wide.column= __('No past contest')
 
     .row.loader
       .sixteen.wide.column.center.aligned.loading= __('Loading more contests')

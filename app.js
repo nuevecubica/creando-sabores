@@ -49,7 +49,9 @@ keystone.set('routes', require('./routes'));
 
 keystone.set('email locals', config.keystone['email locals']);
 keystone.set('email rules', config.keystone['email rules']);
-keystone.set('email tests', require('./routes/emails'));
+
+keystone.set('site', config.keystone['site']);
+
 keystone.set('security', config.keystone.security);
 
 // Configure i18n
@@ -61,11 +63,13 @@ i18n.configure({
 
 // Configure the navigation bar in Admin UI
 keystone.set('nav', {
-  'users': 'users',
-  'recipes': 'recipes',
-  'contests': 'contests',
-  'questions': 'questions',
-  'configs': 'configs'
+  'users': ['users'],
+  'recipes': ['recipes'],
+  'contests': ['contests'],
+  'questions': ['questions'],
+  'tips': ['tips'],
+  'season-lists': ['season-lists'],
+  'configs': ['configs']
 });
 
 /*

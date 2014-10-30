@@ -5,7 +5,8 @@ var _ = require('underscore'),
   Contest = keystone.list('Contest'),
   clean = require(__base + 'utils/cleanText.js'),
   formResponse = require(__base + 'utils/formResponse.js'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  config = require(__base + 'configs/editor');
 
 var recipeData = function(req, orig) {
   // Clean data
@@ -45,20 +46,20 @@ var recipeData = function(req, orig) {
   // Parse body
   else {
 
-    data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', 40], 'escape']);
-    data.description = clean(req.body.description, ['oneline', ['maxlength', 400], 'escape']);
+    data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', config.recipe.title.length], 'escape']);
+    data.description = clean(req.body.description, ['oneline', ['maxlength', config.recipe.description.length], 'escape']);
     data.procedure = clean(req.body.procedure, [
-      ['maxlinelength', 400],
-      ['maxlines', 20], 'escape', 'textarea', 'paragraphs'
+      ['maxlinelength', config.recipe.procedure.length],
+      ['maxlines', config.recipe.procedure.elements], 'escape', 'textarea', 'paragraphs'
     ]);
     data.ingredients = clean(req.body.ingredients, [
-      ['maxlinelength', 40],
-      ['maxlines', 50], 'escape', 'textarea', 'paragraphs'
+      ['maxlinelength', config.recipe.ingredient.length],
+      ['maxlines', config.recipe.ingredient.elements], 'escape', 'textarea', 'paragraphs'
     ]);
-    data.portions = clean(req.body.portions, ['integer', ['max', 20],
+    data.portions = clean(req.body.portions, ['integer', ['max', config.recipe.portions.max],
       ['min', 1]
     ]);
-    data.time = clean(req.body.time, ['integer', ['max', 121],
+    data.time = clean(req.body.time, ['integer', ['max', config.recipe.time.max],
       ['min', 1]
     ]);
     data.difficulty = clean(req.body.difficulty, ['integer', ['max', 5],
@@ -182,7 +183,20 @@ var recipeNew = function(req, res) {
                   return formResponse(req, res, back, 'Error: Unknown error', false);
                 }
                 else {
-                  return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                  if (req.user.disabledHelpers.indexOf('recipe') === -1) {
+                    req.user.disabledHelpers.push('recipe');
+                    req.user.save(function(err) {
+                      if (err) {
+                        return formResponse(req, res, back, 'Error: Unknown error', false);
+                      }
+                      else {
+                        return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                      }
+                    });
+                  }
+                  else {
+                    return formResponse(req, res, recipeSaved.url, false, 'Recipe saved');
+                  }
                 }
               });
             }

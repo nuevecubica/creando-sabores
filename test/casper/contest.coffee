@@ -1,5 +1,6 @@
 data = require './../data'
-base = 'http://localhost:3000'  # We're outside node, so no keystone
+config = require './../../config.js'
+base = config.keystone.publicUrl  # We're outside node, so no keystone
 utils = require '../utils/casper-editor.coffee'
 _ = require 'underscore'
 
@@ -37,12 +38,12 @@ describe 'Contest page', ->
         casper.then ->
           '#contest-description'.should.be.inDOM.and.visible
           '#contest-awards.finished'.should.be.inDOM
-          
+
     describe 'winners', ->
       it 'exists finished contest', ->
         casper.then ->
           '#winners'.should.be.inDOM.and.visible
-          
+
       it 'exists & works winners links', ->
         casper.then ->
           '.recipe-winner'.should.be.inDOM.and.visible
@@ -55,16 +56,16 @@ describe 'Contest page', ->
           '#winners .author-winner'.should.be.inDOM.and.visible
           '#winners .user'.should.be.inDOM.and.visible
           href = @getElementAttribute '#winners .author-winner a', 'href'
-          href.should.be.equal '/chef/testUser2'
+          href.should.be.equal '/chef/testuser2'
           a = @getElementAttribute('#winners .recipe-award a:first-child',
-          'href').should.be.equal '/chef/testUser2'
+          'href').should.be.equal '/chef/testuser2'
 
       it 'exists & works contests award', ->
         casper.then ->
           info = @getElementsInfo '#winners div.award'
           info[0].text.should.be.equal 'premio1'
           info[1].text.should.be.equal 'premio2'
-              
+
     describe 'Ranking', ->
       it 'exists & works ranking', ->
         casper.then ->

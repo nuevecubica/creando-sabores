@@ -10,6 +10,9 @@ exports = module.exports = function(req, res) {
   // Set locals
   var type = locals.type = (req.params.type === 'videoreceta' ? 'videorecipe' : 'recipe');
   locals.section = type + 's';
+  if (type === 'videorecipe') {
+    locals.subsection = req.params.section ? req.params.section : 'recientes';
+  }
   locals.data = {
     recipes: []
   };
@@ -22,10 +25,14 @@ exports = module.exports = function(req, res) {
     async.series([
         // Function for get recipes
         function(callback) {
-          service.recipeList[type].get({
+          var opts = {
             page: req.query.page || 1,
             perPage: 5
-          }, function(err, results) {
+          };
+          if (type === 'videorecipe') {
+            opts.sort = locals.subsection === 'recientes' ? '-publishedDate' : '-rating';
+          }
+          service.recipeList[type].get(opts, function(err, results) {
             locals.data.recipes = results.results;
             callback(err);
           });
@@ -39,7 +46,7 @@ exports = module.exports = function(req, res) {
         },
         // Function for get recipes grid
         function(callback) {
-          service.recipeList.grid.get({
+          service.grid.get({
             section: (type === 'videorecipe' ? 'Videorecipes' : 'Recipes')
           }, function(err, results) {
             locals.data.grid = results;
@@ -52,6 +59,27 @@ exports = module.exports = function(req, res) {
             locals.data.order = results.order;
             locals.data.sizes = results.sizes;
             callback(err);
+          });
+        },
+        // Gets season lists (recipes only)
+        function(callback) {
+          if (type !== 'recipe') {
+            return callback(null);
+          }
+          service.config.get({
+            names: ['season_lists_home']
+          }, function(err, results) {
+            if (!err && results) {
+              service.seasonList.recipes.get({
+                limit: results[0] ? results[0].value : 1
+              }, function(err, results) {
+                locals.data.seasons = results.results;
+                callback(err);
+              });
+            }
+            else {
+              callback(err);
+            }
           });
         }
       ],

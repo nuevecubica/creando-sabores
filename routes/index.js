@@ -51,33 +51,37 @@ exports = module.exports = function(app) {
   app.all('/(perfil|receta)*', middleware.antiBadUsers);
 
   // Static
-  app.get('/terminos', routes.views.terms);
+  app.get('/terminos', routes.views.static.terms);
+  app.get('/biografia', routes.views.static.about);
+  app.get('/prensa', routes.views.static.press);
+  app.all('/contacto', routes.views.static.contact);
 
   // Profile: Private
-  app.get('/perfil/:section(recetas|favoritas|compra)?', middleware.requireUser, routes.views['private'].profile);
+  app.get('/perfil/:section(recetas|favoritas|compra|tips)?', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Profile: Public
-  app.get('/chef/:username/:section(recetas|favoritas)?', routes.views.chef);
+  app.get('/chef/:username/:section(recetas|favoritas|tips)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
 
   // Recipes + Videorecipes
   // -- Public
-  app.get('/:type(receta|videoreceta)s', routes.views.recipes);
+  app.get('/:type(receta)s', routes.views.recipes);
+  app.get('/:type(videoreceta)s/:section(recientes|populares)?', routes.views.recipes);
   app.get('/:type(receta|videoreceta)/:recipe', routes.views.recipe);
   // -- Private
   // ---- New
-  app.get('/nueva-receta', middleware.requireUser, routes.views.recipe);
-  app.post('/nueva-receta/save', middleware.requireUser, routes.views['private'].recipeSave.create);
-  app.get('/nueva-receta/:contest', middleware.requireUser, routes.views.recipe);
+  app.get('/nueva-receta', middleware.requireConfirmed, routes.views.recipe);
+  app.post('/nueva-receta/save', middleware.requireConfirmed, routes.views['private'].recipeSave.create);
+  app.get('/nueva-receta/:contest', middleware.requireConfirmed, routes.views.recipe);
   // ---- Edit
-  app.post('/receta/:recipe/save', middleware.requireUser, routes.views['private'].recipeSave.edit);
-  app.post('/receta/:recipe/remove', middleware.requireUser, routes.views['private'].recipeRemove);
-  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireUser, routes.views['private'].recipePublish);
+  app.post('/receta/:recipe/save', middleware.requireConfirmed, routes.views['private'].recipeSave.edit);
+  app.post('/receta/:recipe/remove', middleware.requireConfirmed, routes.views['private'].recipeRemove);
+  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].recipePublish);
 
   // Contests
   // -- Public
@@ -90,9 +94,22 @@ exports = module.exports = function(app) {
   app.get('/preguntas/:section(recientes|populares)?', routes.views.questions);
   app.get('/pregunta/:question', routes.views.question);
 
+  // Email
+  // -- Public
+  app.get('/:notification(newsletter)/:email/:token/:action(subscribe|unsubscribe)', routes.views.newsletter);
+
+  // Tips
+  // -- Public
+  app.get('/tips/:section(recientes|populares)?', routes.views.tips);
+  app.get('/tip/:tip', routes.views.tip);
+
   // Login, Register
-  app.all('/:mode(registro|acceso)', routes.views.signup);
-  app.get('/salir', routes.views.signout);
+  app.all('/:mode(registro|acceso)', routes.views.session.signup);
+  app.all('/contrasena-olvidada', routes.views.session.forgottenPassword);
+  app.all('/nueva-contrasena/:key', routes.views.session.resetPassword);
+  app.get('/confirma-email/:token', routes.views.session.verifyEmail);
+  app.get('/salir', routes.views.session.signout);
+
   // Authentication
   app.get('/authentication/facebook', routes.authentication.facebook);
   app.get('/authentication/google', routes.authentication.google);
@@ -100,6 +117,8 @@ exports = module.exports = function(app) {
 
   // Search
   app.get('/buscar', routes.views.search);
+
+  // Reset password
 
   // API
   app.all('/api/v1*', keystone.initAPI);
@@ -114,25 +133,36 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me/shopping/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.shopping);
   app.get('/api/v1/me/favourites/list', middleware.requireUserApi, routes.api.v1.me.favouritesList);
   app.get('/api/v1/me/favourites/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.favourites);
+  app.get('/api/v1/me/tips/favourites/list', middleware.requireUserApi, routes.api.v1.me.tips.get.favourites);
+  app.get('/api/v1/me/tips/favourites/:action(add|remove)/:tip', middleware.requireUserApi, routes.api.v1.tip.favourite);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
+  app.get('/api/v1/user/:username/tips', routes.api.v1.user.tips.favourites);
+  //-- Notifications
+  app.put('/api/v1/notifications/:email/:token/:action(subscribe|unsubscribe)/:notification(newsletter)', routes.api.v1.notification.notifications);
+  app.get('/api/v1/notifications/get/:notification(newsletter)/users', middleware.requireAdminApi, routes.api.v1.notification.users);
   //-- Recipes + Videorecipes
   app.get('/api/v1/:type(recipe|videorecipe)s', routes.api.v1.recipes);
-  app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireUserApi, routes.api.v1.recipeVote);
+  app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireConfirmedApi, routes.api.v1.recipeVote);
   //-- Recipes
-  app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireUserApi, routes.api.v1.recipeAction);
+  app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireConfirmedApi, routes.api.v1.recipeAction);
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
   //-- Questions
   app.get('/api/v1/questions', routes.api.v1.question.questions);
   app.put('/api/v1/question/:question/:state(review|published|removed|closed)', middleware.requireAdminApi, routes.api.v1.question.state);
-  app.post('/api/v1/question/add', middleware.requireUserApi, routes.api.v1.question.add);
+  app.post('/api/v1/question/add', middleware.requireConfirmedApi, routes.api.v1.question.add);
+  //-- Tips
+  app.put('/api/v1/tip/:tip/vote/:score', middleware.requireConfirmedApi, routes.api.v1.tip.vote);
+  app.get('/api/v1/tips/:type(recent)?', routes.api.v1.tip.tips.recent);
+  app.get('/api/v1/tips/popular', routes.api.v1.tip.tips.popular);
   //-- Admin
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
+  app.get('/api/v1/admin/generate/tips', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTips);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
   //---- Elasticsearch
   app.get('/api/v1/admin/es/ping', routes.api.v1.admin.goldfinder.ping);
@@ -140,8 +170,16 @@ exports = module.exports = function(app) {
   //-- Elasticsearch
   app.get('/api/v1/search', routes.api.v1.goldfinder.search);
   app.get('/api/v1/suggest', routes.api.v1.goldfinder.suggest);
+  //-- Seasons
+  app.get('/api/v1/seasonLists', routes.api.v1.seasonLists);
+  //-- Configs
+  app.get('/api/v1/Configs', routes.api.v1.configs);
+
+  //-- Test
+  app.all('/api/v1/test/getUser', middleware.requireTestApi, routes.api.v1.test.getUser);
+  app.all('/api/v1/test/sendEmail', middleware.requireTestApi, routes.api.v1.test.sendEmail);
+  app.all('/api/v1/test/getNewsletterUsers/:notification(newsletter)?', middleware.requireTestApi, routes.api.v1.notification.users);
 
   // Hbs
   app.get('/templates/hbs/:template.hbs', routes.templates.hbs);
-
 };

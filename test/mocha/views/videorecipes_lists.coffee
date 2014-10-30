@@ -43,7 +43,7 @@ describe 'Recipes: Lists', ->
                 return "Invalid videorecipe #{title} in #{keys}"
               # Order
               if last isnt null and videorecipes[title].rating > last
-                return "Invalid order #{videorecipes[title].rating} > #{last}"
+                return "Invalid order #{videorecipes[title].rating} <= #{last}"
               last = videorecipes[title].rating
 
             num.must.be.gt 0

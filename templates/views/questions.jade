@@ -42,11 +42,15 @@ block content
       if subsection === 'recientes'
         .row
           .ui.grid.segment.list.stackable
+            if data.myQuestions.length
+              each question in data.myQuestions
+                +question(question)
+
             if data.questions.length
               each question in data.questions
                 +question(question)
             else
-              | #{__('No questions yet')}
+              .empty-resultset.sixteen.wide.column= __('No questions yet')
 
         .row
           .loader
@@ -62,7 +66,7 @@ block content
               each question in data.questions
                 +question(question)
             else
-              | #{__('No questions yet')}
+              .empty-resultset.sixteen.wide.column= __('No questions yet')
 
         .row
           .loader

@@ -75,8 +75,8 @@ describe '(Private) Profile: Change', ->
               return 'Edit Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')
@@ -91,8 +91,8 @@ describe '(Private) Profile: Change', ->
  and isPrivate #{res.body.user.isPrivate}"
             )
             .end (err, res) ->
-              if err
-                return done err, res
+              return done(err) if err
+
               request
                 .post('/perfil/change')
                 .set('cookie', cookie)
@@ -110,8 +110,8 @@ describe '(Private) Profile: Change', ->
                       return 'Revert private Wrong status headers'
                 )
                 .end (err, res) ->
-                  if err
-                    return done err, res
+                  return done(err) if err
+
                   request
                     .get('/api/v1/me')
                     .set('Accept', 'application/json')
@@ -144,18 +144,18 @@ describe '(Private) Profile: Change', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
-            .post('/api/v1/login')
-            .send({
-              email: data.users[0].email,
-              password: 'demo-pass'
-            })
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(done)
+          .post('/api/v1/login')
+          .send({
+            email: data.users[0].email,
+            password: 'demo-pass'
+          })
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(done)
 
       it 'rejects repeated email', (done) ->
         request
@@ -177,20 +177,20 @@ describe '(Private) Profile: Change', ->
  Expected: \"Error saving profile, false\"."
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
-            .get('/api/v1/me')
-            .set('Accept', 'application/json')
-            .set('cookie', cookie)
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .expect(
-              (res) ->
-                if res.body.user.email isnt data.users[0].email
-                  return 'Email changed on collision'
-            )
-            .end(done)
+          .get('/api/v1/me')
+          .set('Accept', 'application/json')
+          .set('cookie', cookie)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(
+            (res) ->
+              if res.body.user.email isnt data.users[0].email
+                return 'Email changed on collision'
+          )
+          .end(done)
 
       it 'rejects bad password', (done) ->
         request
@@ -212,8 +212,8 @@ describe '(Private) Profile: Change', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .post('/api/v1/login')
             .send({
@@ -242,8 +242,8 @@ describe '(Private) Profile: Change', ->
               return 'Wrong status headers'
         )
         .end (err, res) ->
-          if err
-            return done err, res
+          return done(err) if err
+
           request
             .get('/api/v1/me')
             .set('Accept', 'application/json')

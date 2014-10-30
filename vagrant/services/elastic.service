@@ -1,0 +1,12 @@
+[Unit]
+Description=Elastic
+
+[Service]
+Restart=always
+RestartSec=30
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill elasticsearch
+ExecStartPre=-/usr/bin/docker rm elasticsearch
+ExecStartPre=/usr/bin/docker pull dockerfile/elasticsearch
+ExecStart=/bin/bash -c "HOST_IP=$(/bin/ifconfig eth0 | awk '/inet /{print $2}') && exec /usr/bin/docker run --name elasticsearch -p $HOST_IP::9200 dockerfile/elasticsearch"
+ExecStop=/usr/bin/docker stop elasticsearch

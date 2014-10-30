@@ -146,8 +146,8 @@ mixin header(data, section)
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
 
-				.row.section.title
-					#recipe-title.shadow.set-editable(data-length="40")= title
+				.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
+					#recipe-title.shadow.set-editable(data-length="40", data-tutorial-complete="editableTypedText")= title
 
 				.row.section.subtitle
 					.author.shadow= author
@@ -163,10 +163,10 @@ mixin header(data, section)
 					.six.wide.column
 
 					.six.wide.column.right.aligned
-						.corner-position.right
+						.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
 							.ui.button.chef.button-gray.show-editable.file-select
 								if own
-									input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+									input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
 									i.social.icon-chef-camera
 									span
 									|#{__('Change image')}
@@ -195,9 +195,9 @@ mixin header(data, section)
 					.logo.corner
 						.icon-chef-logo.icon
 
-				.row.section.title
+				.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
 					.editable-container
-						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40")= title
+						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40", data-tutorial-complete="editableTypedText")= title
 
 				.row.section.subtitle
 					.author.shadow= author
@@ -205,9 +205,9 @@ mixin header(data, section)
 				.row
 					.ten.wide.column
 					.six.wide.column.right.aligned
-						.corner-position.right
+						.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
 							.ui.button.chef.button-gray.show-editable.file-select
-								input#recipe-header-select(type="file" name="header_upload" accept="image/*")
+								input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
 								i.social.icon-chef-camera
 								span
 								|#{__('Change image')}
@@ -216,7 +216,7 @@ mixin header(data, section)
 		- var title = data.recipe ? data.recipe.title : ''
 		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 
-		- var promotedUrl = data.header ? data.header.url : null
+		- var promotedUrl = data.header ? data.header.url + '?autoplay=true' : null
 		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
 
 		#videorecipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
@@ -271,7 +271,7 @@ mixin header(data, section)
 		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
 			#video-player
 
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle.with-social(class=(autoplay) ? 'video-playing' : '')
 				#header.row.keep-pointer
 					include ../components/header
 
@@ -283,8 +283,7 @@ mixin header(data, section)
 						a.icon-chef-logo.icon(href="/")
 
 				.row.section.title
-					.editable-container
-						#recipe-title.shadow= title
+					#recipe-title.shadow= title
 
 				.row.section.subtitle
 					.author.shadow= author
@@ -300,7 +299,7 @@ mixin header(data, section)
 
 		#contests-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -317,7 +316,7 @@ mixin header(data, section)
 
 		#contest-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -337,7 +336,7 @@ mixin header(data, section)
 
 		#participants-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
@@ -363,21 +362,73 @@ mixin header(data, section)
 
 	else if section === 'questions'
 
-		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
+		#questions-header.ui.grid.segment.narrow(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
+			.ui.page.grid.head.with-subtitle
 				#header.row
 					include ../components/header
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#questions-title.shadow= __('Questions')
 
 	else if section === 'question'
 
-		#questions-header.ui.grid.segment.promoted(style="background-image:url(/images/questions_header.jpg)")
+		#questions-header.ui.grid.segment.narrow(style="background-image:url(/images/questions_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#questions-title.shadow= __('Questions')
+
+	else if section === 'tips'
+		- var image = data.header ? data.header.thumb.header : defaults.images.tip
+
+		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-title.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.shadow= __('Tips')
+
+				.row
+					if data.header
+						.social.four.tablet-seven.wide.column.tablet.computer.only
+							.corner-position.left
+								|#{__('Share this page')}
+								+header-share()
+
+						.four.wide.column.computer.only
+
+						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+						- var promotedUrl = data.header ? data.header.url : '/tips'
+
+						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+							.tabla
+								p= (data.header.author.name || data.header.author.username)
+								.tabla1
+									.ui.image
+								.tabla2
+									.text
+										a.span(href="#{promotedUrl}")= promotedTitle
+								.tabla3
+									.ui.image
+
+	else if section === 'tip'
+		- var title = data.tip ? data.tip.title : ''
+		- var image = data.tip ? data.tip.thumb.header : defaults.images.tip
+
+		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -387,4 +438,75 @@ mixin header(data, section)
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section.title
-					#questions-title.shadow= __('Questions')
+					#tip-title.shadow= title
+
+				.row.section.subtitle
+					p.shadow= (data.tip.author.name || data.tip.author.username)
+				.row
+					.four.wide.column.computer.only.social
+						.corner-position.left
+							|#{__('Share this tip')}
+							+header-share()
+
+	else if section === 'forgotten-password'
+
+		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.simple
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+	else if section === 'reset-password'
+
+		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.simple
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+	else if section === 'contact'
+
+		#contact_header.ui.grid.segment.narrow(style="background-image:url(/images/contact_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#contact-title.shadow= __('Contact')
+
+	else if section === 'about'
+
+		#contact_header.ui.grid.segment.narrow(style="background-image:url(/images/about_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#contact-title.shadow= __('About')
+
+	else if section === 'newsletter'
+
+		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
+			.shadow-layer
+			.ui.page.grid.head.simple
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+
