@@ -203,10 +203,8 @@ describe 'API v1: /me/', ->
           .expect(200)
           .expect(
             (res) ->
-              if res.body.success
-                return 'Success'
-              if res.body.error
-                return 'Error received'
+              if res.body.success or !res.body.error
+                return 'Invalid success'
           )
           .end (err, res) ->
             return done(err) if err
@@ -239,9 +237,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .expect(
             (res) ->
-              if res.body.success
-                return 'Success'
-              if res.body.error
+              if !res.body.success or res.body.error
                 return 'Error received'
           )
           .end (err, res) ->

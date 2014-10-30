@@ -152,7 +152,7 @@ describe 'API v1: /recipes', ->
         .expect(401)
         .expect(
           (res) ->
-            if res.body.success isnt false or res.body.error isnt false
+            if res.body.success or not res.body.error
               return 'Unexpected status values'
         )
         .end(done)
