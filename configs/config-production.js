@@ -16,7 +16,7 @@ var answer = {
       'view cache': true,
 
       'cookie secret': 'I may n0t do ev3ryth¡ng great_ in my life, but I\'m 9ood a7 this. | manage to touch people\'s l¡ves with what I d0 and I want to share this with you!',
-      'hash salt': 'Look, if you bought Stones t¡ckets and Jagger d¡dn\'t play_ Sati5faction, how would you feel? Would you b3 h4ppy? ~ |\|o. ~ No! You\'d burn the place to the fucking gr0und.',
+      'hash salt': 'Look, if you bought Stones t¡ckets and Jagger d¡dn\'t play_ Sati5faction, how would you feel? Would you b3 h4ppy? ~ |\\o. ~ No! You\'d burn the place to the fucking gr0und.',
 
       'host': 'localhost',
       'port': process.env.PORT || 3000
