@@ -8,10 +8,25 @@ request = require('supertest') config.keystone.publicUrl
 cookie = null
 
 describe 'Newsletter: View', ->
-  describe 'GET /:notification(newsletter)/:email/:token/subscribe)', ->
-    describe 'on request with a valid email and token', ->
 
-      user = data.users[4]
+  describe 'GET /:notification(newsletter)/:email/:token/subscribe)', ->
+    user = data.getUserByUsername 'testuser3'
+    before (done) ->
+      request
+      .get('/api/v1/test/getNewsletterUsers')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect (res) ->
+        if !res.body.users
+          return 'No users'
+        for _user in res.body.users
+          if _user.email is user.email
+            user.token = _user.token
+        return null
+      .end(done)
+
+    describe 'on request with a valid email and token', ->
 
       it 'return newsletter confirmation', (done) ->
         request
@@ -36,9 +51,24 @@ describe 'Newsletter: View', ->
         .end(done)
 
   describe 'GET /:notification(newsletter)/:email/:token/unsubscribe)', ->
-    describe 'on request with a valid email and token', ->
+    user = data.getUserByUsername 'testuser4'
 
-      user = data.users[4]
+    before (done) ->
+      request
+      .get('/api/v1/test/getNewsletterUsers')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect (res) ->
+        if !res.body.users
+          return 'No users'
+        for _user in res.body.users
+          if _user.email is user.email
+            user.token = _user.token
+        return null
+      .end(done)
+
+    describe 'on request with a valid email and token', ->
 
       it 'return newsletter confirmation', (done) ->
         request
