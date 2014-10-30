@@ -27,7 +27,7 @@ var getAllUsers = function(options, callback) {
     perPage: 10,
     limit: null,
     one: false,
-    states: null
+    states: []
   });
 
   var query = queryMaker(User, options);

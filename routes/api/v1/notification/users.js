@@ -15,7 +15,11 @@ exports = module.exports = function(req, res) {
     error: false
   };
 
-  var options = {};
+  var options = {
+    limit: null,
+    page: null,
+    perPage: null
+  };
 
   if (req.params.notification === 'newsletter') {
     options.flags = ['+receiveNewsletter'];
@@ -26,7 +30,7 @@ exports = module.exports = function(req, res) {
       answer.success = true;
 
       var usersList = [];
-      _.each(users.results, function(user) {
+      _.each(users, function(user) {
         var u = {
           email: user.email,
           unsubscribe: user.getNewsletterUnsubscribeUrl(),
@@ -40,9 +44,14 @@ exports = module.exports = function(req, res) {
       answer.users = usersList;
     }
     else {
-      res.status(401);
+      res.status(404);
       answer.error = true;
       answer.errorMessage = err;
+      console.error({
+        what: 'Error',
+        where: 'api/notification/users',
+        why: err || '(Unknown)'
+      });
     }
 
     return res.apiResponse(answer);

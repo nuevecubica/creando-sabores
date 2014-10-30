@@ -6,25 +6,13 @@ utils = require __dirname + '/../../utils.js'
 
 request = require('supertest') config.keystone.publicUrl
 
-user =
-  email: 'testUser4@glue.gl'
-  token: 'foobar'
-
-cookie = null
-
 describe 'API v1: /notifications', ->
+  cookie = null
 
-  before (done) ->
-    request
-    .get('/api/v1/notifications/get/newsletter/users')
-    .set('Accept', 'application/json')
-    .expect('Content-Type', /json/)
-    .expect(200)
-    .end (err, res) ->
-      for u in res.body.users
-        if u.email is user.email
-          user.token = u.token
-      done(err)
+  dummy = {
+    email: 'dummy@ema.il'
+    token: '000000000000'
+  }
 
   beforeEach (done) ->
     this.timeout 10000
@@ -32,38 +20,35 @@ describe 'API v1: /notifications', ->
       utils.revertTestDatabase(done)
 
   describe 'PUT /api/v1/notifications/:email/:token/subscribe/newsletter', ->
-    email = 'dummy@ema.il'
-    token = '000000000000'
+
+    user = data.getUserByUsername 'testuser3'
+
+    before (done) ->
+      request
+      .get('/api/v1/test/getNewsletterUsers')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect (res) ->
+        if !res.body.users
+          return 'No users'
+        for _user in res.body.users
+          if _user.email is user.email
+            user.token = _user.token
+        return null
+      .end(done)
 
     describe 'on request invalid email and token', ->
       it 'responds with not found', (done) ->
         request
-        .put('/api/v1/notifications/' + email + '/' + token +
+        .put('/api/v1/notifications/' + dummy.email + '/' + dummy.token +
           '/subscribe/newsletter')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(401)
+        .expect(404)
         .end(done)
 
     describe 'on request valid user', ->
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.admins[0].email,
-          password: data.admins[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
-      user = data.users[4]
-
       it 'responds with success', (done) ->
         request
         .put('/api/v1/notifications/' + user.email + '/' +
@@ -80,7 +65,7 @@ describe 'API v1: /notifications', ->
           return done(err) if err
 
           request
-          .get('/api/v1/notifications/get/newsletter/users')
+          .get('/api/v1/test/getNewsletterUsers')
           .set('Accept', 'application/json')
           .set('cookie', cookie)
           .expect('Content-Type', /json/)
@@ -94,35 +79,32 @@ describe 'API v1: /notifications', ->
 
   describe 'PUT /api/v1/notifications/:email/:token/unsubscribe/newsletter', ->
 
-    email = 'dummy@ema.il'
-    token = '000000000000'
+    user = data.getUserByUsername 'testuser4'
+
+    before (done) ->
+      request
+      .get('/api/v1/test/getNewsletterUsers')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect (res) ->
+        if !res.body.users
+          return 'No users'
+        for _user in res.body.users
+          if _user.email is user.email
+            user.token = _user.token
+        return null
+      .end(done)
 
     describe 'on request invalid email and token', ->
       it 'responds with not found', (done) ->
         request
-        .put('/api/v1/notifications/' + email + '/' + token +
+        .put('/api/v1/notifications/' + dummy.email + '/' + dummy.token +
           '/unsubscribe/newsletter')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(401)
+        .expect(404)
         .end(done)
-
-    before (done) ->
-      request
-      .post('/api/v1/login')
-      .send({
-        email: data.admins[0].email,
-        password: data.admins[0].password
-      })
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .end (err, res) ->
-        return 'error' if not res.body.success or res.body.error
-        cookie = res.headers['set-cookie']
-        done()
-
-    user = data.users[4]
 
     describe 'on request valid user', ->
       it 'responds with success', (done) ->
@@ -141,7 +123,7 @@ describe 'API v1: /notifications', ->
           return done(err) if err
 
           request
-          .get('/api/v1/notifications/get/newsletter/users')
+          .get('/api/v1/test/getNewsletterUsers/newsletter')
           .set('Accept', 'application/json')
           .set('cookie', cookie)
           .expect('Content-Type', /json/)

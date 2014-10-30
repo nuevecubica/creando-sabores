@@ -14,7 +14,6 @@ var setNewsletter = function(options, callback) {
       if (user.checkToken(options.token)) {
         user.receiveNewsletter = !!options.receiveNewsletter;
         user.save(function(err, user) {
-          console.log(user);
           callback(err, user);
         });
       }
