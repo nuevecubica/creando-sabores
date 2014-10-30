@@ -1,7 +1,9 @@
 var keystone = require('keystone'),
   async = require('async'),
+  clean = require(__base + 'utils/cleanText.js'),
   service = require(__base + 'services'),
-  formResponse = require(__base + 'utils/formResponse.js');
+  formResponse = require(__base + 'utils/formResponse.js'),
+  config = require(__base + 'configs/editor');
 
 exports = module.exports = function(req, res) {
 
@@ -27,6 +29,10 @@ exports = module.exports = function(req, res) {
   locals.footerType = 'mini';
   locals.hideMenu = true;
   locals.hideSocial = true;
+
+  if (req.body.username) {
+    req.body.username = clean(String(req.body.username), ['lowercase', 'username', ['maxlength', config.profile.username.length]]);
+  }
 
   view.on('post', {
     action: 'signup'

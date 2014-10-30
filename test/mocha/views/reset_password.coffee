@@ -7,6 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 token = null
 oldToken = null
+password = ''
 
 describe 'Reset password:', ->
 

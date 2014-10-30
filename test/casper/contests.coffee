@@ -69,9 +69,9 @@ describe 'Contests page', ->
         ('#past-contests .award').should.be.inDOM.and.visible
         ('#past-contests .author-winner a').should.be.inDOM.and.visible
         @getElementAttribute('#past-contests .author-winner a',
-          'href').should.be.equal '/chef/testUser1'
+          'href').should.be.equal '/chef/testuser1'
         @getElementAttribute('#past-contests .recipe-award>a',
-          'href').should.be.equal '/chef/testUser1'
+          'href').should.be.equal '/chef/testuser1'
         @getElementAttribute('#past-contests .recipe-award .title a',
           'href').should.be.equal '/receta/test-contest-finished-recipe-15'
         ('#past-contests div.award').should.be.inDOM.and.visible

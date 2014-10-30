@@ -89,7 +89,7 @@ describe 'Forgotten password:', ->
           return done(err) if err
 
           request
-          .get('/api/v1/test/getUser?username=testUser1')
+          .get('/api/v1/test/getUser?username=testuser1')
           .expect(
             (res) ->
               if !res.body.user or !res.body.user.resetPasswordToken
