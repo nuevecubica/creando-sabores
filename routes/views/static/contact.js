@@ -35,7 +35,7 @@ exports = module.exports = function(req, res) {
         email: req.body.email,
         topic: req.body.comment
       }
-    }, function(){});
+    }, function() {});
 
   });
 
