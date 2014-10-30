@@ -72,11 +72,25 @@ exports = module.exports = function(List, options, callback) {
 
   if (options.flags && options.flags.length > 0) {
     _.each(options.flags, function(flag) {
+      // flag is
       if (flag[0] === '-') {
         query.where(flag.substr(1), false);
       }
       else if (flag[0] === '+') {
         query.where(flag.substr(1), true);
+      }
+      // flag is not
+      else if (flag[0] === '!') {
+        flag = flag.substr(1);
+        if (flag[0] === '-') {
+          query.where(flag.substr(1)).ne(false);
+        }
+        else if (flag[0] === '+') {
+          query.where(flag.substr(1)).ne(true);
+        }
+        else {
+          query.where(flag).ne(true);
+        }
       }
       else {
         query.where(flag, true);
