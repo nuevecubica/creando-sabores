@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe.only 'Newsletter: View', ->
+describe 'Newsletter: View', ->
 
   describe 'GET /:notification(newsletter)/:email/:token/subscribe)', ->
     user = data.getUserByUsername 'testuser3'
