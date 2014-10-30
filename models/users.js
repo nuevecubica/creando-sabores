@@ -232,7 +232,7 @@ User.add({
   receiveNewsletter: {
     type: Types.Boolean,
     index: true,
-    default: true
+    default: false
   }
 }, 'Reset Password', {
   resetPasswordToken: {
