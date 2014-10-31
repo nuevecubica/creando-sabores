@@ -458,7 +458,7 @@ module.exports = (grunt) ->
     grunt.task.run ["copy:client"]
     grunt.task.run ["envdebug"]
 
-  grunt.registerTask "production-postproduction", ->
+  grunt.registerTask "postproduction", ->
     grunt.task.run ["clean"]
     grunt.task.run ["less:production"]
     grunt.task.run ["autoprefixer:production"]
