@@ -451,8 +451,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask "production", ->
     grunt.task.run ["clean"]
-    grunt.task.run ["less:build"]
-    grunt.task.run ["autoprefixer:build"]
+    grunt.task.run ["less:production"]
+    grunt.task.run ["autoprefixer:production"]
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
