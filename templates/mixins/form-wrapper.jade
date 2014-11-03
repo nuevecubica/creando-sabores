@@ -23,6 +23,7 @@ mixin form-wrapper(section, data)
       input#hidden-old-password(type="hidden" name="old-pass" autocomplete="off")
       input#hidden-new-password(type="hidden" name="new-pass" autocomplete="off")
       input#hidden-isPrivate(type="hidden" name="isPrivate" checked=(user.isPrivate ? "checked" : undefined))
+      input#hidden-receiveNewsletter(type="hidden" name="receiveNewsletter" checked=(user.receiveNewsletter ? "checked" : undefined))
       input(type="hidden" name="_csrf" value="#{csrftoken}")
 
     form#profile-form(action="/perfil/save" method="POST" enctype="multipart/form-data")
