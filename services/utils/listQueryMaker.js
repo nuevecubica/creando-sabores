@@ -25,7 +25,9 @@ exports = module.exports = function(List, options, callback) {
     perPage: 10,
     limit: null,
     one: false,
-    states: ['published']
+    states: ['published'],
+    select: "",
+    exclude: ""
   });
 
   var query = {};
@@ -108,8 +110,34 @@ exports = module.exports = function(List, options, callback) {
 
   if (options.populate && options.populate.length) {
     options.populate.forEach(function(pop) {
-      query.populate(pop);
+      if (!_.isArray(pop)) {
+        pop = [pop];
+      }
+
+      query.populate.apply(query, pop);
     });
+  }
+
+  // Select
+  if (options.select && _.isArray(options.select)) {
+    options.select = options.select.join(" ");
+  }
+
+  if (!_.isString(options.select)) {
+    options.select = "";
+  }
+
+  // Exclude
+  if (options.exclude && _.isArray(options.exclude)) {
+    options.exclude = "-" + options.exclude.join(" -");
+  }
+
+  if (!_.isString(options.exclude)) {
+    options.exclude = "";
+  }
+
+  if (options.select || options.exclude) {
+    query.select(options.select + " " + options.exclude);
   }
 
   if (callback) {

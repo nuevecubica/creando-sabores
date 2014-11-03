@@ -6,7 +6,12 @@ exports = module.exports = function(req, res) {
 
   if (req.user) {
     answer.success = true;
-    answer.user = req.user;
+    answer.user = {
+      name: req.user.name,
+      username: req.user.username,
+      about: req.user.about,
+      thumb: req.user.thumb
+    };
   }
   else {
     res.status(401);

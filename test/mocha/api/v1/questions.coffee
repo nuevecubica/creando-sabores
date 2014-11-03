@@ -8,7 +8,7 @@ request = require('supertest') config.keystone.publicUrl
 
 cookie = null
 
-describe 'API v1: questions', ->
+describe.only 'API v1: questions', ->
 
   before (done) ->
     this.timeout 5000

@@ -28,7 +28,9 @@ exports = module.exports = function(req, res) {
     var options = {
       page: req.query.page || 1,
       perPage: 5,
-      populate: ['author']
+      populate: [
+        ['author', 'username name about thumb url']
+      ]
     };
 
     service.questionList.get(options, function(err, results) {

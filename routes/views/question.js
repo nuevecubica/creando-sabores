@@ -19,7 +19,10 @@ exports = module.exports = function(req, res) {
 
   var options = {
     slug: locals.filters.question,
-    populate: ['author', 'chef']
+    populate: [
+      ['author', 'username name about thumb url'],
+      ['chef', 'username name about thumb url']
+    ]
   };
 
   // load question

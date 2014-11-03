@@ -3,7 +3,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   service = require(__base + 'services'),
   moment = require('moment'),
-  modelCleaner = require(__base + 'utils/modelCleaner');
+  modelCleaner = require(__base + 'utils/modelCleaner'),
+  hideMyApi = require(__base + 'utils/hideMyApi');
 
 /*
   /questions?page=1&perPage=10
@@ -18,7 +19,7 @@ exports = module.exports = function(req, res) {
   var options = {
     page: req.query.page || 1,
     perPage: req.query.perPage || 10,
-    populate: ['author']
+    populate: ['author', 'chef']
   };
 
   // If user is admin, get all questions
@@ -33,11 +34,12 @@ exports = module.exports = function(req, res) {
     }
     else {
       answer.success = true;
-      questions.results.map(function(a, i) {
+      questions.results.forEach(function(a, i) {
         a = a.toObject({
           virtuals: true,
           transform: modelCleaner.transformer
         });
+        a = hideMyApi(a, ['slug', 'url', 'title', 'answer', 'state', 'createdDate', 'publishedDate', 'author.username', 'author.name', 'author.thumb', 'author.url', 'chef.username', 'chef.name', 'chef.thumb', 'chef.url']);
         a.formattedDate = moment(a.createdDate).format('lll');
         questions.results[i] = a;
       });
