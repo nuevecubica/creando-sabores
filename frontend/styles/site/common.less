@@ -834,8 +834,6 @@ body {
 
   .rating {
 
-    padding-top: 10px;
-
     .strong {
       font-size: 18px;
       display: inline-block;
@@ -865,6 +863,7 @@ body {
     color: @chef-color-black;
 
     h2.header{
+      padding-top: 10px;
       margin-top: 0;
       white-space: nowrap;
       overflow: hidden;
@@ -888,6 +887,16 @@ body {
     p {
       margin-top: 10px;
       text-align: justify;
+    }
+  }
+}
+
+#participants-content{
+  .list{
+    a{
+      h2.header{
+        padding-top: 0px;
+      }
     }
   }
 }
@@ -954,7 +963,9 @@ body {
     .mixin(6);
   }
 }
-
+.tab-header{
+  margin-bottom: 5px;
+}
 .transient-tab-content {
   display: none;
 

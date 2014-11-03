@@ -5,6 +5,9 @@ mixin tip(tip)
 			.thumbnail(style = 'background-image: url(' + tip.thumb.list + ')')
 
 		.eleven.wide.column
+			a(href=tip.url)
+				h2.ui.header
+					!= tip.title
 			.rating
 				.strong= __('Rating')
 				.span
@@ -16,9 +19,5 @@ mixin tip(tip)
 							else
 								i.icon-chef-star.icon.on
 								- rating = rating - 1;
-
-			a(href=tip.url)
-				h2.ui.header
-					!= tip.title
 
 			.ui.content!= tip.tip
