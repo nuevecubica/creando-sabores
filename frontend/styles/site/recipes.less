@@ -371,7 +371,9 @@
             height: 210px;
             display: block;
             color: #fff;
-
+            @media only screen and (max-width: 767px){
+              height: 105px;
+            }
             &:hover{
               background-color: fade(@grid-hover-background, 90%);
               transition: background-color @ani-time ease-out;
