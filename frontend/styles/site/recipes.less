@@ -178,6 +178,9 @@
 
   #actions {
     padding-top: 10px;
+    @media screen and (max-width: 767px) {
+      padding-top: 0px;
+    }
 
     .recipe-actions > div {
       display: inline-block;
@@ -718,9 +721,11 @@
     .add-menu{
       vertical-align: top;
       .ui.button.chef {
-        padding: 16px 25px;
-        min-width: 190px;
+        padding: 16.5px;
         display: inline-block;
+        @media screen and (max-width: 767px) {
+          padding: 16px;
+        }
       }
     }
     .rating{
