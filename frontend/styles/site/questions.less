@@ -25,6 +25,12 @@
         .font-larger;
         width: auto;
         padding: 20px;
+        @media only screen and (max-width : 991px) {
+          .font-large;
+        }
+        @media only screen and (max-width : 767px) {
+          .font-small;
+        }
       }
     }
   }
@@ -172,7 +178,7 @@
 }
 
 /****************
-  QUESTIONS 
+  QUESTION
 ****************/
 #question{
 
@@ -240,7 +246,16 @@
         display: block;
       }
     }
-
+    a{
+      &.icon{
+        color: @chef-color-white;
+        text-decoration: none;
+        .font-large;
+      @media only screen and (max-width : 768px) {
+         .font-small;
+        }
+      }
+    }
     span{
       .font-large;
       &.span{

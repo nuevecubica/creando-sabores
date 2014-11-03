@@ -82,13 +82,6 @@ body {
   }
 }
 
-@media only screen and (max-width: 767px) {
-  .ui.stackable.grid > .row > .column, .ui.stackable.grid > .column {
-    padding-left: 1.5% !important;
-    padding-right: 1.5% !important;
-  }
-}
-
 .header {
   .font-extra-large.uppercase;
   font-weight: bold;
@@ -218,6 +211,9 @@ body {
 
     .icon {
       font-size: 130px;
+      @media only screen and (max-width : 767px) {
+        font-size: 90px;
+      }
     }
   }
 
@@ -426,6 +422,10 @@ body {
           .font-extra-large;
         }
       }
+      a.author{
+        text-decoration: none;
+        color: @chef-color-white;
+      }
     }
   }
 
@@ -578,21 +578,37 @@ body {
     margin-top: 0;
     padding-top: 0;
 
-    .row.position {
-      position: relative;
-      .hover-list{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 10000;
-        cursor: pointer;
-        opacity: 0.1;
-        &:hover{
-          background-color:@chef-color-red-bg;
+    .list {
+      .row.position {
+        position: relative;
+        .hover-list{
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          z-index: 10000;
+          cursor: pointer;
+          opacity: 0.1;
+          &:hover{
+            background-color:@chef-color-red-bg;
+          }
         }
       }
-    }
-    .list {
+      @media only screen and (max-width: 767px) {
+        &.ui.stackable.grid > .row > .column, &.ui.stackable.grid > .column {
+          margin: 0 !important;
+          padding: 0 1.5% !important;
+          .rating{
+            margin-top: 5px;
+          }
+          .content{
+            line-height: 1.3em;
+            margin-bottom: 15px;
+            p{
+              margin-top: 17px;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -658,7 +674,7 @@ body {
           vertical-align: middle;
           text-align: center;
           opacity: 0;
-          font-size: @recipe-font-text;
+          font-size: @font-size-large;
           color: @chef-color-white;
           transition: background-color @ani-time ease-out;
           text-transform: uppercase;
@@ -834,8 +850,6 @@ body {
 
   .rating {
 
-    padding-top: 10px;
-
     .strong {
       font-size: 18px;
       display: inline-block;
@@ -865,6 +879,7 @@ body {
     color: @chef-color-black;
 
     h2.header{
+      padding-top: 10px;
       margin-top: 0;
       white-space: nowrap;
       overflow: hidden;
@@ -888,6 +903,16 @@ body {
     p {
       margin-top: 10px;
       text-align: justify;
+    }
+  }
+}
+
+#participants-content{
+  .list{
+    a{
+      h2.header{
+        padding-top: 0px;
+      }
     }
   }
 }
@@ -954,7 +979,9 @@ body {
     .mixin(6);
   }
 }
-
+.tab-header{
+  margin-bottom: 5px;
+}
 .transient-tab-content {
   display: none;
 

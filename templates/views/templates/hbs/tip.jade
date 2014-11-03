@@ -4,12 +4,12 @@
 		.thumbnail(style='background-image: url({{thumb.list}})')
 
 	.eleven.wide.column
+		a(href="{{url}}")
+			h2.ui.header {{title}}
+
 		.rating
 			.strong= __('Rating')
 			.span
 				.ui.icon {{formatIcons rating 'star'}}
-
-		a(href="{{url}}")
-			h2.ui.header {{title}}
 
 		.ui.content {{{tip}}}
