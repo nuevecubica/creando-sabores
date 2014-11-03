@@ -21,7 +21,7 @@ exports = module.exports = function(req, res) {
     var myOptions = {
       sort: '-createdDate',
       populate: ['author'],
-      authorId: req.user._id || null,
+      authorId: req.user ? req.user._id : null,
       states: ['review']
     };
 
