@@ -6,7 +6,7 @@ var keystone = require('keystone'),
 
 var defaults = {
   images: {
-    header: '/images/default_recipe.jpg'
+    header: '/images/default_menu.jpg'
   }
 };
 
@@ -63,24 +63,24 @@ var virtuals = {
     }
 
     return {
-      'list': this._.header.src({
+      'list': this._.media.header.src({
         transformation: 'list_thumb'
-      }) || defaults.images.header,
-      'grid_small': this._.header.src({
+      }) || this._.media.collage || defaults.images.header,
+      'grid_small': this._.media.header.src({
         transformation: 'grid_small_thumb'
-      }) || defaults.images.header,
-      'grid_medium': this._.header.src({
+      }) || this._.media.collage || defaults.images.header,
+      'grid_medium': this._.media.header.src({
         transformation: 'grid_medium_thumb'
-      }) || defaults.images.header,
-      'grid_large': this._.header.src({
+      }) || this._.media.collage || defaults.images.header,
+      'grid_large': this._.media.header.src({
         transformation: 'grid_large_thumb'
-      }) || defaults.images.header,
-      'header': this._.header.src({
+      }) || this._.media.collage || defaults.images.header,
+      'header': this._.media.header.src({
         transformation: 'header_limit_thumb'
-      }) || defaults.images.header,
-      'shopping_list': this._.header.src({
+      }) || this._.media.collage || defaults.images.header,
+      'shopping_list': this._.media.header.src({
         transformation: 'shopping_list_thumb'
-      }) || defaults.images.header,
+      }) || this._.media.collage || defaults.images.header,
       'hasQuality': imageQuality(this.header).hasQuality
     };
   },
@@ -89,7 +89,7 @@ var virtuals = {
    * @return {String} URL
    */
   url: function() {
-    return (this.isVideorecipe) ? '/videoreceta/' + this.slug : '/receta/' + this.slug;
+    return '/menu/' + this.slug;
   }
 };
 
