@@ -59,6 +59,22 @@ var getMenu = function(options, callback) {
   }
 };
 
+var changeState = function(options, state, callback) {
+  service.menuList.get(options, function(err, menu) {
+
+    if (!err && menu) {
+      menu.state = state;
+      menu.save(callback);
+    }
+    else {
+      if (err) {
+        console.error('Error service.menu.read find', err);
+      }
+      return callback(err || 'Not found', {});
+    }
+  });
+};
+
 /**
  * Returns an empty menu
  * @param  {Object} options
@@ -81,6 +97,7 @@ var getMenuNew = function(options, callback) {
  */
 var _service = {
   get: getMenu,
+  state: changeState
 };
 _service.get.new = getMenuNew;
 

@@ -100,7 +100,6 @@ exports = module.exports = function(app) {
   // ---- Edit
   //app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
   //app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
-  //app.get('/menu/:menu/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].menuPublish);
 
   // Questions
   // -- Public
@@ -164,6 +163,7 @@ exports = module.exports = function(app) {
   app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireConfirmedApi, routes.api.v1.recipeAction);
   //-- Menus
   app.get('/api/v1/menus', routes.api.v1.menus);
+  app.put('/api/v1/menu/:menu/:state(draft|publish)', middleware.requireConfirmedApi, routes.api.v1.menu.state);
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
