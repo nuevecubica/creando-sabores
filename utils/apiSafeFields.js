@@ -1,17 +1,17 @@
 var safe = {
   recipe: [
-    'url', 'title', 'description', 'ingredients', 'procedure',
+    'url', 'slug', 'title', 'description', 'ingredients', 'procedure',
     'portions', 'time', 'difficulty', 'rating', 'state',
     'createdDate', 'publishedDate', 'classes'
   ],
-  user: ['username', 'name', 'about', 'thumb', 'url'],
+  user: ['slug', 'username', 'name', 'about', 'thumb', 'url'],
   question: [
-    'url', 'title', 'answer',
+    'url', 'slug', 'title', 'answer',
     'state', 'createdDate', 'publishedDate',
     'classes'
   ],
   contest: [
-    'url', 'title', 'description', 'title', 'sponsor',
+    'url', 'slug', 'title', 'description', 'title', 'sponsor',
     'ingredientRequired', 'submissionDeadline', 'terms',
     'state', 'thumb', 'type', 'classes', 'awards.jury.winner',
     'awards.community.winner'
@@ -20,6 +20,10 @@ var safe = {
 };
 
 safe.user.private = ['username', 'name', 'about', 'thumb', 'url'];
+
+/*
+Populated
+ */
 safe.recipe.populated = safe.recipe.concat([
   'author.name', 'author.about', 'author.username', 'author.thumb', 'author.url',
   'contest.url', 'contest.title', 'contest.description', 'contest.title', 'contest.sponsor',
