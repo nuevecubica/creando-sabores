@@ -89,6 +89,18 @@ exports = module.exports = function(app) {
   app.get('/concurso/:contest', routes.views.contest);
   app.get('/concurso/:contest/participantes/:section(top|reciente)', routes.views.participants);
 
+  // Menus
+  // -- Public
+  app.get('/menus', routes.views.menus);
+  //app.get('/menu/:menu', routes.views.menu);
+  // -- Private
+  // ---- New
+  //app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);
+  //app.post('/nuevo-menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.create);
+  // ---- Edit
+  //app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
+  //app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
+
   // Questions
   // -- Public
   app.get('/preguntas/:section(recientes|populares)?', routes.views.questions);
@@ -149,6 +161,9 @@ exports = module.exports = function(app) {
   app.put('/api/v1/:type(recipe|videorecipe)/:recipe/vote/:score', middleware.requireConfirmedApi, routes.api.v1.recipeVote);
   //-- Recipes
   app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireConfirmedApi, routes.api.v1.recipeAction);
+  //-- Menus
+  app.get('/api/v1/menus', routes.api.v1.menus);
+  app.put('/api/v1/menu/:menu/:state(draft|published)', middleware.requireConfirmedApi, routes.api.v1.menu.state);
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
