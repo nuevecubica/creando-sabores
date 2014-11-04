@@ -34,16 +34,6 @@ block content
 							a(href='/nuevo-menu')= __('Create menu')
 
 		#menus.ui.grid.segment.two.tabs
-			.row.tab-header
-				.tab
-					a.tab-link(href='/menus')
-						div(class="#{subsection === 'recientes' ? 'active' : ''}").ui.button.chef.button-green
-							| #{('Recent')}
-				.tab
-					a.tab-link(href='/menus')
-						div(class="#{subsection === 'populares' ? 'active' : ''}").ui.button.chef.button-green
-							| #{('Popular')}
-
 			.row
 				.ui.grid.segment.list.stackable
 					if data.menus.length

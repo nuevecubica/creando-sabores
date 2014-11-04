@@ -23,7 +23,7 @@ exports = module.exports = function(req, res) {
     }
     else {
       answer.success = true;
-      answer.recipes = recipes;
+      answer.menus = recipes;
     }
     return res.apiResponse(answer);
   });
