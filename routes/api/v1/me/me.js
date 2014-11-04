@@ -1,3 +1,6 @@
+var hideMyApi = require(__base + 'utils/hideMyApi'),
+  safe = require(__base + 'utils/apiSafeFields');
+
 exports = module.exports = function(req, res) {
   var answer = {
     success: false,
@@ -6,12 +9,7 @@ exports = module.exports = function(req, res) {
 
   if (req.user) {
     answer.success = true;
-    answer.user = {
-      name: req.user.name,
-      username: req.user.username,
-      about: req.user.about,
-      thumb: req.user.thumb
-    };
+    answer.user = hideMyApi(req.user, safe.user);
   }
   else {
     res.status(401);

@@ -3,8 +3,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   service = require(__base + 'services'),
   moment = require('moment'),
-  modelCleaner = require(__base + 'utils/modelCleaner'),
-  hideMyApi = require(__base + 'utils/hideMyApi');
+  hideMyApi = require(__base + 'utils/hideMyApi'),
+  safe = require(__base + 'utils/apiSafeFields');
 
 /*
   /questions?page=1&perPage=10
@@ -34,14 +34,10 @@ exports = module.exports = function(req, res) {
     }
     else {
       answer.success = true;
-      questions.results.forEach(function(a, i) {
-        a = a.toObject({
-          virtuals: true,
-          transform: modelCleaner.transformer
-        });
-        a = hideMyApi(a, ['slug', 'url', 'title', 'answer', 'state', 'createdDate', 'publishedDate', 'author.username', 'author.name', 'author.thumb', 'author.url', 'chef.username', 'chef.name', 'chef.thumb', 'chef.url']);
-        a.formattedDate = moment(a.createdDate).format('lll');
-        questions.results[i] = a;
+      questions.results.forEach(function(item, i) {
+        item = hideMyApi(item, safe.question.populated);
+        item.formattedDate = moment(item.createdDate).format('lll');
+        questions.results[i] = item;
       });
       answer.questions = questions;
     }

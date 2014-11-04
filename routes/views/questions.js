@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   service = require(__base + 'services'),
-  moment = require('moment');
+  moment = require('moment'),
+  safe = require(__base + 'utils/apiSafeFields');
 
 exports = module.exports = function(req, res) {
 
@@ -28,9 +29,7 @@ exports = module.exports = function(req, res) {
     var options = {
       page: req.query.page || 1,
       perPage: 5,
-      populate: [
-        ['author', 'username name about thumb url']
-      ]
+      populate: ['author']
     };
 
     service.questionList.get(options, function(err, results) {

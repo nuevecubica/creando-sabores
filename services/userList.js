@@ -27,9 +27,7 @@ var getAllUsers = function(options, callback) {
     perPage: 10,
     limit: null,
     one: false,
-    states: [],
-    exclude: "-password -schemaVersion -social -disableNotifications -disableHelpers -recieveNewsletter -canLogin -canAdmin -canPublish -canAccessKeystone -resetPasswordToken -resetPasswordDatetime -verifyEmailToken",
-    select: ""
+    states: []
   });
 
   var query = queryMaker(User, options);
