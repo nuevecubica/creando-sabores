@@ -78,7 +78,7 @@ describe '(Private) Profile: Change', ->
           return done(err) if err
 
           request
-            .get('/api/v1/me')
+            .get('/api/v1/test/me')
             .set('Accept', 'application/json')
             .set('cookie', cookie)
             .expect('Content-Type', /json/)
@@ -113,7 +113,7 @@ describe '(Private) Profile: Change', ->
                   return done(err) if err
 
                   request
-                    .get('/api/v1/me')
+                    .get('/api/v1/test/me')
                     .set('Accept', 'application/json')
                     .set('cookie', cookie)
                     .expect('Content-Type', /json/)
@@ -180,7 +180,7 @@ describe '(Private) Profile: Change', ->
           return done(err) if err
 
           request
-          .get('/api/v1/me')
+          .get('/api/v1/test/me')
           .set('Accept', 'application/json')
           .set('cookie', cookie)
           .expect('Content-Type', /json/)
@@ -245,7 +245,7 @@ describe '(Private) Profile: Change', ->
           return done(err) if err
 
           request
-            .get('/api/v1/me')
+            .get('/api/v1/test/me')
             .set('Accept', 'application/json')
             .set('cookie', cookie)
             .expect('Content-Type', /json/)

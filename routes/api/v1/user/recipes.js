@@ -32,10 +32,12 @@ exports = module.exports = function(req, res) {
         user: req.user,
         authorId: result._id,
         sort: '-editDate',
-        fromContests: true
+        fromContests: true,
+        populate: ['author', 'contest.id']
       }, function(err, recipes) {
         if (err || !recipes) {
           res.status(404);
+          console.error(err);
           answer.error = true;
         }
         else if (recipes.total > 0) {

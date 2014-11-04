@@ -21,7 +21,8 @@ exports = module.exports = function(req, res) {
     authorId: req.user._id,
     sort: '-editDate',
     all: true,
-    fromContests: true
+    fromContests: true,
+    populate: ['author', 'contest.id']
   }, function(err, recipes) {
     if (err || !recipes) {
       res.status(404);
