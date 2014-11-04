@@ -5,6 +5,7 @@ var _ = require('underscore'),
   mongoosastic = require('mongoosastic'),
   virtual = require('./virtuals'),
   Types = keystone.Field.Types,
+  Recipe = keystone.list('Recipe'),
   async = require('async'),
   modelCleaner = require(__base + 'utils/modelCleaner');
 
@@ -12,7 +13,6 @@ var _ = require('underscore'),
 // Define tip defaults
 var defaults = {
   header: {
-    defaultId: 'eoshasibtc05k6bbuynv',
     width: 1920,
     height: 800
   },
@@ -220,76 +220,58 @@ Menu.schema.pre('save', function(next) {
     this.publishedDate = new Date();
   }
 
-  console.log('HEADER', !this.media.header, this.isModified('media.header'));
-
-  if (!this.media.header || this.isModified('media.header')) {
-    console.log('PLATES', this.plates.length, this.plates);
+  if (this.isModified('plates')) {
 
     var me = this;
-    if (this.plates.length > 1) {
-      var transformation = [];
 
-      var width = defaults.header.width / this.plates.length;
-      var height = defaults.header.height;
-      var first = null;
-      var index = 0;
+    var transformation = [];
+    var images = [];
+    var first = null;
 
-      async.eachSeries(this.plates, function(plate, callback) {
-          keystone.list('Recipe').model.findOne({
-            _id: plate
-          }).exec(function(err, recipe) {
-            if (!err && recipe) {
-              console.log('ELEMENT', recipe.header.public_id);
-
-              if (!first) {
-                first = recipe.header.public_id;
-              }
-
-              var publicId = (recipe.header.public_id) ? recipe.header.public_id : defaults.header.defaultId;
-              transformation.push({
-                overlay: publicId,
-                width: width,
-                height: height,
-                x: width * index,
-                crop: "fill"
-              });
-
-              index++;
+    async.eachSeries(this.plates, function(plate, callback) {
+        Recipe.model.findOne({
+          _id: plate
+        }).exec(function(err, recipe) {
+          if (!err && recipe) {
+            if (recipe.header.public_id) {
+              images.push(recipe.header.public_id);
             }
-
-            callback(err);
-          });
-        },
-        function(err) {
-          if (!err) {
-            console.log('TRANSFORMATION', transformation);
-
-            me.media.collage = cloudinary.image(first, {
-              transformation: transformation
-            });
           }
 
-          next(err);
+          callback(err);
         });
+      },
+      function(err) {
+        if (!err) {
+          var count = images.length;
+          var width = defaults.header.width / count;
+          var height = defaults.header.height;
 
-    }
-    else {
+          first = images.pop() + '.jpg';
+          transformation.push({
+            width: width,
+            height: height,
+            crop: "fill"
+          });
 
-      keystone.list('Recipe').model.findOne({
-        _id: this.plates[0]
-      }).exec(function(err, recipe) {
-        if (!err && recipe) {
-          me.media.collage = recipe.thumb;
+          _.each(images, function(element, index) {
+            var total_width = (index + 1) * width;
+            transformation.push({
+              overlay: element,
+              width: width,
+              height: height,
+              x: (total_width + width) / 2,
+              crop: "fill"
+            });
+          });
+
+          me.media.collage = cloudinary.url(first, {
+            transformation: transformation
+          });
         }
 
         next(err);
       });
-
-      console.log('PLATE', this.plates[0].thumb);
-      me.media.collage = this.plates[0].thumb;
-
-      next();
-    }
   }
   else {
     next();
