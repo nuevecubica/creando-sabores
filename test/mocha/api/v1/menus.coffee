@@ -9,7 +9,7 @@ request = require('supertest') config.keystone.publicUrl
 cookie = null
 cookie2 = null
 
-describe.only 'API v1: /menus', ->
+describe 'API v1: /menus', ->
 
   before (done) ->
     this.timeout 10000
@@ -39,7 +39,7 @@ describe.only 'API v1: /menus', ->
 
     describe 'if not menu owner', ->
       before (done) ->
-        utils.loginUser data.users[1], request, (err, res) ->
+        utils.loginUser data.users[4], request, (err, res) ->
           cookie2 = res.headers['set-cookie']
           done()
       it 'returns error', (done) ->
