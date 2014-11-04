@@ -133,7 +133,7 @@ mixin header(data, section)
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
-		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+		- var author = data.recipe && data.recipe.author ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var state = data.recipe ? data.recipe.state : 'draft'
 
 		#recipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
