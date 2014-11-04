@@ -22,7 +22,8 @@ exports = module.exports = function(req, res) {
 
   service.menu.state({
       slug: req.params.menu,
-      all: true
+      states: ['published', 'draft'],
+      authorId: req.user._id
     },
     req.params.state,
     function(err, menu) {
