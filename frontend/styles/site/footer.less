@@ -8,9 +8,7 @@
 ****************/
 #footer {
   .bar;
-
   overflow: hidden;
-
   background-color: @footer-background;
   color: @footer-color;
 
@@ -52,11 +50,6 @@
   .logo {
     .icon {
       font-size: 150px;
-      @media only screen and (max-width : 991px) {
-        font-size: 100px;
-        vertical-align: middle;
-      }
-
     }
   }
 }
@@ -67,11 +60,69 @@
   }
 }
 
+@media only screen and (max-width : 767px) {
+  #footer {
+    line-height: 1em;
+    padding: 0;
+
+    img {
+      margin: 0 auto;
+      width: 70%;
+    }
+
+    .block {
+      line-height: 1em;
+      padding: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 5px !important;
+    }
+
+    .ui.header {
+      margin-top: 10px;
+      .font-large;
+      font-weight: normal;
+      margin-bottom: 5px;
+    }
+    .inverted{
+      margin-top: 0;
+    }
+
+    .ui.list .item {
+      .font-small;
+      padding: 0.15em 0em;
+    }
+
+    &.mini {
+      padding: 10px;
+      margin-top: 20px;
+
+      .block {
+        padding: 0 5%;
+      }
+      .ui.header {
+        .font-smaller;
+      }
+    }
+
+    .logo {
+      padding: 0!important;
+      margin-top: 0!important;
+      .icon {
+        font-size: 100px;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
 /****************
   Social Bar Styles
 ****************/
 #social {
   .bar;
+  @media only screen and (max-width : 767px) {
+    padding: 25px;
+  }
 
   text-align: center;
 
@@ -90,6 +141,14 @@
 @media only screen and (max-width : 991px) {
   #social a {
     width: 64px;
+    .icon {
+      .font-larger;
+    }
+  }
+}
+@media only screen and (max-width : 767px) {
+  #social a {
+    width: 50px;
     .icon {
       .font-larger;
     }
