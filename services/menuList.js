@@ -12,6 +12,11 @@ var getMenus = function(options, callback) {
     states: ['published']
   });
 
+  if (options.all) {
+    options.states.push('draft');
+    options.states.push('banned');
+  }
+
   var query = queryMaker(Menu, options);
   var next = callback || function() { /* dummy */ };
 
