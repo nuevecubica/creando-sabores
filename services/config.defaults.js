@@ -26,8 +26,8 @@ module.exports = {
   "grid_order_mobile_menus": "1, 2, 5, 3, 6, 4, 7, 8, 9",
   "grid_size_mobile_menus": "small, small, large, small, small, medium, small, small, medium, small",
 
-  "categories_plates": "botanas, ensaladas, sopas, pastas, arroz, pescados y mariscos, carnes y aves, postres, desayunos",
-  "categories_food": "mexicana, italiana, francesa, española, china, japonesa, griega, árabe, americana",
+  "categories_plates": "bebidas sin alcohol, bebidas con alcohol, canapés, condimentos y salsas, desayunos, dulces, ensaladas, entradas y botanas, galletas, guarniciones, guisos, helados y postres congelados, panaderia, pasteles, pay o tarta, pizza, platos fuertes, postres, sandwiches, snacks, sopas",
+  "categories_food": "alemana, americana, árabe, argentina, brasilena, china, cubana, española, francesa, griega, india, internacional, italiana, japonesa, libanesa, mediterranea, mexicana, oriental, peruana, rusa, suiza, tai",
 
   "season_lists_home": 1
 };
