@@ -100,10 +100,11 @@ exports = module.exports = function(app) {
   // -- Private
   // ---- New
   //app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);
-  //app.post('/nuevo-menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.create);
+  app.post('/nuevo-menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.create);
   // ---- Edit
-  //app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
-  //app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
+  app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
+  app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
+  app.get('/menu/:menu/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].menuPublish);
 
   // Questions
   // -- Public
