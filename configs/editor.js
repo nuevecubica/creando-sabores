@@ -31,5 +31,13 @@ module.exports = {
     about: {
       length: 400
     },
+  },
+  menu: {
+    title: {
+      length: 60
+    },
+    description: {
+      length: 400
+    },
   }
 };
