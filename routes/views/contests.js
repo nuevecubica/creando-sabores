@@ -28,6 +28,7 @@ exports = module.exports = function(req, res) {
           }, function(err, contest) {
             if (!err && contest) {
               locals.data.current = contest;
+              locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
             }
             callback(err);
           });

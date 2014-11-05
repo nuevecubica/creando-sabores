@@ -2,59 +2,84 @@
 @contact-color: darken(@chef-color-green-bg, 15%);
 
 #contact{
-	background-color: @chef-color-light-bg;
-	font-weight: lighter;
-	.icon{
-		.font-extra-large;
-		@media only screen and (min-width : 991px) {
-			.font-extra-larger;
-		}
-		@media only screen and (max-width : 771px) {
-			.font-large;
-		}
-		color: @chef-color-green-bg;
-	}
+  background-color: @chef-color-light-bg;
+  font-weight: lighter;
+  .icon{
+    .font-extra-larger;
+    @media only screen and (max-width : 991px) {
+      .font-extra-large;
+    }
+    @media only screen and (max-width : 767px) {
+      .font-large;
+    }
+    color: @chef-color-green-bg;
+  }
+  .span{
+    .font-normal;
+    @media only screen and (max-width : 991px) {
+      .font-small;
+    }
+    @media only screen and (max-width : 767px) {
+      .font-smaller;
+    }
+  }
 }
 
 #form-contact{
-	padding-top: 30px;
-	padding-bottom: 30px;
-	overflow: hidden;
-	background-color: @send-message-color;
-	color: @chef-color-white;
-	.form-contact{
-		.input{
-			width: 100%;
-			label{
-				color: @chef-color-white;
-			}
-			input{
-				margin-top: 5px;
-				margin-bottom: 15px;
-				background-color: @chef-color-green-bg;
-				border-radius: 0;
-				border: none;
-				color: @contact-color;
-				/* all */
-				&::-webkit-input-placeholder { color:@contact-color; }
-				&::-moz-placeholder { color:@contact-color; } /* firefox 19+ */
-				&:-ms-input-placeholder { color:@contact-color; } /* ie */
-				&:-moz-placeholder { color:@contact-color; }
-			}
-			button.icon{
-				float: right;
-				background-color: @chef-color-green-bg;
-				color: @chef-color-white;
-				border:none;
-				.font-large;
-				padding: 10px;
-				margin-top: 5px;
-				cursor: pointer;
-				transition: background-color @ani-time ease-out;
-				&:hover{
-					background-color: @contact-color ;
-				}
-			}
-		}
-	}
+  padding-top: 30px;
+  padding-bottom: 30px;
+  overflow: hidden;
+  background-color: @send-message-color;
+  color: @chef-color-white;
+  .header{
+    margin-top: 20px;
+    text-align: center;
+  }
+  .form-contact{
+    .input{
+      width: 100%;
+      label{
+        color: @contact-color;
+      }
+      input{
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border-radius: 0;
+        border: none;
+        font-family: @brandon-fonts;
+        min-height: 60px;
+      }
+      textarea{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-radius: 0;
+        border: none;
+        width: 100%;
+        font-family: @brandon-fonts;
+        min-height: 130px;
+        padding: 18px;
+        box-sizing: border-box;
+        .font-normal;
+        &:focus{
+          outline: none;
+        }
+      }
+      button.icon{
+        font-family: @brandon-fonts;
+        font-weight: bold;
+        width: 100%;
+        background-color: @chef-color-green-bg;
+        color: @chef-color-white;
+        border:none;
+        .font-normal;
+        text-transform: uppercase;
+        padding: 12px;
+        cursor: pointer;
+        transition: background-color @ani-time ease-out;
+        &:hover{
+          background-color: @contact-color ;
+        }
+      }
+    }
+  }
 }
