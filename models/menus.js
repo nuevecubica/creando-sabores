@@ -42,8 +42,7 @@ var Menu = new keystone.List('Menu', {
     from: 'title',
     unique: true,
     fixed: true
-  },
-  hidden: true
+  }
 });
 
 Menu.add({

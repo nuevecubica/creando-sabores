@@ -65,7 +65,7 @@ i18n.configure({
 keystone.set('nav', {
   'users': ['users'],
   'recipes': ['recipes'],
-  //'menus': ['menus'],
+  'menus': ['menus'],
   'contests': ['contests'],
   'questions': ['questions'],
   'tips': ['tips'],
