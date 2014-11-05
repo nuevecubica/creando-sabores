@@ -42,39 +42,49 @@
   @media screen and (max-width: 767px) {
       margin-top: 0;
     }
-
-  #info {
+  #sponsor {
+    width: 100%;
     .icon {
       color: @contests-info-icon-color;
-      margin-right: 10px;
-    }
-
-    @media screen and (max-width: 767px) {
-      margin-bottom: 20px;
     }
   }
-
-  .award {
-    width: 50%;
-    display: inline;
-    position: relative;
-
-    .icon {
-      position: absolute;
-      @media screen and (max-width: 767px) {
-        padding:0 20px;
-        img{
-          width: 40px;
-
-        }
+  #info {
+    @media screen and (max-width: 767px) {
+      margin-bottom: 10px;
+      .status-tag {
+        padding: 10px;
       }
     }
+    .header{
+      margin-top: 10px;
+      @media screen and (max-width: 767px) {
+        margin-top: 0;
+      }
+    }
+  }
+  #awards{
+    margin-top: 20px;
+    min-height: 70px;
+    @media screen and (max-width: 767px) {
+      margin-top: 0;
+    }
+    .award {
+      line-height: 1em;
+      .icon {
+        position: absolute;
+        @media screen and (max-width: 767px) {
+          padding:0 20px;
+          img{
+            width: 40px;
+          }
+        }
+      }
+      .explain {
+        margin-left: 70px;
 
-    .explain {
-      margin-left: 70px;
-
-      strong {
-        display: block;
+        strong {
+          display: block;
+        }
       }
     }
   }
@@ -85,15 +95,14 @@
   .header {
     margin-bottom: 20px;
   }
-
   .contest-title {
     color: @contests-past-header-color;
     background-color: @contests-past-background-color;
-    margin-top: 10px;
 
     .header {
       margin-bottom: 0;
-
+      padding: 10px;
+      font-weight: normal;
     }
   }
 
@@ -159,21 +168,19 @@
         .font-xxl.uppercase;
         color: @contests-past-info-color;
         font-family: 'Pinto';
-        line-height: 48px;
+        line-height: 0.9em;
         text-decoration: none;
-
-        @media screen and (max-width: 1001px) {
-          .font-extra-larger.uppercase;
-          line-height: 38px;
+        @media screen and (min-width:1500px) {
+          .font-extra-larger;
         }
-
+        @media screen and (max-width:1200px) {
+          .font-extra-larger;
+        }
+         @media screen and (max-width:991px) {
+          .font-extra-large;
+        }
         @media screen and (max-width: 767px) {
-          .font-extra-large.uppercase;
-          line-height: 35px;
-        }
-        @media screen and (max-width: 481px) {
           .font-larger;
-          line-height: 26px;
         }
       }
     }
@@ -203,18 +210,20 @@
     padding-top: 10px;
     padding-bottom: 5px;
     .status-tag{
-      .font-large;
+      padding: 5px;
     }
-    @media screen and (max-width: 771px) {
+    @media screen and (max-width: 767px) {
       .status-tag {
-        .font-smaller;
-        padding: 10px;
+        padding: 14px;
       }
     }
   }
+}
 
-  .subheader {
+#sponsor{
+  &.subheader {
     padding-bottom: 20px;
+    margin-top: -15px;
     .font-larger;
 
     .icon {
@@ -223,7 +232,6 @@
     }
   }
 }
-
 #actions {
   padding-top: 10px;
 
@@ -291,7 +299,6 @@
 
       .header {
         margin-bottom: 0;
-
       }
     }
 
