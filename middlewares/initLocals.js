@@ -47,10 +47,7 @@ exports.initLocals = function(req, res, next) {
   locals.env = process.env;
   locals.isTest = keystone.testMode;
 
-  locals.site = {
-    name: keystone.name,
-    brand: keystone.brand
-  };
+  locals.site = keystone.get('site');
 
   /*
     Data to send to the client in each page

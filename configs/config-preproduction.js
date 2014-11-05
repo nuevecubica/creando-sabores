@@ -3,6 +3,8 @@ var _ = require('underscore'),
 
 _.deepDefaults = require(__base + 'utils/deepDefaults');
 
+var env = process.env;
+
 /*
   PREPRODUCTION CONFIGURATION
 */
@@ -21,11 +23,6 @@ var answer = {
       'host': '0.0.0.0',
       'port': process.env.PORT || 3000
     }
-  },
-  site: {
-    name: 'Chefcito',
-    email: 'chefcito@glue.gl',
-    url: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
   },
   publicUrl: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
 };

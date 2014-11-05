@@ -21,13 +21,13 @@ html
 		meta(name="description", content="#{__('Chefcito description')}")
 		meta(property="og:title", content="#{__('Chefcito title')}")
 		meta(property="og:description", content="#{__('Chefcito description')}")
-		//- meta(property="og:url", content="http://creandosabores.com/")
+		meta(property="og:url", content="#{site.url}")
 		meta(property="og:type", content="website")
 		meta(property="og:site_name", content="#{__('Chefcito title')}")
-		//- meta(property="fb:admins", content="851024123")
-		//- meta(property="fb:app_id", content="94039431626")
+		//- meta(property="fb:admins", content="#{site.fb_admin}")
+		//- meta(property="fb:app_id", content="#{site.fb_app_id}")
 		meta(property="twitter:card", content="summary")
-		meta(property="twitter:site", content="@creandoSabores")
+		meta(property="twitter:site", content="#{site.twitter}")
 
 		link(href="/styles/site.css", rel="stylesheet")
 

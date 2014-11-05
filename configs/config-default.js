@@ -116,9 +116,13 @@ answer.keystone = {
     'csrf': true
   },
   site: {
-    name: 'Chefcito',
-    email: 'chefcito@glue.gl',
-    url: env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl'
+    name: 'Creando Sabores',
+    email: 'contacto@creandosabores.com',
+    url: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000',
+    twitter: '@creandoSabores',
+    brand: 'Creando Sabores',
+    fb_app_id: '123456789012345',
+    fb_url: 'https://www.facebook.com/creandosabores'
   },
   publicUrl: env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl',
   'email locals': {

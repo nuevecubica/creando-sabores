@@ -34,11 +34,6 @@ var answer = {
       'port': env.PORT || 3000
     }
   },
-  site: {
-    name: 'Chefcito',
-    email: 'chefcito@glue.gl',
-    url: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
-  },
   publicUrl: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
 };
 
