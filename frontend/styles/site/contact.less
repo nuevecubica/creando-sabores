@@ -22,6 +22,10 @@
   overflow: hidden;
   background-color: @send-message-color;
   color: @chef-color-white;
+  .header{
+    margin-top: 20px;
+    text-align: center;
+  }
   .form-contact{
     .input{
       width: 100%;
@@ -33,16 +37,31 @@
         margin-bottom: 15px;
         border-radius: 0;
         border: none;
+        font-family: @brandon-fonts;
+        min-height: 60px;
+      }
+      textarea{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-radius: 0;
+        border: none;
+        width: 100%;
+        font-family: @brandon-fonts;
+        min-height: 130px;
+        padding: 18px;
+        box-sizing: border-box;
+        .font-normal;
       }
       button.icon{
+        font-family: @brandon-fonts;
+        font-weight: bold;
         width: 100%;
         background-color: @chef-color-green-bg;
         color: @chef-color-white;
         border:none;
         .font-normal;
         text-transform: uppercase;
-        padding: 10px;
-        margin-top: 5px;
+        padding: 12px;
         cursor: pointer;
         transition: background-color @ani-time ease-out;
         &:hover{
