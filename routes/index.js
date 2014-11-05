@@ -92,7 +92,7 @@ exports = module.exports = function(app) {
 
   // Menus
   // -- Public
-  app.get('/menus', routes.views.menus);
+  //app.get('/menus', routes.views.menus);
   //app.get('/menu/:menu', routes.views.menu);
   // -- Private
   // ---- New
@@ -163,8 +163,8 @@ exports = module.exports = function(app) {
   //-- Recipes
   app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireConfirmedApi, routes.api.v1.recipeAction);
   //-- Menus
-  app.get('/api/v1/menus', routes.api.v1.menus);
-  app.put('/api/v1/menu/:menu/:state(draft|published)', middleware.requireConfirmedApi, routes.api.v1.menu.state);
+  //app.get('/api/v1/menus', routes.api.v1.menus);
+  //app.put('/api/v1/menu/:menu/:state(draft|published)', middleware.requireConfirmedApi, routes.api.v1.menu.state);
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
