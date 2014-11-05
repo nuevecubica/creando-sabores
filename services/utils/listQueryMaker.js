@@ -27,10 +27,15 @@ exports = module.exports = function(List, options, callback) {
     one: false,
     states: ['published'],
     select: "",
-    exclude: ""
+    exclude: "",
+    distinct: null
   });
 
   var query = {};
+
+  if (options.distinct) {
+    options.limit = null;
+  }
 
   if (options.limit) {
     options.perPage = options.limit;
@@ -43,7 +48,7 @@ exports = module.exports = function(List, options, callback) {
   if (options.one) {
     query = List.model.findOne();
   }
-  else if (!options.page) {
+  else if (!options.page && !options.distinct) {
     query = List.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);
@@ -59,10 +64,12 @@ exports = module.exports = function(List, options, callback) {
   if (options.id) {
     query.where('_id', options.id);
     options.limit = 1;
+    options.distinct = null;
   }
   else if (options.slug) {
     query.where('slug', options.slug);
     options.limit = 1;
+    options.distinct = null;
   }
 
   var states = options.states || [];
@@ -138,6 +145,11 @@ exports = module.exports = function(List, options, callback) {
 
   if (options.select || options.exclude) {
     query.select(options.select + " " + options.exclude);
+  }
+
+  // Distinct
+  if (options.distinct) {
+    query.distinct(options.distinct);
   }
 
   if (callback) {
