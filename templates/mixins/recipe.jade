@@ -32,6 +32,10 @@ mixin recipe(recipe)
 									- difficulty = difficulty - 1;
 
 		.eleven.wide.column
+			a(href=recipe.url)
+				h2.ui.header
+					!= recipe.title
+
 			.rating
 				.strong= __('Rating')
 				.span
@@ -50,10 +54,6 @@ mixin recipe(recipe)
 					else if recipe.state !== 'published'
 						.general-state
 							span.icon-chef-var
-
-			a(href=recipe.url)
-				h2.ui.header
-					!= recipe.title
 
 			.ui.content!= recipe.description
 

@@ -164,6 +164,18 @@ var getConfigsGridHome = function(options, callback) {
   }, callback);
 };
 
+/**
+ * Gets the config variables for the grid at Menus
+ * @param  {Object}   options {}
+ * @param  {Function} callback (err, results)
+ * @return {null}
+ */
+var getConfigsGridMenus = function(options, callback) {
+  getConfigsGrid({
+    sections: ['menus']
+  }, callback);
+};
+
 /*
   Set exportable object
  */
@@ -178,6 +190,9 @@ _service.grid.home = {
 };
 _service.grid.recipes = {
   get: getConfigsGridRecipes
+};
+_service.grid.menus = {
+  get: getConfigsGridMenus
 };
 _service.categories = {
   get: getConfigsCategories

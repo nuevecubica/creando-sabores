@@ -19,14 +19,16 @@ block content
       #query
         .row
           .ui.column.grid
-            .date
-                span.span= data.formattedDate
+            a.icon-chef-back.icon(href="/preguntas")= __('Back')
+
         .row
-          a.ui.item.profile(href='/perfil')
+          a.ui.item.profile(href=data.question.author.url)
             img.ui.image.avatar(src="#{data.question.author.thumb.avatar_large}")
         .row
-            a.name(href='/perfil')
+            a.name(href=data.question.author.url)
               span.span= data.question.author.name
+            .date
+                span.span= data.formattedDate
         .row
           .ui.content
             .explain.span= data.question.title
@@ -40,6 +42,6 @@ block content
           .row
             .ui.content
               .header= __('Chef Answer:')
-              .explain.span !{data.question.answer}
+              .explain.span!= data.question.answer
             a.commentary(href=data.question.url)
               .strong= __('Coments')

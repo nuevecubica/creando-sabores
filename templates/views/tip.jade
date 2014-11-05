@@ -38,7 +38,7 @@ block content
     .row
       #tip-description.sixteen.wide.column
         .explain
-          .ui.content= data.tip.tip
+          .ui.content!= data.tip.tip
 
   #related-tips.ui.page.grid
     h2.ui.header= __('Related tips:')

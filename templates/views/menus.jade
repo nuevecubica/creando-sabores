@@ -1,0 +1,51 @@
+extends ../layouts/default
+
+include ../mixins/header
+include ../mixins/menu
+include ../mixins/grid
+include ../mixins/search
+
+block js
+	script(src='/js/menus.js')
+
+block content
+	+header(data, section)
+
+	.ui.page.grid.body
+
+		+search('menus')
+
+
+		#menus-grid.ui.grid.segment.wall
+			.row.computer.only
+				+grid(data.grid, data.order.grid_order_desktop_recipes, data.sizes.grid_size_desktop_recipes)
+
+			.row.tablet.only
+				+grid(data.grid, data.order.grid_order_tablet_recipes, data.sizes.grid_size_tablet_recipes)
+
+			.row.mobile.only
+				+grid(data.grid, data.order.grid_order_mobile_recipes, data.sizes.grid_size_mobile_recipes)
+
+		#add-new-bar.ui.grid.segment
+			.row
+				.sixteen.wide.column
+					.span= __('Do you have a new menu?')
+						.ui.button.chef.button-brick
+							a(href='/nuevo-menu')= __('Create menu')
+
+		#menus.ui.grid.segment.two.tabs
+			.row
+				.ui.grid.segment.list.stackable
+					if data.menus.length
+						each menu in data.menus
+							+menu(menu)
+
+					else
+						.empty-resultset.sixteen.wide.column= __('No menus yet')
+
+			.row
+				.loader
+					.sixteen.wide.column.loading= __('Loading more menus')
+					.sixteen.wide.column.load-more
+						.ui.button.chef.button-brick.load-button
+							a(href="#")= __('Load more')

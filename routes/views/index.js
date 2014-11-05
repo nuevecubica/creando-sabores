@@ -48,11 +48,18 @@ exports = module.exports = function(req, res) {
             sort: '-publishedDate'
           }, function(err, results) {
             var last = results.results.shift();
-            locals.data.videorecipes = {
-              last: last,
-              lastFormattedDate: moment(last.publishedDate).format('L'),
-              lastest: results.results
-            };
+            if (last) {
+              locals.data.videorecipes = {
+                last: last,
+                lastFormattedDate: moment(last.publishedDate).format('L'),
+                lastest: results.results
+              };
+            }
+            else {
+              locals.data.videorecipes = {
+                lastest: results.results
+              };
+            }
             callback(err);
           });
         }

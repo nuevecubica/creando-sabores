@@ -23,6 +23,11 @@
       font-weight: lighter;
       border-radius: 0;
       background-color: @search-bar-input;
+      padding-right: 6em !important;
+      @media only screen and (max-width : 991px) {
+        .font-large;
+        height: 2.5em;
+      }
 
       &::-webkit-input-placeholder, &::-webkit-input-placeholder, &::-webkit-input-placeholder, &:-webkit-input-placeholder, &:-ms-input-placeholder {
         font-size: 20px;
@@ -36,6 +41,12 @@
       border-radius: 0;
       cursor: pointer;
       padding-top: 0.15em;
+      @media only screen and (max-width : 991px) {
+        .font-extra-larger;
+      }
+      @media only screen and (max-width : 767px) {
+        .font-extra-large;
+      }
     }
   }
 }
@@ -83,13 +94,13 @@
           height: 10px;
           width: auto;
         }
-      } 
+      }
     }
   }
 }
 
 
-  
+
 @media only screen and (min-width : 1500px) {
   #search-bar, #send-query{
     padding: 20px 0;
