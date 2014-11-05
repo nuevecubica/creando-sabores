@@ -1,6 +1,8 @@
 var applyVirtuals = function(item, virtuals) {
   Object.keys(virtuals).forEach(function(virtual) {
-    item[virtual] = virtuals[virtual].call(item);
+    if (virtuals[virtual]) {
+      item[virtual] = virtuals[virtual].call(item);
+    }
   });
   return item;
 };

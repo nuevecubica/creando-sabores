@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Recipe = keystone.list('Recipe'),
-  Tip = keystone.list('Tip');
+  Tip = keystone.list('Tip'),
+  Menu = keystone.list('Menu');
 
 
 /**
@@ -113,6 +114,34 @@ var getHeaderTip = function(options, callback) {
   query.exec(callback || function() { /* dummy */ });
 };
 
+/**
+ * Get the menu for the menus page
+ * @param  {Object}   options  { }
+ * @param  {Function} callback
+ * @return {null}
+ */
+var getHeaderMenu = function(options, callback) {
+
+  options = _.defaults(options || {}, {
+    sort: '-publishedDate'
+  });
+
+  var query = Menu.model.findOne();
+
+  query.where('state', 'published');
+  query.where('isTipsHeaderPromoted', true);
+
+  if (options.sort) {
+    query.sort(options.sort);
+  }
+
+  if (options.populate) {
+    query.populate(options.populate);
+  }
+
+  query.exec(callback || function() { /* dummy */ });
+};
+
 /*
   Set exportable object
  */
@@ -129,6 +158,9 @@ var _service = {
   },
   tip: {
     get: getHeaderTip
+  },
+  menu: {
+    get: getHeaderMenu
   }
 };
 

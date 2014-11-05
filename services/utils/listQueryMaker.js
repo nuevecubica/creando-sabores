@@ -25,10 +25,17 @@ exports = module.exports = function(List, options, callback) {
     perPage: 10,
     limit: null,
     one: false,
-    states: ['published']
+    states: ['published'],
+    select: "",
+    exclude: "",
+    distinct: null
   });
 
   var query = {};
+
+  if (options.distinct) {
+    options.limit = null;
+  }
 
   if (options.limit) {
     options.perPage = options.limit;
@@ -41,7 +48,7 @@ exports = module.exports = function(List, options, callback) {
   if (options.one) {
     query = List.model.findOne();
   }
-  else if (!options.page) {
+  else if (!options.page && !options.distinct) {
     query = List.model.find();
     if (options.limit || options.perPage) {
       query.limit(options.limit || options.perPage);
@@ -57,10 +64,12 @@ exports = module.exports = function(List, options, callback) {
   if (options.id) {
     query.where('_id', options.id);
     options.limit = 1;
+    options.distinct = null;
   }
   else if (options.slug) {
     query.where('slug', options.slug);
     options.limit = 1;
+    options.distinct = null;
   }
 
   var states = options.states || [];
@@ -108,8 +117,39 @@ exports = module.exports = function(List, options, callback) {
 
   if (options.populate && options.populate.length) {
     options.populate.forEach(function(pop) {
-      query.populate(pop);
+      if (!_.isArray(pop)) {
+        pop = [pop];
+      }
+
+      query.populate.apply(query, pop);
     });
+  }
+
+  // Select
+  if (options.select && _.isArray(options.select)) {
+    options.select = options.select.join(" ");
+  }
+
+  if (!_.isString(options.select)) {
+    options.select = "";
+  }
+
+  // Exclude
+  if (options.exclude && _.isArray(options.exclude)) {
+    options.exclude = "-" + options.exclude.join(" -");
+  }
+
+  if (!_.isString(options.exclude)) {
+    options.exclude = "";
+  }
+
+  if (options.select || options.exclude) {
+    query.select(options.select + " " + options.exclude);
+  }
+
+  // Distinct
+  if (options.distinct) {
+    query.distinct(options.distinct);
   }
 
   if (callback) {

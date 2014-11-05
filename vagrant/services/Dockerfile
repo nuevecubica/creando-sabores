@@ -35,6 +35,8 @@ RUN echo "Host git.geekli.st\n\tStrictHostKeyChecking no\n" > /root/.ssh/config
 
 RUN mkdir -p /app
 RUN cd /app; ssh-agent bash -c 'ssh-add /root/.ssh/id_rsa; git clone git@git.geekli.st:glue-gl/chefcito.git; shopt -s dotglob; mv /app/chefcito/* /app'
+ENV NODE_ENV production
+ENV PORT 3000
 RUN /build/builder
 
 RUN mkdir -p /builders-cache; curl -s https://raw.githubusercontent.com/ignlg/dokku-builders-plugin/master/build | /bin/bash

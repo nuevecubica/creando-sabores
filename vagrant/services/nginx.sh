@@ -17,6 +17,8 @@ http {
                     application/x-javascript
                     application/atom+xml;
 
+  client_max_body_size 5m;
+
   upstream coreos-localhost { server ${NODE_PORT:6}; }
   server {
     listen      [::]:80;
