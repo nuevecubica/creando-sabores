@@ -23,7 +23,7 @@ var getGrid = function(options, callback) {
     return function(next) {
       service({
         page: 0,
-        limit: 10,
+        limit: null,
         flags: flags,
         sort: 'is' + field + 'GridPromoted.position'
       }, function(err, res) {

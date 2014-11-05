@@ -2,7 +2,9 @@ var async = require('async'),
   keystone = require('keystone'),
   _ = require('underscore'),
   User = keystone.list('User'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  hideMyApi = require(__base + 'utils/hideMyApi'),
+  safe = require(__base + 'utils/apiSafeFields');
 
 /*
   /chef/favourites?page=1&perPage=10
@@ -30,6 +32,9 @@ exports = module.exports = function(req, res) {
         user: result,
       }, function(err, recipes) {
         if (!err && recipes) {
+          recipes.results = recipes.results.map(function(item, i) {
+            return hideMyApi(item, safe.recipe.populated);
+          });
           answer.recipes = recipes;
           answer.success = true;
         }

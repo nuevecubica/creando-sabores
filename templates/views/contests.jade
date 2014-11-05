@@ -20,40 +20,37 @@ block content
             .status-tag(class=data.current.state)
               - var date = data.current.formattedDeadline
               - var states = { programmed: __('Programmed {{{date}}}', { date: date }), submission: __('Submission {{{date}}}', { date: date }), votes: __('Votes {{{date}}}', { date: date }), closed: __('Closed deliberation') }
-              = states[data.current.state]
+              .explain= states[data.current.state]
 
           .header= data.current.title
+        #awards.eight.wide.column.mobile-sixteen
+          .ui.grid
+            .two.column.row
+              .award.column
+                .icon
+                  img(src='/images/jury_award.png')
 
-          .explain
+                .explain
+                  .subheader
+                    strong= __('Jury award')
+                    = data.current.awards.jury.name
+
+              .award.column
+                .icon
+                  img(src='/images/community_award.png')
+
+                .explain
+                  .subheader
+                    strong= __('Community award')
+                    = data.current.awards.community.name
+
+        .sixteen.wide.column
+          #sponsor.explain
             i.icon-chef-cup.icon.font-extra-large
             = __('Contest sponsored by')
             strong= data.current.sponsor
-
-        //- #awards
-        .four.tablet-four.mobile-eight.wide.column
-          .award.column
-            .icon
-              img(src='/images/jury_award.png')
-
-            .explain
-              .subheader
-                strong= __('Jury award')
-                = data.current.awards.jury.name
-
-        .four.tablet-four.mobile-eight.wide.column
-          .award.column
-            .icon
-              img(src='/images/community_award.png')
-
-            .explain
-              .subheader
-                strong= __('Community award')
-                = data.current.awards.community.name
-
-        .sixteen.wide.column
           .explain
-            .description
-              p!= data.current.description
+            .description!= data.current.description
 
         .sixteen.wide.column.center.aligned
           .ui.button.chef.button-brick

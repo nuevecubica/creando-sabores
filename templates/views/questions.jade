@@ -15,7 +15,7 @@ block content
   #prev-questions.ui.page.grid.bg-grey
       .row
         .sixteen.wide.column
-          h2.title.header.font-extra-larger.uppercase= __('Previous questions')
+          h2.title.header= __('Previous questions')
           p.subheader= __('Make your question, Jesús Gibaja and network users solve your doubts.')
 
   .ui.page.grid.body
@@ -42,11 +42,11 @@ block content
       if subsection === 'recientes'
         .row
           .ui.grid.segment.list.stackable
-            if data.myQuestions.length
+            if data.myQuestions && data.myQuestions.length
               each question in data.myQuestions
                 +question(question)
 
-            if data.questions.length
+            if data.questions && data.questions.length
               each question in data.questions
                 +question(question)
             else

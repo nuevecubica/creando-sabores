@@ -14,9 +14,10 @@ mixin user-header(user)
         #contextual-menu.menu.hidden
           .arrow-up
           a.ui.item.new-recipe(href='/nueva-receta')= __('Create recipe')
-          a.ui.item.my-shopping(href='/perfil/compra')= __('My shopping list')
-          a.ui.item.my-recipe(href='/perfil/recetas')= __('My recipes')
           a.ui.item.my-profile(href='/perfil')= __('My profile')
+          a.ui.item.my-recipe(href='/perfil/recetas')= __('My recipes')
+          a.ui.item.my-shopping(href='/perfil/compra')= __('My shopping list')
+          //a.ui.item.my-menu(href='/perfil/menu')= __('My menus')
           a.ui.item.logout(href="/salir")= __('To logout')
 
         if user.canAccessKeystone

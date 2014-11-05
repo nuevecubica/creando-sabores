@@ -4,6 +4,7 @@ var _ = require('underscore'),
   modelCleaner = require(__base + 'utils/modelCleaner'),
   crypto = require('crypto'),
   imageQuality = require(__base + 'utils/imageQuality'),
+  virtual = require('./virtuals'),
   service = {
     email: require(__base + 'services/email')
   };
@@ -14,14 +15,7 @@ var _ = require('underscore'),
  */
 var User = new keystone.List('User');
 
-// ===== Defaults
-// Define user defaults
-var defaults = {
-  images: {
-    header: '/images/default_user_profile.jpg',
-    user: '/images/default_user.png'
-  }
-};
+
 
 //#------------------ SCHEMA
 
@@ -319,55 +313,14 @@ User.schema.set('toJSON', {
   transform: modelCleaner.transformer
 });
 
-User.schema.virtual('thumb').get(function() {
-
-  return {
-    'header': this._.media.header.src({
-      transformation: 'header_limit_thumb'
-    }) || defaults.images.header,
-    'avatar_large': this._.avatars.local.src({
-      transformation: 'user_avatar_large'
-    }) || defaults.images.user,
-    'avatar_medium': this._.avatars.local.src({
-      transformation: 'user_avatar_medium'
-    }) || defaults.images.user,
-    'avatar_small': this._.avatars.local.src({
-      transformation: 'user_avatar_small'
-    }) || defaults.images.user,
-    'hasQuality': imageQuality(this.media.header).hasQuality
-  };
-});
-
-
-// Provide access to Keystone
-User.schema.virtual('canAccessKeystone').get(function() {
-  return this.isAdmin;
-});
-
-// Rights to publish
-User.schema.virtual('canPublish').get(function() {
-  return !this.isBanned && (this.isAdmin || this.isConfirmed || this.isChef);
-});
-
-// Rights to admin
-User.schema.virtual('canAdmin').get(function() {
-  return !this.isBanned && (this.isAdmin || this.isChef);
-});
-
-// Rights to login
-User.schema.virtual('canLogin').get(function() {
-  return !this.isBanned;
-});
-
-// URL
-User.schema.virtual('url').get(function() {
-  return '/chef/' + this.username;
-});
-
-// Hash data
-User.schema.virtual('phrase').get(function() {
-  return this._id + this.email + keystone.get('hash salt');
-});
+// Virtuals
+User.schema.virtual('thumb').get(virtual.user.thumb);
+User.schema.virtual('canAccessKeystone').get(virtual.user.canAccessKeystone);
+User.schema.virtual('canPublish').get(virtual.user.canPublish);
+User.schema.virtual('canAdmin').get(virtual.user.canAdmin);
+User.schema.virtual('canLogin').get(virtual.user.canLogin);
+User.schema.virtual('url').get(virtual.user.url);
+User.schema.virtual('phrase').get(virtual.user.phrase);
 
 //#------------------ PRESAVE
 

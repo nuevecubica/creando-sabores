@@ -12,40 +12,25 @@ block content
   +header(data, section)
 
   .ui.page.grid.bg-grey
-    .row.computer.tablet.only
-      #info.eight.tablet-ten.mobile-eight.wide.column
+
+    .row
+      #info.eight.tablet-ten.mobile-six.wide.column
         .status
           .status-tag(class=data.contest.state)
-            = __(data.contest.state)
-        .subheader
+            .explain= __(data.contest.state)
+
+      #actions.eight.tablet-six.mobile-ten.wide.column.right.aligned
+        .contest-actions(class=data.contest.state)
+          .action.vote
+            a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
+
+          .action.join
+            a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
+
+      #sponsor.subheader.sixteen.wide.column
           i.icon-chef-cup.icon.font-extra-large
-          = __('Contest sponsored by')
-          strong= data.contest.sponsor
-
-      #actions.eight.tablet-six.mobile-eight.wide.column.right.aligned
-        .contest-actions(class=data.contest.state)
-          .action.vote
-            a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
-
-          .action.join
-            a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
-
-    .row.mobile.only
-      #info.six.wide.column
-        .status
-          .status-tag(class=data.contest.state)
-            = __(data.contest.state)
-      #actions.ten.wide.column.right.aligned
-        .contest-actions(class=data.contest.state)
-          .action.vote
-            a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
-
-          .action.join
-            a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
-      .subheader
-          i.icon-chef-cup.icon.font-larger
-          span.font-large= __('Contest sponsored by')
-          strong.font-larger= data.contest.sponsor
+          span.explain= __('Contest sponsored by')
+          strong.explain= data.contest.sponsor
 
   .ui.page.grid
     #contest-content.ui.grid.segment

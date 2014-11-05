@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   service = require(__base + 'services'),
-  moment = require('moment');
+  moment = require('moment'),
+  safe = require(__base + 'utils/apiSafeFields');
 
 exports = module.exports = function(req, res) {
 
@@ -21,7 +22,7 @@ exports = module.exports = function(req, res) {
     var myOptions = {
       sort: '-createdDate',
       populate: ['author'],
-      authorId: req.user._id || null,
+      authorId: req.user ? req.user._id : null,
       states: ['review']
     };
 

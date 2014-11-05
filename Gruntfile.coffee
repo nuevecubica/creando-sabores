@@ -458,15 +458,6 @@ module.exports = (grunt) ->
     grunt.task.run ["copy:client"]
     grunt.task.run ["envdebug"]
 
-  grunt.registerTask "postproduction", ->
-    grunt.task.run ["clean"]
-    grunt.task.run ["less:production"]
-    grunt.task.run ["autoprefixer:production"]
-    grunt.task.run ["cssmin:build"]
-    grunt.task.run ["copy:config"]
-    grunt.task.run ["copy:client"]
-    grunt.task.run ["envdebug"]
-
   grunt.registerTask "default", ->
     grunt.task.run [grunt.config("environment")]
 

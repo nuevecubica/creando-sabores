@@ -53,7 +53,6 @@
     }
   }
   #actions{
-    padding-left: 0;
   }
   .recipe-contest-ingredient{
     margin-top: 25px;
@@ -178,6 +177,9 @@
 
   #actions {
     padding-top: 10px;
+    @media screen and (max-width: 767px) {
+      padding-top: 0px;
+    }
 
     .recipe-actions > div {
       display: inline-block;
@@ -371,7 +373,9 @@
             height: 210px;
             display: block;
             color: #fff;
-
+            @media only screen and (max-width: 767px){
+              height: 105px;
+            }
             &:hover{
               background-color: fade(@grid-hover-background, 90%);
               transition: background-color @ani-time ease-out;
@@ -716,9 +720,11 @@
     .add-menu{
       vertical-align: top;
       .ui.button.chef {
-        padding: 16px 25px;
-        min-width: 190px;
+        padding: 16.5px;
         display: inline-block;
+        @media screen and (max-width: 767px) {
+          padding: 16px;
+        }
       }
     }
     .rating{

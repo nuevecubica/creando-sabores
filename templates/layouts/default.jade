@@ -15,6 +15,20 @@ html
 
 		- var pageTitle = (title ? (title + ' - ') : '') + __('Chefcito title')
 		title #{pageTitle}
+
+		meta(http-equiv="Content-Type", content="text/html; charset=utf8")
+		meta(name="lang", content="es")
+		meta(name="description", content="#{__('Chefcito description')}")
+		meta(property="og:title", content="#{__('Chefcito title')}")
+		meta(property="og:description", content="#{__('Chefcito description')}")
+		//- meta(property="og:url", content="http://creandosabores.com/")
+		meta(property="og:type", content="website")
+		meta(property="og:site_name", content="#{__('Chefcito title')}")
+		//- meta(property="fb:admins", content="851024123")
+		//- meta(property="fb:app_id", content="94039431626")
+		meta(property="twitter:card", content="summary")
+		meta(property="twitter:site", content="@creandoSabores")
+
 		link(href="/styles/site.css", rel="stylesheet")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor

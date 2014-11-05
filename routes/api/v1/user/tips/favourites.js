@@ -2,7 +2,10 @@ var async = require('async'),
   keystone = require('keystone'),
   _ = require('underscore'),
   User = keystone.list('User'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  moment = require('moment'),
+  hideMyApi = require(__base + 'utils/hideMyApi'),
+  safe = require(__base + 'utils/apiSafeFields');
 
 /*
   /chef/tips?page=1&perPage=10
@@ -30,6 +33,11 @@ exports = module.exports = function(req, res) {
         user: result,
       }, function(err, tips) {
         if (!err && tips) {
+          tips.results = tips.results.map(function(item, i) {
+            item = hideMyApi(item, safe.tip.populated);
+            item.formattedDate = moment(item.createdDate).format('lll');
+            return item;
+          });
           answer.tips = tips;
           answer.success = true;
         }

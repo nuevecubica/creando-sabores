@@ -45,6 +45,7 @@ $(document).ready(function() {
     $('#hidden-old-password').attr('value', $('#old-pass').val());
     $('#hidden-new-password').attr('value', $('#new-pass').val());
     $('#hidden-isPrivate').attr('value', $('#private input').is(':checked'));
+    $('#hidden-receiveNewsletter').attr('value', $('#newsletter input').is(':checked'));
 
     $('#profile-change-form').submit();
   });
@@ -152,8 +153,6 @@ $(document).ready(function() {
   $('#delete-confirm').on('click', function(e) {
     $('#profile-remove-form').submit();
   });
-
-
 
   // ========== Subsections
   var section = window.location.pathname.split('/')[2];

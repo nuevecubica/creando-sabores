@@ -133,8 +133,9 @@ mixin header(data, section)
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
-		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+		- var author = data.recipe && data.recipe.author ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var state = data.recipe ? data.recipe.state : 'draft'
+		- var authorUrl = data.recipe ? data.recipe.author.url : '/'
 
 		#recipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
 			.shadow-layer
@@ -150,7 +151,7 @@ mixin header(data, section)
 					#recipe-title.shadow.set-editable(data-length="40", data-tutorial-complete="editableTypedText")= title
 
 				.row.section.subtitle
-					.author.shadow= author
+					a.author.shadow(href="#{authorUrl}")= author
 
 				.row
 					.four.wide.column.computer.only.social
@@ -267,6 +268,7 @@ mixin header(data, section)
 		- var title = data.recipe ? data.recipe.title : ''
 		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
 		- var video = data.recipe ? data.recipe.videoUrl : null
+		- var authorUrl = data.recipe ? data.recipe.author.url : '/'
 
 		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
 			#video-player
@@ -286,7 +288,7 @@ mixin header(data, section)
 					#recipe-title.shadow= title
 
 				.row.section.subtitle
-					.author.shadow= author
+					a.author.shadow(href="#{authorUrl}")= author
 
 				.row
 					.four.wide.column.computer.only.social
@@ -427,6 +429,8 @@ mixin header(data, section)
 	else if section === 'tip'
 		- var title = data.tip ? data.tip.title : ''
 		- var image = data.tip ? data.tip.thumb.header : defaults.images.tip
+		- var author = data.tip ? ( data.tip.author.name || data.tip.author.username) : __('Unknown author')
+		- var authorUrl = data.tip ? data.tip.author.url : '/'
 
 		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
@@ -441,7 +445,7 @@ mixin header(data, section)
 					#tip-title.shadow= title
 
 				.row.section.subtitle
-					p.shadow= (data.tip.author.name || data.tip.author.username)
+					a.author.shadow(href="#{authorUrl}")= author
 				.row
 					.four.wide.column.computer.only.social
 						.corner-position.left

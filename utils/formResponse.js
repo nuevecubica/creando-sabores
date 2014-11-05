@@ -1,3 +1,11 @@
+/**
+ * formResponse
+ * @param  {Object}   req
+ * @param  {Object}   res
+ * @param  {String}   url     Redirect
+ * @param  {String}   error   Error message or true/false
+ * @param  {String}   success Success message or true/false
+ */
 var formResponse = function(req, res, url, error, success) {
   if ('string' === typeof error) {
     req.flash('error', res.__(error));
