@@ -482,7 +482,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .expect(
             (res) ->
-              res.body.recipes.total.must.be.equal 4
+              res.body.recipes.total.must.be.gte 4
               res.body.recipes.results.length.must.be.equal 4
           )
           .end (err, res) ->
@@ -496,7 +496,7 @@ describe 'API v1: /me/', ->
             .expect(200)
             .expect(
               (res2) ->
-                res2.body.recipes.total.must.be.equal 4
+                res2.body.recipes.total.must.be.gte 4
                 res2.body.recipes.results.length.must.be.equal 2
                 part = res.body.recipes.results.slice(2,5)
                 res2.body.recipes.results.must.be.eql part
@@ -747,7 +747,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .expect(
             (res) ->
-              res.body.recipes.total.must.be.equal 4
+              res.body.recipes.total.must.be.gte 4
               res.body.recipes.results.length.must.be.equal 4
           )
           .end (err, res) ->
@@ -761,7 +761,7 @@ describe 'API v1: /me/', ->
             .expect(200)
             .expect(
               (res2) ->
-                res2.body.recipes.total.must.be.equal 4
+                res2.body.recipes.total.must.be.gte 4
                 res2.body.recipes.results.length.must.be.equal 2
                 part = res.body.recipes.results.slice(2,5)
                 res2.body.recipes.results.must.be.eql part
@@ -841,7 +841,7 @@ describe 'API v1: /me/', ->
         .expect(200)
         .expect(
           (res) ->
-            res.body.recipes.total.must.be.equal 4
+            res.body.recipes.total.must.be.gte 4
             res.body.recipes.results.length.must.be.equal 4
         )
         .end (err, res) ->
@@ -855,7 +855,7 @@ describe 'API v1: /me/', ->
           .expect(200)
           .expect(
             (res2) ->
-              res2.body.recipes.total.must.be.equal 4
+              res2.body.recipes.total.must.be.gte 4
               res2.body.recipes.results.length.must.be.equal 2
               part = res.body.recipes.results.slice(2,5)
               res2.body.recipes.results.must.be.eql part

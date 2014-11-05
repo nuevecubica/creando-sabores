@@ -73,7 +73,7 @@ testHiddenFields = (api, key, fields, done) ->
   .end(done)
 
 
-describe.only 'Secure test for', ->
+describe 'Secure test for', ->
   this.timeout 5000
 
   before (done) ->
