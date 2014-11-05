@@ -10,6 +10,7 @@ cookie = null
 describe '(Private) Profile: Change', ->
 
   before (done) ->
+    this.timeout 10000
     request.get('/').expect 200, (err, res) ->
       utils.revertTestDatabase(done)
 
