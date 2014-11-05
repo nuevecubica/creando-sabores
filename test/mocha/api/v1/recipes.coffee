@@ -105,7 +105,7 @@ describe 'API v1: /recipes', ->
             past = null
             user = data.getUserByUsername 'testuser1'
             for recipe, i in res.body.recipes.results
-              if recipe.author isnt user._id
+              if recipe.author.slug isnt user.slug
                 return "Wrong username: #{recipe.author}"
               if past && recipe.editDate > past
                 return "editDate order failed: #{recipe.editDate} > #{past}"
@@ -192,8 +192,8 @@ describe 'API v1: /recipes', ->
             user = data.getUserByUsername 'testuser1'
             banOrDraft = false
             for recipe in res.body.recipes.results
-              if recipe.author isnt user._id
-                return "Wrong username: #{recipe.author}"
+              if recipe.author.username isnt user.username
+                return "Wrong username: #{recipe.author.username}"
               if ['draft', 'banned', 'review'].indexOf(recipe.state) >= 0
                 banOrDraft = true
                 break
@@ -366,7 +366,7 @@ describe 'API v1: /recipes', ->
 
       it 'adds the recipe to the user\'s `likes` list', (done) ->
         request
-        .get('/api/v1/me')
+        .get('/api/v1/test/me')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
@@ -444,7 +444,7 @@ describe 'API v1: /recipes', ->
 
       it 'keeps the users\'s `likes` list', (done) ->
         request
-        .get('/api/v1/me')
+        .get('/api/v1/test/me')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
@@ -466,7 +466,7 @@ describe 'API v1: /recipes', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me')
+            .get('/api/v1/test/me')
             .set('Accept', 'application/json')
             .set('cookie', cookie)
             .expect('Content-Type', /json/)
@@ -545,7 +545,7 @@ describe 'API v1: /recipes', ->
 
       it 'keeps the users\'s `likes` list', (done) ->
         request
-        .get('/api/v1/me')
+        .get('/api/v1/test/me')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
@@ -566,7 +566,7 @@ describe 'API v1: /recipes', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me')
+            .get('/api/v1/test/me')
             .set('Accept', 'application/json')
             .set('cookie', cookie)
             .expect('Content-Type', /json/)
@@ -626,7 +626,7 @@ describe 'API v1: /recipes', ->
 
       it 'takes away the recipe from the user\'s `likes` list', (done) ->
         request
-        .get('/api/v1/me')
+        .get('/api/v1/test/me')
         .set('Accept', 'application/json')
         .set('cookie', cookie)
         .expect('Content-Type', /json/)
@@ -647,7 +647,7 @@ describe 'API v1: /recipes', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me')
+            .get('/api/v1/test/me')
             .set('Accept', 'application/json')
             .set('cookie', cookie)
             .expect('Content-Type', /json/)

@@ -18,7 +18,8 @@ var getUserList = function(collection, options, callback) {
     field: null,
     user: null,
     page: 1,
-    perPage: 10
+    perPage: 10,
+    exclude: ["password"]
   });
 
   var getUserListQuery = function(ids) {

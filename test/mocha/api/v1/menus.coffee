@@ -111,3 +111,43 @@ describe 'API v1: /menus', ->
               return 'Publish failed'
         )
         .end(done)
+
+  describe 'PUT /api/v1/menu/:menu/draft', ->
+
+    describe 'if menu is published', ->
+      it 'unpublishes it and returns success', (done) ->
+        slug = 'test-menu-published'
+        request
+        .put('/api/v1/menu/' + slug + '/draft')
+        .set('Accept', 'application/json')
+        .set('Referer',
+            config.keystone.publicUrl +
+            '/api/v1/menu/' + slug)
+        .set('cookie', cookie)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            if res.body.success isnt true or res.body.error isnt false
+              return 'Unpublish failed'
+        )
+        .end(done)
+
+    describe 'if menu is already a draft', ->
+      it 'does nothing and returns success', (done) ->
+        slug = 'test-menu-draft'
+        request
+        .put('/api/v1/menu/' + slug + '/draft')
+        .set('Accept', 'application/json')
+        .set('Referer',
+            config.keystone.publicUrl +
+            '/api/v1/menu/' + slug)
+        .set('cookie', cookie)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(
+          (res) ->
+            if res.body.success isnt true or res.body.error isnt false
+              return 'Unpublish failed'
+        )
+        .end(done)

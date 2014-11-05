@@ -78,9 +78,9 @@ var virtuals = {
       'header': this._.media.header.src({
         transformation: 'header_limit_thumb'
       }) || defaults.images.header,
-      'avatar_large': getThumb(this, this.media.avatar.origin, 'avatar_large'),
-      'avatar_medium': getThumb(this, this.media.avatar.origin, 'avatar_medium'),
-      'avatar_small': getThumb(this, this.media.avatar.origin, 'avatar_small'),
+      'avatar_large': getThumb(this, this.media.avatar.origin, 'user_avatar_large'),
+      'avatar_medium': getThumb(this, this.media.avatar.origin, 'user_avatar_medium'),
+      'avatar_small': getThumb(this, this.media.avatar.origin, 'user_avatar_small'),
       'hasQuality': imageQuality(this.media.header).hasQuality
     };
   },

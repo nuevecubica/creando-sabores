@@ -1,7 +1,8 @@
 var async = require('async'),
   keystone = require('keystone'),
-  modelCleaner = require(__base + 'utils/modelCleaner'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  hideMyApi = require(__base + 'utils/hideMyApi'),
+  safe = require(__base + 'utils/apiSafeFields');
 
 /*
   /contest/recipes?page=1&perPage=10
@@ -39,6 +40,9 @@ exports = module.exports = function(req, res) {
     },
 
     function(contest, next) {
+      /*
+       * TODO: Convert into service
+       */
       var q = Recipes.paginate(query.paginate)
         .where('contest.id', contest._id)
         .where('state', 'published');
@@ -56,17 +60,13 @@ exports = module.exports = function(req, res) {
           answer.error = true;
         }
         else if (recipes.total > 0) {
-          for (var i = 0, l = recipes.results.length; i < l; i++) {
-            recipes.results[i] = recipes.results[i].toObject({
-              virtuals: true,
-              transform: modelCleaner.transformer
-            });
-            var liked = req.user.likes.indexOf(recipes.results[i]._id) !== -1;
-            recipes.results[i].liked = liked;
-            var ingr = recipes.results[i].ingredients;
-            ingr = _.compact(ingr.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
-            recipes.results[i].ingredients = ingr;
-          }
+          recipes.results = recipes.results.map(function(item, i) {
+            var liked = req.user.likes.indexOf(item._id) !== -1;
+            item = hideMyApi(item, safe.recipe.populated);
+            item.liked = liked;
+            item.ingredients = _.compact(item.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+            return item;
+          });
           answer.success = true;
           answer.recipes = recipes;
         }
