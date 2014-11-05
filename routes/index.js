@@ -189,7 +189,7 @@ exports = module.exports = function(app) {
   //-- Seasons
   app.get('/api/v1/seasonLists', routes.api.v1.seasonLists);
   //-- Configs
-  app.get('/api/v1/Configs', routes.api.v1.configs);
+  app.get('/api/v1/configs', routes.api.v1.configs);
 
   //-- Test
   app.all('/api/v1/test/me', middleware.requireTestApi, routes.api.v1.test.me.me);

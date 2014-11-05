@@ -162,3 +162,12 @@ describe.only 'Secure test for', ->
     it 'should hide fields', (done) ->
       testHiddenFields api, 'questions.results.0', fields.question, done
 
+  describe '/api/v1/tips/recent', ->
+    api = '/api/v1/tips/recent'
+    it 'should hide fields', (done) ->
+      testHiddenFields api, 'tips.results.0', fields.tip, done
+
+  describe '/api/v1/tips/popular', ->
+    api = '/api/v1/tips/popular'
+    it 'should hide fields', (done) ->
+      testHiddenFields api, 'tips.results.0', fields.tip, done
