@@ -79,7 +79,7 @@ var getAllRecipe = function(options, callback) {
         data.recipe = _.defaults(parseRecipe(result), defaults);
         data.recipe._document = result;
 
-        if (options.user) {
+        if (options.user && result.author) {
           // Am I the owner?
           data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
           if (data.recipe.isVideorecipe) {
