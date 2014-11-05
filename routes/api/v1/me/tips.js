@@ -1,6 +1,8 @@
 var async = require('async'),
   keystone = require('keystone'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  hideMyApi = require(__base + 'utils/hideMyApi'),
+  safe = require(__base + 'utils/apiSafeFields');
 
 /*
   /me/tips/
@@ -24,9 +26,12 @@ var getMyFavouriteTips = function(req, res) {
         page: parseInt(req.query.page) || 1,
         perPage: parseInt(req.query.perPage) || 5,
         user: req.user
-      }, function(err, result) {
-        if (!err && result) {
-          answer.tips = result;
+      }, function(err, tips) {
+        if (!err && tips) {
+          tips.results = tips.results.map(function(item, i) {
+            return hideMyApi(item, safe.tip.populated);
+          });
+          answer.tips = tips;
           answer.success = true;
           next(null);
         }

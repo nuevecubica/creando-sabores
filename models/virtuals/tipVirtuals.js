@@ -58,7 +58,7 @@ var virtuals = {
    * @return {String} URL
    */
   thumb: function() {
-    if (!this._) {
+    if (!this._ || !this._.header || 'function' !== typeof this._.header.src) {
       this._ = fakeUnderscore.call(this);
     }
     return {
