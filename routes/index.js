@@ -148,12 +148,14 @@ exports = module.exports = function(app) {
   app.get('/api/v1/me/favourites/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.favourites);
   app.get('/api/v1/me/tips/favourites/list', middleware.requireUserApi, routes.api.v1.me.tips.get.favourites);
   app.get('/api/v1/me/tips/favourites/:action(add|remove)/:tip', middleware.requireUserApi, routes.api.v1.tip.favourite);
+  app.get('/api/v1/me/menus', middleware.requireUserApi, routes.api.v1.me.menus);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
   app.get('/api/v1/user/:username/tips', routes.api.v1.user.tips.favourites);
+  app.get('/api/v1/user/:username/menus', routes.api.v1.user.menus);
   //-- Notifications
   app.put('/api/v1/notifications/:email/:token/:action(subscribe|unsubscribe)/:notification(newsletter)', routes.api.v1.notification.notifications);
   app.get('/api/v1/notifications/get/:notification(newsletter)/users', middleware.requireAdminApi, routes.api.v1.notification.users);
