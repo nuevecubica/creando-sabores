@@ -78,8 +78,8 @@ var getUserList = function(collection, options, callback) {
     done(null, ret);
   };
 
-  var page = options.page || 1,
-    perPage = options.perPage || 10,
+  var page = options.page ? parseInt(options.page) : 1,
+    perPage = options.perPage ? parseInt(options.perPage) : 10,
     first = (page - 1) * perPage;
 
   if (!options.user) {
