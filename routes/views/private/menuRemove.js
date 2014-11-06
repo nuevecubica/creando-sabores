@@ -5,15 +5,12 @@ var async = require('async'),
   service = require(__base + 'services');
 
 exports = module.exports = function(req, res, next) {
-
-  var backDone = '/',
-    backError = '..',
-    menuSlug = req.params.menu;
+  var slug = req.params.menu,
+    state = 'removed',
+    back = '..';
 
   var options = {
-    slug: menuSlug,
-    states: ['published', 'draft'],
-    fromContest: true
+    slug: slug
   };
 
   options.user = req.user;
@@ -22,26 +19,13 @@ exports = module.exports = function(req, res, next) {
     options.authorId = req.user._id;
   }
 
-  if (req.method === 'POST') {
-    // Get
-    service.menu.get(options, function(err, result) {
-      if (err) {
-        return formResponse(req, res, backError, 'Error: Unknown error', false);
-      }
-      else if (result) {
-        var menu = result.menu._document;
-
-        menu.state = 'removed';
-        menu.save(function(err) {
-          if (err) {
-            return formResponse(req, res, backError, 'Error: Unknown error', false);
-          }
-          return formResponse(req, res, backDone, false, 'Menu removed');
-        });
-      }
-    });
-  }
-  else {
-    return formResponse(req, res, backError, 'Error: Unknown error', false);
-  }
+  service.menu.state(options, state, function(err, menu) {
+    if (err && !menu) {
+      console.error('menuRemoved:', err);
+      return formResponse(req, res, back, 'Error: Unknown error', false);
+    }
+    else {
+      return formResponse(req, res, back, false, 'Menu ' + menu.state);
+    }
+  });
 };
