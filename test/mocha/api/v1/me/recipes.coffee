@@ -14,7 +14,10 @@ describe 'API v1: /me/recipes', ->
   before (done) ->
     this.timeout 10000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
+      utils.revertTestDatabase (err) ->
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie = res.headers['set-cookie']
+          done(err)
 
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
@@ -25,6 +28,7 @@ describe 'API v1: /me/recipes', ->
         request
         .get('/api/v1/me/recipes')
         .set('Accept', 'application/json')
+        .set('cookie', '')
         .expect('Content-Type', /json/)
         .expect(401)
         .expect(
@@ -35,23 +39,6 @@ describe 'API v1: /me/recipes', ->
         .end(done)
 
     describe 'on authenticated request', ->
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'responds with all recipes (even banned, unpublished)', (done) ->
         request
         .get('/api/v1/me/recipes?perPage=20')

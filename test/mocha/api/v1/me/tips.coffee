@@ -14,7 +14,10 @@ describe 'API v1: /me/tips', ->
   before (done) ->
     this.timeout 10000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
+      utils.revertTestDatabase (err) ->
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie = res.headers['set-cookie']
+          done()
 
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
@@ -34,23 +37,6 @@ describe 'API v1: /me/tips', ->
         .end(done)
 
     describe 'on logged in', ->
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       describe 'on favourites list add', (done) ->
         it 'should response with success', (done) ->
@@ -194,23 +180,6 @@ describe 'API v1: /me/tips', ->
     describe 'on logged in', ->
       this.timeout 20000
 
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'should paginate properly', (done) ->
 
         addToFavouriteList = (tip, cb) ->
@@ -256,6 +225,7 @@ describe 'API v1: /me/tips', ->
 
       it 'should update the list, removing invalid references', (done) ->
         user = data.getUserByUsername('testBadUser')
+
         request
         .post('/api/v1/login')
         .send({
