@@ -2,10 +2,6 @@ mixin menu(menu)
 	div(class=menu.classes).row.position
 		a(href=menu.url).hover-list
 		.five.wide.column
-			if menu.isVideorecipe
-				.play
-					i.icon-chef-play.icon
-
 			.thumbnail(style = 'background-image: url(' + menu.thumb.list + ')')
 
 		.eleven.wide.column
