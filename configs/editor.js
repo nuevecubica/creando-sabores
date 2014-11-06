@@ -18,7 +18,7 @@ module.exports = {
     },
     procedure: {
       length: 400,
-      elements: 5
+      elements: 15
     }
   },
   profile: {
@@ -39,5 +39,8 @@ module.exports = {
     description: {
       length: 400
     },
+    recipes: {
+      length: 10
+    }
   }
 };

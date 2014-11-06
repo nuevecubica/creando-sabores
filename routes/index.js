@@ -96,7 +96,7 @@ exports = module.exports = function(app) {
   // Menus
   // -- Public
   app.get('/menus', routes.views.menus);
-  //app.get('/menu/:menu', routes.views.menu);
+  app.get('/menu/:menu', routes.views.menu);
   // -- Private
   // ---- New
   //app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);

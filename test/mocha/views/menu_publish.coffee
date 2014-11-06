@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe '(Private) Menu: Publish & Draft', ->
+describe.only '(Private) Menu: Publish & Draft', ->
 
   before (done) ->
     this.timeout 10000
@@ -32,7 +32,7 @@ describe '(Private) Menu: Publish & Draft', ->
       .expect(
         (res) ->
           if res.header['location'] isnt '/menu/test-menu-published/draft/..' or
-              res.header['api-response-success'] isnt 'Menu unpublished' or
+              res.header['api-response-success'] isnt 'Menu draft' or
               res.header['api-response-error'] isnt 'false'
             console.error res.header
             return 'Wrong status headers'

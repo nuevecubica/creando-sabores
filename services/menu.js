@@ -22,7 +22,8 @@ var getMenu = function(options, callback) {
     data = {};
 
   options = _.defaults(options || {}, {
-    states: ['published']
+    states: ['published'],
+    populate: ['author']
   });
 
   if (options.slug) {
