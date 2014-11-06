@@ -5,7 +5,6 @@ var _ = require('underscore'),
   mongoosastic = require('mongoosastic'),
   virtual = require('./virtuals'),
   Types = keystone.Field.Types,
-  Recipe = keystone.list('Recipe'),
   async = require('async'),
   modelCleaner = require(__base + 'utils/modelCleaner');
 
@@ -201,7 +200,10 @@ Menu.schema.set('toJSON', {
 
 // Virtuals
 Menu.schema.virtual('url').get(virtual.menu.url);
+Menu.schema.virtual('type').get(virtual.menu.type);
 Menu.schema.virtual('thumb').get(virtual.menu.thumb);
+Menu.schema.virtual('classes').get(virtual.menu.classes);
+
 
 // Pre Save HOOK
 Menu.schema.pre('save', function(next) {
@@ -229,7 +231,7 @@ Menu.schema.pre('save', function(next) {
     var first = null;
 
     async.eachSeries(this.plates, function(plate, callback) {
-        Recipe.model.findOne({
+        keystone.list('Recipe').model.findOne({
           _id: plate
         }).exec(function(err, recipe) {
           if (!err && recipe) {

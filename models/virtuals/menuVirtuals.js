@@ -90,6 +90,22 @@ var virtuals = {
    */
   url: function() {
     return '/menu/' + this.slug;
+  },
+  /**
+   * Item's type
+   * @return {String} type
+   */
+  type: function() {
+    return 'menu';
+  },
+  /**
+   * CSS classes
+   * @return {String} CSS classes
+   */
+  classes: function(asArray) {
+    var classes = ['menu'];
+    classes.push('state-' + this.state);
+    return asArray ? classes : classes.join(' ');
   }
 };
 
