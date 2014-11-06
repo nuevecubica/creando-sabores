@@ -79,19 +79,8 @@ describe 'Secure test for', ->
   before (done) ->
     this.timeout 10000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-          return done('login error') if not res.body.success or res.body.error
+      utils.revertTestDatabase (err) ->
+        utils.loginUser data.users[0], request, (err, res) ->
           cookie = res.headers['set-cookie']
           done()
 

@@ -12,13 +12,10 @@ describe '(Private) Profile: Update', ->
   before (done) ->
     this.timeout 10000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
-
-  beforeEach (done) ->
-    this.timeout 10000
-    utils.loginUser data.users[0], request, (err, res) ->
-      cookie = res.headers['set-cookie']
-      done()
+      utils.revertTestDatabase (err) ->
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie = res.headers['set-cookie']
+          done()
 
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
@@ -249,17 +246,7 @@ describe '(Private) Profile: Update', ->
         )
         .end (err, res) ->
           return done(err) if err
-
-          request
-            .post('/api/v1/login')
-            .send({
-              email: data.users[0].email,
-              password: data.users[0].password
-            })
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(done)
+          utils.loginUser data.users[0], request, done
 
       it 'rejects invalid email', (done) ->
         request

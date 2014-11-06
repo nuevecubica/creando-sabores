@@ -224,22 +224,10 @@ describe 'API v1: /me/tips', ->
             .end(done)
 
       it 'should update the list, removing invalid references', (done) ->
-        user = data.getUserByUsername('testBadUser')
+        utils.loginUser data.users[2], request, (err, res) ->
 
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[2].email,
-          password: data.users[2].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
           cookie2 = res.headers['set-cookie']
+
           request
           .get('/api/v1/me/tips/favourites/list?perPage=20')
           .set('cookie', cookie2)

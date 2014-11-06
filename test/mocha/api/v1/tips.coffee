@@ -13,7 +13,10 @@ describe 'API v1: tips', ->
   before (done) ->
     this.timeout 5000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
+      utils.revertTestDatabase (err) ->
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie = res.headers['set-cookie']
+          done()
 
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
@@ -142,23 +145,6 @@ describe 'API v1: tips', ->
     describe 'if logged in', ->
       this.timeout 10000
 
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       describe 'on missing tip', ->
         it 'returns an error', (done) ->
           request
@@ -228,23 +214,6 @@ describe 'API v1: tips', ->
     describe 'if it comes from an invalid referer', ->
 
       tip = 'tip-1'
-
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       it 'ignores this call', (done) ->
         request

@@ -13,7 +13,10 @@ describe 'API v1: /recipes', ->
   before (done) ->
     this.timeout 5000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
+      utils.revertTestDatabase (err) ->
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie = res.headers['set-cookie']
+          done()
 
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
@@ -92,23 +95,6 @@ describe 'API v1: /recipes', ->
 
       recipe = data.getBySlug 'recipes', 'test-recipe-banned'
 
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'ignores this call', (done) ->
         request
         .put('/api/v1/recipe/' + recipe.slug + '/like')
@@ -124,23 +110,6 @@ describe 'API v1: /recipes', ->
     describe 'if recipe contest does not have a valid state', ->
 
       recipe = data.getBySlug 'recipes', 'test-contest-closed-recipe'
-
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       it 'ignores this call', (done) ->
         request
@@ -185,33 +154,18 @@ describe 'API v1: /recipes', ->
 
       beforeEach (done) ->
         request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
         .set('Accept', 'application/json')
+        .set('Referer',
+          config.keystone.publicUrl +
+          '/api/v1/recipe/' + recipe.slug + '/like')
+        .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-
-          request
-          .put('/api/v1/recipe/' + recipe.slug + '/like')
-          .set('Accept', 'application/json')
-          .set('Referer',
-            config.keystone.publicUrl +
-            '/api/v1/recipe/' + recipe.slug + '/like')
-          .set('cookie', cookie)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end (err, res) ->
-            recipeLikes = res.body.likes
-            recipeVotedId = res.body.id
-            done()
+          recipeLikes = res.body.likes
+          recipeVotedId = res.body.id
+          done()
 
       it 'adds one to the recipe\'s like counter', (done) ->
         recipeLikes.must.be.eql 1
@@ -249,35 +203,20 @@ describe 'API v1: /recipes', ->
 
       beforeEach (done) ->
         request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
         .set('Accept', 'application/json')
+        .set('Referer',
+          config.keystone.publicUrl +
+          '/api/v1/recipe/' + recipe.slug + '/like')
+        .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
           return done(err) if err
 
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-
-          request
-          .put('/api/v1/recipe/' + recipe.slug + '/like')
-          .set('Accept', 'application/json')
-          .set('Referer',
-            config.keystone.publicUrl +
-            '/api/v1/recipe/' + recipe.slug + '/like')
-          .set('cookie', cookie)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end (err, res) ->
-            return done(err) if err
-
-            recipeLikes = res.body.likes
-            recipeVoted = res.body.id
-            done()
+          recipeLikes = res.body.likes
+          recipeVoted = res.body.id
+          done()
 
       it 'keeps the recipe\'s like count', (done) ->
         request
@@ -332,21 +271,6 @@ describe 'API v1: /recipes', ->
 
       recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
 
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'ignores this call', (done) ->
         request
         .put('/api/v1/recipe/' + recipe.slug + '/like')
@@ -365,23 +289,6 @@ describe 'API v1: /recipes', ->
       recipe = data.getBySlug 'recipes', 'test-contest-recipe-no-likes'
       user0 = data.users[0]
       user1 = data.users[1]
-
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: user0.email,
-          password: user0.password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       it 'keeps the recipe\'s like count', (done) ->
         request
@@ -435,33 +342,18 @@ describe 'API v1: /recipes', ->
 
       beforeEach (done) ->
         request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
+        .put('/api/v1/recipe/' + recipe.slug + '/like')
         .set('Accept', 'application/json')
+        .set('Referer', config.keystone.publicUrl)
+        .set('cookie', cookie)
         .expect('Content-Type', /json/)
         .expect(200)
         .end (err, res) ->
           return done(err) if err
 
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-
-          request
-          .put('/api/v1/recipe/' + recipe.slug + '/like')
-          .set('Accept', 'application/json')
-          .set('Referer', config.keystone.publicUrl)
-          .set('cookie', cookie)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end (err, res) ->
-            return done(err) if err
-
-            recipeLikes = res.body.likes
-            recipeVoted = res.body.id
-            done()
+          recipeLikes = res.body.likes
+          recipeVoted = res.body.id
+          done()
 
       it 'substracts one from the recipe\'s like counter', (done) ->
         request
@@ -516,23 +408,6 @@ describe 'API v1: /recipes', ->
     describe 'if it comes from an invalid referer', ->
       recipe = recipe = data.getBySlug 'recipes', 'test-contest-recipe-liked'
 
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'ignores this call', (done) ->
         request
         .put('/api/v1/recipe/' + recipe.slug + '/unlike')
@@ -562,23 +437,6 @@ describe 'API v1: /recipes', ->
 
     describe 'if logged in', ->
       this.timeout 10000
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       describe 'on missing recipe', ->
         it 'returns an error', (done) ->
