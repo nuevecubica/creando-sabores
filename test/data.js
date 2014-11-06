@@ -163,6 +163,13 @@ data.getRecipesBy = function(field, value, orderBy) {
   return reply;
 };
 
+
+data.getMenusBy = function(field, value, orderBy) {
+  var sub = data.getBy('menus', 'state', 'published');
+  var reply = data.getBy(sub, field, value, orderBy);
+  return reply;
+};
+
 /**
  * Subfunction that returns videorecipes
  * @param  {Mixed}  field      Field name or a callback
