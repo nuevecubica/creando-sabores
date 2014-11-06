@@ -22,8 +22,15 @@ describe 'API v1: /menus', ->
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
 
-  describe 'PUT /api/v1/menu/:menu/published', ->
 
+  describe 'GET /api/v1/menus', ->
+    describe 'on request without args', ->
+      it 'responds with first page, sorted by published date'
+    describe 'on normal request', ->
+      it 'paginates properly'
+
+
+  describe 'PUT /api/v1/menu/:menu/published', ->
     describe 'if not logged in', ->
       it 'returns error', (done) ->
         slug = 'test-menu-draft'
@@ -111,6 +118,7 @@ describe 'API v1: /menus', ->
               return 'Publish failed'
         )
         .end(done)
+
 
   describe 'PUT /api/v1/menu/:menu/draft', ->
 
