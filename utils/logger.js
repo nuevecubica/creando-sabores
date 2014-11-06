@@ -23,7 +23,6 @@ exports = module.exports = (function() {
     var args = Array.prototype.slice.call(arguments);
     var level = args.shift();
 
-
     if ("string" === typeof args[0]) {
       var first = args.shift();
       args.unshift(level.toUpperCase());
