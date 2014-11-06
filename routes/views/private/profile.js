@@ -79,6 +79,23 @@ exports = module.exports = function(req, res) {
     });
   };
 
+  var getPrivateMenus = function(user, cb) {
+    service.menuList.get({
+      page: req.query.page || 1,
+      perPage: 5,
+      user: user,
+      authorId: user._id,
+      all: true
+    }, function(err, result) {
+      if (!err && result) {
+        cb(result.results);
+      }
+      else {
+        return res.notfound(res.__('Not found'));
+      }
+    });
+  };
+
   var signinPage = '/acceso';
 
   if (!req.user) {
@@ -116,6 +133,13 @@ exports = module.exports = function(req, res) {
       getFavouriteTips(req.user, function(tips) {
         locals.subsection = 'tips';
         locals.tips = tips || [];
+        view.render('private/profile');
+      });
+      break;
+    case 'menus':
+      getPrivateMenus(req.user, function(menus) {
+        locals.subsection = 'menus';
+        locals.menus = menus || [];
         view.render('private/profile');
       });
       break;

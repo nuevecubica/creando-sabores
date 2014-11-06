@@ -41,9 +41,11 @@ var src = function(item, options) {
 var fakeUnderscore = function() {
   var that = this;
   return {
-    header: {
-      src: function(options) {
-        return src(that.header, options);
+    media: {
+      header: {
+        src: function(options) {
+          return src(that.media.header, options);
+        }
       }
     }
   };
@@ -58,10 +60,9 @@ var virtuals = {
    * @return {String} URL
    */
   thumb: function() {
-    if (!this._) {
+    if (!this._ || !this._.header || 'function' !== typeof this._.header.src) {
       this._ = fakeUnderscore.call(this);
     }
-
     return {
       'list': this._.media.header.src({
         transformation: 'list_thumb'
@@ -90,6 +91,22 @@ var virtuals = {
    */
   url: function() {
     return '/menu/' + this.slug;
+  },
+  /**
+   * Item's type
+   * @return {String} type
+   */
+  type: function() {
+    return 'menu';
+  },
+  /**
+   * CSS classes
+   * @return {String} CSS classes
+   */
+  classes: function(asArray) {
+    var classes = ['menu'];
+    classes.push('state-' + this.state);
+    return asArray ? classes : classes.join(' ');
   }
 };
 

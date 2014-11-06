@@ -2,6 +2,8 @@ extends ../layouts/default
 include ../mixins/header
 include ../mixins/about
 include ../mixins/recipe
+include ../mixins/menu
+include ../mixins/tip
 
 block js
 	script(src='/js/chef.js')
@@ -45,13 +47,13 @@ block content
 								div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
 									| #{__('Favorites')}
 						.tab
-							a
-								.ui.button.chef.button-green.disabled
-									| #{__('Menus')}
-						.tab
 							a(href='/chef/#{profile.username}/tips')
 								div(class="#{subsection === 'tips' ? 'active' : ''}").ui.button.chef.button-green
-									| #{('My tips')}
+									| #{('Tips')}
+						.tab
+							a(href='/chef/#{profile.username}/menus')
+								div(class="#{subsection === 'menus' ? 'active' : ''}").ui.button.chef.button-green
+									| #{__('Menus')}
 
 			if subsection == 'recipes'
 				#recipes.tab-content
@@ -81,6 +83,38 @@ block content
 
 					.row.loader
 						.sixteen.wide.column.loading= __('Loading more recipes')
+						.sixteen.wide.column.load-more
+							.ui.button.chef.button-brick.load-button
+								a(href="#")= __('Load more')
+
+			if subsection == 'menus'
+				#menus.tab-content
+					.row
+						.ui.grid.segment.list
+							if menus.length
+								each menu in menus
+									+menu(menu)
+							else
+								.empty-resultset.sixteen.wide.column= __('No menus yet')
+
+					.row.loader
+						.sixteen.wide.column.loading= __('Loading more menus')
+						.sixteen.wide.column.load-more
+							.ui.button.chef.button-brick.load-button
+								a(href="#")= __('Load more')
+
+			if subsection == 'tips'
+				#tips.tab-content
+					.row
+						.ui.grid.segment.list
+							if tips.length
+								each tip in tips
+									+tip(tip)
+							else
+								.empty-resultset.sixteen.wide.column= __('No tips yet')
+
+					.row.loader
+						.sixteen.wide.column.loading= __('Loading more tips')
 						.sixteen.wide.column.load-more
 							.ui.button.chef.button-brick.load-button
 								a(href="#")= __('Load more')

@@ -61,13 +61,13 @@ exports = module.exports = function(app) {
   app.all('/contacto', routes.views.static.contact);
 
   // Profile: Private
-  app.get('/perfil/:section(recetas|favoritas|compra|tips)?', middleware.requireUser, routes.views['private'].profile);
+  app.get('/perfil/:section(recetas|favoritas|compra|tips|menus)?', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Profile: Public
-  app.get('/chef/:username/:section(recetas|favoritas|tips)?', routes.views.chef);
+  app.get('/chef/:username/:section(recetas|favoritas|tips|menus)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
