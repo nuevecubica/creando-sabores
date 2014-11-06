@@ -17,7 +17,11 @@ var safe = {
     'state', 'thumb', 'type', 'classes', 'awards.jury.winner',
     'awards.community.winner'
   ],
-  tip: ['url', 'slug', 'title', 'tip', 'thumb']
+  tip: ['url', 'slug', 'title', 'tip', 'thumb'],
+  menu: [
+    'title', 'slug', 'description', 'state', 'publishedDate',
+    'url', 'thumb'
+  ]
 };
 
 safe.user.private = ['username', 'name', 'about', 'thumb', 'url'];
