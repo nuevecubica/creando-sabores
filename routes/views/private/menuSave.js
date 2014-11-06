@@ -1,14 +1,8 @@
 var _ = require('underscore'),
-  async = require('async'),
   keystone = require('keystone'),
   Menu = keystone.list('Menu'),
-  Contest = keystone.list('Contest'),
-  clean = require(__base + 'utils/cleanText.js'),
   formResponse = require(__base + 'utils/formResponse.js'),
-  service = require(__base + 'services'),
-  config = require(__base + 'configs/editor');
-
-
+  service = require(__base + 'services');
 
 var menuEdit = function(req, res) {
   var menuSlug = req.params.menu,
@@ -36,13 +30,14 @@ var menuEdit = function(req, res) {
       var menu = result.menu._document;
 
       var options = {
+        req: req,
         fields: 'title,description,plates,media.header'
       };
 
       service.menu.save(menu, options, function(err) {
         if (err) {
           console.error('menuEdit:', err);
-          return formResponse(req, res, back, 'Error: Unknown error', false);
+          return formResponse(req, res, back, (err || 'Error: Unknown error'), false);
         }
         else {
           return formResponse(req, res, back, false, 'Menu saved');
@@ -61,43 +56,36 @@ var menuNew = function(req, res) {
 
   if (req.method === 'POST') {
     var menu = new Menu.model();
-    var data = menuData(req);
 
-    if (data === null) {
-      return formResponse(req, res, back, 'Missing data', false);
-    }
+    var options = {
+      user: req.user,
+      body: req.body,
+      fields: 'title,description,plates,author,media.header'
+    };
 
-    var addMenu = function() {
-
-      // Save
-      menu.getUpdateHandler(req).process(data, {
-          fields: 'title,description,plates,author,media.header'
-        },
-        function(err) {
-          if (err) {
-            console.error('menuNew:', err);
-            return formResponse(req, res, back, 'Error: Unknown error', false);
-          }
-          else {
-            if (req.user.disabledHelpers.indexOf('menu') === -1) {
-              req.user.disabledHelpers.push('menu');
-              req.user.save(function(err) {
-                if (err) {
-                  return formResponse(req, res, back, 'Error: Unknown error', false);
-                }
-                else {
-                  return formResponse(req, res, menu.url, false, 'Menu saved');
-                }
-              });
+    // Save
+    service.menu.save(menu, options, function(err) {
+      if (err) {
+        console.error('menuNew:', err);
+        return formResponse(req, res, back, (err || 'Error: Unknown error'), false);
+      }
+      else {
+        if (req.user.disabledHelpers.indexOf('menu') === -1) {
+          req.user.disabledHelpers.push('menu');
+          req.user.save(function(err) {
+            if (err) {
+              return formResponse(req, res, back, 'Error: Unknown error', false);
             }
             else {
               return formResponse(req, res, menu.url, false, 'Menu saved');
             }
-          }
-        });
-    };
-
-    addMenu();
+          });
+        }
+        else {
+          return formResponse(req, res, menu.url, false, 'Menu saved');
+        }
+      }
+    });
   }
   else {
     return formResponse(req, res, back, false, false);

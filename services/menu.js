@@ -2,6 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   Menu = keystone.list('Menu'),
+  clean = require(__base + 'utils/cleanText.js'),
+  config = require(__base + 'configs/editor'),
   service = require('./index');
 
 var defaults = {
@@ -83,8 +85,13 @@ var changeState = function(options, state, callback) {
   });
 };
 
-
-var menuData = function(user, body, orig) {
+/**
+ * Transform, clean and return menu data object
+ * @param  {object} req
+ * @param  {orig} orig Original model fields
+ * @return {object}      Cleaned data object
+ */
+var menuData = function(req, orig) {
   // Clean data
   var data = {};
   var prop, props = ['title', 'description', 'plates'];
@@ -95,18 +102,18 @@ var menuData = function(user, body, orig) {
   var i, l = props.length;
   for (i = 0; i < l; i++) {
     prop = props[i];
-    if (body[prop]) {
+    if (req.body[prop]) {
       something = true;
       break;
     }
   }
 
-  if (body.files) {
+  if (req.body.files) {
     var j, m = files.length;
     for (j = 0; j < m; j++) {
       if (files[j]) {
         file = files[j];
-        if (body.files[file]) {
+        if (req.body.files[file]) {
           something = true;
           break;
         }
@@ -121,10 +128,10 @@ var menuData = function(user, body, orig) {
 
   // Parse body
   else {
-    data.title = clean(body.title, ['plaintext', 'oneline', ['maxlength', config.menu.title.length], 'escape']);
-    data.description = clean(body.description, ['oneline', ['maxlength', config.menu.description.length], 'escape']);
-    data.plates = (body.plates) ? body.plates.split(',') : [];
-    data.author = user.id;
+    data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', config.menu.title.length], 'escape']);
+    data.description = clean(req.body.description, ['oneline', ['maxlength', config.menu.description.length], 'escape']);
+    data.plates = (req.body.plates) ? req.body.plates.split(',') : [];
+    data.author = req.user.id;
 
     // Get missing data from original if present
     if (orig) {
@@ -153,30 +160,37 @@ var getMenuNew = function(options, callback) {
   data = {
     menu: defaults
   };
+
   return callback(null, data);
 };
 
-
+/**
+ * Save menu into database
+ * @param  {object}   menu     Menu params
+ * @param  {object}   options  Options for save menu
+ * @param  {function} callback
+ * @return {null}
+ */
 var saveMenu = function(menu, options, callback) {
 
-  var options = _.defaults(options || {}, {
-    user: null,
-    body: null,
+  options = _.defaults(options || {}, {
+    req: null,
     fields: 'title,description,plates,author,media.header'
   });
 
-  if (options.user !== null || options.body !=== null) {
+  var data = null;
+
+  if (options.req.user !== null || options.req.body !== null) {
     // Data
-    var data = menuData(options.user, options.body, menu);
+    data = menuData(options.req, menu);
+
     if (data === null) {
-      return formResponse(req, res, back, 'Missing data', false);
+      callback('Missing data');
     }
   }
-      return formResponse(req, res, back, 'Missing data', false);
-
 
   // Save
-  menu.getUpdateHandler(req).process(data, {
+  menu.getUpdateHandler(options.req).process(data, {
     fields: options.fields
   }, callback);
 };
@@ -189,6 +203,7 @@ var _service = {
   state: changeState,
   save: saveMenu
 };
+
 _service.get.new = getMenuNew;
 
 exports = module.exports = _service;
