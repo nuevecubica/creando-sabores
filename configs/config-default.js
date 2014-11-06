@@ -152,4 +152,8 @@ answer.keystone.publicUrl = answer.keystone.site.url;
 answer.keystone['email locals'].site = answer.keystone.site;
 answer.keystone['email locals'].host = answer.keystone.site.url;
 
+answer.server = {
+  maxCPUs: 999
+};
+
 exports = module.exports = answer;

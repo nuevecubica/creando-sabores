@@ -37,7 +37,7 @@ exports = module.exports = function(req, res, next) {
           if (req.body.email) {
             req.body.email = String(req.body.email);
             if (!valid(req.body.email, ['email'])) {
-              console.log('profileChange: Error saving profile, invalid email');
+              logger.log('profileChange: Error saving profile, invalid email');
               return next('Error: Email format');
             }
             else {
@@ -63,7 +63,7 @@ exports = module.exports = function(req, res, next) {
                 return next();
               }
               else {
-                console.log('profileChange: Error saving profile, invalid password', err);
+                logger.log('profileChange: Error saving profile, invalid password', err);
                 return next('Error: Password not match');
               }
             });
@@ -74,27 +74,27 @@ exports = module.exports = function(req, res, next) {
         },
         // Change profile
         function(next) {
-          // console.log('USERNAME - EMAIL: ', req.user.username, req.user.email);
-          // console.log('      VS        : ', req.body.username, req.body.email);
+          // logger.log('USERNAME - EMAIL: ', req.user.username, req.user.email);
+          // logger.log('      VS        : ', req.body.username, req.body.email);
           req.user.getUpdateHandler(req).process(req.body, {
             fields: fields.join(',')
           }, function(err, user) {
             // Error ocurred
             if (err || !user) {
-              console.log('profileChange: Error processing profile', err);
+              logger.log('profileChange: Error processing profile', err);
               return next('Error saving profile');
             }
             else {
               if (req.body.password) {
-                console.log('Password change:', req.body.password, req.user.password);
+                logger.log('Password change:', req.body.password, req.user.password);
               }
               var User = keystone.list('User');
               User.model.find({
                 email: user.item.email
               }).exec(function(err, results) {
-                // console.log(results);
+                // logger.log(results);
               });
-              // console.log('WINS        : ', user.item.username, user.item.email);
+              // logger.log('WINS        : ', user.item.username, user.item.email);
               return next();
             }
           });
@@ -102,7 +102,7 @@ exports = module.exports = function(req, res, next) {
       ],
       function(err) {
         if (err) {
-          console.log('profileChange: Error saving profile', err);
+          logger.log('profileChange: Error saving profile', err);
           if ("string" === typeof err) {
             answer.error = err;
           }

@@ -133,7 +133,6 @@ function generateRecipes(from, to) {
       if ((countVideorecipesGrid < maxVideorecipesGrid) && (faker.random.number(1000) >= 800)) {
         ++countVideorecipesGrid;
         homeGridPos = faker.random.array_element_pop(homeGrid);
-        console.log('>>> grid home', homeGridPos);
       }
     }
     else {
@@ -339,11 +338,11 @@ function createRecipe(recipe, done) {
   var newRecipe = new Recipes.model(recipe);
   newRecipe.save(function(err, recipe) {
     if (err) {
-      console.error("Error adding recipe \"" + recipe.title + "\" to the database:");
-      console.error(err);
+      logger.error("Error adding recipe \"" + recipe.title + "\" to the database:");
+      logger.error(err);
     }
     else {
-      console.log("Added recipe \"" + recipe.title + "\" to the database.");
+      logger.log("Added recipe \"" + recipe.title + "\" to the database.");
     }
     done(err, recipe);
   });
@@ -356,8 +355,8 @@ function createContest(contest, done) {
   var newContest = new Contests.model(contest);
   newContest.save(function(err, contest) {
     if (err) {
-      console.error("Error adding contest \"" + contest.title + "\" to the database:");
-      console.error(err);
+      logger.error("Error adding contest \"" + contest.title + "\" to the database:");
+      logger.error(err);
       done(err, contest);
     }
     else {
@@ -368,8 +367,8 @@ function createContest(contest, done) {
       });
       async.map(recipes, createRecipe, function(err, recipes) {
         if (err) {
-          console.error("Error adding contest \"" + contest.title + "\" recipes:");
-          console.error(err);
+          logger.error("Error adding contest \"" + contest.title + "\" recipes:");
+          logger.error(err);
           done(err, contest);
         }
         else {
@@ -378,20 +377,20 @@ function createContest(contest, done) {
             contest.awards.jury.winner = faker.random.array_element(recipes);
             contest.save(function(err, contest) {
               if (err) {
-                console.error("Error setting winner of contest \"" + contest.title + "\":");
-                console.error(err);
+                logger.error("Error setting winner of contest \"" + contest.title + "\":");
+                logger.error(err);
                 done(err, contest);
               }
               else {
                 contest.state = state;
                 contest.save(function(err, contest) {
                   if (err) {
-                    console.error("Error finishing contest \"" + contest.title + "\":");
-                    console.error(err);
+                    logger.error("Error finishing contest \"" + contest.title + "\":");
+                    logger.error(err);
                     done(err, contest);
                   }
                   else {
-                    console.log("Added finished contest \"" + contest.title + "\" to the database.");
+                    logger.log("Added finished contest \"" + contest.title + "\" to the database.");
                     done(err, contest);
                   }
                 });
@@ -399,7 +398,7 @@ function createContest(contest, done) {
             });
           }
           else {
-            console.log("Added contest \"" + contest.title + "\" to the database.");
+            logger.log("Added contest \"" + contest.title + "\" to the database.");
             done(err, contest);
           }
         }
@@ -422,7 +421,7 @@ exports = module.exports = function(req, res) {
         if (doc) {
           author = doc;
           // Contests first
-          console.log('Creating contests...');
+          logger.info('Creating contests...');
           async.forEach(contests, createContest, function(err) {
             if (err) {
               answer.error = true;
@@ -430,7 +429,7 @@ exports = module.exports = function(req, res) {
             }
             else {
               // Recipes next
-              console.log('Creating recipes...');
+              logger.info('Creating recipes...');
               async.forEach(recipes, createRecipe, function(err) {
                 if (err) {
                   answer.error = true;

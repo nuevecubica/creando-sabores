@@ -1,7 +1,7 @@
 {
   "name": "chefcito",
-  "version": "0.1.1",
-  "versionName": "beta1-mailtips",
+  "version": "0.2.0",
+  "versionName": "beta2-menu",
   "private": true,
   "dependencies": {
     "async": "^0.9.0",
@@ -9,10 +9,12 @@
     "cloudinary": "^1.0.12",
     "coffee-script": "^1.8.0",
     "coffeelint": "^1.6.1",
+    "colors": "^1.0.3",
     "connect-mongo": "^0.4.1",
     "csurf": "^1.6.2",
     "dotenv": "^0.4.0",
     "elasticsearch": "^2.4.3",
+    "express-domain-middleware": "^0.1.0",
     "faker": "ignlg/Faker.js",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^1.0.1",

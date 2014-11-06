@@ -266,7 +266,7 @@ var esDatabaseSync = function(params, callback) {
       },
       close: function(err, next) {
         if (err) {
-          console.error('service.elastic.sync error', err);
+          logger.error('service.elastic.sync error', err);
         }
         return next(err);
       },

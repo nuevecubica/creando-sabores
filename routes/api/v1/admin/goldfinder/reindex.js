@@ -26,7 +26,7 @@ var middleware = function(req, res) {
     else {
       answer.error = true;
       answer.errorMessage = err;
-      console.error('Reindex error', err);
+      logger.error('Reindex error', err);
     }
     return res.apiResponse(answer);
   };

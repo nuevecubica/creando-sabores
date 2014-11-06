@@ -42,7 +42,7 @@ exports = module.exports = function(req, res) {
       }, function(err, recipes) {
         if (err || !recipes) {
           res.status(404);
-          console.error(err);
+          logger.error(err);
           answer.error = true;
         }
         else if (recipes.total > 0) {

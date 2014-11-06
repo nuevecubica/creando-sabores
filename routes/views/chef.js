@@ -22,7 +22,7 @@ exports = module.exports = function(req, res) {
       fromContests: true
     }, function(err, recipes) {
       if (err) {
-        console.error('profileMyRecipes:', err);
+        logger.error('profileMyRecipes:', err);
         return formResponse(req, res, '..', 'Error: Unknown error', false);
       }
       else {

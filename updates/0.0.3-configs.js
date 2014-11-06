@@ -46,11 +46,11 @@ function createConfig(config, done) {
 
   newConfig.save(function(err) {
     if (err) {
-      console.error("Error adding config " + config.name + " to the database:");
-      console.error(err);
+      logger.error("Error adding config " + config.name + " to the database:");
+      logger.error(err);
     }
     else {
-      console.log("Added config " + config.name + " to the database.");
+      logger.log("Added config " + config.name + " to the database.");
     }
     done();
   });

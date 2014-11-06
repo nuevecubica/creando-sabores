@@ -12,6 +12,9 @@ var answer = {
     init: {
       'name': 'Chefcito',
       'brand': 'Chefcito',
+      'compress': true,
+      'logger': false,
+      'session store': 'mongo',
 
       'view cache': true,
 

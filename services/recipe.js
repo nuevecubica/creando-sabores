@@ -67,7 +67,7 @@ var getAllRecipe = function(options, callback) {
   });
 
   if (options.recipe) {
-    console.warn('Deprecated call on service.recipe with options:', options);
+    logger.warn('Deprecated call on service.recipe with options:', options);
     options.slug = options.recipe;
   }
 
@@ -121,7 +121,7 @@ var getAllRecipe = function(options, callback) {
             }
             else {
               if (err) {
-                console.error('Error service.recipe.read Contest.model.populate community winner', err);
+                logger.error('Error service.recipe.read Contest.model.populate community winner', err);
               }
               return callback(err || 'Not found', {});
             }
@@ -133,7 +133,7 @@ var getAllRecipe = function(options, callback) {
       }
       else {
         if (err) {
-          console.error('Error service.recipe.read find', err);
+          logger.error('Error service.recipe.read find', err);
         }
         return callback(err || 'Not found', {});
       }

@@ -17,7 +17,7 @@ var response = function(res) {
       answer.error = true;
       answer.errorMessage = err;
       answer.results = results;
-      console.log(err);
+      logger.log(err);
       return res.apiResponse(answer);
     }
   };

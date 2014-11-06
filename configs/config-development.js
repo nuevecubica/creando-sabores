@@ -34,7 +34,10 @@ var answer = {
       'port': env.PORT || 3000
     }
   },
-  publicUrl: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
+  publicUrl: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000',
+  server: {
+    maxCPUs: 1
+  }
 };
 
 exports = module.exports = _.deepDefaults(answer, defaults);

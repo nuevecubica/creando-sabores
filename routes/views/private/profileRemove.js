@@ -14,14 +14,14 @@ exports = module.exports = function(req, res, next) {
     Users.model.findById(req.user._id).exec(function(err, user) {
       // Error ocurred
       if (err || !user) {
-        console.error('profileRemove: Error removing profile', err, user);
+        logger.error('profileRemove: Error removing profile', err, user);
         return formResponse(req, res, backError, 'Error removing profile', false);
       }
 
       user.isDeactivated = true;
       user.save(function(err) {
         if (err) {
-          console.error('profileRemove: Error removing profile', err);
+          logger.error('profileRemove: Error removing profile', err);
           return formResponse(req, res, backError, 'Error removing profile', false);
         }
 

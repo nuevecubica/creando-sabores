@@ -28,12 +28,12 @@ var removeList = function(obj, prop) {
         delete subObj[last];
       }
       else {
-        console.warn('removeList exception found in %s inside %s', last, prop);
+        logger.warn('removeList exception found in %s inside %s', last, prop);
       }
     }
   }
   else {
-    console.warn('removeList exception found in %s', prop);
+    logger.warn('removeList exception found in %s', prop);
   }
   return obj;
 };
@@ -50,10 +50,10 @@ var removeLists = function(obj) {
     for (var key in paths) {
       if (paths.hasOwnProperty(key)) {
         // Looks for the `ref` option to find Relationships
-        // console.log('key %s', key, paths[key].options || 'no options');
+        // logger.log('key %s', key, paths[key].options || 'no options');
         if (paths[key].options) {
           if (paths[key].options.ref) {
-            // console.log('relationship for %s', key);
+            // logger.log('relationship for %s', key);
             removeList(obj, key + 'RefList');
           }
           // Looks for `many: true` Relationships
@@ -62,7 +62,7 @@ var removeLists = function(obj) {
             for (var i = 0, l = types.length; i < l; ++i) {
               var type = types[i];
               if (type && type.ref) {
-                // console.log('relationship for %s', key);
+                // logger.log('relationship for %s', key);
                 removeList(obj, key + 'RefList');
                 break;
               }

@@ -10,7 +10,7 @@ exports.requireTestApi = function(req, res, next) {
   };
 
   if (!keystone || !keystone.testMode) {
-    console.log(keystone);
+    logger.warn('Unauthorized access on %s: %s', req.method, req.url);
     res.status(401);
     answer.error = true;
     answer.errorMessage = 'Unauthorized access';

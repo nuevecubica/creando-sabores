@@ -48,7 +48,7 @@ var getMenu = function(options, callback) {
       }
       else {
         if (err) {
-          console.error('Error service.menu.read find', err);
+          logger.error('Error service.menu.read find', err);
         }
         return callback(err || 'Not found', {});
       }
@@ -68,7 +68,7 @@ var changeState = function(options, state, callback) {
     }
     else {
       if (err) {
-        console.error('Error service.menu.read find', err);
+        logger.error('Error service.menu.read find', err);
       }
       return callback(err || 'Not found', {});
     }

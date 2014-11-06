@@ -284,7 +284,6 @@ User.schema.path('name').validate(function(value, done) {
   }
   var re = /^[a-zA-Z0-9]+$/;
   if (re.test(value) === null) {
-    console.log('-------> INVALID USER NAME');
     return done('Invalid username, only letters and numbers are allowed.');
   }
   return done();

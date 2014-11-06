@@ -5,6 +5,9 @@ var _ = require('underscore'),
   csrf = require('csurf'),
   importRoutes = keystone.importer(__dirname);
 
+// domains
+keystone.pre('routes', require('express-domain-middleware'));
+
 // i18n support
 keystone.pre('routes', i18n.init);
 
