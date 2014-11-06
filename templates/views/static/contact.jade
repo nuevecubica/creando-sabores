@@ -37,7 +37,7 @@ block content
             h2.ui.header= __('Send us a message')
             form.form-contact(method='post', action='/contacto', role='contact', novalidate)
               .ui.input
-
+                input(type="hidden" name="_csrf" value="#{csrftoken}")
                 input(
                   type='hidden'
                   name='action'
