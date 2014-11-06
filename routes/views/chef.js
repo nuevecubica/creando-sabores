@@ -63,6 +63,22 @@ exports = module.exports = function(req, res) {
     });
   };
 
+  var getPublicMenus = function(user, cb) {
+    service.menuList.get({
+      page: req.query.page || 1,
+      perPage: 5,
+      user: user,
+      authorId: user._id
+    }, function(err, result) {
+      if (!err && result) {
+        cb(result.results);
+      }
+      else {
+        return res.notfound(res.__('Not found'));
+      }
+    });
+  };
+
   service.user.get.byUsername({
     username: req.params.username
   }, function(err, resultUser) {
@@ -76,8 +92,6 @@ exports = module.exports = function(req, res) {
             view.render('chef');
           });
           break;
-        case 'recetas':
-          /* falls through */
         case 'tips':
           getFavouriteTips(resultUser, function(tips) {
             locals.subsection = 'tips';
@@ -85,6 +99,15 @@ exports = module.exports = function(req, res) {
             view.render('chef');
           });
           break;
+        case 'menus':
+          getPublicMenus(resultUser, function(menus) {
+            locals.subsection = 'menus';
+            locals.menus = menus || [];
+            view.render('chef');
+          });
+          break;
+        case 'recetas':
+          /* falls through */
         default:
           getPublicRecipes(resultUser, function(recipes) {
             locals.subsection = 'recipes';
