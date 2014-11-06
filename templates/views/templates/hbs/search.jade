@@ -6,6 +6,7 @@ div(class="{{classes}}").row.position
 			i.icon-chef-play.icon
 		| {{/if}}
 		.thumbnail(style='background-image: url({{thumb.list}})')
+			| {{#ifRecipeClass type}}
 			.row
 
 			.row
@@ -21,6 +22,7 @@ div(class="{{classes}}").row.position
 						.span {{portions}}
 
 					.difficulty.column {{formatIcons difficulty 'tenedor'}}
+			| {{/ifRecipeClass}}
 
 	.eleven.wide.column
 		.rating
@@ -34,7 +36,7 @@ div(class="{{classes}}").row.position
 			h2.ui.header {{title}}
 
 		.ui.content
-			h3.type(class="{{_es._type}}")= '{{translateType _es._type}}'
+			h3.type(class="{{type}}")= '{{translateType type}}'
 			| {{{description}}}
 
 		| {{formatOfficial isOfficial}}
