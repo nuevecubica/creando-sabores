@@ -14,7 +14,10 @@ describe 'API v1: /me/', ->
   before (done) ->
     this.timeout 10000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
+      utils.revertTestDatabase ->
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie = res.headers['set-cookie']
+          done()
 
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
@@ -34,59 +37,30 @@ describe 'API v1: /me/', ->
     describe 'on logged in', ->
       it 'should response the user', (done) ->
         request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
+        .get('/api/v1/me')
+        .set('cookie', cookie)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        .end (err, res) ->
-          return done(err) if err
+        .expect(
+          (res) ->
+            return 'No user' if not res.body.user
 
-          return 'login error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-
-          request
-          .get('/api/v1/me')
-          .set('cookie', cookie)
-          .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .expect(
-            (res) ->
-              return 'No user' if not res.body.user
-
-              if res.body.user.username isnt data.users[0].username
-                return 'Wrong user'
-          )
-          .end(done)
+            if res.body.user.username isnt data.users[0].username
+              return 'Wrong user'
+        )
+        .end(done)
 
   #*---------- LOGOUT ----------*
   describe 'GET /me/logout', ->
     describe 'on request to logout', ->
       it 'should destroy user session', (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie2 = res.headers['set-cookie']
           request
           .get('/api/v1/me')
           .set('Accept', 'application/json')
-          .set('cookie', cookie)
+          .set('cookie', cookie2)
           .expect('Content-Type', /json/)
           .expect(200)
           .expect(
@@ -100,18 +74,18 @@ describe 'API v1: /me/', ->
             request
             .get('/api/v1/me/logout')
             .set('Accept', 'application/json')
-            .set('cookie', cookie)
+            .set('cookie', cookie2)
             .expect('Content-Type', /json/)
             .expect(200)
             .end (err, res) ->
 
-              cookie = res.headers['set-cookie']
+              cookie2 = res.headers['set-cookie']
               return 'error' if not res.body.success or res.body.error
 
               request
               .get('/api/v1/me')
               .set('Accept', 'application/json')
-              .set('cookie', cookie)
+              .set('cookie', cookie2)
               .expect('Content-Type', /json/)
               .expect(
                 (res) ->
@@ -139,23 +113,6 @@ describe 'API v1: /me/', ->
         .end(done)
 
     describe 'on logged in user', ->
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       describe 'on empty values', ->
         it 'should not make any changes', (done) ->
           request
@@ -272,23 +229,6 @@ describe 'API v1: /me/', ->
         .end(done)
 
     describe 'on logged in', ->
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       describe 'on shopping list add a recipe not published', (done) ->
         it 'should response an error', (done) ->
@@ -443,23 +383,6 @@ describe 'API v1: /me/', ->
     describe 'on logged in', ->
       this.timeout 20000
 
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'should paginate properly', (done) ->
 
         addToShoppingList = (recipe, cb) ->
@@ -549,23 +472,6 @@ describe 'API v1: /me/', ->
         .end(done)
 
     describe 'on logged in', ->
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       describe 'on favourites list add', (done) ->
         it 'should response with success', (done) ->
@@ -708,23 +614,6 @@ describe 'API v1: /me/', ->
     describe 'on logged in', ->
       this.timeout 20000
 
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'should paginate properly', (done) ->
 
         addToShoppingList = (recipe, cb) ->
@@ -801,23 +690,6 @@ describe 'API v1: /me/', ->
   describe 'GET /user/:username/favourites', ->
 
     baseurl = '/api/v1/user/' + data.users[0].username + '/favourites'
-
-    before (done) ->
-      request
-      .post('/api/v1/login')
-      .send({
-        email: data.users[0].email,
-        password: data.users[0].password
-      })
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .end (err, res) ->
-        return done(err) if err
-
-        return 'error' if not res.body.success or res.body.error
-        cookie = res.headers['set-cookie']
-        done()
 
     it 'should paginate properly', (done) ->
 
@@ -908,23 +780,6 @@ describe 'API v1: /me/', ->
         .end(done)
 
     describe 'on logged in', ->
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       describe 'on favourites list add', (done) ->
         it 'should response with success', (done) ->
@@ -1067,23 +922,6 @@ describe 'API v1: /me/', ->
     describe 'on logged in', ->
       this.timeout 20000
 
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'should paginate properly', (done) ->
 
         addToFavouriteList = (tip, cb) ->
@@ -1160,23 +998,6 @@ describe 'API v1: /me/', ->
   describe 'GET /user/:username/favourites', ->
 
     baseurl = '/api/v1/user/' + data.users[4].username + '/tips'
-
-    before (done) ->
-      request
-      .post('/api/v1/login')
-      .send({
-        email: data.users[0].email,
-        password: data.users[0].password
-      })
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .end (err, res) ->
-        return done(err) if err
-
-        return 'error' if not res.body.success or res.body.error
-        cookie = res.headers['set-cookie']
-        done()
 
     it 'should paginate properly', (done) ->
 
