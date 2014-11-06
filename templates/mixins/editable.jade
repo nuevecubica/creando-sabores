@@ -12,18 +12,18 @@ mixin editable(editable, own)
                   a(href=data.recipe.url + "/publish")= __('Publish')
                 else if data.recipe.state == 'published' || data.recipe.state == 'review'
                   a(href=data.recipe.url + "/draft")= __('Draft')
-
-    #actions-wrapper.ten.mobile-sixteen.wide.column
-      .ui.menu
-        .menu
-          if section === 'new-recipe' || section === 'recipe'
-            #help.ui.button.chef.button-manage
-              a= __('Help')
-          #cancel.ui.button.chef.button-manage
-            a= __('Cancel')
-          #update.ui.button.chef.button-manage
-            a= __('Save')
-
-          if manageable && !isNew
-            #delete.ui.button.chef.button-manage
-              a= __('Delete')
+    .fixed
+      .relative
+        #actions-wrapper.ten.mobile-sixteen.wide.column
+          .ui.menu
+            .menu
+              if section === 'new-recipe' || section === 'recipe'
+                #help.ui.button.chef.button-manage
+                  a= __('Help')
+              if manageable && !isNew
+                #delete.ui.button.chef.button-manage
+                  a.icon.icon-chef-cross.explain
+              #cancel.ui.button.chef.button-manage
+                a= __('Cancel')
+              #update.ui.button.chef.button-manage
+                a= __('Save')
