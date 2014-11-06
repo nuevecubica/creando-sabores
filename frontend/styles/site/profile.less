@@ -19,13 +19,23 @@
     .span{
       .font-extra-large;
       text-align: left;
-      @media screen and (max-width: 771px) {
+      @media screen and (max-width: 767px) {
         margin-bottom: 20px;
         .font-large;
         margin-right: auto;
         margin-left: auto;
         display: block;
         text-align: center;
+      }
+    }
+  }
+  .tab-header{
+    .tab{
+      &.max{
+        width: 24%;
+      }
+      &.min{
+        width: 13%;
       }
     }
   }
@@ -178,6 +188,15 @@
     .password{
       margin-top: 34px;
       margin-bottom: 25px;
+      @media screen and (max-width: 767px) {
+      margin-top: -5px;
+      margin-bottom: 5px;
+      }
+      @media only screen and (min-width: 767px) and (max-width: 991px) {
+        .ui.button.chef{
+          letter-spacing:  0em;
+        }
+      }
     }
 
     .delete.field{

@@ -30,7 +30,7 @@ block content
 						a(href='/perfil')
 							div(class="#{subsection === 'profile' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My account')}
-					.tab
+					.tab.max
 						a(href='/perfil/compra')
 							div(class="#{subsection === 'shopping' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('Shopping list')}
@@ -42,11 +42,11 @@ block content
 						a(href='/perfil/favoritas')
 							div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('Favorites')}
-					.tab
+					.tab.min
 						a(href='/perfil/tips')
 							div(class="#{subsection === 'tips' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My tips')}
-					.tab
+					.tab.min
 						a(href='#')
 							.ui.button.chef.button-green.disabled
 								| #{__('My menus')}
