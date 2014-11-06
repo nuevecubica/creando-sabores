@@ -50,7 +50,6 @@ describe 'Menus: Lists', ->
         )
         .end(done)
 
-
   describe 'get /chef/:chef/menus', ->
     describe 'on normal request', ->
       it 'returns the expected menus (sorted by edit date)', (done) ->
