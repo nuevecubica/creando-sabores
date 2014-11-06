@@ -33,6 +33,9 @@
   border-radius: 0;
   letter-spacing: 0.07em;
   transition: box-shadow @ani-time ease-out;
+  @media only screen and (min-width: 767px) and (max-width: 991px) {
+    letter-spacing:  0.03em;
+  }
 
   i {
     padding-right: 10px;
@@ -91,22 +94,71 @@
   }
 
   &.button-manage {
-    box-shadow: 0px 0px 0px 3px @buttons-manage-border inset;
-    background-color: transparent;
-    transition: box-shadow @ani-time ease-out, text-shadow @ani-time ease-out;
-    margin: 0 5px;
+    margin:0 3px;
+    background-color: @chef-color-light-bg;
+    box-shadow: 0px -4px 0px @chef-color-blue-bg inset;
 
     a {
-      color: @buttons-manage-color;
+      color: @chef-color-black;
     }
 
     &:active {
-      box-shadow: 0px 0px 0px 3px @buttons-manage-border inset, 0px 3px 8px -3px @buttons-manage-border-shadow, 0px 8px 7px -5px @buttons-manage-border-shadow inset !important;
+      .buttonAnimatedBottom(@chef-color-white, @chef-color-blue-bg);
     }
 
     &:hover {
-      box-shadow: 0px 0px 0px 3px @buttons-manage-border inset, 0px 3px 8px -3px @buttons-manage-border-shadow, 0px 8px 7px -5px @buttons-manage-border-shadow inset;
-      text-shadow: 0px 0px 4px black;
+      .buttonAnimatedBottom(@chef-color-white, @chef-color-blue-bg);
+    }
+    &#cancel{
+      .button-brick;
+    }
+    &#update{
+      .button-green;
+    }
+    &#help{
+      .explain;
+      font-weight: bold;
+      padding: 10.5px 25px;
+      box-shadow: 0px -4px 0px darken(@chef-color-gray-bg, 25%) inset;
+
+      @media only screen and (max-width : 991px) {
+        padding: 10.5px 13.88888889px;
+      }
+       @media only screen and (max-width : 767px) {
+        padding: 7px 12px;
+      }
+      a {
+        color: darken(@chef-color-gray-bg, 25%);
+      }
+      &:active {
+        .buttonAnimatedBottom(@chef-color-white, @chef-color-gray-bg);
+      }
+      &:hover {
+        .buttonAnimatedBottom(@chef-color-white, @chef-color-gray-bg);
+      }
+    }
+    &#delete{
+      padding: 10.5px 20px;
+      .icon-chef-cross{
+        margin: 0;
+      }
+      box-shadow: 0px -4px 0px @chef-color-red-bg inset;
+      @media only screen and (max-width : 991px) {
+        padding: 10px 12px;
+      }
+       @media only screen and (max-width : 767px) {
+        padding: 7px 10px;
+      }
+
+       a {
+        color: @chef-color-red-bg;
+      }
+      &:active {
+        .buttonAnimatedBottom(@chef-color-white, @chef-color-red-bg);
+      }
+      &:hover {
+        .buttonAnimatedBottom(@chef-color-white, @chef-color-red-bg);
+      }
     }
   }
 }

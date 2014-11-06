@@ -80,7 +80,7 @@ include ../mixins/difficult-items
   .sixteen.wide.column
     h2.ui.header= __('Ingredients')
     .explain
-      .ui.content= __('In case that you don\'t have enough ingredients [...]')
+      .ui.content= __('Ingredients required')
 
     .ui.button.chef.button-green.shopping-add.hide-editable(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
       a.add(href="/acceso")= __('Add to shopping basket')
@@ -115,7 +115,7 @@ include ../mixins/difficult-items
     .column.hide-editable
       .ingredient
         .icon-chef-cesta-all.checks.all
-        .span= __('Select all')
+        .explain.span= __('Select all')
 
   .ingredients-manage.manage.sixteen.wide.column.show-editable
     .ingredient
