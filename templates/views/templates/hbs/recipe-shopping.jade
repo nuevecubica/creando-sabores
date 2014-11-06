@@ -1,29 +1,33 @@
 .row.position.thumbnail(data-slug="{{slug}}" , style = 'background-image: url({{thumb.shopping_list}})')
-	.five.wide.column.mobile-sixteen
-		.center.aligned
-			a(href="{{url}}")
-				h2.ui.header
-					| {{title}}
+  .five.wide.column.mobile-sixteen
+    .center.aligned
+      a(href="{{url}}")
+        h2.ui.header
+          | {{title}}
 
-	.ingredients.eleven.wide.column
-		#shopping-header.ui.grid
-			.ten.column.wide
-				em.row.remaining.font-large
-					span= __('Remaining ingredients before') + " "
-					span.counter {{ingredients.length}}
-					span= " " + __('Remaining ingredients after')
-			.six.wide.column
-				.ui.button.chef.button-brick.shopping-remove
-					i.icon-chef-cross.icon.chef.font-large
-				.ui.button.chef.button-yellow.shopping-print
-					i.icon-chef-impresora.icon.chef.font-large
-				.ui.button.chef.button-green.shopping-mail
-					i.icon-chef-mails.icon.chef.font-large
-		#shopping-ingredients.ui.grid
-			.sixteen.column.wide
-				.ui.three.mobile-one.tablet-two.column.grid
-					{{#each ingredients}}
-					.column.ingredient
-						.icon-chef-cesta.checks
-						| {{this}}
-					{{/each}}
+  .ingredients.eleven.wide.column
+    #shopping-header.ui.grid
+      .ten.column.wide
+        em.row.remaining.font-large
+          span= __('Remaining ingredients before') + " "
+          span.counter {{ingredients.length}}
+          span= " " + __('Remaining ingredients after')
+      .six.wide.column
+        .ui.button.chef.button-brick.shopping-remove
+          i.icon-chef-cross.icon.chef.font-large
+        .ui.button.chef.button-yellow.shopping-print
+          i.icon-chef-impresora.icon.chef.font-large
+        .ui.button.chef.button-green.shopping-mail
+          i.icon-chef-mails.icon.chef.font-large
+    #shopping-ingredients.ui.grid
+      .sixteen.column.wide
+        .ui.three.mobile-one.tablet-two.column.grid
+          {{#each ingredients}}
+          .column.ingredient
+            table
+              tr
+                td
+                  .icon-chef-cesta.checks
+                td
+                  | {{this}}
+          {{/each}}
