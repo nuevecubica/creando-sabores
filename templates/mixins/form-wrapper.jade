@@ -12,6 +12,10 @@ mixin form-wrapper(section, data)
     form#recipe-edit-form(action='/nueva-receta/save' method='POST' enctype='multipart/form-data')
       block content
 
+  else if section === 'new-menu'
+    form#menu-edit-form(action='/nuevo-menu/save' method='POST' enctype='multipart/form-data')
+      block content
+
   else if section === 'privateProfile'
 
     form#profile-remove-form(method="post" action="/perfil/remove")
@@ -31,3 +35,6 @@ mixin form-wrapper(section, data)
       input#hidden-about(type="hidden" name="about")
       input(type="hidden" name="_csrf" value="#{csrftoken}")
       block content
+
+  else
+    block content
