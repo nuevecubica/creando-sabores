@@ -99,7 +99,7 @@ exports = module.exports = function(app) {
   app.get('/menu/:menu', routes.views.menu);
   // -- Private
   // ---- New
-  //app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);
+  app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);
   app.post('/nuevo-menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.create);
   // ---- Edit
   app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
