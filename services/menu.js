@@ -71,10 +71,17 @@ var getMenu = function(options, callback) {
  * @return {null}
  */
 var changeState = function(options, state, callback) {
+
   service.menuList.get(options, function(err, menu) {
 
+    var states = {
+      publish: 'published',
+      draft: 'draft',
+      removed: 'removed'
+    };
+
     if (!err && menu) {
-      menu.state = state;
+      menu.state = states[state];
       menu.save(callback);
     }
     else {
@@ -93,6 +100,7 @@ var changeState = function(options, state, callback) {
  * @return {object}      Cleaned data object
  */
 var menuData = function(req, orig) {
+
   // Clean data
   var data = {};
   var prop, props = ['title', 'description', 'plates'];
@@ -179,15 +187,11 @@ var saveMenu = function(menu, options, callback) {
     fields: 'title,description,plates,author,media.header'
   });
 
-  var data = null;
+  // Data
+  var data = menuData(options.req, menu);
 
-  if (options.req.user !== null || options.req.body !== null) {
-    // Data
-    data = menuData(options.req, menu);
-
-    if (data === null) {
-      callback('Missing data');
-    }
+  if (data === null) {
+    return callback('Missing data');
   }
 
   // Save
