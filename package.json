@@ -36,7 +36,7 @@
     "keystone": "ignlg/keystone",
     "lodash": "^2.4.1",
     "moment": "^2.8.3",
-    "mongoosastic": "^2.0.1",
+    "mongoosastic": "ignlg/mongoosastic#suggest",
     "mongoose": "3.8.x",
     "multiline": "^1.0.1",
     "open": "^0.0.5",

@@ -110,8 +110,7 @@ Recipe.add({
       noedit: true,
       es_type: "completion",
       es_cast: function(val) {
-        console.warn('Cast for val:', val, this);
-        return val;
+        return this.title;
       }
     }
   },
