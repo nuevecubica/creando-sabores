@@ -118,7 +118,7 @@ User.add({
     type: Boolean,
     label: 'Confirmed',
     note: 'Has confirmed email address. Can publish.',
-    default: true
+    default: false
   },
   isChef: {
     type: Boolean,
