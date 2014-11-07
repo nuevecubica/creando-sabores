@@ -13,5 +13,11 @@ $(window).load(function() {
   else if (section === 'favoritas') {
     makePaginable('/api/v1/user/' + profile + '/favourites', 'recipes', 'recipe', '#recipes .list');
   }
+  else if (section === 'tips') {
+    makePaginable('/api/v1/user/' + profile + '/tips', 'tips', 'tip', '#tips .list');
+  }
+  else if (section === 'menus') {
+    makePaginable('/api/v1/user/' + profile + '/menus', 'menus', 'menu', '#menus .list');
+  }
 
 });

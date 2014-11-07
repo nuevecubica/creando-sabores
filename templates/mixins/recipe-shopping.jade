@@ -1,30 +1,34 @@
 mixin recipe-shopping(recipe)
-	.row.position.thumbnail(data-slug= recipe.slug , style = 'background-image: url(' + recipe.thumb.shopping_list + ')')
-		.five.wide.column.mobile-sixteen
-			.center.aligned
-				a(href=recipe.url)
-					h2.ui.header
-						!= recipe.title
+  .row.position.thumbnail(data-slug= recipe.slug , style = 'background-image: url(' + recipe.thumb.shopping_list + ')')
+    .five.wide.column.mobile-sixteen
+      .center.aligned
+        a(href=recipe.url)
+          h2.ui.header
+            != recipe.title
 
-		.ingredients.eleven.wide.column
-			#shopping-header.ui.grid
-				.eight.column.wide
-					em.row.remaining.font-large
-						span= __('Remaining ingredients before') + " "
-						span.counter= recipe.ingredients.length
-						span= " " + __('Remaining ingredients after')
-				.eight.wide.column
-					.ui.button.chef.button-brick.shopping-remove
-						i.icon-chef-cross.icon.chef.font-large
-					.ui.button.chef.button-yellow.shopping-print
-						i.icon-chef-impresora.icon.chef.font-large
-					.ui.button.chef.button-green.shopping-mail
-						i.icon-chef-mails.icon.chef.font-large
-			#shopping-ingredients.ui.grid
-				.sixteen.column.wide
-					.ui.three.mobile-one.tablet-two.column.grid
-						if recipe.ingredients
-							- for (var j = 0, l = recipe.ingredients.length; j < l; j++)
-								.column.ingredient
-									.icon-chef-cesta.checks
-									| #{recipe.ingredients[j]}
+    .ingredients.eleven.wide.column
+      #shopping-header.ui.grid
+        .eight.column.wide
+          em.row.remaining.font-large
+            span= __('Remaining ingredients before') + " "
+            span.counter= recipe.ingredients.length
+            span= " " + __('Remaining ingredients after')
+        .eight.wide.column
+          .ui.button.chef.button-brick.shopping-remove
+            i.icon-chef-cross.icon.chef.font-large
+          .ui.button.chef.button-yellow.shopping-print
+            i.icon-chef-impresora.icon.chef.font-large
+          .ui.button.chef.button-green.shopping-mail
+            i.icon-chef-mails.icon.chef.font-large
+      #shopping-ingredients.ui.grid
+        .sixteen.column.wide
+          .ui.three.mobile-one.tablet-two.column.grid
+            if recipe.ingredients
+              - for (var j = 0, l = recipe.ingredients.length; j < l; j++)
+                .column.ingredient
+                  table
+                    tr
+                      td
+                        .icon-chef-cesta.checks
+                      td
+                        | #{recipe.ingredients[j]}

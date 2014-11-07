@@ -167,6 +167,12 @@ $(document).ready(function() {
   else if (section === 'compra') {
     makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe-shopping', '#shopping .list');
   }
+  else if (section === 'tips') {
+    makePaginable('/api/v1/me/tips/favourites/list', 'tips', 'tip', '#tips .list');
+  }
+  else if (section === 'menus') {
+    makePaginable('/api/v1/me/menus', 'menus', 'menu', '#menus .list');
+  }
 
   $('.checks:not(.all)').on('click', function() {
     var $this = $(this);
