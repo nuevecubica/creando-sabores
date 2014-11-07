@@ -38,7 +38,7 @@ include ../mixins/difficult-items
                 else
                   i.icon-chef-tenedor.icon.on
                   - difficulty = difficulty - 1
-              .span= category
+              .span.explain= category
 
         .options
           +difficult-items(levels)
@@ -49,14 +49,14 @@ include ../mixins/difficult-items
         i.icon-chef-time.icon
 
         .editable-container
-          .set-editable(placeholder=__('Time'), data-tutorial-complete="editableTypedText")= data.recipe.time
-        .span= __('min')
+          .set-editable.explain(placeholder=__('Time'), data-tutorial-complete="editableTypedText")= data.recipe.time
+        .span.explain= __('min')
 
       #recipe-portions.portions(tabindex='3')
         i.icon-chef-porciones.icon
         .editable-container
-          .set-editable(placeholder=__('Portions'), data-tutorial-complete="editableTypedText")= data.recipe.portions
-        .span= __n('person','people',data.recipe.portions)
+          .set-editable.explain(placeholder=__('Portions'), data-tutorial-complete="editableTypedText")= data.recipe.portions
+        .span.explain= __n('person','people',data.recipe.portions)
 
       if (!data.contest)
         .rating.hide-editable
@@ -97,12 +97,16 @@ include ../mixins/difficult-items
         - var ingredients = data.recipe.ingredients
         - for (var j = 0, l = ingredients.length; j < l; j++)
           .column.ingredient
-            .icon-chef-cesta.checks.hide-editable
-            .editable-container
-              .explain.set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
-            .show-editable
-              .ingredient-remove
-                i.icon-chef-cross
+            table
+              tr
+                td
+                  .icon-chef-cesta.checks.hide-editable
+                td
+                  .editable-container
+                    .explain.set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
+                  .show-editable
+                    .ingredient-remove
+                      i.icon-chef-cross
 
       .column.ingredient.show-editable
           .icon-chef-cesta.checks.hide-editable
