@@ -7,13 +7,14 @@ var async = require('async'),
 exports = module.exports = function(req, res, next) {
   var slug = req.params.menu,
     state = 'removed',
-    back = '..';
+    back = '/';
 
   var options = {
     slug: slug
   };
 
   options.user = req.user;
+  options.states = ['draft', 'published', 'removed'];
 
   if (!req.user.isAdmin) {
     options.authorId = req.user._id;

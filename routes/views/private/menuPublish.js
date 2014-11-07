@@ -13,13 +13,14 @@ var menuPublish = function(req, res) {
   };
 
   options.user = req.user;
+  options.all = ['published', 'draft'];
 
   if (!req.user.isAdmin) {
     options.authorId = req.user._id;
   }
 
   service.menu.state(options, state, function(err, menu) {
-    if (err && !menu) {
+    if (err) {
       console.error('menuPublish:', err);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }

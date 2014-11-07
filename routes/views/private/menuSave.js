@@ -58,13 +58,13 @@ var menuNew = function(req, res) {
     var menu = new Menu.model();
 
     var options = {
-      user: req.user,
-      body: req.body,
+      req: req,
       fields: 'title,description,plates,author,media.header'
     };
 
     // Save
     service.menu.save(menu, options, function(err) {
+
       if (err) {
         console.error('menuNew:', err);
         return formResponse(req, res, back, (err || 'Error: Unknown error'), false);
