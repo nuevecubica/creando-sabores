@@ -39,8 +39,11 @@ module.exports = {
     description: {
       length: 400
     },
+<<<<<<< HEAD
     recipes: {
       length: 10
     }
+=======
+>>>>>>> 4faf950248e0df0f49651d799aca81de702ccb00
   }
 };
