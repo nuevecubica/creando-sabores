@@ -42,7 +42,7 @@ describe '(Private) Menu: Remove', ->
         if err
           return done err, res
         request
-          .get('/menu/test-menu-1')
+          .get('/menu/test-menu-published')
           .set('cookie', cookie)
           .expect(404)
           .end(done)

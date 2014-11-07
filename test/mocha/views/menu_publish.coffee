@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe.only '(Private) Menu: Publish & Draft', ->
+describe '(Private) Menu: Publish & Draft', ->
 
   before (done) ->
     this.timeout 10000
@@ -25,13 +25,14 @@ describe.only '(Private) Menu: Publish & Draft', ->
 
   describe 'call to /menu/:menu/draft', ->
     it 'changes a menu to draft', (done) ->
+      url = '/menu/test-menu-published/draft'
       request
-      .get('/menu/test-menu-published/draft')
+      .get(url)
       .set('cookie', cookie)
       .expect(302)
       .expect(
         (res) ->
-          if res.header['location'] isnt '/menu/test-menu-published/draft/..' or
+          if res.header['location'] isnt "#{url}/.." or
               res.header['api-response-success'] isnt 'Menu draft' or
               res.header['api-response-error'] isnt 'false'
             console.error res.header
