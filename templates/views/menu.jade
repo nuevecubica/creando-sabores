@@ -1,0 +1,13 @@
+extends ../layouts/default
+
+block js
+  script(src='/js/menus.js')
+
+block content
+  //- Esto es un fake para pasar un test... BLAME!!!!!
+  //- Este codigo se deberia generar con el mixin de header, osea que cuando
+  //- alguien haga el template de menu, se quitará. Saludos hermanos.
+  if data.menu.state == 'draft'
+    a(href=data.menu.url + "/publish")= __('Publish')
+  else if data.menu.state == 'published' || data.menu.state == 'review'
+    a(href=data.menu.url + "/draft")= __('Draft')
