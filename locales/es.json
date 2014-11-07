@@ -118,6 +118,10 @@
 	"Logout": "Salir",
 	"Make your question, Jesús Gibaja and network users solve your doubts.": "Haz tu consulta, Jesús Gibaja y la red de usuarios resolverán tus dudas",
 	"Menu": "Menú",
+	"Menu draft": "Menú guardado como borrador",
+	"Menu published": "Menú publicado",
+	"Menu removed": "Menú eliminado",
+	"Menu saved": "Menú guardado",
 	"Menus": "Menús",
 	"Message": "Mensaje",
 	"min (minutes)": "min (minutos)",
@@ -283,7 +287,5 @@
 	"Your password has been reset, please sign in.": "Ha cambiado su contraseña, debe acceder de nuevo.",
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
 	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, está seguro de querer dejar de recibir noticias?",
-	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?",
-	"Menu draft": "Menu draft",
-	"Menu undefined": "Menu undefined"
+	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?"
 }
