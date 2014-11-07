@@ -146,12 +146,11 @@
   }
 
   .explain {
-    margin-bottom: 20px;
 
   }
 
   #info {
-    padding-top: 10px;
+    padding: 10px 0;
     @media screen and (max-width: 767px) {
       span{
         display: none;
@@ -159,6 +158,7 @@
     }
 
     .recipe-attributes > div {
+      font-weight: normal;
       display: inline-block;
       margin: 0 6px;
       outline: none;
@@ -201,6 +201,7 @@
     }
   }
   .shopping-add{
+    margin-top: 10px;
     .added{
       display: none;
     }
@@ -220,8 +221,12 @@
     padding-bottom: 20px;
 
     .ingredient {
+      table{
+        margin-bottom: 8px;
+      }
       .font-large;
         .icon-chef-cesta-all{
+          margin-left: 3px;
           &+.span{
           }
         }
@@ -232,20 +237,17 @@
       position: relative;
 
       .checks {
-        position: absolute;
-        top: 0;
+
         user-select: none;
       }
 
       .editable-container, .span {
         transition: all @ani-time ease-in;
-        margin-left: 48px;
-        display: block;
+        display: inline-block;
 
         .set-editable {
           line-height: 1.2em;
-          padding-top: 10px;
-          padding-bottom: 10px;
+
         }
       }
 
