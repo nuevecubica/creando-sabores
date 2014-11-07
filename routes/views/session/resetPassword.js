@@ -40,7 +40,7 @@ exports = module.exports = function(req, res) {
     locals.found.resetPasswordToken = '';
     locals.found.save(function(err) {
       if (err) {
-        console.error('Error in locals.found.save: %s', err);
+        logger.error('Error in locals.found.save: %s', err);
         return formResponse(req, res, next, "Error: Unknown error", false);
       }
       else {

@@ -101,7 +101,7 @@ var recipeEdit = function(req, res) {
   // Get
   service.recipe.recipe.get(options, function(err, result) {
     if (err) {
-      console.error('recipeEdit:', err);
+      logger.error('recipeEdit:', err);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }
     else if (result) {
@@ -125,7 +125,7 @@ var recipeEdit = function(req, res) {
         fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
       }, function(err) {
         if (err) {
-          console.error('recipeEdit:', err);
+          logger.error('recipeEdit:', err);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {
@@ -171,7 +171,7 @@ var recipeNew = function(req, res) {
         },
         function(err) {
           if (err) {
-            console.error('recipeNew:', err);
+            logger.error('recipeNew:', err);
             return formResponse(req, res, back, 'Error: Unknown error', false);
           }
           else {

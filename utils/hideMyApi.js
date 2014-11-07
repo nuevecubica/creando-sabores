@@ -9,7 +9,7 @@ var _ = require('underscore');
  */
 var deepAddField = function(source, fields, _dest) {
   var field = fields.shift();
-  // console.log('iterate field', field, fields, _dest[field] || null);
+  // logger.log('iterate field', field, fields, _dest[field] || null);
   var _new = _dest || {};
   if (!_.isObject(source)) {
     return source;

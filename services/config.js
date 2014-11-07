@@ -46,7 +46,7 @@ var getConfigs = function(options, callback) {
           });
         }
         else {
-          console.warn('No default config for %s', cfg);
+          logger.warn('No default config for %s', cfg);
         }
       });
     }

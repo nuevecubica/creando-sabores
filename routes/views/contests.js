@@ -45,7 +45,7 @@ exports = module.exports = function(req, res) {
               callback(err);
             }
             else {
-              console.error('Error: Query last contests', err);
+              logger.error('Error: Query last contests', err);
               return res.notfound(res.__('Not found'));
             }
           });
@@ -53,7 +53,7 @@ exports = module.exports = function(req, res) {
       ],
       function(err, results) {
         if (err) {
-          console.error('Error: Query contests', err);
+          logger.error('Error: Query contests', err);
           return res.notfound(res.__('Not found'));
         }
         next(err);

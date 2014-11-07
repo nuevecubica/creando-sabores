@@ -28,8 +28,8 @@ exports = module.exports = function(req, res) {
       }
       user.resetPassword(function(err) {
         if (err) {
-          console.error('===== ERROR sending reset password email =====');
-          console.error(err);
+          logger.error('===== ERROR sending reset password email =====');
+          logger.error(err);
           return formResponse(req, res, next, 'Error sending reset password email.', false);
         }
         else {

@@ -121,11 +121,11 @@ function createTip(tip, done) {
   var newTip = new Tips.model(tip);
   newTip.save(function(err, tip) {
     if (err) {
-      console.error("Error adding tip \"" + tip.title + "\" to the database:");
-      console.error(err);
+      logger.error("Error adding tip \"" + tip.title + "\" to the database:");
+      logger.error(err);
     }
     else {
-      console.log("Added tip \"" + tip.title + "\" to the database.");
+      logger.log("Added tip \"" + tip.title + "\" to the database.");
     }
     done(err, tip);
   });
@@ -142,7 +142,7 @@ exports = module.exports = function(req, res) {
       if (doc) {
         author = doc;
         // tips next
-        console.log('Creating tips...');
+        logger.info('Creating tips...');
         async.forEach(tips, createTip, function(err) {
           if (err) {
             answer.error = true;

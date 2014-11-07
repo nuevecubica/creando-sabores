@@ -17,7 +17,7 @@ var testMode = function(keystone) {
         source.find().toArray(function cb(err, elems) {
           if (!err && elems) {
             async.eachSeries(elems, function insertElement(elem, next) {
-              // console.log('Inserting %s in %s', elem._id, orig);
+              // logger.log('Inserting %s in %s', elem._id, orig);
               dest.insert(elem, function cb(err, reply) {
                 next(err);
               });
@@ -41,14 +41,14 @@ var testMode = function(keystone) {
   resp.revertDatabase = function(end) {
     keystone.mongoose.connection.db.collections(function getCollections(err, collections) {
       if (!err) {
-        // console.log('Collections', collections.length);
+        // logger.log('Collections', collections.length);
         async.each(collections, function each(source, next) {
           var sourceName = source.collectionName;
           var destName = sourceName.substr(0, sourceName.length - 5);
           if (sourceName === destName + '_orig') {
             keystone.mongoose.connection.db.collection(destName, function getCollection(err, dest) {
               if (!err) {
-                // console.log('Restoring %s', name);
+                // logger.log('Restoring %s', name);
                 copyCollection(source, dest, next);
               }
               else {
@@ -74,7 +74,7 @@ var testMode = function(keystone) {
     var data = {};
     keystone.mongoose.connection.db.collections(function getCollections(err, collections) {
       if (!err) {
-        // console.log('Collections', collections.length);
+        // logger.log('Collections', collections.length);
         async.each(collections, function each(source, next) {
           var sourceName = source.collectionName;
           if (sourceName.indexOf('_orig') === -1) {

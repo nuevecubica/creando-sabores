@@ -12,6 +12,7 @@
   "undef": true,
   "eqnull": true,
   "predef": [
-    "__base"
+    "__base",
+    "logger"
   ]
 }

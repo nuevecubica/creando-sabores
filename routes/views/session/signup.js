@@ -154,7 +154,7 @@ exports = module.exports = function(req, res) {
         return formResponse(req, res, userHome, false, 'Registered successfully. Please, check your email and follow the instructions in your email.');
       };
       var onFail = function(e) {
-        console.error('SIGNIN: Fail after register');
+        logger.error('SIGNIN: Fail after register');
         return formResponse(req, res, next, 'Error signing in. Check your email for further instructions.', false);
       };
       keystone.session.signin({
@@ -188,7 +188,7 @@ exports = module.exports = function(req, res) {
       };
       var onFail = function(e) {
         // Duplicated
-        console.error('LOGIN: Login failed');
+        logger.log('LOGIN: Login failed');
 
         keystone.list('User').model.findOne({
           email: req.body.login_email
@@ -226,7 +226,7 @@ exports = module.exports = function(req, res) {
     }
     else {
       // Missing data
-      console.error('LOGIN: Invalid data');
+      logger.log('LOGIN: Invalid data');
 
       locals.errors.form = res.__('Invalid credentials');
       locals.errors.fields.email = !req.body.login_email ? res.__('Invalid credentials') : false;

@@ -16,11 +16,11 @@ function createAdmin(admin, done) {
   newAdmin.isAdmin = true;
   newAdmin.save(function(err) {
     if (err) {
-      console.error("Error adding admin " + admin.email + " to the database:");
-      console.error(err);
+      logger.error("Error adding admin " + admin.email + " to the database:");
+      logger.error(err);
     }
     else {
-      console.log("Added admin " + admin.email + " to the database.");
+      logger.log("Added admin " + admin.email + " to the database.");
     }
     done();
   });

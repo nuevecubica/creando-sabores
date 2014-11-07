@@ -27,7 +27,7 @@ var recipePublish = function(req, res) {
 
   // Data
   if (actions.indexOf(req.params.state) === -1) {
-    console.error('recipePublish: Error for unknown action %s', req.params.state);
+    logger.error('recipePublish: Error for unknown action %s', req.params.state);
     return formResponse(req, res, back, 'Error: Unknown error', false);
   }
   else {
@@ -38,7 +38,7 @@ var recipePublish = function(req, res) {
   // Get
   service.recipe.recipe.get(options, function(err, result) {
     if (err) {
-      console.error('recipePublish:', err, options);
+      logger.error('recipePublish:', err, options);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }
     else if (result) {
@@ -54,7 +54,7 @@ var recipePublish = function(req, res) {
         fields: fields
       }, function(err) {
         if (err) {
-          console.error('recipePublish:', err);
+          logger.error('recipePublish:', err);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {

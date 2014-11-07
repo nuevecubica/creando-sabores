@@ -19,7 +19,7 @@ var credentials = {
 // Authenticate User
 exports.authenticateUser = function(req, res, next, callback) {
   // Begin process
-  console.log('[social.google] - Triggered authentication process');
+  logger.log('[social.google] - Triggered authentication process');
 
   // Set placeholder variables to hold our data
   var data = {
@@ -43,12 +43,12 @@ exports.authenticateUser = function(req, res, next, callback) {
 
     data.googleUser = googleUser;
 
-    console.log('[social.google] - No user signed in, attempting to match via email');
+    logger.log('[social.google] - No user signed in, attempting to match via email');
 
     var email = data.googleUser.profile.emails;
 
     if (!email.length) {
-      console.log('[social.google] - No email address detected, creating new user');
+      logger.log('[social.google] - No email address detected, creating new user');
 
       return createUser();
     }
@@ -62,7 +62,7 @@ exports.authenticateUser = function(req, res, next, callback) {
           return callback(false);
         }
 
-        console.log('[social.google] - No matching user found via social id, attempting to match via email');
+        logger.log('[social.google] - No matching user found via social id, attempting to match via email');
 
         User.model.findOne({
           'email': _.first(data.googleUser.profile.emails).value
@@ -72,11 +72,11 @@ exports.authenticateUser = function(req, res, next, callback) {
               return callback(false);
             }
 
-            console.log('[social.google] - No matching user found via email, creating new user');
+            logger.log('[social.google] - No matching user found via email, creating new user');
             return createUser();
           }
           else {
-            console.log('[social.google] - Matched user via email, updating user');
+            logger.log('[social.google] - Matched user via email, updating user');
 
             data.user = user;
 
@@ -85,7 +85,7 @@ exports.authenticateUser = function(req, res, next, callback) {
         });
       }
       else {
-        console.log('[social.google] - Matched user via email, updating user');
+        logger.log('[social.google] - Matched user via email, updating user');
         data.user = user;
 
         return signinUser();
@@ -96,7 +96,7 @@ exports.authenticateUser = function(req, res, next, callback) {
   // Function to create user
   var createUser = function() {
 
-    console.log('[social.google] - Creating user');
+    logger.log('[social.google] - Creating user');
 
     // Define data
     var email = data.googleUser.profile.emails;
@@ -118,12 +118,12 @@ exports.authenticateUser = function(req, res, next, callback) {
       }
     };
 
-    console.log('[social.google] - user create data:', userData);
+    logger.log('[social.google] - user create data:', userData);
 
     // Create user
     data.user = new User.model(userData);
 
-    console.log('[social.google] - Created new instance of user');
+    logger.log('[social.google] - Created new instance of user');
 
     return saveUser();
   };
@@ -131,7 +131,7 @@ exports.authenticateUser = function(req, res, next, callback) {
   var saveUser = function() {
 
     // Save the user data
-    console.log('[social.google] - Saving user');
+    logger.log('[social.google] - Saving user');
 
     var userData = {
       social: {
@@ -143,19 +143,19 @@ exports.authenticateUser = function(req, res, next, callback) {
       }
     };
 
-    console.log('[social.google] - user update data:', userData);
+    logger.log('[social.google] - user update data:', userData);
 
     data.user.set(userData);
 
     data.user.save(function(err) {
 
       if (err) {
-        console.log(err);
-        console.log("[social.google] - Error saving user");
+        logger.log(err);
+        logger.log("[social.google] - Error saving user");
         return callback(err);
       }
       else {
-        console.log("[social.google] - Saved user");
+        logger.log("[social.google] - Saved user");
 
         if (req.user) {
           return callback();
@@ -170,15 +170,15 @@ exports.authenticateUser = function(req, res, next, callback) {
   // Function to sign user
   var signinUser = function() {
 
-    console.log('[social.google] - Signing user');
+    logger.log('[social.google] - Signing user');
 
     var onSuccess = function(user) {
-      console.log("[social.google] - Successfully signed");
+      logger.log("[social.google] - Successfully signed");
       return callback();
     };
 
     var onFail = function(err) {
-      console.log("[social.google] - Failed signing in");
+      logger.log("[social.google] - Failed signing in");
       return callback(true);
     };
 
@@ -190,25 +190,25 @@ exports.authenticateUser = function(req, res, next, callback) {
   // First time, in authenticate flow we call to google request access
   // if request has code params, means callback flow.
   if (_.has(req.query, 'code')) {
-    console.log('[social.google] - Callback workflow detected, attempting to process data');
+    logger.log('[social.google] - Callback workflow detected, attempting to process data');
 
     passport.authenticate('google', {
 
     }, function(err, data, info) {
 
       if (err || !data) {
-        console.log("[social.google] - Error retrieving Google account data - " + JSON.stringify(err));
+        logger.log("[social.google] - Error retrieving Google account data - " + JSON.stringify(err));
         return callback(true);
       }
 
-      console.log('[social.google] - Successfully retrieved Google account data, processing');
+      logger.log('[social.google] - Successfully retrieved Google account data, processing');
 
       return processGUser(data);
 
     })(req, res, next);
   }
   else {
-    console.log('[social.google] - Authentication workflow detected, attempting to request access');
+    logger.log('[social.google] - Authentication workflow detected, attempting to request access');
 
     passport.authenticate('google', {
       scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
