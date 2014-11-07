@@ -60,6 +60,7 @@ Recipe.add({
       type: Types.Relationship,
       ref: 'User',
       initial: true,
+      required: true,
       index: true,
       es_type: "objectid"
     },
@@ -67,6 +68,7 @@ Recipe.add({
     isOfficial: {
       type: Types.Boolean,
       hidden: true,
+      default: false,
       es_type: "boolean"
     },
 
@@ -118,6 +120,7 @@ Recipe.add({
       dependsOn: {
         'isVideorecipe': true
       },
+      default: '',
       es_type: "string"
     }
   },
@@ -199,6 +202,7 @@ Recipe.add({
       type: Types.Html,
       wysiwyg: true,
       height: 100,
+      default: '',
       es_boost: 4,
       es_type: "string"
     },
@@ -207,6 +211,7 @@ Recipe.add({
       type: Types.Html,
       wysiwyg: true,
       height: 50,
+      default: '',
       es_boost: 2,
       es_type: "string"
     },
@@ -215,6 +220,7 @@ Recipe.add({
       type: Types.Html,
       wysiwyg: true,
       height: 200,
+      default: '',
       es_boost: 1,
       es_type: "string"
     }

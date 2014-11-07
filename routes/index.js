@@ -182,6 +182,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/tips/:type(recent)?', routes.api.v1.tip.tips.recent);
   app.get('/api/v1/tips/popular', routes.api.v1.tip.tips.popular);
   //-- Admin
+  app.get('/api/v1/admin/stats', middleware.requireAdminApi, routes.api.v1.admin.stats);
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/tips', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTips);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
