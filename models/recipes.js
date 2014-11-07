@@ -103,6 +103,16 @@ Recipe.add({
       type: Types.Number,
       noedit: true,
       default: process.env.RECIPES_SCHEMA_VERSION
+    },
+
+    suggest: {
+      type: Types.Text,
+      noedit: true,
+      es_type: "completion",
+      es_cast: function(val) {
+        console.warn('Cast for val:', val, this);
+        return val;
+      }
     }
   },
 
