@@ -20,7 +20,7 @@ var safe = {
   tip: ['url', 'slug', 'title', 'tip', 'thumb'],
   menu: [
     'title', 'slug', 'description', 'state', 'publishedDate',
-    'url', 'thumb'
+    'url', 'thumb', 'classes'
   ]
 };
 
