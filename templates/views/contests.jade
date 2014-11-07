@@ -18,7 +18,7 @@ block content
         #info.eight.tablet-eight.mobile-sixteen.wide.column
           .status
             .status-tag(class=data.current.state)
-              - var date = data.current.formattedDeadline
+              - var date = data.current.formattedDate
               - var states = { programmed: __('Programmed {{{date}}}', { date: date }), submission: __('Submission {{{date}}}', { date: date }), votes: __('Votes {{{date}}}', { date: date }), closed: __('Closed deliberation') }
               .explain= states[data.current.state]
 

@@ -23,12 +23,19 @@ exports = module.exports = function(req, res) {
 
         function(callback) {
           service.contestList.get({
-            state: ['programmed', 'submission', 'votes'],
+            states: ['programmed', 'submission', 'votes'],
             one: true
           }, function(err, contest) {
             if (!err && contest) {
               locals.data.current = contest;
-              locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
+              var date = contest.programmedDate;
+              if (contest.state === 'submission') {
+                date = contest.submissionDeadline;
+              }
+              else if (contest.state === 'votes') {
+                date = contest.deadline;
+              }
+              locals.data.current.formattedDate = moment(date).format('L');
             }
             callback(err);
           });
