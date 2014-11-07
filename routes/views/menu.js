@@ -35,7 +35,7 @@ exports = module.exports = function(req, res) {
   var options = {
     slug: locals.filters.menu,
     user: req.user,
-    states: ['published', 'draft']
+    states: ['published', 'draft', 'removed']
   };
 
   // load recipe
@@ -44,11 +44,9 @@ exports = module.exports = function(req, res) {
     service.menu.get(options, function(err, result) {
       if (!err && result) {
 
-
         locals.data = result;
         locals.own = result.own;
         locals.title = result.menu.title + ' - Menú';
-
 
         service.menuList.related({
           menuId: result.menu._id
@@ -66,5 +64,5 @@ exports = module.exports = function(req, res) {
   });
 
   // Render the view
-  view.render('search');
+  view.render('menu');
 };
