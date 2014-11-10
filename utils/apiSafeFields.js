@@ -15,7 +15,7 @@ var safe = {
     'url', 'slug', 'title', 'description', 'title', 'sponsor',
     'ingredientRequired', 'submissionDeadline', 'terms',
     'state', 'thumb', 'type', 'classes', 'awards.jury.winner',
-    'awards.community.winner'
+    'awards.community.winner', 'awards.community.name', 'awards.jury.name'
   ],
   tip: ['url', 'slug', 'title', 'tip', 'thumb'],
   menu: [
