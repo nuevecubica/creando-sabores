@@ -1,9 +1,79 @@
+@menu-color-border: @chef-color-gray-bg;
+@menu-color-plate: @chef-color-brick-bg;
+
+/****************
+  MENUS
+****************/
+
 #menus{
-	.menu{
+  .menu{
     .header{
         margin: 23px 0 5px;
       }
-		.content{
-		}
-	}
+    .content{
+    }
+  }
+}
+
+
+/****************
+  MENU
+****************/
+#menu-recipes{
+  border-top:1px solid @menu-color-border;
+  margin-top: 20px;
+  padding-top: 5px;
+  .list.ui.stackable.grid{
+    > .row:nth-child(odd){
+      // background-color: @chef-color-lighter-bg;
+    }
+    .eleven.wide.column{
+      position: relative;
+      .span.explain{
+        text-transform: uppercase;
+        color: @menu-color-plate;
+        font-weight: bold;
+        margin-top: 6px;
+      }
+      .header{
+        margin: 0;
+        padding: 5px 0 0;
+        font-family: @pinto-fonts;
+      }
+      .content{
+        height: 110px;
+        .font-large;
+        // line-height: 1.15em;
+        margin: 5px 0 0;
+        @media only screen and (max-width: 767px) {
+          margin: 5px 0 15px;
+        }
+        p{
+          margin: 0px;
+        }
+        &:after{
+          top: 80px;
+        }
+      }
+      .rating{
+        position: absolute;
+        right: 10px;
+        top: 5px;
+
+        @media only screen and (max-width: 991px) {
+          top:3px;
+        }
+        @media only screen and (max-width: 767px) {
+          top:-10px;
+          .icon i:before{
+            margin-right:0;
+            .font-small;
+          }
+          .strong{
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }

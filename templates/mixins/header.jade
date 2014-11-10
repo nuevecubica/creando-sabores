@@ -552,3 +552,29 @@ mixin header(data, section)
 										a.span(href="#{promotedUrl}")= promotedTitle
 								.tabla3
 									.ui.image
+
+	else if section === 'menu'
+		- var title = data.menu ? data.menu.title : ''
+		- var image = data.menu ? data.menu.thumb.header : defaults.images.menus
+		- var author = data.menu ? ( data.menu.author.name || data.menu.author.username) : __('Unknown author')
+		- var authorUrl = data.menu ? data.menu.author.url : '/'
+
+		#menus-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#menu-title.shadow= title
+
+				.row.section.subtitle
+					a.author.shadow(href="#{authorUrl}")= author
+				.row
+					.four.wide.column.computer.only.social
+						.corner-position.left
+							|#{__('Share this menu')}
+							+header-share()

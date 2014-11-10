@@ -35,7 +35,8 @@ exports = module.exports = function(req, res) {
   var options = {
     slug: locals.filters.menu,
     user: req.user,
-    states: ['published', 'draft', 'removed']
+    states: ['published', 'draft', 'removed'],
+    populate: ['plates', 'author']
   };
 
   // load recipe
@@ -60,7 +61,6 @@ exports = module.exports = function(req, res) {
         return res.notfound(res.__('Not found'));
       }
     });
-
   });
 
   // Render the view
