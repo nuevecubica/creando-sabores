@@ -9,7 +9,7 @@ request = require('supertest') config.keystone.publicUrl
 cookie = null
 cookie2 = null
 
-describe.skip 'API v1: /menus', ->
+describe 'API v1: /menus', ->
 
   before (done) ->
     this.timeout 10000

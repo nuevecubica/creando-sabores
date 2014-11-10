@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe.skip '(Private) Menu: Publish & Draft', ->
+describe '(Private) Menu: Publish & Draft', ->
 
   before (done) ->
     this.timeout 10000
