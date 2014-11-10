@@ -7,7 +7,7 @@ utils = require __dirname + '/../utils.js'
 request = require('supertest') config.keystone.publicUrl
 cookie = null
 
-describe '(Private) Menu: Remove', ->
+describe.skip '(Private) Menu: Remove', ->
 
   before (done) ->
     this.timeout 10000

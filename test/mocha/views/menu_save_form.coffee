@@ -28,7 +28,7 @@ newMenus = {
   }
 }
 
-describe.only '(Private) Menu: Save', ->
+describe.skip '(Private) Menu: Save', ->
 
   before (done) ->
     this.timeout 10000

@@ -1,6 +1,11 @@
 mixin form-wrapper(section, data)
 
   if section === 'recipe' && data.recipe
+    form#recipe-draft-form(action=data.recipe.url + '/draft' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
+
+    form#recipe-publish-form(action=data.recipe.url + '/publish' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
 
     form#recipe-remove-form(action=data.recipe.url + '/remove' method='POST' enctype='multipart/form-data')
       input(type='hidden' name='_csrf' value='#{csrftoken}')
