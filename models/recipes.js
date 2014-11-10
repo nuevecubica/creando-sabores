@@ -103,6 +103,15 @@ Recipe.add({
       type: Types.Number,
       noedit: true,
       default: process.env.RECIPES_SCHEMA_VERSION
+    },
+
+    suggest: {
+      type: Types.Text,
+      noedit: true,
+      es_type: "completion",
+      es_cast: function(val) {
+        return this.title;
+      }
     }
   },
 
@@ -477,3 +486,9 @@ Recipe.schema.plugin(mongoosastic, {
   log: config.elasticsearch.log
 });
 Recipe.register();
+
+Recipe.model.createMapping(function(err, mapping) {
+  if (err) {
+    console.warn(err);
+  }
+});
