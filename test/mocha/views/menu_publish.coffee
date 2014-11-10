@@ -27,7 +27,7 @@ describe '(Private) Menu: Publish & Draft', ->
     it 'changes a menu to draft', (done) ->
       url = '/menu/test-menu-published/draft'
       request
-      .get(url)
+      .post(url)
       .set('cookie', cookie)
       .expect(302)
       .expect(
@@ -45,7 +45,6 @@ describe '(Private) Menu: Publish & Draft', ->
           .get('/menu/test-menu-published')
           .set('cookie', cookie)
           .expect(200)
-          .expect(/\/menu\/test-menu-published\/publish/)
           .expect(/Publicar/)
           .end(done)
 
@@ -53,7 +52,7 @@ describe '(Private) Menu: Publish & Draft', ->
     it 'changes a menu to published', (done) ->
       url = '/menu/test-menu-draft/publish'
       request
-      .get(url)
+      .post(url)
       .set('cookie', cookie)
       .expect(302)
       .expect(
@@ -71,6 +70,5 @@ describe '(Private) Menu: Publish & Draft', ->
           .get('/menu/test-menu-draft')
           .set('cookie', cookie)
           .expect(200)
-          .expect(/\/menu\/test-menu-draft\/draft/)
           .expect(/Borrador/)
           .end(done)

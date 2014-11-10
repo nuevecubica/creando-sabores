@@ -26,7 +26,7 @@ describe '(Private) Recipe: Publish & Draft', ->
   describe 'call to /receta/:recipe/draft', ->
     it 'changes a recipe to draft', (done) ->
       request
-      .get('/receta/test-recipe-1/draft')
+      .post('/receta/test-recipe-1/draft')
       .set('cookie', cookie)
       .expect(302)
       .expect(
@@ -50,7 +50,7 @@ describe '(Private) Recipe: Publish & Draft', ->
 
     it 'changes a contest recipe to draft', (done) ->
       request
-      .get('/receta/test-contest-recipe-liked/draft')
+      .post('/receta/test-contest-recipe-liked/draft')
       .set('cookie', cookie)
       .expect(302)
       .expect(
@@ -69,7 +69,6 @@ describe '(Private) Recipe: Publish & Draft', ->
           .get('/receta/test-contest-recipe-liked')
           .set('cookie', cookie)
           .expect(200)
-          .expect(/\/receta\/test-contest-recipe-liked\/publish/)
           .expect(/Publicar/)
           .end(done)
 
@@ -77,7 +76,7 @@ describe '(Private) Recipe: Publish & Draft', ->
     it 'changes a recipe to published', (done) ->
       url = '/receta/test-recipe-unpublished/publish'
       request
-      .get(url)
+      .post(url)
       .set('cookie', cookie)
       .expect(302)
       .expect(
@@ -95,13 +94,12 @@ describe '(Private) Recipe: Publish & Draft', ->
           .get('/receta/test-recipe-unpublished')
           .set('cookie', cookie)
           .expect(200)
-          .expect(/\/receta\/test-recipe-unpublished\/draft/)
           .expect(/Borrador/)
           .end(done)
 
     it 'changes a contest recipe to review', (done) ->
       request
-      .get('/receta/test-contest-recipe-liked/draft')
+      .post('/receta/test-contest-recipe-liked/draft')
       .set('cookie', cookie)
       .expect(302)
       .expect(
@@ -118,7 +116,7 @@ describe '(Private) Recipe: Publish & Draft', ->
 
         url = '/receta/test-contest-recipe-liked/publish'
         request
-        .get(url)
+        .post(url)
         .set('cookie', cookie)
         .expect(302)
         .expect(

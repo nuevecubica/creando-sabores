@@ -377,8 +377,16 @@
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
       },
+      onButtonDraftClick: function(ev) {
+        $('#recipe-draft-form').submit();
+      },
+      onButtonPublishClick: function(ev) {
+        $('#recipe-publish-form').submit();
+      },
       onButtonDeleteClick: function(ev) {
-        $('#recipe-remove-form').submit();
+        if (confirm('¿Está seguro de que desea ELIMINAR esta receta?')) {
+          $('#recipe-remove-form').submit();
+        }
       },
       onButtonUpdateClick: function(ev) {
         $('body').removeClass('mode-editable');
@@ -443,6 +451,9 @@
         food.toggle(index);
       }
     };
+
+    $('#draft.button-manage').on('click', events.onButtonDraftClick);
+    $('#publish.button-manage').on('click', events.onButtonPublishClick);
 
     $('#edit.button-manage').on('click', events.onButtonEditClick);
     $('#cancel.button-manage').on('click', events.onButtonCancelClick);

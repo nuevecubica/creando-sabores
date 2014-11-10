@@ -85,7 +85,7 @@ exports = module.exports = function(app) {
   // ---- Edit
   app.post('/receta/:recipe/save', middleware.requireConfirmed, routes.views['private'].recipeSave.edit);
   app.post('/receta/:recipe/remove', middleware.requireConfirmed, routes.views['private'].recipeRemove);
-  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].recipePublish);
+  app.post('/receta/:recipe/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].recipePublish);
 
   // Contests
   // -- Public
@@ -104,7 +104,7 @@ exports = module.exports = function(app) {
   // ---- Edit
   app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
   app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
-  app.get('/menu/:menu/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].menuPublish);
+  app.post('/menu/:menu/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].menuPublish);
 
   // Questions
   // -- Public
