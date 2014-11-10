@@ -378,7 +378,9 @@
         $('.set-editable').attr('contenteditable', false);
       },
       onButtonDeleteClick: function(ev) {
-        $('#recipe-remove-form').submit();
+        if (confirm('¿Está seguro de que desea ELIMINAR esta receta?')) {
+          $('#recipe-remove-form').submit();
+        }
       },
       onButtonUpdateClick: function(ev) {
         $('body').removeClass('mode-editable');
