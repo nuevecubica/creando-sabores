@@ -6,7 +6,7 @@
           | {{title}}
 
   .ingredients.eleven.wide.column
-    #shopping-header.ui.grid
+    .shopping-header.ui.grid
       .ten.column.wide
         em.row.remaining.font-large
           span= __('Remaining ingredients before') + " "
@@ -19,7 +19,7 @@
           i.icon-chef-impresora.icon.chef.font-large
         .ui.button.chef.button-green.shopping-mail
           i.icon-chef-mails.icon.chef.font-large
-    #shopping-ingredients.ui.grid
+    .shopping-ingredients.ui.grid
       .sixteen.column.wide
         .ui.three.mobile-one.tablet-two.column.grid
           {{#each ingredients}}

@@ -209,4 +209,51 @@ $(document).ready(function() {
     $('.shopping-remove').click(removeClick);
   });
 
+  /* global Handlebars */
+  $('.shopping-print').on('click', function() {
+    var row = $(this).closest('.row.position');
+
+    if ($('#print-this')) {
+      $('#print-this').remove();
+    }
+
+    var item = {
+      title: row.find('.ui.header').text(),
+      text: 'Ingredientes',
+      ingredients: row.find('.shopping-ingredients').html()
+    };
+
+    $.get('/templates/hbs/print-shopping-list.hbs').then(function(src) {
+      var tpl = Handlebars.compile(src);
+      console.log('TPL', tpl(item));
+      $('body').append(tpl(item));
+
+      window.print();
+    });
+  });
+
+  $('.shopping-mail').on('click', function() {
+    console.log('MAIL');
+
+    var url = '/api/v1/me/shopping/send';
+
+    var item = {
+      title: row.find('.ui.header').text(),
+      text: 'Ingredientes',
+      ingredients: row.find('.shopping-ingredients').html()
+    };
+
+    var jQXhr = $.ajax({
+      url: url,
+      type: 'POST',
+      data: item,
+      contentType: 'application/json',
+      success: function(data) {
+        if (!data.success) {
+          console.log('NO ENVIADO');
+        }
+        console.log('ENVIADO');
+      }
+    });
+  });
 });

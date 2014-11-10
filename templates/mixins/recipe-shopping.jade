@@ -7,7 +7,7 @@ mixin recipe-shopping(recipe)
             != recipe.title
 
     .ingredients.eleven.wide.column
-      #shopping-header.ui.grid
+      .shopping-header.ui.grid
         .eight.column.wide
           em.row.remaining.font-large
             span= __('Remaining ingredients before') + " "
@@ -16,11 +16,11 @@ mixin recipe-shopping(recipe)
         .eight.wide.column
           .ui.button.chef.button-brick.shopping-remove
             i.icon-chef-cross.icon.chef.font-large
-          .ui.button.chef.button-yellow.shopping-print
+          .shopping-print.ui.button.chef.button-yellow.shopping-print
             i.icon-chef-impresora.icon.chef.font-large
-          .ui.button.chef.button-green.shopping-mail
+          .shopping-mail.ui.button.chef.button-green.shopping-mail
             i.icon-chef-mails.icon.chef.font-large
-      #shopping-ingredients.ui.grid
+      .shopping-ingredients.ui.grid
         .sixteen.column.wide
           .ui.three.mobile-one.tablet-two.column.grid
             if recipe.ingredients
@@ -30,5 +30,4 @@ mixin recipe-shopping(recipe)
                     tr
                       td
                         .icon-chef-cesta.checks
-                      td
-                        | #{recipe.ingredients[j]}
+                      td #{recipe.ingredients[j]}
