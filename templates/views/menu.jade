@@ -1,13 +1,38 @@
 extends ../layouts/default
 
+include ../mixins/header
+
+include ../mixins/menu-recipe
+
 block js
   script(src='/js/menus.js')
 
+
 block content
-  //- Esto es un fake para pasar un test... BLAME!!!!!
-  //- Este codigo se deberia generar con el mixin de header, osea que cuando
-  //- alguien haga el template de menu, se quitará. Saludos hermanos.
-  if data.menu.state == 'draft'
-    a(href=data.menu.url + "/publish")= __('Publish')
-  else if data.menu.state == 'published' || data.menu.state == 'review'
-    a(href=data.menu.url + "/draft")= __('Draft')
+
+  +header(data, section)
+
+  #menu-content.ui.page.grid
+    .row
+      #info.nine.wide.column
+
+      //- #actions.seven.wide.column
+      //-   .recipe-actions
+      //-     .favourite
+      //-       .ui.button.chef.button-yellow.switch(data-slug = data.menu.slug, class = data.favourited ? 'activated' : '')
+      //-         i.icon-chef-heart.icon.checks.chef
+      //-         | #{__('Favorite')}
+
+    .row
+      #menu-description.sixteen.wide.column
+        .explain
+          .ui.content!= data.menu.description
+
+  #menu-recipes.ui.page.grid
+    .row
+      .ui.grid.segment.list.stackable
+        if data.menu.plates.length
+          each recipe,i in data.menu.plates
+            +menu-recipe(recipe,i)
+        else
+          .empty-resultset.sixteen.wide.column= __('No recipes yet')

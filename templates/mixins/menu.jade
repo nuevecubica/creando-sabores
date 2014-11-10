@@ -1,13 +1,13 @@
 mixin menu(menu)
-	div(class=menu.classes).row.position
-		a(href=menu.url).hover-list
-		.five.wide.column
-			.thumbnail(style = 'background-image: url(' + menu.thumb.list + ')')
+  div(class=menu.classes).row.position
+    a(href=menu.url).hover-list
+    .five.wide.column
+      .thumbnail(style = 'background-image: url(' + menu.thumb.list + ')')
 
-		.eleven.wide.column
+    .eleven.wide.column
 
-			a(href=menu.url)
-				h2.ui.header
-					!= menu.title
+      a(href=menu.url)
+        h2.ui.header
+          != menu.title
 
-			.ui.content!= menu.description
+      .ui.content!= menu.description
