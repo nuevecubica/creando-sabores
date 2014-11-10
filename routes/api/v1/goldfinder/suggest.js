@@ -14,13 +14,15 @@ var _ = require('underscore'),
  * @param  {String}  q    Term to look for
  * @return {Object}       ES query
  */
-var _query = function(q) {
+var _query = function(q, idx) {
   return {
-    "text": q,
-    "words": {
-      "term": {
-        "field": "title",
-        "size": 5
+    "index": idx,
+    "body": {
+      "suggest": {
+        "text": q,
+        "completion": {
+          "field": "suggest",
+        }
       }
     }
   };
@@ -29,9 +31,9 @@ var _query = function(q) {
 exports = module.exports = function(req, res) {
   var query;
 
-  if (!(query = utils.requestToQuery(req, _query))) {
-    return utils.response(res)('Invalid query');
-  }
+  var q = req.query['q'] || '';
+  var idx = req.query['idx'] || '_all';
+  query = _query(q, idx);
 
   service.elastic.suggest(query, utils.response(res));
 };

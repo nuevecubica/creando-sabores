@@ -2,7 +2,6 @@ var _ = require('underscore'),
   config = require(__base + 'config.js'),
   keystone = require('keystone'),
   mongoosastic = require('mongoosastic'),
-  mongoose = require('mongoose'),
   virtual = require('./virtuals'),
   Types = keystone.Field.Types,
   async = require('async'),
@@ -488,8 +487,7 @@ Recipe.schema.plugin(mongoosastic, {
 });
 Recipe.register();
 
-var model = mongoose.model('Recipe', Recipe.schema);
-model.createMapping(function(err, mapping) {
+Recipe.model.createMapping(function(err, mapping) {
   if (err) {
     console.warn(err);
   }
