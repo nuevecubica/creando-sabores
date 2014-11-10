@@ -80,9 +80,9 @@ describe 'API v1: ~/search', ->
 
   describe 'GET /suggest', ->
     describe 'on request with a partial text', ->
-      it 'returns a suggestion', (done) ->
+      it 'returns suggestions', (done) ->
         request
-        .get('/api/v1/suggest?q=reci')
+        .get('/api/v1/suggest?q=test re')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -91,6 +91,7 @@ describe 'API v1: ~/search', ->
             if res.body.success isnt true or res.body.error isnt false
               return 'No arguments query failed'
 
-            res.body.results.words[0].options[0].text.must.be 'recipe'
+            res.body.results.length.must.gte 4
+            res.body.results.must.contain 'TEST RECIPE 1'
         )
         .end(done)
