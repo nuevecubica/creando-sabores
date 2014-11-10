@@ -60,30 +60,40 @@ var virtuals = {
    * @return {String} URL
    */
   thumb: function() {
-    if (!this._ || !this._.header || 'function' !== typeof this._.header.src) {
-      this._ = fakeUnderscore.call(this);
+    if (!this._ || !this._.media.header || 'function' !== typeof this._.media.header.src) {
+      return {
+        'list': this._.media.header.src({
+          transformation: 'list_thumb'
+        }),
+        'grid_small': this._.media.header.src({
+          transformation: 'grid_small_thumb'
+        }),
+        'grid_medium': this._.media.header.src({
+          transformation: 'grid_medium_thumb'
+        }),
+        'grid_large': this._.media.header.src({
+          transformation: 'grid_large_thumb'
+        }),
+        'header': this._.media.header.src({
+          transformation: 'header_limit_thumb'
+        }),
+        'shopping_list': this._.media.header.src({
+          transformation: 'shopping_list_thumb'
+        }),
+        'hasQuality': imageQuality(this.header).hasQuality
+      };
     }
-    return {
-      'list': this._.media.header.src({
-        transformation: 'list_thumb'
-      }) || this._.media.collage || defaults.images.header,
-      'grid_small': this._.media.header.src({
-        transformation: 'grid_small_thumb'
-      }) || this._.media.collage || defaults.images.header,
-      'grid_medium': this._.media.header.src({
-        transformation: 'grid_medium_thumb'
-      }) || this._.media.collage || defaults.images.header,
-      'grid_large': this._.media.header.src({
-        transformation: 'grid_large_thumb'
-      }) || this._.media.collage || defaults.images.header,
-      'header': this._.media.header.src({
-        transformation: 'header_limit_thumb'
-      }) || this._.media.collage || defaults.images.header,
-      'shopping_list': this._.media.header.src({
-        transformation: 'shopping_list_thumb'
-      }) || this._.media.collage || defaults.images.header,
-      'hasQuality': imageQuality(this.header).hasQuality
-    };
+    else {
+      return {
+        'list': this.media.collage || defaults.images.header,
+        'grid_small': this.media.collage || defaults.images.header,
+        'grid_medium': this.media.collage || defaults.images.header,
+        'grid_large': this.media.collage || defaults.images.header,
+        'header': this.media.collage || defaults.images.header,
+        'shopping_list': this.media.collage || defaults.images.header,
+        'hasQuality': this.media.collage ? true : false
+      };
+    }
   },
   /**
    * Item's URL

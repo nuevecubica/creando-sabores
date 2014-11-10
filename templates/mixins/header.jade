@@ -555,7 +555,7 @@ mixin header(data, section)
 
 	else if section === 'menu'
 		- var title = data.menu ? data.menu.title : ''
-		- var image = data.menu ? data.menu.thumb.header : defaults.images.menus
+		- var image = (data.menu ? data.menu.thumb.header : defaults.images.menus)
 		- var author = data.menu ? ( data.menu.author.name || data.menu.author.username) : __('Unknown author')
 		- var authorUrl = data.menu ? data.menu.author.url : '/'
 

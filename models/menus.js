@@ -204,6 +204,43 @@ Menu.schema.virtual('type').get(virtual.menu.type);
 Menu.schema.virtual('thumb').get(virtual.menu.thumb);
 Menu.schema.virtual('classes').get(virtual.menu.classes);
 
+/**
+ * Generates a collage URL from a list of images
+ * @param  {Array}   images     Array of cloudinary objects
+ * @param  {Integer} destWidth  Destination width (Default: header width)
+ * @param  {Integer} destHeight Destination height (Default: header height)
+ */
+var collageUrl = function(images, destWidth, destHeight) {
+  var width = (destWidth || defaults.header.width) / images.length;
+  var height = (destHeight || defaults.header.height);
+  var transformation = [];
+
+  var first = images.shift() + '.jpg';
+  transformation.push({
+    width: width,
+    height: height,
+    crop: "fill"
+  });
+
+  _.each(images, function(element, index) {
+    var total_width = (index + 1) * width;
+    transformation.push({
+      overlay: element,
+      width: width,
+      height: height,
+      x: (total_width + width) / 2,
+      crop: "fill"
+    });
+  });
+
+  var collage = cloudinary.url(first, {
+    transformation: transformation
+  });
+
+  console.log('collage ->', collage);
+
+  return collage;
+};
 
 // Pre Save HOOK
 Menu.schema.pre('save', function(next) {
@@ -225,10 +262,7 @@ Menu.schema.pre('save', function(next) {
   if (this.isModified('plates')) {
 
     var me = this;
-
-    var transformation = [];
     var images = [];
-    var first = null;
 
     async.eachSeries(this.plates, function(plate, callback) {
         keystone.list('Recipe').model.findOne({
@@ -245,31 +279,7 @@ Menu.schema.pre('save', function(next) {
       },
       function(err) {
         if (!err) {
-          var count = images.length;
-          var width = defaults.header.width / count;
-          var height = defaults.header.height;
-
-          first = images.pop() + '.jpg';
-          transformation.push({
-            width: width,
-            height: height,
-            crop: "fill"
-          });
-
-          _.each(images, function(element, index) {
-            var total_width = (index + 1) * width;
-            transformation.push({
-              overlay: element,
-              width: width,
-              height: height,
-              x: (total_width + width) / 2,
-              crop: "fill"
-            });
-          });
-
-          me.media.collage = cloudinary.url(first, {
-            transformation: transformation
-          });
+          me.media.collage = collageUrl(images);
         }
 
         next(err);
