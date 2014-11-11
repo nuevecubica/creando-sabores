@@ -578,3 +578,22 @@ mixin header(data, section)
 						.corner-position.left
 							|#{__('Share this menu')}
 							+header-share()
+
+					.six.wide.column
+
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-green.show-editable.file-select
+								if own
+									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
+			if own
+				if !data.menu.thumb.hasQuality
+					#image-size-warning(style="display: block;")
+						|*#{__('Select bigger image')}
+				else
+					#image-size-warning
+						|*#{__('Select bigger image')}
