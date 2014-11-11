@@ -15,8 +15,6 @@ exports = module.exports = function(req, res) {
     error: false
   };
 
-  console.log('SERVICE', req.params.recipe);
-
   var options = {
     slug: req.params.recipe
   };
