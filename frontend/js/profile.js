@@ -209,50 +209,53 @@ $(document).ready(function() {
     $('.shopping-remove').click(removeClick);
   });
 
+  // Print and send email functions
+
+  var getIngredients = function(recipe) {
+    var row = recipe.closest('.row.position');
+
+    return {
+      title: row.find('.ui.header')[0].innerText,
+      text: 'Ingredientes',
+      ingredients: row.find('.shopping-ingredients').html()
+    };
+  };
+
   /* global Handlebars */
   $('.shopping-print').on('click', function() {
-    var row = $(this).closest('.row.position');
 
     if ($('#print-this')) {
       $('#print-this').remove();
     }
 
-    var item = {
-      title: row.find('.ui.header').text(),
-      text: 'Ingredientes',
-      ingredients: row.find('.shopping-ingredients').html()
-    };
+    var item = getIngredients($(this));
 
     $.get('/templates/hbs/print-shopping-list.hbs').then(function(src) {
       var tpl = Handlebars.compile(src);
-      console.log('TPL', tpl(item));
       $('body').append(tpl(item));
 
       window.print();
     });
   });
 
+  /* global flashMessage */
   $('.shopping-mail').on('click', function() {
-    console.log('MAIL');
+    var url = '/api/v1/me/shopping/send/' + $(this).data('slug');
 
-    var url = '/api/v1/me/shopping/send';
-
-    var item = {
-      title: row.find('.ui.header').text(),
-      text: 'Ingredientes',
-      ingredients: row.find('.shopping-ingredients').html()
-    };
+    console.log('URL', url);
 
     var jQXhr = $.ajax({
       url: url,
-      type: 'POST',
-      data: item,
+      type: 'GET',
       contentType: 'application/json',
       success: function(data) {
+        console.log('DATA', data);
         if (!data.success) {
-          console.log('NO ENVIADO');
+          flashMessage(window.chef.errorMessage('Error: Unknown error.'));
         }
-        console.log('ENVIADO');
+        else {
+          flashMessage('Your message has been sent. Thank you.', 'success');
+        }
       }
     });
   });
