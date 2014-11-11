@@ -8,7 +8,7 @@ var _ = require('underscore'),
 
 var defaults = {
   description: '',
-  state: 'draft',
+  state: 'draft'
 };
 
 /**
@@ -63,12 +63,42 @@ var getMenu = function(options, callback) {
   }
 };
 
-/** Change menu state
- * [changeState description]
+/**
+ * Returns an array of menus with recipes. Recipes are filtered.
  * @param  {Object}   options  options
  * @param  {String}   state    state
  * @param  {Function} callback callback
- * @return {null}
+ */
+var getMenuWithRecipes = function(options, callback) {
+  options = _.defaults(options || {}, {
+    states: ['published'],
+    populate: ['author', 'plates']
+  });
+
+  return getMenu(options, function(err, menu) {
+    if (!err && menu && menu.plates && _.isArray(menu.plates)) {
+      menu.plates.forEach(function(plate, i) {
+        if (['draft', 'review', 'removed', 'banned'].indexOf(plate.state) >= 0) {
+          menu.plates[i] = {
+            title: plate.title,
+            slug: null,
+            url: null,
+            description: 'Unavailable',
+            unavailable: true,
+            state: plate.state
+          };
+        }
+      });
+    }
+    callback(err, menu);
+  });
+};
+
+/**
+ * Changes the menu state
+ * @param  {Object}   options  options
+ * @param  {String}   state    state
+ * @param  {Function} callback callback
  */
 var changeState = function(options, state, callback) {
 
@@ -94,7 +124,7 @@ var changeState = function(options, state, callback) {
 };
 
 /**
- * Transform, clean and return menu data object
+ * Transforms, cleans and returns menu data object
  * @param  {object} req
  * @param  {orig} orig Original model fields
  * @return {object}      Cleaned data object
@@ -174,7 +204,7 @@ var getMenuNew = function(options, callback) {
 };
 
 /**
- * Save menu into database
+ * Saves a menu into database
  * @param  {object}   menu     Menu params
  * @param  {object}   options  Options for save menu
  * @param  {function} callback
@@ -210,5 +240,6 @@ var _service = {
 };
 
 _service.get.new = getMenuNew;
+_service.get.withRecipes = getMenuWithRecipes;
 
 exports = module.exports = _service;
