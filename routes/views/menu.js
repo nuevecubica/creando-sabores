@@ -35,14 +35,13 @@ exports = module.exports = function(req, res) {
   var options = {
     slug: locals.filters.menu,
     user: req.user,
-    states: ['published', 'draft', 'removed'],
-    populate: ['plates', 'author']
+    states: ['published', 'draft']
   };
 
   // load recipe
   view.on('init', function(next) {
 
-    service.menu.get(options, function(err, result) {
+    service.menu.get.withRecipes(options, function(err, result) {
       if (!err && result) {
 
         locals.data = result;

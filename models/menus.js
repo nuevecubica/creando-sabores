@@ -9,7 +9,7 @@ var _ = require('underscore'),
   modelCleaner = require(__base + 'utils/modelCleaner');
 
 // ===== Defaults
-// Define tip defaults
+// Define menu defaults
 var defaults = {
   header: {
     width: 1920,

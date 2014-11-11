@@ -44,4 +44,10 @@ safe.question.populated = safe.question.concat(['author.username', 'author.name'
   'chef.username', 'chef.name', 'chef.thumb', 'chef.url'
 ]);
 
+safe.menu.populated = safe.menu.concat([
+  'author.name', 'author.about', 'author.username', 'author.thumb', 'author.url',
+  'plates.*.url', 'plates.*.slug', 'plates.*.title', 'plates.*.description', 'plates.*.ingredients', 'plates.*.procedure',
+  'plates.*.portions', 'plates.*.time', 'plates.*.difficulty', 'plates.*.rating', 'plates.*.thumb'
+]);
+
 module.exports = exports = safe;

@@ -5,6 +5,11 @@ var _ = require('underscore'),
   service = require('./index'),
   queryMaker = require('./utils/listQueryMaker');
 
+/**
+ * Returns an array of menus
+ * @param  {Object}   options
+ * @param  {Function} callback
+ */
 var getMenus = function(options, callback) {
 
   options = _.defaults(options || {}, {
@@ -23,6 +28,11 @@ var getMenus = function(options, callback) {
   query.exec(next);
 };
 
+/**
+ * Returns an array of related menus
+ * @param  {Object}   options
+ * @param  {Function} callback
+ */
 var getRelatedMenus = function(options, callback) {
   options = _.defaults(options || {}, {
     limit: 3
@@ -31,7 +41,7 @@ var getRelatedMenus = function(options, callback) {
   callback = callback || function() {};
 
   if (!options.menuId) {
-    return callback('Invalid recipeId');
+    return callback('Invalid menuId');
   }
 
   service.elastic.search({
@@ -70,6 +80,18 @@ var getRelatedMenus = function(options, callback) {
   });
 };
 
+/**
+ * Returns menus populated with recipes
+ * @param  {Object}   options
+ * @param  {Function} callback
+ */
+var getMenusWithRecipes = function(options, callback) {
+  options = _.defaults(options || {}, {
+    populate: ['plates']
+  });
+  return getMenus(options, callback);
+};
+
 /*
   Set exportable object
  */
@@ -77,5 +99,7 @@ var _service = {
   get: getMenus,
   related: getRelatedMenus
 };
+
+_service.get.withRecipes = getMenusWithRecipes;
 
 exports = module.exports = _service;
