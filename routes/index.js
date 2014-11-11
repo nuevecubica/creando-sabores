@@ -147,7 +147,7 @@ exports = module.exports = function(app) {
   app.put('/api/v1/me/save', middleware.requireUserApi, routes.api.v1.me.save);
   app.get('/api/v1/me/:type(recipe|videorecipe)s', middleware.requireUserApi, routes.api.v1.me.recipes);
   app.get('/api/v1/me/shopping/list', middleware.requireUserApi, routes.api.v1.me.shoppingList);
-  app.post('/api/v1/me/shopping/send', middleware.requireUserApi, routes.api.v1.me.sendShopping);
+  app.get('/api/v1/me/shopping/send/:recipe', middleware.requireUserApi, routes.api.v1.me.sendShopping);
   app.get('/api/v1/me/shopping/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.shopping);
   app.get('/api/v1/me/favourites/list', middleware.requireUserApi, routes.api.v1.me.favouritesList);
   app.get('/api/v1/me/favourites/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.favourites);
