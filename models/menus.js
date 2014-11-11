@@ -11,10 +11,6 @@ var _ = require('underscore'),
 // ===== Defaults
 // Define menu defaults
 var defaults = {
-  header: {
-    width: 1920,
-    height: 800
-  },
   positions: (function() {
     var arr = [];
     for (var i = 0; i < 10; ++i) {
@@ -101,10 +97,10 @@ Menu.add({
       },
 
       collage: {
-        type: Types.Url,
-        label: 'Collage',
+        type: Types.TextArray,
+        label: 'Recipes images',
         noedit: true,
-        default: ''
+        default: []
       }
     }
   },
@@ -204,48 +200,35 @@ Menu.schema.virtual('type').get(virtual.menu.type);
 Menu.schema.virtual('thumb').get(virtual.menu.thumb);
 Menu.schema.virtual('classes').get(virtual.menu.classes);
 
-/**
- * Generates a collage URL from a list of images
- * @param  {Array}   images     Array of cloudinary objects
- * @param  {Integer} destWidth  Destination width (Default: header width)
- * @param  {Integer} destHeight Destination height (Default: header height)
- */
-var collageUrl = function(images, destWidth, destHeight) {
-  var width = (destWidth || defaults.header.width) / images.length;
-  var height = (destHeight || defaults.header.height);
-  var transformation = [];
+// Methods
+Menu.schema.methods.setCollage = function(callback) {
+  callback = callback || function() {};
 
-  var first = images.shift() + '.jpg';
-  transformation.push({
-    width: width,
-    height: height,
-    crop: "fill"
-  });
+  var me = this;
+  var images = [];
 
-  _.each(images, function(element, index) {
-    var total_width = (index + 1) * width;
-    transformation.push({
-      overlay: element,
-      width: width,
-      height: height,
-      x: (total_width + width) / 2,
-      crop: "fill"
+  console.log(this.plates);
+
+  if (this.plates && this.plates.length) {
+    require(__base + 'services/recipeList').get({
+      id: this.plates
+    }, function(err, recipes) {
+      console.log(recipes.results);
+      recipes.results.forEach(function(recipe) {
+        images.push(recipe.header.public_id);
+      });
+      callback(err, images);
     });
-  });
-
-  var collage = cloudinary.url(first, {
-    transformation: transformation
-  });
-
-  console.log('collage ->', collage);
-
-  return collage;
+  }
+  else {
+    callback('No plates', images);
+  }
 };
 
 // Pre Save HOOK
 Menu.schema.pre('save', function(next) {
 
-  // Set isPromoted if tip is promoted in grids or headers
+  // Set isPromoted if menu is promoted in grids or headers
   if (this.isIndexGridPromoted.value || this.isIndexHeaderPromoted.value || this.isMenusHeaderPromoted.value) {
     this.isPromoted = true;
   }
@@ -260,30 +243,10 @@ Menu.schema.pre('save', function(next) {
   }
 
   if (this.isModified('plates')) {
-
-    var me = this;
-    var images = [];
-
-    async.eachSeries(this.plates, function(plate, callback) {
-        keystone.list('Recipe').model.findOne({
-          _id: plate
-        }).exec(function(err, recipe) {
-          if (!err && recipe) {
-            if (recipe.header.public_id) {
-              images.push(recipe.header.public_id);
-            }
-          }
-
-          callback(err);
-        });
-      },
-      function(err) {
-        if (!err) {
-          me.media.collage = collageUrl(images);
-        }
-
-        next(err);
-      });
+    this.setCollage.call(this, function(err, images) {
+      this.media.collage = images;
+      next(err);
+    }.bind(this));
   }
   else {
     next();

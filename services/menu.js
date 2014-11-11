@@ -1,7 +1,6 @@
 var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
-  Menu = keystone.list('Menu'),
   clean = require(__base + 'utils/cleanText.js'),
   config = require(__base + 'configs/editor'),
   service = require('./index');
