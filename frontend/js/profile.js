@@ -209,4 +209,54 @@ $(document).ready(function() {
     $('.shopping-remove').click(removeClick);
   });
 
+  // Print and send email functions
+
+  var getIngredients = function(recipe) {
+    var row = recipe.closest('.row.position');
+
+    return {
+      title: row.find('.ui.header')[0].innerText,
+      text: 'Ingredientes',
+      ingredients: row.find('.shopping-ingredients').html()
+    };
+  };
+
+  /* global Handlebars */
+  $('.shopping-print').on('click', function() {
+
+    if ($('#print-this')) {
+      $('#print-this').remove();
+    }
+
+    var item = getIngredients($(this));
+
+    $.get('/templates/hbs/print-shopping-list.hbs').then(function(src) {
+      var tpl = Handlebars.compile(src);
+      $('body').append(tpl(item));
+
+      window.print();
+    });
+  });
+
+  /* global flashMessage */
+  $('.shopping-mail').on('click', function() {
+    var url = '/api/v1/me/shopping/send/' + $(this).data('slug');
+
+    console.log('URL', url);
+
+    var jQXhr = $.ajax({
+      url: url,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(data) {
+        console.log('DATA', data);
+        if (!data.success) {
+          flashMessage(window.chef.errorMessage('Error: Unknown error.'));
+        }
+        else {
+          flashMessage('Your message has been sent. Thank you.', 'success');
+        }
+      }
+    });
+  });
 });
