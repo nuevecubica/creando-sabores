@@ -53,6 +53,26 @@ block content
 							div(class="#{subsection === 'menus' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My menus')}
 
+		.row.mobile.only
+			.ui.buttons.teal
+				.ui.button
+					| Sections
+				.ui.dropdown.icon.button
+					i.dropdown.icon
+					.menu
+						.item
+							a(href='/perfil')
+								div(class="#{subsection === 'profile' ? 'active' : ''}")
+									| #{__('My account')}
+						.item
+							a(href='/perfil')
+								div(class="#{subsection === 'shopping' ? 'active' : ''}")
+									| #{__('Shopping list')}
+						.item
+							a(href='/perfil')
+								div(class="#{subsection === 'recipes' ? 'active' : ''}")
+									| #{__('My recipes')}
+
 		if subsection == 'profile'
 			.row
 				#profile.column.tab-content

@@ -413,3 +413,6 @@ var likeClick = function(e) {
   });
   e.preventDefault();
 };
+
+$('.ui.dropdown.button')
+  .dropdown();
