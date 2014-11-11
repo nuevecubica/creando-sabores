@@ -17,6 +17,10 @@ mixin form-wrapper(section, data)
     form#recipe-edit-form(action='/nueva-receta/save' method='POST' enctype='multipart/form-data')
       block content
 
+  else if section === 'menu' && data.menu
+    form#menu-edit-form(action=data.menu.url + '/save' method='POST' enctype='multipart/form-data')
+      block content
+
   else if section === 'new-menu'
     form#menu-edit-form(action='/nuevo-menu/save' method='POST' enctype='multipart/form-data')
       block content

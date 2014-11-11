@@ -569,7 +569,7 @@ mixin header(data, section)
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section.title
-					#menu-title.shadow= title
+					#menu-title.shadow.set-editable(data-length="40")= title
 
 				.row.section.subtitle
 					a.author.shadow(href="#{authorUrl}")= author

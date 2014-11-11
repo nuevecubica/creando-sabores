@@ -4,29 +4,49 @@ include ../mixins/header
 
 include ../mixins/menu-recipe
 
-block js
-  script(src='/js/menus.js')
+block vars
+  - bodyClasses.push('no-editor-borders')
 
+block js
+  script(src='/js/menu.js')
+
+  if config
+    script.
+      window.chef.editor.config = !{JSON.stringify(config)};
+
+  if isNew
+    script.
+      $(document).ready(function(){
+        console.log('Ready');
+        window.chef.setEditableModeOn();
+
+        // Overwrite cancell function
+        $('#cancel.button-manage').off().on('click', function() {
+          window.location.href ='/menus';
+        });
+      });
+
+  //- The KeystoneJS Content Editor provides support for ks-editable data attributes,
+  //- which generate links to edit content for users who can access Keystone
+  if user && user.canAccessKeystone
+    script(src='/keystone/js/content/editor.js')
 
 block content
+
+  if own
+    input#hidden-title(type='hidden' name='title')
+    input#hidden-description(type='hidden' name='description')
+    input#hidden-plates(type='hidden' name='plates')
+    input(type='hidden' name='_csrf' value='#{csrftoken}')
 
   +header(data, section)
 
   #menu-content.ui.page.grid
-    .row
-      #info.nine.wide.column
 
-      //- #actions.seven.wide.column
-      //-   .recipe-actions
-      //-     .favourite
-      //-       .ui.button.chef.button-yellow.switch(data-slug = data.menu.slug, class = data.favourited ? 'activated' : '')
-      //-         i.icon-chef-heart.icon.checks.chef
-      //-         | #{__('Favorite')}
-
-    .row
-      #menu-description.sixteen.wide.column
+    #menu-description.row
+      .sixteen.wide.column
         .explain
-          .ui.content!= data.menu.description
+          .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.menu.description
 
   #menu-recipes.ui.page.grid
     .row
