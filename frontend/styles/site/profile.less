@@ -132,11 +132,27 @@
   }
 }
 
-
+select#select{
+    width: 100%;
+    height: 45px;
+    background-color: @chef-color-green-bg;
+    border:none;
+    border-radius:0px;
+    color: @chef-color-white;
+    .font-large;
+    text-align: center;
+    font-family: @brandon-fonts;
+    text-transform: uppercase;
+  }
 .tab-content {
+
   .ui.button.chef.button-brick{
     height: 63px;
     padding: 25px;
+    @media only screen and (max-width: 767px) {
+      padding: 15px;
+      height: auto;
+    }
   }
   &#profile {
 
@@ -176,6 +192,12 @@
 
     #save{
       margin-top: 25px;
+      @media only screen and (max-width: 767px) {
+        .button{
+          width: 100%;
+          padding: 15px;
+        }
+      }
     }
 
     #pass-row{
@@ -189,8 +211,8 @@
       margin-top: 34px;
       margin-bottom: 25px;
       @media screen and (max-width: 767px) {
-      margin-top: -5px;
-      margin-bottom: 5px;
+        margin-top: -5px;
+        margin-bottom: 5px;
       }
       @media only screen and (min-width: 767px) and (max-width: 991px) {
         .ui.button.chef{

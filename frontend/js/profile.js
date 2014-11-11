@@ -209,4 +209,7 @@ $(document).ready(function() {
     $('.shopping-remove').click(removeClick);
   });
 
+  // $('.ui.dropdown.select')
+  //   .dropdown();
+
 });
