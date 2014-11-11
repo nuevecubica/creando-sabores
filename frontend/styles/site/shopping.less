@@ -50,7 +50,41 @@
     background-color: inherit;
     min-height: 301px;
     .shopping-header{
-      &.ui.grid .row .column{
+      &.ui.grid{
+        .button{
+          float: right;
+          padding: 10px;
+          height: inherit;
+          margin-left: 3px;
+          .icon{
+
+            &:before{
+              margin: 0;
+            }
+          }
+        }
+        .shopping-mail{
+          &.button{
+
+          }
+        }
+        .shopping-print{
+          &.button{
+
+          }
+        }
+        .shopping-remove{
+          &.button.chef.button-brick{
+            float: right;
+            padding: 10px;
+            height: inherit;
+            margin:0 0 0 3px;
+            min-width: 1px;
+            .icon{
+              padding: 2px;
+            }
+          }
+        }
       }
       .remaining{
         font-weight: bold;
@@ -63,35 +97,6 @@
       margin-top: -15px;
       &.ui.grid .column.ingredient{
         margin: 5px 0;
-      }
-    }
-    .button{
-      float: right;
-      padding: 10px;
-      height: inherit;
-      margin-left: 3px;
-      .icon{
-
-        &:before{
-          margin: 0;
-        }
-      }
-    }
-    .shopping-mail{
-      &.button{
-
-      }
-    }
-    .shopping-print{
-      &.button{
-
-      }
-    }
-    .shopping-remove{
-      &.button{
-        .icon{
-          padding: 2px;
-        }
       }
     }
   }
