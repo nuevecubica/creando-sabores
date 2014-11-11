@@ -9,5 +9,5 @@ ExecStartPre=-/usr/bin/docker kill mongo
 ExecStartPre=-/usr/bin/docker rm mongo
 ExecStartPre=/usr/bin/docker pull mongo
 ExecStartPre=/usr/bin/mkdir -p /home/core/db
-ExecStart=/bin/bash -c "HOST_IP=$(/bin/ifconfig | awk '/inet /{print $2}' | grep 192.168) && exec /usr/bin/docker run --name mongo -p $HOST_IP::27017 -v /home/core/db:/data/db mongo"
+ExecStart=/bin/bash -c "HOST_IP=$(/usr/bin/ip addr show dev eth0 | awk '/inet /{print $2}' | cut -d'/' -f1 | grep 192.168 | head -n 1) && exec /usr/bin/docker run --name mongo -p $HOST_IP::27017 -v /home/core/db:/data/db mongo"
 ExecStop=/usr/bin/docker stop mongo
