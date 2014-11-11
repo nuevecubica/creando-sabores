@@ -401,6 +401,10 @@ Recipe.schema.pre('save', function(next) {
     me.rating = (me.scoreTotal !== undefined || me.scoreCount > 0) ? (me.scoreTotal / me.scoreCount) : 0;
   }
 
+  if (me.isModified('state') && me.state === 'published') {
+    me.publishedDate = new Date();
+  }
+
   async.parallel({
       // Check if user isChef, for official recipe.
       official: function(callback) {
