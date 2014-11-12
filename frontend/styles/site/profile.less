@@ -108,9 +108,11 @@
           padding: 10px;
           border: @profile-border-size solid white;
           transition: background-color @ani-time ease-out;
+          &:before{
+            margin: 0 0.1em;
+          }
           &:hover{
             background-color: @chef-color-red-bg;
-
           }
         }
         input#profile-img-select{
