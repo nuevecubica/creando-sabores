@@ -7,7 +7,8 @@ var _ = require('underscore'),
 
 var defaults = {
   description: '',
-  state: 'draft'
+  state: 'draft',
+  plates: []
 };
 
 /**
@@ -228,10 +229,24 @@ var saveMenu = function(menu, options, callback) {
     return callback('Missing data');
   }
 
-  // Save
-  menu.getUpdateHandler(options.req).process(data, {
-    fields: options.fields
-  }, callback);
+  // Load plates by slug so the updateHandler can save them
+  service.recipeList.get({
+    slug: data.plates,
+    limit: config.menu.recipes.length,
+    fromContests: true
+  }, function(err, plates) {
+    if (!err && plates) {
+      // Save
+      data.plates = plates.results;
+      menu.getUpdateHandler(options.req).process(data, {
+        fields: options.fields
+      }, callback);
+    }
+    else {
+      callback(err, null);
+    }
+  });
+
 };
 
 /*

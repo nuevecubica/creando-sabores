@@ -1,7 +1,9 @@
 mixin menu-recipe(recipe,i)
 
   if recipe.state !== 'published'
-    div(class=recipe.classes).unavailable.row.position
+    div(class=recipe.classes, data-slug=recipe.slug).unavailable.row.position
+      .ui.button.chef.button-brick.menu-plate-remove.show-editable
+        i.icon-chef-cross.icon.chef.font-large
       .five.wide.column
         .thumbnail(style = 'background-image: url(/images/default_menu.jpg)')
           .row
@@ -28,8 +30,10 @@ mixin menu-recipe(recipe,i)
 
   else
 
-    div(class=recipe.classes).row.position
-      a(href=recipe.url).hover-list
+    div(class=recipe.classes, data-slug=recipe.slug).row.position
+      .ui.button.chef.button-brick.menu-plate-remove.show-editable
+        i.icon-chef-cross.icon.chef.font-large
+      a(href=recipe.url).hover-list.hide-editable
       .five.wide.column
         if recipe.isVideorecipe
           .play
@@ -61,29 +65,31 @@ mixin menu-recipe(recipe,i)
                     - difficulty = difficulty - 1;
 
       .eleven.wide.column
-        a(href=recipe.url)
-          .span.explain= __('Plate') + ' ' + (i + 1)+ 'º'
-          .rating
-            .strong= __('Rating')
-            .span
-              .ui.icon
-                - var rating = Math.floor(recipe.rating) || 0
-                - for(var x = 0; x < 5; x++)
-                  if rating == 0
-                    i.icon-chef-star.icon.off
-                  else
-                    i.icon-chef-star.icon.on
-                    - rating = rating - 1;
-          h2.ui.header
-            != recipe.title
+        .span.explain
+          != __('Plate') + ' '
+          span.count= (i + 1)
+          != 'º'
+        .rating
+          .strong= __('Rating')
+          .span
+            .ui.icon
+              - var rating = Math.floor(recipe.rating) || 0
+              - for(var x = 0; x < 5; x++)
+                if rating == 0
+                  i.icon-chef-star.icon.off
+                else
+                  i.icon-chef-star.icon.on
+                  - rating = rating - 1;
+        h2.ui.header
+          != recipe.title
 
-          .status-recipe
-            if recipe.contest && recipe.contest.id
-              .ribbon
-                span.icon-chef-var
-            else if recipe.state !== 'published'
-              .general-state
-                span.icon-chef-var
+        .status-recipe
+          if recipe.contest && recipe.contest.id
+            .ribbon
+              span.icon-chef-var
+          else if recipe.state !== 'published'
+            .general-state
+              span.icon-chef-var
 
         .ui.content!= recipe.description
 
