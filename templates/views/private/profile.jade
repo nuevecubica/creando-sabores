@@ -54,8 +54,9 @@ block content
 								| #{__('My menus')}
 
 		.row.mobile.only.explain
-			.sixteen.wide.column
-				select#select
+			#select.sixteen.wide.column
+				.icon.icon-chef-select
+				select
 					option(value='/perfil', selected="#{subsection === 'profile' ? 'selected' : null}")
 						| #{__('My account')}
 					option(value='/perfil/compra', selected="#{subsection === 'shopping' ? 'selected' : null}")
