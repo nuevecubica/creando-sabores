@@ -1,115 +1,11 @@
 /* global likeClick */
 /* global ratingClick */
+/* global makePaginable, getTemplate */
 (function() {
-
-  var addTypes = function() {
-
-    /*
-    // ========== Plates
-    // ---------- Creates a new plate
-    window.chef.editor.addType('plate', function(parent, optionsPlate, value) {
-      var tpl = '<div class="ingredient column">' +
-        '<div class="icon-chef-cesta checks hide-editable"></div>' +
-        '<div class="editable-container">' +
-        '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
-        '</div>' +
-        '<div>' +
-        '<div class="ingredient-remove"><i class="icon-chef-cross"></i></div>' +
-        '</div>' +
-        '</div>';
-
-      var options = {
-        showLimit: true,
-        filters: {
-          avoidNewLines: true,
-          limitLength: window.chef.editor.config.recipe.ingredient.length
-        }
-      };
-
-      var elem = {
-        type: 'plate',
-        parent: parent,
-        callbacks: {
-          onAvoidNewLineKey: function(ev) {
-            // console.log('onAvoidNewLineKey custom callback');
-            var parent = this.parent;
-            if (parent) {
-              if (parent.isLastElement.call(parent, this)) {
-                if (!parent.isClearLastElement.call(parent)) {
-                  if (!parent.options.filters.limitLength || parent.length < parent.options.filters.limitLength) {
-                    parent.add.call(parent, null);
-                  }
-                }
-              }
-              else {
-                parent.next.call(parent, this);
-              }
-
-            }
-            else {
-              console.warn('No parent found in', this);
-            }
-          }
-        }
-      };
-
-      if (value && "object" === typeof value) {
-        tpl = value;
-        value = null;
-      }
-
-      options = _.merge(optionsPlate || {}, options, _.defaults);
-
-      elem = _.extend(this.newElement('default')(tpl, options, value), elem);
-      // console.log('ingredient', elem);
-      return elem;
-    });
-
-    // --------- Creates or selects an ingredients list
-    window.chef.editor.addType('plateList', function(selector) {
-      var options = {
-        isHtml: true,
-        filters: {
-          limitElements: window.chef.editor.config.recipe.ingredient.elements
-        }
-      };
-      var elem = {
-        type: 'plateList',
-        remove: function(index) {
-          this.removeElement(index);
-          this.$self.find('.plate:nth-child(' + (index + 1) + ')').hide('300', function() {
-            $(this).remove();
-          });
-        },
-        parseElements: function() {
-          // Add list ingredients
-          var ingredients = this.$self.find('.plate');
-          var ingredientsArray = [];
-
-          var list = this;
-          _.each(ingredients, function(element) {
-            ingredientsArray.push(window.chef.editor.newElement('plate')(list, {}, element));
-          });
-
-          this.elements = ingredientsArray;
-        }
-      };
-
-      var list = _.extend(this.newElement('list')(selector, this.newElement('plate'), options), elem);
-      // console.log('ingredients', list);
-
-      list.parseElements();
-
-      return list;
-    });
-    */
-
-  };
 
   //---------- DOCUMENT READY
   $(document).ready(function() {
 
-    addTypes();
     window.chef.editor.bindEditables();
     window.chef.editor.init();
 
@@ -138,8 +34,6 @@
         limitLength: window.chef.editor.config.menu.description.length
       }
     });
-
-    //var plates = window.chef.editor.newElement('plateList')('#plate-editor #plates.categories');
 
     window.chef.setEditableModeOn = function() {
       title.backup();
@@ -176,42 +70,11 @@
         $('#hidden-description').attr('value', description.getValue());
         $('#menu-edit-form').submit();
       },
-      /*
-      onButtonAddPlateClick: function(ev) {
-        if (!plates.isClearLastElement()) {
-          var elem = plates.add();
-        }
-        else {
-          plates.focusOn();
-        }
-      },
-      onButtonRemovePlateClick: function(ev) {
-        var index = $(this).closest('.plate').index();
-        plates.remove(index);
-      },
-      onKeypressPlate: function(ev) {
-        var index = $(this).closest('.plate').index();
-        if (ev.which === 13) {
-          ev.preventDefault();
-
-          if (index < plates.count()) {
-            plates.focusOn(index + 1);
-          }
-          else {
-            if (plates.isClearLastItem() === true) {
-              var elem = plates.add('');
-            }
-          }
-        }
-      },
-      */
     };
 
     $('#edit.button-manage').on('click', events.onButtonEditClick);
     $('#cancel.button-manage').on('click', events.onButtonCancelClick);
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
-    //$(document).on('click', '.plate-add', events.onButtonAddPlateClick);
-    //$(document).on('click', '#plates .plate .plate-remove', events.onButtonRemovePlateClick);
 
     $('#menu-header-select').on('change', function(e) {
       setPreview(e.target, $('.promoted'));
@@ -257,6 +120,77 @@
         }
       }
     };
+
+    var doSearch = function(e) {
+      e.preventDefault();
+      var $results = $('#results'),
+        query = $('#search-query').val(),
+        idx = 'recipes',
+        args = {
+          q: query,
+          idx: idx,
+          page: 1,
+          perPage: 5
+        },
+        url = '/api/v1/search?' + $.param(args);
+
+      if (!query.length) {
+        $results.removeClass('loading loaded no-results');
+        $('#results .list').html('');
+        return;
+      }
+
+      $results.removeClass('loaded no-results').addClass('loading');
+
+      var jQXhr = $.getJSON(url).done(function(data) {
+        if (!data.results || !data.results.results.length) {
+          $results.removeClass('loading loaded').addClass('no-results');
+          $('#results .list').html('');
+          return;
+        }
+        var items = data.results.results;
+        getTemplate('menu-recipe', items, function(tpl, items) {
+          var html = '';
+          for (var i = 0, l = items.length; i < l; i++) {
+            html += tpl(items[i]);
+          }
+          $('#results .list').html(html);
+          $results.removeClass('loading no-results').addClass('loaded');
+
+          var extraargs = {
+            q: query,
+            idx: idx
+          };
+          makePaginable('/api/v1/search', 'results', 'menu-recipe', '#results .list', extraargs);
+        });
+      });
+    };
+
+    $('#search-button').on('click', doSearch);
+
+    var menuRecipesUpdate = function() {
+      var slugs = [];
+      $('#menu-recipes-current .list > .position').each(function(i) {
+        $('span.count', this).text(i + 1);
+        slugs.push($(this).data('slug'));
+      });
+      $('#hidden-plates').val(slugs);
+    };
+
+    var appendRecipe = function(e) {
+      var $recipe = $(this).clone();
+      $('#menu-recipes-current .list').append($recipe);
+      menuRecipesUpdate();
+    };
+
+    var removeRecipe = function(e) {
+      $(this).closest('.position').remove();
+      menuRecipesUpdate();
+    };
+
+    $(document).on('click', '#menu-recipe-add .list > .position', appendRecipe);
+    $(document).on('click', '.menu-plate-remove', removeRecipe);
+
 
   });
 })();
