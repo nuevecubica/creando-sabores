@@ -9,6 +9,8 @@ mixin grid(recipes, gridPositions, gridSizes)
 				- var recipe = recipes[positions[i] - 1]
 				- var title = 'Vacio'
 				- var type = ''
+				- var enType = ''
+				- var difficulty = ''
 				- var image = '/images/default_recipe.jpg'
 				- var url = '/'
 				- var classes = 'recipe ' + sizes[i]
@@ -16,12 +18,25 @@ mixin grid(recipes, gridPositions, gridSizes)
 				if recipe
 					- title = recipe.title
 					- type = recipe.type ? __(recipe.type.charAt(0).toUpperCase() + recipe.type.slice(1)) : 'Desconocido'
+					- enType = recipe.type
 					- image = recipe.thumb['grid_' + sizes[i]]
 					- url = recipe.url
 					- classes = sizes[i] + ' ' + recipe.classes
+					- var difficulties = ['Very easy', 'Easy', 'Normal', 'Hard', 'Very hard']
+					- difficulty = __(difficulties[recipe.difficulty - 1])
 
 				div(class=classes, style="background-image: url(#{image}); background-position:center; background-size:cover;")
 					a(href=url)
 						.content
-							span= title
-								.type= type
+							span
+								.span= title
+								.info
+									.type= type
+									if ['recipe', 'videorecipe'].indexOf(enType) !== -1
+										.difficulty= difficulty
+										.time
+											i.icon-chef-time.icon
+											.span= recipe.time + '\''
+										.portions
+											i.icon-chef-porciones.icon
+											.span= recipe.portions

@@ -686,7 +686,6 @@ body {
 
         span {
           line-height: 1.25em;
-          padding:0 5px;
           display: table-cell;
           vertical-align: middle;
           text-align: center;
@@ -696,15 +695,64 @@ body {
           transition: background-color @ani-time ease-out;
           text-transform: uppercase;
           font-weight: bold;
+          .span{
+            padding: 0 5px;
+          }
 
-          .type{
+          .info{
+            width: 100%;
+            text-align: left;
             position: absolute;
-            bottom: 5px;
-            left: 10px;
-            font-family: pinto;
+            bottom: 0;
+            box-sizing: border-box;
+            padding:  0 5px;
             color: @type-color;
-            text-transform: uppercase;
             text-shadow: 0px 1px 1px @recipes-grid-border;
+            .type{
+              font-family: pinto;
+              text-transform: uppercase;
+              display: inline;
+              .font-small;
+              background-color: white;
+              padding: 0 5px;
+            }
+            .time{
+              display: inline;
+              .font-small;
+              .span{
+                display: inline;
+                .font-small;
+                padding: 0;
+                font-family: pinto;
+              }
+              .icon{
+                &:before{
+                  margin-right: -1px;
+                }
+              }
+            }
+            .portions{
+              display: inline;
+              .font-small;
+              .icon{
+                &:before{
+                  margin-right: -1px;
+                }
+              }
+              .span{
+                display: inline;
+                padding: 0;
+                font-family: pinto;
+              }
+            }
+            .difficulty{
+              display: inline;
+              .font-small;
+              font-family: pinto;
+              .icon-chef-tenedor.icon.off{
+                display: none;
+              }
+            }
           }
         }
 
