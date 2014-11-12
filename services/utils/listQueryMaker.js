@@ -41,7 +41,7 @@ exports = module.exports = function(List, options, callback) {
     options.perPage = options.limit;
   }
 
-  if (options.id || options.slug) {
+  if ((options.id && !_.isArray(options.id)) || (options.slug && !_.isArray(options.slug))) {
     options.one = true;
   }
 
@@ -62,14 +62,24 @@ exports = module.exports = function(List, options, callback) {
   }
 
   if (options.id) {
-    query.where('_id', options.id);
-    options.limit = 1;
-    options.distinct = null;
+    if (_.isArray(options.id)) {
+      query.where('_id').in(options.id);
+    }
+    else {
+      query.where('_id', options.id);
+      options.limit = 1;
+      options.distinct = null;
+    }
   }
   else if (options.slug) {
-    query.where('slug', options.slug);
-    options.limit = 1;
-    options.distinct = null;
+    if (_.isArray(options.slug)) {
+      query.where('slug').in(options.slug);
+    }
+    else {
+      query.where('slug', options.slug);
+      options.limit = 1;
+      options.distinct = null;
+    }
   }
 
   var states = options.states || [];

@@ -259,4 +259,8 @@ $(document).ready(function() {
       }
     });
   });
+
+  $('#select select').change(function() {
+    window.location = $(this).val();
+  });
 });
