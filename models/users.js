@@ -355,7 +355,7 @@ User.schema.methods.verifyEmail = function(callback) {
     }
     service.email.send('welcome-register', {
       user: user,
-      userVars: {
+      globalMergeVars: {
         link: keystone.get('site').url + '/confirma-email/' + user.verifyEmailToken
       }
     }, callback);
@@ -375,7 +375,7 @@ User.schema.methods.resetPassword = function(callback) {
 
     service.email.send('forgotten-password', {
       user: user,
-      userVars: {
+      globalMergeVars: {
         link: keystone.get('site').url + '/nueva-contrasena/' + user.resetPasswordToken
       }
     }, callback);
@@ -402,7 +402,7 @@ User.schema.methods.verifyNewsletter = function(callback) {
   var user = this;
   service.email.send('verify-newsletter', {
     user: user,
-    userVars: {
+    globalMergeVars: {
       link: user.getNewsletterSubscribeUrl()
     }
   }, callback);

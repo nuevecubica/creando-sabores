@@ -2,7 +2,7 @@ include ../mixins/header-share
 
 mixin header(data, section)
 
-	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg' } }
+	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg', menu: '/images/default_menu.jpg', newMenu: '/images/default_menu.jpg' } }
 
 	//- Change this
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
@@ -555,11 +555,11 @@ mixin header(data, section)
 
 	else if section === 'menu'
 		- var title = data.menu ? data.menu.title : ''
-		- var image = (data.menu ? data.menu.thumb.header : defaults.images.menus)
+		- var image = (data.menu ? data.menu.thumb.header : defaults.images.menu)
 		- var author = data.menu ? ( data.menu.author.name || data.menu.author.username) : __('Unknown author')
 		- var authorUrl = data.menu ? data.menu.author.url : '/'
 
-		#menus-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -569,7 +569,7 @@ mixin header(data, section)
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section.title
-					#menu-title.shadow= title
+					#menu-title.shadow.set-editable(data-length="40")= title
 
 				.row.section.subtitle
 					a.author.shadow(href="#{authorUrl}")= author
@@ -578,3 +578,58 @@ mixin header(data, section)
 						.corner-position.left
 							|#{__('Share this menu')}
 							+header-share()
+
+					.six.wide.column
+
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-green.show-editable.file-select
+								if own
+									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
+			if own
+				if !data.menu.thumb.hasQuality
+					#image-size-warning(style="display: block;")
+						|*#{__('Select bigger image')}
+				else
+					#image-size-warning
+						|*#{__('Select bigger image')}
+
+	else if section === 'new-menu'
+		- var title = ''
+		- var image = defaults.images.newMenu
+		- var author = (user.name || user.username)
+
+		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#menu-title.shadow.set-editable(placeholder=__('Write here menu name'), data-length="40")= title
+
+				.row.section.subtitle
+					.author.shadow= author
+				.row
+					.four.wide.column
+
+					.six.wide.column
+
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-green.show-editable.file-select
+								if own
+									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
+			#image-size-warning
+				|*#{__('Select bigger image')}

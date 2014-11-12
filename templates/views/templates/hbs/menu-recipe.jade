@@ -1,0 +1,43 @@
+div(class="{{classes}}", data-slug="{{slug}}").row.position
+  .ui.button.chef.button-brick.menu-plate-remove.show-editable
+    i.icon-chef-cross.icon.chef.font-large
+  .five.wide.column
+    | {{#if isVideorecipe}}
+    .play
+      i.icon-chef-play.icon
+    | {{/if}}
+    .thumbnail(style='background-image: url({{thumb.list}})')
+      .row
+
+      .row
+
+      .row
+        .ui.three.column.center.aligned.grid
+          .column
+            i.icon-chef-time.icon
+            .span {{formatTime time}}
+
+          .column
+            i.icon-chef-porciones.icon
+            .span {{portions}}
+
+          .difficulty.column {{formatIcons difficulty 'tenedor'}}
+
+  .eleven.wide.column
+    .span.explain
+      != __('Plate') + ' '
+      span.count= '?'
+      != 'º'
+    .rating
+      .strong= __('Rating')
+      .span
+        .ui.icon {{formatIcons rating 'star'}}
+    h2.ui.header
+      | {{title}}
+
+    .status-recipe
+      | {{{stateIcon classes}}}
+
+    .ui.content {{{description}}}
+
+    | {{formatOfficial isOfficial}}

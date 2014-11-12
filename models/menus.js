@@ -207,13 +207,10 @@ Menu.schema.methods.setCollage = function(callback) {
   var me = this;
   var images = [];
 
-  console.log(this.plates);
-
   if (this.plates && this.plates.length) {
     require(__base + 'services/recipeList').get({
       id: this.plates
     }, function(err, recipes) {
-      console.log(recipes.results);
       recipes.results.forEach(function(recipe) {
         images.push(recipe.header.public_id);
       });

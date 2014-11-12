@@ -73,23 +73,25 @@
         }
       }
     }
-    .empty-resultset {
-      display: none;
-      .font-extra-large;
-      text-align: center;
-      @media only screen and (max-width : 991px) {
-          .font-larger;
-        }
-      @media only screen and (max-width : 767px) {
-          .font-large;
-        }
-    }
-    &.no-results .empty-resultset {
-      display: block;
-      margin-top: -40px;
-    }
-    &.no-results .load-more {
-      display: none;
-    }
+  }
+}
+#results {
+  .empty-resultset {
+    display: none;
+    .font-extra-large;
+    text-align: center;
+    @media only screen and (max-width : 991px) {
+        .font-larger;
+      }
+    @media only screen and (max-width : 767px) {
+        .font-large;
+      }
+  }
+  &.no-results .empty-resultset {
+    display: block;
+    margin-top: -40px;
+  }
+  &.no-results .load-more {
+    display: none;
   }
 }

@@ -1,6 +1,7 @@
 var _ = require('underscore'),
   async = require('async'),
   keystone = require('keystone'),
+  deep = require(__base + 'utils/deepDefaults'),
   config = require(__base + 'config');
 
 var site = keystone.get('site') || config.keystone['site'];
@@ -64,7 +65,7 @@ var userToMandrill = function(user) {
 var _parseOptions = function(options) {
   options = options || {};
 
-  _.defaults(options, defaults());
+  options = deep(options, defaults());
 
   options.to = options.to || [];
 
