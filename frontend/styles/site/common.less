@@ -463,6 +463,20 @@ body {
 
     &.right {
       right: 15px;
+      @media only screen and (max-width : 767px) {
+        &.upload-img{
+          right: 50%;
+          width: 205px;
+          margin-right: -85px;
+        }
+      }
+      @media only screen and (max-width : 767px) {
+        &.change-img{
+          right: 50%;
+          width: 205px;
+          margin-right: -102px;
+        }
+      }
     }
 
     &.left {
@@ -478,6 +492,7 @@ body {
       display: none;
     }
   }
+
   .img-title.wide.column{
     padding-top: 10px;
 
@@ -574,7 +589,7 @@ body {
 /****************
   List Style
 ****************/
-#recipes, #shopping, #results, #tips, #related-tips, #menus, #menu-recipes {
+#recipes, #shopping, #results, #tips, #related-tips, #menus, #menu-recipes, #favourites {
 
   .row {
     margin-top: 0;

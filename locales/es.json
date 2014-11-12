@@ -267,6 +267,7 @@
 	"Unknown author": "Autor desconocido",
 	"Unknown social site": "una red social",
 	"Unlike recipe!": "Receta Votada!",
+	"Upload image": "Subir imagen",
 	"User already exists with that email address": "Ya existe un usuario con ese correo electrónico.",
 	"User already exists with that username": "Ya existe un usuario con ese nombre.",
 	"Username": "Nombre de usuario",
@@ -291,5 +292,6 @@
 	"Your password has been reset, please sign in.": "Ha cambiado su contraseña, debe acceder de nuevo.",
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
 	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, está seguro de querer dejar de recibir noticias?",
-	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?"
+	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?",
+	"Section": "Section"
 }
