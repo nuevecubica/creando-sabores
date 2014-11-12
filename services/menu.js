@@ -7,7 +7,8 @@ var _ = require('underscore'),
 
 var defaults = {
   description: '',
-  state: 'draft'
+  state: 'draft',
+  plates: []
 };
 
 /**

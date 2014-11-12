@@ -559,7 +559,7 @@ mixin header(data, section)
 		- var author = data.menu ? ( data.menu.author.name || data.menu.author.username) : __('Unknown author')
 		- var authorUrl = data.menu ? data.menu.author.url : '/'
 
-		#menus-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
@@ -597,3 +597,39 @@ mixin header(data, section)
 				else
 					#image-size-warning
 						|*#{__('Select bigger image')}
+
+	else if section === 'new-menu'
+		- var title = ''
+		- var image = defaults.images.newMenu
+		- var author = (user.name || user.username)
+
+		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#menu-title.shadow.set-editable(placeholder=__('Write here menu name'), data-length="40")= title
+
+				.row.section.subtitle
+					.author.shadow= author
+				.row
+					.four.wide.column
+
+					.six.wide.column
+
+					.six.wide.column.right.aligned
+						.corner-position.right
+							.ui.button.chef.button-green.show-editable.file-select
+								if own
+									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
+			#image-size-warning
+				|*#{__('Select bigger image')}

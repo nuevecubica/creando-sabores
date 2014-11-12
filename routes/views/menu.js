@@ -41,25 +41,33 @@ exports = module.exports = function(req, res) {
   // load recipe
   view.on('init', function(next) {
 
-    service.menu.get.withRecipes(options, function(err, result) {
-      if (!err && result) {
+    if (!locals.isNew) {
+      service.menu.get.withRecipes(options, function(err, result) {
+        if (!err && result) {
 
+          locals.data = result;
+          locals.own = result.own;
+          locals.title = result.menu.title + ' - Menú';
+
+          service.menuList.related({
+            menuId: result.menu._id
+          }, function(err, results) {
+            locals.related = results;
+
+            next(err);
+          });
+        }
+        else {
+          return res.notfound(res.__('Not found'));
+        }
+      });
+    }
+    else {
+      service.menu.get.new({}, function(err, result) {
         locals.data = result;
-        locals.own = result.own;
-        locals.title = result.menu.title + ' - Menú';
-
-        service.menuList.related({
-          menuId: result.menu._id
-        }, function(err, results) {
-          locals.related = results;
-
-          next(err);
-        });
-      }
-      else {
-        return res.notfound(res.__('Not found'));
-      }
-    });
+        next(err);
+      });
+    }
   });
 
   // Render the view
