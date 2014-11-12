@@ -84,6 +84,11 @@
       width: 160px;
       height: 160px;
       margin: 0 auto;
+      @media screen and (max-width: 767px) {
+        #profile-img{
+          border:0;
+        }
+      }
 
       .avatar {
         width: 100%;
@@ -141,6 +146,7 @@
 #select{
   font-family: @brandon-fonts !important;
   margin-top: -20px;
+  margin-bottom: 10px;
   .icon{
     position: absolute;
     right: 50px;
@@ -164,10 +170,14 @@
     text-transform: uppercase;
     padding: 0 50px;
     cursor: pointer;
+    text-align: center !important;
     &:focus{
       outline: none;
     }
     option{
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      text-align: center !important;
       font-family: @brandon-fonts !important;
     }
   }
