@@ -74,22 +74,27 @@ var getMenuWithRecipes = function(options, callback) {
     populate: ['author', 'plates']
   });
 
-  return getMenu(options, function(err, menu) {
-    if (!err && menu && menu.plates && _.isArray(menu.plates)) {
-      menu.plates.forEach(function(plate, i) {
+  return getMenu(options, function(err, result) {
+    if (!err && result && result.menu && result.menu.plates) {
+
+      result.menu.plates.forEach(function(plate, i) {
+
         if (['draft', 'review', 'removed', 'banned'].indexOf(plate.state) >= 0) {
-          menu.plates[i] = {
-            title: plate.title,
+          result.menu.plates[i] = {
+            title: 'Unavailable',
             slug: null,
             url: null,
             description: 'Unavailable',
             unavailable: true,
-            state: plate.state
+            state: 'unavailable',
+            classes: ('string' === typeof plate.classes) ? (plate.classes + ' unavailable') : plate.classes.push('unavailable')
           };
         }
+
       });
+
     }
-    callback(err, menu);
+    callback(err, result);
   });
 };
 
