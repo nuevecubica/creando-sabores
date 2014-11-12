@@ -57,17 +57,17 @@ block content
 			#select.sixteen.wide.column
 				.icon.icon-chef-select
 				select
-					option(value='/perfil', selected="#{subsection === 'profile' ? 'selected' : null}")
+					option(value='/perfil', selected=subsection === 'profile' ? 'selected' : false)
 						| #{__('My account')}
-					option(value='/perfil/compra', selected="#{subsection === 'shopping' ? 'selected' : null}")
+					option(value='/perfil/compra', selected=subsection === 'shopping' ? 'selected' : false)
 						| #{__('Shopping list')}
-					option(value='/perfil/recetas', selected="#{subsection === 'recipes' ? 'selected' : null}")
+					option(value='/perfil/recetas', selected=subsection === 'recipes' ? 'selected' : false)
 						| #{__('My recipes')}
-					option(value='/perfil/favoritas', selected="#{subsection === 'favourites' ? 'selected' : null}")
+					option(value='/perfil/favoritas', selected=subsection === 'favourites' ? 'selected' : false)
 						| #{__('Favorites')}
-					option(value='/perfil/tips', selected="#{subsection === 'tips' ? 'selected' : null}")
+					option(value='/perfil/tips', selected=subsection === 'tips' ? 'selected' : false)
 						| #{__('My tips')}
-					option(value='/perfil/menus', selected="#{subsection === 'menus' ? 'selected' : null}")
+					option(value='/perfil/menus', selected=subsection === 'menus' ? 'selected' : false)
 						| #{__('My menus')}
 
 		if subsection == 'profile'
