@@ -2,7 +2,7 @@ include ../mixins/header-share
 
 mixin header(data, section)
 
-	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg' } }
+	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg', menu: '/images/default_menu.jpg', newMenu: '/images/default_menu.jpg' } }
 
 	//- Change this
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
@@ -555,7 +555,7 @@ mixin header(data, section)
 
 	else if section === 'menu'
 		- var title = data.menu ? data.menu.title : ''
-		- var image = (data.menu ? data.menu.thumb.header : defaults.images.menus)
+		- var image = (data.menu ? data.menu.thumb.header : defaults.images.menu)
 		- var author = data.menu ? ( data.menu.author.name || data.menu.author.username) : __('Unknown author')
 		- var authorUrl = data.menu ? data.menu.author.url : '/'
 

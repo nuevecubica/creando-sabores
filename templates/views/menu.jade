@@ -56,7 +56,7 @@ block content
           each recipe,i in data.menu.plates
             +menu-recipe(recipe,i)
         else
-          .empty-resultset.sixteen.wide.column= __('No recipes yet')
+          .empty-resultset.sixteen.wide.column.hide-editable= __('No recipes yet')
 
     #menu-recipe-add.show-editable
       #search-bar.row
