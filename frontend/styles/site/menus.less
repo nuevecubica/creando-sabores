@@ -15,10 +15,14 @@
   }
 }
 
-
 /****************
   MENU
 ****************/
+#menu-content{
+  #menu-description{
+    margin-top: 1rem;
+  }
+}
 #menu-recipes{
   border-top:1px solid @menu-color-border;
   margin-top: 20px;
@@ -80,19 +84,53 @@
     }
   }
 
-  #menu-recipes-current .menu-plate-remove {
-    position: absolute;
-    z-index: 1;
-    right: 13px;
-    top: 35px;
-    min-width: 40px;
-    padding: 15px 10px;
-    i {
-      padding: 0px;
+  #menu-recipes-current{
+    .unavailable{
+      height: 100px;
+      overflow: hidden;
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+    .menu-plate-remove {
+      position: absolute;
+      z-index: 1;
+      right: 13px;
+      top: 35px;
+      min-width: 40px;
+      padding: 15px 10px;
+      i {
+        padding: 0px;
+      }
     }
   }
 
-  #menu-recipe-add .menu-plate-remove {
-    display: none;
+  #menu-recipe-add{
+    #add-recipe-button{
+      .button{
+        background-color: transparent !important;
+        box-shadow: none;
+        background-image: none;
+      }
+    }
+    .field {
+      .ui.icon.input {
+        > .icon.chef.button-gray-side{
+          .font-larger;
+          width: auto;
+          padding: 20px;
+          @media only screen and (max-width : 991px) {
+            .font-normal;
+            padding: 10px 10px 10px 15px;
+          }
+          @media only screen and (max-width : 767px) {
+            .font-small;
+            padding: 10px 10px 10px 15px;
+          }
+        }
+      }
+    }
+    .menu-plate-remove {
+      display: none;
+    }
   }
 }

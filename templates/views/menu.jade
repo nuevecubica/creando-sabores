@@ -59,11 +59,17 @@ block content
           .empty-resultset.sixteen.wide.column.hide-editable= __('No recipes yet')
 
     #menu-recipe-add.show-editable
+
+      #add-recipe-button.sixteen.wide.column.show-editable(data-tutorial-message=__("Tutorial Recipe Ingredients"))
+        .ui.button
+          .icon-chef-plus.icon
+            a(data-tutorial-complete="editableTypedText")= __('Add recipe')
+
       #search-bar.row
         .ui.form.field(action='/buscar')
           .ui.icon.input
-            input#search-query(name='q', type='text', placeholder="#{__('Search terms')}")
-            button#search-button.icon-chef-lupa.icon.chef.button-pink-side
+            input#search-query(name='q', type='text', placeholder="#{__('Search plate terms')}")
+            button#search-button.icon.chef.button-gray-side= __('Search')
       #results.ui.grid.segment
         .row
           .ui.grid.segment.list.stackable
