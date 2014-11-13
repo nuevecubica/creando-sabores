@@ -78,7 +78,8 @@ describe '(Private) Menu: Save', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/menu/test-menu-published/save/..' or
+            if res.header['location'] isnt
+                '/menu/test-menu-published/save/..' or
                 res.header['api-response-success'] isnt 'false' or
                 res.header['api-response-error'] isnt 'Missing data'
               console.error res.header
@@ -97,7 +98,8 @@ describe '(Private) Menu: Save', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/menu/test-menu-published/save/..' or
+            if res.header['location'] isnt
+                '/menu/test-menu-published/save/..' or
                 res.header['api-response-success'] isnt 'Menu saved' or
                 res.header['api-response-error'] isnt 'false'
               return 'Wrong status headers: Error=' +
@@ -124,7 +126,8 @@ describe '(Private) Menu: Save', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/menu/test-menu-published/save/..' or
+            if res.header['location'] isnt
+                '/menu/test-menu-published/save/..' or
                 res.header['api-response-success'] isnt 'Menu saved' or
                 res.header['api-response-error'] isnt 'false'
               return 'Wrong status headers: Error=' +
@@ -152,7 +155,8 @@ describe '(Private) Menu: Save', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/menu/test-menu-published/save/..' or
+            if res.header['location'] isnt
+                '/menu/test-menu-published/save/..' or
                 res.header['api-response-success'] isnt 'Menu saved' or
                 res.header['api-response-error'] isnt 'false'
               return 'Wrong status headers: Error=' +
@@ -180,7 +184,8 @@ describe '(Private) Menu: Save', ->
         .expect(302)
         .expect(
           (res) ->
-            if res.header['location'] isnt '/menu/test-menu-published/save/..' or
+            if res.header['location'] isnt
+                '/menu/test-menu-published/save/..' or
                 res.header['api-response-success'] isnt 'Menu saved' or
                 res.header['api-response-error'] isnt 'false'
               return 'Wrong status headers: Error=' +
