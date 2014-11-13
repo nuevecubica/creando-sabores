@@ -109,14 +109,8 @@ var changeState = function(options, state, callback) {
 
   service.menuList.get(options, function(err, menu) {
 
-    var states = {
-      publish: 'published',
-      draft: 'draft',
-      removed: 'removed'
-    };
-
     if (!err && menu) {
-      menu.state = states[state];
+      menu.state = state;
       menu.save(callback);
     }
     else {
