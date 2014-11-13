@@ -2,6 +2,8 @@ var keystone = require('keystone'),
   User = keystone.list('User'),
   formResponse = require(__base + 'utils/formResponse.js');
 
+var _logger = require(__base + 'utils/logger');
+
 exports = module.exports = function(req, res) {
 
   var locals = res.locals,
@@ -40,7 +42,7 @@ exports = module.exports = function(req, res) {
     locals.found.resetPasswordToken = '';
     locals.found.save(function(err) {
       if (err) {
-        logger.error('Error in locals.found.save: %s', err);
+        logger.error('Error in locals.found.save: %j', err, _logger.getRequest(req));
         return formResponse(req, res, next, "Error: Unknown error", false);
       }
       else {

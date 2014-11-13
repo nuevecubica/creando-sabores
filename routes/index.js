@@ -198,6 +198,8 @@ exports = module.exports = function(app) {
   app.get('/api/v1/seasonLists', routes.api.v1.seasonLists);
   //-- Configs
   app.get('/api/v1/configs', routes.api.v1.configs);
+  //-- Log
+  app.post('/api/v1/log', routes.api.v1.log.log);
 
   //-- Test
   app.all('/api/v1/test/me', middleware.requireTestApi, routes.api.v1.test.me.me);

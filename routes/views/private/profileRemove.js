@@ -3,6 +3,8 @@ var async = require('async'),
   clean = require(__base + 'utils/cleanText.js'),
   formResponse = require(__base + 'utils/formResponse.js');
 
+var _logger = require(__base + 'utils/logger');
+
 exports = module.exports = function(req, res, next) {
 
   var backDone = '/',
@@ -14,14 +16,14 @@ exports = module.exports = function(req, res, next) {
     Users.model.findById(req.user._id).exec(function(err, user) {
       // Error ocurred
       if (err || !user) {
-        logger.error('profileRemove: Error removing profile', err, user);
+        logger.error('profileRemove: Error removing profile: %j', err, user, _logger.getRequest(req));
         return formResponse(req, res, backError, 'Error removing profile', false);
       }
 
       user.isDeactivated = true;
       user.save(function(err) {
         if (err) {
-          logger.error('profileRemove: Error removing profile', err);
+          logger.error('profileRemove: Error removing profile: %j', err, _logger.getRequest(req));
           return formResponse(req, res, backError, 'Error removing profile', false);
         }
 
