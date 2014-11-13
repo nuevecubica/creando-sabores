@@ -8,6 +8,7 @@
 
     window.chef.editor.bindEditables();
     window.chef.editor.init();
+    var platesBackup;
 
     //----------- SAVERS
     var saveArrayList = function(arr) {
@@ -38,7 +39,9 @@
     window.chef.setEditableModeOn = function() {
       title.backup();
       description.backup();
-      //plates.backup();
+      platesBackup = $('#menu-recipes-current .list').html();
+
+      menuRecipesUpdate();
 
       // Change to editable mode
       $('body').addClass('mode-editable');
@@ -57,7 +60,7 @@
       onButtonCancelClick: function(ev) {
         title.restore();
         description.restore();
-        //plates.restore();
+        $('#menu-recipes-current .list').html(platesBackup);
 
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
