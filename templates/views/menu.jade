@@ -63,21 +63,22 @@ block content
       #add-recipe-button.sixteen.wide.column.show-editable(data-tutorial-message=__("Tutorial Recipe Ingredients"))
         .ui.button
           .icon-chef-plus.icon
-            a(data-tutorial-complete="editableTypedText")= __('Add recipe')
+            a(data-tutorial-complete="targetClicked")= __('Add recipe')
 
-      #search-bar.row
-        .ui.form.field(action='/buscar')
-          .ui.icon.input
-            input#search-query(name='q', type='text', placeholder="#{__('Search plate terms')}")
-            button#search-button.icon.chef.button-gray-side= __('Search')
-      #results.ui.grid.segment
-        .row
-          .ui.grid.segment.list.stackable
-        .row
-          .loader
-            .sixteen.wide.column.loading= __('Loading more recipes')
-            .sixteen.wide.column.load-more
-              .ui.button.chef.button-brick.load-button
-                a(href="#")= __('Load more')
-        .row
-          .empty-resultset.sixteen.wide.column= __('No results')
+      #search-area
+        #search-bar.row
+          .ui.form.field(action='/buscar')
+            .ui.icon.input
+              input#search-query(name='q', type='text', placeholder="#{__('Search plate terms')}")
+              button#search-button.icon.chef.button-gray-side= __('Search')
+        #results.ui.grid.segment
+          .row
+            .ui.grid.segment.list.stackable
+          .row
+            .loader
+              .sixteen.wide.column.loading= __('Loading more recipes')
+              .sixteen.wide.column.load-more
+                .ui.button.chef.button-brick.load-button
+                  a(href="#")= __('Load more')
+          .row
+            .empty-resultset.sixteen.wide.column= __('No results')
