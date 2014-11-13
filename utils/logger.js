@@ -13,6 +13,7 @@ var createLogger = function(name) {
   name = name || "backend";
   var appenders = config.logger.appenders.hasOwnProperty(name) ? config.logger.appenders[name] : defaults;
   var log = new ln(name, appenders);
+  log.log = log.debug; // Fix for all the logger.log calls
   return log;
 };
 

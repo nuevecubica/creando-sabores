@@ -1,6 +1,6 @@
 /* APP */
 global.__base = __dirname + '/';
-global.logger = require('./utils/logger')("backend");
+global.logger = require(__base + 'utils/logger')("backend");
 
 require('./utils/stringPrototype');
 require('dotenv').load();
