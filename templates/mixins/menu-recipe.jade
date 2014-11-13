@@ -3,7 +3,7 @@ mixin menu-recipe(recipe,i)
   if recipe.state !== 'published'
     div(class=recipe.classes, data-slug=recipe.slug).unavailable.row.position
       .ui.button.chef.button-brick.menu-plate-remove.show-editable
-        i.icon-chef-cross.icon.chef.font-large
+        i.icon-chef-bin.icon.chef.font-large
       .five.wide.column
         .thumbnail(style = 'background-image: url(/images/default_menu.jpg)')
           .row
@@ -32,7 +32,7 @@ mixin menu-recipe(recipe,i)
 
     div(class=recipe.classes, data-slug=recipe.slug).row.position
       .ui.button.chef.button-brick.menu-plate-remove.show-editable
-        i.icon-chef-cross.icon.chef.font-large
+        i.icon-chef-bin.icon.chef.font-large
       a(href=recipe.url).hover-list.hide-editable
       .five.wide.column
         if recipe.isVideorecipe
