@@ -151,7 +151,7 @@ var virtuals = {
    * @return {String} URL
    */
   thumb: function() {
-    if (this.media.header && this.media.header.public_id) {
+    if (this._ && this.media.header && this.media.header.public_id) {
       return {
         'list': this._.media.header.src({
           transformation: 'list_thumb'

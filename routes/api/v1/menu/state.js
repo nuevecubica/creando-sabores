@@ -30,6 +30,7 @@ exports = module.exports = function(req, res) {
       if (err || !menu) {
         res.status(404);
         answer.error = true;
+        answer.errorMessage = (err || 'Unknow error');
       }
       else {
         if (menu.state === req.params.state) {
