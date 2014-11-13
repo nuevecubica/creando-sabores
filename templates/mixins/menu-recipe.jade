@@ -31,8 +31,6 @@ mixin menu-recipe(recipe,i)
   else
 
     div(class=recipe.classes, data-slug=recipe.slug).row.position
-      .ui.button.chef.button-brick.menu-plate-remove.show-editable
-        i.icon-chef-bin.icon.chef.font-large
       a(href=recipe.url).hover-list.hide-editable
       .five.wide.column
         if recipe.isVideorecipe
@@ -65,10 +63,15 @@ mixin menu-recipe(recipe,i)
                     - difficulty = difficulty - 1;
 
       .eleven.wide.column
-        .span.explain
-          != __('Plate') + ' '
-          span.count= (i + 1)
-          != 'º'
+        h2.ui.header
+          != recipe.title
+        .plate
+          .ui.button.chef.button-brick.menu-plate-remove.show-editable
+            i.icon-chef-bin.icon.chef
+          .span.explain
+            != __('Plate') + ' '
+            span.count= (i + 1)
+            != 'º'
         .rating
           .strong= __('Rating')
           .span
@@ -80,8 +83,6 @@ mixin menu-recipe(recipe,i)
                 else
                   i.icon-chef-star.icon.on
                   - rating = rating - 1;
-        h2.ui.header
-          != recipe.title
 
         .status-recipe
           if recipe.contest && recipe.contest.id

@@ -36,14 +36,26 @@
     }
     .eleven.wide.column{
       position: relative;
-      .span.explain{
-        text-transform: uppercase;
-        color: @menu-color-plate;
-        font-weight: bold;
-        margin-top: 6px;
+      .plate{
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        @media only screen and (max-width: 767px) {
+          top: 40px;
+        }
+        .span.explain{
+          text-transform: uppercase;
+          color: @chef-color-white;
+          background-color: @chef-color-green-bg;
+          font-weight: bold;
+          padding:1px 10px;
+          display: inline-block;
+          margin-left: 1px;
+          position: relative;
+        }
       }
       .header{
-        margin: 0;
+        margin: 2px 0;
         padding: 5px 0 0;
         font-family: @pinto-fonts;
       }
@@ -63,10 +75,7 @@
         }
       }
       .rating{
-        position: absolute;
-        right: 10px;
-        top: 5px;
-
+        margin-top: 10px;
         @media only screen and (max-width: 991px) {
           top:3px;
         }
@@ -91,20 +100,33 @@
       opacity: 0.8;
       margin-bottom: 5px;
     }
-    .menu-plate-remove {
-      position: absolute;
-      z-index: 1;
-      right: 13px;
-      top: 35px;
-      min-width: 40px;
-      padding: 15px 10px;
-      i {
-        padding: 0px;
+    .menu-plate-remove.ui.button.chef {
+      @media only screen and (max-width : 991px) {
+        padding: 6px 5px 4px;
       }
+      padding:6.5px 0;
+      z-index: 1;
+      display: inline-block;
+      min-width: 40px;
+      position: relative;
+      top: -4px;
+      i {
+        .explain;
+        padding: 0px;
+        &:before{
+          margin: 0;
+        }
+      }
+    }
+    .select {
+      display: none;
     }
   }
 
   #menu-recipe-add{
+    .position{
+      cursor: pointer;
+    }
     #add-recipe-button{
       .button{
         background-color: transparent !important;
@@ -114,10 +136,13 @@
     }
     .field {
       .ui.icon.input {
+        margin: 10px 0;
         > .icon.chef.button-gray-side{
           .font-larger;
+          font-family: @brandon-fonts;
           width: auto;
           padding: 20px;
+          letter-spacing: 0.05em;
           @media only screen and (max-width : 991px) {
             .font-normal;
             padding: 10px 10px 10px 15px;
@@ -131,6 +156,11 @@
     }
     .menu-plate-remove {
       display: none;
+    }
+    .plate{
+      .span.explain.add{
+        display: none;
+      }
     }
   }
 }

@@ -1,6 +1,4 @@
 div(class="{{classes}}", data-slug="{{slug}}").row.position
-  .ui.button.chef.button-brick.menu-plate-remove.show-editable
-    i.icon-chef-bin.icon.chef.font-large
   .five.wide.column
     | {{#if isVideorecipe}}
     .play
@@ -24,17 +22,21 @@ div(class="{{classes}}", data-slug="{{slug}}").row.position
           .difficulty.column {{formatIcons difficulty 'tenedor'}}
 
   .eleven.wide.column
-    .span.explain
-      != __('Plate') + ' '
-      span.count= '?'
-      != 'º'
+    h2.ui.header
+      | {{title}}
+    .plate
+      .ui.button.chef.button-brick.menu-plate-remove
+        i.icon-chef-bin.icon.chef
+      .span.explain.add
+        != __('Plate') + ' '
+        span.count= '?'
+        != 'º'
+    .plate
+      .span.explain.select= __('Select')
     .rating
       .strong= __('Rating')
       .span
         .ui.icon {{formatIcons rating 'star'}}
-    h2.ui.header
-      | {{title}}
-
     .status-recipe
       | {{{stateIcon classes}}}
 
