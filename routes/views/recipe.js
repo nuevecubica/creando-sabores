@@ -14,6 +14,8 @@ exports = module.exports = function(req, res) {
 
   locals.categories = {};
 
+  locals.collection = 'recipe';
+
   // Init locals
   if (req.params.recipe) {
     locals.section = type;
