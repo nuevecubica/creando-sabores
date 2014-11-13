@@ -23,7 +23,8 @@ mixin grid(recipes, gridPositions, gridSizes)
 					- url = recipe.url
 					- classes = sizes[i] + ' ' + recipe.classes
 					- var difficulties = ['Very easy', 'Easy', 'Normal', 'Hard', 'Very hard']
-					- difficulty = __(difficulties[recipe.difficulty - 1])
+					if recipe.difficulty
+						- difficulty = __(difficulties[recipe.difficulty - 1])
 
 				div(class=classes, style="background-image: url(#{image}); background-position:center; background-size:cover;")
 					a(href=url)
