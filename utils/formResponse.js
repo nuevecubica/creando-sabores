@@ -1,3 +1,5 @@
+var _logger = require(__base + 'utils/logger');
+
 /**
  * formResponse
  * @param  {Object}   req
@@ -16,6 +18,10 @@ var formResponse = function(req, res, url, error, success) {
 
   res.set('Api-Response-Error', error);
   res.set('Api-Response-Success', success);
+
+  if (error) {
+    logger.info('formResponse error: %s', error, _logger.getRequest(req));
+  }
 
   if ('function' === typeof url) {
     url();

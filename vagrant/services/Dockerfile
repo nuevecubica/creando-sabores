@@ -41,5 +41,7 @@ RUN /build/builder
 
 RUN mkdir -p /builders-cache; curl -s https://raw.githubusercontent.com/ignlg/dokku-builders-plugin/master/build | /bin/bash
 
+VOLUME ["/var/log"]
+
 EXPOSE 3000
 CMD ["/start", "web"]

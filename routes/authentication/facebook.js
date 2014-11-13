@@ -1,5 +1,6 @@
 var async = require('async'),
   keystone = require('keystone');
+var _logger = require(__base + 'utils/logger');
 
 var facebook = require('./services/facebook');
 
@@ -29,13 +30,16 @@ exports = module.exports = function(req, res, next) {
         fail: '/acceso'
       };
 
+      var request = _logger.getRequest(req);
+
       // Redirect based on response
       if (err) {
-        logger.log('[auth.facebook] - Facebook authentication failed - ' + JSON.stringify(err));
+        request.error = err;
+        logger.info('[auth.facebook] - Facebook authentication failed', request);
         return res.redirect(redirects.fail);
       }
       else {
-        logger.log('[auth.facebook] - Facebook authentication was successful.');
+        logger.log('[auth.facebook] - Facebook authentication was successful.', request);
         return res.redirect(redirects.success);
       }
 

@@ -104,6 +104,7 @@ var collageUrl = function(images, destWidth, destHeight, maxImages) {
 
     var _images = images.slice(0);
     var first = _images.shift() + '.jpg';
+
     transformation.push({
       width: width,
       height: height,
@@ -152,6 +153,11 @@ var virtuals = {
    */
   thumb: function() {
     if (this.media.header && this.media.header.public_id) {
+
+      if (!this._ || !this._.header || 'function' !== typeof this._.header.src) {
+        this._ = fakeUnderscore.call(this);
+      }
+
       return {
         'list': this._.media.header.src({
           transformation: 'list_thumb'
