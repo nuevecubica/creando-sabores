@@ -152,6 +152,7 @@ var virtuals = {
    * @return {String} URL
    */
   thumb: function() {
+
     if (this.media.header && this.media.header.public_id) {
 
       if (!this._ || !this._.header || 'function' !== typeof this._.header.src) {

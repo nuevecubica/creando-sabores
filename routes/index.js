@@ -104,7 +104,7 @@ exports = module.exports = function(app) {
   // ---- Edit
   app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
   app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
-  app.post('/menu/:menu/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].menuPublish);
+  app.post('/menu/:menu/:state(draft|published)', middleware.requireConfirmed, routes.views['private'].menuPublish);
 
   // Questions
   // -- Public

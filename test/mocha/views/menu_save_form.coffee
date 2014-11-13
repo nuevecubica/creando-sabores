@@ -140,7 +140,7 @@ describe '(Private) Menu: Save', ->
             .get('/menu/test-menu-published')
             .set('cookie', cookie)
             .expect(200)
-            .expect(/DESCRIPTION 1/)
+            .expect(/TEST MENU PUBLISHED/)
             .expect(/TEST MENU DUMMY 1/)
             .end(done)
 
@@ -307,8 +307,7 @@ describe '(Private) Menu: Save', ->
             )
             .expect(
               (res) ->
-                return res.text.must.match 'MENU DESCRIPTION NEW ' +
-                '&lt;h1&gt;2&lt;/h1&gt;'
+                return res.text.must.match 'MENU DESCRIPTION NEW 2'
             )
             .end(done)
 
