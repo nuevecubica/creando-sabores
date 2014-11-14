@@ -7,7 +7,7 @@ After=etcd-amb-node.service
 [Service]
 Restart=always
 RestartSec=30
-ExecStart=/usr/bin/docker run --link etcd-amb-node.service:etcd -v /var/run/docker.sock:/var/run/docker.sock --rm polvi/docker-register node 3000 node-A
+ExecStart=/usr/bin/docker run --link etcd-amb-node.service:etcd -v /var/run/docker.sock:/var/run/docker.sock --rm mancontr/docker-reg node 3000 node-A
 
 [X-Fleet]
 MachineOf=node.service
