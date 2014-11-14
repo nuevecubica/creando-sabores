@@ -66,7 +66,7 @@ mixin header(data, section)
 				.row
 					.ten.wide.column
 					.six.wide.column.right.aligned.show-editable
-						.corner-position.right
+						.corner-position.right.change-img
 							.ui.button.chef.button-green
 								input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
 								i.social.icon-chef-camera
@@ -582,7 +582,7 @@ mixin header(data, section)
 					.six.wide.column
 
 					.six.wide.column.right.aligned
-						.corner-position.right
+						.corner-position.right.change-img
 							.ui.button.chef.button-green.show-editable.file-select
 								if own
 									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
@@ -623,7 +623,7 @@ mixin header(data, section)
 					.six.wide.column
 
 					.six.wide.column.right.aligned
-						.corner-position.right
+						.corner-position.right.change-img
 							.ui.button.chef.button-green.show-editable.file-select
 								if own
 									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
