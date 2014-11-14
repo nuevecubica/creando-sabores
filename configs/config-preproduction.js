@@ -27,7 +27,12 @@ var answer = {
       'port': process.env.PORT || 3000
     }
   },
-  publicUrl: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
+  publicUrl: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000',
+  logger: {
+    level: "info",
+    path: "/var/log",
+    appenders: defaults.logger.appendersLevel("info", "/var/log")
+  }
 };
 
 exports = module.exports = _.deepDefaults(answer, defaults);

@@ -219,7 +219,7 @@ Menu.schema.methods.setCollage = function(callback) {
     });
   }
   else {
-    callback('No plates', images);
+    callback(null, images);
   }
 };
 

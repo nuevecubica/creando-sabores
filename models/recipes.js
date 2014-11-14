@@ -493,6 +493,6 @@ Recipe.register();
 
 Recipe.model.createMapping(function(err, mapping) {
   if (err) {
-    logger.error('Error creando mapping:', err);
+    logger.error('Error creando mapping: ', err);
   }
 });

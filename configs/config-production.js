@@ -34,7 +34,12 @@ var answer = {
     fb_app_id: '572952406168649',
     fb_url: 'https://www.facebook.com/creandosabores'
   },
-  publicUrl: 'http://creandosabores.com'
+  publicUrl: 'http://creandosabores.com',
+  logger: {
+    level: "info",
+    path: "/var/log",
+    appenders: defaults.logger.appendersLevel("info", "/var/log")
+  }
 };
 
 exports = module.exports = _.deepDefaults(answer, defaults);

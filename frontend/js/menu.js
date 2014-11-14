@@ -74,6 +74,12 @@
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
       },
+      onButtonDraftClick: function(ev) {
+        $('#menu-draft-form').submit();
+      },
+      onButtonPublishClick: function(ev) {
+        $('#menu-publish-form').submit();
+      },
       onButtonUpdateClick: function(ev) {
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
@@ -83,6 +89,9 @@
         $('#menu-edit-form').submit();
       },
     };
+
+    $('#draft.button-manage').on('click', events.onButtonDraftClick);
+    $('#publish.button-manage').on('click', events.onButtonPublishClick);
 
     $('#edit.button-manage').on('click', events.onButtonEditClick);
     $('#cancel.button-manage').on('click', events.onButtonCancelClick);

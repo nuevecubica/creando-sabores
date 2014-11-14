@@ -2,6 +2,8 @@ var keystone = require('keystone'),
   User = keystone.list('User'),
   formResponse = require(__base + 'utils/formResponse.js');
 
+var _logger = require(__base + 'utils/logger');
+
 exports = module.exports = function(req, res) {
   if (!req.params.token) {
     return formResponse(req, res, '/', "Invalid token.", false);
@@ -11,11 +13,11 @@ exports = module.exports = function(req, res) {
     verifyEmailToken: req.params.token
   }, function(err, user) {
     if (err) {
-      logger.error("verifyEmailToken error");
-      logger.error(err);
+      logger.error("verifyEmailToken error: %j", err, _logger.getRequest(req));
       return formResponse(req, res, '/', "Error: Unknown error", false);
     }
     else if (!user) {
+      logger.info("verifyEmailToken.unknown", _logger.getRequest(req));
       return formResponse(req, res, '/', "Sorry, we can't recognise that token.", false);
     }
     else if (!req.user) {
@@ -27,8 +29,7 @@ exports = module.exports = function(req, res) {
       user.verifyEmailToken = '';
       user.save(function(err, ended) {
         if (err) {
-          logger.error('===== ERROR verifying email =====');
-          logger.error(err);
+          logger.error("verifyEmail.save error: %j", err, _logger.getRequest(req));
           return formResponse(req, res, '/', 'Error verifying your email. Please, try again.', false);
         }
         else {

@@ -50,7 +50,7 @@ describe '(Private) Menu: Publish & Draft', ->
 
   describe 'call to /menu/:menu/publish', ->
     it 'changes a menu to published', (done) ->
-      url = '/menu/test-menu-draft/publish'
+      url = '/menu/test-menu-draft/published'
       request
       .post(url)
       .set('cookie', cookie)
