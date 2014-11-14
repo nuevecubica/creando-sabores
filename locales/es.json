@@ -9,6 +9,7 @@
 	"Access": "Acceso",
 	"Actual password": "Contraseña actual",
 	"Add ingredient": "Añadir ingrediente",
+	"Add recipe": "Añadir plato",
 	"Add step": "Añadir paso",
 	"Add to menu": "Añadir a menú",
 	"Add to shopping basket": "Añadir a cesta de la compra",
@@ -222,8 +223,11 @@
 	"Return home": "Volver a inicio",
 	"Save changes": "Guardar cambios",
 	"Save": "Guardar",
+	"Search": "Buscar",
+	"Search plate terms": "Escribe el nombre del plato que buscas...",
 	"Search terms": "Escribe aquí lo que buscas",
 	"Season": "Temporada",
+	"Select": "Seleccionar",
 	"Select all": "Seleccionar todos",
 	"Select bigger image": "Se recomienda una resolución mínima de 1280 x 800 pixels.",
 	"Send register form": "Continuar",
@@ -257,6 +261,7 @@
 	"To register": "Regístrate",
 	"Today promoted": "Hoy destacamos",
 	"Top rated": "Más votados",
+	"Tutorial Menu Description": "Pulsa AÑADIR PLATO e introduce el nombre del plato que estás buscando",
 	"Tutorial Recipe Attributes": "Selecciona dificultad e introduce tiempo y raciones.",
 	"Tutorial Recipe Description": "Añade una descripción.",
 	"Tutorial Recipe Image": "Haz que tu receta se vea bien, sube preferiblemente imágenes horizontales de alta calidad.",
@@ -293,6 +298,5 @@
 	"Your password has been reset, please sign in.": "Ha cambiado su contraseña, debe acceder de nuevo.",
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
 	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, está seguro de querer dejar de recibir noticias?",
-	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?",
-	"Section": "Section"
+	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?"
 }

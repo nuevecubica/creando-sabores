@@ -37,9 +37,15 @@
     });
 
     window.chef.setEditableModeOn = function() {
+      // Tutorial start
+      if (window.chef.user.disabledHelpers.indexOf('menu') === -1) {
+        window.chef.tutorial.start();
+      }
+
       title.backup();
       description.backup();
       platesBackup = $('#menu-recipes-current .list').html();
+      disableSearch();
 
       menuRecipesUpdate();
 
@@ -58,6 +64,9 @@
         window.chef.setEditableModeOn();
       },
       onButtonCancelClick: function(ev) {
+        window.chef.tutorial.stop();
+        disableSearch();
+
         title.restore();
         description.restore();
         $('#menu-recipes-current .list').html(platesBackup);
@@ -71,6 +80,11 @@
       onButtonPublishClick: function(ev) {
         $('#menu-publish-form').submit();
       },
+      onButtonDeleteClick: function(ev) {
+        if (confirm('¿Está seguro de que desea ELIMINAR este menú?')) {
+          $('#menu-remove-form').submit();
+        }
+      },
       onButtonUpdateClick: function(ev) {
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
@@ -83,7 +97,7 @@
 
     $('#draft.button-manage').on('click', events.onButtonDraftClick);
     $('#publish.button-manage').on('click', events.onButtonPublishClick);
-
+    $('#delete.button-manage').on('click', events.onButtonDeleteClick);
     $('#edit.button-manage').on('click', events.onButtonEditClick);
     $('#cancel.button-manage').on('click', events.onButtonCancelClick);
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
@@ -180,6 +194,23 @@
 
     $('#search-button').on('click', doSearch);
 
+    var enableSearch = function() {
+      $('#search-area').show();
+      $('#add-recipe-button').hide();
+    };
+
+    var disableSearch = function() {
+      $('#search-area').hide();
+      $('#add-recipe-button').show();
+      $('#search-query').val('');
+      if (window.chef.clearPaginable) {
+        window.chef.clearPaginable();
+      }
+      $('#results .list').html('');
+    };
+
+    $('#add-recipe-button').on('click', enableSearch);
+
     var menuRecipesUpdate = function() {
       var slugs = [];
       $('#menu-recipes-current .list > .position').each(function(i) {
@@ -192,6 +223,7 @@
     var appendRecipe = function(e) {
       var $recipe = $(this).clone();
       $('#menu-recipes-current .list').append($recipe);
+      disableSearch();
       menuRecipesUpdate();
     };
 

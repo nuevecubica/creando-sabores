@@ -19,8 +19,9 @@ block content
       #query
         .row
           .ui.column.grid
-            a.icon-chef-back.icon(href="/preguntas")= __('Back')
-
+            a.icon-chef-back.icon(href="/preguntas")
+            a.icon-chef-back.icon(href="/preguntas")
+              span= __('Back')
         .row
           a.ui.item.profile(href=data.question.author.url)
             img.ui.image.avatar(src="#{data.question.author.thumb.avatar_large}")
