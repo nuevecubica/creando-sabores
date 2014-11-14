@@ -16,9 +16,11 @@ exports = module.exports = function(req, res) {
   }
 
   var data = _logger.getRequest(req) || {};
-  data.url = req.body.url || null;
-  data.line = req.body.line || null;
-  data.browser = req.body.browser || 'unknown';
+  data.frontend = {
+    url: req.body.url || null,
+    line: req.body.line || null,
+    browser: req.body.browser || 'unknown'
+  };
 
   log[level](message, data);
 

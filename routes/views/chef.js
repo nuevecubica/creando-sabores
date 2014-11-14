@@ -5,8 +5,6 @@ var keystone = require('keystone'),
   async = require('async'),
   service = require(__base + 'services');
 
-var _logger = require(__base + 'utils/logger');
-
 exports = module.exports = function(req, res) {
 
   var locals = res.locals,
@@ -24,9 +22,7 @@ exports = module.exports = function(req, res) {
       fromContests: true
     }, function(err, recipes) {
       if (err) {
-        var request = _logger.getRequest(req);
-        request.error = err;
-        logger.error('getPublicRecipes failed', err);
+        logger.error('getPublicRecipes failed: %s', err, req);
         return formResponse(req, res, '..', 'Error: Unknown error', false);
       }
       else {
@@ -46,7 +42,7 @@ exports = module.exports = function(req, res) {
         cb(result.results);
       }
       else {
-        logger.error('getFavouriteRecipes failed', err);
+        logger.error('getFavouriteRecipes failed: %s', err);
         return res.notfound(res.__('Not found'));
       }
     });
@@ -63,7 +59,7 @@ exports = module.exports = function(req, res) {
         cb(result.results);
       }
       else {
-        logger.error('getFavouriteTips failed', err);
+        logger.error('getFavouriteTips failed: %s', err);
         return res.notfound(res.__('Not found'));
       }
     });
@@ -80,7 +76,7 @@ exports = module.exports = function(req, res) {
         cb(result.results);
       }
       else {
-        logger.error('getPublicMenus failed', err);
+        logger.error('getPublicMenus failed: %s', err);
         return res.notfound(res.__('Not found'));
       }
     });
