@@ -227,6 +227,7 @@
 	"Search plate terms": "Escribe el nombre del plato que buscas...",
 	"Search terms": "Escribe aquí lo que buscas",
 	"Season": "Temporada",
+	"Select": "Seleccionar",
 	"Select all": "Seleccionar todos",
 	"Select bigger image": "Se recomienda una resolución mínima de 1280 x 800 pixels.",
 	"Send register form": "Continuar",
@@ -296,6 +297,5 @@
 	"Your password has been reset, please sign in.": "Ha cambiado su contraseña, debe acceder de nuevo.",
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
 	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, está seguro de querer dejar de recibir noticias?",
-	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?",
-	"Select": "Select"
+	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?"
 }
