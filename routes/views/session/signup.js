@@ -180,10 +180,12 @@ exports = module.exports = function(req, res) {
         }
         else {
           // Logged in
-          if (req.query.next) {
+          if (req.query.next && req.query.next.indexOf('//:') === -1 && req.query.next[0] === '/') {
             return res.redirect(req.query.next);
           }
-          return res.redirect(userHome);
+          else {
+            return res.redirect(userHome);
+          }
         }
       };
       var onFail = function(e) {
