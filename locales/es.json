@@ -9,6 +9,7 @@
 	"Access": "Acceso",
 	"Actual password": "Contraseña actual",
 	"Add ingredient": "Añadir ingrediente",
+	"Add recipe": "Añadir receta",
 	"Add step": "Añadir paso",
 	"Add to menu": "Añadir a menú",
 	"Add to shopping basket": "Añadir a cesta de la compra",
@@ -222,6 +223,8 @@
 	"Return home": "Volver a inicio",
 	"Save changes": "Guardar cambios",
 	"Save": "Guardar",
+	"Search": "Buscar",
+	"Search plate terms": "Escribe el nombre del plato que buscas...",
 	"Search terms": "Escribe aquí lo que buscas",
 	"Season": "Temporada",
 	"Select all": "Seleccionar todos",
@@ -294,5 +297,5 @@
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
 	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, está seguro de querer dejar de recibir noticias?",
 	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?",
-	"Section": "Section"
+	"Select": "Select"
 }

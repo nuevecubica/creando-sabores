@@ -101,15 +101,18 @@
       margin-bottom: 5px;
     }
     .menu-plate-remove.ui.button.chef {
-      @media only screen and (max-width : 991px) {
-        padding: 6px 5px 4px;
-      }
       padding:6.5px 0;
       z-index: 1;
       display: inline-block;
       min-width: 40px;
       position: relative;
       top: -4px;
+      @media only screen and (max-width : 991px) {
+        padding: 6px 5px 4px;
+      }
+      @media only screen and (max-width: 767px) {
+        top: -2.5px;
+      }
       i {
         .explain;
         padding: 0px;
