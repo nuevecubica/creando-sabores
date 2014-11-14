@@ -7,7 +7,7 @@ After=mongo.service
 [Service]
 Restart=always
 RestartSec=30
-ExecStart=/usr/bin/docker run --link etcd-amb-mongo.service:etcd -v /var/run/docker.sock:/var/run/docker.sock --rm polvi/docker-register mongo 27017 mongo-A
+ExecStart=/usr/bin/docker run --link etcd-amb-mongo.service:etcd -v /var/run/docker.sock:/var/run/docker.sock --rm mancontr/docker-reg mongo 27017 mongo-A
 
 [X-Fleet]
 MachineOf=etcd-amb-mongo.service
