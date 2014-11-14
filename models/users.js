@@ -339,6 +339,10 @@ User.schema.pre('save', function(done) {
     }
   }
 
+  if (this.social.facebook.isConfigured || this.social.google.isConfigured) {
+    this.isConfirmed = true;
+  }
+
   done();
 });
 
