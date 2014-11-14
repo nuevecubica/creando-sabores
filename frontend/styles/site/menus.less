@@ -127,10 +127,17 @@
   }
 
   #menu-recipe-add{
+    position: relative;
+    overflow: visible;
     .position{
       cursor: pointer;
     }
     #add-recipe-button{
+      .tutorial-bubble{
+        left: 250px;
+        top: -30px;
+        margin:0;
+      }
       .button{
         background-color: transparent !important;
         box-shadow: none;
@@ -145,7 +152,7 @@
           font-family: @brandon-fonts;
           width: auto;
           padding: 20px;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.04em;
           @media only screen and (max-width : 991px) {
             .font-normal;
             padding: 10px 10px 10px 15px;
