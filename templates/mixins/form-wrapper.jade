@@ -22,7 +22,7 @@ mixin form-wrapper(section, data)
     form#menu-draft-form(action=data.menu.url + '/draft' method='POST' enctype='multipart/form-data')
       input(type='hidden' name='_csrf' value='#{csrftoken}')
 
-    form#menu-publish-form(action=data.menu.url + '/publish' method='POST' enctype='multipart/form-data')
+    form#menu-publish-form(action=data.menu.url + '/published' method='POST' enctype='multipart/form-data')
       input(type='hidden' name='_csrf' value='#{csrftoken}')
 
     form#menu-remove-form(action=data.menu.url + '/remove' method='POST' enctype='multipart/form-data')

@@ -80,6 +80,11 @@
       onButtonPublishClick: function(ev) {
         $('#menu-publish-form').submit();
       },
+      onButtonDeleteClick: function(ev) {
+        if (confirm('¿Está seguro de que desea ELIMINAR este menú?')) {
+          $('#menu-remove-form').submit();
+        }
+      },
       onButtonUpdateClick: function(ev) {
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
@@ -92,7 +97,7 @@
 
     $('#draft.button-manage').on('click', events.onButtonDraftClick);
     $('#publish.button-manage').on('click', events.onButtonPublishClick);
-
+    $('#delete.button-manage').on('click', events.onButtonDeleteClick);
     $('#edit.button-manage').on('click', events.onButtonEditClick);
     $('#cancel.button-manage').on('click', events.onButtonCancelClick);
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
