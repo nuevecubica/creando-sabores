@@ -27,6 +27,11 @@ window.chef.tutorial = (function(tutorial) {
       var $element = $(element);
       $('.options', $element).on('click', callback);
       $element.on('focusout', callback); // Could do better than this...
+    },
+
+    targetClicked: function(element, callback) {
+      // Completes when an element is clicked
+      $(element).on('click', callback);
     }
 
   };

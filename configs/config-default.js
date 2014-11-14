@@ -3,6 +3,9 @@ var __base = __base || '../'; // jshint ignore:line
 
 var tcpSplit = require(__base + 'utils/tcpSplit');
 
+var ln = require("ln");
+var util = require("util");
+
 // CASPER
 var env = null;
 if ('undefined' === typeof process) {
@@ -155,5 +158,41 @@ answer.keystone['email locals'].host = answer.keystone.site.url;
 answer.server = {
   maxCPUs: 999
 };
+
+answer.logger = {
+  level: "debug",
+  path: "./logs/"
+};
+
+answer.logger.appendersLevel = function(level, path) {
+  return {
+    backend: [{
+      "level": level,
+      "type": "file",
+      "path": "[./logs/" + process.env.NODE_ENV + ".backend.log.]YYMMDD",
+      "isUTC": true
+    }, {
+      "level": level,
+      "type": "console",
+      "formatter": function(json) { //define your formatter function in "format" attribute
+        return util.format("[%s] [%s] [%s] - %s", json.t, ln.LEVEL[json.l], json.n, json.m);
+      }
+    }],
+    frontend: [{
+      "level": level,
+      "type": "file",
+      "path": "[" + path + process.env.NODE_ENV + ".frontend.log.]YYMMDD",
+      "isUTC": true
+    }],
+    default: [{
+      "level": level,
+      "type": "file",
+      "path": "[" + path + process.env.NODE_ENV + ".default.log.]YYMMDD",
+      "isUTC": true
+    }]
+  };
+};
+
+answer.logger.appenders = answer.logger.appendersLevel(answer.logger.level, answer.logger.path);
 
 exports = module.exports = answer;

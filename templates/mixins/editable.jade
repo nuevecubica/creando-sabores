@@ -6,11 +6,11 @@ mixin editable(editable, own)
             #edit.ui.button.chef.button-manage
               a= __('Edit')
 
-            if manageable && data.recipe
-              if data.recipe.state == 'draft'
+            if manageable && data[collection]
+              if data[collection].state == 'draft'
                 #publish.ui.button.chef.button-manage
                   a= __('Publish')
-              else if data.recipe.state == 'published' || data.recipe.state == 'review'
+              else if data[collection].state == 'published' || data[collection].state == 'review'
                 #draft.ui.button.chef.button-manage
                   a= __('Draft')
     .fixed
@@ -18,12 +18,12 @@ mixin editable(editable, own)
         #actions-wrapper.ten.mobile-sixteen.wide.column
           .ui.menu
             .menu
-              if section === 'new-recipe' || section === 'recipe'
+              if section === 'new-recipe' || section === 'recipe' || section === 'new-menu' || section === 'menu'
                 #help.ui.button.chef.button-manage
                   a= __('Helps')
               if manageable && !isNew
                 #delete.ui.button.chef.button-manage
-                  a.icon.icon-chef-cross.explain
+                  a.icon.icon-chef-bin.explain
               #cancel.ui.button.chef.button-manage
                 a= __('Cancel')
               #update.ui.button.chef.button-manage

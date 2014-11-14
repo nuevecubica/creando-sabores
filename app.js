@@ -1,6 +1,6 @@
 /* APP */
 global.__base = __dirname + '/';
-global.logger = require('./utils/logger');
+global.logger = require(__base + 'utils/logger')("backend");
 
 require('./utils/stringPrototype');
 require('dotenv').load();
@@ -50,7 +50,8 @@ else {
 
       config.keystone.init = _.extend(config.keystone.init, config.keystone.test.init);
       config.keystone['security'] = _.extend(config.keystone['security'], config.keystone.test['security']);
-      logger.warn("\n" + multiline(function() {
+      logger.warn("TEST MODE activated");
+      console.warn("\n" + multiline(function() {
         /*
      _____ _____ ____ _____   __  __  ___  ____  _____
     |_   _| ____/ ___|_   _| |  \/  |/ _ \|  _ \| ____|

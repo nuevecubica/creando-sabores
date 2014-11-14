@@ -1,69 +1,44 @@
-exports = module.exports = (function() {
-  var levels = ['error', 'warn', 'info', 'log', 'debug'];
+var config = require('../config.js');
+var ln = require("ln");
+ln.PIPE_BUFF = 512;
 
-  var logger = {
-    debugLevel: 'info'
-  };
+var defaults = config.logger.appenders.default || [{
+  "level": "debug",
+  "type": "file",
+  "path": "[" + config.logger.path + "default.log.]YYMMDD",
+  "isUTC": true
+}];
 
-  if (process.env.NODE_DEBUG && levels.indexOf(process.env.NODE_DEBUG) >= 0) {
-    logger.debugLevel = process.env.NODE_DEBUG;
+var createLogger = function(name) {
+  name = name || "backend";
+  var appenders = config.logger.appenders.hasOwnProperty(name) ? config.logger.appenders[name] : defaults;
+  var log = new ln(name, appenders);
+  log.log = log.debug; // Fix for all the logger.log calls
+  return log;
+};
+
+createLogger.getRequest = function(req) {
+  var user = null;
+
+  if (req.user) {
+    var u = req.user;
+    user = {
+      id: u.id,
+      username: u.username
+    };
   }
 
-  var colors = require('colors');
-
-  colors.setTheme({
-    error: 'red',
-    warn: 'yellow',
-    info: 'green',
-    log: 'blue',
-    debug: 'grey'
-  });
-
-  logger.print = function() {
-    var args = Array.prototype.slice.call(arguments);
-    var level = args.shift();
-
-    if ("string" === typeof args[0]) {
-      var first = args.shift();
-      args.unshift(level.toUpperCase());
-      args.unshift(new Date().toISOString());
-      args.unshift('%s: %s ' [level.trim()] + first);
-    }
-    else {
-      args.unshift(level.toUpperCase()[level]);
-      args.unshift(new Date().toISOString());
-      args.unshift('%s: %s ');
-    }
-
-    var lev = level.trim();
-    if (levels.indexOf(lev) <= levels.indexOf(logger.debugLevel)) {
-      console[lev].apply(console, args);
+  return {
+    user: user,
+    request: {
+      "host": req.headers['host'],
+      "userAgent": req.headers['user-agent'],
+      "method": req.method,
+      "url": req.url,
+      "remoteAddress": req.connection.remoteAddress,
+      "remotePort": req.connection.remotePort
     }
   };
+};
 
-  logger.log = function() {
-    var args = Array.prototype.slice.call(arguments);
-    args.unshift('log  ');
-    this.print.apply(logger, args);
-  };
-
-  logger.info = function() {
-    var args = Array.prototype.slice.call(arguments);
-    args.unshift('info ');
-    this.print.apply(logger, args);
-  };
-
-  logger.warn = function() {
-    var args = Array.prototype.slice.call(arguments);
-    args.unshift('warn ');
-    this.print.apply(logger, args);
-  };
-
-  logger.error = function() {
-    var args = Array.prototype.slice.call(arguments);
-    args.unshift('error');
-    this.print.apply(logger, args);
-  };
-
-  return logger;
-})();
+exports = module.exports = createLogger;

@@ -114,7 +114,7 @@ module.exports = (grunt) ->
 
       server:
         options:
-          devel: true
+          devel: false
           node: true
           predef: ['__base', 'logger']
         files:

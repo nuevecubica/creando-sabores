@@ -4,6 +4,8 @@ var async = require('async'),
   formResponse = require(__base + 'utils/formResponse.js'),
   service = require(__base + 'services');
 
+var _logger = require(__base + 'utils/logger');
+
 var recipePublish = function(req, res) {
   var recipeSlug = req.params.recipe,
     back = '..',
@@ -27,7 +29,7 @@ var recipePublish = function(req, res) {
 
   // Data
   if (actions.indexOf(req.params.state) === -1) {
-    logger.error('recipePublish: Error for unknown action %s', req.params.state);
+    logger.warn('recipePublish: Error for unknown action %s', req.params.state, _logger.getRequest(req));
     return formResponse(req, res, back, 'Error: Unknown error', false);
   }
   else {
@@ -38,7 +40,9 @@ var recipePublish = function(req, res) {
   // Get
   service.recipe.recipe.get(options, function(err, result) {
     if (err) {
-      logger.error('recipePublish:', err, options);
+      var request = _logger.getRequest(req);
+      request.options = options;
+      logger.error('recipePublish error: %j', err, request);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }
     else if (result) {
@@ -54,7 +58,7 @@ var recipePublish = function(req, res) {
         fields: fields
       }, function(err) {
         if (err) {
-          logger.error('recipePublish:', err);
+          logger.error('recipePublish error: %j', err, _logger.getRequest(req));
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {

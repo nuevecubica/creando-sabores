@@ -13,6 +13,8 @@ exports = module.exports = function(req, res) {
 
   locals.categories = {};
 
+  locals.collection = 'menu';
+
   // Init locals
   if (req.params.menu) {
     locals.section = 'menu';
@@ -68,6 +70,7 @@ exports = module.exports = function(req, res) {
         next(err);
       });
     }
+
   });
 
   // Render the view

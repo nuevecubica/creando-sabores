@@ -4,6 +4,8 @@ var async = require('async'),
   formResponse = require(__base + 'utils/formResponse.js'),
   config = require(__base + 'configs/editor');
 
+var _logger = require(__base + 'utils/logger');
+
 exports = module.exports = function(req, res, next) {
 
   var back = '..';
@@ -26,7 +28,7 @@ exports = module.exports = function(req, res, next) {
     }, function(err) {
       // Error ocurred
       if (err) {
-        logger.log('profileSave: Error saving profile');
+        logger.error('profileSave: Error saving profile', _logger.getRequest(req));
         return formResponse(req, res, back, 'Error saving profile', false);
       }
       else {
@@ -39,7 +41,7 @@ exports = module.exports = function(req, res, next) {
           }, function(err) {
             // Error ocurred
             if (err) {
-              logger.log('profileSave: Error saving avatar');
+              logger.error('profileSave: Error saving avatar', _logger.getRequest(req));
               return formResponse(req, res, back, 'Error saving profile', false);
             }
             else {

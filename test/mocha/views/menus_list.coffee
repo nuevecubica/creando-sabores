@@ -118,7 +118,7 @@ describe 'Menus: Lists', ->
             user = data.getUserByUsername data.users[0].username
 
             menus = {}
-            for r in data.getMenusBy 'author', user._id
+            for r in data.getBy 'menus', 'author', user._id
               title = r.title.trim().toUpperCase()
               menus[title] = r
 
