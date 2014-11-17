@@ -20,10 +20,16 @@ http {
   client_max_body_size 5m;
 
   upstream coreos-localhost { server ${NODE_PORT:6}; }
+
+  server {
+      server_name  www.creandosabores.com;
+      rewrite ^(.*) http://creandosabores.com$1 permanent;
+  }
+
   server {
     listen      [::]:80;
     listen      80;
-    server_name localhost;
+    server_name localhost creandosabores.com;
     location    / {
       proxy_pass  http://coreos-localhost;
       proxy_http_version 1.1;
