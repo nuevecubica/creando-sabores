@@ -51,8 +51,8 @@ exports.initLocals = function(req, res, next) {
 
   locals.fullUrl = locals.site.url || 'http://creandosabores.com';
 
-  if (req.url) {
-    locals.fullUrl = locals.fullUrl + req.url;
+  if (req.path) {
+    locals.fullUrl = locals.fullUrl + req.path;
   }
   else {
     locals.fullUrl = locals.fullUrl + '/';
