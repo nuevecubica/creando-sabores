@@ -23,18 +23,19 @@ var answer = {
 
       'host': '0.0.0.0',
       'port': process.env.PORT || 3000
-    }
+    },
+    site: {
+      name: 'Creando Sabores',
+      email: 'contacto@creandosabores.com',
+      url: 'http://creandosabores.com',
+      publicUrl: 'http://creandosabores.com',
+      twitter: '@creandoSabores',
+      brand: 'Creando Sabores',
+      fb_app_id: '572952406168649',
+      fb_url: 'https://www.facebook.com/creandosabores'
+    },
+    publicUrl: 'http://creandosabores.com'
   },
-  site: {
-    name: 'Creando Sabores',
-    email: 'contacto@creandosabores.com',
-    url: 'http://creandosabores.com',
-    twitter: '@creandoSabores',
-    brand: 'Creando Sabores',
-    fb_app_id: '572952406168649',
-    fb_url: 'https://www.facebook.com/creandosabores'
-  },
-  publicUrl: 'http://creandosabores.com',
   logger: {
     level: "info",
     path: "/var/log",
