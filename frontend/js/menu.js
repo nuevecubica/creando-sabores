@@ -209,7 +209,7 @@
       $('#results .list').html('');
     };
 
-    $('#add-recipe-button').on('click', enableSearch);
+    $('#add-recipe-button > .button').on('click', enableSearch);
 
     var menuRecipesUpdate = function() {
       var slugs = [];
@@ -234,7 +234,6 @@
 
     $(document).on('click', '#menu-recipe-add .list > .position', appendRecipe);
     $(document).on('click', '.menu-plate-remove', removeRecipe);
-
 
   });
 })();

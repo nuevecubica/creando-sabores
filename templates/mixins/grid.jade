@@ -31,18 +31,20 @@ mixin grid(recipes, gridPositions, gridSizes)
 						.content
 							span
 								.span= title
-								.info
-									.type= type
-									if ['recipe', 'videorecipe'].indexOf(enType) !== -1
-										.difficulty= difficulty
-										= ' '
-										.time
-											i.icon-chef-time.icon
+								if recipe
+									.info
+										.type= type
+										if ['recipe', 'videorecipe'].indexOf(enType) !== -1
 											= ' '
-											.span= recipe.time + '\''
+											.difficulty= difficulty
 											= ' '
-										.portions
-											i.icon-chef-porciones.icon
-											= ' '
-											.span= recipe.portions
-											= ' '
+											.time
+												i.icon-chef-time.icon
+												= ' '
+												.span= recipe.time + '\''
+												= ' '
+											.portions
+												i.icon-chef-porciones.icon
+												= ' '
+												.span= recipe.portions
+												= ' '
