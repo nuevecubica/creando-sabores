@@ -35,9 +35,14 @@ mixin grid(recipes, gridPositions, gridSizes)
 									.type= type
 									if ['recipe', 'videorecipe'].indexOf(enType) !== -1
 										.difficulty= difficulty
+										= ' '
 										.time
 											i.icon-chef-time.icon
+											= ' '
 											.span= recipe.time + '\''
+											= ' '
 										.portions
 											i.icon-chef-porciones.icon
+											= ' '
 											.span= recipe.portions
+											= ' '
