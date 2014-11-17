@@ -25,9 +25,9 @@ var answer = {
 
       'host': '0.0.0.0',
       'port': process.env.PORT || 3000
-    }
+    },
+    publicUrl: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
   },
-  publicUrl: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000',
   logger: {
     level: "info",
     path: "/var/log",
