@@ -1,6 +1,5 @@
 data = require './../data'
-config = require './../../config.js'
-base = config.keystone.publicUrl  # We're outside node, so no keystone
+base = require('./casper-config.js').publicUrl
 
 # Augment the casper object with some new helpers
 casper.editorGetValues = (selectors) ->
