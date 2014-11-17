@@ -129,7 +129,7 @@ var getHeaderMenu = function(options, callback) {
   var query = Menu.model.findOne();
 
   query.where('state', 'published');
-  query.where('isTipsHeaderPromoted', true);
+  query.where('isMenusHeaderPromoted', true);
 
   if (options.sort) {
     query.sort(options.sort);

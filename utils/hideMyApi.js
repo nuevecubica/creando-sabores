@@ -9,9 +9,14 @@ var _ = require('underscore');
  */
 var deepAddField = function(source, fields, _dest) {
   var field = fields.shift();
-  // console.log('iterate field', field, fields, _dest[field] || null);
+  // logger.log('iterate field', field, fields, _dest[field] || null);
   var _new = _dest || {};
-  if (!_.isObject(source)) {
+  if (field === '*' && _.isArray(source)) {
+    _new = source.map(function(elem, i) {
+      return deepAddField(elem, fields, _dest[i] || {});
+    });
+  }
+  else if (!_.isObject(source)) {
     return source;
   }
   else if (source[field]) {

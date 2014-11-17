@@ -23,12 +23,19 @@ exports = module.exports = function(req, res) {
 
         function(callback) {
           service.contestList.get({
-            state: ['programmed', 'submission', 'votes'],
+            states: ['programmed', 'submission', 'votes'],
             one: true
           }, function(err, contest) {
             if (!err && contest) {
               locals.data.current = contest;
-              locals.data.current.formattedDeadline = moment(contest.deadline).format('L');
+              var date = contest.programmedDate;
+              if (contest.state === 'submission') {
+                date = contest.submissionDeadline;
+              }
+              else if (contest.state === 'votes') {
+                date = contest.deadline;
+              }
+              locals.data.current.formattedDate = moment(date).format('L');
             }
             callback(err);
           });
@@ -45,7 +52,7 @@ exports = module.exports = function(req, res) {
               callback(err);
             }
             else {
-              console.error('Error: Query last contests', err);
+              logger.error('Error: Query last contests', err);
               return res.notfound(res.__('Not found'));
             }
           });
@@ -53,7 +60,7 @@ exports = module.exports = function(req, res) {
       ],
       function(err, results) {
         if (err) {
-          console.error('Error: Query contests', err);
+          logger.error('Error: Query contests', err);
           return res.notfound(res.__('Not found'));
         }
         next(err);

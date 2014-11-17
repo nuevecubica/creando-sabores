@@ -118,7 +118,7 @@ User.add({
     type: Boolean,
     label: 'Confirmed',
     note: 'Has confirmed email address. Can publish.',
-    default: true
+    default: false
   },
   isChef: {
     type: Boolean,
@@ -284,7 +284,6 @@ User.schema.path('name').validate(function(value, done) {
   }
   var re = /^[a-zA-Z0-9]+$/;
   if (re.test(value) === null) {
-    console.log('-------> INVALID USER NAME');
     return done('Invalid username, only letters and numbers are allowed.');
   }
   return done();
@@ -340,6 +339,10 @@ User.schema.pre('save', function(done) {
     }
   }
 
+  if (this.social.facebook.isConfigured || this.social.google.isConfigured) {
+    this.isConfirmed = true;
+  }
+
   done();
 });
 
@@ -356,7 +359,7 @@ User.schema.methods.verifyEmail = function(callback) {
     }
     service.email.send('welcome-register', {
       user: user,
-      userVars: {
+      globalMergeVars: {
         link: keystone.get('site').url + '/confirma-email/' + user.verifyEmailToken
       }
     }, callback);
@@ -376,7 +379,7 @@ User.schema.methods.resetPassword = function(callback) {
 
     service.email.send('forgotten-password', {
       user: user,
-      userVars: {
+      globalMergeVars: {
         link: keystone.get('site').url + '/nueva-contrasena/' + user.resetPasswordToken
       }
     }, callback);
@@ -403,7 +406,7 @@ User.schema.methods.verifyNewsletter = function(callback) {
   var user = this;
   service.email.send('verify-newsletter', {
     user: user,
-    userVars: {
+    globalMergeVars: {
       link: user.getNewsletterSubscribeUrl()
     }
   }, callback);

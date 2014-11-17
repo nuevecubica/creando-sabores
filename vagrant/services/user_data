@@ -1,0 +1,111 @@
+#cloud-config
+
+coreos:
+  etcd:
+    discovery: https://discovery.etcd.io/59da71c3cb611d6d561b06f126c74614
+    addr: 50.116.29.133:4001
+    peer-addr: 50.116.29.133:7001
+  fleet:
+    public-ip: 50.116.29.133
+  update:
+    reboot-strategy: off
+  units:
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      command: start
+    - name: sshd.socket
+      content: |
+        [Socket]
+        ListenStream=210
+        Accept=yes
+    - name: docker.service
+      command: restart
+      content: |
+        [Unit]
+        Description=Docker Application Container Engine
+        Documentation=http://docs.docker.io
+        Requires=docker.socket
+        [Service]
+        Environment="TMPDIR=/var/tmp/"
+        ExecStartPre=/bin/mount --make-rprivate /
+        LimitNOFILE=1048576
+        LimitNPROC=1048576
+        # Run docker but don't have docker automatically restart
+        # containers. This is a job for systemd and unit files.
+        ExecStart=/usr/bin/docker --daemon --icc=false --storage-driver=btrfs --host=fd://
+        [Install]
+        WantedBy=multi-user.target
+    - name: 00-eth0.network
+      runtime: true
+      content: |
+        [Match]
+        Name=eth0
+        [Network]
+        Address=50.116.29.133/24
+        Address=2600:3c00::f03c:91ff:fe56:af7c/64
+        Gateway=50.116.29.1
+        Gateway=fe80::1
+        DNS=72.14.179.5
+        DNS=72.14.188.5
+        DNS=2600:3c00::2
+        DNS=2600:3c00::3
+        Address=192.168.185.227/17
+        Address=fe80::f03c:91ff:fe56:af7c/64
+
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAwVQUKD8s5ZT9tKFvEpVGz0r0tG5TFngn6IEHd11GDi3+FyLx5cCQ+/eUHual3X7ElvZNB5sIR7zhW4+wRV3PXkKCQ2JhEnM6fs+Slg0nPPXlTtdB9OGqw56L1Xxin5N/X9YLuLfmpAzP901Q6Y9au8GfhIlAgSU77P32FsToTWmPR8o8uN8ehMBES3TLgdK4tf3l9Bcf9x0VIAg15oQzPvYxcZDKty81/DCjs1yjUIbW2vY13IfzOsJHKjqaVlRmZMyri0ebvNP8+AN6QCGjQUsJrzyjDE9jMQo1jWvUyaiyqmGTSmv9T1smVOlZ5IGiYLle0KHtTldxgwhlsSSHYw== anxo@glue.gl
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHitxSC6HZBD++1rNHsZAKUrSr8HUUh6J2RpBh6C4TJfBsmQOTFArOtOq/8W3vKIaJSQSZkU3OIlNouuOJjT8DX9dc8jhNDFs5sAeXvZRDNb2yjNA9UwKGCrC1IojODm3mbGPeq7nSwtoZepgkvFZlpU+J28kcXKFtCho5GkB5c1Ee5t0x9Fw3jIVJYwk7zLra4D8opFIO2D1dBGe/bCFTzflSfaRqZedr9NzCcLgv7HO/R/8e/lRVvyYxun93xcJu56Z/kBKm/ZFMUPiEuXhP+S7Vx8vhcOtp7tO51qulQIstaOjaoSXGitoFdF2OUjM/jGjvw1kr4O5pu1fzRW0z ignacio@glue.gl
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4KaInPCBk9KdORf/zsfsy8OEUVrjEYzCppZTObYCSp2mTd0J4T08ENDh0ZMPmTOyFWRYpCHltcGU1bRnAv06lc6p+Aw819Pswgz7LAxSdDT42luPqRijijLGdDvOYGbm51M1pj6o7mpi6uWKy4wzYUts3BwRbpb71MFbuEUF+LwMpfth2MapdzGUmiTLGWlwl0ZXqWfyjsP0HMc/TP9hGzRelV9js2rLnQzv8XXlSGE2O3SzAujdX7VUSMhnaJmiHo/Q8x45EOhg8wAQ89GHEWQLqTveA6kl/Hw6D7vtvBGN4OodXi/B8l+OY/GZK2xdqSnUQ6WoRJLwMlnhJCL8j miguel@glue.gl
+
+write_files:
+  - path: /etc/ssh/sshd_config
+    permissions: 0600
+    owner: root:root
+    content: |
+      # Use most defaults for sshd configuration.
+      UsePrivilegeSeparation sandbox
+      Subsystem sftp internal-sftp
+      PermitRootLogin no
+      AllowUsers core
+      PasswordAuthentication no
+      ChallengeResponseAuthentication no
+  - path: /etc/systemd/system/iptables.rules
+    permissions: 0644
+    owner: root:root
+    content: |
+      *filter
+      :INPUT ACCEPT [318:19080]
+      :FORWARD ACCEPT [1773:219141]
+      :OUTPUT ACCEPT [5871:2602696]
+      -A INPUT -i eth0 -p tcp -m tcp --dport 210 -j ACCEPT
+      -A INPUT -i eth0 -p tcp -m tcp --dport 80 -j ACCEPT
+      -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+      -A INPUT -i eth0 -j DROP
+      COMMIT
+  - path: /etc/systemd/system/iptables.reset.rules
+    permissions: 0644
+    owner: root:root
+    content: |
+      *filter
+      :INPUT ACCEPT [0:0]
+      :FORWARD ACCEPT [0:0]
+      :OUTPUT ACCEPT [0:0]
+      COMMIT
+  - path: /etc/systemd/system/iptables.service
+    permissions: 0644
+    owner: root:root
+    content: |
+      [Unit]
+      Description=Packet Filtering Framework
+      DefaultDependencies=no
+      After=systemd-sysctl.service
+      Before=sysinit.target
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/sbin/iptables-restore /etc/systemd/system/iptables.rules
+      ExecReload=/usr/sbin/iptables-restore /etc/systemd/system/iptables.rules
+      ExecStop=/usr/sbin/iptables-restore /etc/systemd/system/iptables.reset.rules
+      RemainAfterExit=yes
+      [Install]
+      WantedBy=multi-user.target

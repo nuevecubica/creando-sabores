@@ -11,11 +11,11 @@ exports = module.exports = function(req, res) {
     verifyEmailToken: req.params.token
   }, function(err, user) {
     if (err) {
-      console.error("verifyEmailToken error");
-      console.error(err);
+      logger.error("verifyEmailToken error: %j", err, req);
       return formResponse(req, res, '/', "Error: Unknown error", false);
     }
     else if (!user) {
+      logger.info("verifyEmailToken.unknown", req);
       return formResponse(req, res, '/', "Sorry, we can't recognise that token.", false);
     }
     else if (!req.user) {
@@ -27,8 +27,7 @@ exports = module.exports = function(req, res) {
       user.verifyEmailToken = '';
       user.save(function(err, ended) {
         if (err) {
-          console.error('===== ERROR verifying email =====');
-          console.error(err);
+          logger.error("verifyEmail.save error: %j", err, req);
           return formResponse(req, res, '/', 'Error verifying your email. Please, try again.', false);
         }
         else {

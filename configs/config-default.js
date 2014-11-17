@@ -3,6 +3,9 @@ var __base = __base || '../'; // jshint ignore:line
 
 var tcpSplit = require(__base + 'utils/tcpSplit');
 
+var ln = require("ln");
+var util = require("util");
+
 // CASPER
 var env = null;
 if ('undefined' === typeof process) {
@@ -116,9 +119,13 @@ answer.keystone = {
     'csrf': true
   },
   site: {
-    name: 'Chefcito',
-    email: 'chefcito@glue.gl',
-    url: env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl'
+    name: 'Creando Sabores',
+    email: 'contacto@creandosabores.com',
+    url: env.APP_PUBLIC_URL || 'http://0.0.0.0:3000',
+    twitter: '@creandoSabores',
+    brand: 'Creando Sabores',
+    fb_app_id: '123456789012345',
+    fb_url: 'https://www.facebook.com/creandosabores'
   },
   publicUrl: env.APP_PUBLIC_URL || 'http://chefcito.dev01.glue.gl',
   'email locals': {
@@ -147,5 +154,45 @@ answer.keystone = {
 answer.keystone.publicUrl = answer.keystone.site.url;
 answer.keystone['email locals'].site = answer.keystone.site;
 answer.keystone['email locals'].host = answer.keystone.site.url;
+
+answer.server = {
+  maxCPUs: 999
+};
+
+answer.logger = {
+  level: "debug",
+  path: "./logs/"
+};
+
+answer.logger.appendersLevel = function(level, path) {
+  return {
+    backend: [{
+      "level": level,
+      "type": "file",
+      "path": "[./logs/" + process.env.NODE_ENV + ".backend.log.]YYMMDD",
+      "isUTC": true
+    }, {
+      "level": level,
+      "type": "console",
+      "formatter": function(json) { //define your formatter function in "format" attribute
+        return util.format("[%s] [%s] [%s] - %s", json.t, ln.LEVEL[json.l], json.n, json.m);
+      }
+    }],
+    frontend: [{
+      "level": level,
+      "type": "file",
+      "path": "[" + path + process.env.NODE_ENV + ".frontend.log.]YYMMDD",
+      "isUTC": true
+    }],
+    default: [{
+      "level": level,
+      "type": "file",
+      "path": "[" + path + process.env.NODE_ENV + ".default.log.]YYMMDD",
+      "isUTC": true
+    }]
+  };
+};
+
+answer.logger.appenders = answer.logger.appendersLevel(answer.logger.level, answer.logger.path);
 
 exports = module.exports = answer;

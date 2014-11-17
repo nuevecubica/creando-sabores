@@ -31,11 +31,11 @@ exports = module.exports = function(req, res, next) {
 
       // Redirect based on response
       if (err) {
-        console.log('[auth.google] - Google authentication failed - ' + JSON.stringify(err));
+        logger.info('[auth.google] - Google authentication failed: %j', err, req);
         return res.redirect(redirects.fail);
       }
       else {
-        console.log('[auth.goole] - Google authentication was successful.');
+        logger.log('[auth.goole] - Google authentication was successful.', req);
         return res.redirect(redirects.success);
       }
 

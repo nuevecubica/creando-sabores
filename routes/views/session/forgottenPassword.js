@@ -21,6 +21,7 @@ exports = module.exports = function(req, res) {
 
     User.model.findOne().where('email', req.body.email).exec(function(err, user) {
       if (err) {
+        logger.error('Error looking for email to reset password: %j', err, req);
         return next(err);
       }
       if (!user) {
@@ -28,8 +29,7 @@ exports = module.exports = function(req, res) {
       }
       user.resetPassword(function(err) {
         if (err) {
-          console.error('===== ERROR sending reset password email =====');
-          console.error(err);
+          logger.error('Error sending reset password email: %j', err, req);
           return formResponse(req, res, next, 'Error sending reset password email.', false);
         }
         else {

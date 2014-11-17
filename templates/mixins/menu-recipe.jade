@@ -1,0 +1,99 @@
+mixin menu-recipe(recipe,i)
+
+  if recipe.state !== 'published'
+    div(class=recipe.classes, data-slug=recipe.slug).unavailable.row.position
+      .ui.button.chef.button-brick.menu-plate-remove.show-editable
+        i.icon-chef-bin.icon.chef.font-large
+      .five.wide.column
+        .thumbnail(style = 'background-image: url(/images/default_menu.jpg)')
+          .row
+
+          .row
+
+          .row
+            .ui.three.column.center.aligned.grid
+
+              .column
+              .column
+              .difficulty.column
+
+      .eleven.wide.column
+        span
+          .span.explain= __('Plate') + ' ' + (i + 1)+ 'º'
+          .rating
+          h2.ui.header
+            != recipe.title
+          .status-recipe
+            .general-state
+              span.icon-chef-var
+        .ui.content!= __('Recipe unavailable')
+
+  else
+
+    div(class=recipe.classes, data-slug=recipe.slug).row.position
+      a(href=recipe.url).hover-list.hide-editable
+      .five.wide.column
+        if recipe.isVideorecipe
+          .play
+            i.icon-chef-play.icon
+
+        .thumbnail(style = 'background-image: url(' + recipe.thumb.list + ')')
+          .row
+
+          .row
+
+          .row
+            .ui.three.column.center.aligned.grid
+
+              .column
+                i.icon-chef-time.icon
+                .span= recipe.time + ' ' + __('min')
+
+              .column
+                i.icon-chef-porciones.icon
+                .span= recipe.portions
+
+              .difficulty.column
+                - var difficulty = recipe.difficulty
+                - for(var x = 0; x < 5; x++)
+                  if difficulty == 0
+                    i.icon-chef-tenedor.icon.off
+                  else
+                    i.icon-chef-tenedor.icon.on
+                    - difficulty = difficulty - 1;
+
+      .eleven.wide.column
+        h2.ui.header
+          != recipe.title
+        .plate
+          .ui.button.chef.button-brick.menu-plate-remove.show-editable
+            i.icon-chef-bin.icon.chef
+          .span.explain
+            != __('Plate') + ' '
+            span.count= (i + 1)
+            != 'º'
+        .rating
+          .strong= __('Rating')
+          .span
+            .ui.icon
+              - var rating = Math.floor(recipe.rating) || 0
+              - for(var x = 0; x < 5; x++)
+                if rating == 0
+                  i.icon-chef-star.icon.off
+                else
+                  i.icon-chef-star.icon.on
+                  - rating = rating - 1;
+
+        .status-recipe
+          if recipe.contest && recipe.contest.id
+            .ribbon
+              span.icon-chef-var
+          else if recipe.state !== 'published'
+            .general-state
+              span.icon-chef-var
+
+        .ui.content!= recipe.description
+
+        if recipe.isOfficial
+          .official
+            img(src='/images/ribbon.png')

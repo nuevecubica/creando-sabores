@@ -1,6 +1,11 @@
 mixin form-wrapper(section, data)
 
   if section === 'recipe' && data.recipe
+    form#recipe-draft-form(action=data.recipe.url + '/draft' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
+
+    form#recipe-publish-form(action=data.recipe.url + '/publish' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
 
     form#recipe-remove-form(action=data.recipe.url + '/remove' method='POST' enctype='multipart/form-data')
       input(type='hidden' name='_csrf' value='#{csrftoken}')
@@ -10,6 +15,24 @@ mixin form-wrapper(section, data)
 
   else if section === 'new-recipe'
     form#recipe-edit-form(action='/nueva-receta/save' method='POST' enctype='multipart/form-data')
+      block content
+
+  else if section === 'menu' && data.menu
+
+    form#menu-draft-form(action=data.menu.url + '/draft' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
+
+    form#menu-publish-form(action=data.menu.url + '/published' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
+
+    form#menu-remove-form(action=data.menu.url + '/remove' method='POST' enctype='multipart/form-data')
+      input(type='hidden' name='_csrf' value='#{csrftoken}')
+
+    form#menu-edit-form(action=data.menu.url + '/save' method='POST' enctype='multipart/form-data')
+      block content
+
+  else if section === 'new-menu'
+    form#menu-edit-form(action='/nuevo-menu/save' method='POST' enctype='multipart/form-data')
       block content
 
   else if section === 'privateProfile'
@@ -31,3 +54,6 @@ mixin form-wrapper(section, data)
       input#hidden-about(type="hidden" name="about")
       input(type="hidden" name="_csrf" value="#{csrftoken}")
       block content
+
+  else
+    block content

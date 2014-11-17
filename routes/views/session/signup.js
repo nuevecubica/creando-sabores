@@ -7,14 +7,28 @@ var keystone = require('keystone'),
 
 exports = module.exports = function(req, res) {
 
-  var userHome = '/';
-
-  if (req.user) {
-    return res.redirect(userHome);
-  }
+  var backOk = '/';
+  var backFail = '/';
 
   var locals = res.locals,
     view = new keystone.View(req, res);
+
+  locals.next = null;
+
+  if (req.query.next) {
+    locals.next = req.query.next;
+    req.query.next = decodeURIComponent(req.query.next || '');
+    if (req.query.next.indexOf('//:') === -1 && req.query.next[0] === '/') {
+      backOk = req.query.next;
+    }
+    else {
+      locals.next = null;
+    }
+  }
+
+  if (req.user) {
+    return res.redirect(backOk);
+  }
 
   // Set locals
   locals.section = 'session';
@@ -51,14 +65,14 @@ exports = module.exports = function(req, res) {
               // If user is banned, signout
               if (user.isBanned) {
                 keystone.session.signout(req, res, function() {
-                  return formResponse(req, res, '/', 'Access disallowed', false);
+                  return formResponse(req, res, backFail, 'Access disallowed', false);
                 });
               }
 
               // Try to signin
               var onSuccess = function() {
                 // Logged in
-                return res.redirect(userHome);
+                return res.redirect(backOk);
               };
               var onFail = function(e) {
                 // Duplicated
@@ -151,11 +165,11 @@ exports = module.exports = function(req, res) {
 
       // Login on signup success
       var onSuccess = function() {
-        return formResponse(req, res, userHome, false, 'Registered successfully. Please, check your email and follow the instructions in your email.');
+        return formResponse(req, res, backOk, false, 'Registered successfully. Please, check your email and follow the instructions in your email.');
       };
       var onFail = function(e) {
-        console.error('SIGNIN: Fail after register');
-        return formResponse(req, res, next, 'Error signing in. Check your email for further instructions.', false);
+        logger.error('SIGNIN: Fail after register');
+        return formResponse(req, res, backFail, 'Error signing in. Check your email for further instructions.', false);
       };
       keystone.session.signin({
         email: req.body.signup_email,
@@ -175,20 +189,16 @@ exports = module.exports = function(req, res) {
         // If user is banned, signout
         if (user.isBanned) {
           keystone.session.signout(req, res, function() {
-            return formResponse(req, res, '/', 'Access disallowed', false);
+            return formResponse(req, res, backFail, 'Access disallowed', false);
           });
         }
         else {
-          // Logged in
-          if (req.query.next) {
-            return res.redirect(req.query.next);
-          }
-          return res.redirect(userHome);
+          return res.redirect(backOk);
         }
       };
       var onFail = function(e) {
         // Duplicated
-        console.error('LOGIN: Login failed');
+        logger.log('LOGIN: Login failed');
 
         keystone.list('User').model.findOne({
           email: req.body.login_email
@@ -226,7 +236,7 @@ exports = module.exports = function(req, res) {
     }
     else {
       // Missing data
-      console.error('LOGIN: Invalid data');
+      logger.log('LOGIN: Invalid data');
 
       locals.errors.form = res.__('Invalid credentials');
       locals.errors.fields.email = !req.body.login_email ? res.__('Invalid credentials') : false;

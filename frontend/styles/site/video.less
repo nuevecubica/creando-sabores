@@ -19,6 +19,9 @@ i.icon.play {
  opacity: .75;
  vertical-align: middle;
  display: block;
+ @media only screen and (max-width : 767px) {
+   font-size: 105px;
+  }
 
  &:hover {
    opacity: 1;
@@ -33,6 +36,9 @@ i.icon.play {
   background: url(http://img.youtube.com/vi/50fY8bhEzY0/hqdefault.jpg) no-repeat center center;
   background-size: cover;
   margin-bottom: 3px;
+  @media only screen and (max-width : 767px) {
+    height: 450px;
+  }
 
   > .row:first-child {
     height: 30%;
@@ -84,6 +90,12 @@ i.icon.play {
       box-sizing: border-box;
       width: 98%;
       margin: 0 auto;
+      @media only screen and (max-width : 767px) {
+        padding: 0;
+        width: 100%;
+        text-align: center;
+        top: -30px;
+      }
 
       p {
         .font-larger;
@@ -91,6 +103,18 @@ i.icon.play {
         position: absolute;
         top: -12px;
         text-transform: uppercase;
+        @media only screen and (max-width : 767px) {
+          .font-large;
+          background-color: @chef-color-pink-bg;
+          padding: 10px;
+          text-align: center;
+          float: none;
+          margin: 0;
+          top: 0;
+          position: static;
+          width: auto;
+          display: inline-block;
+        }
       }
       .tabla1{
         position: absolute;
@@ -100,12 +124,18 @@ i.icon.play {
         background-image: url('/images/tabla1.png');
         z-index: 10;
         background-repeat: no-repeat;
+        @media only screen and (max-width : 767px) {
+          display: none;
+        }
       }
       .tabla2{
         height: 120px;
         background-image: url('/images/tabla2.png');
         background-repeat: repeat-x;
         z-index: 200;
+        @media only screen and (max-width : 767px) {
+          background-image:none;
+        }
       }
       .tabla3{
         position: absolute;
@@ -116,6 +146,9 @@ i.icon.play {
         background-image: url('/images/tabla3.png');
         z-index: 10;
         background-repeat: no-repeat;
+        @media only screen and (max-width : 767px) {
+          display: none;
+        }
       }
     }
 
@@ -143,6 +176,12 @@ i.icon.play {
         @media(max-width: 992px) {
           .font-extra-larger;
         }
+        @media(max-width: 767px) {
+          .font-extra-large;
+          width: 100%;
+          text-shadow: 1px 2px 4px @chef-color-gray;
+          text-align: center;
+        }
       }
     }
 
@@ -151,15 +190,31 @@ i.icon.play {
       position: absolute;
       width: 50%;
       left: 35px;
+      @media only screen and (max-width : 767px) {
+        background-color: @chef-color-pink-bg;
+        padding: 10px;
+        text-align: center;
+        float: none;
+        margin: 0;
+        top: 0;
+        position: static;
+        width: auto;
+        display: inline-block;
+        margin-top: 30px;
+      }
 
       .span {
-        font-size: 20px;
+        .font-large;
         color: @recipes-color-date;
         text-align: left;
         text-transform: uppercase;
 
         @media(max-width: 992px) {
-            font-size: 16px;
+          .font-small;
+        }
+        @media(max-width: 767px) {
+          text-align: center;
+          .font-normal;
         }
       }
     }
@@ -183,5 +238,8 @@ i.icon.play {
     margin-left: -55px;
     top: 40px;
     max-width: 90px;
+    @media(max-width: 767px) {
+      margin-left: -40px;
+    }
   }
 }

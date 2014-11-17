@@ -31,11 +31,11 @@ exports = module.exports = function(req, res, next) {
 
       // Redirect based on response
       if (err) {
-        console.log('[auth.facebook] - Facebook authentication failed - ' + JSON.stringify(err));
+        logger.info('[auth.facebook] - Facebook authentication failed: %j', err, req);
         return res.redirect(redirects.fail);
       }
       else {
-        console.log('[auth.facebook] - Facebook authentication was successful.');
+        logger.log('[auth.facebook] - Facebook authentication was successful.', req);
         return res.redirect(redirects.success);
       }
 

@@ -59,16 +59,20 @@ var getGrid = function(options, callback) {
   var getOfficials = mkFiller(service.recipeList.recipe.get, options.section, ['isOfficial']);
   var getContests = mkFiller(service.contestList.get, 'Index');
   var getTips = mkFiller(service.tipList.get, 'Index');
+  var getMenus = mkFiller(service.menuList.get, options.section);
 
   var fillers = [];
   if (options.section === 'Index') {
-    fillers = [getContests, getVideoIndexPromoted, getOfficials, getTips, getSectionPromoted];
+    fillers = [getContests, getVideoIndexPromoted, getOfficials, getTips, getMenus, getSectionPromoted];
   }
   else if (options.section === 'Videorecipes') {
     fillers = [getVideoSectionPromoted];
   }
   else if (options.section === 'Recipes') {
     fillers = [getOfficials, getSectionPromoted];
+  }
+  else if (options.section === 'Menus') {
+    fillers = [getMenus];
   }
   async.parallel(fillers, makeGrid);
 

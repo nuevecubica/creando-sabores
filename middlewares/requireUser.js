@@ -4,7 +4,7 @@
 exports.requireUser = function(req, res, next) {
   if (!req.user || (req.user && req.user.isBanned)) {
     req.flash('error', res.__('Please sign in to access this page'));
-    res.redirect('/');
+    res.redirect('/acceso?next=' + encodeURIComponent(req.url));
   }
   else {
     next();
@@ -37,7 +37,7 @@ exports.requireUserApi = function(req, res, next) {
 exports.requireAdmin = function(req, res, next) {
   if (!req.user || (req.user && (req.user.isBanned || req.user.isDeactivated || !req.user.isAdmin))) {
     req.flash('error', res.__('Please sign in to access this page'));
-    res.redirect('/');
+    res.redirect('/acceso?next=' + encodeURIComponent(req.url));
   }
   else {
     next();
@@ -70,7 +70,7 @@ exports.requireAdminApi = function(req, res, next) {
 exports.requireConfirmed = function(req, res, next) {
   if (!req.user) {
     req.flash('error', res.__('Please sign in to access this page'));
-    res.redirect('/');
+    res.redirect('/acceso?next=' + encodeURIComponent(req.url));
   }
   else if (req.user.isBanned || req.user.isDeactivated) {
     req.flash('error', res.__('Access disallowed'));

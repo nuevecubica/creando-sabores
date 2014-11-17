@@ -136,7 +136,7 @@ body {
   .chef.ui.button{
     display: table-block;
     height: 65px;
-    padding: 25px 5px;
+    padding: 25px 1px;
     a{
       color:@profile-section-color-text;
     }
@@ -177,6 +177,10 @@ body {
       position: absolute !important;
       font-size: 140px;
       top: 0;
+      @media only screen and (max-width : 767px) {
+        font-size: 100px;
+        top: 20px;
+      }
     }
   }
 
@@ -378,7 +382,7 @@ body {
             .font-extra-larger;
           }
           @media(max-width: 767px) {
-            .font-extra-larger;
+            .font-extra-large;
             width: 100%;
             text-shadow: 1px 2px 4px @chef-color-gray;
             text-align: center;
@@ -463,6 +467,20 @@ body {
 
     &.right {
       right: 15px;
+      @media only screen and (max-width : 767px) {
+        &.upload-img{
+          right: 50%;
+          width: 205px;
+          margin-right: -85px;
+        }
+      }
+      @media only screen and (max-width : 767px) {
+        &.change-img{
+          right: 50%;
+          width: 205px;
+          margin-right: -102px;
+        }
+      }
     }
 
     &.left {
@@ -478,6 +496,7 @@ body {
       display: none;
     }
   }
+
   .img-title.wide.column{
     padding-top: 10px;
 
@@ -574,7 +593,7 @@ body {
 /****************
   List Style
 ****************/
-#recipes, #shopping, #results, #tips, #related-tips, #menus {
+#recipes, #shopping, #results, #tips, #related-tips, #menus, #menu-recipes, #favourites {
 
   .row {
     margin-top: 0;
@@ -652,7 +671,7 @@ body {
     padding: 0 !important;
   }
 
-  .recipe, .contest, .tip {
+  .recipe, .contest, .tip, .menu {
     float: left;
     box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
     background-color: #eee;
@@ -671,7 +690,6 @@ body {
 
         span {
           line-height: 1.25em;
-          padding:0 5px;
           display: table-cell;
           vertical-align: middle;
           text-align: center;
@@ -681,15 +699,66 @@ body {
           transition: background-color @ani-time ease-out;
           text-transform: uppercase;
           font-weight: bold;
+          .span{
+            padding: 0 5px;
+          }
 
-          .type{
+          .info{
+            width: 100%;
+            text-align: left;
             position: absolute;
-            bottom: 5px;
-            left: 10px;
-            font-family: pinto;
+            bottom: 0;
+            box-sizing: border-box;
+            padding:  0 5px;
             color: @type-color;
-            text-transform: uppercase;
             text-shadow: 0px 1px 1px @recipes-grid-border;
+            white-space: nowrap;
+            overflow: hidden;
+            .type{
+              font-family: pinto;
+              text-transform: uppercase;
+              display: inline;
+              .font-small;
+              background-color: white;
+              padding: 0 5px;
+            }
+            .time{
+              display: inline;
+              .font-small;
+              .span{
+                display: inline;
+                .font-small;
+                padding: 0;
+                font-family: pinto;
+              }
+              .icon{
+                &:before{
+                  margin-right: -1px;
+                }
+              }
+            }
+            .portions{
+              display: inline;
+              .font-small;
+              .icon{
+                &:before{
+                  margin-right: -1px;
+                }
+              }
+              .span{
+                display: inline;
+                padding: 0;
+                font-family: pinto;
+              }
+            }
+            .difficulty{
+              display: inline;
+              .font-small;
+              font-family: pinto;
+              .icon-chef-tenedor.icon.off{
+                display: none;
+              }
+            }
           }
         }
 
@@ -705,7 +774,7 @@ body {
   }
 
   .computer.only{
-    .recipe, .contest, .tip {
+    .recipe, .contest, .tip, .menu {
       &.small {
         width: 100% / 5;
       }
@@ -721,7 +790,7 @@ body {
   }
 
   .tablet.only{
-    .recipe , .contest, .tip{
+    .recipe , .contest, .tip, .menu {
       background-image: url('../images/recipe_view.png');
       background-position: right bottom;
       background-repeat: no-repeat;
@@ -739,7 +808,7 @@ body {
     }
   }
   .mobile.only{
-    .recipe , .contest, .tip{
+    .recipe , .contest, .tip, .menu {
       background-image: url('../images/recipe_view.png');
       background-position: right bottom;
       background-repeat: no-repeat;
@@ -1134,6 +1203,16 @@ input:focus{
   // }
 }
 
+table{
+  tr{
+    td{
+      vertical-align: middle;
+      .checks {
+        display: inline-block;
+      }
+    }
+  }
+}
 .hidden {
   display: none !important;
   opacity: 0;

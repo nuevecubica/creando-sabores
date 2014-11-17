@@ -26,7 +26,7 @@ exports = module.exports = function(req, res, next) {
     }, function(err) {
       // Error ocurred
       if (err) {
-        console.log('profileSave: Error saving profile');
+        logger.error('profileSave: Error saving profile: %s', err, req);
         return formResponse(req, res, back, 'Error saving profile', false);
       }
       else {
@@ -39,7 +39,7 @@ exports = module.exports = function(req, res, next) {
           }, function(err) {
             // Error ocurred
             if (err) {
-              console.log('profileSave: Error saving avatar');
+              logger.error('profileSave: Error saving avatar: %s', err, req);
               return formResponse(req, res, back, 'Error saving profile', false);
             }
             else {

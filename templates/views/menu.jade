@@ -1,0 +1,84 @@
+extends ../layouts/default
+
+include ../mixins/header
+
+include ../mixins/menu-recipe
+include ../mixins/search
+
+block vars
+  - bodyClasses.push('no-editor-borders')
+
+block js
+  script(src='/js/menu.js')
+
+  if config
+    script.
+      window.chef.editor.config = !{JSON.stringify(config)};
+
+  if isNew
+    script.
+      $(document).ready(function(){
+        console.log('Ready');
+        window.chef.setEditableModeOn();
+
+        // Overwrite cancell function
+        $('#cancel.button-manage').off().on('click', function() {
+          window.location.href ='/menus';
+        });
+      });
+
+  //- The KeystoneJS Content Editor provides support for ks-editable data attributes,
+  //- which generate links to edit content for users who can access Keystone
+  if user && user.canAccessKeystone
+    script(src='/keystone/js/content/editor.js')
+
+block content
+
+  if own
+    input#hidden-title(type='hidden' name='title')
+    input#hidden-description(type='hidden' name='description')
+    input#hidden-plates(type='hidden' name='plates')
+    input(type='hidden' name='_csrf' value='#{csrftoken}')
+
+  +header(data, section)
+
+  #menu-content.ui.page.grid
+
+    #menu-description.row
+      .sixteen.wide.column
+        .explain
+          .ui.content.set-editable(spellcheck='false', tabindex='4', placeholder=__('Description'))!= data.menu.description
+
+  #menu-recipes.ui.page.grid
+    #menu-recipes-current.row
+      .ui.grid.segment.list.stackable
+        if data.menu.plates.length
+          each recipe,i in data.menu.plates
+            +menu-recipe(recipe,i)
+        else
+          .empty-resultset.sixteen.wide.column.hide-editable= __('No recipes yet')
+
+    #menu-recipe-add.show-editable
+
+      #add-recipe-button.sixteen.wide.column.show-editable(data-tutorial-message=__("Tutorial Menu Description"))
+        .ui.button
+          .icon-chef-plus.icon
+            a(data-tutorial-complete="targetClicked")= __('Add recipe')
+
+      #search-area
+        #search-bar.row
+          .ui.form.field(action='/buscar')
+            .ui.icon.input
+              input#search-query(name='q', type='text', placeholder="#{__('Search plate terms')}")
+              button#search-button.icon.chef.button-gray-side= __('Search')
+        #results.ui.grid.segment
+          .row
+            .ui.grid.segment.list.stackable
+          .row
+            .loader
+              .sixteen.wide.column.loading= __('Loading more recipes')
+              .sixteen.wide.column.load-more
+                .ui.button.chef.button-brick.load-button
+                  a(href="#")= __('Load more')
+          .row
+            .empty-resultset.sixteen.wide.column= __('No results')

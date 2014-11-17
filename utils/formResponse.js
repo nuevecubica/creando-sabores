@@ -17,6 +17,10 @@ var formResponse = function(req, res, url, error, success) {
   res.set('Api-Response-Error', error);
   res.set('Api-Response-Success', success);
 
+  if (error) {
+    logger.info('formResponse error: %s', error, req);
+  }
+
   if ('function' === typeof url) {
     url();
   }

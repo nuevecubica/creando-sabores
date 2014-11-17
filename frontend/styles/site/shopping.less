@@ -37,20 +37,54 @@
       width: 29.35%;
       left:0;
     }
-    @media only screen and (max-width : 770px) {
+    @media only screen and (max-width : 767px) {
       h2.header{
         width: 100%;
         top:0;
         bottom: auto;
-
+        box-sizing: border-box;
       }
     }
   }
   .ingredients{
     background-color: inherit;
     min-height: 301px;
-    #shopping-header{
-      &.ui.grid .row .column{
+    .shopping-header{
+      &.ui.grid{
+        .button{
+          float: right;
+          padding: 10px;
+          height: inherit;
+          margin-left: 3px;
+          .icon{
+
+            &:before{
+              margin: 0;
+            }
+          }
+        }
+        .shopping-mail{
+          &.button{
+
+          }
+        }
+        .shopping-print{
+          &.button{
+
+          }
+        }
+        .shopping-remove{
+          &.button.chef.button-brick{
+            float: right;
+            padding: 10px;
+            height: inherit;
+            margin:0 0 0 3px;
+            min-width: 1px;
+            .icon{
+              padding: 2px;
+            }
+          }
+        }
       }
       .remaining{
         font-weight: bold;
@@ -59,39 +93,10 @@
         }
       }
     }
-    #shopping-ingredients{
+    .shopping-ingredients{
       margin-top: -15px;
       &.ui.grid .column.ingredient{
-        margin: 10px 0;
-      }
-    }
-    .button{
-      float: right;
-      padding: 10px;
-      height: inherit;
-      margin-left: 3px;
-      .icon{
-
-        &:before{
-          margin: 0;
-        }
-      }
-    }
-    .shopping-mail{
-      &.button{
-
-      }
-    }
-    .shopping-print{
-      &.button{
-
-      }
-    }
-    .shopping-remove{
-      &.button{
-        .icon{
-          padding: 2px;
-        }
+        margin: 5px 0;
       }
     }
   }

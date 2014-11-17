@@ -3,6 +3,8 @@ include ../../mixins/header
 include ../../mixins/about
 include ../../mixins/recipe
 include ../../mixins/recipe-shopping
+include ../../mixins/tip
+include ../../mixins/menu
 
 block js
 	script(src='/js/profile.js')
@@ -10,27 +12,27 @@ block js
 block content
 
 	+header(data, section)
-	.ui.grid.segment.page
+	#bar.ui.grid.segment.page
 			#add-new-bar.row
 				.four.wide.column.mobile-two
 				.twelve.wide.column
 					.span= __('Do you have a new recipe?')
 						.ui.button.chef.button-brick.hide-editable
 							a(href='/nueva-receta')= __('Create recipe')
-	.ui.page.grid.segment.body.about
+	#about.ui.page.grid.segment.body.about
 		.column
 			.ui.stackable.grid
 				+about(user)
 
-	.ui.page.grid.segment.body
-		.row.tablet.computer.only
+	.ui.page.grid.segment.body.sections
+		#sections.row.tablet.computer.only
 			.six.tabs.tab-header
 				.row
 					.tab
 						a(href='/perfil')
 							div(class="#{subsection === 'profile' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My account')}
-					.tab
+					.tab.max
 						a(href='/perfil/compra')
 							div(class="#{subsection === 'shopping' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('Shopping list')}
@@ -42,15 +44,31 @@ block content
 						a(href='/perfil/favoritas')
 							div(class="#{subsection === 'favourites' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('Favorites')}
-					.tab
+					.tab.min
 						a(href='/perfil/tips')
 							div(class="#{subsection === 'tips' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My tips')}
-					.tab
-						a(href='#')
-							.ui.button.chef.button-green.disabled
+					.tab.min
+						a(href='/perfil/menus')
+							div(class="#{subsection === 'menus' ? 'active' : ''}").ui.button.chef.button-green
 								| #{__('My menus')}
 
+		.row.mobile.only.explain
+			#select.sixteen.wide.column
+				.icon.icon-chef-select
+				select
+					option(value='/perfil', selected=subsection === 'profile' ? 'selected' : false)
+						| #{__('My account')}
+					option(value='/perfil/compra', selected=subsection === 'shopping' ? 'selected' : false)
+						| #{__('Shopping list')}
+					option(value='/perfil/recetas', selected=subsection === 'recipes' ? 'selected' : false)
+						| #{__('My recipes')}
+					option(value='/perfil/favoritas', selected=subsection === 'favourites' ? 'selected' : false)
+						| #{__('Favorites')}
+					option(value='/perfil/tips', selected=subsection === 'tips' ? 'selected' : false)
+						| #{__('My tips')}
+					option(value='/perfil/menus', selected=subsection === 'menus' ? 'selected' : false)
+						| #{__('My menus')}
 
 		if subsection == 'profile'
 			.row
@@ -165,18 +183,33 @@ block content
 							a(href="#")= __('Load more')
 
 		else if subsection === 'tips'
-			#shopping.tab-content
-				- console.log('TIPS', tips)
+			#tips.tab-content
 				.row
 					.ui.grid.segment.list.stackable
-					//- 	if recipes.length
-					//- 		each recipe in recipes
-					//- 			+recipe-shopping(recipe)
-					//- 	else
-					//- 		.empty-resultset.sixteen.wide.column= __('No recipes yet')
+						if tips.length
+							each tip in tips
+								+tip(tip)
+						else
+							.empty-resultset.sixteen.wide.column= __('No tips yet')
 
 				.row.loader
-					.sixteen.wide.column.loading= __('Loading more recipes')
+					.sixteen.wide.column.loading= __('Loading more tips')
+					.sixteen.wide.column.load-more
+						.ui.button.chef.button-brick.load-button
+							a(href="#")= __('Load more')
+
+		else if subsection == 'menus'
+			#menus.tab-content
+				.row
+					.ui.grid.segment.list.stackable
+						if menus.length
+							each menu in menus
+								+menu(menu)
+						else
+							.empty-resultset.sixteen.wide.column= __('No menus yet')
+
+				.row.loader
+					.sixteen.wide.column.loading= __('Loading more menus')
 					.sixteen.wide.column.load-more
 						.ui.button.chef.button-brick.load-button
 							a(href="#")= __('Load more')

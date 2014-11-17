@@ -167,6 +167,12 @@ $(document).ready(function() {
   else if (section === 'compra') {
     makePaginable('/api/v1/me/shopping/list', 'recipes', 'recipe-shopping', '#shopping .list');
   }
+  else if (section === 'tips') {
+    makePaginable('/api/v1/me/tips/favourites/list', 'tips', 'tip', '#tips .list');
+  }
+  else if (section === 'menus') {
+    makePaginable('/api/v1/me/menus', 'menus', 'menu', '#menus .list');
+  }
 
   $('.checks:not(.all)').on('click', function() {
     var $this = $(this);
@@ -203,4 +209,58 @@ $(document).ready(function() {
     $('.shopping-remove').click(removeClick);
   });
 
+  // Print and send email functions
+
+  var getIngredients = function(recipe) {
+    var row = recipe.closest('.row.position');
+
+    return {
+      title: row.find('.ui.header')[0].innerText,
+      text: 'Ingredientes',
+      ingredients: row.find('.shopping-ingredients').html()
+    };
+  };
+
+  /* global Handlebars */
+  $('.shopping-print').on('click', function() {
+
+    if ($('#print-this')) {
+      $('#print-this').remove();
+    }
+
+    var item = getIngredients($(this));
+
+    $.get('/templates/hbs/print-shopping-list.hbs').then(function(src) {
+      var tpl = Handlebars.compile(src);
+      $('body').append(tpl(item));
+
+      window.print();
+    });
+  });
+
+  /* global flashMessage */
+  $('.shopping-mail').on('click', function() {
+    var url = '/api/v1/me/shopping/send/' + $(this).data('slug');
+
+    console.log('URL', url);
+
+    var jQXhr = $.ajax({
+      url: url,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(data) {
+        console.log('DATA', data);
+        if (!data.success) {
+          flashMessage(window.chef.errorMessage('Error: Unknown error.'));
+        }
+        else {
+          flashMessage('Your message has been sent. Thank you.', 'success');
+        }
+      }
+    });
+  });
+
+  $('#select select').change(function() {
+    window.location = $(this).val();
+  });
 });

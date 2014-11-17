@@ -60,6 +60,7 @@ Recipe.add({
       type: Types.Relationship,
       ref: 'User',
       initial: true,
+      required: true,
       index: true,
       es_type: "objectid"
     },
@@ -67,6 +68,7 @@ Recipe.add({
     isOfficial: {
       type: Types.Boolean,
       hidden: true,
+      default: false,
       es_type: "boolean"
     },
 
@@ -101,6 +103,15 @@ Recipe.add({
       type: Types.Number,
       noedit: true,
       default: process.env.RECIPES_SCHEMA_VERSION
+    },
+
+    suggest: {
+      type: Types.Text,
+      noedit: true,
+      es_type: "completion",
+      es_cast: function(val) {
+        return this.title;
+      }
     }
   },
 
@@ -118,6 +129,7 @@ Recipe.add({
       dependsOn: {
         'isVideorecipe': true
       },
+      default: '',
       es_type: "string"
     }
   },
@@ -199,6 +211,7 @@ Recipe.add({
       type: Types.Html,
       wysiwyg: true,
       height: 100,
+      default: '',
       es_boost: 4,
       es_type: "string"
     },
@@ -207,6 +220,7 @@ Recipe.add({
       type: Types.Html,
       wysiwyg: true,
       height: 50,
+      default: '',
       es_boost: 2,
       es_type: "string"
     },
@@ -215,6 +229,7 @@ Recipe.add({
       type: Types.Html,
       wysiwyg: true,
       height: 200,
+      default: '',
       es_boost: 1,
       es_type: "string"
     }
@@ -386,6 +401,10 @@ Recipe.schema.pre('save', function(next) {
     me.rating = (me.scoreTotal !== undefined || me.scoreCount > 0) ? (me.scoreTotal / me.scoreCount) : 0;
   }
 
+  if (me.isModified('state') && me.state === 'published') {
+    me.publishedDate = new Date();
+  }
+
   async.parallel({
       // Check if user isChef, for official recipe.
       official: function(callback) {
@@ -471,3 +490,9 @@ Recipe.schema.plugin(mongoosastic, {
   log: config.elasticsearch.log
 });
 Recipe.register();
+
+Recipe.model.createMapping(function(err, mapping) {
+  if (err) {
+    logger.error('Error creando mapping: ', err);
+  }
+});

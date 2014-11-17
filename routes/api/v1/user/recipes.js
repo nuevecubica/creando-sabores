@@ -25,6 +25,11 @@ exports = module.exports = function(req, res) {
       answer.error = true;
       return res.apiResponse(answer);
     }
+    else if (result.isPrivate && (!req.user || req.user._id !== result._id)) {
+      res.status(401);
+      answer.error = true;
+      return res.apiResponse(answer);
+    }
     else {
       service.recipeList.recipe.get({
         page: req.query.page || 1,
@@ -37,7 +42,7 @@ exports = module.exports = function(req, res) {
       }, function(err, recipes) {
         if (err || !recipes) {
           res.status(404);
-          console.error(err);
+          logger.error(err);
           answer.error = true;
         }
         else if (recipes.total > 0) {

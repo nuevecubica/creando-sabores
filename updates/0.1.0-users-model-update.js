@@ -16,10 +16,10 @@ function updateModel(done) {
     multi: true
   }, function(err, results) {
     if (err) {
-      console.error('Error updating users:', err);
+      logger.error('Error updating users:', err);
     }
     else {
-      console.log('Updated ' + results + ' users');
+      logger.log('Updated ' + results + ' users');
     }
     done(err);
   });

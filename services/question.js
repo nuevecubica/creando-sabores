@@ -19,7 +19,7 @@ var addQuestion = function(req, callback) {
       },
       function(err, res) {
         if (err) {
-          console.error('questionNew:', err);
+          logger.error('questionNew:', err);
           callback(err, {});
         }
         else {
@@ -47,7 +47,7 @@ var getChangeState = function(options, state, callback) {
     }
     else {
       if (err) {
-        console.error('Error service.question.read find', err);
+        logger.error('Error service.question.read find', err);
       }
       return callback(err || 'Not found', {});
     }

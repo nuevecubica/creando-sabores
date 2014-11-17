@@ -22,7 +22,7 @@ exports = module.exports = function(req, res) {
       fromContests: true
     }, function(err, recipes) {
       if (err) {
-        console.error('profileMyRecipes:', err);
+        logger.error('getPublicRecipes failed: %s', err, req);
         return formResponse(req, res, '..', 'Error: Unknown error', false);
       }
       else {
@@ -42,6 +42,7 @@ exports = module.exports = function(req, res) {
         cb(result.results);
       }
       else {
+        logger.error('getFavouriteRecipes failed: %s', err);
         return res.notfound(res.__('Not found'));
       }
     });
@@ -58,6 +59,24 @@ exports = module.exports = function(req, res) {
         cb(result.results);
       }
       else {
+        logger.error('getFavouriteTips failed: %s', err);
+        return res.notfound(res.__('Not found'));
+      }
+    });
+  };
+
+  var getPublicMenus = function(user, cb) {
+    service.menuList.get({
+      page: req.query.page || 1,
+      perPage: 5,
+      user: user,
+      authorId: user._id
+    }, function(err, result) {
+      if (!err && result) {
+        cb(result.results);
+      }
+      else {
+        logger.error('getPublicMenus failed: %s', err);
         return res.notfound(res.__('Not found'));
       }
     });
@@ -76,8 +95,6 @@ exports = module.exports = function(req, res) {
             view.render('chef');
           });
           break;
-        case 'recetas':
-          /* falls through */
         case 'tips':
           getFavouriteTips(resultUser, function(tips) {
             locals.subsection = 'tips';
@@ -85,6 +102,15 @@ exports = module.exports = function(req, res) {
             view.render('chef');
           });
           break;
+        case 'menus':
+          getPublicMenus(resultUser, function(menus) {
+            locals.subsection = 'menus';
+            locals.menus = menus || [];
+            view.render('chef');
+          });
+          break;
+        case 'recetas':
+          /* falls through */
         default:
           getPublicRecipes(resultUser, function(recipes) {
             locals.subsection = 'recipes';

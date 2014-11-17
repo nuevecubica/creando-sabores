@@ -5,6 +5,9 @@ var _ = require('underscore'),
   csrf = require('csurf'),
   importRoutes = keystone.importer(__dirname);
 
+// domains
+keystone.pre('routes', require('express-domain-middleware'));
+
 // i18n support
 keystone.pre('routes', i18n.init);
 
@@ -58,13 +61,13 @@ exports = module.exports = function(app) {
   app.all('/contacto', routes.views.static.contact);
 
   // Profile: Private
-  app.get('/perfil/:section(recetas|favoritas|compra|tips)?', middleware.requireUser, routes.views['private'].profile);
+  app.get('/perfil/:section(recetas|favoritas|compra|tips|menus)?', middleware.requireUser, routes.views['private'].profile);
   app.post('/perfil/save', middleware.requireUser, routes.views['private'].profileSave);
   app.post('/perfil/change', middleware.requireUser, routes.views['private'].profileChange);
   app.post('/perfil/remove', middleware.requireUser, routes.views['private'].profileRemove);
 
   // Profile: Public
-  app.get('/chef/:username/:section(recetas|favoritas|tips)?', routes.views.chef);
+  app.get('/chef/:username/:section(recetas|favoritas|tips|menus)?', routes.views.chef);
 
   // Home
   app.get('/', routes.views.index);
@@ -82,7 +85,7 @@ exports = module.exports = function(app) {
   // ---- Edit
   app.post('/receta/:recipe/save', middleware.requireConfirmed, routes.views['private'].recipeSave.edit);
   app.post('/receta/:recipe/remove', middleware.requireConfirmed, routes.views['private'].recipeRemove);
-  app.get('/receta/:recipe/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].recipePublish);
+  app.post('/receta/:recipe/:state(draft|publish)', middleware.requireConfirmed, routes.views['private'].recipePublish);
 
   // Contests
   // -- Public
@@ -92,15 +95,16 @@ exports = module.exports = function(app) {
 
   // Menus
   // -- Public
-  //app.get('/menus', routes.views.menus);
-  //app.get('/menu/:menu', routes.views.menu);
+  app.get('/menus', routes.views.menus);
+  app.get('/menu/:menu', routes.views.menu);
   // -- Private
   // ---- New
-  //app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);
-  //app.post('/nuevo-menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.create);
+  app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);
+  app.post('/nuevo-menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.create);
   // ---- Edit
-  //app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
-  //app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
+  app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
+  app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
+  app.post('/menu/:menu/:state(draft|published)', middleware.requireConfirmed, routes.views['private'].menuPublish);
 
   // Questions
   // -- Public
@@ -143,17 +147,20 @@ exports = module.exports = function(app) {
   app.put('/api/v1/me/save', middleware.requireUserApi, routes.api.v1.me.save);
   app.get('/api/v1/me/:type(recipe|videorecipe)s', middleware.requireUserApi, routes.api.v1.me.recipes);
   app.get('/api/v1/me/shopping/list', middleware.requireUserApi, routes.api.v1.me.shoppingList);
+  app.get('/api/v1/me/shopping/send/:recipe', middleware.requireUserApi, routes.api.v1.me.sendShopping);
   app.get('/api/v1/me/shopping/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.shopping);
   app.get('/api/v1/me/favourites/list', middleware.requireUserApi, routes.api.v1.me.favouritesList);
   app.get('/api/v1/me/favourites/:action(add|remove)/:recipe', middleware.requireUserApi, routes.api.v1.me.favourites);
   app.get('/api/v1/me/tips/favourites/list', middleware.requireUserApi, routes.api.v1.me.tips.get.favourites);
   app.get('/api/v1/me/tips/favourites/:action(add|remove)/:tip', middleware.requireUserApi, routes.api.v1.tip.favourite);
+  app.get('/api/v1/me/menus', middleware.requireUserApi, routes.api.v1.me.menus);
   // app.put('/api/v1/me/update', middleware.requireUserApi, routes.api.v1.me.update);
   //-- Users
   app.get('/api/v1/user/:username/check', routes.api.v1.user.checkUsername);
   app.get('/api/v1/user/:username/recipes', routes.api.v1.user.recipes);
   app.get('/api/v1/user/:username/favourites', routes.api.v1.user.favourites);
   app.get('/api/v1/user/:username/tips', routes.api.v1.user.tips.favourites);
+  app.get('/api/v1/user/:username/menus', routes.api.v1.user.menus);
   //-- Notifications
   app.put('/api/v1/notifications/:email/:token/:action(subscribe|unsubscribe)/:notification(newsletter)', routes.api.v1.notification.notifications);
   app.get('/api/v1/notifications/get/:notification(newsletter)/users', middleware.requireAdminApi, routes.api.v1.notification.users);
@@ -163,8 +170,8 @@ exports = module.exports = function(app) {
   //-- Recipes
   app.put('/api/v1/recipe/:recipe/:action(like|unlike)', middleware.requireConfirmedApi, routes.api.v1.recipeAction);
   //-- Menus
-  //app.get('/api/v1/menus', routes.api.v1.menus);
-  //app.put('/api/v1/menu/:menu/:state(draft|published)', middleware.requireConfirmedApi, routes.api.v1.menu.state);
+  app.get('/api/v1/menus', routes.api.v1.menus);
+  app.put('/api/v1/menu/:menu/:state(draft|published)', middleware.requireConfirmedApi, routes.api.v1.menu.state);
   //-- Contests
   app.get('/api/v1/contests/past', routes.api.v1.contest.past);
   app.get('/api/v1/contest/:contest/recipes', routes.api.v1.contest.recipes);
@@ -177,6 +184,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/tips/:type(recent)?', routes.api.v1.tip.tips.recent);
   app.get('/api/v1/tips/popular', routes.api.v1.tip.tips.popular);
   //-- Admin
+  app.get('/api/v1/admin/stats', middleware.requireAdminApi, routes.api.v1.admin.stats);
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/tips', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTips);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
@@ -190,6 +198,8 @@ exports = module.exports = function(app) {
   app.get('/api/v1/seasonLists', routes.api.v1.seasonLists);
   //-- Configs
   app.get('/api/v1/configs', routes.api.v1.configs);
+  //-- Log
+  app.post('/api/v1/log', routes.api.v1.log.log);
 
   //-- Test
   app.all('/api/v1/test/me', middleware.requireTestApi, routes.api.v1.test.me.me);

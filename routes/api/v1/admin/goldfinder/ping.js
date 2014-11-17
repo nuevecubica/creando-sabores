@@ -20,7 +20,7 @@ exports = module.exports = function(req, res) {
     if (err) {
       answer.error = true;
       answer.errorMessage = err;
-      console.error("elasticsearch is dead");
+      logger.error("elasticsearch is dead");
     }
     else {
       answer.success = true;

@@ -47,7 +47,7 @@ exports = module.exports = function(req, res) {
       res.status(404);
       answer.error = true;
       answer.errorMessage = err;
-      console.error({
+      logger.error({
         what: 'Error',
         where: 'api/notification/users',
         why: err || '(Unknown)'

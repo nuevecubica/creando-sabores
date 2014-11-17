@@ -156,6 +156,25 @@ var _elasticToKeystone = function(params, callback) {
 };
 
 /**
+ * Converts Elasticsearch results into a simple array of suggestions
+ *
+ * @param {Function} callback Standard ES callback (err, results, status)
+ */
+var _simpleSuggestions = function(callback) {
+  return function(err, res, status) {
+    if (res && res.suggest && res.suggest.length) {
+      var data = res.suggest[0].options.map(function(a) {
+        return a.text;
+      });
+      callback(err, data, status);
+    }
+    else {
+      callback(err, null, status);
+    }
+  };
+};
+
+/**
  * Returns an Elasticsearch Client
  *
  * http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/configuration.html
@@ -239,14 +258,7 @@ esMoreLikeThis.hydrated = function(params, callback) {
  * @param  {Function}  callback (err, response, status)
  */
 var esSuggest = function(params, callback) {
-  _getClient().suggest(params, _setVirtuals(callback));
-};
-
-/**
- * Same as esSuggest but it returns Keystone items.
- */
-esSuggest.hydrated = function(params, callback) {
-  _getClient().suggest(params, _setVirtuals(callback, {}, true));
+  _getClient().suggest(params, _simpleSuggestions(callback));
 };
 
 /**
@@ -260,13 +272,13 @@ esSuggest.hydrated = function(params, callback) {
 var esDatabaseSync = function(params, callback) {
   var count = 0,
     defaults = {
-      collections: ['Recipe', 'Contest', 'Tip'],
+      collections: ['Recipe', 'Contest', 'Tip', 'Menu'],
       each: function(err, doc) {
         count++;
       },
       close: function(err, next) {
         if (err) {
-          console.error('service.elastic.sync error', err);
+          logger.error('service.elastic.sync error', err);
         }
         return next(err);
       },

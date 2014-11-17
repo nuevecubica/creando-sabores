@@ -19,13 +19,23 @@
     .span{
       .font-extra-large;
       text-align: left;
-      @media screen and (max-width: 771px) {
+      @media screen and (max-width: 767px) {
         margin-bottom: 20px;
         .font-large;
         margin-right: auto;
         margin-left: auto;
         display: block;
         text-align: center;
+      }
+    }
+  }
+  .tab-header{
+    .tab{
+      &.max{
+        width: 24%;
+      }
+      &.min{
+        width: 13%;
       }
     }
   }
@@ -48,7 +58,7 @@
   .section {
     color: @profile-section-color-text;
   }
-  .ui.button.chef.button-gray{
+  .ui.button.chef.button-green{
       overflow: hidden;
       position: relative;
     input#profile-header-select{
@@ -74,6 +84,11 @@
       width: 160px;
       height: 160px;
       margin: 0 auto;
+      @media screen and (max-width: 767px) {
+        #profile-img{
+          border:0;
+        }
+      }
 
       .avatar {
         width: 100%;
@@ -93,9 +108,11 @@
           padding: 10px;
           border: @profile-border-size solid white;
           transition: background-color @ani-time ease-out;
+          &:before{
+            margin: 0 0.1em;
+          }
           &:hover{
             background-color: @chef-color-red-bg;
-
           }
         }
         input#profile-img-select{
@@ -114,19 +131,69 @@
   }
 
   .info {
-
+    @media screen and (max-width: 767px) {
+      .header{
+        text-align: center;
+      }
+      #profile-about{
+        text-align: center;
+      }
+    }
   }
-
   .header {
     font-weight: normal;
   }
 }
 
+#select{
+  font-family: @brandon-fonts !important;
+  margin-top: -20px;
+  margin-bottom: 10px;
+  .icon{
+    position: absolute;
+    right: 50px;
+    top: 15px;
+    color: white;
+    z-index: 10000;
+    pointer-events:none;
+  }
+
+  select{
+    font-family: @brandon-fonts !important;
+    width: 100%;
+    height: 60px;
+    background-color: @chef-color-green-bg;
+    border:none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 0px !important;
+    color: @chef-color-white;
+    .font-large;
+    text-transform: uppercase;
+    padding: 0 50px;
+    cursor: pointer;
+    text-align: center !important;
+    &:focus{
+      outline: none;
+    }
+    option{
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      text-align: center !important;
+      font-family: @brandon-fonts !important;
+    }
+  }
+}
 
 .tab-content {
+
   .ui.button.chef.button-brick{
     height: 63px;
     padding: 25px;
+    @media only screen and (max-width: 767px) {
+      padding: 15px;
+      height: auto;
+    }
   }
   &#profile {
 
@@ -145,9 +212,12 @@
         border: 1px solid lighten(@profile-editable-border, 60%);
         box-shadow: 0px 1px 1px -2px @profile-editable-border-shadow !important;
         height: 60px;
-        width: 95%;
+        width: 97%;
         padding:0 0 0 10px;
         .font-large;
+        @media only screen and (max-width: 767px) {
+          height: 50px;
+        }
       }
 
       &.checkbox {
@@ -166,6 +236,12 @@
 
     #save{
       margin-top: 25px;
+      @media only screen and (max-width: 767px) {
+        .button{
+          width: 100%;
+          padding: 15px;
+        }
+      }
     }
 
     #pass-row{
@@ -178,6 +254,15 @@
     .password{
       margin-top: 34px;
       margin-bottom: 25px;
+      @media screen and (max-width: 767px) {
+        margin-top: -20px;
+        margin-bottom: 5px;
+      }
+      @media only screen and (min-width: 767px) and (max-width: 991px) {
+        .ui.button.chef{
+          letter-spacing:  0em;
+        }
+      }
     }
 
     .delete.field{

@@ -101,7 +101,7 @@ var recipeEdit = function(req, res) {
   // Get
   service.recipe.recipe.get(options, function(err, result) {
     if (err) {
-      console.error('recipeEdit:', err);
+      logger.error('recipeEdit error: %j', err, req);
       return formResponse(req, res, back, 'Error: Unknown error', false);
     }
     else if (result) {
@@ -117,6 +117,7 @@ var recipeEdit = function(req, res) {
 
       // If not admin, rejects if admited in a contest
       if (!req.user.isAdmin && recipe.contest && recipe.contest.id && recipe.state === 'published') {
+        logger.info('recipeEdit admited: %j', err, req);
         return formResponse(req, res, back, 'Error: You cannot edit a recipe already admited in a contest', false);
       }
 
@@ -125,7 +126,7 @@ var recipeEdit = function(req, res) {
         fields: 'title,description,ingredients,procedure,portions,time,difficulty,header'
       }, function(err) {
         if (err) {
-          console.error('recipeEdit:', err);
+          logger.error('recipeEdit.updateHandler: %j', err, req);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         else {
@@ -135,6 +136,7 @@ var recipeEdit = function(req, res) {
             recipe.save(function(err, recipeSaved) {
 
               if (err) {
+                logger.error('recipeEdit.save: %j', err, req);
                 return formResponse(req, res, back, 'Error: Unknown error', false);
               }
               else {
@@ -146,6 +148,7 @@ var recipeEdit = function(req, res) {
       });
     }
     else {
+      logger.info('recipeEdit.rights', req);
       return formResponse(req, res, back, 'Error: You don\'t have rights to access that page', false);
     }
   });
@@ -154,6 +157,7 @@ var recipeEdit = function(req, res) {
 var recipeNew = function(req, res) {
 
   var back = '..';
+
 
   if (req.method === 'POST') {
     var recipe = new Recipe.model();
@@ -171,7 +175,7 @@ var recipeNew = function(req, res) {
         },
         function(err) {
           if (err) {
-            console.error('recipeNew:', err);
+            logger.error('recipeNew.addRecipe error: %j', err, req);
             return formResponse(req, res, back, 'Error: Unknown error', false);
           }
           else {
@@ -180,6 +184,7 @@ var recipeNew = function(req, res) {
               recipe.save(function(err, recipeSaved) {
 
                 if (err) {
+                  logger.error('recipeNew.addRecipe.categories error: %j', err, req);
                   return formResponse(req, res, back, 'Error: Unknown error', false);
                 }
                 else {
@@ -187,6 +192,7 @@ var recipeNew = function(req, res) {
                     req.user.disabledHelpers.push('recipe');
                     req.user.save(function(err) {
                       if (err) {
+                        logger.error('recipeNew.addRecipe.categories.user error: %j', err, req);
                         return formResponse(req, res, back, 'Error: Unknown error', false);
                       }
                       else {
@@ -210,6 +216,7 @@ var recipeNew = function(req, res) {
       }).exec(function(err, contest) {
 
         if (err) {
+          logger.warn('recipeNew.contest error: %j', err, req);
           return formResponse(req, res, back, 'Error: Unknown error', false);
         }
         if (contest.state !== 'submission') {

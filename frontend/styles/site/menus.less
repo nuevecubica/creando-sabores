@@ -1,0 +1,177 @@
+@menu-color-border: @chef-color-gray-bg;
+@menu-color-plate: @chef-color-brick-bg;
+
+/****************
+  MENUS
+****************/
+
+#menus{
+  .menu{
+    .header{
+        margin: 23px 0 5px;
+      }
+    .content{
+    }
+  }
+}
+
+/****************
+  MENU
+****************/
+#menu-content{
+  #menu-description{
+    margin-top: 1rem;
+  }
+}
+#menu-recipes{
+  border-top:1px solid @menu-color-border;
+  margin-top: 20px;
+  padding-top: 5px;
+  .list.ui.stackable.grid{
+    > .row:nth-child(odd){
+      // background-color: @chef-color-lighter-bg;
+    }
+    .unavailable {
+      opacity: .5;
+    }
+    .eleven.wide.column{
+      position: relative;
+      .plate{
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        @media only screen and (max-width: 767px) {
+          top: 40px;
+        }
+        .span.explain{
+          text-transform: uppercase;
+          color: @chef-color-white;
+          background-color: @chef-color-green-bg;
+          font-weight: bold;
+          padding:1px 10px;
+          display: inline-block;
+          margin-left: 1px;
+          position: relative;
+        }
+      }
+      .header{
+        margin: 2px 0;
+        padding: 5px 0 0;
+        font-family: @pinto-fonts;
+      }
+      .content{
+        height: 110px;
+        .font-large;
+        // line-height: 1.15em;
+        margin: 5px 0 0;
+        @media only screen and (max-width: 767px) {
+          margin: 5px 0 15px;
+        }
+        p{
+          margin: 0px;
+        }
+        &:after{
+          top: 80px;
+        }
+      }
+      .rating{
+        margin-top: 10px;
+        @media only screen and (max-width: 991px) {
+          top:3px;
+        }
+        @media only screen and (max-width: 767px) {
+          top:-10px;
+          .icon i:before{
+            margin-right:0;
+            .font-small;
+          }
+          .strong{
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  #menu-recipes-current{
+    .unavailable{
+      height: 100px;
+      overflow: hidden;
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+    .menu-plate-remove.ui.button.chef {
+      padding:6.5px 0;
+      z-index: 1;
+      display: inline-block;
+      min-width: 40px;
+      position: relative;
+      top: -4px;
+      @media only screen and (max-width : 991px) {
+        padding: 6px 5px 4px;
+      }
+      @media only screen and (max-width: 767px) {
+        top: -2.5px;
+      }
+      i {
+        .explain;
+        padding: 0px;
+        &:before{
+          margin: 0;
+        }
+      }
+    }
+    .select {
+      display: none;
+    }
+  }
+
+  #menu-recipe-add{
+    position: relative;
+    overflow: visible;
+    .position{
+      cursor: pointer;
+    }
+    #add-recipe-button{
+      .tutorial-bubble{
+        left: 265px;
+        top: -20px;
+        margin:0;
+      }
+      .button{
+        background-color: transparent !important;
+        box-shadow: none;
+        background-image: none;
+        .explain;
+      }
+    }
+    .field {
+      .ui.icon.input {
+        margin: 10px 0;
+        > .icon.chef.button-gray-side{
+          .font-larger;
+          font-family: @brandon-fonts;
+          width: auto;
+          padding: 20px;
+          letter-spacing: 0.04em;
+          @media only screen and (max-width : 991px) {
+            .font-normal;
+            padding: 10px 10px 10px 15px;
+          }
+          @media only screen and (max-width : 767px) {
+            .font-small;
+            padding: 10px 10px 10px 15px;
+          }
+        }
+      }
+    }
+    .menu-plate-remove {
+      display: none;
+    }
+    .plate{
+      .span.explain.add{
+        display: none;
+      }
+    }
+  }
+}

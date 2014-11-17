@@ -19,7 +19,7 @@ var credentials = {
 // Authenticate User
 exports.authenticateUser = function(req, res, next, callback) {
   // Begin process
-  console.log('[social.facebook] - Triggered authentication process');
+  logger.log('[social.facebook] - Triggered authentication process');
 
   // Set placeholder variables to hold our data
   var data = {
@@ -43,12 +43,12 @@ exports.authenticateUser = function(req, res, next, callback) {
 
     data.facebookUser = facebookUser;
 
-    console.log('[social.facebook] - No user signed in, attempting to match via social id');
+    logger.log('[social.facebook] - No user signed in, attempting to match via social id');
 
     var email = data.facebookUser.profile.emails;
 
     if (!email.length) {
-      console.log('[social.facebook] - No email address detected, creating new user');
+      logger.log('[social.facebook] - No email address detected, creating new user');
 
       return createUser();
     }
@@ -62,7 +62,7 @@ exports.authenticateUser = function(req, res, next, callback) {
           return callback(false);
         }
 
-        console.log('[social.facebook] - No matching user found via social id, attempting to match via email');
+        logger.log('[social.facebook] - No matching user found via social id, attempting to match via email');
 
         User.model.findOne({
           'email': _.first(data.facebookUser.profile.emails).value
@@ -73,13 +73,13 @@ exports.authenticateUser = function(req, res, next, callback) {
               return callback(false);
             }
 
-            console.log('[social.facebook] - No matching user found via email, creating new user');
+            logger.log('[social.facebook] - No matching user found via email, creating new user');
 
             return createUser();
           }
           else {
 
-            console.log('[social.facebook] - Matched user via email, updating user');
+            logger.log('[social.facebook] - Matched user via email, updating user');
 
             data.user = user;
 
@@ -88,7 +88,7 @@ exports.authenticateUser = function(req, res, next, callback) {
         });
       }
       else {
-        console.log('[social.facebook] - Matched user via social id, signin user');
+        logger.log('[social.facebook] - Matched user via social id, signin user');
         data.user = user;
 
         return signinUser();
@@ -99,7 +99,7 @@ exports.authenticateUser = function(req, res, next, callback) {
   // Function to create user
   var createUser = function() {
 
-    console.log('[social.facebook] - Creating user');
+    logger.log('[social.facebook] - Creating user');
 
     // Define data
     var email = data.facebookUser.profile.emails;
@@ -121,12 +121,12 @@ exports.authenticateUser = function(req, res, next, callback) {
       }
     };
 
-    console.log('[social.facebook] - user create data:', userData);
+    logger.log('[social.facebook] - user create data:', userData);
 
     // Create user
     data.user = new User.model(userData);
 
-    console.log('[social.facebook] - Created new instance of user');
+    logger.log('[social.facebook] - Created new instance of user');
 
     return saveUser();
   };
@@ -134,7 +134,7 @@ exports.authenticateUser = function(req, res, next, callback) {
   var saveUser = function() {
 
     // Save the user data
-    console.log('[social.facebook] - Saving user');
+    logger.log('[social.facebook] - Saving user');
 
     var userData = {
       social: {
@@ -146,21 +146,21 @@ exports.authenticateUser = function(req, res, next, callback) {
       }
     };
 
-    console.log('[social.facebook] - user update data:', userData);
+    logger.log('[social.facebook] - user update data:', userData);
 
     data.user.set(userData);
 
     data.user.save(function(err) {
 
       if (err) {
-        console.log(err);
-        console.log("[social.facebook] - Error saving user");
+        logger.log(err);
+        logger.log("[social.facebook] - Error saving user");
         return callback(err);
 
       }
       else {
 
-        console.log("[social.facebook] - Saved user");
+        logger.log("[social.facebook] - Saved user");
 
         if (req.user) {
           return callback();
@@ -175,15 +175,15 @@ exports.authenticateUser = function(req, res, next, callback) {
   // Function to sign user
   var signinUser = function() {
 
-    console.log('[social.facebook] - Signing user');
+    logger.log('[social.facebook] - Signing user');
 
     var onSuccess = function(user) {
-      console.log("[social.facebook] - Successfully signed");
+      logger.log("[social.facebook] - Successfully signed");
       return callback();
     };
 
     var onFail = function(err) {
-      console.log("[social.facebook] - Failed signing in");
+      logger.log("[social.facebook] - Failed signing in");
       return callback(true);
     };
 
@@ -195,25 +195,25 @@ exports.authenticateUser = function(req, res, next, callback) {
   // First time, in authenticate flow we call to facebook request access
   // if request has code params, means callback flow.
   if (_.has(req.query, 'code')) {
-    console.log('[social.facebook] - Callback workflow detected, attempting to process data');
+    logger.log('[social.facebook] - Callback workflow detected, attempting to process data');
 
     passport.authenticate('facebook', {
 
     }, function(err, data, info) {
 
       if (err || !data) {
-        console.log("[social.facebook] - Error retrieving Facebook account data - " + JSON.stringify(err));
+        logger.log("[social.facebook] - Error retrieving Facebook account data - " + JSON.stringify(err));
         return callback(true);
       }
 
-      console.log('[social.facebook] - Successfully retrieved Facebook account data, processing');
+      logger.log('[social.facebook] - Successfully retrieved Facebook account data, processing');
 
       return processFBUser(data);
 
     })(req, res, next);
   }
   else {
-    console.log('[social.facebook] - Authentication workflow detected, attempting to request access');
+    logger.log('[social.facebook] - Authentication workflow detected, attempting to request access');
 
     passport.authenticate('facebook', {
       scope: ['email']

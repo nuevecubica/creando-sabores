@@ -2,7 +2,7 @@ include ../mixins/header-share
 
 mixin header(data, section)
 
-	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg' } }
+	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg', menu: '/images/default_menu.jpg', newMenu: '/images/default_menu.jpg' } }
 
 	//- Change this
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
@@ -66,8 +66,8 @@ mixin header(data, section)
 				.row
 					.ten.wide.column
 					.six.wide.column.right.aligned.show-editable
-						.corner-position.right
-							.ui.button.chef.button-gray
+						.corner-position.right.change-img
+							.ui.button.chef.button-green
 								input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
 								i.social.icon-chef-camera
 								span
@@ -164,8 +164,8 @@ mixin header(data, section)
 					.six.wide.column
 
 					.six.wide.column.right.aligned
-						.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
-							.ui.button.chef.button-gray.show-editable.file-select
+						.change-img.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
+							.ui.button.chef.button-green.show-editable.file-select
 								if own
 									input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
 									i.social.icon-chef-camera
@@ -206,12 +206,12 @@ mixin header(data, section)
 				.row
 					.ten.wide.column
 					.six.wide.column.right.aligned
-						.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
-							.ui.button.chef.button-gray.show-editable.file-select
+						.upload-img.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
+							.ui.button.chef.button-yellow.show-editable.file-select
 								input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
 								i.social.icon-chef-camera
 								span
-								|#{__('Change image')}
+								|#{__('Upload image')}
 
 	else if section === 'videorecipes'
 		- var title = data.recipe ? data.recipe.title : ''
@@ -232,7 +232,7 @@ mixin header(data, section)
 						a.icon-chef-play.icon.clickable(href="#{promotedUrl}")
 
 					.floating
-						.logo.corner
+						.logo.corner.shadow
 							a.icon-chef-logo.icon(href="/")
 
 				else
@@ -514,3 +514,122 @@ mixin header(data, section)
 					a.icon-chef-logo.icon(href="/")
 
 
+	else if section === 'menus'
+		- var image = data.header ? data.header.thumb.header : defaults.images.menus
+
+		#menus-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-title.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					.shadow= __('Menus')
+
+				.row
+					if data.header
+						.social.four.tablet-seven.wide.column.tablet.computer.only
+							.corner-position.left
+								|#{__('Share this page')}
+								+header-share()
+
+						.four.wide.column.computer.only
+
+						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+						- var promotedUrl = data.header ? data.header.url : '/menus'
+
+						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
+							.tabla
+								p= __('Today promoted')
+								.tabla1
+									.ui.image
+								.tabla2
+									.text
+										a.span(href="#{promotedUrl}")= promotedTitle
+								.tabla3
+									.ui.image
+
+	else if section === 'menu'
+		- var title = data.menu ? data.menu.title : ''
+		- var image = (data.menu ? data.menu.thumb.header : defaults.images.menu)
+		- var author = data.menu ? ( data.menu.author.name || data.menu.author.username) : __('Unknown author')
+		- var authorUrl = data.menu ? data.menu.author.url : '/'
+
+		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#menu-title.shadow.set-editable(data-length="40")= title
+
+				.row.section.subtitle
+					a.author.shadow(href="#{authorUrl}")= author
+				.row
+					.four.wide.column.computer.only.social
+						.corner-position.left
+							|#{__('Share this menu')}
+							+header-share()
+
+					.six.wide.column
+
+					.six.wide.column.right.aligned
+						.corner-position.right.change-img
+							.ui.button.chef.button-green.show-editable.file-select
+								if own
+									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
+			if own
+				if !data.menu.thumb.hasQuality
+					#image-size-warning(style="display: block;")
+						|*#{__('Select bigger image')}
+				else
+					#image-size-warning
+						|*#{__('Select bigger image')}
+
+	else if section === 'new-menu'
+		- var title = ''
+		- var image = defaults.images.newMenu
+		- var author = (user.name || user.username)
+
+		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
+			.shadow-layer
+			.ui.page.grid.head.with-subtitle.with-social
+				#header.row
+					include ../components/header
+
+				.row.logo.shadow
+					a.icon-chef-logo.icon(href="/")
+
+				.row.section.title
+					#menu-title.shadow.set-editable(placeholder=__('Write here menu name'), data-length="40")= title
+
+				.row.section.subtitle
+					.author.shadow= author
+				.row
+					.four.wide.column
+
+					.six.wide.column
+
+					.six.wide.column.right.aligned
+						.corner-position.right.change-img
+							.ui.button.chef.button-green.show-editable.file-select
+								if own
+									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
+									i.social.icon-chef-camera
+									span
+									|#{__('Change image')}
+
+			#image-size-warning
+				|*#{__('Select bigger image')}

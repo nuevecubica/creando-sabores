@@ -5,17 +5,12 @@ var _ = require('underscore'),
   mongoosastic = require('mongoosastic'),
   virtual = require('./virtuals'),
   Types = keystone.Field.Types,
-  Recipe = keystone.list('Recipe'),
   async = require('async'),
   modelCleaner = require(__base + 'utils/modelCleaner');
 
 // ===== Defaults
-// Define tip defaults
+// Define menu defaults
 var defaults = {
-  header: {
-    width: 1920,
-    height: 800
-  },
   positions: (function() {
     var arr = [];
     for (var i = 0; i < 10; ++i) {
@@ -42,8 +37,7 @@ var Menu = new keystone.List('Menu', {
     from: 'title',
     unique: true,
     fixed: true
-  },
-  hidden: true
+  }
 });
 
 Menu.add({
@@ -103,10 +97,10 @@ Menu.add({
       },
 
       collage: {
-        type: Types.Url,
-        label: 'Collage',
+        type: Types.TextArray,
+        label: 'Recipes images',
         noedit: true,
-        default: ''
+        default: []
       }
     }
   },
@@ -202,12 +196,37 @@ Menu.schema.set('toJSON', {
 
 // Virtuals
 Menu.schema.virtual('url').get(virtual.menu.url);
+Menu.schema.virtual('type').get(virtual.menu.type);
 Menu.schema.virtual('thumb').get(virtual.menu.thumb);
+Menu.schema.virtual('classes').get(virtual.menu.classes);
+
+// Methods
+Menu.schema.methods.setCollage = function(callback) {
+  callback = callback || function() {};
+
+  var me = this;
+  var images = [];
+
+  if (this.plates && this.plates.length) {
+    require(__base + 'services/recipeList').get({
+      id: this.plates,
+      fromContests: true
+    }, function(err, recipes) {
+      recipes.results.forEach(function(recipe) {
+        images.push(recipe.header.public_id);
+      });
+      callback(err, images);
+    });
+  }
+  else {
+    callback(null, images);
+  }
+};
 
 // Pre Save HOOK
 Menu.schema.pre('save', function(next) {
 
-  // Set isPromoted if tip is promoted in grids or headers
+  // Set isPromoted if menu is promoted in grids or headers
   if (this.isIndexGridPromoted.value || this.isIndexHeaderPromoted.value || this.isMenusHeaderPromoted.value) {
     this.isPromoted = true;
   }
@@ -222,57 +241,10 @@ Menu.schema.pre('save', function(next) {
   }
 
   if (this.isModified('plates')) {
-
-    var me = this;
-
-    var transformation = [];
-    var images = [];
-    var first = null;
-
-    async.eachSeries(this.plates, function(plate, callback) {
-        Recipe.model.findOne({
-          _id: plate
-        }).exec(function(err, recipe) {
-          if (!err && recipe) {
-            if (recipe.header.public_id) {
-              images.push(recipe.header.public_id);
-            }
-          }
-
-          callback(err);
-        });
-      },
-      function(err) {
-        if (!err) {
-          var count = images.length;
-          var width = defaults.header.width / count;
-          var height = defaults.header.height;
-
-          first = images.pop() + '.jpg';
-          transformation.push({
-            width: width,
-            height: height,
-            crop: "fill"
-          });
-
-          _.each(images, function(element, index) {
-            var total_width = (index + 1) * width;
-            transformation.push({
-              overlay: element,
-              width: width,
-              height: height,
-              x: (total_width + width) / 2,
-              crop: "fill"
-            });
-          });
-
-          me.media.collage = cloudinary.url(first, {
-            transformation: transformation
-          });
-        }
-
-        next(err);
-      });
+    this.setCollage.call(this, function(err, images) {
+      this.media.collage = images;
+      next(err);
+    }.bind(this));
   }
   else {
     next();

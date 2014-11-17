@@ -7,13 +7,22 @@ utils = require __dirname + '/../../utils.js'
 request = require('supertest') config.keystone.publicUrl
 
 cookie = null
+cookieInvalid = null
+cookieAdmin = null
 
 describe 'API v1: questions', ->
 
   before (done) ->
-    this.timeout 5000
+    this.timeout 10000
     request.get('/').expect 200, (err, res) ->
-      utils.revertTestDatabase(done)
+      utils.revertTestDatabase (err) ->
+        utils.loginUser data.users[0], request, (err, res) ->
+          cookie = res.headers['set-cookie']
+          utils.loginUser data.users[3], request, (err, res) ->
+            cookieInvalid = res.headers['set-cookie']
+            utils.loginUser data.admins[0], request, (err, res) ->
+              cookieAdmin = res.headers['set-cookie']
+              done()
 
   afterEach (done) ->
     utils.revertTestDatabase.call this, done
@@ -72,31 +81,13 @@ describe 'API v1: questions', ->
           .end(done)
 
     describe 'on request from admin user', ->
-
       question = data.getBySlug 'questions', 'question-review'
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.admins[0].email,
-          password: data.admins[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-          cookie = res.headers['set-cookie']
-          done()
 
       it 'responds with all questions (in review and removed states)', (done) ->
         request
         .get('/api/v1/questions?page=1&perPage=1')
         .set('Accept', 'application/json')
-        .set('cookie', cookie)
+        .set('cookie', cookieAdmin)
         .expect('Content-Type', /json/)
         .expect(200)
         .expect(
@@ -108,26 +99,7 @@ describe 'API v1: questions', ->
         .end(done)
 
     describe 'on request form user (no admin)', ->
-
       question = data.getBySlug 'questions', 'question-1'
-
-      before (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done()
 
       it 'responds with publised and closed questions', (done) ->
         request
@@ -149,26 +121,7 @@ describe 'API v1: questions', ->
 
     describe 'add question from user with a valid state', ->
 
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done()
-
       describe 'on normal request', ->
-
         it 'adds question', (done) ->
           request
           .post('/api/v1/question/add')
@@ -197,62 +150,27 @@ describe 'API v1: questions', ->
           .end(done)
 
     describe 'add question from user without valid state (banned/confirmed)', ->
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[3].email,
-          password: data.users[3].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done()
 
       it 'responds unauthorized error', (done) ->
         request
         .post('/api/v1/question/add')
         .send({
-          title: title,
+          title: title
         })
         .set('Accept', 'application/json')
         .set('Referer', config.keystone.publicUrl)
-        .set('cookie', cookie)
+        .set('cookie', cookieInvalid)
         .expect('Content-Type', /json/)
         .expect(401)
         .end(done)
 
     describe 'if it comes from an invalid referer', ->
 
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done()
-
       it 'ignores this call', (done) ->
         request
         .post('/api/v1/question/add')
         .send({
-          title: title,
+          title: title
         })
         .set('Accept', 'application/json')
         .set('Referer', 'http://random.url.com')
@@ -262,37 +180,18 @@ describe 'API v1: questions', ->
         .end(done)
 
   describe 'PUT /api/v1/question/:question/:state', ->
+    question = data.getBySlug 'questions', 'question-review'
+    state = 'published'
+
     describe 'change state from admin user', ->
 
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.admins[0].email,
-          password: data.admins[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done()
-
       describe 'publish question', ->
-
-        question = data.getBySlug 'questions', 'question-review'
-        state = 'published'
-
         it 'change question state to published', (done) ->
           request
           .put('/api/v1/question/' + question.slug + '/' + state)
           .set('Accept', 'application/json')
           .set('Referer', config.keystone.publicUrl)
-          .set('cookie', cookie)
+          .set('cookie', cookieAdmin)
           .expect('Content-Type', /json/)
           .expect(200)
           .expect (res) ->
@@ -302,16 +201,14 @@ describe 'API v1: questions', ->
           .end(done)
 
       describe 'publish question without answer', ->
-
-        question = data.getBySlug 'questions', 'question-without-answer'
-        state = 'published'
+        questionNoAns = data.getBySlug 'questions', 'question-without-answer'
 
         it 'responds status error', (done) ->
           request
-          .put('/api/v1/question/' + question.slug + '/' + state)
+          .put('/api/v1/question/' + questionNoAns.slug + '/' + state)
           .set('Accept', 'application/json')
           .set('Referer', config.keystone.publicUrl)
-          .set('cookie', cookie)
+          .set('cookie', cookieAdmin)
           .expect('Content-Type', /json/)
           .expect(200)
           .expect (res) ->
@@ -319,28 +216,18 @@ describe 'API v1: questions', ->
             res.body.error.must.be.eql true
           .end(done)
 
+      describe 'if it comes from an invalid referer', ->
+        it 'ignores this call', (done) ->
+          request
+          .put('/api/v1/question/' + question.slug + '/' + state)
+          .set('Accept', 'application/json')
+          .set('Referer', 'http://random.url.com')
+          .set('cookie', cookieAdmin)
+          .expect('Content-Type', /json/)
+          .expect(403)
+          .end(done)
+
     describe 'change state from user (no admin)', ->
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[0].email,
-          password: data.users[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done(err)
-
-      question = data.getBySlug 'questions', 'question-review'
-      state = 'published'
-
       it 'responds unauthorized error', (done) ->
         request
         .put('/api/v1/question/' + question.slug + '/' + state)
@@ -352,66 +239,12 @@ describe 'API v1: questions', ->
         .end(done)
 
     describe 'change state from user without valid state (banned/confirmed)', ->
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.users[3].email,
-          password: data.users[3].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done(err)
-
-      question = data.getBySlug 'questions', 'question-review'
-      state = 'published'
-
       it 'responds unauthorized error', (done) ->
         request
         .put('/api/v1/question/' + question.slug + '/' + state)
         .set('Accept', 'application/json')
         .set('Referer', config.keystone.publicUrl)
-        .set('cookie', cookie)
+        .set('cookie', cookieInvalid)
         .expect('Content-Type', /json/)
         .expect(401)
-        .end(done)
-
-    describe 'if it comes from an invalid referer', ->
-
-      beforeEach (done) ->
-        request
-        .post('/api/v1/login')
-        .send({
-          email: data.admins[0].email,
-          password: data.admins[0].password
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end (err, res) ->
-          return done(err) if err
-
-          return 'error' if not res.body.success or res.body.error
-
-          cookie = res.headers['set-cookie']
-          done(err)
-
-      question = data.getBySlug 'questions', 'question-review'
-      state = 'published'
-
-      it 'ignores this call', (done) ->
-        request
-        .put('/api/v1/question/' + question.slug + '/' + state)
-        .set('Accept', 'application/json')
-        .set('Referer', 'http://random.url.com')
-        .set('cookie', cookie)
-        .expect('Content-Type', /json/)
-        .expect(403)
         .end(done)

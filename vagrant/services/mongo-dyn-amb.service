@@ -9,7 +9,7 @@ Restart=always
 RestartSec=30
 ExecStartPre=-/usr/bin/docker kill %n
 ExecStartPre=-/usr/bin/docker rm %n
-ExecStart=/usr/bin/docker run --link etcd-amb-mongo-consumer.service:etcd --rm --name %n -p 127.0.0.1::27017 polvi/dynamic-etcd-amb mongo-A 27017
+ExecStart=/usr/bin/docker run --link etcd-amb-mongo-consumer.service:etcd --rm --name %n -p 127.0.0.1::27017 mancontr/dynamic-etcd-amb mongo-A 27017
 ExecStop=/usr/bin/docker stop -t 3 %n
 
 [X-Fleet]

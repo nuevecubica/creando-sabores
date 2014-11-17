@@ -15,9 +15,13 @@ var safe = {
     'url', 'slug', 'title', 'description', 'title', 'sponsor',
     'ingredientRequired', 'submissionDeadline', 'terms',
     'state', 'thumb', 'type', 'classes', 'awards.jury.winner',
-    'awards.community.winner'
+    'awards.community.winner', 'awards.community.name', 'awards.jury.name'
   ],
-  tip: ['url', 'slug', 'title', 'tip', 'thumb']
+  tip: ['url', 'slug', 'title', 'tip', 'thumb'],
+  menu: [
+    'title', 'slug', 'description', 'state', 'publishedDate',
+    'url', 'thumb', 'classes'
+  ]
 };
 
 safe.user.private = ['username', 'name', 'about', 'thumb', 'url'];
@@ -38,6 +42,12 @@ safe.tip.populated = safe.tip.concat([
 
 safe.question.populated = safe.question.concat(['author.username', 'author.name', 'author.thumb', 'author.url',
   'chef.username', 'chef.name', 'chef.thumb', 'chef.url'
+]);
+
+safe.menu.populated = safe.menu.concat([
+  'author.name', 'author.about', 'author.username', 'author.thumb', 'author.url',
+  'plates.*.url', 'plates.*.slug', 'plates.*.title', 'plates.*.description', 'plates.*.ingredients', 'plates.*.procedure',
+  'plates.*.portions', 'plates.*.time', 'plates.*.difficulty', 'plates.*.rating', 'plates.*.thumb'
 ]);
 
 module.exports = exports = safe;

@@ -88,3 +88,9 @@ Handlebars.registerHelper('ifUserIsAdmin', function(options) {
     return options.fn(this);
   }
 });
+
+Handlebars.registerHelper('ifRecipeClass', function(context, options) {
+  if (context === 'recipe') {
+    return options.fn(this);
+  }
+});
