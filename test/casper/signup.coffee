@@ -1,11 +1,10 @@
 data = require './../data'
-config = require './../../config.js'
-base = config.keystone.publicUrl  # We're outside node, so no keystone
+base = require('../utils/casper-config.js').publicUrl
 
 formErrorsAt = (errfields) ->
   # Check we got a valid form
   'Registro - Chefcito Club Gibaja'.should.matchTitle
-  'form[action="registro"]'.should.be.inDOM
+  'form[action="/registro"]'.should.be.inDOM
   '#signup-name'.should.be.inDOM
   '#signup-email'.should.be.inDOM
   '#signup-password'.should.be.inDOM
@@ -33,7 +32,7 @@ describe 'WEB SIGNUP', ->
 
     it 'shows 3 errors for 3 missing fields', (done) ->
       casper.thenOpen base + '/registro', ->
-        @fill 'form[action="registro"]', {
+        @fill 'form[action="/registro"]', {
           'action': 'signup'
           'signup_name': ''
           'signup_email': ''
@@ -44,7 +43,7 @@ describe 'WEB SIGNUP', ->
 
     it 'shows 2 errors for 2 missing fields', (done) ->
       casper.thenOpen base + '/registro', ->
-        @fill 'form[action="registro"]', {
+        @fill 'form[action="/registro"]', {
           'action': 'signup'
           'signup_name': ''
           'signup_email': data.users[0].email
@@ -55,7 +54,7 @@ describe 'WEB SIGNUP', ->
 
     it 'shows password error for missing password', (done) ->
       casper.thenOpen base + '/registro', ->
-        @fill 'form[action="registro"]', {
+        @fill 'form[action="/registro"]', {
           'action': 'signup'
           'signup_name': 'TestDummyName'
           'signup_email': data.users[0].email
@@ -66,7 +65,7 @@ describe 'WEB SIGNUP', ->
 
     it 'login success for existing user and pass, without username', (done) ->
       casper.thenOpen base + '/registro', ->
-        @fill 'form[action="registro"]', {
+        @fill 'form[action="/registro"]', {
           'action': 'signup'
           'signup_name': ''
           'signup_email': data.users[0].email
@@ -79,7 +78,7 @@ describe 'WEB SIGNUP', ->
 
     it 'login success for existing user and pass, dummy username', (done) ->
       casper.thenOpen base + '/registro', ->
-        @fill 'form[action="registro"]', {
+        @fill 'form[action="/registro"]', {
           'action': 'signup'
           'signup_name': 'TestDummyName'
           'signup_email': data.users[0].email
