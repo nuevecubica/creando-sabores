@@ -1,6 +1,5 @@
 data = require './../data'
-config = require './../../config.js'
-base = config.keystone.publicUrl  # We're outside node, so no keystone
+base = require('./config.js').publicUrl  # We're outside node, so no keystone
 
 
 revertDB = () ->
