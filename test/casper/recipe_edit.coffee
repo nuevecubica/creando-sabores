@@ -26,7 +26,7 @@ describe 'WEB Recipe Edit', ->
       # Do Nothing.
     utils.revertDB()
     casper.thenOpen base + '/acceso', ->
-      @fill 'form[action="acceso"]', {
+      @fill 'form[action="/acceso"]', {
         'action': 'login'
         'login_email': data.users[0].email
         'login_password': data.users[0].password

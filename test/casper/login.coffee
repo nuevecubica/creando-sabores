@@ -4,7 +4,7 @@ base = require('../utils/casper-config.js').publicUrl
 formErrorsAt = (errfields) ->
   # Check we got a valid form
   'Acceso - Chefcito Club Gibaja'.should.matchTitle
-  'form[action="acceso"]'.should.be.inDOM
+  'form[action="/acceso"]'.should.be.inDOM
   '#login-email'.should.be.inDOM
   '#login-password'.should.be.inDOM
   '#login-email'.should.be.inDOM
@@ -32,7 +32,7 @@ describe 'WEB LOGIN', ->
 
     it 'shows 2 errors for 2 missing fields', (done) ->
       casper.thenOpen base + '/acceso', ->
-        @fill 'form[action="acceso"]', {
+        @fill 'form[action="/acceso"]', {
           'action': 'login'
           'login_email': ''
           'login_password': ''
@@ -42,7 +42,7 @@ describe 'WEB LOGIN', ->
 
     it 'shows password error for missing password', (done) ->
       casper.thenOpen base + '/acceso', ->
-        @fill 'form[action="acceso"]', {
+        @fill 'form[action="/acceso"]', {
           'action': 'login'
           'login_email': data.users[0].email
           'login_password': ''
@@ -52,7 +52,7 @@ describe 'WEB LOGIN', ->
 
     it 'shows 2 errors for wrong password', (done) ->
       casper.thenOpen base + '/acceso', ->
-        @fill 'form[action="acceso"]', {
+        @fill 'form[action="/acceso"]', {
           'action': 'login'
           'login_email': data.users[0].email
           'login_password': 'garbage'
@@ -62,7 +62,7 @@ describe 'WEB LOGIN', ->
 
     it 'shows 1 error for password if social user (w/no password)', (done) ->
       casper.thenOpen base + '/acceso', ->
-        @fill 'form[action="acceso"]', {
+        @fill 'form[action="/acceso"]', {
           'action': 'login'
           'login_email': data.users[1].email
           'login_password': 'garbage'
@@ -72,7 +72,7 @@ describe 'WEB LOGIN', ->
 
     it 'grants access for correct password', (done) ->
       casper.thenOpen base + '/acceso', ->
-        @fill 'form[action="acceso"]', {
+        @fill 'form[action="/acceso"]', {
           'action': 'login'
           'login_email': data.users[0].email
           'login_password': data.users[0].password
