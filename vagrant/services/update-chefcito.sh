@@ -12,7 +12,7 @@ case $yn in
   [Yy]* )
     echo "Restarting Node..."
     #fleetctl restart node.service
-    ssh $SSHTARGET 'bash -c "sudo systemctl restart node.service; sudo ./fix_iptables"'
+    ssh $SSHTARGET 'bash -c "sudo systemctl restart node.service"'
     ;;
   * )
     echo "Aborted. You should restart Node manually to apply changes."
