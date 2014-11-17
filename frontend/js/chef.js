@@ -20,4 +20,8 @@ $(window).load(function() {
     makePaginable('/api/v1/user/' + profile + '/menus', 'menus', 'menu', '#menus .list');
   }
 
+  $('#select select').change(function() {
+    window.location = $(this).val();
+  });
+
 });
