@@ -63,6 +63,8 @@ else {
     }
   }
 
+  keystone.set('site', config.keystone.site);
+
   keystone.init(config.keystone.init);
 
   keystone.import('models');
@@ -78,8 +80,6 @@ else {
 
   keystone.set('email locals', config.keystone['email locals']);
   keystone.set('email rules', config.keystone['email rules']);
-
-  keystone.set('site', config.keystone['site']);
 
   keystone.set('security', config.keystone.security);
 
