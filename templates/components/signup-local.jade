@@ -1,5 +1,7 @@
 .form-signin
-	form(action='registro', method='post', novalidate)
+	- var action = next ? '/registro?next=' + next : '/registro'
+	form(action=action, method='post', novalidate)
+
 		input(type="hidden" name="_csrf" value="#{csrftoken}")
 		.ui.form
 			#name.field(class=(errors.fields.name ? "error-here" : ""))

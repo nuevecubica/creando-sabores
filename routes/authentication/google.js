@@ -1,6 +1,5 @@
 var async = require('async'),
   keystone = require('keystone');
-var _logger = require(__base + 'utils/logger');
 
 var google = require('./services/google');
 
@@ -30,15 +29,13 @@ exports = module.exports = function(req, res, next) {
         fail: '/acceso'
       };
 
-      var request = _logger.getRequest(req);
-
       // Redirect based on response
       if (err) {
-        logger.info('[auth.google] - Google authentication failed', request);
+        logger.info('[auth.google] - Google authentication failed: %j', err, req);
         return res.redirect(redirects.fail);
       }
       else {
-        logger.log('[auth.goole] - Google authentication was successful.', request);
+        logger.log('[auth.goole] - Google authentication was successful.', req);
         return res.redirect(redirects.success);
       }
 

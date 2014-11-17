@@ -2,8 +2,6 @@ var keystone = require('keystone'),
   User = keystone.list('User'),
   formResponse = require(__base + 'utils/formResponse.js');
 
-var _logger = require(__base + 'utils/logger');
-
 exports = module.exports = function(req, res) {
 
   var locals = res.locals,
@@ -23,7 +21,7 @@ exports = module.exports = function(req, res) {
 
     User.model.findOne().where('email', req.body.email).exec(function(err, user) {
       if (err) {
-        logger.error('Error looking for email to reset password: %j', err, _logger.getRequest(req));
+        logger.error('Error looking for email to reset password: %j', err, req);
         return next(err);
       }
       if (!user) {
@@ -31,7 +29,7 @@ exports = module.exports = function(req, res) {
       }
       user.resetPassword(function(err) {
         if (err) {
-          logger.error('Error sending reset password email: %j', err, _logger.getRequest(req));
+          logger.error('Error sending reset password email: %j', err, req);
           return formResponse(req, res, next, 'Error sending reset password email.', false);
         }
         else {

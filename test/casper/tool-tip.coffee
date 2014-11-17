@@ -1,6 +1,5 @@
 data = require './../data'
-config = require './../../config.js'
-base = config.keystone.publicUrl  # We're outside node, so no keystone
+base = require('../utils/casper-config.js').publicUrl
 utils = require '../utils/casper-editor.coffee'
 
 # Default viewport is 400x300, but bubbles are hidden in tablet
@@ -14,7 +13,7 @@ describe 'New recipe - tooltip', ->
       # Do Nothing.
     utils.revertDB()
     casper.thenOpen base + '/acceso', ->
-      @fill 'form[action="acceso"]', {
+      @fill 'form[action="/acceso"]', {
         'action': 'login'
         'login_email': data.users[0].email
         'login_password': data.users[0].password

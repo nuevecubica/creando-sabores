@@ -1,6 +1,5 @@
 data = require './../data'
-config = require './../../config.js'
-base = config.keystone.publicUrl  # We're outside node, so no keystone
+base = require('../utils/casper-config.js').publicUrl
 utils = require '../utils/casper-editor.coffee'
 
 selectors = {
@@ -41,7 +40,7 @@ describe 'Tip page', ->
   describe 'from an authenticated user,', ->
     before (done) ->
       casper.thenOpen base + '/acceso', ->
-        @fill 'form[action="acceso"]', {
+        @fill 'form[action="/acceso"]', {
           'action': 'login'
           'login_email': data.users[0].email
           'login_password': data.users[0].password
