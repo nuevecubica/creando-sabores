@@ -1,8 +1,6 @@
 data = require './../data'
-base = require('./config.js').publicUrl  # We're outside node, so no keystone
+base = require('../utils/casper-config.js').publicUrl
 utils = require '../utils/casper-editor.coffee'
-
-
 
 getBackgroundImage = (selector) ->
   return $(selector).css('background-image')
