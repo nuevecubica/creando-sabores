@@ -49,6 +49,15 @@ exports.initLocals = function(req, res, next) {
 
   locals.site = keystone.get('site');
 
+  locals.fullUrl = locals.site.url || 'http://creandosabores.com';
+
+  if (req.url) {
+    locals.fullUrl = locals.fullUrl + req.url;
+  }
+  else {
+    locals.fullUrl = locals.fullUrl + '/';
+  }
+
   /*
     Data to send to the client in each page
   */
