@@ -54,11 +54,23 @@ block content
 							a(href='/chef/#{profile.username}/menus')
 								div(class="#{subsection === 'menus' ? 'active' : ''}").ui.button.chef.button-green
 									| #{__('Menus')}
+			.row.mobile.only.explain
+				#select.sixteen.wide.column
+					.icon.icon-chef-select
+					select
+						option(value='/chef/#{profile.username}/recetas', selected=subsection === 'recipes' ? 'selected' : false)
+							| #{__('Recipes')}
+						option(value='/chef/#{profile.username}/favoritas', selected=subsection === 'favourites' ? 'selected' : false)
+							| #{__('Favorites')}
+						option(value='/chef/#{profile.username}/tips', selected=subsection === 'tips' ? 'selected' : false)
+							| #{__('Tips')}
+						option(value='/chef/#{profile.username}/menus', selected=subsection === 'menus' ? 'selected' : false)
+							| #{__('Menus')}
 
 			if subsection == 'recipes'
 				#recipes.tab-content
 					.row
-						.ui.grid.segment.list
+						.ui.grid.segment.list.stackable
 							if recipes.length
 								each recipe in recipes
 									+recipe(recipe)
@@ -74,7 +86,7 @@ block content
 			if subsection == 'favourites'
 				#favourites.tab-content
 					.row
-						.ui.grid.segment.list
+						.ui.grid.segment.list.stackable
 							if recipes.length
 								each recipe in recipes
 									+recipe(recipe)
@@ -90,7 +102,7 @@ block content
 			if subsection == 'menus'
 				#menus.tab-content
 					.row
-						.ui.grid.segment.list
+						.ui.grid.segment.list.stackable
 							if menus.length
 								each menu in menus
 									+menu(menu)
@@ -106,7 +118,7 @@ block content
 			if subsection == 'tips'
 				#tips.tab-content
 					.row
-						.ui.grid.segment.list
+						.ui.grid.segment.list.stackable
 							if tips.length
 								each tip in tips
 									+tip(tip)
