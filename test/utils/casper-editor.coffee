@@ -1,6 +1,5 @@
 data = require './../data'
-config = require './../../config.js'
-base = config.keystone.publicUrl  # We're outside node, so no keystone
+base = require('./casper-config.js').publicUrl
 
 # Augment the casper object with some new helpers
 casper.editorGetValues = (selectors) ->
@@ -29,7 +28,7 @@ revertDB = () ->
   casper.then ->
     this.page.cookies = []
   casper.thenOpen base + '/acceso', ->
-    @fill 'form[action="acceso"]', {
+    @fill 'form[action="/acceso"]', {
       'action': 'login'
       'login_email': data.admins[0].email
       'login_password': data.admins[0].password

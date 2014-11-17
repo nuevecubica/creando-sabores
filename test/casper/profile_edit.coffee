@@ -1,6 +1,5 @@
 data = require './../data'
-config = require './../../config.js'
-base = config.keystone.publicUrl  # We're outside node, so no keystone
+base = require('../utils/casper-config.js').publicUrl
 
 userNewName = 'Canary User Name'
 userNewAbout = 'Canary User About'
@@ -21,7 +20,7 @@ revertDB = () ->
   casper.then ->
     this.page.cookies = []
   casper.thenOpen base + '/acceso', ->
-    @fill 'form[action="acceso"]', {
+    @fill 'form[action="/acceso"]', {
       'action': 'login'
       'login_email': data.admins[0].email
       'login_password': data.admins[0].password
@@ -38,7 +37,7 @@ describe 'WEB Profile Edit', ->
       # Do Nothing.
     revertDB()
     casper.thenOpen base + '/acceso', ->
-      @fill 'form[action="acceso"]', {
+      @fill 'form[action="/acceso"]', {
         'action': 'login'
         'login_email': data.users[0].email
         'login_password': data.users[0].password
