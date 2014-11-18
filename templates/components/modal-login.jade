@@ -3,17 +3,17 @@ block js
 
 block content
 #modal-bg
-  #modal-fg
+  #modal-fg(data-section='login')
     #sections.row
       .two.tabs.tab-header
         .row
-          .tab.active
+          .tab
             a(href='/#')
-              .ui.button.chef
+              .ui.button.chef.login
                 | #{__('Login')}
           .tab
             a(href='/#')
-              .ui.button.chef
+              .ui.button.chef.signup
                 | #{__('Signup')}
 
     #login.signin
@@ -25,7 +25,7 @@ block content
           .explain= __('or register with email')
           include ../components/login-local
 
-    #signup.signin.hidden
+    #signup.signin
       .ui.page.segment.body
         .row
           include ../components/signin-social

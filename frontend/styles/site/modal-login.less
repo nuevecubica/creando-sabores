@@ -5,35 +5,91 @@
   background-color: fade(@chef-color-gray, 90%);
   width: 100%;
   height: 100%;
+  display: none;
   #modal-fg{
     background-color:@chef-color-white;
     position: fixed;
     top: 50%;
     left: 50%;
     margin-left: -170px;
-    margin-top: -300px;
+    margin-top: -340px;
     width: 340px;
-    #sections{
-      .tab-header{
-        .tab{
-          &.active{
-            .button{
+    #login.signin{
+      display: none;
+      padding: 20px;
+      background-color:@chef-color-white;
+      background-image: none;
+      .segment{
+        box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);
+        background-color:@chef-color-white;
+        #wrapper-password{
+          margin-bottom: 20px;
+        }
+      }
+      .buttons-social{
+        .ui.button.chef {
+          padding: 15px;
+        }
+      }
+      .body .buttons-social .button i.social {
+        padding-top: 0;
+        .font-extra-larger;
+      }
+    }
+
+    #signup.signin{
+      display: none;
+      padding: 20px;
+      background-color:@chef-color-white;
+      background-image: none;
+      .segment{
+        box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);
+        background-color:@chef-color-white;
+        #wrapper-password{
+          margin-bottom: 20px;
+        }
+      }
+      .buttons-social{
+        .ui.button.chef {
+          padding: 15px;
+        }
+      }
+      .body .buttons-social .button i.social {
+        padding-top: 0;
+        .font-extra-larger;
+      }
+    }
+    &[data-section="login"]{
+      #sections{
+        .tab-header{
+          .tab{
+            .button.login{
+              background-image: none;
               border: none;
               border-bottom-color: transparent;
             }
           }
         }
       }
+      #login{
+        display: block;
+      }
     }
-    #login{
-      padding: 20px;
-      background-color:@chef-color-white;
-      background-image: none;
-    }
-    #signup{
-      padding: 20px;
-      background-color:@chef-color-white;
-      background-image: none;
+    &[data-section="signup"]{
+      #sections{
+        .tab-header{
+          .tab{
+            .button.signup{
+              background-image: none;
+              border: none;
+              border-bottom-color: transparent;
+            }
+          }
+        }
+      }
+      #signup{
+        display: block;
+      }
     }
   }
 }
