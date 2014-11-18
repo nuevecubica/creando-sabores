@@ -46,3 +46,41 @@ block content
               .explain.span!= data.question.answer
             a.commentary(href=data.question.url)
               .strong= __('Coments')
+
+      #related.ui.grid.stackable.segment
+        h2.ui.header= __('Related questions')
+        if related && related.length > 0
+          - for (var i = 0, l = related.length; i < l; i++)
+            .row
+              .related
+                a(href='#{related[i].url}')
+                  .explain.span!= related[i].title
+                  .arrow-left
+          .row
+          .related.button
+            a(href='/questions')
+                .explain.span= __('View all')
+        else
+          .empty-resultset.sixteen.wide.column= __('No related questions yet')
+
+      //- #related.ui.grid.stackable.segment
+      //-   h2.ui.header= __('Related questions')
+      //-   .row
+      //-     .related
+      //-       a(href=data.question.url)
+      //-         .explain.span!= data.question.title
+      //-         .arrow-left
+      //-   .row
+      //-     .related
+      //-       a(href=data.question.url)
+      //-         .explain.span!= data.question.title
+      //-         .arrow-left
+      //-   .row
+      //-     .related
+      //-       a.commentary(href=data.question.url)
+      //-         .explain.span!= data.question.title
+      //-         .arrow-left
+      //-   .row
+      //-     .related.button
+      //-       a(href='/questions')
+      //-           .explain.span= __('View all')
