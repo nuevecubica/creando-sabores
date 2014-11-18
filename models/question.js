@@ -1,5 +1,7 @@
 var _ = require('underscore'),
+  config = require(__base + 'config.js'),
   keystone = require('keystone'),
+  mongoosastic = require('mongoosastic'),
   Types = keystone.Field.Types,
   virtual = require('./virtuals'),
   modelCleaner = require('../utils/modelCleaner'),
@@ -143,4 +145,9 @@ Question.schema.pre('save', function(done) {
  * Registration
  */
 Question.defaultColumns = 'title, author, state';
+Question.schema.plugin(mongoosastic, {
+  host: config.elasticsearch.host,
+  port: config.elasticsearch.port,
+  log: config.elasticsearch.log
+});
 Question.register();
