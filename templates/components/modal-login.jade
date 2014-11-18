@@ -1,0 +1,43 @@
+block js
+  script(src='/js/signup.js')
+
+block content
+#modal-bg
+  #modal-fg.ui.page.grid.segment.body.sections
+    #sections.row
+      .two.tabs.tab-header
+        .row
+          .tab
+            a(href='/#')
+              .ui.button.chef
+                | #{__('Login')}
+          .tab
+            a(href='/#')
+              .ui.button.chef
+                | #{__('Signup')}
+
+    #login.signin
+      .ui.page.grid.segment.body
+        .row
+          include ../components/signin-social
+
+        .row
+          .explain= __('or register with email')
+          include ../components/login-local
+
+    #signup.signin.hidden
+      .ui.page.grid.segment.body
+        .row
+          include ../components/signin-social
+
+        .row
+          .explain= __('or register with email')
+          include ../components/signup-local
+
+block js
+  | <script>
+  | chef.errorMessages = chef.errorMessages || {}
+  | chef.errorMessages['Email format'] = "#{__('Error: Email format')}"
+  | chef.errorMessages['Password format'] = "#{__('Error: Password format')}"
+  | chef.errorMessages['Username format'] = "#{__('Error: Username format')}"
+  | </script>

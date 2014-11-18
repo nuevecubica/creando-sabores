@@ -46,6 +46,14 @@ exports.initLocals = function(req, res, next) {
   locals.ksversion = keystone.version;
   locals.env = process.env;
   locals.isTest = keystone.testMode;
+  locals.form = req.body;
+  locals.errors = {
+    fields: {
+      name: false,
+      email: false,
+      password: false
+    }
+  };
 
   locals.site = keystone.get('site');
 

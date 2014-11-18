@@ -1,7 +1,5 @@
 extends ../../layouts/default
 
-include ../../mixins/recipe
-
 block content
 	#login.signin
 		.ui.page.grid.segment.head.basic
@@ -23,8 +21,8 @@ block content
 
 				.one.column.wide.space.dashed
 				.five.column.wide
-							.explain.left= __('or register with email')
-							include ../../components/login-local
+					.explain.left= __('or register with email')
+					include ../../components/login-local
 				.two.column.wide
 
 		.ui.page.grid.segemnt.tail
