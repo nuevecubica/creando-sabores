@@ -187,6 +187,7 @@ exports = module.exports = function(app) {
   app.get('/api/v1/admin/stats', middleware.requireAdminApi, routes.api.v1.admin.stats);
   app.get('/api/v1/admin/generate/recipes', middleware.requireAdminApi, routes.api.v1.admin.generate.generateRecipes);
   app.get('/api/v1/admin/generate/tips', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTips);
+  app.get('/api/v1/admin/generate/questions', middleware.requireAdminApi, routes.api.v1.admin.generate.generateQuestions);
   app.get('/api/v1/admin/generate/test', middleware.requireAdminApi, routes.api.v1.admin.generate.generateTest.middleware);
   //---- Elasticsearch
   app.get('/api/v1/admin/es/ping', routes.api.v1.admin.goldfinder.ping);
