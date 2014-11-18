@@ -8,6 +8,7 @@
 var _ = require('underscore');
 
 global.__base = __dirname + '/';
+global.logger = require(__base + 'utils/logger')("backend");
 
 require('dotenv').load();
 
