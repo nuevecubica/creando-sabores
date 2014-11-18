@@ -3,7 +3,7 @@ block js
 
 block content
 #modal-bg
-  #modal-fg.ui.page.grid.segment.body.sections
+  #modal-fg
     #sections.row
       .two.tabs.tab-header
         .row
@@ -17,7 +17,7 @@ block content
                 | #{__('Signup')}
 
     #login.signin
-      .ui.page.grid.segment.body
+      .ui.page.segment.body
         .row
           include ../components/signin-social
 
@@ -26,7 +26,7 @@ block content
           include ../components/login-local
 
     #signup.signin.hidden
-      .ui.page.grid.segment.body
+      .ui.page.segment.body
         .row
           include ../components/signin-social
 
