@@ -1,5 +1,48 @@
-*0.0.8-alpha8-mailtips*
+*0.3.0-beta3-shopping*
 --------------------------------------------------
+
+*0.2.0-beta2-menu*
+--------------------------------------------------
++ Create menu
++ Edit menu
++ Search menus
++ Save menu drafts
++ Promote menus on homepage
++ Menus section
++ More recipe info on grid
++ Mobile accordion for profile
++ New fixed edit buttons
++ Access restricted pages redirect to login
++ API Security: secure access, filtered response
++ Some new designs
++ Bugfixes
++ Tests
+
+_Internal:_
+
++ Node cluster
++ Logger
+
+*0.1.0-beta1-mailtips*
+--------------------------------------------------
++ Static pages
++ Create tip
++ Search tips
++ Contests in home's grid
++ Send emails
++ Verify users by email
++ Recover password
++ Limit unverified users
++ User menu
++ Interactive help
++ Ad-hoc recipe lists at home
++ Bugfixes
++ Tests
+
+_Internal:_
+
++ CoreOS, Fleet
++ Mandrill
 
 *0.0.7-alpha7-goldfinder*
 --------------------------------------------------
