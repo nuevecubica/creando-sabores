@@ -413,3 +413,40 @@ var likeClick = function(e) {
   });
   e.preventDefault();
 };
+
+// --- Login/register modal ---
+
+var showAuthModal = function(section) {
+  if (!section) {
+    section = 'login';
+  }
+  $('#modal-bg').css('display', 'block');
+  console.log('Section was:', $('#modal-fg').data('section'), 'Now will be:', section);
+  $('#modal-fg').attr('data-section', section);
+};
+
+var hideAuthModal = function() {
+  $('#modal-bg').css('display', 'none');
+};
+
+$(document).ready(function() {
+
+  $('#modal-bg').on('click', hideAuthModal);
+  $('#modal-fg').on('click', function(e) {
+    e.stopPropagation();
+  });
+
+  var evtLogin = function(e) {
+    e.preventDefault();
+    showAuthModal();
+  };
+
+  var evtSignup = function(e) {
+    e.preventDefault();
+    showAuthModal('signup');
+  };
+
+  $('a[href="/acceso"]').on('click', evtLogin);
+  $('a[href="/registro"]').on('click', evtSignup);
+
+});
