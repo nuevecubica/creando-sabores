@@ -210,8 +210,18 @@ exports.authenticateUser = function(req, res, next, callback) {
   else {
     logger.log('[social.google] - Authentication workflow detected, attempting to request access');
 
+    var state = null;
+    if (req.query.next) {
+      var qnext = req.query.next || '';
+      qnext = decodeURIComponent(qnext);
+      if (qnext.indexOf('//:') === -1 && qnext[0] === '/') {
+        state = qnext;
+      }
+    }
+
     passport.authenticate('google', {
-      scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+      scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
+      state: state
     })(req, res, next);
   }
 
