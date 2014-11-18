@@ -1,0 +1,39 @@
+#modal-bg{
+  position:fixed;
+  top:0;
+  left: 0;
+  background-color: fade(@chef-color-gray, 90%);
+  width: 100%;
+  height: 100%;
+  #modal-fg{
+    background-color:@chef-color-white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -170px;
+    margin-top: -300px;
+    width: 340px;
+    #sections{
+      .tab-header{
+        .tab{
+          &.active{
+            .button{
+              border: none;
+              border-bottom-color: transparent;
+            }
+          }
+        }
+      }
+    }
+    #login{
+      padding: 20px;
+      background-color:@chef-color-white;
+      background-image: none;
+    }
+    #signup{
+      padding: 20px;
+      background-color:@chef-color-white;
+      background-image: none;
+    }
+  }
+}
