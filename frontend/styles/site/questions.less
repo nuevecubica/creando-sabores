@@ -388,6 +388,13 @@
         box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
         position: relative;
         margin-left: 40px;
+        &:hover{
+          background-color: fade(@grid-hover-background, 90%);
+          transition: background-color @ani-time ease-out;
+          .arrow-left{
+            border-right-color:fade(@grid-hover-background, 90%);
+          }
+        }
         .arrow-left{
           position: absolute;
           top: 22px;
@@ -432,10 +439,6 @@
             overflow:hidden;
             text-overflow: ellipsis;
             text-transform: inherit;
-             &:hover{
-              background-color: fade(@grid-hover-background, 90%);
-              transition: background-color @ani-time ease-out;
-            }
           }
         }
       }
