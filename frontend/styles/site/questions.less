@@ -371,4 +371,74 @@
       }
     }
   }
+  #related{
+
+    .header{
+      background-color: @chef-color-gray-bg;
+      text-align: center;
+      padding: 20px 0;
+      margin:20px 0 10px;
+    }
+    .row{
+      margin-top: 10px;
+      padding: 0;
+      .related{
+        background-color: @chef-color-query-bg;
+        border-radius: 3px;
+        box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+        position: relative;
+        margin-left: 40px;
+        .arrow-left{
+          position: absolute;
+          top: 22px;
+          left: -25px;
+          border-top: 25px solid transparent;
+          border-bottom: 25px solid transparent;
+          border-right: 25px solid;
+          border-right-color: @chef-color-query-bg;
+        }
+        // @media only screen and (max-width : 1500px) {
+        //   width: 80% !important;
+        //   margin-left: auto;
+        //   margin-right: auto;
+        // }
+
+        &.button{
+          background-color: @chef-color-yellow-bg;
+          display: block;
+          border-radius: 0px;
+          &:hover{
+            background-color: fade(@grid-hover-background, 90%);
+            transition: background-color @ani-time ease-out;
+          }
+
+          .span {
+            padding:30px 0;
+            text-align: center;
+            color: @chef-color-white;
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+        }
+
+        a {
+          text-decoration: none;
+
+          .span {
+            padding:30px 10px;
+            text-align: center;
+            color: @chef-color-white;
+            white-space: nowrap;
+            overflow:hidden;
+            text-overflow: ellipsis;
+            text-transform: inherit;
+             &:hover{
+              background-color: fade(@grid-hover-background, 90%);
+              transition: background-color @ani-time ease-out;
+            }
+          }
+        }
+      }
+    }
+  }
 }
