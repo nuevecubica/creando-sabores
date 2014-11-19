@@ -1,10 +1,14 @@
 $(document).ready(function() {
 
-  /* global makePaginable, getTemplate */
+  /* global makePaginable, getTemplate, showAuthModal */
   makePaginable('/api/v1/questions', 'questions', 'question', '#questions .list');
 
   $('#send-button').on('click', function(e) {
     e.preventDefault();
+    if (!window.chef.isUserLoggedIn) {
+      showAuthModal();
+      return;
+    }
     var url = '/api/v1/question/add',
       args = {
         title: $('#send-query input').val()
