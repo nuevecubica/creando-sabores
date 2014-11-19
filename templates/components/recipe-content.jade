@@ -83,8 +83,8 @@ include ../mixins/difficult-items
       .ui.content= __('Ingredients required')
 
     .ui.button.chef.button-green.shopping-add.hide-editable(data-slug = data.recipe.slug, class = data.inShoppingList ? 'disabled' : '')
-      a.add(href="/acceso")= __('Add to shopping basket')
-      a.added(href="/acceso")= __('Added to shopping basket')
+      a.add= __('Add to shopping basket')
+      a.added= __('Added to shopping basket')
 
   if data.contest
     .recipe-contest-ingredient.sixteen.wide.column

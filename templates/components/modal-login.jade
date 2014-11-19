@@ -1,7 +1,3 @@
-block js
-  script(src='/js/signup.js')
-
-block content
 #modal-bg
   #modal-fg(data-section='login')
     #sections.row
@@ -33,11 +29,3 @@ block content
         .row
           .explain= __('or register with email')
           include ../components/signup-local
-
-block js
-  | <script>
-  | chef.errorMessages = chef.errorMessages || {}
-  | chef.errorMessages['Email format'] = "#{__('Error: Email format')}"
-  | chef.errorMessages['Password format'] = "#{__('Error: Password format')}"
-  | chef.errorMessages['Username format'] = "#{__('Error: Username format')}"
-  | </script>
