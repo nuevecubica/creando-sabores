@@ -482,7 +482,7 @@
       var url = '/api/v1/me/favourites/' + action + '/' + slug;
       var jQXhr = $.ajax({
         url: url,
-        type: 'GET',
+        type: 'PUT',
         contentType: 'application/json',
         success: function(data) {
           if (!data.success) {
@@ -519,7 +519,7 @@
       var url = '/api/v1/me/shopping/add/' + slug;
       var jQXhr = $.ajax({
         url: url,
-        type: 'GET',
+        type: 'PUT',
         contentType: 'application/json',
         success: function(data) {
           if (!data.success) {

@@ -29,7 +29,7 @@ describe 'API v1: /me/favourites', ->
         recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
         request
-        .get('/api/v1/me/favourites/add/' + recipe.slug)
+        .put('/api/v1/me/favourites/add/' + recipe.slug)
         .set('cookie','')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -43,7 +43,7 @@ describe 'API v1: /me/favourites', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/favourites/add/' + recipe.slug)
+          .put('/api/v1/me/favourites/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -69,7 +69,7 @@ describe 'API v1: /me/favourites', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/favourites/add/' + recipe.slug)
+          .put('/api/v1/me/favourites/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -78,7 +78,7 @@ describe 'API v1: /me/favourites', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me/favourites/add/' + recipe.slug)
+            .put('/api/v1/me/favourites/add/' + recipe.slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -102,7 +102,7 @@ describe 'API v1: /me/favourites', ->
 
         it 'should return error for missing recipe', (done) ->
           request
-          .get('/api/v1/me/favourites/add/testDummyRecipe')
+          .put('/api/v1/me/favourites/add/testDummyRecipe')
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -115,7 +115,7 @@ describe 'API v1: /me/favourites', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/favourites/add/' + recipe.slug)
+          .put('/api/v1/me/favourites/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -124,7 +124,7 @@ describe 'API v1: /me/favourites', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me/favourites/remove/' + recipe.slug)
+            .put('/api/v1/me/favourites/remove/' + recipe.slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -148,7 +148,7 @@ describe 'API v1: /me/favourites', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/favourites/remove/' + recipe.slug)
+          .put('/api/v1/me/favourites/remove/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -157,7 +157,7 @@ describe 'API v1: /me/favourites', ->
 
         it 'should return error for missing recipe', (done) ->
           request
-          .get('/api/v1/me/favourites/remove/testDummyRecipe')
+          .put('/api/v1/me/favourites/remove/testDummyRecipe')
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -181,7 +181,7 @@ describe 'API v1: /me/favourites', ->
 
         addToShoppingList = (recipe, cb) ->
           request
-          .get('/api/v1/me/favourites/add/' + recipe.slug)
+          .put('/api/v1/me/favourites/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)

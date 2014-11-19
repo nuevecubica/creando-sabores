@@ -14,7 +14,7 @@ $(document).ready(function() {
     var url = '/api/v1/me/tips/favourites/' + action + '/' + slug;
     var jQXhr = $.ajax({
       url: url,
-      type: 'GET',
+      type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
         if (!data.success) {

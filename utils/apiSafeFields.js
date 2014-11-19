@@ -2,7 +2,8 @@ var safe = {
   recipe: [
     'url', 'slug', 'title', 'description', 'ingredients', 'procedure',
     'portions', 'time', 'difficulty', 'rating', 'state',
-    'createdDate', 'publishedDate', 'classes', 'type', 'thumb', 'isOfficial'
+    'createdDate', 'publishedDate', 'classes', 'type', 'thumb', 'isOfficial',
+    'ingredientsGot', 'ingredientsPending'
   ],
   user: ['slug', 'username', 'name', 'about', 'thumb', 'url'],
   me: ['slug', 'username', 'email', 'name', 'about', 'thumb', 'url', 'isPrivate'],
