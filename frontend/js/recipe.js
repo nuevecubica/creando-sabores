@@ -1,5 +1,6 @@
 /* global likeClick */
 /* global ratingClick */
+/* global showAuthModal */
 (function() {
 
   var addTypes = function() {
@@ -472,7 +473,7 @@
 
     $('.favourite .button').on('click', function(e) {
       if (!window.chef.isUserLoggedIn) {
-        window.location.href = '/acceso';
+        showAuthModal();
         return;
       }
       var $this = $(this);
@@ -510,7 +511,7 @@
 
     $('.shopping-add').on('click', function(e) {
       if (!window.chef.isUserLoggedIn) {
-        window.location.href = '/acceso';
+        showAuthModal();
         return;
       }
       var $this = $(this);

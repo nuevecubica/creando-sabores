@@ -11,6 +11,67 @@ chef.errorMessage = function(errorId) {
   }
 };
 
+
+// --- Login/register modal ---
+
+var showAuthModal = function(section, next) {
+  if (!section) {
+    section = 'login';
+  }
+  if (!next) {
+    next = window.location.pathname;
+  }
+  $('#modal-bg').css('display', 'block');
+  $('#modal-fg').attr('data-section', section);
+
+  $('#modal-fg form').each(function(i, a) {
+    var action = $(a).attr('action');
+    action = action ? action.split('?')[0] : '';
+    $(a).attr('action', action + '?next=' + encodeURIComponent(next));
+  });
+  $('.buttons-social a').each(function(i, a) {
+    var href = $(a).attr('href');
+    href = href ? href.split('?')[0] : '';
+    $(a).attr('href', href + '?next=' + encodeURIComponent(next));
+  });
+};
+
+var hideAuthModal = function() {
+  $('#modal-bg').css('display', 'none');
+};
+
+$(document).ready(function() {
+
+  $('#modal-bg').on('click', hideAuthModal);
+  $('#modal-fg').on('click', function(e) {
+    e.stopPropagation();
+  });
+
+  var evtLogin = function(e) {
+    e.preventDefault();
+    showAuthModal();
+  };
+
+  var evtSignup = function(e) {
+    e.preventDefault();
+    showAuthModal('signup');
+  };
+
+  var evtLoginRedirect = function(e) {
+    if (!window.chef.isUserLoggedIn) {
+      showAuthModal('login', $(this).attr('href'));
+      e.preventDefault();
+    }
+  };
+
+  $('a[href="/acceso"]').on('click', evtLogin);
+  $('a[href="/registro"]').on('click', evtSignup);
+  $('a[href="/nueva-receta"]').on('click', evtLoginRedirect);
+  $('a[href="/nuevo-menu"]').on('click', evtLoginRedirect);
+});
+
+// --- Misc ---
+
 var activateDropdown = function() {
   // Dropdown
   var dropdown = $('.dropdown');
@@ -324,7 +385,7 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
 
 var ratingClick = function(type, target) {
   if (!window.chef.isUserLoggedIn) {
-    window.location.href = '/acceso';
+    showAuthModal();
     return;
   }
   if (window.chef.user.isUnconfirmed) {
@@ -373,7 +434,7 @@ var ratingClick = function(type, target) {
 
 var likeClick = function(e) {
   if (!window.chef.isUserLoggedIn) {
-    window.location.href = '/acceso';
+    showAuthModal();
     return;
   }
   if (window.chef.user.isUnconfirmed) {
@@ -413,40 +474,3 @@ var likeClick = function(e) {
   });
   e.preventDefault();
 };
-
-// --- Login/register modal ---
-
-var showAuthModal = function(section) {
-  if (!section) {
-    section = 'login';
-  }
-  $('#modal-bg').css('display', 'block');
-  console.log('Section was:', $('#modal-fg').data('section'), 'Now will be:', section);
-  $('#modal-fg').attr('data-section', section);
-};
-
-var hideAuthModal = function() {
-  $('#modal-bg').css('display', 'none');
-};
-
-$(document).ready(function() {
-
-  $('#modal-bg').on('click', hideAuthModal);
-  $('#modal-fg').on('click', function(e) {
-    e.stopPropagation();
-  });
-
-  var evtLogin = function(e) {
-    e.preventDefault();
-    showAuthModal();
-  };
-
-  var evtSignup = function(e) {
-    e.preventDefault();
-    showAuthModal('signup');
-  };
-
-  $('a[href="/acceso"]').on('click', evtLogin);
-  $('a[href="/registro"]').on('click', evtSignup);
-
-});

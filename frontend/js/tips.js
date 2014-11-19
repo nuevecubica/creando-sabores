@@ -1,10 +1,11 @@
 /* global ratingClick, makePaginable */
+/* global showAuthModal */
 
 $(document).ready(function() {
 
   $('.favourite .button').on('click', function(e) {
     if (!window.chef.isUserLoggedIn) {
-      window.location.href = '/acceso';
+      showAuthModal();
       return;
     }
     var $this = $(this);
