@@ -11,24 +11,59 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-left: -170px;
-    margin-top: -340px;
-    width: 340px;
+    margin-left: -175px;
+    margin-top: -295px;
+    width: 350px;
+    @media screen and (max-height: 40em) {
+      margin-top: -245px;
+      .tab-header .chef.ui.button {
+        display: table-block;
+        height: 35px;
+        padding: 10px 1px;
+      }
+    }
+    .signin .body .form-signin form {
+      input{
+        .font-normal;
+        margin-bottom: 10px;
+      }
+      label{
+        display: none;
+      }
+      @media screen and (max-height: 40em) {
+        input{
+          .font-small;
+          margin-bottom: 5px;
+          height: 50px;
+        }
+      }
+    }
+
     #login.signin{
       display: none;
       padding: 20px;
       background-color:@chef-color-white;
       background-image: none;
+      .explain{
+        font-weight: normal;
+        text-align: center;
+      }
       .segment{
         box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);
         background-color:@chef-color-white;
         #wrapper-password{
-          margin-bottom: 20px;
+          margin-bottom: 5px;
         }
+      }
+      .ui.button.chef {
+        padding: 20px;
       }
       .buttons-social{
         .ui.button.chef {
           padding: 15px;
+          @media screen and (max-height: 40em) {
+            padding: 5px;
+          }
         }
       }
       .body .buttons-social .button i.social {
@@ -42,16 +77,26 @@
       padding: 20px;
       background-color:@chef-color-white;
       background-image: none;
+      .explain{
+        font-weight: normal;
+        text-align: center;
+      }
       .segment{
         box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);
         background-color:@chef-color-white;
         #wrapper-password{
-          margin-bottom: 20px;
+          margin-bottom: 5px;
         }
+      }
+      .ui.button.chef {
+        padding: 15px;
       }
       .buttons-social{
         .ui.button.chef {
           padding: 15px;
+          @media screen and (max-height: 40em) {
+            padding: 5px;
+          }
         }
       }
       .body .buttons-social .button i.social {
@@ -65,8 +110,9 @@
           .tab{
             .button.login{
               background-image: none;
-              border: none;
-              border-bottom-color: transparent;
+              box-shadow: none;
+              background-color:@chef-color-white;
+              font-weight: bold;
             }
           }
         }
@@ -81,8 +127,9 @@
           .tab{
             .button.signup{
               background-image: none;
-              border: none;
-              border-bottom-color: transparent;
+              box-shadow: none;
+              background-color:@chef-color-white;
+              font-weight: bold;
             }
           }
         }
