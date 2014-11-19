@@ -137,6 +137,16 @@ exports = module.exports = function(req, res) {
         });
       },
 
+      // Check bad email.
+      function(cb) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(req.body.signup_email)) {
+          locals.errors.fields.email = res.__('Error: Email format');
+          return cb(true);
+        }
+        return cb(false);
+      },
+
       // Save to database
       function(cb) {
         var userData = {
