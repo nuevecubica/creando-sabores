@@ -14,7 +14,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.simple.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -49,7 +49,7 @@ mixin header(data, section)
 		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{user.thumb.header});")
 			.ui.page.grid.head.with-title
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					if (user && user.media && user.media.header.url)
@@ -86,7 +86,7 @@ mixin header(data, section)
 		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{profile.media.header.url});")
 			.ui.page.grid.head.with-title
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -99,7 +99,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -142,7 +142,7 @@ mixin header(data, section)
 
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -188,7 +188,7 @@ mixin header(data, section)
 		#new-recipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo
 
@@ -225,7 +225,7 @@ mixin header(data, section)
 
 			.ui.page.grid.head.simple.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				if data.header
 					.row.logo.videorecipe
@@ -275,7 +275,7 @@ mixin header(data, section)
 
 			.ui.page.grid.head.with-subtitle.with-social(class=(autoplay) ? 'video-playing' : '')
 				#header.row.keep-pointer
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.videorecipe
 					a.icon-chef-play.icon.clickable(data-video="#{video}")
@@ -303,7 +303,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -320,7 +320,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -340,7 +340,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -357,7 +357,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.simple
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -368,7 +368,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -379,7 +379,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -394,7 +394,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -436,7 +436,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -458,7 +458,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.simple
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -469,7 +469,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.simple
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -480,7 +480,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -494,7 +494,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -508,7 +508,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.simple
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -521,7 +521,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -563,7 +563,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -607,7 +607,7 @@ mixin header(data, section)
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
 				#header.row
-					include ../components/header
+					include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
