@@ -1,3 +1,4 @@
+/* global flashMessage */
 $(document).ready(function() {
 
   // =============================
@@ -90,6 +91,13 @@ $(document).ready(function() {
       }
     }
     else {
+      // File size check
+      if (input.files[0].size > window.chef.editor.config.profile.image.length) {
+        flashMessage(window.chef.errorMessage('File too big'));
+        clearImages(input);
+        setImagesPreview(input, $target, warn);
+        return;
+      }
       if (!$target.data('origsrc')) {
         $target.data('origsrc', $target.css('background-image'));
         if (warn) {

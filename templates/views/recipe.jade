@@ -34,6 +34,11 @@ block js
   if user && user.canAccessKeystone
     script(src='/keystone/js/content/editor.js')
 
+  | <script>
+  | chef.errorMessages = chef.errorMessages || {}
+  | chef.errorMessages['File too big'] = "#{__('File too big')}"
+  | </script>
+
 block content
 
   if own

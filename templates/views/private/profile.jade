@@ -9,6 +9,16 @@ include ../../mixins/menu
 block js
 	script(src='/js/profile.js')
 
+	if config
+		script.
+			window.chef.editor.config = !{JSON.stringify(config)};
+
+	| <script>
+	| chef.errorMessages = chef.errorMessages || {}
+	| chef.errorMessages['File too big'] = "#{__('File too big')}"
+	| </script>
+
+
 block content
 
 	+header(data, section)

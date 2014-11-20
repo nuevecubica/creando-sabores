@@ -1,6 +1,4 @@
-/* global likeClick */
-/* global ratingClick */
-/* global showAuthModal */
+/* global likeClick, ratingClick, showAuthModal, flashMessage */
 (function() {
 
   var addTypes = function() {
@@ -565,6 +563,13 @@
         }
       }
       else {
+        // File size check
+        if (input.files[0].size > window.chef.editor.config.recipe.image.length) {
+          flashMessage(window.chef.errorMessage('File too big'));
+          clearFile(input);
+          setPreview(input, $target);
+          return;
+        }
         if (!$target.data('origsrc')) {
           $target.data('origsrc', $target.css('background-image'));
           $target.data('origdisplay', $warning.css('display'));
