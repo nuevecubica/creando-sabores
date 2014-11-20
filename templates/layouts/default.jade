@@ -50,6 +50,10 @@ html
 		//- validation errors, success messages, etc.
 		+flash-messages(messages)
 
+
+		if !user
+			include ../components/modal-login
+
 		//- This mixin evaluates if the type of page that is loading is form wrapped
 		//- If content is own page will be form wrapped
 
