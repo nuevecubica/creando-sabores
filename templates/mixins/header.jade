@@ -9,47 +9,29 @@ mixin header(data, section)
 
 	if section === 'home'
 		- var image = data.header ? data.header.thumb.header : defaults.images.index
+		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+		- var promotedUrl = data.header ? data.header.url : '/recetas'
 
 		#index-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.simple.with-social
-				#header.row
-					include ../components/nav-bar
+				include ../components/nav-bar
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+				include ../components/logo
 
 				.row
-					.social.four.tablet-seven.wide.column.tablet.computer.only
-						.corner-position.left
-							|#{__('Follow us on social networks')}
-							include ../components/follow
 
-					if data.header
-						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.url : '/recetas'
+					include ../components/follow
 
-						.four.wide.column.computer.only
-
-						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
-						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
-
-							.tabla
-								p= __('Today promoted')
-								.tabla1
-									.ui.image
-								.tabla2
-									.text
-										a.span(href="#{promotedUrl}")= promotedTitle
-								.tabla3
-									.ui.image
+					include ../components/promoted
 
 	else if section === 'privateProfile'
 
 		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{user.thumb.header});")
+			.shadow-layer
 			.ui.page.grid.head.with-title
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					if (user && user.media && user.media.header.url)
@@ -85,8 +67,8 @@ mixin header(data, section)
 
 		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{profile.media.header.url});")
 			.ui.page.grid.head.with-title
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -98,8 +80,8 @@ mixin header(data, section)
 		#recipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -108,28 +90,13 @@ mixin header(data, section)
 					.shadow= __('Recipes')
 
 				.row
-					if data.header
-						.social.four.tablet-seven.wide.column.tablet.computer.only
-							.corner-position.left
-								|#{__('Share this page')}
-								+header-share()
 
-						.four.wide.column.computer.only
+					include ../components/share
 
-						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.url : '/recetas'
+					- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+					- var promotedUrl = data.header ? data.header.url : '/recetas'
 
-						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
-						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
-							.tabla
-								p= __('Today promoted')
-								.tabla1
-									.ui.image
-								.tabla2
-									.text
-										a.span(href="#{promotedUrl}")= promotedTitle
-								.tabla3
-									.ui.image
+					include ../components/promoted
 
 	else if section === 'recipe'
 		- var title = data.recipe ? data.recipe.title : ''
@@ -141,14 +108,15 @@ mixin header(data, section)
 			.shadow-layer
 
 			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
 
 				.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
-					#recipe-title.shadow.set-editable(data-length="40", data-tutorial-complete="editableTypedText")= title
+					.editable-container
+						.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40", data-tutorial-complete="editableTypedText", id= section + "-title")= title
 
 				.row.section.subtitle
 					a.author.shadow(href="#{authorUrl}")= author
@@ -187,8 +155,8 @@ mixin header(data, section)
 
 		#new-recipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo
 
@@ -224,8 +192,8 @@ mixin header(data, section)
 			#video-player
 
 			.ui.page.grid.head.simple.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				if data.header
 					.row.logo.videorecipe
@@ -239,30 +207,14 @@ mixin header(data, section)
 					.row.logo.shadow
 						a.icon-chef-logo.icon(href="/")
 
-
 				.row
-					if data.header
-						.social.four.tablet-seven.wide.column.tablet.computer.only
-							.corner-position.left
-								|#{__('Share this page')}
-								+header-share()
 
-						.four.wide.column.computer.only
+					include ../components/share
 
-						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.url : '/recetas'
+					- var promotedTitle = data.header ? data.header.title : __('No recommendation')
+					- var promotedUrl = data.header ? data.header.url : '/recetas'
 
-						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
-						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
-							.tabla
-								p= __('Today promoted')
-								.tabla1
-									.ui.image
-								.tabla2
-									.text
-										a.span(href="#{promotedUrl}")= promotedTitle
-								.tabla3
-									.ui.image
+					include ../components/promoted
 
 	else if section === 'videorecipe'
 		- var title = data.recipe ? data.recipe.title : ''
@@ -274,8 +226,8 @@ mixin header(data, section)
 			#video-player
 
 			.ui.page.grid.head.with-subtitle.with-social(class=(autoplay) ? 'video-playing' : '')
-				#header.row.keep-pointer
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.videorecipe
 					a.icon-chef-play.icon.clickable(data-video="#{video}")
@@ -302,8 +254,8 @@ mixin header(data, section)
 		#contests-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -319,8 +271,8 @@ mixin header(data, section)
 		#contest-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -339,8 +291,8 @@ mixin header(data, section)
 		#participants-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -356,8 +308,8 @@ mixin header(data, section)
 		#search-header.ui.grid.segment
 			.shadow-layer
 			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -367,19 +319,18 @@ mixin header(data, section)
 		#questions-header.ui.grid.segment.narrow(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+				include ../components/nav-bar
+
+				include ../components/logo
 
 	else if section === 'question'
 
 		#questions-header.ui.grid.segment.narrow(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
+
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -393,8 +344,8 @@ mixin header(data, section)
 		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
-				#header.row
-					include ../components/nav-bar
+
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -409,22 +360,10 @@ mixin header(data, section)
 								|#{__('Share this page')}
 								+header-share()
 
-						.four.wide.column.computer.only
-
 						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
 						- var promotedUrl = data.header ? data.header.url : '/tips'
 
-						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
-						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
-							.tabla
-								p= (data.header.author.name || data.header.author.username)
-								.tabla1
-									.ui.image
-								.tabla2
-									.text
-										a.span(href="#{promotedUrl}")= promotedTitle
-								.tabla3
-									.ui.image
+						include ../components/promoted
 
 	else if section === 'tip'
 		- var title = data.tip ? data.tip.title : ''
@@ -435,8 +374,8 @@ mixin header(data, section)
 		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -447,18 +386,15 @@ mixin header(data, section)
 				.row.section.subtitle
 					a.author.shadow(href="#{authorUrl}")= author
 				.row
-					.four.wide.column.computer.only.social
-						.corner-position.left
-							|#{__('Share this tip')}
-							+header-share()
+					include ../components/share
 
 	else if section === 'forgotten-password'
 
 		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -468,8 +404,8 @@ mixin header(data, section)
 		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -479,8 +415,8 @@ mixin header(data, section)
 		#contact_header.ui.grid.segment.narrow(style="background-image:url(/images/contact_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -493,8 +429,8 @@ mixin header(data, section)
 		#contact_header.ui.grid.segment.narrow(style="background-image:url(/images/about_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
+			
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -507,8 +443,8 @@ mixin header(data, section)
 		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
 			.shadow-layer
 			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -520,38 +456,24 @@ mixin header(data, section)
 		#menus-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-title.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
+				include ../components/logo
 
 				.row.section.title
 					.shadow= __('Menus')
 
 				.row
 					if data.header
-						.social.four.tablet-seven.wide.column.tablet.computer.only
-							.corner-position.left
-								|#{__('Share this page')}
-								+header-share()
+						include ../components/share
 
-						.four.wide.column.computer.only
+						
 
 						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
 						- var promotedUrl = data.header ? data.header.url : '/menus'
 
-						img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
-						.img-title.eight.tablet-nine.mobile-sixteen.wide.column
-							.tabla
-								p= __('Today promoted')
-								.tabla1
-									.ui.image
-								.tabla2
-									.text
-										a.span(href="#{promotedUrl}")= promotedTitle
-								.tabla3
-									.ui.image
+						include ../components/promoted
 
 	else if section === 'menu'
 		- var title = data.menu ? data.menu.title : ''
@@ -562,8 +484,8 @@ mixin header(data, section)
 		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -581,14 +503,7 @@ mixin header(data, section)
 
 					.six.wide.column
 
-					.six.wide.column.right.aligned
-						.corner-position.right.change-img
-							.ui.button.chef.button-green.show-editable.file-select
-								if own
-									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
-									i.social.icon-chef-camera
-									span
-									|#{__('Change image')}
+					include ../components/profile-select-img
 
 			if own
 				if !data.menu.thumb.hasQuality
@@ -606,8 +521,8 @@ mixin header(data, section)
 		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
 			.shadow-layer
 			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
+				
+				include ../components/nav-bar
 
 				.row.logo.shadow
 					a.icon-chef-logo.icon(href="/")
@@ -622,14 +537,7 @@ mixin header(data, section)
 
 					.six.wide.column
 
-					.six.wide.column.right.aligned
-						.corner-position.right.change-img
-							.ui.button.chef.button-green.show-editable.file-select
-								if own
-									input#menu-header-select(type="file" name="media.header_upload" accept="image/*")
-									i.social.icon-chef-camera
-									span
-									|#{__('Change image')}
+					include ../components/profile-select-img
 
 			#image-size-warning
 				|*#{__('Select bigger image')}
