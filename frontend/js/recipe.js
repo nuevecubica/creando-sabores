@@ -496,26 +496,13 @@
       e.preventDefault();
     });
 
-    $(document).on('click', '.checks:not(.all)', function() {
-      $(this).toggleClass('activated');
-    });
-
-    $('.checks.all').on('click', function() {
-      if ($(this).hasClass('activated')) {
-        $('#ingredients .checks').removeClass('activated');
+    var updateShoppingList = function(slug, callback) {
+      if (!slug) {
+        slug = $('.shopping-add').data('slug');
       }
-      else {
-        $('#ingredients .checks').addClass('activated');
+      if (!callback) {
+        callback = function() {};
       }
-    });
-
-    $('.shopping-add').on('click', function(e) {
-      if (!window.chef.isUserLoggedIn) {
-        showAuthModal();
-        return;
-      }
-      var $this = $(this);
-      var slug = $this.data('slug');
       var url = '/api/v1/me/shopping/add/' + slug;
       var ingredients = $('#ingredients .checks:not(.activated)')
         .closest('.ingredient').find('.explain').map(function(i, a) {
@@ -528,16 +515,45 @@
         data: JSON.stringify({
           myIngredients: ingredients
         }),
-        success: function(data) {
-          if (!data.success) {
-            var msg = 'Something went wrong!';
-            console.log(msg);
-            return;
-          }
-          $this.addClass('disabled');
-        }
+        success: callback
       });
+    };
+
+    $(document).on('click', '.checks:not(.all)', function() {
+      $(this).toggleClass('activated');
+      if ($('.shopping-add').hasClass('disabled')) {
+        updateShoppingList();
+      }
+    });
+
+    $('.checks.all').on('click', function() {
+      if ($(this).hasClass('activated')) {
+        $('#ingredients .checks').removeClass('activated');
+      }
+      else {
+        $('#ingredients .checks').addClass('activated');
+      }
+      if ($('.shopping-add').hasClass('disabled')) {
+        updateShoppingList();
+      }
+    });
+
+    $('.shopping-add').on('click', function(e) {
       e.preventDefault();
+      if (!window.chef.isUserLoggedIn) {
+        showAuthModal();
+        return;
+      }
+      var $this = $(this);
+      var slug = $this.data('slug');
+      updateShoppingList(slug, function(data) {
+        if (!data.success) {
+          var msg = 'Something went wrong!';
+          console.log(msg);
+          return;
+        }
+        $this.addClass('disabled');
+      });
     });
 
     var setPreview = function(input, $target) {

@@ -174,12 +174,32 @@ $(document).ready(function() {
     makePaginable('/api/v1/me/menus', 'menus', 'menu', '#menus .list');
   }
 
+  var updateShoppingList = function($position) {
+    var slug = $position.data('slug');
+    var url = '/api/v1/me/shopping/add/' + slug;
+    var ingredients = $('.checks:not(.activated)', $position)
+      .closest('.ingredient').find('.ingredientName').map(function(i, a) {
+        return $(a).html();
+      }).toArray();
+    var jQXhr = $.ajax({
+      url: url,
+      type: 'PUT',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        myIngredients: ingredients
+      }),
+      success: function(data) {}
+    });
+  };
+
   $(document).on('click', '.checks:not(.all)', function() {
     var $this = $(this);
     $this.toggleClass('activated');
-    var $container = $this.closest('.ingredients');
+    var $container = $this.closest('.position');
     var remaining = $container.find('.checks.activated').length;
     $container.find('.counter').html(remaining);
+
+    updateShoppingList($container); // TODO: Rate-limit this?
   });
 
   var removeClick = function() {
