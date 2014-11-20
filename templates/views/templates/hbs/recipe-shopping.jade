@@ -10,24 +10,24 @@
       .ten.column.wide
         em.row.remaining.font-large
           span= __('Remaining ingredients before') + " "
-          span.counter {{ingredients.length}}
+          span.counter {{ingredientsPending.length}}
           span= " " + __('Remaining ingredients after')
       .six.wide.column
         .ui.button.chef.button-brick.shopping-remove
           i.icon-chef-cross.icon.chef.font-large
         .ui.button.chef.button-yellow.shopping-print
           i.icon-chef-impresora.icon.chef.font-large
-        .ui.button.chef.button-green.shopping-mail(data-slug=slug)
+        .ui.button.chef.button-green.shopping-mail(data-slug='{{slug}}')
           i.icon-chef-mails.icon.chef.font-large
     .shopping-ingredients.ui.grid
       .sixteen.column.wide
         .ui.three.mobile-one.tablet-two.column.grid
-          {{#each ingredients}}
+          | {{#each ingredients}}
           .column.ingredient
             table
               tr
                 td
-                  .icon-chef-cesta.checks
+                  .icon-chef-cesta.checks(class='{{ingredient_activated ../ingredientsGot}}')
                 td
-                  | {{this}}
-          {{/each}}
+                  | {{{this}}}
+          | {{/each}}

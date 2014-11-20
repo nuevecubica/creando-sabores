@@ -94,16 +94,19 @@ include ../mixins/difficult-items
   #ingredients.sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Ingredients"))
     .ui.three.mobile-one.tablet-two.column.grid
       if data.recipe.ingredients
-        - var ingredients = data.recipe.ingredients
-        - for (var j = 0, l = ingredients.length; j < l; j++)
+        - for (var j = 0, l = data.recipe.ingredients.length; j < l; j++)
+          - var ingredient = data.recipe.ingredients[j]
+          - var classes = []
+          if !data.recipe.ingredientsGot || (data.recipe.ingredientsGot.indexOf(ingredient) === -1)
+            - classes.push('activated')
           .column.ingredient
             table
               tr
                 td
-                  .icon-chef-cesta.checks.hide-editable
+                  .icon-chef-cesta.checks.hide-editable(class=classes)
                 td
                   .editable-container
-                    .explain.set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredients[j]
+                    .explain.set-editable(placeholder=__('Ingredient'), spellcheck='false')!= ingredient
                   .show-editable
                     .ingredient-remove
                       i.icon-chef-cross
@@ -118,7 +121,7 @@ include ../mixins/difficult-items
 
     .column.hide-editable
       .ingredient
-        .icon-chef-cesta-all.checks.all
+        .icon-chef-cesta-all.checks.all.activated
         .explain.span= __('Select all')
 
   .ingredients-manage.manage.sixteen.wide.column.show-editable

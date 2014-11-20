@@ -517,10 +517,17 @@
       var $this = $(this);
       var slug = $this.data('slug');
       var url = '/api/v1/me/shopping/add/' + slug;
+      var ingredients = $('#ingredients .checks:not(.activated)')
+        .closest('.ingredient').find('.explain').map(function(i, a) {
+          return $(a).html();
+        }).toArray();
       var jQXhr = $.ajax({
         url: url,
         type: 'PUT',
         contentType: 'application/json',
+        data: JSON.stringify({
+          myIngredients: ingredients
+        }),
         success: function(data) {
           if (!data.success) {
             var msg = 'Something went wrong!';

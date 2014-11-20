@@ -174,11 +174,11 @@ $(document).ready(function() {
     makePaginable('/api/v1/me/menus', 'menus', 'menu', '#menus .list');
   }
 
-  $('.checks:not(.all)').on('click', function() {
+  $(document).on('click', '.checks:not(.all)', function() {
     var $this = $(this);
     $this.toggleClass('activated');
     var $container = $this.closest('.ingredients');
-    var remaining = $container.find('.checks:not(.activated)').length;
+    var remaining = $container.find('.checks.activated').length;
     $container.find('.counter').html(remaining);
   });
 
@@ -189,7 +189,7 @@ $(document).ready(function() {
     var url = '/api/v1/me/shopping/remove/' + slug;
     var jQXhr = $.ajax({
       url: url,
-      type: 'GET',
+      type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
         if (!data.success) {
@@ -204,10 +204,7 @@ $(document).ready(function() {
     });
   };
 
-  $('.shopping-remove').click(removeClick);
-  $(document).bind('ajaxSuccess', function() {
-    $('.shopping-remove').click(removeClick);
-  });
+  $(document).on('click', '.shopping-remove', removeClick);
 
   // Print and send email functions
 
@@ -222,7 +219,7 @@ $(document).ready(function() {
   };
 
   /* global Handlebars */
-  $('.shopping-print').on('click', function() {
+  $(document).on('click', '.shopping-print', function() {
 
     if ($('#print-this')) {
       $('#print-this').remove();
@@ -239,7 +236,7 @@ $(document).ready(function() {
   });
 
   /* global flashMessage */
-  $('.shopping-mail').on('click', function() {
+  $(document).on('click', '.shopping-mail', function() {
     var url = '/api/v1/me/shopping/send/' + $(this).data('slug');
 
     console.log('URL', url);

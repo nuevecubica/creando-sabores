@@ -94,3 +94,10 @@ Handlebars.registerHelper('ifRecipeClass', function(context, options) {
     return options.fn(this);
   }
 });
+
+Handlebars.registerHelper('ingredient_activated', function(context, options) {
+  if (context.indexOf(this.toString()) === -1) {
+    return 'activated';
+  }
+  return '';
+});

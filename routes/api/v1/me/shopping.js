@@ -1,6 +1,7 @@
 var async = require('async'),
   keystone = require('keystone'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  service = require(__base + 'services');
 
 /*
 	/me/shopping/add/slug
@@ -17,9 +18,6 @@ exports = module.exports = function(req, res) {
   async.series([
 
     function(next) {
-      var q = Recipes.model.findOne({
-        slug: req.params.recipe
-      });
 
       var saveHandler = function(err) {
         if (err) {
@@ -31,7 +29,10 @@ exports = module.exports = function(req, res) {
         next(err);
       };
 
-      q.exec(function(err, recipe) {
+      var q = service.recipe.recipe.get({
+        slug: req.params.recipe
+      }, function(err, res) {
+        var recipe = res.recipe;
         if (err || !recipe) {
           res.status(404);
           answer.error = true;
@@ -44,7 +45,7 @@ exports = module.exports = function(req, res) {
           var pos = userIds.indexOf(recipe._id.toString());
           if (req.params.action === 'add') {
             if (recipe.state === 'published') {
-              var myIngredients = req.query.got ? req.query.got : [];
+              var myIngredients = req.body.myIngredients ? req.body.myIngredients : [];
               myIngredients = _.intersection(recipe.ingredients, myIngredients);
               var element = {
                 recipe: recipe._id,
