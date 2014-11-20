@@ -19,8 +19,8 @@ include ../mixins/difficult-items
           | #{__('Favorite')}
 
       .add-menu
-        .ui.button.chef.button-brick
-          a= __('Add to menu')
+        a(href='/nuevo-menu/' + data.recipe.slug)
+          .ui.button.chef.button-brick= __('Add to menu')
 
   #info.wide.column.tablet-eleven.mobile-sixteen.tablet-pull-five(class = data.contest ? 'nine computer-pull-seven' : 'ten computer-pull-six')
     .recipe-attributes(data-tutorial-message=__("Tutorial Recipe Attributes"))

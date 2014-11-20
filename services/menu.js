@@ -199,7 +199,19 @@ var getMenuNew = function(options, callback) {
     menu: defaults
   };
 
-  return callback(null, data);
+  if (options.predefinedPlate) {
+    service.recipe.get({
+      slug: options.predefinedPlate,
+      fromContests: true
+    }, function(err, res) {
+      data.menu.plates = [res.recipe];
+      return callback(null, data);
+    });
+  }
+  else {
+    return callback(null, data);
+  }
+
 };
 
 /**

@@ -101,6 +101,7 @@ exports = module.exports = function(app) {
   // ---- New
   app.get('/nuevo-menu', middleware.requireConfirmed, routes.views.menu);
   app.post('/nuevo-menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.create);
+  app.get('/nuevo-menu/:plate', middleware.requireConfirmed, routes.views.menu);
   // ---- Edit
   app.post('/menu/:menu/save', middleware.requireConfirmed, routes.views['private'].menuSave.edit);
   app.post('/menu/:menu/remove', middleware.requireConfirmed, routes.views['private'].menuRemove);
