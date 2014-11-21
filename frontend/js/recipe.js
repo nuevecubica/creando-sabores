@@ -1,4 +1,4 @@
-/* global likeClick, ratingClick, showAuthModal, flashMessage */
+/* global likeClick, ratingClick, showAuthModal, flashMessage, canvasResizeAvailable, imageScaleBlob, ajaxSubmit */
 (function() {
 
   var addTypes = function() {
@@ -399,7 +399,12 @@
         $('#hidden-ingredients').attr('value', saveArrayList(ingredients.getValue()));
         $('#hidden-procedure').attr('value', saveArrayList(procedure.getValue()));
         $('#hidden-categories').attr('value', _.union(plates.getSelected(), food.getSelected()));
-        $('#recipe-edit-form').submit();
+        if (canvasResizeAvailable()) {
+          ajaxSubmit(document.getElementById('recipe-edit-form'));
+        }
+        else {
+          $('#recipe-edit-form').submit();
+        }
       },
       onButtonAddIngredientClick: function(ev) {
         if (!ingredients.isClearLastElement()) {
@@ -565,10 +570,14 @@
       else {
         // File size check
         if (input.files[0].size > window.chef.editor.config.recipe.image.length) {
-          flashMessage(window.chef.errorMessage('File too big'));
-          clearFile(input);
-          setPreview(input, $target);
-          return;
+          if (!canvasResizeAvailable()) {
+            // User browser doesn't allow for auto-resizing, and file is too big.
+            // Bail out!
+            flashMessage(window.chef.errorMessage('File too big'));
+            clearFile(input);
+            setPreview(input, $target);
+            return;
+          }
         }
         if (!$target.data('origsrc')) {
           $target.data('origsrc', $target.css('background-image'));

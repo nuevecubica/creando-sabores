@@ -1,6 +1,4 @@
-/* global likeClick */
-/* global ratingClick */
-/* global makePaginable, getTemplate */
+/* global likeClick, ratingClick, makePaginable, getTemplate, flashMessage, canvasResizeAvailable, ajaxSubmit */
 (function() {
 
   //---------- DOCUMENT READY
@@ -91,7 +89,13 @@
 
         $('#hidden-title').attr('value', title.getValue());
         $('#hidden-description').attr('value', description.getValue());
-        $('#menu-edit-form').submit();
+
+        if (canvasResizeAvailable()) {
+          ajaxSubmit(document.getElementById('menu-edit-form'));
+        }
+        else {
+          $('#menu-edit-form').submit();
+        }
       },
     };
 
@@ -115,6 +119,17 @@
         }
       }
       else {
+        // File size check
+        if (input.files[0].size > window.chef.editor.config.profile.image.length) {
+          if (!canvasResizeAvailable()) {
+            // User browser doesn't allow for auto-resizing, and file is too big.
+            // Bail out!
+            flashMessage(window.chef.errorMessage('File too big'));
+            clearFile(input);
+            setPreview(input, $target);
+            return;
+          }
+        }
         if (!$target.data('origsrc')) {
           $target.data('origsrc', $target.css('background-image'));
           $target.data('origdisplay', $warning.css('display'));
