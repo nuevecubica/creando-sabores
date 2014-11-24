@@ -9,7 +9,14 @@ block js
 	script(src='/js/recipes.js')
 
 block content
-	+header(data, section)
+	- var vars = {}
+	- vars.image = data.header ? data.header.thumb.header : defaults.images.index
+	- vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
+	- vars.promotedUrl = data.header ? data.header.url : '/recetas'
+	- vars.headerClasses = 'promoted'
+	- vars.headerElements = 'simple with-social'
+
+	+header(data, section, vars)
 
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
 

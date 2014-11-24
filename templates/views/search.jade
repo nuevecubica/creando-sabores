@@ -15,7 +15,11 @@ block js
 
 
 block content
-  +header(data, section)
+  - var vars = {}
+  - vars.headerClasses = 'narrow'
+  - vars.headerElements = 'simple'
+
+  +header(data, section, vars)
 
   .ui.page.grid.body
 
