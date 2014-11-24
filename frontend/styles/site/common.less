@@ -169,7 +169,12 @@ body {
     }
   }
 }
-
+.narrow{
+  .title{
+    position: relative;
+    top: -50px;
+  }
+}
 .body {
 
   .content {
@@ -413,6 +418,12 @@ body {
       .font-extra-large.uppercase;
       font-weight: bold;
       text-align: center;
+      #contests-title, #tips-title, #recipes-title, #menus-title, #question-title, #about-title, #contact-title{
+        .font-extra-larger.uppercase;
+        @media(max-width: 767px) {
+          .font-extra-large;
+        }
+      }
       @media(max-width: 767px) {
         .font-larger;
       }
