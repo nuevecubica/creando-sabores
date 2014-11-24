@@ -522,9 +522,24 @@
       });
     };
 
+    var updateShoppingButtons = function() {
+      if (!$('#ingredients .checks.activated:not(.all)').length) {
+        $('.checks.all').removeClass('activated');
+        $('.shopping-add').addClass('disabled');
+        $('.shopping-add .add.button').addClass('disabled');
+      }
+      else {
+        $('.checks.all').addClass('activated');
+        $('.shopping-add').removeClass('disabled');
+        $('.shopping-add .add.button').removeClass('disabled');
+      }
+    };
+    updateShoppingButtons();
+
     $(document).on('click', '.checks:not(.all)', function() {
       $(this).toggleClass('activated');
-      if ($('.shopping-add').hasClass('disabled')) {
+      updateShoppingButtons();
+      if ($('.shopping-add').hasClass('added')) {
         updateShoppingList();
       }
     });
@@ -536,18 +551,22 @@
       else {
         $('#ingredients .checks').addClass('activated');
       }
-      if ($('.shopping-add').hasClass('disabled')) {
+      updateShoppingButtons();
+      if ($('.shopping-add').hasClass('added')) {
         updateShoppingList();
       }
     });
 
-    $('.shopping-add').on('click', function(e) {
+    $('.shopping-add .add.button').on('click', function(e) {
       e.preventDefault();
+      var $this = $(this).closest('.shopping-add');
+      if ($this.hasClass('disabled')) {
+        return;
+      }
       if (!window.chef.isUserLoggedIn) {
         showAuthModal();
         return;
       }
-      var $this = $(this);
       var slug = $this.data('slug');
       updateShoppingList(slug, function(data) {
         if (!data.success) {
@@ -555,7 +574,27 @@
           console.log(msg);
           return;
         }
-        $this.addClass('disabled');
+        $this.addClass('added');
+      });
+    });
+
+    $('.shopping-add .added .button').on('click', function(e) {
+      e.preventDefault();
+      var $this = $(this).closest('.shopping-add');
+      var slug = $this.data('slug');
+      var url = '/api/v1/me/shopping/remove/' + slug;
+      var jQXhr = $.ajax({
+        url: url,
+        type: 'PUT',
+        contentType: 'application/json',
+        success: function(data) {
+          if (!data.success) {
+            var msg = 'Something went wrong!';
+            console.log(msg);
+            return;
+          }
+          $this.removeClass('added');
+        }
       });
     });
 

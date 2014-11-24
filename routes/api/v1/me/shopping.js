@@ -29,7 +29,7 @@ exports = module.exports = function(req, res) {
         next(err);
       };
 
-      var q = service.recipe.recipe.get({
+      var q = service.recipe.get({
         slug: req.params.recipe
       }, function(err, result) {
         var recipe = result.recipe;

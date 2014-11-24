@@ -205,14 +205,34 @@
     .added{
       display: none;
     }
-    &.disabled{
-      a.add{
+    &.added{
+      .add{
         display: none;
       }
-      a.added{
+      .added{
       display: block;
-      color: @chef-color-gray;
       }
+    }
+    .add.disabled{
+      color: @chef-color-gray;
+    }
+  }
+
+  .checks.all + .explain.span {
+    .activated {
+      display: none;
+    }
+    .deactivated {
+      display: block;
+    }
+  }
+
+  .checks.all.activated + .explain.span {
+    .activated {
+      display: block;
+    }
+    .deactivated {
+      display: none;
     }
   }
 
@@ -230,11 +250,10 @@
           &+.span{
           }
         }
-      &.column {
-        margin: 0 0 0.5em 0;
-      }
 
+      margin: 0 0 0.5em 0;
       position: relative;
+      overflow: auto;
 
       .checks {
 

@@ -10,7 +10,7 @@ block js
 
 block content
   - var vars = {}
-  - vars.image = data.current ? data.current.thumb.header : defaults.images.contests
+  - vars.image = data.current ? data.current.thumb.header : '/images/default_contests.jpg'
   - vars.title = __('Contests')
   - vars.headerClasses = 'promoted'
   - vars.headerElements = 'with-social with-subtitle'
