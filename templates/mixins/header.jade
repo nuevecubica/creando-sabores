@@ -25,7 +25,7 @@ mixin header(data, section, vars, subsection)
           if ['recipes', 'menus', 'question', 'tips', 'contests', 'about', 'contact', 'privateProfile'].indexOf(section) === -1
             include ../components/subtitle
 
-        if ['questions', 'question', 'about', 'contact', 'publicProfile', 'privateProfile', 'newsletter', 'search', 'forgotten-password', 'reset-password'].indexOf(section) === -1
+        if ['questions', 'question', 'about', 'contact', 'publicProfile', 'newsletter', 'search', 'forgotten-password', 'reset-password'].indexOf(section) === -1
           .row
             if ['new-recipe', 'new-menu'].indexOf(subsection) !== -1
               .ten.wide.column
