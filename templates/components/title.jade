@@ -1,3 +1,10 @@
-.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
-  .editable-container
-    .shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40", data-tutorial-complete="editableTypedText", id= section + "-title", class=titleClasses)= title
+if ['recipe', 'menu'].indexOf(section) !== -1
+  .row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
+    .editable-container
+      if section === 'recipe'
+        .shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40", data-tutorial-complete="editableTypedText", id= section + "-title", class= vars.titleClasses)= vars.title
+      else if section === 'menu'
+        .shadow.set-editable(placeholder=__('Write here menu name'), data-length="40", data-tutorial-complete="editableTypedText", id= section + "-title", class= vars.titleClasses)= vars.title
+else
+  .row.section.title
+    .shadow(id= section + "-title", class= vars.titleClasses)= vars.title
