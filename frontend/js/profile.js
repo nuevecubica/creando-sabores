@@ -62,7 +62,7 @@ $(document).ready(function() {
 
     var $name = $('#profile-name');
     var $about = $('#profile-about');
-    var $header = $('#profile-header-select');
+    var $header = $('#privateProfile-header-select');
     var $img = $('#profile-img-select');
     $name.html($name.data('origvalue'));
     $about.html($about.data('origvalue'));
@@ -73,8 +73,8 @@ $(document).ready(function() {
   });
 
   // ---------- Change header image
-  $('#profile-header-select').on('change', function(e) {
-    setImagesPreview(e.target, $('#profile-header'), true);
+  $('#privateProfile-header-select').on('change', function(e) {
+    setImagesPreview(e.target, $('#privateProfile-header'), true);
   });
 
   // ---------- Change profile image
