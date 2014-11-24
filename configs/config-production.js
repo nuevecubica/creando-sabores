@@ -26,7 +26,7 @@ var answer = {
     },
     site: {
       name: 'Creando Sabores',
-      email: 'contacto@creandosabores.com',
+      email: 'creandosaboresmx@gmail.com',
       url: 'http://creandosabores.com',
       publicUrl: 'http://creandosabores.com',
       twitter: '@creandoSabores',
