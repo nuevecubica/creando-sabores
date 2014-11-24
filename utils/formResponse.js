@@ -28,7 +28,13 @@ var formResponse = function(req, res, url, error, success) {
     if (null === url) {
       url = '..';
     }
-    res.redirect(url);
+    if (!req.body.noRedir) {
+      res.redirect(url);
+    }
+    else {
+      res.set('Api-Response-Location', url);
+      res.end();
+    }
   }
 };
 

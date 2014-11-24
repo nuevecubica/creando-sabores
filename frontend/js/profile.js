@@ -1,4 +1,4 @@
-/* global flashMessage */
+/* global flashMessage, canvasResizeAvailable, ajaxSubmit */
 $(document).ready(function() {
 
   // =============================
@@ -35,8 +35,12 @@ $(document).ready(function() {
     $('#hidden-name').attr('value', $('#profile-name').text());
     $('#hidden-about').attr('value', about);
 
-    $('#profile-form').submit();
-
+    if (canvasResizeAvailable()) {
+      ajaxSubmit(document.getElementById('profile-form'));
+    }
+    else {
+      $('#profile-form').submit();
+    }
   });
 
   // ---------- Save button: Save data account form (email, password...)
@@ -68,12 +72,12 @@ $(document).ready(function() {
     $img.trigger('change');
   });
 
-  // ---------- Change header image: Save data account form (email, password...)
+  // ---------- Change header image
   $('#profile-header-select').on('change', function(e) {
     setImagesPreview(e.target, $('#profile-header'), true);
   });
 
-  // ---------- Change profile image: Save data account form (email, password...)
+  // ---------- Change profile image
   $('#profile-img-select').on('change', function(e) {
     setImagesPreview(e.target, $('#profile-img'));
   });
@@ -93,10 +97,14 @@ $(document).ready(function() {
     else {
       // File size check
       if (input.files[0].size > window.chef.editor.config.profile.image.length) {
-        flashMessage(window.chef.errorMessage('File too big'));
-        clearImages(input);
-        setImagesPreview(input, $target, warn);
-        return;
+        if (!canvasResizeAvailable()) {
+          // User browser doesn't allow for auto-resizing, and file is too big.
+          // Bail out!
+          flashMessage(window.chef.errorMessage('File too big'));
+          clearImages(input);
+          setImagesPreview(input, $target, warn);
+          return;
+        }
       }
       if (!$target.data('origsrc')) {
         $target.data('origsrc', $target.css('background-image'));

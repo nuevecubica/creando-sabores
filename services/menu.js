@@ -33,7 +33,7 @@ var getMenu = function(options, callback) {
         data.menu = _.defaults(result, defaults);
         data.menu._document = result;
 
-        if (options.user) {
+        if (options.user && result.author) {
           // Am I the owner?
           data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
         }

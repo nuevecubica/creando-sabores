@@ -474,3 +474,114 @@ var likeClick = function(e) {
   });
   e.preventDefault();
 };
+
+
+// -- Image resizing --
+var canvasResizeAvailable = function() {
+  return (!!window.HTMLCanvasElement && new XMLHttpRequest().upload && window.FormData);
+};
+
+if (!HTMLCanvasElement.prototype.toBlob) {
+  Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+    value: function(callback, type, quality) {
+      var binStr = atob(this.toDataURL(type, quality).split(',')[1]),
+        len = binStr.length,
+        arr = new Uint8Array(len);
+      for (var i = 0; i < len; i++) {
+        arr[i] = binStr.charCodeAt(i);
+      }
+      callback(new Blob([arr], {
+        type: type || 'image/png'
+      }));
+    }
+  });
+}
+
+var imageScaleBlob = function(file, callback, maxWidth, maxHeight) {
+  var mw = maxWidth || 1920,
+    mh = maxHeight || 800,
+    img = document.createElement("img"),
+    reader = new FileReader();
+
+  reader.onload = function(e) {
+    img.src = e.target.result;
+    var iw = img.width,
+      ih = img.height;
+    if (iw <= mw || ih <= mh) {
+      // File is small already. Don't resize it.
+      return callback(file);
+    }
+
+    // Downscale it to cover our max size, no cropping
+    var r = Math.max(mw / iw, mh / ih),
+      nw = iw * r,
+      nh = ih * r,
+      canvas = document.createElement('canvas');
+    canvas.width = nw;
+    canvas.height = nh;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, iw, ih, 0, 0, nw, nh);
+    canvas.toBlob(callback, 'image/jpeg', 0.95);
+  };
+  reader.readAsDataURL(file);
+};
+
+// -- AJAX form submission --
+// Fabulous AJAX submission with image scaling if needed
+var ajaxSubmit = function(form, failcb) {
+
+  failcb = failcb || function() {};
+
+  var formData = new FormData();
+  formData.append('noRedir', true);
+
+  var complete = function() {
+    var request = new XMLHttpRequest();
+    request.open('POST', form.action);
+    request.onload = function(e) {
+      var dest = request.getResponseHeader('Api-Response-Location');
+      if (dest) {
+        if (dest[0] === '.') {
+          dest = form.action + '/' + dest; // Relativize to old endpoint
+        }
+        document.location.href = dest;
+      }
+      else {
+        flashMessage(window.chef.errorMessage('Error saving'));
+        failcb();
+      }
+    };
+    request.onerror = function(e) {
+      flashMessage(window.chef.errorMessage('Error saving'));
+      failcb();
+    };
+    request.send(formData);
+  };
+
+  var elements = [];
+  for (var i = 0, l = form.elements.length; i < l; i++) {
+    elements.push(form.elements[i]);
+  }
+
+  var step = function() {
+    if (!elements.length) {
+      return complete();
+    }
+    var element = elements.shift();
+    if (element.type !== 'file') {
+      formData.append(element.name, element.value);
+      step();
+    }
+    else if (element.files.length) {
+      imageScaleBlob(element.files[0], function(blob) {
+        formData.append(element.name, blob, element.files[0].fileName);
+        step();
+      });
+    }
+    else {
+      step();
+    }
+  };
+
+  step();
+};

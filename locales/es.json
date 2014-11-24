@@ -68,6 +68,7 @@
 	"enter your message...": "Introduce tu mensaje...",
 	"Error removing profile": "Error eliminando perfil.",
 	"Error saving profile": "Error guardando perfil.",
+	"Error saving": "Se ha producido un error al guardar.",
 	"Error sending reset password email.": "Error enviando correo con la nueva contraseña.",
 	"Error signing in": "Error accediendo, inténtalo de nuevo.",
 	"Error signing in. Check your email for further instructions.": "Error accediendo. Comprueba tu correo para más instrucciones.",
