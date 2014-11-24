@@ -19,7 +19,6 @@ function updateModel(done) {
       if (item === null) {
         return done();
       }
-      console.log('Updating:', item);
       var shopping = [];
       if (item.shopping) {
         shopping = item.shopping.map(function(a) {
