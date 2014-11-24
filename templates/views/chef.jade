@@ -10,7 +10,7 @@ block js
 
 block content
 	- var vars ={}
-	- vars.image = profile ? profile.media.header.url : defaults.images.profile
+	- vars.image = profile ? profile.media.header.url : '/images/default_user_profile.jpg'
 	- vars.headerClasses = 'user-profile'
 	- vars.headerElements =  'with-title'
 

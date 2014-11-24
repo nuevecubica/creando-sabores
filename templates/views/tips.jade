@@ -11,7 +11,7 @@ block js
 
 block content
   - var vars = {}
-  - vars.image = data.header ? data.header.thumb.header : defaults.images.tip
+  - vars.image = data.header ? data.header.thumb.header : '/images/default_tip.jpg'
   - vars.title = __('Tips')
   - vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
   - vars.promotedUrl = data.header ? data.header.url : '/tips'

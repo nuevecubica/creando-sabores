@@ -10,7 +10,7 @@ block js
 
 block content
 	- var vars = {}
-	- vars.image = data.header ? data.header.thumb.header : defaults.images.index
+	- vars.image = data.header ? data.header.thumb.header : '/images/default_index.jpg'
 	- vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
 	- vars.promotedUrl = data.header ? data.header.url : '/recetas'
 	- vars.headerClasses = 'promoted'
