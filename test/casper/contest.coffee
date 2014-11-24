@@ -31,7 +31,7 @@ describe 'Contest page', ->
         casper.then ->
           '#info'.should.be.inDOM.and.visible
           '#info .status-tag.finished'.should.be.inDOM.and.visible
-          '#info .subheader strong'.should.be.inDOM.and.visible
+          '#sponsor.subheader strong'.should.be.inDOM.and.visible
 
       it 'exists description & awards', ->
         casper.then ->
