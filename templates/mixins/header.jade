@@ -1,571 +1,76 @@
 include ../mixins/header-share
 
-mixin header(data, section)
-
-	- var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg', menu: '/images/default_menu.jpg', newMenu: '/images/default_menu.jpg' } }
-
-	//- Change this
-	- var randCutlery = Math.floor(Math.random() * 6 + 1);
-
-	if section === 'home'
-		- var image = data.header ? data.header.thumb.header : defaults.images.index
-
-		#index-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.simple.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row
-					.social.four.tablet-seven.wide.column.tablet.computer.only
-						.corner-position.left
-							|#{__('Follow us on social networks')}
-							include ../components/follow
-
-					if data.header
-						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.url : '/recetas'
-
-						.four.wide.column.computer.only
-
-						include ../components/promoted
-
-	else if section === 'privateProfile'
-
-		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{user.thumb.header});")
-			.ui.page.grid.head.with-title
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					if (user && user.media && user.media.header.url)
-						a.default-bg.icon-chef-logo.icon(href="/")
-					else
-						a.default-bg.icon-chef-logo.icon.nopic(href="/")
-
-				.row.section.title
-					if (user && user.media && user.media.header.url)
-						.default-bg.shadow= __('My recipe book')
-					else
-						.default-bg.nopic.shadow= __('My recipe book')
-
-				.row
-					.ten.wide.column
-					.six.wide.column.right.aligned.show-editable
-						.corner-position.right.change-img
-							.ui.button.chef.button-green
-								input#profile-header-select(type="file" name="media.header_upload" accept="image/*")
-								i.social.icon-chef-camera
-								span
-								|#{__('Change image')}
-
-			if !user.thumb.hasQuality
-				#image-size-warning(style="display: block;")
-					|*#{__('Select bigger image')}
-			else
-				#image-size-warning
-					|*#{__('Select bigger image')}
-
-	else if section === 'publicProfile'
-		- var image = profile ? profile.media.header.url : defaults.images.index
-
-		#profile-header.ui.grid.segment.user-profile(style="background-image: url(#{profile.media.header.url});")
-			.ui.page.grid.head.with-title
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-
-	else if section === 'recipes'
-		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
-
-		#recipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-title.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					.shadow= __('Recipes')
-
-				.row
-					if data.header
-						.social.four.tablet-seven.wide.column.tablet.computer.only
-							.corner-position.left
-								|#{__('Share this page')}
-								+header-share()
-
-						.four.wide.column.computer.only
-
-						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.url : '/recetas'
-
-						include ../components/promoted
-
-	else if section === 'recipe'
-		- var title = data.recipe ? data.recipe.title : ''
-		- var author = data.recipe && data.recipe.author ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
-		- var state = data.recipe ? data.recipe.state : 'draft'
-		- var authorUrl = data.recipe ? data.recipe.author.url : '/'
-
-		#recipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
-			.shadow-layer
-
-			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
-					#recipe-title.shadow.set-editable(data-length="40", data-tutorial-complete="editableTypedText")= title
-
-				.row.section.subtitle
-					a.author.shadow(href="#{authorUrl}")= author
-
-				.row
-					.four.wide.column.computer.only.social
-						//- Check if recipe is published to show social buttons
-						if state == 'published'
-							.corner-position.left.hide-editable
-								|#{__('Share this recipe')}
-								+header-share()
-
-					.six.wide.column
-
-					.six.wide.column.right.aligned
-						.change-img.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
-							.ui.button.chef.button-green.show-editable.file-select
-								if own
-									input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
-									i.social.icon-chef-camera
-									span
-									|#{__('Change image')}
-
-			if own
-				if !data.recipe.thumb.hasQuality
-					#image-size-warning(style="display: block;")
-						|*#{__('Select bigger image')}
-				else
-					#image-size-warning
-						|*#{__('Select bigger image')}
-
-	else if section === 'new-recipe'
-		- var title = ''
-		- var author = (user.name || user.username)
-		- var image = data.contest ? data.contest.thumb.header_recipe : defaults.images.newRecipe
-
-		#recipe-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo
-
-				.floating
-					.logo.corner
-						.icon-chef-logo.icon
-
-				.row.section.title(data-tutorial-message=__("Tutorial Recipe Title"))
-					.editable-container
-						#recipe-title.shadow.set-editable(placeholder=__('Write here recipe name'), data-length="40", data-tutorial-complete="editableTypedText")= title
-
-				.row.section.subtitle
-					.author.shadow= author
-
-				.row
-					.ten.wide.column
-					.six.wide.column.right.aligned
-						.upload-img.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
-							.ui.button.chef.button-yellow.show-editable.file-select
-								input#recipe-header-select(type="file" name="header_upload" accept="image/*" data-tutorial-complete="fileSelected")
-								i.social.icon-chef-camera
-								span
-								|#{__('Upload image')}
-
-	else if section === 'videorecipes'
-		- var title = data.recipe ? data.recipe.title : ''
-		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
-
-		- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-		- var promotedUrl = data.header ? data.header.url : '/recetas'
-		- var image = data.header ? data.header.thumb.header : defaults.images.recipes
-
-		#videorecipes-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			#video-player
-
-			.ui.page.grid.head.simple.with-social
-				#header.row
-					include ../components/nav-bar
-
-				if data.header
-					.row.logo.videorecipe
-
-						a.icon-chef-play.icon.clickable(href="#{promotedUrl}")
-
-					.floating
-						.logo.corner.shadow
-							a.icon-chef-logo.icon(href="/")
-
-				else
-					.row.logo.shadow
-						a.icon-chef-logo.icon(href="/")
-
-
-				.row
-					if data.header
-						.social.four.tablet-seven.wide.column.tablet.computer.only
-							.corner-position.left
-								|#{__('Share this page')}
-								+header-share()
-
-						.four.wide.column.computer.only
-
-						
-
-						include ../components/promoted
-
-	else if section === 'videorecipe'
-		- var title = data.recipe ? data.recipe.title : ''
-		- var author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
-		- var video = data.recipe ? data.recipe.videoUrl : null
-		- var authorUrl = data.recipe ? data.recipe.author.url : '/'
-
-		#videorecipe-header.promoted.ui.grid.segment(style="background-image:url('#{data.recipe.thumb.header}')")
-			#video-player
-
-			.ui.page.grid.head.with-subtitle.with-social(class=(autoplay) ? 'video-playing' : '')
-				#header.row.keep-pointer
-					include ../components/nav-bar
-
-				.row.logo.videorecipe
-					a.icon-chef-play.icon.clickable(data-video="#{video}")
-
-				.floating.keep-pointer
-					.logo.corner
-						a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#recipe-title.shadow= title
-
-				.row.section.subtitle
-					a.author.shadow(href="#{authorUrl}")= author
-
-				.row
-					.four.wide.column.computer.only.social
-						.corner-position.left
-							|#{__('Share this recipe')}
-							+header-share()
-
-	else if section === 'contests'
-		- var image = data.current ? data.current.thumb.header : defaults.images.contests
-
-		#contests-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					.editable-container
-						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= __('Contests')
-
-	else if section === 'contest'
-		- var title = data.contest ? data.contest.title : ''
-		- var image = data.contest ? data.contest.thumb.header : defaults.images.contest
-
-		#contest-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					.editable-container
-						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= title
-
-				.row.section.subtitle
-					.sponsor.shadow= __('Contest')
-
-	else if section === 'participants'
-		- var title = data.contest ? data.contest.title : ''
-		- var image = data.contest ? data.contest.thumb.header : defaults.images.contest
-
-		#participants-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-title
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					.editable-container
-						#contest-title.shadow.set-editable(placeholder=__('Write here contest name'), data-length="40")= title
-
-				
-
-	else if section === 'search'
-
-		#search-header.ui.grid.segment
-			.shadow-layer
-			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-	else if section === 'questions'
-
-		#questions-header.ui.grid.segment.narrow(style="background-image:url(/images/questions_header.jpg)")
-			.shadow-layer
-			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-	else if section === 'question'
-
-		#questions-header.ui.grid.segment.narrow(style="background-image:url(/images/questions_header.jpg)")
-			.shadow-layer
-			.ui.page.grid.head.with-subtitle
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#questions-title.shadow= __('Questions')
-
-	else if section === 'tips'
-		- var image = data.header ? data.header.thumb.header : defaults.images.tip
-
-		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-title.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					.shadow= __('Tips')
-
-				.row
-					if data.header
-						.social.four.tablet-seven.wide.column.tablet.computer.only
-							.corner-position.left
-								|#{__('Share this page')}
-								+header-share()
-
-						.four.wide.column.computer.only
-
-						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.url : '/tips'
-
-						include ../components/promoted
-
-	else if section === 'tip'
-		- var title = data.tip ? data.tip.title : ''
-		- var image = data.tip ? data.tip.thumb.header : defaults.images.tip
-		- var author = data.tip ? ( data.tip.author.name || data.tip.author.username) : __('Unknown author')
-		- var authorUrl = data.tip ? data.tip.author.url : '/'
-
-		#tips-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#tip-title.shadow= title
-
-				.row.section.subtitle
-					a.author.shadow(href="#{authorUrl}")= author
-				.row
-					.four.wide.column.computer.only.social
-						.corner-position.left
-							|#{__('Share this tip')}
-							+header-share()
-
-	else if section === 'forgotten-password'
-
-		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
-			.shadow-layer
-			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-	else if section === 'reset-password'
-
-		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
-			.shadow-layer
-			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-	else if section === 'contact'
-
-		#contact_header.ui.grid.segment.narrow(style="background-image:url(/images/contact_header.jpg)")
-			.shadow-layer
-			.ui.page.grid.head.with-title
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#contact-title.shadow= __('Contact')
-
-	else if section === 'about'
-
-		#contact_header.ui.grid.segment.narrow(style="background-image:url(/images/about_header.jpg)")
-			.shadow-layer
-			.ui.page.grid.head.with-title
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#contact-title.shadow= __('About')
-
-	else if section === 'newsletter'
-
-		#pass-header.ui.grid.segment(style="background-image:url(/images/questions_header.jpg)")
-			.shadow-layer
-			.ui.page.grid.head.simple
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-
-	else if section === 'menus'
-		- var image = data.header ? data.header.thumb.header : defaults.images.menus
-
-		#menus-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-title.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					.shadow= __('Menus')
-
-				.row
-					if data.header
-						.social.four.tablet-seven.wide.column.tablet.computer.only
-							.corner-position.left
-								|#{__('Share this page')}
-								+header-share()
-
-						.four.wide.column.computer.only
-
-						- var promotedTitle = data.header ? data.header.title : __('No recommendation')
-						- var promotedUrl = data.header ? data.header.url : '/menus'
-
-						include ../components/promoted
-
-	else if section === 'menu'
-		- var title = data.menu ? data.menu.title : ''
-		- var image = (data.menu ? data.menu.thumb.header : defaults.images.menu)
-		- var author = data.menu ? ( data.menu.author.name || data.menu.author.username) : __('Unknown author')
-		- var authorUrl = data.menu ? data.menu.author.url : '/'
-
-		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#menu-title.shadow.set-editable(data-length="40")= title
-
-				.row.section.subtitle
-					a.author.shadow(href="#{authorUrl}")= author
-				.row
-					.four.wide.column.computer.only.social
-						.corner-position.left
-							|#{__('Share this menu')}
-							+header-share()
-
-					.six.wide.column
-
-					include ../components/profile-select-img
-
-			if own
-				if !data.menu.thumb.hasQuality
-					#image-size-warning(style="display: block;")
-						|*#{__('Select bigger image')}
-				else
-					#image-size-warning
-						|*#{__('Select bigger image')}
-
-	else if section === 'new-menu'
-		- var title = ''
-		- var image = defaults.images.newMenu
-		- var author = (user.name || user.username)
-
-		#menu-header.promoted.ui.grid.segment(style="background-image:url('#{image}')")
-			.shadow-layer
-			.ui.page.grid.head.with-subtitle.with-social
-				#header.row
-					include ../components/nav-bar
-
-				.row.logo.shadow
-					a.icon-chef-logo.icon(href="/")
-
-				.row.section.title
-					#menu-title.shadow.set-editable(placeholder=__('Write here menu name'), data-length="40")= title
-
-				.row.section.subtitle
-					.author.shadow= author
-				.row
-					.four.wide.column
-
-					.six.wide.column
-
-					include ../components/profile-select-img
-
-			#image-size-warning
-				|*#{__('Select bigger image')}
+mixin header(data, section, vars, subsection)
+
+  - var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg', menu: '/images/default_menu.jpg', newMenu: '/images/default_menu.jpg' } }
+
+    .ui.grid.segment(style="background-image: url(#{vars.image});", id= section + "-header", class= vars.headerClasses)
+      if ['videorecipe', 'videorecipes'].indexOf(section) !== -1
+        #video-player
+
+      else if [ 'new-menu', 'new-recipe'].indexOf(subsection) === -1
+        .shadow-layer
+
+      .ui.page.grid.head(class= vars.headerElements)
+        include ../components/nav-bar
+
+        if ['videorecipe', 'videorecipes'].indexOf(section) !== -1 || ['new-recipe', 'new-menu'].indexOf(subsection) !== -1
+          include ../components/logo-corner
+        else
+          include ../components/logo
+
+        if ['home', 'videorecipes', 'questions', 'publicProfile', 'newsletter', 'search', 'forgotten-password', 'reset-password'].indexOf(section) === -1
+          include ../components/title
+
+          if ['recipes', 'menus', 'question', 'tips', 'contests', 'about', 'contact', 'privateProfile'].indexOf(section) === -1
+            include ../components/subtitle
+
+        if ['questions', 'question', 'about', 'contact', 'publicProfile', 'privateProfile', 'newsletter', 'search', 'forgotten-password', 'reset-password'].indexOf(section) === -1
+          .row
+            if ['new-recipe', 'new-menu'].indexOf(subsection) !== -1
+              .ten.wide.column
+              include ../components/profile-upload-img
+
+            else if section === 'home'
+              include ../components/follow
+
+            else
+              include ../components/share
+
+              if ['recipe', 'menu', 'privateProfile'].indexOf(section) !== -1
+                .six.wide.column
+                include ../components/profile-select-img
+
+            if ['home', 'recipes', 'videorecipes', 'menus', 'tips'].indexOf(section) !== -1
+              include ../components/promoted
+
+      if section === 'privateProfile'
+        if own
+          if !user.thumb.hasQuality
+              #image-size-warning(style="display: block;")
+                |*#{__('Select bigger image')}
+          else
+            #image-size-warning
+              |*#{__('Select bigger image')}
+
+      if ['new-menu', 'new-recipe'].indexOf(subsection) !== -1
+        #image-size-warning
+          |*#{__('Select bigger image')}
+
+      else if section === 'recipe'
+        if own
+          if !data.recipe.thumb.hasQuality
+            #image-size-warning(style="display: block;")
+              |*#{__('Select bigger image')}
+          else
+            #image-size-warning
+              |*#{__('Select bigger image')}
+
+      else if section === 'menu'
+        if own
+          if !data.menu.thumb.hasQuality
+            #image-size-warning(style="display: block;")
+              |*#{__('Select bigger image')}
+          else
+            #image-size-warning
+              |*#{__('Select bigger image')}
