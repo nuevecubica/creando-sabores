@@ -48,7 +48,7 @@ describe 'API v1: /me/shopping', ->
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(401)
+          .expect(404)
           .end(done)
 
       describe 'on shopping list add', (done) ->

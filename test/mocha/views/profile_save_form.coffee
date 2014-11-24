@@ -33,7 +33,7 @@ describe '(Private) Profile: Save', ->
       .expect(/profile-about/)
       .expect(/profile-name/)
       .expect(/profile-img-select/)
-      .expect(/profile-header-select/)
+      .expect(/privateProfile-header-select/)
       .end(done)
 
   describe 'submit /perfil/save', ->

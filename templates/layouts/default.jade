@@ -51,7 +51,7 @@ html
 		+flash-messages(messages)
 
 
-		if !user
+		if !user && section != 'session'
 			include ../components/modal-login
 
 		//- This mixin evaluates if the type of page that is loading is form wrapped
