@@ -1,0 +1,6 @@
+.row.section.subtitle
+  if vars.author
+    if ['new-recipe', 'new-menu'].indexOf(subsection) !== -1
+      .author.shadow(class= vars.subtitleClasses)= vars.author
+    else
+      a.author.shadow(href="#{vars.authorUrl}", class= vars.subtitleClasses)= vars.author

@@ -9,7 +9,16 @@ block js
 	script(src='/js/recipes.js')
 
 block content
-	+header(data, section)
+	- var vars = {}
+	- vars.title = data.recipe ? data.recipe.title : ''
+	- vars.author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+	- vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
+	- vars.promotedUrl = data.header ? data.header.url : '/recetas'
+	- vars.image = data.header ? data.header.thumb.header : defaults.images.recipes
+	- vars.headerClasses = 'promoted'
+	- vars.headerElements = 'with-social'
+
+	+header(data, section, vars)
 
 	.ui.page.grid.body
 

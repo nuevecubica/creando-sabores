@@ -9,8 +9,13 @@ block js
 
 
 block content
+  - var vars = {}
+  - vars.image = '/images/questions_header.jpg'
+  - vars.headerClasses = 'narrow'
+  - vars.headerElements = 'with-title'
+  - vars.title = __('Questions')
 
-  +header(data, section)
+  +header(data, section, vars)
 
   .ui.page.grid.body
 

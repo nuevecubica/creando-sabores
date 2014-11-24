@@ -10,8 +10,15 @@ block js
 
 
 block content
+  - var vars = {}
+  - vars.image = data.header ? data.header.thumb.header : defaults.images.tip
+  - vars.title = __('Tips')
+  - vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
+  - vars.promotedUrl = data.header ? data.header.url : '/tips'
+  - vars.headerClasses = 'promoted'
+  - vars.headerElements = 'with-title with-social'
 
-  +header(data, section)
+  +header(data, section, vars)
 
   //- #add-new-bar.ui.page.grid.bg-grey
   //-   .row

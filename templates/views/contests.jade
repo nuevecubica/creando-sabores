@@ -9,7 +9,13 @@ block js
   script(src='/js/contests.js')
 
 block content
-  +header(data, section)
+  - var vars = {}
+  - vars.image = data.current ? data.current.thumb.header : defaults.images.contests
+  - vars.title = __('Contests')
+  - vars.headerClasses = 'promoted'
+  - vars.headerElements = 'with-social with-subtitle'
+
+  +header(data, section, vars)
 
   .ui.page.grid.body
 

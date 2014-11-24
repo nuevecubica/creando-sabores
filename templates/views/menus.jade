@@ -9,7 +9,16 @@ block js
 	script(src='/js/menus.js')
 
 block content
-	+header(data, section)
+
+	- var vars = {}
+	- vars.title =  __('Menus')
+	- vars.image = data.header ? data.header.thumb.header : '/images/default_menu.jpg'
+	- vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
+	- vars.promotedUrl = data.header ? data.header.url : '/menus'
+	- vars.headerClasses = 'promoted'
+	- vars.headerElements = 'with-title with-social'
+
+	+header(data, section, vars)
 
 	.ui.page.grid.body
 

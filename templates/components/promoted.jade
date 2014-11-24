@@ -1,0 +1,14 @@
+- var randCutlery = Math.floor(Math.random() * 6 + 1);
+if data.header
+  .four.wide.column.computer.only
+  img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
+  .img-title.eight.tablet-nine.mobile-sixteen.wide.column
+    .tabla
+      p= __('Today promoted')
+      .tabla1
+        .ui.image
+      .tabla2
+        .text
+          a.span(href="#{vars.promotedUrl}")= vars.promotedTitle
+      .tabla3
+        .ui.image

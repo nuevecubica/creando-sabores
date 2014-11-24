@@ -2,8 +2,13 @@ extends ../../layouts/default
 include ../../mixins/header
 
 block content
+  - var vars = {}
+  - vars.image = '/images/about_header.jpg'
+  - vars.headerClasses = 'narrow'
+  - vars.headerElements = 'with-title'
+  - vars.title = __('About')
 
-  +header(data, section)
+  +header(data, section, vars)
 
   .ui.page.grid.body
     #about-info.ui.grid.segment

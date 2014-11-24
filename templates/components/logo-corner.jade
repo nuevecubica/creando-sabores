@@ -1,0 +1,16 @@
+if ['videorecipe', 'videorecipes'].indexOf(section) !== -1
+  if data.header
+    .row.logo.videorecipe
+      - var promotedVideoUrl = data.header ? data.header.url + '?autoplay=true' : null
+      a.icon-chef-play.icon.clickable(href="#{promotedVideoUrl}")
+    .floating
+      .logo.corner.shadow
+        a.icon-chef-logo.icon(href="/")
+  else
+    .row.logo.shadow
+      a.icon-chef-logo.icon(href="/")
+else
+  .row.logo
+  .floating
+    .logo.corner
+      .icon-chef-logo.icon
