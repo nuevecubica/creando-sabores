@@ -19,15 +19,32 @@ html
 		meta(http-equiv="Content-Type", content="text/html; charset=utf8")
 		meta(name="lang", content="es")
 		meta(name="description", content="#{__('Chefcito description')}")
-		meta(property="og:title", content="#{__('Chefcito title')}")
-		meta(property="og:description", content="#{__('Chefcito description')}")
-		meta(property="og:url", content="#{site.url}")
-		meta(property="og:type", content="website")
-		meta(property="og:site_name", content="#{__('Chefcito title')}")
-		//- meta(property="fb:admins", content="#{site.fb_admin}")
-		//- meta(property="fb:app_id", content="#{site.fb_app_id}")
-		meta(property="twitter:card", content="summary")
-		meta(property="twitter:site", content="#{site.twitter}")
+
+		if section === 'recipe'
+
+			meta(property="og:title", content="#{data.recipe.title}")
+			meta(property="og:description", content="#{data.recipe.description}")
+			meta(property="og:image", content="#{data.recipe.thumb.grid_small}")
+			meta(property="og:url", content="#{site.url}#{data.recipe.url}")
+
+			meta(property="twitter:title", content="#{data.recipe.title}")
+			meta(property="twitter:description", content="#{data.recipe.description}")
+			meta(property="twitter:image", content="#{data.recipe.thumb.grid_small}")
+			meta(property="twitter:url", content="#{site.url}#{data.recipe.url}")
+			meta(property="twitter:site", content="#{site.twitter}")
+			meta(property="twitter:card", content="summary")
+
+		else
+
+			meta(property="og:title", content="#{__('Chefcito title')}")
+			meta(property="og:description", content="#{__('Chefcito description')}")
+			meta(property="og:url", content="#{site.url}")
+			meta(property="og:type", content="website")
+			meta(property="og:site_name", content="#{__('Chefcito title')}")
+			//- meta(property="fb:admins", content="#{site.fb_admin}")
+			//- meta(property="fb:app_id", content="#{site.fb_app_id}")
+			meta(property="twitter:card", content="summary")
+			meta(property="twitter:site", content="#{site.twitter}")
 
 		link(href="/styles/site.css", rel="stylesheet")
 
@@ -121,3 +138,11 @@ html
 
 		//
 			#{env.NODE_ENV} / #{version} + #{ksversion} + #{process.version.substr(1)}
+
+		script
+			| (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			| (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			| m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			| })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			| ga('create', 'UA-56950908-1', 'auto');
+			| ga('send', 'pageview');
