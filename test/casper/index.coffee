@@ -7,7 +7,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('home-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 getGridImage = () ->
   return document.getElementsByClassName('recipe')[0].style.backgroundImage

@@ -8,7 +8,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('recipe-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 getRecipeRatingValues = () ->
   return parseInt(

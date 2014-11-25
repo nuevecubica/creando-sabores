@@ -7,7 +7,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('tips-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 describe 'Tips page', ->
   @timeout 60000

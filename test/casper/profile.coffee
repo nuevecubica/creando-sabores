@@ -7,7 +7,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('privateProfile-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 describe 'Profile page', ->
   @timeout 60000

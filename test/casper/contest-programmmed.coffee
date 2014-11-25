@@ -8,7 +8,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('contest-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 describe 'Contest page', ->
   @timeout 60000

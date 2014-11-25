@@ -8,7 +8,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('tip-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 getTipsRatingValues = () ->
   return parseInt(

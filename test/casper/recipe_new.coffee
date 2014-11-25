@@ -7,7 +7,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('recipe-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 describe 'New recipe page', ->
   @timeout 60000
