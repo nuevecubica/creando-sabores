@@ -3,7 +3,7 @@ base = require('../utils/casper-config.js').publicUrl
 
 formErrorsAt = (errfields) ->
   # Check we got a valid form
-  'Acceso - Chefcito Club Gibaja'.should.matchTitle
+  'Acceso - Creando Sabores, recetas de cocina'.should.matchTitle
   'form[action="/acceso"]'.should.be.inDOM
   '#login-email'.should.be.inDOM
   '#login-password'.should.be.inDOM
@@ -78,6 +78,6 @@ describe 'WEB LOGIN', ->
           'login_password': data.users[0].password
         }, true
       casper.then ->
-        'Chefcito Club Gibaja'.should.matchTitle
+        'Creando Sabores, recetas de cocina'.should.matchTitle
         'a[href="/salir"]'.should.be.inDOM
       casper.thenOpen base + '/salir'
