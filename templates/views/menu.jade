@@ -45,6 +45,8 @@ block content
   if section === 'menu'
     - vars.title = data.menu ? data.menu.title : ''
     - vars.image = data.menu ? data.menu.thumb.header : '/images/default_menu.jpg'
+    if data.menu.thumb.isVertical
+      - vars.imageVertical = data.menu.thumb.header_vertical
     - vars.author = data.menu ? (data.menu.author.name || data.menu.author.username) : __('Unknown author')
     - vars.authorUrl = data.menu ? data.menu.author.url : '/'
     - vars.headerClasses = 'promoted'

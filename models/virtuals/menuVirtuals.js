@@ -175,10 +175,14 @@ var virtuals = {
         'header': this._.media.header.src({
           transformation: 'header_limit_thumb'
         }),
+        'header_vertical': this._.media.header.src({
+          transformation: 'header_vertical_thumb'
+        }),
         'shopping_list': this._.media.header.src({
           transformation: 'shopping_list_thumb'
         }),
-        'hasQuality': imageQuality(this.header).hasQuality
+        'hasQuality': imageQuality(this.media.header).hasQuality,
+        'isVertical': imageQuality(this.media.header).isVertical
       };
     }
     else {
@@ -189,7 +193,8 @@ var virtuals = {
         'grid_large': getCollage(this.media.collage, 'grid_large') || defaults.images.header,
         'header': getCollage(this.media.collage, 'header') || defaults.images.header,
         'shopping_list': getCollage(this.media.collage, 'shopping_list') || defaults.images.header,
-        'hasQuality': (this.media.collage && this.media.collage.length) ? true : false
+        'hasQuality': (this.media.collage && this.media.collage.length) ? true : false,
+        'isVertical': false
       };
     }
   },

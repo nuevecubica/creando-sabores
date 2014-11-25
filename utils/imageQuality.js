@@ -19,7 +19,15 @@ module.exports = function(image, options) {
     }
   }
 
+  var isVertical = false;
+  if (image && image.width) {
+    if (image.height >= image.width) {
+      isVertical = true;
+    }
+  }
+
   return {
-    hasQuality: hasQuality
+    hasQuality: hasQuality,
+    isVertical: isVertical
   };
 };

@@ -56,6 +56,8 @@ block content
   - var vars = {}
   if section === 'recipe'
     - vars.image = data.recipe.thumb.header
+    if data.recipe.thumb.isVertical
+      - vars.imageVertical = data.recipe.thumb.header_vertical
     - vars.title = data.recipe ? data.recipe.title : ''
     - vars.author = data.recipe && data.recipe.author ? (data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
     - vars.state = data.recipe ? data.recipe.state : 'draft'

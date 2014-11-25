@@ -4,7 +4,13 @@ mixin header(data, section, vars, subsection)
 
   - var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg', menu: '/images/default_menu.jpg', newMenu: '/images/default_menu.jpg' } }
 
-    .ui.grid.segment(style="background-image: url(#{vars.image});", id= section + "-header", class= vars.headerClasses)
+    .ui.grid.segment(id= section + "-header", class= vars.headerClasses)
+
+      #header-background(style="background-image: url(#{vars.image});", class=vars.imageVertical ? 'blur' : '')
+
+      if ['privateProfile', 'recipe', 'menu', 'publicProfile'].indexOf(section) !== -1
+        #vertical-overlay(style=vars.imageVertical ? "background-image: url(#{vars.imageVertical});" : false)
+
       if ['videorecipe', 'videorecipes'].indexOf(section) !== -1
         #video-player
 
