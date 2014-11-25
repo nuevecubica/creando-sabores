@@ -3,11 +3,11 @@ base = require('../utils/casper-config.js').publicUrl
 utils = require '../utils/casper-editor.coffee'
 
 selectors = {
-  header: '#new-recipe-header',
+  header: '#recipe-header',
 }
 
 getHeaderImage = () ->
-  return document.getElementById('new-recipe-header').style.backgroundImage
+  return document.getElementById('recipe-header').style.backgroundImage
 
 describe 'New recipe page', ->
   @timeout 60000

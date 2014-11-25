@@ -230,7 +230,7 @@ $(document).ready(function() {
       success: function(data) {
         if (!data.success) {
           var msg = 'Something went wrong!';
-          console.log(msg);
+          console.log(msg, JSON.stringify(data));
           return;
         }
         $container.hide(400, function() {

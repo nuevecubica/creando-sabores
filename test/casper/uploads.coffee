@@ -22,7 +22,7 @@ describe 'Image uploads', ->
   describe 'User profile', ->
     it 'meets preconditions', ->
       casper.thenOpen base + '/perfil', ->
-        profileHeader = @evaluate getBackgroundImage, '#profile-header'
+        profileHeader = @evaluate getBackgroundImage, '#privateProfile-header'
         profileImage = @evaluate getBackgroundImage, '#profile-img'
         defaultHeader = base + '/images/default_user_profile.jpg'
         defaultImage = base + '/images/default_user.png'
@@ -37,7 +37,7 @@ describe 'Image uploads', ->
         }, false
         @click '#update'
       casper.waitForSelector '#messages .message.success', ->
-        profileHeader = @evaluate getBackgroundImage, '#profile-header'
+        profileHeader = @evaluate getBackgroundImage, '#privateProfile-header'
         profileImage = @evaluate getBackgroundImage, '#profile-img'
         profileHeader.should.contain 'res.cloudinary.com'
         profileImage.should.contain 'res.cloudinary.com'

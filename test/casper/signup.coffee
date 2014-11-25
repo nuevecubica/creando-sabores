@@ -3,7 +3,7 @@ base = require('../utils/casper-config.js').publicUrl
 
 formErrorsAt = (errfields) ->
   # Check we got a valid form
-  'Registro - Chefcito Club Gibaja'.should.matchTitle
+  'Registro - Creando Sabores, recetas de cocina'.should.matchTitle
   'form[action="/registro"]'.should.be.inDOM
   '#signup-name'.should.be.inDOM
   '#signup-email'.should.be.inDOM
@@ -71,8 +71,8 @@ describe 'WEB SIGNUP', ->
           'signup_email': data.users[0].email
           'signup_password': data.users[0].password
         }, true
-      casper.then ->
-        'Chefcito Club Gibaja'.should.matchTitle
+      casper.waitForSelector 'a[href="/salir"]', ->
+        'Creando Sabores, recetas de cocina'.should.matchTitle
         'a[href="/salir"]'.should.be.inDOM
       casper.thenOpen base + '/salir'
 
@@ -84,7 +84,7 @@ describe 'WEB SIGNUP', ->
           'signup_email': data.users[0].email
           'signup_password': data.users[0].password
         }, true
-      casper.then ->
-        'Chefcito Club Gibaja'.should.matchTitle
+      casper.waitForSelector 'a[href="/salir"]', ->
+        'Creando Sabores, recetas de cocina'.should.matchTitle
         'a[href="/salir"]'.should.be.inDOM
       casper.thenOpen base + '/salir'
