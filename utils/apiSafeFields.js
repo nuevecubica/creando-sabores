@@ -3,7 +3,7 @@ var safe = {
     'url', 'slug', 'title', 'description', 'ingredients', 'procedure',
     'portions', 'time', 'difficulty', 'rating', 'state',
     'createdDate', 'publishedDate', 'classes', 'type', 'thumb', 'isOfficial',
-    'ingredientsGot', 'ingredientsPending'
+    'ingredientsGot', 'ingredientsPending', 'isVideorecipe'
   ],
   user: ['slug', 'username', 'name', 'about', 'thumb', 'url'],
   me: ['slug', 'username', 'email', 'name', 'about', 'thumb', 'url', 'isPrivate'],
