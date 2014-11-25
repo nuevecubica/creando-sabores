@@ -22,6 +22,7 @@ exports = module.exports = function(req, res) {
       var saveHandler = function(err) {
         if (err) {
           answer.error = true;
+          answer.errorMessage = err;
         }
         else {
           answer.success = true;

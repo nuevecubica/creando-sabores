@@ -3,12 +3,12 @@ base = require('../utils/casper-config.js').publicUrl
 utils = require '../utils/casper-editor.coffee'
 
 selectors = {
-  header: '#tips-header',
+  header: '#tip-header',
   tipFirstStar: '.ui.rating .icon-chef-star',
 }
 
 getHeaderImage = () ->
-  return document.getElementById('tips-header').style.backgroundImage
+  return document.getElementById('tip-header').style.backgroundImage
 
 getTipsRatingValues = () ->
   return parseInt(
