@@ -1,4 +1,4 @@
-/* global flashMessage, canvasResizeAvailable, ajaxSubmit */
+/* global flashMessage, canvasResizeAvailable, ajaxSubmit, setHeaderPreview, clearFile */
 $(document).ready(function() {
 
   // =============================
@@ -66,32 +66,29 @@ $(document).ready(function() {
     var $img = $('#profile-img-select');
     $name.html($name.data('origvalue'));
     $about.html($about.data('origvalue'));
-    clearImages($header.get(0));
+    clearFile($header.get(0));
     $header.trigger('change');
-    clearImages($img.get(0));
+    clearFile($img.get(0));
     $img.trigger('change');
   });
 
   // ---------- Change header image
   $('#privateProfile-header-select').on('change', function(e) {
-    setImagesPreview(e.target, $('#privateProfile-header'), true);
+    setHeaderPreview(e.target);
   });
 
   // ---------- Change profile image
   $('#profile-img-select').on('change', function(e) {
-    setImagesPreview(e.target, $('#profile-img'));
+    setImagePreview(e.target);
   });
 
   // ---------- Header and profile images preview
-  var setImagesPreview = function(input, $target, warn) {
-    var $warning = $('#image-size-warning');
+  var setImagePreview = function(input) {
+    var $target = $('#profile-img');
     if (input.files.length === 0) {
       if ($target.data('origsrc')) {
         $target.css('background-image', $target.data('origsrc'));
         $('.default-bg').removeClass('selected-pic');
-        if (warn) {
-          $warning.css('display', $target.data('origdisplay'));
-        }
       }
     }
     else {
@@ -101,44 +98,17 @@ $(document).ready(function() {
           // User browser doesn't allow for auto-resizing, and file is too big.
           // Bail out!
           flashMessage(window.chef.errorMessage('File too big'));
-          clearImages(input);
-          setImagesPreview(input, $target, warn);
+          clearFile(input);
+          setImagePreview(input);
           return;
         }
       }
       if (!$target.data('origsrc')) {
         $target.data('origsrc', $target.css('background-image'));
-        if (warn) {
-          $target.data('origdisplay', $warning.css('display'));
-        }
       }
       var url = URL.createObjectURL(input.files[0]);
       $target.css('background-image', 'url(' + url + ')');
       $('.default-bg').addClass('selected-pic');
-      // Min size detection
-      if (warn) {
-        var image = new Image();
-        image.onload = function(evt) {
-          if (evt.target.width < 1280 || evt.target.height < 800) {
-            $warning.css('display', 'block');
-          }
-          else {
-            $warning.css('display', 'none');
-          }
-        };
-        image.src = url;
-      }
-    }
-  };
-
-  var clearImages = function(input) {
-    try {
-      input.value = null;
-      $('.default-bg').removeClass('selected-pic');
-    }
-    catch (ex) {}
-    if (input.value) {
-      input.parentNode.replaceChild(input.cloneNode(true), input);
     }
   };
 

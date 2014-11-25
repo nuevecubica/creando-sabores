@@ -585,3 +585,71 @@ var ajaxSubmit = function(form, failcb) {
 
   step();
 };
+
+
+// -- Image preview for header editing --
+var clearFile = function(input) {
+  if (input) {
+    try {
+      input.value = null;
+    }
+    catch (ex) {}
+    if (input.value) {
+      input.parentNode.replaceChild(input.cloneNode(true), input);
+    }
+  }
+};
+
+var setHeaderPreview = function(input) {
+  var $target = $('#header-background');
+  var $targetV = $('#vertical-overlay');
+  var $warning = $('#image-size-warning');
+  if (input.files.length === 0) {
+    if ($target.data('origsrc')) {
+      $target.css('background-image', $target.data('origsrc'));
+      $target.toggleClass('blur', $target.data('blur'));
+      $warning.css('display', $target.data('origdisplay'));
+      $targetV.css('background-image', $targetV.data('origsrc'));
+    }
+  }
+  else {
+    // File size check
+    if (input.files[0].size > window.chef.editor.config.recipe.image.length) {
+      if (!canvasResizeAvailable()) {
+        // User browser doesn't allow for auto-resizing, and file is too big.
+        // Bail out!
+        flashMessage(window.chef.errorMessage('File too big'));
+        clearFile(input);
+        setHeaderPreview(input, $target, $targetV);
+        return;
+      }
+    }
+    if (!$target.data('origsrc')) {
+      $target.data('origsrc', $target.css('background-image'));
+      $target.data('blur', $target.hasClass('blur'));
+      $target.data('origdisplay', $warning.css('display'));
+      $targetV.data('origsrc', $targetV.css('background-image'));
+    }
+    var url = URL.createObjectURL(input.files[0]);
+    $target.css('background-image', 'url(' + url + ')');
+    // Min size detection
+    var image = new Image();
+    image.onload = function(evt) {
+      if (evt.target.width < 1280 || evt.target.height < 800) {
+        $warning.css('display', 'block');
+      }
+      else {
+        $warning.css('display', 'none');
+      }
+      if (evt.target.height >= evt.target.width) {
+        $target.toggleClass('blur', true);
+        $targetV.css('background-image', 'url(' + url + ')');
+      }
+      else {
+        $target.toggleClass('blur', false);
+        $targetV.css('background-image', 'none');
+      }
+    };
+    image.src = url;
+  }
+};

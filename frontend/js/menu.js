@@ -1,4 +1,4 @@
-/* global likeClick, ratingClick, makePaginable, getTemplate, flashMessage, canvasResizeAvailable, ajaxSubmit */
+/* global likeClick, ratingClick, makePaginable, getTemplate, flashMessage, canvasResizeAvailable, ajaxSubmit, setHeaderPreview, clearFile */
 (function() {
 
   //---------- DOCUMENT READY
@@ -69,6 +69,10 @@
         description.restore();
         $('#menu-recipes-current .list').html(platesBackup);
 
+        var file = $('#recipe-header-select').get(0);
+        clearFile(file);
+        setHeaderPreview(file);
+
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
       },
@@ -107,60 +111,8 @@
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
 
     $('#menu-header-select').on('change', function(e) {
-      setPreview(e.target, $('.promoted'));
+      setHeaderPreview(e.target);
     });
-
-    var setPreview = function(input, $target) {
-      var $warning = $('#image-size-warning');
-      if (input.files.length === 0) {
-        if ($target.data('origsrc')) {
-          $target.css('background-image', $target.data('origsrc'));
-          $warning.css('display', $target.data('origdisplay'));
-        }
-      }
-      else {
-        // File size check
-        if (input.files[0].size > window.chef.editor.config.profile.image.length) {
-          if (!canvasResizeAvailable()) {
-            // User browser doesn't allow for auto-resizing, and file is too big.
-            // Bail out!
-            flashMessage(window.chef.errorMessage('File too big'));
-            clearFile(input);
-            setPreview(input, $target);
-            return;
-          }
-        }
-        if (!$target.data('origsrc')) {
-          $target.data('origsrc', $target.css('background-image'));
-          $target.data('origdisplay', $warning.css('display'));
-        }
-        var url = URL.createObjectURL(input.files[0]);
-        $target.css('background-image', 'url(' + url + ')');
-        // Min size detection
-        var image = new Image();
-        image.onload = function(evt) {
-          if (evt.target.width < 1280 || evt.target.height < 800) {
-            $warning.css('display', 'block');
-          }
-          else {
-            $warning.css('display', 'none');
-          }
-        };
-        image.src = url;
-      }
-    };
-
-    var clearFile = function(input) {
-      if (input) {
-        try {
-          input.value = null;
-        }
-        catch (ex) {}
-        if (input.value) {
-          input.parentNode.replaceChild(input.cloneNode(true), input);
-        }
-      }
-    };
 
     var doSearch = function(e) {
       e.preventDefault();
