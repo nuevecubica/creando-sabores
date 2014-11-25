@@ -115,7 +115,12 @@ body {
     .font-large.uppercase;
   }
 }
-
+.ui.avatar.images .image, .ui.avatar.images img, .ui.avatar.image img, .ui.avatar.image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    max-width: none;
+  }
 .subheader {
   .font-large;
 
@@ -209,8 +214,8 @@ body {
       font-size: 140px;
       top: 0;
       @media only screen and (max-width : 767px) {
-        font-size: 100px;
-        top: 20px;
+        font-size: 80px;
+        top: -15px;
       }
     }
   }
@@ -250,6 +255,8 @@ body {
       font-size: 130px;
       @media only screen and (max-width : 767px) {
         font-size: 90px;
+        position: relative;
+        top: -30px;
       }
     }
   }
@@ -688,6 +695,7 @@ body {
     min-width: 147px;
     display: block;
     max-width: 200px;
+    padding: 15px 25px;
   }
   #shopping-header{
     .ui.button.chef.button-brick{
