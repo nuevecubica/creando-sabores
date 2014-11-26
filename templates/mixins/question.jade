@@ -17,8 +17,8 @@ mixin question(question)
         a.date.five.wide.column.mobile-six(href = question.state === 'published' ? question.url : false)
           span.span= question.formattedDate
 
-        a.commentary.two.wide.column(href = question.state === 'published' ? question.url : false)
-          span.strong= __('Coments')
+        //- a.commentary.two.wide.column(href = question.state === 'published' ? question.url : false)
+        //-   span.strong= __('Coments')
 
       a.row(href = question.state === 'published' ? question.url : false)
         .ui.content
