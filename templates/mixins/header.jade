@@ -6,7 +6,7 @@ mixin header(data, section, vars, subsection)
 
     .ui.grid.segment(id= section + "-header", class= vars.headerClasses)
 
-      #header-background(style="background-image: url(#{vars.image});", class=vars.imageVertical ? 'blur' : '')
+      #header-background(style=vars.image ? "background-image: url(#{vars.image});" : false, class=vars.imageVertical ? 'blur' : '')
 
       if ['privateProfile', 'recipe', 'menu', 'publicProfile'].indexOf(section) !== -1
         #vertical-overlay(style=vars.imageVertical ? "background-image: url(#{vars.imageVertical});" : false)

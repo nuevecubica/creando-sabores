@@ -20,7 +20,7 @@ html
 		meta(name="lang", content="es")
 		meta(name="description", content="#{__('Chefcito description')}")
 
-		if section === 'recipe'
+		if section === 'recipe' && data.recipe
 
 			meta(property="og:title", content="#{data.recipe.title}")
 			meta(property="og:description", content="#{data.recipe.description}")
