@@ -69,7 +69,7 @@
         description.restore();
         $('#menu-recipes-current .list').html(platesBackup);
 
-        var file = $('#recipe-header-select').get(0);
+        var file = $('#menu-header-select').get(0);
         clearFile(file);
         setHeaderPreview(file);
 

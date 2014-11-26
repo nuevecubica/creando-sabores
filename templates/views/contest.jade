@@ -28,13 +28,14 @@ block content
 
       #actions.eight.tablet-six.mobile-ten.wide.column.right.aligned
         .contest-actions(class=data.contest.state)
-          .action.vote
-            a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
+          if data.contest.state !== 'programmed'
+            .action.vote
+              a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
+          if data.contest.state === 'submission'
+            .action.join
+              a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
 
-          .action.join
-            a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
-
-      #sponsor.subheader.sixteen.wide.column
+      #sponsor.subheader.sixteen.wide.column(class=data.contest.state)
           i.icon-chef-cup.icon.font-extra-large
           span.explain= __('Contest sponsored by')
           strong.explain= data.contest.sponsor

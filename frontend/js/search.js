@@ -29,9 +29,8 @@ $(window).load(function() {
     location.hash.substr(3).split("&").forEach(function(item) {
       query[item.split("=")[0]] = item.split("=")[1];
     });
-    // URLdecode q and idx
-    query.q = decodeURIComponent(query.q);
-    query.idx = decodeURIComponent(query.idx);
+    // URLdecode query
+    query.q = decodeURIComponent(query.q.replace(/\+/g, '%20'));
     return query;
   }
 

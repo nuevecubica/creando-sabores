@@ -7,12 +7,12 @@ mixin question(question)
         a.delete-qa= __('Delete')
         a.undelete-qa= __('Undelete')
       a.ui.item.profile(href = question.state === 'published' ? question.url : false)
-        img.ui.image.avatar(src="#{question.author.thumb.avatar_large}")
+        img.ui.image.avatar(src=question.author ? "#{question.author.thumb.avatar_large}" : "/images/default_user.png")
 
     .thirteen.wide.column.tablet-eleven
       .ui.column.grid
         a.name.seven.wide.column.mobile-ten(href = question.state === 'published' ? question.url : false)
-          span.span= question.author.name
+          span.span= question.author ? question.author.name : __('Unknown author')
 
         a.date.five.wide.column.mobile-six(href = question.state === 'published' ? question.url : false)
           span.span= question.formattedDate

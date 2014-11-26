@@ -219,7 +219,6 @@
     }
   }
 }
-
 #sponsor{
   &.subheader {
     padding-bottom: 20px;
@@ -236,8 +235,15 @@
       color: @contest-ranking-icon-color;
       margin-right: 10px;
     }
+    &.programmed, &.votes {
+      @media screen and (max-width: 991px) {
+        margin-top: 0px;
+        max-width: 100%
+      }
+    }
   }
 }
+
 #actions {
   padding-top: 10px;
 

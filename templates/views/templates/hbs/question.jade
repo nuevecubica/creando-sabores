@@ -6,12 +6,20 @@
     a.undelete-qa= __('Undelete')
     | {{/ifUserIsAdmin}}
     a.ui.item.profile(href = '{{state}}' === 'published' ? '{{url}}' : false)
+      | {{#if author}}
       img.ui.image.avatar(src="{{author.thumb.avatar_large}}")
+      | {{else}}
+      img.ui.image.avatar(src="/images/default_user.png")
+      | {{/if}}
 
   .thirteen.wide.column.tablet-eleven
     .ui.column.grid
       a.name.seven.wide.column.mobile-ten(href = '{{state}}' === 'published' ? '{{url}}' : false)
+        | {{#if author}}
         span.span {{author.name}}
+        | {{else}}
+        span.span= __('Unknown author')
+        | {{/if}}
 
       a.date.five.wide.column.mobile-six(href = '{{state}}' === 'published' ? '{{url}}' : false)
         span.span {{formattedDate}}
