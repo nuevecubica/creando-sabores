@@ -27,6 +27,6 @@
       a.commentary.two.wide.column(href = '{{state}}' === 'published' ? '{{url}}' : false)
         span.strong= __('Coments')
 
-    a.row(href = '{{url}}')
+    a.row(href = '{{state}}' === 'published' ? '{{url}}' : false)
       .ui.content
         .span.explain {{title}}
