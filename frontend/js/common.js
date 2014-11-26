@@ -40,6 +40,13 @@ var hideAuthModal = function() {
   $('#modal-bg').css('display', 'none');
 };
 
+var evtLoginRedirect = function(e) {
+  if (!window.chef.isUserLoggedIn) {
+    showAuthModal('login', $(this).attr('href'));
+    e.preventDefault();
+  }
+};
+
 $(document).ready(function() {
 
   $('#modal-bg').on('click', hideAuthModal);
@@ -57,12 +64,6 @@ $(document).ready(function() {
     showAuthModal('signup');
   };
 
-  var evtLoginRedirect = function(e) {
-    if (!window.chef.isUserLoggedIn) {
-      showAuthModal('login', $(this).attr('href'));
-      e.preventDefault();
-    }
-  };
 
   $('a[href="/acceso"]').on('click', evtLogin);
   $('a[href="/registro"]').on('click', evtSignup);

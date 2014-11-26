@@ -1,4 +1,4 @@
-/* global likeClick, ratingClick, showAuthModal, flashMessage, canvasResizeAvailable, imageScaleBlob, ajaxSubmit, setHeaderPreview, clearFile */
+/* global likeClick, ratingClick, showAuthModal, flashMessage, canvasResizeAvailable, imageScaleBlob, ajaxSubmit, setHeaderPreview, clearFile, evtLoginRedirect */
 (function() {
 
   var addTypes = function() {
@@ -629,5 +629,6 @@
       }
     });
 
+    $('.recipe-actions .add-menu a').on('click', evtLoginRedirect);
   });
 })();
