@@ -86,8 +86,9 @@ block content
       #ranking.row(class=data.contest.state)
         .sixteen.wide.column
           .header= __('Ranking')
-          .explain
-            p(class=data.contest.state)= __('Invite your friends')
+          if data.contest.state !== 'finished'
+            .explain
+              p(class=data.contest.state)= __('Invite your friends')
 
         - var top = data.top
 

@@ -15,7 +15,7 @@ mixin contest(contest)
       strong= __('Jury award')
     .award= contest.awards.jury.name
 
-  
+
   .four.tablet-four.mobile-eight.wide.column.contest-module
     a.recipe-winner(href='#{contest.awards.community.winner.url}',style='background-image: url(#{contest.awards.community.winner.thumb.header})')
     .author-winner
