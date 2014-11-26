@@ -38,8 +38,7 @@ block content
 			.row
 				.sixteen.wide.column
 					.span= __('Do you have a new recipe?')
-						.ui.button.chef.button-brick
-							a(href='/nueva-receta')= __('Create recipe')
+						a.ui.button.chef.button-brick(href='/nueva-receta')= __('Create recipe')
 
 		if data.videorecipes.last
 			- var videoRecipeTitle = data.videorecipes.last.title
@@ -54,7 +53,6 @@ block content
 					.logo.column
 						a(href="#{videoRecipedUrl}")
 							i.icon-chef-play.icon.play
-
 				.row
 					.six.wide.column
 					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
