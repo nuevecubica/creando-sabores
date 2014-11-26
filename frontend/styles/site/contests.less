@@ -224,7 +224,14 @@
   &.subheader {
     padding-bottom: 20px;
     .font-larger;
-
+    @media screen and (max-width: 991px) {
+      margin-top: -55px;
+      max-width: 70%
+    }
+    @media screen and (max-width: 767px) {
+      margin-top: 0px;
+      max-width: 100%
+    }
     .icon {
       color: @contest-ranking-icon-color;
       margin-right: 10px;
@@ -262,7 +269,7 @@
         height: 55px;
       }
 
-      @media screen and (max-width: 771px) {
+      @media screen and (max-width: 991px) {
         display: block;
         margin-top: 0;
         .button {
@@ -279,7 +286,10 @@
   margin-top: 10px;
 
   .explain {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    @media screen and (max-width: 767px) {
+     margin-bottom: 0px;
+    }
   }
 
   .subheader{
@@ -382,8 +392,16 @@
     }
   }
 
-  #contest-awards {
+  .ui.grid  #contest-awards.row {
 
+  }
+
+  #contest-awards {
+    margin-top: -0.5%;
+    @media screen and (max-width: 767px) {
+      margin-top: -2.5%;
+    }
+    padding: 0%;
     &.finished {
       display: none;
     }
@@ -476,7 +494,7 @@
           color: @contest-winners-background-color;
           .font-extra-large;
         }
-        @media only screen and (max-width : 770px) {
+        @media only screen and (max-width : 767px) {
 
         }
       }
@@ -603,7 +621,7 @@
         color: @chef-color-vote;
         .font-extra-large;
       }
-      @media only screen and (max-width : 770px) {
+      @media only screen and (max-width : 767px) {
         margin-top: -40px;
       }
     }
@@ -638,7 +656,7 @@
         display:none;
         color: @chef-color-voted;
       }
-      @media only screen and (max-width : 770px) {
+      @media only screen and (max-width : 767px) {
         top: -40px;
       }
     }
