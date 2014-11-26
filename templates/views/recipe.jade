@@ -91,6 +91,7 @@ block content
       .row
         #info.sixteen.wide.column
           .recipe-contest
+            .span.explain.show-editable= __('You are participating in:')
             a.title.header.uppercase.remove-editable(href=data.contest.url)= data.contest.title
             span.title.header.uppercase.display-editable= data.contest.title
             .subheader
