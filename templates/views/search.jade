@@ -49,6 +49,21 @@ block content
               .ui.button.chef.button-green
                 | #{__('Menus')}
 
+    #search-select.row.mobile.only.explain
+      #select.sixteen.wide.column
+        .icon.icon-chef-select
+        select
+          option(value='_all')
+            | #{__('All')}
+          option(value='_recipes')
+            | #{__('Recipes')}
+          option(value='_videorecipes')
+            | #{__('Videorecipes')}
+          option(value='_tips')
+            | #{__('Tips')}
+          option(value='_Menus')
+            | #{__('Menus')}
+
     #search
       .sixteen.wide.column.center.aligned
 
