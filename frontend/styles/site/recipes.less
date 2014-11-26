@@ -247,6 +247,8 @@
       .font-large;
         .icon-chef-cesta-all{
           margin-left: 3px;
+          display: inline-block;
+          margin-top: 3px;
           &+.span{
           }
         }
@@ -254,7 +256,9 @@
       margin: 0 0 0.5em 0;
       position: relative;
       overflow: auto;
-
+      @media only screen and (max-width: 767px) {
+        margin: 0 0 -0.1em 0;
+      }
       .checks {
 
         user-select: none;
