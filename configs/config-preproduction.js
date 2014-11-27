@@ -24,7 +24,10 @@ var answer = {
       'hash salt': 'You’\/e used so much o¡l, the U5 want to invade the plate. / Th¡s l4mb is so underc0oked, Welsh people are still trying 7o shag it. / The p0rk is s0 raw, it’s still singing ‘Hakuna Matata’!',
 
       'host': '0.0.0.0',
-      'port': process.env.PORT || 3000
+      'port': process.env.PORT || 3000,
+      'static options': {
+        maxAge: 3600000
+      }
     },
     publicUrl: process.env.APP_PUBLIC_URL || 'http://0.0.0.0:3000'
   },

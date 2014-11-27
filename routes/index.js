@@ -42,6 +42,8 @@ var routes = {
 // Setup Route Bindings
 exports = module.exports = function(app) {
 
+  app.use(keystone.express.static('./public', keystone.options()['static options']));
+
   // CSRF Protection
   if (keystone.options().security.csrf) {
     app.all(/^\/(?!api)/, csrf(), function(req, res, next) {
