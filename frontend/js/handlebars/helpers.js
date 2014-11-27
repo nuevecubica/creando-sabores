@@ -102,6 +102,15 @@ Handlebars.registerHelper('ifRatingAvailable', function(options) {
   }
 });
 
+Handlebars.registerHelper('urlOrHash', function() {
+  if (this.state === 'published') {
+    return this.url;
+  }
+  else {
+    return '#';
+  }
+});
+
 Handlebars.registerHelper('ingredient_activated', function(context, options) {
   if (context.indexOf(this.toString()) === -1) {
     return 'activated';

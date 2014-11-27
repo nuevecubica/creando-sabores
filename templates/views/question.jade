@@ -29,7 +29,8 @@ block content
               span= __('Back')
         .row
           a.ui.item.profile(href=data.question.author ? data.question.author.url : false)
-            img.ui.image.avatar(src=data.question.author ? "#{data.question.author.thumb.avatar_large}" : "/images/default_user.png")
+            -var avatar = data.question.author ? data.question.author.thumb.avatar_large : "/images/default_user.png"
+            .ui.image.avatar(style='background-image: url(#{avatar})')
         .row
             a.name(href=data.question.author ? data.question.author.url : false)
               span.span= data.question.author ? data.question.author.name : __('Unknown author')
@@ -42,7 +43,8 @@ block content
       #answer.ui.grid.stackable
         .three.wide.column.tablet-four
           a.ui.item.profile(href='/acerca')
-            img.ui.image(src=data.question.chef ? '#{data.question.chef.thumb.avatar_large}' : "/images/default_user.png")
+            - var avatar2 = data.question.chef ? data.question.chef.thumb.avatar_large : "/images/default_user.png"
+            .ui.image(style='background-image: url(#{avatar2})')
 
         .thirteen.wide.column.tablet-eleven
           .row

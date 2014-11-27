@@ -7,7 +7,8 @@ mixin question(question)
         a.delete-qa= __('Delete')
         a.undelete-qa= __('Undelete')
       a.ui.item.profile(href = question.state === 'published' ? question.url : false)
-        img.ui.image.avatar(src=question.author ? "#{question.author.thumb.avatar_large}" : "/images/default_user.png")
+        - var avatar = question.author ? question.author.thumb.avatar_large : "/images/default_user.png"
+        .ui.image.avatar(style='background-image: url(#{avatar})')
 
     .thirteen.wide.column.tablet-eleven
       .ui.column.grid
