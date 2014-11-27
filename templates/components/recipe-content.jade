@@ -82,17 +82,17 @@ include ../mixins/difficult-items
     .explain
       .ui.content= __('Ingredients required')
 
-    .shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'added' : '').hide-editable
-      a.add.ui.button.chef.button-green= __('Add to shopping basket')
-      .added
-        .explain
-          != __('Already on your') + ' '
-          a(href='/perfil/compra')= __('Shopping list')
-          != '. '
-          a.ui.button.chef.button-brick= __('Delete')
-
-
   #ingredients.sixteen.wide.column(data-tutorial-message=__("Tutorial Recipe Ingredients"))
+
+    .column.hide-editable
+      .ingredient.toggle-add
+        table
+          tr
+            td
+              .icon-chef-cesta-all.checks.all.activated
+            td
+              .explain.span
+                span= __('Select/deselect everything')
 
     if data.contest
       .recipe-contest-ingredient.sixteen.wide.column
@@ -107,7 +107,6 @@ include ../mixins/difficult-items
                 .icon-chef-cesta.checks(class=classes)
               td
                 .explain!= ingredient
-
 
     .ui.three.mobile-one.tablet-two.column.grid
       if data.recipe.ingredients
@@ -136,12 +135,14 @@ include ../mixins/difficult-items
             .ingredient-remove
               i.icon-chef-cross
 
-    .column.hide-editable
-      .ingredient
-        .icon-chef-cesta-all.checks.all.activated
-        .explain.span
-          span.activated= __('I have everything')
-          span.deactivated= __('I am missing everything')
+    .shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'added' : '').hide-editable
+      a.add.ui.button.chef.button-green= __('Add to shopping basket')
+      .added
+        .explain
+          a.ui.button.chef.button-brick= __('Delete')
+          != __('Already on your') + ' '
+          a(href='/perfil/compra')= __('Shopping list')
+          != '. '
 
   .ingredients-manage.manage.sixteen.wide.column.show-editable
     .ingredient

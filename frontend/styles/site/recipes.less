@@ -55,7 +55,7 @@
   #actions{
   }
   .recipe-contest-ingredient{
-    margin-top: 25px;
+    /*margin-top: 25px;*/
     .font-large{
       display: inline-block;
     }
@@ -204,6 +204,9 @@
     margin-top: 10px;
     .added{
       display: none;
+      .button {
+        margin-right: 10px;
+      }
     }
     &.added{
       .add{
@@ -218,7 +221,7 @@
     }
   }
 
-  .checks.all + .explain.span {
+  .toggle-add {
     .activated {
       display: none;
     }
@@ -227,7 +230,7 @@
     }
   }
 
-  .checks.all.activated + .explain.span {
+  .toggle-add {
     .activated {
       display: block;
     }
@@ -246,7 +249,7 @@
       }
       .font-large;
         .icon-chef-cesta-all{
-          margin-left: 3px;
+          /*margin-left: 3px;*/
           display: inline-block;
           margin-top: 3px;
           &+.span{
