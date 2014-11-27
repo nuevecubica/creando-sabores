@@ -26,5 +26,6 @@ exports.contestList = require('./contestList');
 exports.email = require('./email');
 exports.menu = require('./menu');
 exports.menuList = require('./menuList');
+exports.banner = require('./banner');
 
 module.exports = exports;
