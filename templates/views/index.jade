@@ -24,6 +24,15 @@ block content
 
 		+search()
 
+		if data.banner
+			#banner-bar.ui.grid.segment
+				.row
+					.sixteen.wide.column
+						a.span(href=data.banner.url)
+							!= data.banner.prefix
+							!= data.banner.text
+
+
 		#index-grid.ui.grid.segment.wall
 			.row.computer.only
 				+grid(data.grid, data.order.grid_order_desktop_home, data.sizes.grid_size_desktop_home)
