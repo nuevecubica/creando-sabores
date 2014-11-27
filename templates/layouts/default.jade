@@ -46,7 +46,10 @@ html
 			meta(property="twitter:card", content="summary")
 			meta(property="twitter:site", content="#{site.twitter}")
 
-		link(href="/styles/site.css", rel="stylesheet")
+		if mode === 'development'
+			link(href="/styles/site.css", rel="stylesheet")
+		else
+			link(href="/styles/site.min.css", rel="stylesheet")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
 		if user && user.canAccessKeystone
@@ -112,7 +115,7 @@ html
 		//- Load default scripts
 		script(src='/js/libs/jquery.min.js')
 		script(src='/js/libs/jquery.address.js')
-		script(src='/js/libs/semantic.js')
+		script(src='/js/libs/semantic.min.js')
 		script(src='/js/libs/lodash.min.js')
 
 		script(src='/js/libs/handlebars.min.js')

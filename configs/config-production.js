@@ -22,7 +22,10 @@ var answer = {
       'hash salt': 'Look, if you bought Stones t¡ckets and Jagger d¡dn\'t play_ Sati5faction, how would you feel? Would you b3 h4ppy? ~ |\\o. ~ No! You\'d burn the place to the fucking gr0und.',
 
       'host': '0.0.0.0',
-      'port': process.env.PORT || 3000
+      'port': process.env.PORT || 3000,
+      'static options': {
+        maxAge: 3600000
+      }
     },
     site: {
       name: 'Creando Sabores',

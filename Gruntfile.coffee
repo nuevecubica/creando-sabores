@@ -68,7 +68,7 @@ paths =
         "jquery/dist/jquery.min.map"
         "lodash/dist/lodash.min.js"
         "jquery-address/src/jquery.address.js"
-        "semantic-ui/build/packaged/javascript/semantic.js"
+        "semantic-ui/build/packaged/javascript/semantic.min.js"
         "handlebars/handlebars.min.js"
       ]
       dest: "public/js/libs"
@@ -279,6 +279,15 @@ module.exports = (grunt) ->
           keepSpecialComments: 0
           banner: "/* Chefcito CSS */"
 
+    uglify:
+      build:
+        files: [{
+            expand: true,
+            cwd: 'frontend/js',
+            src: '**/*.js',
+            dest: 'public/js'
+        }]
+
     mochaTest:
       development:
         options:
@@ -390,6 +399,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-cssmin"
   grunt.loadNpmTasks "grunt-contrib-jshint"
   grunt.loadNpmTasks "grunt-contrib-less"
+  grunt.loadNpmTasks "grunt-contrib-uglify"
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-env"
   grunt.loadNpmTasks "grunt-jsbeautifier"
@@ -447,6 +457,7 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["uglify:build"]
     grunt.task.run ["envdebug"]
 
   grunt.registerTask "production", ->
@@ -456,6 +467,7 @@ module.exports = (grunt) ->
     grunt.task.run ["cssmin:build"]
     grunt.task.run ["copy:config"]
     grunt.task.run ["copy:client"]
+    grunt.task.run ["uglify:build"]
     grunt.task.run ["envdebug"]
 
   grunt.registerTask "default", ->

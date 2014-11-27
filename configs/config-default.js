@@ -91,7 +91,7 @@ answer.keystone = {
     'env': env.NODE_ENV || 'development',
 
     // 'less': 'public',
-    'static': 'public',
+    // 'static': 'public',
     'favicon': 'public/favicon.ico',
 
     'views': 'templates/views',
@@ -113,7 +113,9 @@ answer.keystone = {
     'host': '0.0.0.0',
     'port': env.PORT || 3000,
     'mongo': answer.mongodb.url,
-    'mandrill api key': env.MANDRILL_API_KEY || null
+    'mandrill api key': env.MANDRILL_API_KEY || null,
+
+    'static options': {}
   },
   'security': {
     'csrf': true
