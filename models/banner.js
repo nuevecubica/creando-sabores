@@ -67,6 +67,8 @@ Banner.schema.pre('save', function(next) {
     this.publishedDate = Date.now;
   }
 
+  next();
+
 });
 
 /**
