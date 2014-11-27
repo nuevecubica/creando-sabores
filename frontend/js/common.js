@@ -537,9 +537,12 @@ var imageScaleBlob = function(file, callback, maxWidth, maxHeight) {
 // Fabulous AJAX submission with image scaling if needed
 var ajaxSubmit = function(form, failcb) {
 
+  var loadingWrapper = document.createElement('div');
+  loadingWrapper.id = 'loading-wrapper';
   var loading = document.createElement('div');
   loading.id = 'loading';
-  document.body.insertBefore(loading, document.body.firstChild);
+  loadingWrapper.appendChild(loading);
+  document.body.insertBefore(loadingWrapper, document.body.firstChild);
 
   failcb = failcb || function() {};
 
@@ -559,13 +562,13 @@ var ajaxSubmit = function(form, failcb) {
       }
       else {
         flashMessage(window.chef.errorMessage('Error saving'));
-        document.body.removeChild(loading);
+        document.body.removeChild(loadingWrapper);
         failcb();
       }
     };
     request.onerror = function(e) {
       flashMessage(window.chef.errorMessage('Error saving'));
-      document.body.removeChild(loading);
+      document.body.removeChild(loadingWrapper);
       failcb();
     };
     request.send(formData);
