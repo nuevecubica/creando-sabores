@@ -24,13 +24,7 @@ block content
 
 		+search()
 
-		if data.banner
-			#banner-bar.ui.grid.segment
-				.row
-					.sixteen.wide.column
-						a.span(href=data.banner.url)
-							!= data.banner.prefix
-							!= data.banner.text
+		include ../components/banner
 
 
 		#index-grid.ui.grid.segment.wall
