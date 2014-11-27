@@ -297,7 +297,13 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
   };
 
   var checkScroll = function() {
-    var isLoaderOnScreen = $('.loader').isOnScreen();
+    var isLoaderOnScreen;
+    try {
+      isLoaderOnScreen = $('.loader').isOnScreen();
+    }
+    catch (e) {
+      return;
+    }
 
     if (isLoaderOnScreen && !isStillOnScreen && args.page) {
 
