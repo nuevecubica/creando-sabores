@@ -128,12 +128,16 @@ include ../mixins/difficult-items
                       i.icon-chef-cross
 
       .column.ingredient.show-editable
-          .icon-chef-cesta.checks.hide-editable
-          .editable-container
-            .explain.set-editable(placeholder=__('Add ingredient'), spellcheck='false', data-tutorial-complete="editableTypedText")
-          .show-editable
-            .ingredient-remove
-              i.icon-chef-cross
+        table
+          tr
+            td
+              .icon-chef-cesta.checks.hide-editable
+            td
+              .editable-container
+                .explain.set-editable(placeholder=__('Add ingredient'), spellcheck='false', data-tutorial-complete="editableTypedText")
+              .show-editable
+                .ingredient-remove
+                  i.icon-chef-cross
 
     .shopping-add(data-slug = data.recipe.slug, class = data.inShoppingList ? 'added' : '').hide-editable
       a.add.ui.button.chef.button-green= __('Add to shopping basket')

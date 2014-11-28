@@ -7,13 +7,21 @@
     // ---------- Creates a new ingredient
     window.chef.editor.addType('ingredient', function(parent, optionsIngredient, value) {
       var tpl = '<div class="ingredient column">' +
+        '<table>' +
+        '<tr>' +
+        '<td>' +
         '<div class="icon-chef-cesta checks hide-editable"></div>' +
+        '</td>' +
+        '<td>' +
         '<div class="editable-container">' +
-        '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
+        '<div class="set-editable explain one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
         '</div>' +
-        '<div>' +
+        '<div class="show-editable">' +
         '<div class="ingredient-remove"><i class="icon-chef-cross"></i></div>' +
         '</div>' +
+        '</td>' +
+        '</tr>' +
+        '</table>' +
         '</div>';
 
       var options = {
