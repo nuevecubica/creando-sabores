@@ -24,7 +24,7 @@ var answer = {
       'host': '0.0.0.0',
       'port': process.env.PORT || 3000,
       'static options': {
-        maxAge: 3600000
+        maxAge: 3600 * 24 * 30 * 1000
       }
     },
     site: {

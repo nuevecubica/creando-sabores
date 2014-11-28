@@ -42,9 +42,8 @@ block content
 
       #answer.ui.grid.stackable
         .three.wide.column.tablet-four
-          a.ui.item.profile(href='/acerca')
-            - var avatar2 = data.question.chef ? data.question.chef.thumb.avatar_large : "/images/default_user.png"
-            .ui.image(style='background-image: url(#{avatar2})')
+          - var avatar2 = data.question.chef ? data.question.chef.thumb.avatar_large : "/images/default_user.png"
+          a.ui.item.profile.image(href='/acerca', style='background-image: url(#{avatar2})')
 
         .thirteen.wide.column.tablet-eleven
           .row
