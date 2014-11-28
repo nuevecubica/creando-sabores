@@ -347,6 +347,10 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
           next = t.next;
         }
         else {
+          if (!data[retproperty]) {
+            $('.loader > .column').removeClass('show');
+            return;
+          }
           items = data[retproperty].results;
           startPos = data[retproperty].first;
           next = data[retproperty].next;
