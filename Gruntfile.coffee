@@ -393,6 +393,11 @@ module.exports = (grunt) ->
           dest: ".env"
           filter: "isFile"
         }
+        {
+          src: ["configs/robots-" + grunt.config("environment") + ".txt"]
+          dest: "public/robots.txt"
+          filter: "isFile"
+        }
       ]
 
 ## ======================== LOAD DEFAULTS
