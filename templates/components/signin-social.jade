@@ -1,13 +1,11 @@
 .buttons-social
-	- var suffix = locals.next ? '?next=' + locals.next : ''
-	.ui.button.chef.button-fb
-		i.social.icon-chef-facebook
-		a(href='/authentication/facebook' + suffix)
-			span.social-reg= __('Access with')
-			|#{' '}Facebook
+  - var suffix = locals.next ? '?next=' + locals.next : ''
+  a.ui.button.chef.button-fb(href='/authentication/facebook' + suffix)
+    i.social.icon-chef-facebook
+    span.social-reg= __('Access with')
+    |#{' '}Facebook
 
-	.ui.button.chef.button-g
-		i.social.icon-chef-google
-		a(href='/authentication/google' + suffix)
-			span.social-reg= __('Access with')
-			|#{' '}Google
+  a.ui.button.chef.button-g(href='/authentication/google' + suffix)
+    i.social.icon-chef-google
+    span.social-reg= __('Access with')
+    |#{' '}Google
