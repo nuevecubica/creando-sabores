@@ -55,7 +55,7 @@
   #actions{
   }
   .recipe-contest-ingredient{
-    margin-top: 25px;
+    /*margin-top: 25px;*/
     .font-large{
       display: inline-block;
     }
@@ -204,6 +204,9 @@
     margin-top: 10px;
     .added{
       display: none;
+      .button {
+        margin-right: 10px;
+      }
     }
     &.added{
       .add{
@@ -218,7 +221,7 @@
     }
   }
 
-  .checks.all + .explain.span {
+  .toggle-add {
     .activated {
       display: none;
     }
@@ -227,7 +230,7 @@
     }
   }
 
-  .checks.all.activated + .explain.span {
+  .toggle-add {
     .activated {
       display: block;
     }
@@ -246,7 +249,7 @@
       }
       .font-large;
         .icon-chef-cesta-all{
-          margin-left: 3px;
+          /*margin-left: 3px;*/
           display: inline-block;
           margin-top: 3px;
           &+.span{
@@ -440,12 +443,24 @@
                 text-transform: uppercase;
                 font-weight: bold;
               }
+              @media screen and (max-width: 767px) {
+                span{
+                  opacity: 0.7;
+                  background-color: fade(@chef-color-black, 40%);
+                  .info{
+                    color: @chef-color-black;
+                  }
+                }
+              }
 
               &:hover {
                 span {
                   background-color: fade(@grid-hover-background, 70%);
                   opacity: 1;
                   box-shadow: 0px 0px 0px 1px @recipes-grid-border inset;
+                  .info{
+                    color: @type-color;
+                  }
                 }
               }
             }
@@ -530,13 +545,13 @@
   left: 15px;
   border: 10px solid transparent;
   padding: 10px 15px 10px 30px;
-  color: @chef-color-brick;
+  color: @chef-color-black;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7);
   opacity: 0.65;
   display: none;
   background-image: url(/images/alert.png);
   background-position: center left;
   background-repeat: no-repeat;
-  background-color: @chef-color-yellow-bg;
   background-origin:padding-box;
 }
 

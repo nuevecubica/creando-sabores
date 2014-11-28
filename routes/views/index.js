@@ -62,7 +62,14 @@ exports = module.exports = function(req, res) {
             }
             callback(err);
           });
-        }
+        },
+        // Get current banner
+        function(callback) {
+          service.banner.get.one({}, function(err, banner) {
+            locals.data.banner = banner;
+            callback(err);
+          });
+        },
       ],
       function(err) {
         next(err);

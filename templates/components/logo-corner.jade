@@ -7,8 +7,11 @@ if ['videorecipe', 'videorecipes'].indexOf(section) !== -1
       .logo.corner.shadow
         a.icon-chef-logo.icon(href="/")
   else
-    .row.logo.shadow
-      a.icon-chef-logo.icon(href="/")
+    .row.logo.videorecipe
+      a.icon-chef-play.icon.clickable(data-video="#{vars.video}")
+    .floating.keep-pointer
+      .logo.corner
+        a.icon-chef-logo.icon(href="/")
 else
   .row.logo
   .floating

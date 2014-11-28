@@ -18,7 +18,7 @@ var safe = {
     'state', 'thumb', 'type', 'classes', 'awards.jury.winner',
     'awards.community.winner', 'awards.community.name', 'awards.jury.name'
   ],
-  tip: ['url', 'slug', 'title', 'tip', 'thumb'],
+  tip: ['url', 'slug', 'title', 'tip', 'thumb', 'rating'],
   menu: [
     'title', 'slug', 'description', 'state', 'publishedDate',
     'url', 'thumb', 'classes'

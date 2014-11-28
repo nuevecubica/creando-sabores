@@ -86,8 +86,9 @@ block content
       #ranking.row(class=data.contest.state)
         .sixteen.wide.column
           .header= __('Ranking')
-          .explain
-            p(class=data.contest.state)= __('Invite your friends')
+          if data.contest.state !== 'finished'
+            .explain
+              p(class=data.contest.state)= __('Invite your friends')
 
         - var top = data.top
 
@@ -114,8 +115,7 @@ block content
             .subheader= __('No recipes for this contest yet')
 
         .sixteen.wide.column.right.aligned
-          .ui.button.chef.button-green
-            a(href='#{data.contest.url}/participantes/top')= __('Show all')
+          a.ui.button.chef.button-green(href='#{data.contest.url}/participantes/top')= __('Show all')
 
 
       #contest-terms.row(class=data.contest.state)

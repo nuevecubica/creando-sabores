@@ -1,0 +1,9 @@
+if data.banner
+  a(href=data.banner.url)#banner-bar.ui.grid.segment
+    .row
+      .sixteen.wide.column
+        .explain
+          span.prefix
+            != data.banner.prefix
+          span.name
+            != data.banner.text

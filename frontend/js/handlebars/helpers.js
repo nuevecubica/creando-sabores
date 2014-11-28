@@ -90,8 +90,24 @@ Handlebars.registerHelper('ifUserIsAdmin', function(options) {
 });
 
 Handlebars.registerHelper('ifRecipeClass', function(context, options) {
-  if (context === 'recipe') {
+  if (context === 'recipe' || context === 'videorecipe') {
     return options.fn(this);
+  }
+});
+
+Handlebars.registerHelper('ifRatingAvailable', function(options) {
+  if (this.type !== 'menu') {
+    // TODO: What about contest recipes?
+    return options.fn(this);
+  }
+});
+
+Handlebars.registerHelper('urlOrHash', function() {
+  if (this.state === 'published') {
+    return this.url;
+  }
+  else {
+    return '#';
   }
 });
 

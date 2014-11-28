@@ -16,6 +16,7 @@ frontend/packages
 public/js
 public/styles
 public/less
+public/robots.txt
 
 .DS_Store
 

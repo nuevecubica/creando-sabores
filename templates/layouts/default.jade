@@ -46,17 +46,22 @@ html
 			meta(property="twitter:card", content="summary")
 			meta(property="twitter:site", content="#{site.twitter}")
 
-		link(href="/styles/site.css", rel="stylesheet")
+		if mode === 'development'
+			link(href="/styles/site.css", rel="stylesheet")
+		else
+			link(href="/styles/site.min.css?#{version}", rel="stylesheet")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
 		if user && user.canAccessKeystone
-			link(href="/keystone/styles/content/editor.min.css", rel="stylesheet")
+			link(href="/keystone/styles/content/editor.min.css?#{version}", rel="stylesheet")
 		//- Include template-specific stylesheets by extending the css block
 		block css
 
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
-		script(src='/js/logger.js')
+		| <script>
+		include ../../public/js/logger.js
+		| </script>
 
 		block head
 
@@ -110,20 +115,20 @@ html
 
 
 		//- Load default scripts
-		script(src='/js/libs/jquery.min.js')
-		script(src='/js/libs/jquery.address.js')
-		script(src='/js/libs/semantic.js')
-		script(src='/js/libs/lodash.min.js')
+		script(src='/js/libs/jquery.min.js?#{version}')
+		script(src='/js/libs/jquery.address.js?#{version}')
+		script(src='/js/libs/semantic.min.js?#{version}')
+		script(src='/js/libs/lodash.min.js?#{version}')
 
-		script(src='/js/libs/handlebars.min.js')
-		script(src='/js/handlebars/helpers.js')
-		script(src='/js/jquery.functions.js')
+		script(src='/js/libs/handlebars.min.js?#{version}')
+		script(src='/js/handlebars/helpers.js?#{version}')
+		script(src='/js/jquery.functions.js?#{version}')
 
-		script(src='/js/common.js')
-		script(src='/js/editor/editor.js')
-		script(src='/js/editor/editor.filters.js')
-		script(src='/js/editor/editor.elements.js')
-		script(src='/js/tutorial.js')
+		script(src='/js/common.js?#{version}')
+		script(src='/js/editor/editor.js?#{version}')
+		script(src='/js/editor/editor.filters.js?#{version}')
+		script(src='/js/editor/editor.elements.js?#{version}')
+		script(src='/js/tutorial.js?#{version}')
 
 		//- Include template-specific javascript files by extending the js block
 		block js
@@ -131,7 +136,7 @@ html
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone
 		if user && user.canAccessKeystone
-			script(src='/keystone/js/content/editor.js')
+			script(src='/keystone/js/content/editor.js?#{version}')
 
 		if env.NODE_ENV == 'development'
 			include ../components/debug

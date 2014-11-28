@@ -25,10 +25,10 @@ mixin user-header(user)
             a.ui.button.chef.button-brick(href="/keystone")= __('Admin panel')
 
       else
-        .ui.item
-          a.ui.button.chef.button-brick(href="/acceso")= __('To login')
-        .ui.item
-          a.ui.button.chef.button-brick(href="/registro")= __('To register')
+        .ui.item.access-menu
+          a.ui.button.chef.button-brick.no-modal(href="/acceso")= __('To login')
+        .ui.item.access-menu
+          a.ui.button.chef.button-brick.no-modal(href="/registro")= __('To register')
 
       #menu.ui.item.menu-icon
         i.icon-chef-menu

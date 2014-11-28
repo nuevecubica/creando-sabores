@@ -40,6 +40,13 @@ var hideAuthModal = function() {
   $('#modal-bg').css('display', 'none');
 };
 
+var evtLoginRedirect = function(e) {
+  if (!window.chef.isUserLoggedIn) {
+    showAuthModal('login', $(this).attr('href'));
+    e.preventDefault();
+  }
+};
+
 $(document).ready(function() {
 
   $('#modal-bg').on('click', hideAuthModal);
@@ -57,15 +64,9 @@ $(document).ready(function() {
     showAuthModal('signup');
   };
 
-  var evtLoginRedirect = function(e) {
-    if (!window.chef.isUserLoggedIn) {
-      showAuthModal('login', $(this).attr('href'));
-      e.preventDefault();
-    }
-  };
 
-  $('a[href="/acceso"]').on('click', evtLogin);
-  $('a[href="/registro"]').on('click', evtSignup);
+  $('a:not(.no-modal)[href="/acceso"]').on('click', evtLogin);
+  $('a:not(.no-modal)[href="/registro"]').on('click', evtSignup);
   $('a[href="/nueva-receta"]').on('click', evtLoginRedirect);
   $('a[href="/nuevo-menu"]').on('click', evtLoginRedirect);
 });
@@ -296,7 +297,13 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
   };
 
   var checkScroll = function() {
-    var isLoaderOnScreen = $('.loader').isOnScreen();
+    var isLoaderOnScreen;
+    try {
+      isLoaderOnScreen = $('.loader').isOnScreen();
+    }
+    catch (e) {
+      return;
+    }
 
     if (isLoaderOnScreen && !isStillOnScreen && args.page) {
 
@@ -340,6 +347,10 @@ var makePaginable = function(endpoint, retproperty, hbsname, appendable, extraar
           next = t.next;
         }
         else {
+          if (!data[retproperty]) {
+            $('.loader > .column').removeClass('show');
+            return;
+          }
           items = data[retproperty].results;
           startPos = data[retproperty].first;
           next = data[retproperty].next;
@@ -530,9 +541,12 @@ var imageScaleBlob = function(file, callback, maxWidth, maxHeight) {
 // Fabulous AJAX submission with image scaling if needed
 var ajaxSubmit = function(form, failcb) {
 
+  var loadingWrapper = document.createElement('div');
+  loadingWrapper.id = 'loading-wrapper';
   var loading = document.createElement('div');
   loading.id = 'loading';
-  document.body.insertBefore(loading, document.body.firstChild);
+  loadingWrapper.appendChild(loading);
+  document.body.insertBefore(loadingWrapper, document.body.firstChild);
 
   failcb = failcb || function() {};
 
@@ -552,13 +566,13 @@ var ajaxSubmit = function(form, failcb) {
       }
       else {
         flashMessage(window.chef.errorMessage('Error saving'));
-        document.body.removeChild(loading);
+        document.body.removeChild(loadingWrapper);
         failcb();
       }
     };
     request.onerror = function(e) {
       flashMessage(window.chef.errorMessage('Error saving'));
-      document.body.removeChild(loading);
+      document.body.removeChild(loadingWrapper);
       failcb();
     };
     request.send(formData);

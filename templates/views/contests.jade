@@ -59,11 +59,9 @@ block content
             .description!= data.current.description
 
         .sixteen.wide.column.center.aligned
-          .ui.button.chef.button-brick
-            a(href='#{data.current.url}')= __('Learn more')
-          if data.current.state === 'submission'
-            .ui.button.chef.button-yellow
-              a(href='/nueva-receta/#{data.current.slug}')= __('Join the contest')
+            a.ui.button.chef.button-brick(href='#{data.current.url}')= __('Learn more')
+            if data.current.state === 'submission'
+              a.ui.button.chef.button-yellow.join-contest(href='/nueva-receta/#{data.current.slug}')= __('Join the contest')
     else
       .empty-resultset.sixteen.wide.column= __('No current contest')
 

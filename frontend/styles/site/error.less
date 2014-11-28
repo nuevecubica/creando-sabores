@@ -1,27 +1,35 @@
 #messages {
-	position: fixed;
-	z-index: 1010;
-	right: 0;
+  position: fixed;
+  z-index: 3000;
+  right: 0;
 
-	.message {
-		box-shadow: 0 0 32px rgba(0,0,0,.15);
-		white-space: nowrap;
-	}
+  .message {
+    box-shadow: 0 0 32px rgba(0,0,0,.15);
+    white-space: nowrap;
+    @media only screen and (max-width : 767px) {
+      white-space: normal;
+      i.icon{
+        position: absolute;
+        top: 2px;
+        right: 2px;
+      }
+    }
+  }
 }
 
 .column.error-content {
-	text-align: center !important;
-	h1 {
-		font-size: 3em;
-		font-family: @pinto-fonts;
-		text-transform: uppercase;
-	}
+  text-align: center !important;
+  h1 {
+    font-size: 3em;
+    font-family: @pinto-fonts;
+    text-transform: uppercase;
+  }
 
-	div.debug {
-		text-align: left;
-		font-family: monospace;
-		font-size: 14px;
-	}
+  div.debug {
+    text-align: left;
+    font-family: monospace;
+    font-size: 14px;
+  }
 }
 
 .ui.message {
@@ -29,26 +37,26 @@
 }
 
 .messages-close {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .error-message {
-	display: none;
-	.font-smaller;
-	text-align: left;
-	color: @error-message-color;
+  display: none;
+  .font-smaller;
+  text-align: left;
+  color: @error-message-color;
 }
 
 .error-here {
-	input {
-		border-color: @error-input-border;
-	}
+  input {
+    border-color: @error-input-border;
+  }
 
-	&.set-editable {
-		border: 1px solid @error-input-border !important;
-	}
+  &.set-editable {
+    border: 1px solid @error-input-border !important;
+  }
 
-	.error-message {
-		display: block;
-	}
+  .error-message {
+    display: block;
+  }
 }

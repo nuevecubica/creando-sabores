@@ -1,0 +1,31 @@
+/****************
+  BANNER
+****************/
+#banner-bar{
+  padding: 15px;
+  background-color: @chef-color-yellow-bg;
+  display: block;
+  &:hover{
+    background-color: @chef-color-green-bg;
+    transition: background-color @ani-time ease-out;
+  }
+  .explain{
+    text-transform: uppercase;
+    text-align: center;
+    .prefix{
+      position: relative;
+      color:@chef-color-black;
+      font-weight: bold;
+      &:before{
+        content: url('/images/cutlery_banner.png');
+        position: absolute;
+        left: -40px;
+        top: -10px;
+      }
+    }
+    .name{
+      color:@chef-color-white;
+      margin-left: 3px;
+    }
+  }
+}
