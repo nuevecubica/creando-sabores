@@ -281,12 +281,18 @@ module.exports = (grunt) ->
 
     uglify:
       build:
-        files: [{
+        files: [
+          {
             expand: true,
             cwd: 'frontend/js',
             src: '**/*.js',
             dest: 'public/js'
-        }]
+          },
+          {
+            'public/js/libs/jquery.address.js': ['frontend/packages/jquery-address/src/jquery.address.js'],
+            'public/js/libs/handlebars.min.js': ['frontend/packages/handlebars/handlebars.js']
+          }
+        ]
 
     mochaTest:
       development:
