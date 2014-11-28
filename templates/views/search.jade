@@ -15,7 +15,11 @@ block js
 
 
 block content
-  +header(data, section)
+  - var vars = {}
+  - vars.headerClasses = 'narrow'
+  - vars.headerElements = 'simple'
+
+  +header(data, section, vars)
 
   .ui.page.grid.body
 
@@ -44,6 +48,21 @@ block content
             a#tab-menus(href='#')
               .ui.button.chef.button-green
                 | #{__('Menus')}
+
+    #search-select.row.mobile.only.explain
+      #select.sixteen.wide.column
+        .icon.icon-chef-select
+        select
+          option(value='_all')
+            | #{__('All')}
+          option(value='recipes')
+            | #{__('Recipes')}
+          option(value='videorecipes')
+            | #{__('Videorecipes')}
+          option(value='tips')
+            | #{__('Tips')}
+          option(value='menus')
+            | #{__('Menus')}
 
     #search
       .sixteen.wide.column.center.aligned

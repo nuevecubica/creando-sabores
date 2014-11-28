@@ -9,8 +9,14 @@ block js
 	script(src='/js/chef.js')
 
 block content
+	- var vars ={}
+	- vars.image = profile ? profile.thumb.header : '/images/default_user_profile.jpg'
+	if profile.thumb.isVertical
+		- vars.imageVertical = profile.thumb.header_vertical
+	- vars.headerClasses = 'user-profile'
+	- vars.headerElements =  'with-title'
 
-	+header(data, section)
+	+header(data, section, vars)
 
 	.ui.page.grid.segment.body.about
 		.column

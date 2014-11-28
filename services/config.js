@@ -83,7 +83,7 @@ var getConfigsCategories = function(callback) {
             categories[element.name].push(category);
           }
           else {
-            categories[element.name] = [];
+            categories[element.name] = [category];
           }
         });
       });

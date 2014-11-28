@@ -4,10 +4,12 @@ $(window).load(function() {
   function setSearchType(name) {
     $('.tab a .button').removeClass('active');
     $('#tab-' + name + ' .button').addClass('active');
+    $('#select select').val(name);
   }
 
   function getSearchType() {
-    var type = $('.tab .active').closest('a').attr('id').substring(4);
+    //var type = $('.tab .active').closest('a').attr('id').substring(4);
+    var type = $('#select select').val();
     if (!type) {
       type = '_all';
     }
@@ -27,6 +29,8 @@ $(window).load(function() {
     location.hash.substr(3).split("&").forEach(function(item) {
       query[item.split("=")[0]] = item.split("=")[1];
     });
+    // URLdecode query
+    query.q = decodeURIComponent(query.q.replace(/\+/g, '%20'));
     return query;
   }
 
@@ -121,6 +125,12 @@ $(window).load(function() {
   $('.tab a').on('click', function(e) {
     e.preventDefault();
     setSearchType(this.id.substring(4));
+    saveState();
+  });
+
+  $('#select select').on('change', function(e) {
+    e.preventDefault();
+    setSearchType(this.value);
     saveState();
   });
 

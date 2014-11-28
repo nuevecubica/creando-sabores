@@ -3,11 +3,11 @@ base = require('../utils/casper-config.js').publicUrl
 utils = require '../utils/casper-editor.coffee'
 
 selectors = {
-  header: '#profile-header',
+  header: '#privateProfile-header',
 }
 
 getHeaderImage = () ->
-  return document.getElementById('profile-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 describe 'Profile page', ->
   @timeout 60000

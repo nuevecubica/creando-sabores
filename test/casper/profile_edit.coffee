@@ -13,7 +13,7 @@ clearProfileFields = () ->
 
 getUserImages = () ->
   a = document.getElementById('profile-img').style.backgroundImage
-  b = document.getElementById('profile-header').style.backgroundImage
+  b = document.getElementById('header-background').style.backgroundImage
   return [a, b]
 
 revertDB = () ->

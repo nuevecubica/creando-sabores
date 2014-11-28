@@ -2,25 +2,56 @@
 @contact-color: darken(@chef-color-green-bg, 15%);
 
 #contact{
+  overflow: hidden;
   background-color: @chef-color-light-bg;
   font-weight: lighter;
+  &.ui.grid {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    .three.column.wide{
+      @media only screen and (max-width : 767px) {
+        margin: 10px auto 0px;
+        width: 100%;
+        padding: 0;
+        .icon{
+          display: block;
+          margin: auto;
+          width: 50px;
+          &:before{
+            margin: 0;
+            width: 0;
+          }
+        }
+      }
+    }
+    .twelve.column.wide{
+      @media only screen and (max-width : 767px) {
+        margin: 0px 10px 10px;
+        text-align: center;
+      }
+    }
+  }
   .icon{
     .font-extra-larger;
     @media only screen and (max-width : 991px) {
       .font-extra-large;
     }
     @media only screen and (max-width : 767px) {
-      .font-large;
+      .font-extra-larger;
     }
     color: @chef-color-green-bg;
   }
   .span{
+    display: inline-block;
     .font-normal;
     @media only screen and (max-width : 991px) {
       .font-small;
     }
     @media only screen and (max-width : 767px) {
       .font-smaller;
+    }
+    &.mail{
+      margin-top: 13px;
     }
   }
 }

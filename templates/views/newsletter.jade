@@ -6,8 +6,12 @@ block js
   script(src='/js/newsletter.js')
 
 block content
+  - var vars = {}
+  - vars.image = '/images/questions_header.jpg'
+  - vars.headerClasses = 'narrow'
+  - vars.headerElements = 'simple'
 
-  +header(data, section)
+  +header(data, section, vars)
 
   #newsletter-content
     .ui.page.grid.bg-grey

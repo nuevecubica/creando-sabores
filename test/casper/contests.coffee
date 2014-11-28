@@ -8,7 +8,7 @@ selectors = {
 }
 
 getHeaderImage = () ->
-  return document.getElementById('contests-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 describe 'Contests page', ->
   @timeout 60000
@@ -35,7 +35,7 @@ describe 'Contests page', ->
         ('#info .status-tag').should.be.inDOM.and.visible
         ('#info .header').should.be.inDOM.and.visible
         ('#info .explain').should.be.inDOM.and.visible
-        ('#info .explain strong').should.be.inDOM.and.visible
+        ('#sponsor.explain strong').should.be.inDOM.and.visible
         ('#current-contest .chef.button-brick a').should.be.inDOM.and.visible
     #it 'works contests award', ->
       #casper.then ->

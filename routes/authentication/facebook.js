@@ -28,6 +28,14 @@ exports = module.exports = function(req, res, next) {
         success: '/',
         fail: '/acceso'
       };
+      if (req.query.state) {
+        var qnext = req.query.state || '';
+        qnext = decodeURIComponent(qnext);
+        if (qnext.indexOf('//:') === -1 && qnext[0] === '/') {
+          redirects.success = qnext;
+        }
+      }
+
 
       // Redirect based on response
       if (err) {

@@ -9,16 +9,33 @@ include ../../mixins/menu
 block js
 	script(src='/js/profile.js')
 
-block content
+	if config
+		script.
+			window.chef.editor.config = !{JSON.stringify(config)};
 
-	+header(data, section)
+	| <script>
+	| chef.errorMessages = chef.errorMessages || {}
+	| chef.errorMessages['File too big'] = "#{__('File too big')}"
+	| </script>
+
+
+block content
+	- var vars = {}
+	- vars.image = user.thumb.header
+	if user.thumb.isVertical
+		- vars.imageVertical = user.thumb.header_vertical
+	- vars.title = __('My recipe book')
+	- vars.titleClasses = 'defaul-bg nopic'
+	- vars.headerClasses = 'user-profile'
+	- vars.headerElements = 'with-title with-social'
+
+	+header(data, section, vars)
 	#bar.ui.grid.segment.page
-			#add-new-bar.row
-				.four.wide.column.mobile-two
-				.twelve.wide.column
-					.span= __('Do you have a new recipe?')
-						.ui.button.chef.button-brick.hide-editable
-							a(href='/nueva-receta')= __('Create recipe')
+		#add-new-bar.row
+			.four.wide.column.mobile-two
+			.twelve.wide.column
+				.span= __('Do you have a new recipe?')
+					a.ui.button.chef.button-brick.hide-editable(href='/nueva-receta')= __('Create recipe')
 	#about.ui.page.grid.segment.body.about
 		.column
 			.ui.stackable.grid

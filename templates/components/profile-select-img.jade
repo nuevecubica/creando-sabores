@@ -1,0 +1,11 @@
+.six.wide.column.right.aligned
+  .change-img.corner-position.right(data-tutorial-message=__("Tutorial Recipe Image"))
+    .ui.button.chef.button-green.show-editable.file-select
+     if own
+        - var fieldName = 'media.header_upload'
+        if section === 'recipe'
+          - fieldName = 'header_upload'
+        input(type="file" name=fieldName accept="image/*" data-tutorial-complete="fileSelected", id= section + "-header-select")
+        i.social.icon-chef-camera
+        span
+        |#{__('Change image')}

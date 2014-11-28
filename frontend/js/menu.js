@@ -1,6 +1,4 @@
-/* global likeClick */
-/* global ratingClick */
-/* global makePaginable, getTemplate */
+/* global likeClick, ratingClick, makePaginable, getTemplate, flashMessage, canvasResizeAvailable, ajaxSubmit, setHeaderPreview, clearFile */
 (function() {
 
   //---------- DOCUMENT READY
@@ -71,6 +69,10 @@
         description.restore();
         $('#menu-recipes-current .list').html(platesBackup);
 
+        var file = $('#menu-header-select').get(0);
+        clearFile(file);
+        setHeaderPreview(file);
+
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
       },
@@ -91,7 +93,13 @@
 
         $('#hidden-title').attr('value', title.getValue());
         $('#hidden-description').attr('value', description.getValue());
-        $('#menu-edit-form').submit();
+
+        if (canvasResizeAvailable()) {
+          ajaxSubmit(document.getElementById('menu-edit-form'));
+        }
+        else {
+          $('#menu-edit-form').submit();
+        }
       },
     };
 
@@ -103,49 +111,8 @@
     $('#update.button-manage').on('click', events.onButtonUpdateClick);
 
     $('#menu-header-select').on('change', function(e) {
-      setPreview(e.target, $('.promoted'));
+      setHeaderPreview(e.target);
     });
-
-    var setPreview = function(input, $target) {
-      var $warning = $('#image-size-warning');
-      if (input.files.length === 0) {
-        if ($target.data('origsrc')) {
-          $target.css('background-image', $target.data('origsrc'));
-          $warning.css('display', $target.data('origdisplay'));
-        }
-      }
-      else {
-        if (!$target.data('origsrc')) {
-          $target.data('origsrc', $target.css('background-image'));
-          $target.data('origdisplay', $warning.css('display'));
-        }
-        var url = URL.createObjectURL(input.files[0]);
-        $target.css('background-image', 'url(' + url + ')');
-        // Min size detection
-        var image = new Image();
-        image.onload = function(evt) {
-          if (evt.target.width < 1280 || evt.target.height < 800) {
-            $warning.css('display', 'block');
-          }
-          else {
-            $warning.css('display', 'none');
-          }
-        };
-        image.src = url;
-      }
-    };
-
-    var clearFile = function(input) {
-      if (input) {
-        try {
-          input.value = null;
-        }
-        catch (ex) {}
-        if (input.value) {
-          input.parentNode.replaceChild(input.cloneNode(true), input);
-        }
-      }
-    };
 
     var doSearch = function(e) {
       e.preventDefault();

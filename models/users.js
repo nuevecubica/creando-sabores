@@ -29,7 +29,7 @@ User.add({
     trim: true
   },
   username: {
-    type: Types.Text,
+    type: Types.Key,
     initial: true,
     required: true,
     index: true,
@@ -208,11 +208,6 @@ User.add({
     type: Types.Relationship,
     ref: 'Recipe',
     many: true
-  },
-  shopping: {
-    type: Types.Relationship,
-    ref: 'Recipe',
-    many: true
   }
 }, 'Flags', {
   disabledNotifications: {
@@ -267,6 +262,22 @@ User.schema.add({
       type: [Rating]
     }
   }
+});
+
+// Schema for shopping list
+var Shopping = new keystone.mongoose.Schema({
+  recipe: {
+    type: keystone.mongoose.Schema.ObjectId,
+    ref: 'Recipe'
+  },
+  myIngredients: {
+    type: [String],
+    default: []
+  }
+});
+
+User.schema.add({
+  shopping: [Shopping]
 });
 
 //#------------------ VALUES AND VALIDATION

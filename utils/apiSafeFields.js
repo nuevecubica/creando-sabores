@@ -2,7 +2,8 @@ var safe = {
   recipe: [
     'url', 'slug', 'title', 'description', 'ingredients', 'procedure',
     'portions', 'time', 'difficulty', 'rating', 'state',
-    'createdDate', 'publishedDate', 'classes', 'type', 'thumb', 'isOfficial'
+    'createdDate', 'publishedDate', 'classes', 'type', 'thumb', 'isOfficial',
+    'ingredientsGot', 'ingredientsPending', 'isVideorecipe'
   ],
   user: ['slug', 'username', 'name', 'about', 'thumb', 'url'],
   me: ['slug', 'username', 'email', 'name', 'about', 'thumb', 'url', 'isPrivate'],
@@ -17,7 +18,7 @@ var safe = {
     'state', 'thumb', 'type', 'classes', 'awards.jury.winner',
     'awards.community.winner', 'awards.community.name', 'awards.jury.name'
   ],
-  tip: ['url', 'slug', 'title', 'tip', 'thumb'],
+  tip: ['url', 'slug', 'title', 'tip', 'thumb', 'rating'],
   menu: [
     'title', 'slug', 'description', 'state', 'publishedDate',
     'url', 'thumb', 'classes'

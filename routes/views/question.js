@@ -30,7 +30,12 @@ exports = module.exports = function(req, res) {
         locals.data.question = result;
         locals.data.formattedDate = moment(result.createdDate).format('lll');
         locals.title = result.title.substr(0, 10) + '...';
-        next();
+        service.questionList.related({
+          questionId: result._id
+        }, function(err, results, status) {
+          locals.related = results;
+          next(err);
+        });
       }
       else {
         return res.notfound(res.__('Not found'));

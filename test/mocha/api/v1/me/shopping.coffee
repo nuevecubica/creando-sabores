@@ -29,7 +29,7 @@ describe 'API v1: /me/shopping', ->
         recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
         request
-        .get('/api/v1/me/shopping/add/' + recipe.slug)
+        .put('/api/v1/me/shopping/add/' + recipe.slug)
         .set('cookie','')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -44,11 +44,11 @@ describe 'API v1: /me/shopping', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-banned'
 
           request
-          .get('/api/v1/me/shopping/add/' + recipe.slug)
+          .put('/api/v1/me/shopping/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(401)
+          .expect(404)
           .end(done)
 
       describe 'on shopping list add', (done) ->
@@ -57,7 +57,7 @@ describe 'API v1: /me/shopping', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/shopping/add/' + recipe.slug)
+          .put('/api/v1/me/shopping/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -84,7 +84,7 @@ describe 'API v1: /me/shopping', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/shopping/add/' + recipe.slug)
+          .put('/api/v1/me/shopping/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -93,7 +93,7 @@ describe 'API v1: /me/shopping', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me/shopping/add/' + recipe.slug)
+            .put('/api/v1/me/shopping/add/' + recipe.slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -117,7 +117,7 @@ describe 'API v1: /me/shopping', ->
 
         it 'should return error for missing recipe', (done) ->
           request
-          .get('/api/v1/me/shopping/add/testDummyRecipe')
+          .put('/api/v1/me/shopping/add/testDummyRecipe')
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -130,7 +130,7 @@ describe 'API v1: /me/shopping', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/shopping/add/' + recipe.slug)
+          .put('/api/v1/me/shopping/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -139,7 +139,7 @@ describe 'API v1: /me/shopping', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me/shopping/remove/' + recipe.slug)
+            .put('/api/v1/me/shopping/remove/' + recipe.slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -161,7 +161,7 @@ describe 'API v1: /me/shopping', ->
           recipe = data.getBySlug 'recipes', 'test-recipe-1'
 
           request
-          .get('/api/v1/me/shopping/remove/' + recipe.slug)
+          .put('/api/v1/me/shopping/remove/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -170,7 +170,7 @@ describe 'API v1: /me/shopping', ->
 
         it 'should return error for missing recipe', (done) ->
           request
-          .get('/api/v1/me/shopping/remove/testDummyRecipe')
+          .put('/api/v1/me/shopping/remove/testDummyRecipe')
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -195,7 +195,7 @@ describe 'API v1: /me/shopping', ->
 
         addToShoppingList = (recipe, cb) ->
           request
-          .get('/api/v1/me/shopping/add/' + recipe.slug)
+          .put('/api/v1/me/shopping/add/' + recipe.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)

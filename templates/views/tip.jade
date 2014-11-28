@@ -9,8 +9,15 @@ block js
 
 
 block content
+  - var vars = {}
+  - vars.title = data.tip ? data.tip.title : ''
+  - vars.image = data.tip ? data.tip.thumb.header : '/images/default_tip.jpg'
+  - vars.author = data.tip ? ( data.tip.author.name || data.tip.author.username) : __('Unknown author')
+  - vars.authorUrl = data.tip ? data.tip.author.url : '/'
+  - vars.headerClasses = 'promoted'
+  - vars.headerElements = 'with-subtitle with-social'
 
-  +header(data, section)
+  +header(data, section, vars)
 
   #tip-content.ui.page.grid
     .row

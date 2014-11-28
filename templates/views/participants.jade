@@ -7,7 +7,13 @@ block js
   script(src='/js/participants.js')
 
 block content
-  +header(data, section)
+  - var vars = {}
+  - vars.title = data.contest ? data.contest.title : ''
+  - vars.image = data.contest ? data.contest.thumb.header : '/images/default_contest.jpg'
+  - vars.headerClasses = 'promoted'
+  - vars.headerElements = 'with-title'
+
+  +header(data, section, vars)
 
   .ui.page.grid
     #participants-content.ui.grid.segment

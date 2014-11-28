@@ -9,7 +9,15 @@ block js
 	script(src='/js/recipes.js')
 
 block content
-	+header(data, section)
+	- var vars = {}
+	- vars.image = data.header ? data.header.thumb.header : '/images/default_recipes.jpg'
+	- vars.title = __('Recipes')
+	- vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
+	- vars.promotedUrl = data.header ? data.header.url : '/recetas'
+	- vars.headerClasses = 'promoted'
+	- vars.headerElements = 'with-title with-social'
+
+	+header(data, section, vars)
 
 	.ui.page.grid.body
 
@@ -30,8 +38,7 @@ block content
 			.row
 				.sixteen.wide.column
 					.span= __('Do you have a new recipe?')
-						.ui.button.chef.button-brick
-							a(href='/nueva-receta')= __('Create recipe')
+						a.ui.button.chef.button-brick(href='/nueva-receta')= __('Create recipe')
 
 		- var numberTexts = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 		- var tabs = data.seasons.length + 1

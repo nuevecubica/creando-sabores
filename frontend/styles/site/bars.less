@@ -55,9 +55,15 @@
   .bar;
 
   .span {
-    font-size: 30px;
+    .font-extra-large;
     font-weight: bolder;
     text-align: center;
+    @media only screen and (max-width : 991px) {
+      .font-larger;
+    }
+    @media only screen and (max-width : 767px) {
+      .font-large;
+    }
 
     .button {
       .buttonAnimatedBottom(@add-new-button-text-color, @add-new-button-background);

@@ -1,10 +1,11 @@
 /* global ratingClick, makePaginable */
+/* global showAuthModal */
 
 $(document).ready(function() {
 
   $('.favourite .button').on('click', function(e) {
     if (!window.chef.isUserLoggedIn) {
-      window.location.href = '/acceso';
+      showAuthModal();
       return;
     }
     var $this = $(this);
@@ -13,7 +14,7 @@ $(document).ready(function() {
     var url = '/api/v1/me/tips/favourites/' + action + '/' + slug;
     var jQXhr = $.ajax({
       url: url,
-      type: 'GET',
+      type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
         if (!data.success) {

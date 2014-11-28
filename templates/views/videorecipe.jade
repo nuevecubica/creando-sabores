@@ -46,8 +46,17 @@ block content
     input(type='hidden' name='_csrf' value='#{csrftoken}')
     if data.contest && isNew
       input(type='hidden' name='contest.id' value='#{data.contest._id}')
+  - var vars = {}
+  - vars.image = data.recipe.thumb.header
+  - vars.title = data.recipe ? data.recipe.title : ''
+  - vars.author = data.recipe ? ( data.recipe.author.name || data.recipe.author.username) : __('Unknown author')
+  - vars.video = data.recipe ? data.recipe.videoUrl : null
+  - vars.authorUrl = data.recipe ? data.recipe.author.url : '/'
+  - vars.headerClasses = 'promoted'
+  - vars.headerElements = 'with-subtitle with-social'
 
-  +header(data, section)
+  +header(data, section, vars)
+
   #color-bar.ui.grid.show-editable
     .five.column.row
       .column
@@ -76,3 +85,22 @@ block content
     #recipe-content.ui.grid.segment
 
       include ../components/recipe-content
+
+      #others.row.hide-editable(class=(classCategory !== '') ? 'no-margin-top' : '')
+        #recipes.ui.grid.stackable.segment
+          #related.four.column.row
+            h2.ui.header= __('other recipes')
+            if related && related.length > 0
+              - for (var i = 0, l = related.length; i < l; i++)
+                .column
+                  .related(style='background-image: url(#{related[i].thumb.header}); background-position:center; background-size:cover;')
+                    a(href='#{related[i].url}')
+                      .content
+                        span= related[i].title
+              .column
+                .related.button
+                  a(href='/videorecetas')
+                    .content
+                      .span= __('View all')
+            else
+              .empty-resultset.sixteen.wide.column= __('No related recipes yet')

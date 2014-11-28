@@ -1,3 +1,4 @@
+/* global flashMessage, canvasResizeAvailable, ajaxSubmit, setHeaderPreview, clearFile */
 $(document).ready(function() {
 
   // =============================
@@ -34,8 +35,12 @@ $(document).ready(function() {
     $('#hidden-name').attr('value', $('#profile-name').text());
     $('#hidden-about').attr('value', about);
 
-    $('#profile-form').submit();
-
+    if (canvasResizeAvailable()) {
+      ajaxSubmit(document.getElementById('profile-form'));
+    }
+    else {
+      $('#profile-form').submit();
+    }
   });
 
   // ---------- Save button: Save data account form (email, password...)
@@ -57,72 +62,53 @@ $(document).ready(function() {
 
     var $name = $('#profile-name');
     var $about = $('#profile-about');
-    var $header = $('#profile-header-select');
+    var $header = $('#privateProfile-header-select');
     var $img = $('#profile-img-select');
     $name.html($name.data('origvalue'));
     $about.html($about.data('origvalue'));
-    clearImages($header.get(0));
+    clearFile($header.get(0));
     $header.trigger('change');
-    clearImages($img.get(0));
+    clearFile($img.get(0));
     $img.trigger('change');
   });
 
-  // ---------- Change header image: Save data account form (email, password...)
-  $('#profile-header-select').on('change', function(e) {
-    setImagesPreview(e.target, $('#profile-header'), true);
+  // ---------- Change header image
+  $('#privateProfile-header-select').on('change', function(e) {
+    setHeaderPreview(e.target);
   });
 
-  // ---------- Change profile image: Save data account form (email, password...)
+  // ---------- Change profile image
   $('#profile-img-select').on('change', function(e) {
-    setImagesPreview(e.target, $('#profile-img'));
+    setImagePreview(e.target);
   });
 
   // ---------- Header and profile images preview
-  var setImagesPreview = function(input, $target, warn) {
-    var $warning = $('#image-size-warning');
+  var setImagePreview = function(input) {
+    var $target = $('#profile-img');
     if (input.files.length === 0) {
       if ($target.data('origsrc')) {
         $target.css('background-image', $target.data('origsrc'));
         $('.default-bg').removeClass('selected-pic');
-        if (warn) {
-          $warning.css('display', $target.data('origdisplay'));
-        }
       }
     }
     else {
+      // File size check
+      if (input.files[0].size > window.chef.editor.config.profile.image.length) {
+        if (!canvasResizeAvailable()) {
+          // User browser doesn't allow for auto-resizing, and file is too big.
+          // Bail out!
+          flashMessage(window.chef.errorMessage('File too big'));
+          clearFile(input);
+          setImagePreview(input);
+          return;
+        }
+      }
       if (!$target.data('origsrc')) {
         $target.data('origsrc', $target.css('background-image'));
-        if (warn) {
-          $target.data('origdisplay', $warning.css('display'));
-        }
       }
       var url = URL.createObjectURL(input.files[0]);
       $target.css('background-image', 'url(' + url + ')');
       $('.default-bg').addClass('selected-pic');
-      // Min size detection
-      if (warn) {
-        var image = new Image();
-        image.onload = function(evt) {
-          if (evt.target.width < 1280 || evt.target.height < 800) {
-            $warning.css('display', 'block');
-          }
-          else {
-            $warning.css('display', 'none');
-          }
-        };
-        image.src = url;
-      }
-    }
-  };
-
-  var clearImages = function(input) {
-    try {
-      input.value = null;
-      $('.default-bg').removeClass('selected-pic');
-    }
-    catch (ex) {}
-    if (input.value) {
-      input.parentNode.replaceChild(input.cloneNode(true), input);
     }
   };
 
@@ -174,12 +160,32 @@ $(document).ready(function() {
     makePaginable('/api/v1/me/menus', 'menus', 'menu', '#menus .list');
   }
 
-  $('.checks:not(.all)').on('click', function() {
+  var updateShoppingList = function($position) {
+    var slug = $position.data('slug');
+    var url = '/api/v1/me/shopping/add/' + slug;
+    var ingredients = $('.checks:not(.activated)', $position)
+      .closest('.ingredient').find('.ingredientName').map(function(i, a) {
+        return $(a).html();
+      }).toArray();
+    var jQXhr = $.ajax({
+      url: url,
+      type: 'PUT',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        myIngredients: ingredients
+      }),
+      success: function(data) {}
+    });
+  };
+
+  $(document).on('click', '.checks:not(.all)', function() {
     var $this = $(this);
     $this.toggleClass('activated');
-    var $container = $this.closest('.ingredients');
-    var remaining = $container.find('.checks:not(.activated)').length;
+    var $container = $this.closest('.position');
+    var remaining = $container.find('.checks.activated').length;
     $container.find('.counter').html(remaining);
+
+    updateShoppingList($container); // TODO: Rate-limit this?
   });
 
   var removeClick = function() {
@@ -189,12 +195,12 @@ $(document).ready(function() {
     var url = '/api/v1/me/shopping/remove/' + slug;
     var jQXhr = $.ajax({
       url: url,
-      type: 'GET',
+      type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
         if (!data.success) {
           var msg = 'Something went wrong!';
-          console.log(msg);
+          console.log(msg, JSON.stringify(data));
           return;
         }
         $container.hide(400, function() {
@@ -204,10 +210,7 @@ $(document).ready(function() {
     });
   };
 
-  $('.shopping-remove').click(removeClick);
-  $(document).bind('ajaxSuccess', function() {
-    $('.shopping-remove').click(removeClick);
-  });
+  $(document).on('click', '.shopping-remove', removeClick);
 
   // Print and send email functions
 
@@ -222,7 +225,7 @@ $(document).ready(function() {
   };
 
   /* global Handlebars */
-  $('.shopping-print').on('click', function() {
+  $(document).on('click', '.shopping-print', function() {
 
     if ($('#print-this')) {
       $('#print-this').remove();
@@ -239,7 +242,7 @@ $(document).ready(function() {
   });
 
   /* global flashMessage */
-  $('.shopping-mail').on('click', function() {
+  $(document).on('click', '.shopping-mail', function() {
     var url = '/api/v1/me/shopping/send/' + $(this).data('slug');
 
     console.log('URL', url);

@@ -1,5 +1,4 @@
-/* global likeClick */
-/* global ratingClick */
+/* global likeClick, ratingClick, showAuthModal, flashMessage, canvasResizeAvailable, imageScaleBlob, ajaxSubmit, setHeaderPreview, clearFile, evtLoginRedirect */
 (function() {
 
   var addTypes = function() {
@@ -8,13 +7,21 @@
     // ---------- Creates a new ingredient
     window.chef.editor.addType('ingredient', function(parent, optionsIngredient, value) {
       var tpl = '<div class="ingredient column">' +
+        '<table>' +
+        '<tr>' +
+        '<td>' +
         '<div class="icon-chef-cesta checks hide-editable"></div>' +
+        '</td>' +
+        '<td>' +
         '<div class="editable-container">' +
-        '<div class="set-editable one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
+        '<div class="set-editable explain one-line" contenteditable="true" placeholder="Añadir ingrediente" data-length="40"></div>' +
         '</div>' +
-        '<div>' +
+        '<div class="show-editable">' +
         '<div class="ingredient-remove"><i class="icon-chef-cross"></i></div>' +
         '</div>' +
+        '</td>' +
+        '</tr>' +
+        '</table>' +
         '</div>';
 
       var options = {
@@ -372,7 +379,7 @@
 
         var file = $('#recipe-header-select').get(0);
         clearFile(file);
-        setPreview(file, $('.promoted'));
+        setHeaderPreview(file);
 
         $('body').removeClass('mode-editable');
         $('.set-editable').attr('contenteditable', false);
@@ -400,7 +407,12 @@
         $('#hidden-ingredients').attr('value', saveArrayList(ingredients.getValue()));
         $('#hidden-procedure').attr('value', saveArrayList(procedure.getValue()));
         $('#hidden-categories').attr('value', _.union(plates.getSelected(), food.getSelected()));
-        $('#recipe-edit-form').submit();
+        if (canvasResizeAvailable()) {
+          ajaxSubmit(document.getElementById('recipe-edit-form'));
+        }
+        else {
+          $('#recipe-edit-form').submit();
+        }
       },
       onButtonAddIngredientClick: function(ev) {
         if (!ingredients.isClearLastElement()) {
@@ -467,12 +479,12 @@
     $(document).on('click', '#categories-editor #food .category', events.onFoodCategoryClick);
 
     $('#recipe-header-select').on('change', function(e) {
-      setPreview(e.target, $('.promoted'));
+      setHeaderPreview(e.target);
     });
 
     $('.favourite .button').on('click', function(e) {
       if (!window.chef.isUserLoggedIn) {
-        window.location.href = '/acceso';
+        showAuthModal();
         return;
       }
       var $this = $(this);
@@ -481,7 +493,7 @@
       var url = '/api/v1/me/favourites/' + action + '/' + slug;
       var jQXhr = $.ajax({
         url: url,
-        type: 'GET',
+        type: 'PUT',
         contentType: 'application/json',
         success: function(data) {
           if (!data.success) {
@@ -495,8 +507,49 @@
       e.preventDefault();
     });
 
+    var updateShoppingList = function(slug, callback) {
+      if (!slug) {
+        slug = $('.shopping-add').data('slug');
+      }
+      if (!callback) {
+        callback = function() {};
+      }
+      var url = '/api/v1/me/shopping/add/' + slug;
+      var ingredients = $('#ingredients .checks:not(.activated)')
+        .closest('.ingredient').find('.explain').map(function(i, a) {
+          return $(a).html();
+        }).toArray();
+      var jQXhr = $.ajax({
+        url: url,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          myIngredients: ingredients
+        }),
+        success: callback
+      });
+    };
+
+    var updateShoppingButtons = function() {
+      if (!$('#ingredients .checks.activated:not(.all)').length) {
+        $('.checks.all').removeClass('activated');
+        $('.shopping-add').addClass('disabled');
+        $('.shopping-add .add.button').addClass('disabled');
+      }
+      else {
+        $('.checks.all').addClass('activated');
+        $('.shopping-add').removeClass('disabled');
+        $('.shopping-add .add.button').removeClass('disabled');
+      }
+    };
+    updateShoppingButtons();
+
     $(document).on('click', '.checks:not(.all)', function() {
       $(this).toggleClass('activated');
+      updateShoppingButtons();
+      if ($('.shopping-add').hasClass('added')) {
+        updateShoppingList();
+      }
     });
 
     $('.checks.all').on('click', function() {
@@ -506,19 +559,41 @@
       else {
         $('#ingredients .checks').addClass('activated');
       }
+      updateShoppingButtons();
+      if ($('.shopping-add').hasClass('added')) {
+        updateShoppingList();
+      }
     });
 
-    $('.shopping-add').on('click', function(e) {
-      if (!window.chef.isUserLoggedIn) {
-        window.location.href = '/acceso';
+    $('.shopping-add .add.button').on('click', function(e) {
+      e.preventDefault();
+      var $this = $(this).closest('.shopping-add');
+      if ($this.hasClass('disabled')) {
         return;
       }
-      var $this = $(this);
+      if (!window.chef.isUserLoggedIn) {
+        showAuthModal();
+        return;
+      }
       var slug = $this.data('slug');
-      var url = '/api/v1/me/shopping/add/' + slug;
+      updateShoppingList(slug, function(data) {
+        if (!data.success) {
+          var msg = 'Something went wrong!';
+          console.log(msg);
+          return;
+        }
+        $this.addClass('added');
+      });
+    });
+
+    $('.shopping-add .added .button').on('click', function(e) {
+      e.preventDefault();
+      var $this = $(this).closest('.shopping-add');
+      var slug = $this.data('slug');
+      var url = '/api/v1/me/shopping/remove/' + slug;
       var jQXhr = $.ajax({
         url: url,
-        type: 'GET',
+        type: 'PUT',
         contentType: 'application/json',
         success: function(data) {
           if (!data.success) {
@@ -526,52 +601,10 @@
             console.log(msg);
             return;
           }
-          $this.addClass('disabled');
+          $this.removeClass('added');
         }
       });
-      e.preventDefault();
     });
-
-    var setPreview = function(input, $target) {
-      var $warning = $('#image-size-warning');
-      if (input.files.length === 0) {
-        if ($target.data('origsrc')) {
-          $target.css('background-image', $target.data('origsrc'));
-          $warning.css('display', $target.data('origdisplay'));
-        }
-      }
-      else {
-        if (!$target.data('origsrc')) {
-          $target.data('origsrc', $target.css('background-image'));
-          $target.data('origdisplay', $warning.css('display'));
-        }
-        var url = URL.createObjectURL(input.files[0]);
-        $target.css('background-image', 'url(' + url + ')');
-        // Min size detection
-        var image = new Image();
-        image.onload = function(evt) {
-          if (evt.target.width < 1280 || evt.target.height < 800) {
-            $warning.css('display', 'block');
-          }
-          else {
-            $warning.css('display', 'none');
-          }
-        };
-        image.src = url;
-      }
-    };
-
-    var clearFile = function(input) {
-      if (input) {
-        try {
-          input.value = null;
-        }
-        catch (ex) {}
-        if (input.value) {
-          input.parentNode.replaceChild(input.cloneNode(true), input);
-        }
-      }
-    };
 
     $('.rating:not(.disabled) .like-button').click(likeClick);
 
@@ -604,5 +637,6 @@
       }
     });
 
+    $('.recipe-actions .add-menu a').on('click', evtLoginRedirect);
   });
 })();

@@ -8,8 +8,15 @@ block js
   script(src='/js/contest.js')
 
 block content
+  - var vars = {}
+  - vars.author = __('Contest')
+  - vars.subtitleClasses = 'sponsor'
+  - vars.title = data.contest ? data.contest.title : ''
+  - vars.image = data.contest ? data.contest.thumb.header : '/images/default_contest.jpg'
+  - vars.headerClasses = 'promoted'
+  - vars.headerElements = 'with-social with-subtitle'
 
-  +header(data, section)
+  +header(data, section, vars)
 
   .ui.page.grid.bg-grey
 
@@ -21,13 +28,14 @@ block content
 
       #actions.eight.tablet-six.mobile-ten.wide.column.right.aligned
         .contest-actions(class=data.contest.state)
-          .action.vote
-            a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
+          if data.contest.state !== 'programmed'
+            .action.vote
+              a.ui.button.chef.button-brick(href='#{data.contest.url}/participantes/reciente')= __('Vote for your favourite')
+          if data.contest.state === 'submission'
+            .action.join
+              a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
 
-          .action.join
-            a.ui.button.chef.button-yellow(href='/nueva-receta/#{data.contest.slug}')= __('Join the contest')
-
-      #sponsor.subheader.sixteen.wide.column
+      #sponsor.subheader.sixteen.wide.column(class=data.contest.state)
           i.icon-chef-cup.icon.font-extra-large
           span.explain= __('Contest sponsored by')
           strong.explain= data.contest.sponsor
@@ -78,8 +86,9 @@ block content
       #ranking.row(class=data.contest.state)
         .sixteen.wide.column
           .header= __('Ranking')
-          .explain
-            p(class=data.contest.state)= __('Invite your friends')
+          if data.contest.state !== 'finished'
+            .explain
+              p(class=data.contest.state)= __('Invite your friends')
 
         - var top = data.top
 
@@ -106,8 +115,7 @@ block content
             .subheader= __('No recipes for this contest yet')
 
         .sixteen.wide.column.right.aligned
-          .ui.button.chef.button-green
-            a(href='#{data.contest.url}/participantes/top')= __('Show all')
+          a.ui.button.chef.button-green(href='#{data.contest.url}/participantes/top')= __('Show all')
 
 
       #contest-terms.row(class=data.contest.state)

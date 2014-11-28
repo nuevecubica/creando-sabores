@@ -49,7 +49,7 @@
     display: none;
   }
 }
-#new-recipe-header{
+#recipe-header, #menu-header{
   .tutorial-bubble{
     background-color: @chef-color-white;
     &:before {
@@ -58,7 +58,7 @@
   }
   .corner-position.right{
     .tutorial-bubble {
-      right: 290px;
+      right: 250px;
       text-align: left;
       &:before {
         display: none;
@@ -101,7 +101,7 @@
   }
   #info{
     .recipe-attributes > .tutorial-bubble{
-      margin: 0;
+      margin: 15px -300px 0 0;
       @media screen and (max-width: 991px) {
         display: none;
       }
@@ -116,7 +116,7 @@
 #ingredients{
   position: relative;
   .tutorial-bubble {
-    margin-top: -30px;
+    margin-top: -35px;
     right: 39%;
   }
 }

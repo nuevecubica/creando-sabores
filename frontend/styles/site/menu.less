@@ -94,7 +94,6 @@
           transition: opacity 0.1s ease, border-top-color 0.1s ease;
           display: block;
           @media only screen and (max-width : 767px) {
-            right: 18px;
           }
         }
         &:hover{
@@ -123,7 +122,7 @@
     }
     .menu{
       &.right{
-        min-width: 270px;
+        min-width: 300px;
       }
     }
   }
@@ -288,6 +287,12 @@
 
 #menu-wrapper{
   .menu{
+    .access-menu{
+      @media only screen and (max-width : 767px) {
+        left: 42px;
+        top: 6px;
+      }
+    }
     .logout{
       &.item a{
         color: @chef-color-white;
@@ -306,7 +311,7 @@
   background-color: @chef-color-white;
   position: absolute;
   text-align: center;
-  top: 60px;
+  top: 70px;
   font-weight: lighter;
   opacity: 1;
   box-shadow: 0px 0px 1px 1px #DFDFDF;
@@ -316,10 +321,10 @@
     top: -18px;
     border-bottom-color:@chef-color-white;
     @media only screen and (min-width : 768px) {
-      left: 32px;
+      left: 36px;
     }
     @media only screen and (max-width : 767px) {
-      right: 31%;;
+      left: 63%;
     }
   }
   a.item{

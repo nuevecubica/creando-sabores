@@ -46,14 +46,16 @@ Recipe.add({
       required: true,
       index: true,
       note: 'Should be less than 12 chars to be promoted',
-      es_boost: 5
+      es_boost: 5,
+      es_indexed: true
     },
 
     // Needed for Mongoosastic
     slug: {
       type: Types.Text,
       es_type: "string",
-      hidden: true
+      hidden: true,
+      es_indexed: true
     },
 
     author: {
@@ -75,28 +77,32 @@ Recipe.add({
     likes: {
       type: Types.Number,
       default: 0,
-      es_type: "integer"
+      es_type: "integer",
+      es_indexed: true
     },
 
     rating: {
       type: Types.Number,
       default: 0,
       noedit: true,
-      es_type: "integer"
+      es_type: "integer",
+      es_indexed: true
     },
 
     scoreTotal: {
       type: Types.Number,
       noedit: true,
       default: 0,
-      es_type: "integer"
+      es_type: "integer",
+      es_indexed: true
     },
 
     scoreCount: {
       type: Types.Number,
       noedit: true,
       default: 0,
-      es_type: "integer"
+      es_type: "integer",
+      es_indexed: true
     },
 
     schemaVersion: {
@@ -111,7 +117,8 @@ Recipe.add({
       es_type: "completion",
       es_cast: function(val) {
         return this.title;
-      }
+      },
+      es_indexed: true
     }
   },
 
@@ -120,7 +127,8 @@ Recipe.add({
       type: Types.Boolean,
       label: 'Is a videorecipe',
       default: false,
-      es_type: "boolean"
+      es_type: "boolean",
+      es_indexed: true
     },
     videoUrl: {
       type: Types.Url,
@@ -137,7 +145,8 @@ Recipe.add({
   'Media', {
     header: {
       type: Types.CloudinaryImage,
-      note: 'Minimum resolution: 1280 x 800'
+      note: 'Minimum resolution: 1280 x 800',
+      es_indexed: true
     }
   },
 
@@ -146,7 +155,8 @@ Recipe.add({
       type: Types.Select,
       options: ['draft', 'published', 'review', 'removed', 'banned'],
       default: 'draft',
-      es_type: "string"
+      es_type: "string",
+      es_indexed: true
     },
 
     publishedDate: {
@@ -155,7 +165,8 @@ Recipe.add({
         state: 'published'
       },
       es_type: "date",
-      es_boost: 4
+      es_boost: 4,
+      es_indexed: true
     },
 
     editDate: {
@@ -164,7 +175,8 @@ Recipe.add({
         state: 'published'
       },
       es_type: "date",
-      es_boost: 3
+      es_boost: 3,
+      es_indexed: true
     }
   },
 
@@ -189,7 +201,8 @@ Recipe.add({
         label: 'Muy Alto'
       }],
       default: 0,
-      es_type: "string"
+      es_type: "string",
+      es_indexed: true
     },
 
     time: {
@@ -197,14 +210,16 @@ Recipe.add({
       note: 'In minutes',
       initial: false,
       default: 0,
-      es_type: "integer"
+      es_type: "integer",
+      es_indexed: true
     },
 
     portions: {
       type: Types.Number,
       initial: false,
       default: 0,
-      es_type: "integer"
+      es_type: "integer",
+      es_indexed: true
     },
 
     description: {
@@ -213,7 +228,8 @@ Recipe.add({
       height: 100,
       default: '',
       es_boost: 4,
-      es_type: "string"
+      es_type: "string",
+      es_indexed: true
     },
 
     ingredients: {
@@ -222,7 +238,8 @@ Recipe.add({
       height: 50,
       default: '',
       es_boost: 2,
-      es_type: "string"
+      es_type: "string",
+      es_indexed: true
     },
 
     procedure: {
@@ -231,7 +248,8 @@ Recipe.add({
       height: 200,
       default: '',
       es_boost: 1,
-      es_type: "string"
+      es_type: "string",
+      es_indexed: true
     }
   },
 
@@ -329,7 +347,8 @@ Recipe.add({
 // Schema for categories
 Recipe.schema.add({
   categories: {
-    type: [String]
+    type: [String],
+    es_indexed: true
   }
 });
 

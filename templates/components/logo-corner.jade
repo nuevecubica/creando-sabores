@@ -1,0 +1,19 @@
+if ['videorecipe', 'videorecipes'].indexOf(section) !== -1
+  if data.header
+    .row.logo.videorecipe
+      - var promotedVideoUrl = data.header ? data.header.url + '?autoplay=true' : null
+      a.icon-chef-play.icon.clickable(href="#{promotedVideoUrl}")
+    .floating
+      .logo.corner.shadow
+        a.icon-chef-logo.icon(href="/")
+  else
+    .row.logo.videorecipe
+      a.icon-chef-play.icon.clickable(data-video="#{vars.video}")
+    .floating.keep-pointer
+      .logo.corner
+        a.icon-chef-logo.icon(href="/")
+else
+  .row.logo
+  .floating
+    .logo.corner
+      .icon-chef-logo.icon

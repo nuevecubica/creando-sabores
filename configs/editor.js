@@ -19,6 +19,9 @@ module.exports = {
     procedure: {
       length: 400,
       elements: 15
+    },
+    image: {
+      length: 5 * 1024 * 1024
     }
   },
   profile: {
@@ -31,6 +34,9 @@ module.exports = {
     about: {
       length: 400
     },
+    image: {
+      length: 2.5 * 1024 * 1024
+    }
   },
   menu: {
     title: {

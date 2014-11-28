@@ -99,7 +99,8 @@ else {
     'questions': ['questions'],
     'tips': ['tips'],
     'season-lists': ['season-lists'],
-    'configs': ['configs']
+    'configs': ['configs'],
+    'banners': ['banners']
   });
 
   /*

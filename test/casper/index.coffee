@@ -3,11 +3,11 @@ base = require('../utils/casper-config.js').publicUrl
 utils = require '../utils/casper-editor.coffee'
 
 selectors = {
-  header: '#index-header'
+  header: '#home-header'
 }
 
 getHeaderImage = () ->
-  return document.getElementById('index-header').style.backgroundImage
+  return document.getElementById('header-background').style.backgroundImage
 
 getGridImage = () ->
   return document.getElementsByClassName('recipe')[0].style.backgroundImage

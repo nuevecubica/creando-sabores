@@ -11,23 +11,28 @@ mixin recipe-shopping(recipe)
         .eight.column.wide
           em.row.remaining.font-large
             span= __('Remaining ingredients before') + " "
-            span.counter= recipe.ingredients.length
+            span.counter= recipe.ingredientsPending.length
             span= " " + __('Remaining ingredients after')
         .eight.wide.column
           .ui.button.chef.button-brick.shopping-remove
             i.icon-chef-bin.icon.chef.font-large
-          .shopping-print.ui.button.chef.button-yellow.shopping-print
+          .ui.button.chef.button-yellow.shopping-print
             i.icon-chef-impresora.icon.chef.font-large
-          .shopping-mail.ui.button.chef.button-green.shopping-mail(data-slug=recipe.slug)
+          .ui.button.chef.button-green.shopping-mail(data-slug=recipe.slug)
             i.icon-chef-mails.icon.chef.font-large
       .shopping-ingredients.ui.grid
         .sixteen.column.wide
           .ui.three.mobile-one.tablet-two.column.grid
             if recipe.ingredients
               - for (var j = 0, l = recipe.ingredients.length; j < l; j++)
+                - var ingredient = recipe.ingredients[j]
+                - var classes = []
+                if recipe.ingredientsGot.indexOf(ingredient) === -1
+                  - classes.push('activated')
+
                 .column.ingredient
                   table
                     tr
                       td
-                        .icon-chef-cesta.checks
-                      td #{recipe.ingredients[j]}
+                        .icon-chef-cesta.checks(class=classes)
+                      td.ingredientName!= recipe.ingredients[j]

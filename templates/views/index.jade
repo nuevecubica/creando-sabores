@@ -9,13 +9,23 @@ block js
 	script(src='/js/recipes.js')
 
 block content
-	+header(data, section)
+	- var vars = {}
+	- vars.image = data.header ? data.header.thumb.header : '/images/default_index.jpg'
+	- vars.promotedTitle = data.header ? data.header.title : __('No recommendation')
+	- vars.promotedUrl = data.header ? data.header.url : '/recetas'
+	- vars.headerClasses = 'promoted'
+	- vars.headerElements = 'simple with-social'
+
+	+header(data, section, vars)
 
 	- var randCutlery = Math.floor(Math.random() * 6 + 1);
 
 	.ui.page.grid.body
 
 		+search()
+
+		include ../components/banner
+
 
 		#index-grid.ui.grid.segment.wall
 			.row.computer.only
@@ -31,8 +41,7 @@ block content
 			.row
 				.sixteen.wide.column
 					.span= __('Do you have a new recipe?')
-						.ui.button.chef.button-brick
-							a(href='/nueva-receta')= __('Create recipe')
+						a.ui.button.chef.button-brick(href='/nueva-receta')= __('Create recipe')
 
 		if data.videorecipes.last
 			- var videoRecipeTitle = data.videorecipes.last.title
@@ -47,7 +56,6 @@ block content
 					.logo.column
 						a(href="#{videoRecipedUrl}")
 							i.icon-chef-play.icon.play
-
 				.row
 					.six.wide.column
 					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
@@ -76,5 +84,4 @@ block content
 						.empty-resultset.sixteen.wide.column= __('No videorecipes yet')
 
 			.row
-				.ui.button.chef.button-brick
-					a(href='/videorecetas')= __('View all')
+				a.ui.button.chef.button-brick(href='/videorecetas')= __('View all')

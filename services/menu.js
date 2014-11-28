@@ -33,7 +33,7 @@ var getMenu = function(options, callback) {
         data.menu = _.defaults(result, defaults);
         data.menu._document = result;
 
-        if (options.user) {
+        if (options.user && result.author) {
           // Am I the owner?
           data.own = (options.user._id.toString() === result.author._id.toString()) || options.user.isAdmin;
         }
@@ -199,7 +199,19 @@ var getMenuNew = function(options, callback) {
     menu: defaults
   };
 
-  return callback(null, data);
+  if (options.predefinedPlate) {
+    service.recipe.get({
+      slug: options.predefinedPlate,
+      fromContests: true
+    }, function(err, res) {
+      data.menu.plates = [res.recipe];
+      return callback(null, data);
+    });
+  }
+  else {
+    return callback(null, data);
+  }
+
 };
 
 /**

@@ -1,0 +1,31 @@
+#modal-bg
+  #modal-fg(data-section='login')
+    #sections.row
+      .two.tabs.tab-header
+        .row
+          .tab
+            a(href='/acceso')
+              .ui.button.chef.login
+                | #{__('Login')}
+          .tab
+            a(href='/registro')
+              .ui.button.chef.signup
+                | #{__('Signup')}
+
+    #login.signin
+      .ui.page.segment.body
+        .row
+          include ../components/signin-social
+
+        .row
+          .explain= __('or register with email')
+          include ../components/login-local
+
+    #signup.signin
+      .ui.page.segment.body
+        .row
+          include ../components/signin-social
+
+        .row
+          .explain= __('or register with email')
+          include ../components/signup-local

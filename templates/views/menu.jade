@@ -40,7 +40,39 @@ block content
     input#hidden-plates(type='hidden' name='plates')
     input(type='hidden' name='_csrf' value='#{csrftoken}')
 
-  +header(data, section)
+   - var vars = {}
+
+  if section === 'menu'
+    - vars.title = data.menu ? data.menu.title : ''
+    - vars.image = data.menu ? data.menu.thumb.header : '/images/default_menu.jpg'
+    if data.menu.thumb.isVertical
+      - vars.imageVertical = data.menu.thumb.header_vertical
+    - vars.author = data.menu ? (data.menu.author.name || data.menu.author.username) : __('Unknown author')
+    - vars.authorUrl = data.menu ? data.menu.author.url : '/'
+    - vars.headerClasses = 'promoted'
+    - vars.headerElements = 'with-subtitle with-social'
+    +header(data, 'menu', vars, section)
+
+  else if section === 'new-menu'
+    - vars.title = ''
+    - vars.image = '/images/default_new_recipe.jpg'
+    - vars.author = (user.name || user.username)
+    - vars.headerClasses = 'promoted'
+    - vars.headerElements = 'with-subtitle with-social'
+    +header(data, 'menu', vars, section)
+
+  #color-bar.ui.grid.show-editable
+    .five.column.row
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
+      .column
+        .color-bar
 
   #menu-content.ui.page.grid
 

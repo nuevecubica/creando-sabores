@@ -36,7 +36,8 @@
           .font-large;
         }
         @media only screen and (max-width : 767px) {
-          .font-small;
+          .font-smaller;
+          padding: 10px 8px 10px 10px;
         }
       }
     }
@@ -93,14 +94,20 @@
         border-radius: 50%;
         border: 5px solid #fff;
         position: relative;
-        width: 100%;
-        height: auto;
+        width: 145px;
+        height: 145px;
         margin-top: 10px;
         display: block;
         max-width: 180px;
+        max-height: 180px;
         margin-bottom: 8px;
-        @media only screen and (max-width : 600px) {
+        background-position: center;
+        background-size: cover;
+        @media only screen and (max-width : 767px) {
           max-width: 140px;
+          max-height: 140px;
+          width: 140px;
+          height: 140px;
           margin-left: 10px;
           margin-top: 0px;
         }
@@ -245,12 +252,15 @@
       position: relative;
       .avatar{
         border-radius: 50%;
-        border: 5px solid #fff;
+        /*border: 5px solid #fff;*/
+        box-shadow: 0px 0px 0px 5px #fff;
         width: 150px;
+        height: 150px;
         position: absolute;
-        height: auto;
         top: -115px;
         display: block;
+        background-position: center;
+        background-size: cover;
       }
     }
     a{
@@ -333,9 +343,12 @@
       border: 5px solid #fff;
       min-width: 120px;
       max-width: 170px;
-      height: auto;
       display: block;
       margin: auto;
+      width: 135px;
+      height: 135px;
+      background-position: center;
+      background-size: cover;
     }
     .content{
       padding: 0px 40px 25px 0;
@@ -368,6 +381,79 @@
         position: absolute;
         bottom: 10px;
         right: 10px;
+      }
+    }
+  }
+  #related{
+
+    .header{
+      background-color: @chef-color-gray-bg;
+      text-align: center;
+      padding: 20px 0;
+      margin:20px 0 10px;
+    }
+    .row{
+      margin-top: 10px;
+      padding: 0;
+      .related{
+        background-color: @chef-color-query-bg;
+        border-radius: 3px;
+        box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.4);
+        position: relative;
+        margin: 0 30px;
+        &:hover{
+          background-color: fade(@grid-hover-background, 90%);
+          transition: background-color @ani-time ease-out;
+          .arrow-left{
+            border-right-color:fade(@grid-hover-background, 90%);
+          }
+        }
+        .arrow-left{
+          position: absolute;
+          top: 22px;
+          left: -25px;
+          border-top: 25px solid transparent;
+          border-bottom: 25px solid transparent;
+          border-right: 25px solid;
+          border-right-color: @chef-color-query-bg;
+        }
+        // @media only screen and (max-width : 1500px) {
+        //   width: 80% !important;
+        //   margin-left: auto;
+        //   margin-right: auto;
+        // }
+
+        &.button{
+          background-color: @chef-color-yellow-bg;
+          display: block;
+          border-radius: 0px;
+          &:hover{
+            background-color: fade(@grid-hover-background, 90%);
+            transition: background-color @ani-time ease-out;
+          }
+
+          .span {
+            padding:30px 0;
+            text-align: center;
+            color: @chef-color-white;
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+        }
+
+        a {
+          text-decoration: none;
+
+          .span {
+            padding:30px 10px;
+            text-align: center;
+            color: @chef-color-white;
+            white-space: nowrap;
+            overflow:hidden;
+            text-overflow: ellipsis;
+            text-transform: inherit;
+          }
+        }
       }
     }
   }

@@ -29,7 +29,7 @@ describe 'API v1: /me/tips', ->
         tip = data.getBySlug 'tips', 'tip-1'
 
         request
-        .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+        .put('/api/v1/me/tips/favourites/add/' + tip.slug)
         .set('cookie','')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -44,7 +44,7 @@ describe 'API v1: /me/tips', ->
           tip = data.getBySlug 'tips', 'tip-1'
 
           request
-          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .put('/api/v1/me/tips/favourites/add/' + tip.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -70,7 +70,7 @@ describe 'API v1: /me/tips', ->
           tip = data.getBySlug 'tips', 'tip-1'
 
           request
-          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .put('/api/v1/me/tips/favourites/add/' + tip.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -79,7 +79,7 @@ describe 'API v1: /me/tips', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+            .put('/api/v1/me/tips/favourites/add/' + tip.slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -103,7 +103,7 @@ describe 'API v1: /me/tips', ->
 
         it 'should return error for missing tip', (done) ->
           request
-          .get('/api/v1/me/tips/favourites/add/testDummytip')
+          .put('/api/v1/me/tips/favourites/add/testDummytip')
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -116,7 +116,7 @@ describe 'API v1: /me/tips', ->
           tip = data.getBySlug 'tips', 'tip-1'
 
           request
-          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .put('/api/v1/me/tips/favourites/add/' + tip.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -125,7 +125,7 @@ describe 'API v1: /me/tips', ->
             return done(err) if err
 
             request
-            .get('/api/v1/me/tips/favourites/remove/' + tip.slug)
+            .put('/api/v1/me/tips/favourites/remove/' + tip.slug)
             .set('cookie', cookie)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -149,7 +149,7 @@ describe 'API v1: /me/tips', ->
           tip = data.getBySlug 'tips', 'tip-1'
 
           request
-          .get('/api/v1/me/tips/favourites/remove/' + tip.slug)
+          .put('/api/v1/me/tips/favourites/remove/' + tip.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -158,7 +158,7 @@ describe 'API v1: /me/tips', ->
 
         it 'should return error for missing tip', (done) ->
           request
-          .get('/api/v1/me/tips/favourites/remove/testDummytip')
+          .put('/api/v1/me/tips/favourites/remove/testDummytip')
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -184,7 +184,7 @@ describe 'API v1: /me/tips', ->
 
         addToFavouriteList = (tip, cb) ->
           request
-          .get('/api/v1/me/tips/favourites/add/' + tip.slug)
+          .put('/api/v1/me/tips/favourites/add/' + tip.slug)
           .set('cookie', cookie)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)

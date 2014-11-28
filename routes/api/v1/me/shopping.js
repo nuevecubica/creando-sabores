@@ -1,5 +1,7 @@
 var async = require('async'),
-  keystone = require('keystone');
+  keystone = require('keystone'),
+  _ = require('underscore'),
+  service = require(__base + 'services');
 
 /*
 	/me/shopping/add/slug
@@ -16,13 +18,11 @@ exports = module.exports = function(req, res) {
   async.series([
 
     function(next) {
-      var q = Recipes.model.findOne({
-        slug: req.params.recipe
-      });
 
       var saveHandler = function(err) {
         if (err) {
           answer.error = true;
+          answer.errorMessage = err;
         }
         else {
           answer.success = true;
@@ -30,24 +30,35 @@ exports = module.exports = function(req, res) {
         next(err);
       };
 
-      q.exec(function(err, recipe) {
+      var q = service.recipe.get({
+        slug: req.params.recipe
+      }, function(err, result) {
+        var recipe = result.recipe;
         if (err || !recipe) {
           res.status(404);
           answer.error = true;
           next(err);
         }
         else {
-          var pos = req.user.shopping.indexOf(recipe._id);
+          var userIds = req.user.shopping.map(function(a) {
+            return a.recipe.toString();
+          });
+          var pos = userIds.indexOf(recipe._id.toString());
           if (req.params.action === 'add') {
             if (recipe.state === 'published') {
+              var myIngredients = req.body.myIngredients ? req.body.myIngredients : [];
+              myIngredients = _.intersection(recipe.ingredients, myIngredients);
+              var element = {
+                recipe: recipe._id,
+                myIngredients: myIngredients
+              };
               if (pos === -1) {
-                req.user.shopping.push(recipe._id);
-                req.user.save(saveHandler);
+                req.user.shopping.push(element);
               }
               else {
-                answer.success = true;
-                next(err);
+                req.user.shopping[pos].myIngredients = myIngredients;
               }
+              req.user.save(saveHandler);
             }
             else {
               res.status(401);

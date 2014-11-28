@@ -1,7 +1,8 @@
 var keystone = require('keystone'),
   Recipe = keystone.list('Recipe'),
   formResponse = require(__base + 'utils/formResponse.js'),
-  service = require(__base + 'services');
+  service = require(__base + 'services'),
+  config = require(__base + 'configs/editor');
 
 exports = module.exports = function(req, res) {
 
@@ -105,6 +106,7 @@ exports = module.exports = function(req, res) {
   locals.section = 'privateProfile';
   locals.editable = true;
   locals.manageable = false;
+  locals.config = config;
   locals.own = true;
 
   switch (req.params.section) {

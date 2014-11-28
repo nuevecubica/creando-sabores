@@ -22,7 +22,7 @@ describe 'Image uploads', ->
   describe 'User profile', ->
     it 'meets preconditions', ->
       casper.thenOpen base + '/perfil', ->
-        profileHeader = @evaluate getBackgroundImage, '#profile-header'
+        profileHeader = @evaluate getBackgroundImage, '#header-background'
         profileImage = @evaluate getBackgroundImage, '#profile-img'
         defaultHeader = base + '/images/default_user_profile.jpg'
         defaultImage = base + '/images/default_user.png'
@@ -37,7 +37,7 @@ describe 'Image uploads', ->
         }, false
         @click '#update'
       casper.waitForSelector '#messages .message.success', ->
-        profileHeader = @evaluate getBackgroundImage, '#profile-header'
+        profileHeader = @evaluate getBackgroundImage, '#header-background'
         profileImage = @evaluate getBackgroundImage, '#profile-img'
         profileHeader.should.contain 'res.cloudinary.com'
         profileImage.should.contain 'res.cloudinary.com'
@@ -47,7 +47,7 @@ describe 'Image uploads', ->
   describe 'Recipe page', ->
     it 'meets preconditions', ->
       casper.thenOpen base + '/receta/test-recipe-4', ->
-        recipeHeader = @evaluate getBackgroundImage, '#recipe-header'
+        recipeHeader = @evaluate getBackgroundImage, '#header-background'
         defaultHeader = base + '/images/default_recipe.jpg'
         recipeHeader.should.be.equal 'url(' + defaultHeader + ')'
     it 'saves image changes', ->
@@ -58,5 +58,5 @@ describe 'Image uploads', ->
         }, false
         @click '#update'
       casper.waitForSelector '#messages .message.success', ->
-        recipeHeader = @evaluate getBackgroundImage, '#recipe-header'
+        recipeHeader = @evaluate getBackgroundImage, '#header-background'
         recipeHeader.should.contain 'res.cloudinary.com'

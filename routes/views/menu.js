@@ -65,7 +65,9 @@ exports = module.exports = function(req, res) {
       });
     }
     else {
-      service.menu.get.new({}, function(err, result) {
+      service.menu.get.new({
+        predefinedPlate: req.params.plate
+      }, function(err, result) {
         locals.data = result;
         next(err);
       });

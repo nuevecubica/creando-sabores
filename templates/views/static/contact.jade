@@ -2,8 +2,13 @@ extends ../../layouts/default
 include ../../mixins/header
 
 block content
+  - var vars = {}
+  - vars.image = '/images/contact_header.jpg'
+  - vars.headerClasses = 'narrow'
+  - vars.headerElements = 'with-title'
+  - vars.title = __('Contact')
 
-  +header(data, section)
+  +header(data, section, vars)
 
   .ui.page.grid.body
     .ui.grid.segment
@@ -14,21 +19,20 @@ block content
 
     #contact.ui.grid.segment
       .row
-        .three.wide.column.mobile-one
+        .three.wide.column.computer.tablet.only
         .six.wide.column.mobile-eight.ui.grid
-          .two.column.wide
+          .three.column.wide
             i.icon-chef-location.icon
-          .twelve.column.wide
+          .twelve.column.wide.mobile-fourteen
             .span Plutarco Elías calles #18
             .span Colonia Lomas Hipódromo
             .span Mexico DF 53910
-        .four.wide.column.mobile-six.ui.grid
+        .six.wide.column.mobile-eight.ui.grid
           .three.column.wide
-            i.icon-chef-movil.icon
-          .twelve.column.wide
-            .span +52 NBL OR
-            .span Contacto@creandosabores.com
-        .three.wide.column.mobile-one
+            i.icon-chef-mails.icon
+          .twelve.column.wide.mobile-fourteen
+            .span.mail creandosaboresmx@gmail.com
+        .three.wide.column.computer.tablet.only
 
     #form-contact.ui.grid.segment
       .row

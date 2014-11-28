@@ -19,7 +19,8 @@ var getUserList = function(collection, options, callback) {
     user: null,
     page: 1,
     perPage: 10,
-    exclude: ["password"]
+    exclude: ["password"],
+    idGetter: null
   });
 
   var getUserListQuery = function(ids) {
@@ -33,7 +34,7 @@ var getUserList = function(collection, options, callback) {
     return q;
   };
 
-  var sortCollection = function(items, collectionIds, done) {
+  var sortCollection = function(items, collectionIds, done, collectionItems) {
     // We got the collection (one way or another...)
     // Fix the ingredient list
     for (var i = 0, l = items.length; i < l; i++) {
@@ -61,6 +62,13 @@ var getUserList = function(collection, options, callback) {
     }
 
     items = collection2;
+
+    // If using idGetter, you probably want to add the discarded info back into
+    // the results
+    if (options.preprocess) {
+      items = options.preprocess(items, collectionItems);
+    }
+
     // Return a paginable-like structure
     var total = userlist.length,
       totalPages = Math.ceil(total / perPage),
@@ -91,9 +99,13 @@ var getUserList = function(collection, options, callback) {
   }
 
   var field = options.field.split('.');
-  var userlist = (field.length === 1) ? options.user[field[0]] : options.user.favourites[field[1]];
+  var userlist = (field.length === 1) ? options.user[field[0]] : options.user[field[0]][field[1]];
   var last = Math.min(first + perPage, userlist.length);
-  var collectionIds = userlist.slice(first, last);
+  var collectionItems = userlist.slice(first, last);
+  var collectionIds = collectionItems;
+  if (options.idGetter) {
+    collectionIds = options.idGetter(collectionIds);
+  }
 
   getUserListQuery(collectionIds)
     .exec(function(err, collections) {
@@ -123,19 +135,33 @@ var getUserList = function(collection, options, callback) {
                 collections = allcollections.slice(first, last);
                 collectionIds = userlist.slice(first, last);
 
-                sortCollection(collections, collectionIds, callback);
+                sortCollection(collections, collectionIds, callback, collectionItems);
               });
             }
           });
       }
       else {
-        sortCollection(collections, collectionIds, callback);
+        sortCollection(collections, collectionIds, callback, collectionItems);
       }
     });
 };
 
 var getShoppingList = function(options, callback) {
   options.field = 'shopping';
+  options.idGetter = function(elements) {
+    return elements.map(function(x) {
+      return x.recipe;
+    });
+  };
+  options.preprocess = function(items, extras) {
+    for (var i = 0, l = items.length; i < l; i++) {
+      var recipeIngredients = items[i].ingredients;
+      var userIngredients = extras[i].myIngredients;
+      items[i].ingredientsPending = _.difference(recipeIngredients, userIngredients);
+      items[i].ingredientsGot = _.intersection(recipeIngredients, userIngredients);
+    }
+    return items;
+  };
   return getUserList('Recipe', options, callback);
 };
 

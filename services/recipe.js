@@ -87,7 +87,16 @@ var getAllRecipe = function(options, callback) {
           }
 
           // Is it on my shopping list?
-          data.inShoppingList = (options.user.shopping.indexOf(result._id) !== -1);
+          var pos = options.user.shopping.map(function(a) {
+            return a.recipe.toString();
+          }).indexOf(result._id.toString());
+          data.inShoppingList = (pos !== -1);
+          if (data.inShoppingList) {
+            // Augment it with ingredientsGot and ingredientsPending
+            var userIngredients = options.user.shopping[pos].myIngredients;
+            data.recipe.ingredientsPending = _.difference(data.recipe.ingredients, userIngredients);
+            data.recipe.ingredientsGot = _.intersection(data.recipe.ingredients, userIngredients);
+          }
           // Is it on my favourites list?
           data.favourited = (options.user.favourites.recipes.indexOf(result._id) !== -1);
           // Has it my like?
