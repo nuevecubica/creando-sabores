@@ -65,8 +65,8 @@ $(document).ready(function() {
   };
 
 
-  $('a[href="/acceso"]').on('click', evtLogin);
-  $('a[href="/registro"]').on('click', evtSignup);
+  $('a:not(.no-modal)[href="/acceso"]').on('click', evtLogin);
+  $('a:not(.no-modal)[href="/registro"]').on('click', evtSignup);
   $('a[href="/nueva-receta"]').on('click', evtLoginRedirect);
   $('a[href="/nuevo-menu"]').on('click', evtLoginRedirect);
 });
