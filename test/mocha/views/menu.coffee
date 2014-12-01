@@ -89,7 +89,7 @@ describe 'Menu: View', ->
         return done(err) if err
 
         (res.text.match(/recipe /g) || []).length.must.be 5
-        (res.text.match(/unavailable /g) || []).length.must.be 6
+        (res.text.match(/unavailable /g) || []).length.must.be 7
         res.text.must.not.match /DESCRIPTION BANNED/
 
         done err
