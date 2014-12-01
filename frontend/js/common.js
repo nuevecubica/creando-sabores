@@ -152,7 +152,7 @@ $(document).ready(function() {
   $('.message').each(function(i, a) {
     setTimeout(function() {
       messageRemove(a);
-    }, 3 * 1000);
+    }, 200 * 1000);
   });
 
   // Grid
@@ -207,7 +207,7 @@ var flashMessage = function(msg, type) {
     var code = '<div id="messages" class="ui grid segment">';
     code += '<div class="ui page grid">';
     code += '<div class="row messages">';
-    code += '<div class="sixteen aligned center wide column">';
+    code += '<div class="aligned center column">';
     $m = $(code).prependTo(document.body);
   }
   $m = $('.column', $m);
@@ -220,7 +220,7 @@ var flashMessage = function(msg, type) {
   $new.transition('bounce');
   setTimeout(function() {
     messageRemove($new);
-  }, 3 * 1000);
+  }, 200 * 1000);
 };
 
 // Avoid `console` errors in browsers that lack a console.
