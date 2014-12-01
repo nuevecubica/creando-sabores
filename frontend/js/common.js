@@ -152,7 +152,7 @@ $(document).ready(function() {
   $('.message').each(function(i, a) {
     setTimeout(function() {
       messageRemove(a);
-    }, 200 * 1000);
+    }, 3 * 1000);
   });
 
   // Grid
@@ -220,7 +220,7 @@ var flashMessage = function(msg, type) {
   $new.transition('bounce');
   setTimeout(function() {
     messageRemove($new);
-  }, 200 * 1000);
+  }, 3 * 1000);
 };
 
 // Avoid `console` errors in browsers that lack a console.
