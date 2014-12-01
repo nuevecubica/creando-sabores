@@ -111,6 +111,7 @@ exports = module.exports = function(req, res) {
 
   switch (req.params.section) {
     case 'recetas':
+      locals.title = res.__('My recipes');
       getPrivateRecipes(req.user, function(recipes) {
         locals.subsection = 'recipes';
         locals.recipes = recipes || [];
@@ -118,6 +119,7 @@ exports = module.exports = function(req, res) {
       });
       break;
     case 'favoritas':
+      locals.title = res.__('My favourite recipes');
       getFavouriteRecipes(req.user, function(recipes) {
         locals.subsection = 'favourites';
         locals.recipes = recipes || [];
@@ -125,6 +127,7 @@ exports = module.exports = function(req, res) {
       });
       break;
     case 'compra':
+      locals.title = res.__('My shopping list');
       getShoppingRecipes(req.user, function(recipes) {
         locals.subsection = 'shopping';
         locals.recipes = recipes || [];
@@ -132,6 +135,7 @@ exports = module.exports = function(req, res) {
       });
       break;
     case 'tips':
+      locals.title = res.__('My tips');
       getFavouriteTips(req.user, function(tips) {
         locals.subsection = 'tips';
         locals.tips = tips || [];
@@ -139,6 +143,7 @@ exports = module.exports = function(req, res) {
       });
       break;
     case 'menus':
+      locals.title = res.__('My menus');
       getPrivateMenus(req.user, function(menus) {
         locals.subsection = 'menus';
         locals.menus = menus || [];
@@ -147,6 +152,7 @@ exports = module.exports = function(req, res) {
       break;
     default:
       locals.subsection = 'profile';
+      locals.title = res.__('My account');
       // Render the view
       view.render('private/profile');
   }

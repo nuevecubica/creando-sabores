@@ -7,6 +7,7 @@ exports = module.exports = function(req, res) {
 
   // Init locals
   locals.section = 'search';
+  locals.title = res.__('Search engine');
 
   view.on('init', function(next) {
     next();

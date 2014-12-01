@@ -47,6 +47,10 @@ exports = module.exports = function(req, res) {
     fromContest: true
   };
 
+  var toTitleCase = function(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   // load recipe
   view.on('init', function(next) {
 
@@ -66,7 +70,18 @@ exports = module.exports = function(req, res) {
             if (!err && result) {
               locals.data = result;
               locals.own = result.own;
-              locals.title = result.recipe.title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
+              var title = toTitleCase(result.recipe.title);
+              locals.title = title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
+              var descr = result.recipe.description;
+              descr = descr.replace(/(<([^>]+)>)/ig, "").replace(/(\r\n|\n|\r)/gm, " ");
+
+              locals.opengraph = {
+                title: res.__('Recipe of') + ' ' + title,
+                description: descr,
+                image: result.recipe.thumb.grid_large,
+                url: locals.site.url + result.recipe.url
+              };
+
               service.recipeList.related({
                 recipeId: result.recipe._id
               }, function(err, results) {
