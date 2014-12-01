@@ -14,6 +14,7 @@ exports = module.exports = function(req, res) {
 
   locals.section = 'questions';
   locals.subsection = req.params.section || 'recientes';
+  locals.title = res.__('Questions');
 
 
   // load questions
@@ -31,6 +32,13 @@ exports = module.exports = function(req, res) {
       perPage: 5,
       populate: ['author']
     };
+
+    if (locals.subsection === 'recientes') {
+      locals.title += ' ' + res.__('Recent');
+    }
+    else {
+      locals.title += ' ' + res.__('Popular');
+    }
 
     service.questionList.get(options, function(err, results) {
       if (!err) {

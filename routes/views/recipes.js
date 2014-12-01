@@ -30,7 +30,14 @@ exports = module.exports = function(req, res) {
             perPage: 5
           };
           if (type === 'videorecipe') {
-            opts.sort = locals.subsection === 'recientes' ? '-publishedDate' : '-rating';
+            if (locals.subsection === 'recientes') {
+              locals.title += ' ' + res.__('Recent');
+              opts.sort = '-publishedDate';
+            }
+            else {
+              locals.title += ' ' + res.__('Popular');
+              opts.sort = '-rating';
+            }
           }
           service.recipeList[type].get(opts, function(err, results) {
             locals.data.recipes = results.results;
