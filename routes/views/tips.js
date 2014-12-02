@@ -13,6 +13,7 @@ exports = module.exports = function(req, res) {
 
   locals.section = 'tips';
   locals.subsection = req.params.section || 'recientes';
+  locals.title = res.__('Tips');
 
 
   // load tips
@@ -30,6 +31,10 @@ exports = module.exports = function(req, res) {
         function(callback) {
           if (locals.subsection === 'populares') {
             options.sort = '-rating';
+            locals.title += ' ' + res.__('Popular');
+          }
+          else {
+            locals.title += ' ' + res.__('Recent');
           }
 
           service.tipList.get(options, function(err, results) {

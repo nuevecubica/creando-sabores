@@ -87,8 +87,10 @@ exports = module.exports = function(req, res) {
   }, function(err, resultUser) {
     if (!err && resultUser) {
       locals.profile = resultUser;
+      locals.title = resultUser.name;
       switch (req.params.section) {
         case 'favoritas':
+          locals.title += ' - ' + res.__('Favorites');
           getFavouriteRecipes(resultUser, function(recipes) {
             locals.subsection = 'favourites';
             locals.recipes = recipes || [];
@@ -96,6 +98,7 @@ exports = module.exports = function(req, res) {
           });
           break;
         case 'tips':
+          locals.title += ' - ' + res.__('Tips');
           getFavouriteTips(resultUser, function(tips) {
             locals.subsection = 'tips';
             locals.tips = tips || [];
@@ -103,6 +106,7 @@ exports = module.exports = function(req, res) {
           });
           break;
         case 'menus':
+          locals.title += ' - ' + res.__('Menus');
           getPublicMenus(resultUser, function(menus) {
             locals.subsection = 'menus';
             locals.menus = menus || [];
@@ -112,6 +116,7 @@ exports = module.exports = function(req, res) {
         case 'recetas':
           /* falls through */
         default:
+          locals.title += ' - ' + res.__('Recipes');
           getPublicRecipes(resultUser, function(recipes) {
             locals.subsection = 'recipes';
             locals.recipes = recipes || [];

@@ -22,7 +22,7 @@ exports = module.exports = function(req, res) {
     }
 
     req.body.name = req.user ? req.user.name : clean(req.body.name, ['plaintext', 'oneline', ['maxlength', 50]]);
-    req.body.email = req.email ? req.user.email : clean(req.body.email, ['plaintext', 'oneline', ['maxlength', 50]]);
+    req.body.email = req.user ? req.user.email : clean(req.body.email, ['plaintext', 'oneline', ['maxlength', 50]]);
     req.body.comment = clean(req.body.comment, ['plaintext', ['maxlength', 300]]);
 
     service.email.send('contact-form', {
@@ -32,8 +32,8 @@ exports = module.exports = function(req, res) {
       },
       globalMergeVars: {
         subject: 'Contacto formulario',
-        name: req.body.name,
-        email: req.body.email,
+        sender_name: req.body.name,
+        sender_email: req.body.email,
         topic: req.body.comment
       }
     }, function(err) {

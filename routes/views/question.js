@@ -22,6 +22,10 @@ exports = module.exports = function(req, res) {
     populate: ['author', 'chef']
   };
 
+  var toTitleCase = function(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   // load question
   view.on('init', function(next) {
 
@@ -29,7 +33,7 @@ exports = module.exports = function(req, res) {
       if (!err && result) {
         locals.data.question = result;
         locals.data.formattedDate = moment(result.createdDate).format('lll');
-        locals.title = result.title.substr(0, 10) + '...';
+        locals.title = toTitleCase(result.title.substr(0, 10)) + '...';
         service.questionList.related({
           questionId: result._id
         }, function(err, results, status) {

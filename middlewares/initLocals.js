@@ -67,6 +67,15 @@ exports.initLocals = function(req, res, next) {
     locals.fullUrl = locals.fullUrl + '/';
   }
 
+  /* Opengraph defaults */
+  locals.opengraph = {
+    title: res.__('Chefcito title'),
+    description: res.__('Chefcito description'),
+    url: locals.site.url,
+    image: locals.site.url + '/public/images/default_share.jpg'
+  };
+
+
   /*
     Data to send to the client in each page
   */

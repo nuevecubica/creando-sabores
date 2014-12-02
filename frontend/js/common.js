@@ -21,7 +21,7 @@ var showAuthModal = function(section, next) {
   if (!next) {
     next = window.location.pathname;
   }
-  $('#modal-bg').css('display', 'block');
+  $('#modal-bg').removeClass('hidden');
   $('#modal-fg').attr('data-section', section);
 
   $('#modal-fg form').each(function(i, a) {
@@ -37,7 +37,7 @@ var showAuthModal = function(section, next) {
 };
 
 var hideAuthModal = function() {
-  $('#modal-bg').css('display', 'none');
+  $('#modal-bg').addClass('hidden');
 };
 
 var evtLoginRedirect = function(e) {
@@ -207,7 +207,7 @@ var flashMessage = function(msg, type) {
     var code = '<div id="messages" class="ui grid segment">';
     code += '<div class="ui page grid">';
     code += '<div class="row messages">';
-    code += '<div class="sixteen aligned center wide column">';
+    code += '<div class="aligned center column">';
     $m = $(code).prependTo(document.body);
   }
   $m = $('.column', $m);

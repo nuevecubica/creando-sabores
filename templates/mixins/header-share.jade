@@ -10,6 +10,11 @@ mixin header-share()
         .ui.icon
           i.icon-chef-facebook.icon
     .column
-      a.ui.item.social-popup(href="http://pinterest.com/pin/create/link/?url=" + encodeURIComponent(fullUrl), target="_blank")
+      - var pinArgs = 'url=' + encodeURIComponent(fullUrl)
+      if opengraph
+        - pinArgs = 'url=' + encodeURIComponent(opengraph.url)
+        - pinArgs += '&media=' + encodeURIComponent(opengraph.image)
+        - pinArgs += '&description=' + encodeURIComponent(opengraph.description)
+      a.ui.item.social-popup(href="http://pinterest.com/pin/create/button/?" + pinArgs, target="_blank")
         .ui.icon
           i.icon-chef-pinterest.icon

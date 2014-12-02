@@ -5,7 +5,8 @@ var _ = require('underscore'),
   virtual = require('./virtuals'),
   Types = keystone.Field.Types,
   async = require('async'),
-  modelCleaner = require(__base + 'utils/modelCleaner');
+  modelCleaner = require(__base + 'utils/modelCleaner'),
+  entities = require("entities");
 
 // ===== Defaults
 // Define recipe defaults
@@ -422,6 +423,15 @@ Recipe.schema.pre('save', function(next) {
 
   if (me.isModified('state') && me.state === 'published') {
     me.publishedDate = new Date();
+  }
+
+  if (me.ingredients) {
+    var ingredients = _.compact(me.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
+    ingredients = ingredients.map(function(a) {
+      // Limit url encoding to where it is *needed*
+      return _.escape(entities.decodeHTML(a));
+    });
+    me.ingredients = '<p>' + ingredients.join('</p><p>') + '</p>';
   }
 
   async.parallel({

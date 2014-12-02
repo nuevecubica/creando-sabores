@@ -257,7 +257,7 @@ $(document).ready(function() {
           flashMessage(window.chef.errorMessage('Error: Unknown error.'));
         }
         else {
-          flashMessage('Your message has been sent. Thank you.', 'success');
+          flashMessage(window.chef.errorMessage('Message sent'), 'success');
         }
       }
     });

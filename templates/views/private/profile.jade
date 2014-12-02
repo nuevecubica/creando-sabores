@@ -16,6 +16,7 @@ block js
 	| <script>
 	| chef.errorMessages = chef.errorMessages || {}
 	| chef.errorMessages['File too big'] = "#{__('File too big')}"
+	| chef.errorMessages['Message sent'] = "#{__('Your message has been sent. Thank you.')}"
 	| </script>
 
 
@@ -139,11 +140,11 @@ block content
 
 					.row
 						.colum.grid.ui
-							.three.wide.column.mobile-seven
+							.three.wide.column.mobile-seven.tablet-four
 								.delete.field
 									a#delete-first(href='#')= __('Remove account')
 
-							#delete-confirm.six.wide.column.mobile-nine
+							#delete-confirm.seven.wide.column.mobile-nine.tablet-ten
 								.arrow-left
 								.delete.message2.ui
 									span= __('Are you sure remove account?')

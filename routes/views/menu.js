@@ -40,6 +40,10 @@ exports = module.exports = function(req, res) {
     states: ['published', 'draft']
   };
 
+  var toTitleCase = function(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   // load recipe
   view.on('init', function(next) {
 
@@ -49,7 +53,7 @@ exports = module.exports = function(req, res) {
 
           locals.data = result;
           locals.own = result.own;
-          locals.title = result.menu.title + ' - Menú';
+          locals.title = toTitleCase(result.menu.title) + ' - Menú';
 
           service.menuList.related({
             menuId: result.menu._id

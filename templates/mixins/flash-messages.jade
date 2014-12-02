@@ -3,7 +3,7 @@ mixin flash-messages(messages)
 		#messages.ui.grid.segment
 			.ui.page.grid
 				.row.messages
-					.sixteen.aligned.center.wide.column
+					.aligned.center.column
 						each message in messages.info
 							+flash-message(message, 'info')
 						each message in messages.success

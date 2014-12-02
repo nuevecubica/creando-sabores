@@ -1,5 +1,15 @@
 *0.3.0-beta3-shopping*
 --------------------------------------------------
++ Vertical headers
++ New shopping list logic
++ Modal login form
++ Add to menu shortcut
++ Bugfixes
++ Tests
+
+_Internal:_
+
++ Header refactor
 
 *0.2.0-beta2-menu*
 --------------------------------------------------

@@ -18,33 +18,24 @@ html
 
 		meta(http-equiv="Content-Type", content="text/html; charset=utf8")
 		meta(name="lang", content="es")
-		meta(name="description", content="#{__('Chefcito description')}")
 
-		if section === 'recipe' && data.recipe
+		if section === 'home'
+			meta(name="description", content="#{__('Chefcito description')}")
 
-			meta(property="og:title", content="#{data.recipe.title}")
-			meta(property="og:description", content="#{data.recipe.description}")
-			meta(property="og:image", content="#{data.recipe.thumb.grid_small}")
-			meta(property="og:url", content="#{site.url}#{data.recipe.url}")
-
-			meta(property="twitter:title", content="#{data.recipe.title}")
-			meta(property="twitter:description", content="#{data.recipe.description}")
-			meta(property="twitter:image", content="#{data.recipe.thumb.grid_small}")
-			meta(property="twitter:url", content="#{site.url}#{data.recipe.url}")
-			meta(property="twitter:site", content="#{site.twitter}")
-			meta(property="twitter:card", content="summary")
-
-		else
-
-			meta(property="og:title", content="#{__('Chefcito title')}")
-			meta(property="og:description", content="#{__('Chefcito description')}")
-			meta(property="og:url", content="#{site.url}")
+		if opengraph
+			meta(property="og:title", content="#{opengraph.title}")
+			meta(property="og:description", content="#{opengraph.description}")
+			meta(property="og:image", content="#{opengraph.image}")
+			meta(property="og:url", content="#{opengraph.url}")
 			meta(property="og:type", content="website")
 			meta(property="og:site_name", content="#{__('Chefcito title')}")
-			//- meta(property="fb:admins", content="#{site.fb_admin}")
-			//- meta(property="fb:app_id", content="#{site.fb_app_id}")
-			meta(property="twitter:card", content="summary")
+
+			meta(property="twitter:title", content="#{opengraph.title}")
+			meta(property="twitter:description", content="#{opengraph.description}")
+			meta(property="twitter:image", content="#{opengraph.image}")
+			meta(property="twitter:url", content="#{opengraph.url}")
 			meta(property="twitter:site", content="#{site.twitter}")
+			meta(property="twitter:card", content="summary")
 
 		if mode === 'development'
 			link(href="/styles/site.css", rel="stylesheet")
