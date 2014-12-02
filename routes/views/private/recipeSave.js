@@ -46,7 +46,7 @@ var recipeData = function(req, orig) {
   // Parse body
   else {
 
-    data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', config.recipe.title.length], 'escape']);
+    data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', config.recipe.title.length]]);
     data.description = clean(req.body.description, ['oneline', ['maxlength', config.recipe.description.length], 'escape']);
     data.procedure = clean(req.body.procedure, [
       ['maxlinelength', config.recipe.procedure.length],

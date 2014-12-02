@@ -11,7 +11,7 @@ exports = module.exports = function(req, res, next) {
   if (req.method === 'POST') {
 
     if ("string" === typeof req.body.name && req.body.name) {
-      req.body.name = clean(req.body.name, ['plaintext', 'oneline', ['maxlength', config.profile.name.length], 'escape']);
+      req.body.name = clean(req.body.name, ['plaintext', 'oneline', ['maxlength', config.profile.name.length]]);
     }
 
     if ("string" === typeof req.body.about && req.body.about) {

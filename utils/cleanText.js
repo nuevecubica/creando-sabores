@@ -1,6 +1,6 @@
 var cleaners = {
   plaintext: function(str) {
-    return str.replace(/[ \t]+/g, " ").replace(/(<([^>]+)>)/ig, "");
+    return str.replace(/[ \t]+/g, " "); //.replace(/(<([^>]+)>)/ig, "");
   },
 
   escape: function(str) {
