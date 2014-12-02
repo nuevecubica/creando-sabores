@@ -14,7 +14,7 @@ chef.errorMessage = function(errorId) {
 
 // --- Login/register modal ---
 
-var showAuthModal = function(section, next) {
+var showAuthModal = function(section, next, noPush) {
   if (!section) {
     section = 'login';
   }
@@ -34,11 +34,32 @@ var showAuthModal = function(section, next) {
     href = href ? href.split('?')[0] : '';
     $(a).attr('href', href + '?next=' + encodeURIComponent(next));
   });
+
+  if (history.pushState && !noPush) {
+    history.pushState({
+      modal: true,
+      section: section,
+      next: next
+    }, '', '');
+  }
 };
 
 var hideAuthModal = function() {
   $('#modal-bg').addClass('hidden');
+  history.replaceState({
+    modal: false
+  }, '', '');
 };
+
+window.onpopstate = function(e) {
+  if (!e.state || !e.state.modal) {
+    hideAuthModal();
+  }
+  else {
+    showAuthModal(e.state.section, e.state.next, true);
+  }
+};
+
 
 var evtLoginRedirect = function(e) {
   if (!window.chef.isUserLoggedIn) {
