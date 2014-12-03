@@ -27,6 +27,7 @@ exports = module.exports = function(req, res) {
           email: req.user.email,
           name: (req.user.name || req.user.username),
         },
+        html: ['ingredients_list'],
         // This should be mergeVars but the variables are not processed correctly.
         globalMergeVars: {
           subject: 'Lista de la compra',
