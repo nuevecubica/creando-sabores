@@ -21,9 +21,9 @@ exports = module.exports = function(req, res) {
       return;
     }
 
-    req.body.name = req.user ? req.user.name : clean(req.body.name, ['plaintext', 'oneline', ['maxlength', 50]]);
-    req.body.email = req.user ? req.user.email : clean(req.body.email, ['plaintext', 'oneline', ['maxlength', 50]]);
-    req.body.comment = clean(req.body.comment, ['plaintext', ['maxlength', 300]]);
+    req.body.name = req.user ? req.user.name : clean(req.body.name, ['plaintext', 'oneline', ['maxlength', 50], 'escape']);
+    req.body.email = req.user ? req.user.email : clean(req.body.email, ['plaintext', 'oneline', ['maxlength', 50], 'escape']);
+    req.body.comment = clean(req.body.comment, ['plaintext', ['maxlength', 300], 'escape']);
 
     service.email.send('contact-form', {
       to: {

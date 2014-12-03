@@ -50,12 +50,14 @@ include ../mixins/difficult-items
 
         .editable-container
           .set-editable.explain(placeholder=__('Time'), data-tutorial-complete="editableTypedText")= data.recipe.time
+        = ' '
         .span.explain= __('min')
 
       #recipe-portions.portions(tabindex='3')
         i.icon-chef-porciones.icon
         .editable-container
           .set-editable.explain(placeholder=__('Portions'), data-tutorial-complete="editableTypedText")= data.recipe.portions
+        = ' '
         .span.explain= __n('person','people',data.recipe.portions)
 
       if (!data.contest)

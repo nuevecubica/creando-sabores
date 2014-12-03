@@ -99,6 +99,24 @@ var _parseOptions = function(options) {
   return options;
 };
 
+var recEscape = function(options, obj, prefix) {
+  if (typeof obj === 'string' && (!options.html || options.html.indexOf(prefix) === -1)) {
+    return obj.replace(/</ig, '&lt;').replace(/>/ig, '&gt;');
+  }
+  else if (typeof obj === 'object') {
+    for (var name in obj) {
+      if (obj.hasOwnProperty(name)) {
+        var newPrefix = prefix ? prefix + '.' + name : name;
+        obj[name] = recEscape(options, obj[name], newPrefix);
+      }
+    }
+    return obj;
+  }
+  else {
+    return obj;
+  }
+};
+
 /**
  * Sends an email
  * @param  {String}   id       Email identifier
@@ -125,6 +143,10 @@ var send = function(id, options, callback) {
     init.templateMandrillName = id;
   }
 
+  // Escape all fields unless marked as html in options
+  options.globalMergeVars = recEscape(options, options.globalMergeVars);
+  options.to = recEscape(options, options.to);
+
   var em = new keystone.Email(init);
   em.send(options, function(err, result) {
     callback(err, result, options);
@@ -150,6 +172,10 @@ var render = function(id, options, callback) {
   if (options.mandrillTemplate) {
     init.templateMandrillName = id;
   }
+
+  // Escape all fields unless marked as html in options
+  options.globalMergeVars = recEscape(options, options.globalMergeVars);
+  options.to = recEscape(options, options.to);
 
   var em = new keystone.Email(init);
   em.renderMandrill(options, function(err, result) {

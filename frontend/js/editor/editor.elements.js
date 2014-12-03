@@ -82,7 +82,12 @@ window.chef.editor = (function(editor) {
       // Sets the actual value
       setValue: function(value) {
         var $self = this.$selfEditable ? this.$selfEditable : this.$self;
-        $self.html(value);
+        if (this.options.isHtml) {
+          $self.html(value);
+        }
+        else {
+          return $self.text(value);
+        }
       },
       // Saves a value as original and restores it
       saveValue: function(value) {

@@ -166,7 +166,7 @@ var menuData = function(req, orig) {
 
   // Parse body
   else {
-    data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', config.menu.title.length], 'escape']);
+    data.title = clean(req.body.title, ['plaintext', 'oneline', ['maxlength', config.menu.title.length]]);
     data.description = clean(req.body.description, ['oneline', ['maxlength', config.menu.description.length], 'escape']);
     data.plates = (req.body.plates) ? req.body.plates.split(',') : [];
     data.author = req.user.id;

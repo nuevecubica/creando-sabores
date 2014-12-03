@@ -2,7 +2,8 @@ var _ = require('underscore'),
   keystone = require('keystone'),
   async = require('async'),
   service = require(__base + 'services'),
-  config = require(__base + 'configs/editor');
+  config = require(__base + 'configs/editor'),
+  entities = require("entities");
 
 exports = module.exports = function(req, res) {
 
@@ -73,7 +74,10 @@ exports = module.exports = function(req, res) {
               var title = toTitleCase(result.recipe.title);
               locals.title = title + ' - ' + (type === 'recipe' ? res.__('Recipe') : res.__('Videorecipe'));
               var descr = result.recipe.description;
+              // Description is an HTML field. Remove HTML tags and whitespace,
+              // then urldecode entities to get a plain text version of it.
               descr = descr.replace(/(<([^>]+)>)/ig, "").replace(/(\r\n|\n|\r)/gm, " ");
+              descr = entities.decodeHTML(descr);
 
               locals.opengraph = {
                 title: res.__('Recipe of') + ' ' + title,
