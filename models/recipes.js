@@ -428,8 +428,11 @@ Recipe.schema.pre('save', function(next) {
   if (me.ingredients) {
     var ingredients = _.compact(me.ingredients.replace(/(<\/p>|\r|\n)/gi, '').split('<p>'));
     ingredients = ingredients.map(function(a) {
-      // Limit url encoding to where it is *needed*
-      return _.escape(entities.decodeHTML(a));
+      // Don't allow HTML in ingredients, and clean entities
+      a = a.replace(/(<([^>]+)>)/ig, "");
+      a = entities.decodeHTML(a);
+      a = a.replace(/</ig, "&lt;").replace(/>/ig, "&gt;");
+      return a;
     });
     me.ingredients = '<p>' + ingredients.join('</p><p>') + '</p>';
   }

@@ -75,6 +75,12 @@ $(document).ready(function() {
     e.stopPropagation();
   });
 
+  $(document).keydown(function(e) {
+    if (e.keyCode === 27 && !$('#modal-bg').hasClass('hidden')) {
+      hideAuthModal();
+    }
+  });
+
   var evtLogin = function(e) {
     e.preventDefault();
     showAuthModal();
