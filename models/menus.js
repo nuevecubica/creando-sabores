@@ -170,7 +170,7 @@ Menu.add({
     isMenusGridPromoted: {
       value: {
         type: Types.Boolean,
-        label: 'Recipes Grid',
+        label: 'Menus Grid',
         default: false,
         es_type: "boolean"
       },
