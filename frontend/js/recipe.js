@@ -531,15 +531,23 @@
     };
 
     var updateShoppingButtons = function() {
-      if (!$('#ingredients .checks.activated:not(.all)').length) {
-        $('.checks.all').removeClass('activated');
+      var all = $('#ingredients .checks:not(.all)').length;
+      var active = $('#ingredients .checks.activated:not(.all)').length;
+      if (!active) {
         $('.shopping-add').addClass('disabled');
         $('.shopping-add .add.button').addClass('disabled');
       }
       else {
-        $('.checks.all').addClass('activated');
         $('.shopping-add').removeClass('disabled');
         $('.shopping-add .add.button').removeClass('disabled');
+      }
+
+      // Only activated if all are activated
+      if (active === all) {
+        $('.checks.all').addClass('activated');
+      }
+      else {
+        $('.checks.all').removeClass('activated');
       }
     };
     updateShoppingButtons();
