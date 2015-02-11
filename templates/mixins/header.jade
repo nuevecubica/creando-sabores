@@ -2,54 +2,70 @@ include ../mixins/header-share
 
 mixin header(data, section, vars, subsection)
 
+  //- Adding default backgrounds
   - var defaults = { images: { index: '/images/default_index.jpg', profile: '/images/default_user_profile.jpg', newRecipe: '/images/default_new_recipe.jpg', recipe: '/images/default_recipe.jpg', recipes: '/images/default_recipes.jpg', contest: '/images/default_contest.jpg', contests: '/images/default_contests.jpg', menus: '/images/default_menu.jpg', menu: '/images/default_menu.jpg', newMenu: '/images/default_menu.jpg' } }
 
     .ui.grid.segment(id= section + "-header", class= vars.headerClasses)
 
+      //- Adding vertical effect
       #header-background(style=vars.image ? "background-image: url(#{vars.image});" : false, class=vars.imageVertical ? 'blur' : '')
 
       if ['privateProfile', 'recipe', 'menu', 'publicProfile'].indexOf(section) !== -1
         #vertical-overlay(style=vars.imageVertical ? "background-image: url(#{vars.imageVertical});" : false)
 
+      //- Adding video-player style
       if ['videorecipe', 'videorecipes'].indexOf(section) !== -1
         #video-player
 
       else if [ 'new-menu', 'new-recipe'].indexOf(subsection) === -1
         .shadow-layer
 
+      //- Adding navbar
       .ui.page.grid.head(class= vars.headerElements)
         include ../components/nav-bar
 
+        //- Adding logo in the corner
         if ['videorecipe', 'videorecipes'].indexOf(section) !== -1 || ['new-recipe', 'new-menu'].indexOf(subsection) !== -1
           include ../components/logo-corner
+
         else
+          //- Adding logo in the center
           include ../components/logo
 
+        //- Adding tittle
         if ['home', 'videorecipes', 'questions', 'publicProfile', 'newsletter', 'search', 'forgotten-password', 'reset-password'].indexOf(section) === -1
           include ../components/title
 
+          //- Adding subtittle
           if ['recipes', 'menus', 'question', 'tips', 'contests', 'about', 'contact', 'privateProfile'].indexOf(section) === -1
             include ../components/subtitle
 
         if ['questions', 'question', 'about', 'contact', 'publicProfile', 'newsletter', 'search', 'forgotten-password', 'reset-password'].indexOf(section) === -1
           .row
+
+            //- Adding upload image button
             if ['new-recipe', 'new-menu'].indexOf(subsection) !== -1
               .ten.wide.column
               include ../components/profile-upload-img
 
             else if section === 'home'
+              //- Adding follow component
               include ../components/follow
 
             else
+              //- Adding share component
               include ../components/share
 
+              //- Adding select image button
               if ['recipe', 'menu', 'privateProfile'].indexOf(section) !== -1
                 .six.wide.column
                 include ../components/profile-select-img
 
+            //- Adding promoted (pink table + cutlery) component
             if ['home', 'recipes', 'videorecipes', 'menus', 'tips'].indexOf(section) !== -1
               include ../components/promoted
 
+      //- Adding Select bigger image advice
       if section === 'privateProfile'
         if own
           if !user.thumb.hasQuality
