@@ -531,9 +531,10 @@
     };
 
     var updateShoppingButtons = function() {
-      var all = $('#ingredients .checks:not(.all)').length;
-      var active = $('#ingredients .checks.activated:not(.all)').length;
-      if (!active) {
+      // -1 => Remove the hidden one
+      var all = $('#ingredients .checks:visible:not(.all)').length - 1;
+      var active = $('#ingredients .checks.activated:visible:not(.all)').length;
+      if (active <= 0) {
         $('.shopping-add').addClass('disabled');
         $('.shopping-add .add.button').addClass('disabled');
       }
@@ -543,10 +544,12 @@
       }
 
       // Only activated if all are activated
-      if (active === all) {
+      // >= because the hidden element is toggled too
+      if (active >= all) {
         $('.checks.all').addClass('activated');
       }
       else {
+        // console.log("Removed activated with " + active + "/" + all + " ingredients selected");
         $('.checks.all').removeClass('activated');
       }
     };
@@ -562,10 +565,10 @@
 
     $('.checks.all').on('click', function() {
       if ($(this).hasClass('activated')) {
-        $('#ingredients .checks').removeClass('activated');
+        $('#ingredients .checks:visible').removeClass('activated');
       }
       else {
-        $('#ingredients .checks').addClass('activated');
+        $('#ingredients .checks:visible').addClass('activated');
       }
       updateShoppingButtons();
       if ($('.shopping-add').hasClass('added')) {
