@@ -87,7 +87,7 @@ describe 'Contest page', ->
 
       it 'works link to participants list', ->
         casper.then ->
-          a = @getElementAttribute '#ranking .chef.button-green a', 'href'
+          a = @getElementAttribute '#ranking a.chef.button-green', 'href'
           a.should.be.equal '/concurso/test-contest-finished/participantes/top'
 
   describe 'Programmed-contest page', ->
