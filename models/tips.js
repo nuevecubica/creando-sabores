@@ -35,7 +35,8 @@ var Tip = new keystone.List('Tip', {
     path: 'slug',
     from: 'title',
     unique: true,
-    fixed: true
+    fixed: true,
+    link: '/tip/'
   }
 });
 

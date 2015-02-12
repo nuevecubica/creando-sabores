@@ -36,7 +36,8 @@ var Menu = new keystone.List('Menu', {
     path: 'slug',
     from: 'title',
     unique: true,
-    fixed: true
+    fixed: true,
+    link: '/menu/'
   }
 });
 

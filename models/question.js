@@ -20,7 +20,8 @@ var Question = new keystone.List('Question', {
     path: 'slug',
     from: 'title',
     unique: true,
-    fixed: true
+    fixed: true,
+    link: '/pregunta/'
   }
 });
 
