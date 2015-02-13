@@ -20,9 +20,12 @@ var Question = new keystone.List('Question', {
     path: 'slug',
     from: 'title',
     unique: true,
-    fixed: true,
-    link: '/pregunta/'
-  }
+    fixed: true
+  },
+  link: ['/pregunta/{slug}', {
+    href: '/preguntas',
+    lable: 'open questions home'
+  }]
 });
 
 //#------------------ SCHEMA

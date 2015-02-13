@@ -35,9 +35,12 @@ var Tip = new keystone.List('Tip', {
     path: 'slug',
     from: 'title',
     unique: true,
-    fixed: true,
-    link: '/tip/'
-  }
+    fixed: true
+  },
+  link: ['/tip/{slug}', {
+    href: '/tips',
+    lable: 'open tips home'
+  }]
 });
 
 Tip.add({

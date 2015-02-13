@@ -60,9 +60,12 @@ var Contest = new keystone.List('Contest', {
     path: 'slug',
     from: 'title',
     unique: true,
-    fixed: true,
-    link: '/concurso/'
-  }
+    fixed: true
+  },
+  link: ['/concurso/{slug}', {
+    href: '/concursos',
+    lable: 'open contests home'
+  }]
 });
 
 Contest.add({

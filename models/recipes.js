@@ -36,14 +36,19 @@ var Recipe = new keystone.List('Recipe', {
     path: 'slug',
     from: 'title',
     unique: true,
-    fixed: true,
-    link: function() {
+    fixed: true
+  },
+  link: [{
+    href: function() {
       if (this.isVideorecipe) {
         return '/videoreceta/' + this.slug;
       }
       return '/receta/' + this.slug;
     }
-  }
+  }, {
+    href: '/recetas',
+    label: 'open recipes home'
+  }]
 });
 
 Recipe.add({
