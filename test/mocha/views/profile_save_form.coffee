@@ -128,8 +128,7 @@ describe '(Private) Profile: Save', ->
         .post('/perfil/save')
         .set('cookie', cookie)
         .send({
-          'about': '12<html>34&56',
-          'name': '12<html>34&56'
+          'about': '12<html>34&56'
         })
         .expect(302)
         .expect(
@@ -150,9 +149,11 @@ describe '(Private) Profile: Save', ->
             .expect(200)
             .expect(
               (res) ->
-                if res.body.user.about isnt '<p>12&lt;html&gt;34&amp;56</p>' or
-                    res.body.user.name isnt '1234&amp;56'
-                  return 'HTML escape failed'
+                if res.body.user.about isnt '<p>12&lt;html&gt;34&amp;56</p>'
+                  return "HTML escape failed:
+                    about:
+                      #{res.body.user.about}
+                  "
             )
             .end(done)
 

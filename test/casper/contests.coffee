@@ -36,7 +36,7 @@ describe 'Contests page', ->
         ('#info .header').should.be.inDOM.and.visible
         ('#info .explain').should.be.inDOM.and.visible
         ('#sponsor.explain strong').should.be.inDOM.and.visible
-        ('#current-contest .chef.button-brick a').should.be.inDOM.and.visible
+        ('#current-contest a.chef.button-brick').should.be.inDOM.and.visible
     #it 'works contests award', ->
       #casper.then ->
         #info = @getElementsInfo('#info div.award');
@@ -52,7 +52,7 @@ describe 'Contests page', ->
         options = ['/concurso/test-contest-programmed',
           '/concurso/test-contest-votes',
           '/concurso/test-contest-submission']
-        selector = '#current-contest .chef.button-brick a'
+        selector = '#current-contest a.chef.button-brick'
         link = @getElementAttribute(selector, 'href')
         options.indexOf(link).should.be.above -1
 

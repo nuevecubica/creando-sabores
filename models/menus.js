@@ -37,7 +37,11 @@ var Menu = new keystone.List('Menu', {
     from: 'title',
     unique: true,
     fixed: true
-  }
+  },
+  link: ['/menu/{slug}', {
+    href: '/menus',
+    lable: 'open menus home'
+  }]
 });
 
 Menu.add({
@@ -170,7 +174,7 @@ Menu.add({
     isMenusGridPromoted: {
       value: {
         type: Types.Boolean,
-        label: 'Recipes Grid',
+        label: 'Menus Grid',
         default: false,
         es_type: "boolean"
       },

@@ -13,7 +13,7 @@ module.exports = {
       max: 121
     },
     ingredient: {
-      length: 40,
+      length: 50,
       elements: 50
     },
     procedure: {

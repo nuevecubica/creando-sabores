@@ -13,7 +13,9 @@ var _ = require('underscore'),
  * Users
  * =====
  */
-var User = new keystone.List('User');
+var User = new keystone.List('User', {
+  link: '/chef/{username}'
+});
 
 
 
