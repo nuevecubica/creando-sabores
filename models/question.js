@@ -21,7 +21,11 @@ var Question = new keystone.List('Question', {
     from: 'title',
     unique: true,
     fixed: true
-  }
+  },
+  link: ['/pregunta/{slug}', {
+    href: '/preguntas',
+    lable: 'open questions home'
+  }]
 });
 
 //#------------------ SCHEMA

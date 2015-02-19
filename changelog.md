@@ -1,4 +1,4 @@
-*0.3.0-beta3-shopping*
+*0.3.3-beta3-shopping*
 --------------------------------------------------
 + Vertical headers
 + New shopping list logic

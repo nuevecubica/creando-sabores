@@ -37,7 +37,11 @@ var Menu = new keystone.List('Menu', {
     from: 'title',
     unique: true,
     fixed: true
-  }
+  },
+  link: ['/menu/{slug}', {
+    href: '/menus',
+    lable: 'open menus home'
+  }]
 });
 
 Menu.add({
