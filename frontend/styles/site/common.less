@@ -734,6 +734,30 @@ body {
         height: 100%;
         position: relative;
 
+        .rating{
+          position: absolute;
+          top: 0;
+          left: 5px;
+          display: inline;
+          color: @type-color;
+          text-shadow: 0px 1px 1px @recipes-grid-border;
+          .font-small;
+          .icon{
+            opacity: 0.85;
+            &:before{
+              margin-right: -1px;
+            }
+            &.off{
+              opacity: 0;
+            }
+          }
+          .span{
+            display: inline;
+            padding: 0;
+            font-family: pinto;
+          }
+        }
+
         span {
           line-height: 1.25em;
           display: table-cell;
