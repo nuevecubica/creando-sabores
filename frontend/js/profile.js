@@ -163,7 +163,7 @@ $(document).ready(function() {
   var updateShoppingList = function($position) {
     var slug = $position.data('slug');
     var url = '/api/v1/me/shopping/add/' + slug;
-    var ingredients = $('.checks:not(.activated)', $position)
+    var ingredients = $('.checks.activated', $position)
       .closest('.ingredient').find('.ingredientName').map(function(i, a) {
         return $(a).html();
       }).toArray();

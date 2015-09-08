@@ -515,7 +515,7 @@
         callback = function() {};
       }
       var url = '/api/v1/me/shopping/add/' + slug;
-      var ingredients = $('#ingredients .checks:not(.activated)')
+      var ingredients = $('#ingredients .checks.activated')
         .closest('.ingredient').find('.explain').map(function(i, a) {
           return $(a).html();
         }).toArray();
