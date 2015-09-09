@@ -11,7 +11,7 @@ mixin recipe-shopping(recipe)
         .eight.column.wide
           em.row.remaining.font-large
             span= __('Remaining ingredients before') + " "
-            span.counter= recipe.ingredientsPending.length
+            span.counter= recipe.ingredientsGot.length
             span= " " + __('Remaining ingredients after')
         .eight.wide.column
           .ui.button.chef.button-brick.shopping-remove
@@ -27,7 +27,7 @@ mixin recipe-shopping(recipe)
               - for (var j = 0, l = recipe.ingredients.length; j < l; j++)
                 - var ingredient = recipe.ingredients[j]
                 - var classes = []
-                if recipe.ingredientsGot.indexOf(ingredient) === -1
+                if recipe.ingredientsGot.indexOf(ingredient) !== -1
                   - classes.push('activated')
 
                 .column.ingredient
