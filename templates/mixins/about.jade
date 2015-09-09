@@ -10,5 +10,4 @@ mixin about(user)
     h2.ui.header= __('Hi user! (prefix)')
       strong#profile-name.set-editable.one-line.no-paste(data-length="20")= user.name
       |#{__('Hi user! (postfix)')}
-    .ui.title= __('Write your Bio')
-    #profile-about.ui.content.set-editable(spellcheck="false")!= user.about
+    #profile-about.ui.content.set-editable(spellcheck="false", placeholder=__('Write your Bio'))!= user.about
