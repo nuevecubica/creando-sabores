@@ -23,7 +23,7 @@ mixin grid(recipes, gridPositions, gridSizes)
 					- image = recipe.thumb['grid_' + sizes[i]]
 					- url = recipe.url
 					- classes = sizes[i] + ' ' + recipe.classes
-					- var rating = Math.floor(recipe.rating) || 0
+					- var rating = recipe.rating
 					- var difficulties = ['Very easy', 'Easy', 'Normal', 'Hard', 'Very hard']
 					if recipe.difficulty
 						- difficulty = __(difficulties[recipe.difficulty - 1])
@@ -52,9 +52,5 @@ mixin grid(recipes, gridPositions, gridSizes)
 												= ' '
 								if recipe
 									.rating
-										- for(var x = 0; x < 5; x++)
-											if rating == 0
-												i.icon-chef-star.icon.off
-											else
-												i.icon-chef-star.icon.on
-												- rating = rating - 1;
+										.span= recipe.rating
+										i.icon-chef-star.icon
