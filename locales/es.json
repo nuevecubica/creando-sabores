@@ -1,8 +1,8 @@
 {
 	" and ": " y ",
 	" o ": " o ",
-	"About the chef": "Sobre el chef",
-	"About": "Biografía",
+	"About the chef": "Sobre Nosotros",
+	"About": "Sobre Nosotros",
 	"Access disallowed": "Acceso no permitido",
 	"Access with social networks": "Accede en un solo click...",
 	"Access with": "Accede con",
@@ -22,7 +22,7 @@
 	"Are you sure remove account?": "¿Seguro que quieres eliminar tu cuenta?",
 	"Awards": "Premios",
 	"Back": "Volver",
-	"Bio": "Biografía",
+	"Bio": "Sobre Nosotros",
 	"Biography": "Biografía",
 	"Cancel": "Cancelar",
 	"Categories": "Categorias",
@@ -310,5 +310,6 @@
 	"Your password has been reset, please sign in.": "Ha cambiado su contraseña, debe acceder de nuevo.",
 	"{{email}} has been subscribe successfully": "{{email}} fue dado de baja correctamente.",
 	"{{email}}, are you sure you want to unsubscribe?": "¿{{email}}, está seguro de querer dejar de recibir noticias?",
-	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?"
+	"{{{email}}}, are you sure you want to {{{action}}}?": "{{{email}}}, está seguro que quieres {{{action}}}?",
+	"About us": "About us"
 }
