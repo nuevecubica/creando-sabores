@@ -1,7 +1,7 @@
 {
   "name": "chefcito",
-  "version": "0.3.3",
-  "versionName": "beta3-shopping",
+  "version": "0.4.0",
+  "versionName": "beta4-nuts",
   "private": true,
   "dependencies": {
     "async": "^0.9.0",
