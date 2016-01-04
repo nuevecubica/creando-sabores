@@ -90,7 +90,7 @@ module.exports = (grunt) ->
       grunt.option("env") or
       process.env.GRUNT_ENV or
       process.env.NODE_ENV or
-      "preproduction"
+      "production"
     )
     env:
       test:
