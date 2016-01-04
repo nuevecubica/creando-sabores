@@ -1,5 +1,6 @@
 @color-media-header: lighten(@chef-color-green-bg, 10%);
 #about-info{
+  padding: 0 50px;
   .ui.header:first-child {
     margin-top: 1em;
   }
@@ -7,6 +8,8 @@
   img{
     display: block;
     margin: auto;
+    margin-bottom: 50px;
+    margin-top: 50px;
   }
   #share-bio {
     color: @chef-color-white;
@@ -91,7 +94,7 @@
 }
 @media only screen and (max-width : 480px) {
   #about-info{
-
+    padding: 0;
     #share-bio{
       .corner-position{
         top: -10px;

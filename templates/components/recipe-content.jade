@@ -101,7 +101,7 @@ include ../mixins/difficult-items
       .recipe-contest-ingredient.sixteen.wide.column
         - var ingredient = data.contest.ingredientRequired
         - var classes = []
-        if !data.recipe.ingredientsGot || (data.recipe.ingredientsGot.indexOf(ingredient) === -1)
+        if data.recipe.ingredientsGot && (data.recipe.ingredientsGot.indexOf(ingredient) !== -1)
           - classes.push('activated')
         .ingredient
           table
@@ -116,7 +116,7 @@ include ../mixins/difficult-items
         - for (var j = 0, l = data.recipe.ingredients.length; j < l; j++)
           - var ingredient = data.recipe.ingredients[j]
           - var classes = []
-          if !data.recipe.ingredientsGot || (data.recipe.ingredientsGot.indexOf(ingredient) === -1)
+          if data.recipe.ingredientsGot && (data.recipe.ingredientsGot.indexOf(ingredient) !== -1)
             - classes.push('activated')
           .column.ingredient
             table

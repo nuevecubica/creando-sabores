@@ -33,8 +33,8 @@ exports.initLocals = function(req, res, next) {
     href: '/concursos'
   }, {
     label: res.__('About the chef'),
-    key: 'acerca-del-chef',
-    href: '/biografia'
+    key: 'acerca-de-nosotros',
+    href: '/about'
   }, {
     label: res.__('Contact'),
     key: 'contacto',

@@ -3,38 +3,38 @@ MAINTAINER Glue <hola@glue.gl>
 
 RUN mkdir -p /root/.ssh; echo "\
 -----BEGIN RSA PRIVATE KEY-----\n\
-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\n\
+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\n\
 -----END RSA PRIVATE KEY-----\
 " > /root/.ssh/id_rsa; chmod 0600 /root/.ssh/id_rsa
-RUN echo "Host git.geekli.st\n\tStrictHostKeyChecking no\n" > /root/.ssh/config
+RUN echo "Host gitlab.com\n\tStrictHostKeyChecking no\n" > /root/.ssh/config
 
 
 RUN mkdir -p /app
-RUN cd /app; ssh-agent bash -c 'ssh-add /root/.ssh/id_rsa; git clone git@git.geekli.st:glue-gl/chefcito.git; shopt -s dotglob; mv /app/chefcito/* /app'
+RUN cd /app; ssh-agent bash -c 'ssh-add /root/.ssh/id_rsa; git clone git@gitlab.com:glue-gl/chefcito.git; shopt -s dotglob; mv /app/chefcito/* /app'
 ENV NODE_ENV production
 ENV PORT 3000
 RUN /build/builder

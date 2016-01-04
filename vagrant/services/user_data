@@ -37,7 +37,6 @@ coreos:
         [Install]
         WantedBy=multi-user.target
     - name: 00-eth0.network
-      runtime: true
       content: |
         [Match]
         Name=eth0
@@ -56,7 +55,7 @@ coreos:
 ssh_authorized_keys:
   - ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAwVQUKD8s5ZT9tKFvEpVGz0r0tG5TFngn6IEHd11GDi3+FyLx5cCQ+/eUHual3X7ElvZNB5sIR7zhW4+wRV3PXkKCQ2JhEnM6fs+Slg0nPPXlTtdB9OGqw56L1Xxin5N/X9YLuLfmpAzP901Q6Y9au8GfhIlAgSU77P32FsToTWmPR8o8uN8ehMBES3TLgdK4tf3l9Bcf9x0VIAg15oQzPvYxcZDKty81/DCjs1yjUIbW2vY13IfzOsJHKjqaVlRmZMyri0ebvNP8+AN6QCGjQUsJrzyjDE9jMQo1jWvUyaiyqmGTSmv9T1smVOlZ5IGiYLle0KHtTldxgwhlsSSHYw== anxo@glue.gl
   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHitxSC6HZBD++1rNHsZAKUrSr8HUUh6J2RpBh6C4TJfBsmQOTFArOtOq/8W3vKIaJSQSZkU3OIlNouuOJjT8DX9dc8jhNDFs5sAeXvZRDNb2yjNA9UwKGCrC1IojODm3mbGPeq7nSwtoZepgkvFZlpU+J28kcXKFtCho5GkB5c1Ee5t0x9Fw3jIVJYwk7zLra4D8opFIO2D1dBGe/bCFTzflSfaRqZedr9NzCcLgv7HO/R/8e/lRVvyYxun93xcJu56Z/kBKm/ZFMUPiEuXhP+S7Vx8vhcOtp7tO51qulQIstaOjaoSXGitoFdF2OUjM/jGjvw1kr4O5pu1fzRW0z ignacio@glue.gl
-  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4KaInPCBk9KdORf/zsfsy8OEUVrjEYzCppZTObYCSp2mTd0J4T08ENDh0ZMPmTOyFWRYpCHltcGU1bRnAv06lc6p+Aw819Pswgz7LAxSdDT42luPqRijijLGdDvOYGbm51M1pj6o7mpi6uWKy4wzYUts3BwRbpb71MFbuEUF+LwMpfth2MapdzGUmiTLGWlwl0ZXqWfyjsP0HMc/TP9hGzRelV9js2rLnQzv8XXlSGE2O3SzAujdX7VUSMhnaJmiHo/Q8x45EOhg8wAQ89GHEWQLqTveA6kl/Hw6D7vtvBGN4OodXi/B8l+OY/GZK2xdqSnUQ6WoRJLwMlnhJCL8j miguel@glue.gl
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCUwpYYXL30vvH9Y6kNmCosqxAqsufT8nA4sT3r6ile+KB8QQ+hFD2KIbEoai9DSMhDI3zFQsSrKrUilNMOm/XHV12nCQC8v099z+vwuHqTu3eAO4PYm+W0tM6IEBHMKZwq8+bYHz2VenFuJYDdEJI71IV+xp8tB5NAWts8ELTJJ3ep+x7bANRF44n5yk6lY7dkIVnIsSJtj3GGBMcIh95Exh9mkl/RIEUBiMnXlRqwc/9wsELeQtsozUAPocqKZqQVDR5Dzqyf63kCaIr7+YFch4/I90K4BqR4qUT6YbiKsBpo7wYhH9P+07ODhp/1CTgczduYDvvDP9pcGHaem7Hh miguel@glue.gl
 
 write_files:
   - path: /etc/ssh/sshd_config

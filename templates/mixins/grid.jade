@@ -11,6 +11,7 @@ mixin grid(recipes, gridPositions, gridSizes)
 				- var type = ''
 				- var enType = ''
 				- var difficulty = ''
+				- var rating = ''
 				- var image = '/images/default_recipe.jpg'
 				- var url = '/'
 				- var classes = 'recipe ' + sizes[i]
@@ -22,6 +23,7 @@ mixin grid(recipes, gridPositions, gridSizes)
 					- image = recipe.thumb['grid_' + sizes[i]]
 					- url = recipe.url
 					- classes = sizes[i] + ' ' + recipe.classes
+					- var rating = recipe.rating
 					- var difficulties = ['Very easy', 'Easy', 'Normal', 'Hard', 'Very hard']
 					if recipe.difficulty
 						- difficulty = __(difficulties[recipe.difficulty - 1])
@@ -48,3 +50,7 @@ mixin grid(recipes, gridPositions, gridSizes)
 												= ' '
 												.span= recipe.portions
 												= ' '
+								if recipe
+									.rating
+										.span= recipe.rating
+										i.icon-chef-star.icon

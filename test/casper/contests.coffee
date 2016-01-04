@@ -37,11 +37,6 @@ describe 'Contests page', ->
         ('#info .explain').should.be.inDOM.and.visible
         ('#sponsor.explain strong').should.be.inDOM.and.visible
         ('#current-contest a.chef.button-brick').should.be.inDOM.and.visible
-    #it 'works contests award', ->
-      #casper.then ->
-        #info = @getElementsInfo('#info div.award');
-        #info[0].text.should.be.equal 'premio1';
-        #info[1].text.should.be.equal 'premio2';
     it 'works status-tag', ->
       casper.then ->
         classes = @getElementAttribute('#info .status-tag', 'class').split(' ')
