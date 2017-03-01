@@ -17,7 +17,7 @@ var defaults = function() {
     body: null,
     from: {
       name: 'Creando Sabores',
-      email: 'creandosaboresmx@gmail.com'
+      email: 'no-reply@creandosabores.com'
     },
     locals: keystone.get('email locals') || {},
     globalMergeVars: {

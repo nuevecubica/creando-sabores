@@ -1,4 +1,4 @@
 /* global makePaginable */
-$(window).load(function() {
+$(window).on('load', function() {
   makePaginable('/api/v1/menus', 'menus', 'menu', '#menus .list');
 });

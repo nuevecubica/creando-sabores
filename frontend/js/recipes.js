@@ -1,5 +1,5 @@
 /* global makePaginable */
-$(window).load(function() {
+$(window).on('load', function() {
 
   var section = window.location.pathname.split('/')[1];
   var type = section === 'videorecetas' ? 'videorecipes' : 'recipes';

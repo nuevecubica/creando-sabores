@@ -77,8 +77,7 @@ exports = module.exports = function(app) {
   // Recipes + Videorecipes
   // -- Public
   app.get('/:type(receta)s', routes.views.recipes);
-  app.get('/:type(videoreceta)s/:section(recientes|populares)?', routes.views.recipes);
-  app.get('/:type(receta|videoreceta)/:recipe', routes.views.recipe);
+  app.get('/:type(receta)/:recipe', routes.views.recipe);
   // -- Private
   // ---- New
   app.get('/nueva-receta', middleware.requireConfirmed, routes.views.recipe);

@@ -1,3 +1,4 @@
+// Can't find module? Config is git-ignore'd, you have to `grunt build` first.
 var config = require('../config.js');
 var ln = require("ln");
 var util = require("util");

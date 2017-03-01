@@ -144,7 +144,7 @@ var activateDropdown = function() {
   });
 };
 
-$(window).load(function() {
+$(window).on('load', function() {
   $('body').removeClass('preload');
   $('.error-here:visible').transition('bounce');
 });
@@ -198,8 +198,8 @@ $(document).ready(function() {
 
   if ($('.wall')) {
     gridResizer();
-    $(window).resize(gridResizer);
-    $(window).load(gridResizer);
+    $(window).on('resize', gridResizer);
+    $(window).on('load', gridResizer);
   }
 
   $('.social-popup').on('click', function(evt) {

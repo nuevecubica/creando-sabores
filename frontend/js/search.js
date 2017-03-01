@@ -1,5 +1,5 @@
 /* global makePaginable, getTemplate */
-$(window).load(function() {
+$(window).on('load', function() {
 
   function setSearchType(name) {
     $('.tab a .button').removeClass('active');
