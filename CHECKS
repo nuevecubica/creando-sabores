@@ -3,5 +3,3 @@ TIMEOUT=30
 ATTEMPTS=10
 /                   Creando Sabores
 /recetas            href="/receta/
-/api/v1/recipes?page=2&perPage=5     "success":true,"error":false
-/api/v1/search?q=sopa&idx=_all&page=1&perPage=5   "success":true,"error":false

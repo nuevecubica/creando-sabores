@@ -1,4 +1,4 @@
-$(window).load(function() {
+$(window).on('load', function() {
   var chef = window.chef;
 
   $('.ui.checkbox').checkbox();

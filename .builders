@@ -1,4 +1,0 @@
-# https://github.com/ignlg/dokku-builders-plugin/blob/master/.builders
-BUILD_BOWER=1
-BUILD_BOWER_COMPONENTS="frontend/packages"
-BUILD_GRUNT=1
