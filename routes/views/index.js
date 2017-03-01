@@ -42,21 +42,21 @@ exports = module.exports = function(req, res) {
             callback(err);
           });
         },
-        // Get last videorecipes
+        // Get last recipes
         function(callback) {
-          service.recipeList.videorecipe.get({
+          service.recipeList.recipe.get({
             sort: '-publishedDate'
           }, function(err, results) {
             var last = results.results.shift();
             if (last) {
-              locals.data.videorecipes = {
+              locals.data.recipes = {
                 last: last,
                 lastFormattedDate: moment(last.publishedDate).format('L'),
                 lastest: results.results
               };
             }
             else {
-              locals.data.videorecipes = {
+              locals.data.recipes = {
                 lastest: results.results
               };
             }

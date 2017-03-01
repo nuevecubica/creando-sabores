@@ -43,19 +43,17 @@ block content
 					.span= __('Do you have a new recipe?')
 						a.ui.button.chef.button-brick(href='/nueva-receta')= __('Create recipe')
 
-		if data.videorecipes.last
-			- var videoRecipeTitle = data.videorecipes.last.title
-			- var videoRecipedUrl = data.videorecipes.last.url
-			- var videoRecipeDate = data.videorecipes.lastFormattedDate
-			- var image = data.videorecipes.last.thumb.header
+		if data.recipes.last
+			- var recipeTitle = data.recipes.last.title
+			- var recipedUrl = data.recipes.last.url
+			- var recipeDate = data.recipes.lastFormattedDate
+			- var image = data.recipes.last.thumb.header
 
 			#video.ui.grid.segment.with-social(style="background-image:url('#{image}')")
 				.row
 
 				.row
-					.logo.column
-						a(href="#{videoRecipedUrl}")
-							i.icon-chef-play.icon.play
+
 				.row
 					.six.wide.column
 					img.cutlery(src="/images/cutlery_0#{randCutlery}.png")
@@ -66,9 +64,9 @@ block content
 								.ui.image
 							.tabla2
 								.text
-									a.span(href="#{videoRecipedUrl}")= videoRecipeTitle
+									a.span(href="#{recipedUrl}")= recipeTitle
 								.date
-									.span= videoRecipeDate
+									.span= recipeDate
 							.tabla3
 								.ui.image
 
@@ -76,12 +74,12 @@ block content
 
 			.row
 				.ui.grid.segment.list.stackable
-					if data.videorecipes.lastest.length
-						each recipe in data.videorecipes.lastest
+					if data.recipes.lastest.length
+						each recipe in data.recipes.lastest
 							+recipe(recipe)
 
 					else
-						.empty-resultset.sixteen.wide.column= __('No videorecipes yet')
+						.empty-resultset.sixteen.wide.column= __('No recipes yet')
 
 			.row
 				a.ui.button.chef.button-brick(href='/videorecetas')= __('View all')
